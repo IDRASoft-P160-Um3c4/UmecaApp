@@ -92,6 +92,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     LogCaseService logCaseService;
     @Autowired
     private CloseCauseRepository closeCauseRepository;
+    @Autowired
+    private FramingReferenceRepository framingReferenceRepository;
 
     private Gson conv = new Gson();
 
@@ -338,6 +340,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                         contact.setNameTxt(conV.getName());
                         contact.setPhoneTxt(conV.getPhone());
                         contact.setAddressTxt(conV.getAddress());
+                        contact.setLiveWith(conV.getLiveWith());
                         contact.setHearingFormat(hearingFormat);
                         lstNewContactData.add(contact);
                     }
@@ -779,6 +782,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             conV.setName(contact.getNameTxt());
             conV.setPhone(contact.getPhoneTxt());
             conV.setAddress(contact.getAddressTxt());
+            conV.setLiveWith(contact.getLiveWith());
             lstContactView.add(conV);
         }
 
@@ -923,6 +927,26 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                         }
                     }
                 }
+
+                List<FramingReference> newList = new ArrayList<>();
+                //agregar los contactos a entrevista de encuadre como personas que viven con el imputado y referencias personales
+                for (ContactData cData : hearingFormat.getContacts()) {
+                    List<FramingReference> lstExistRefs = framingReferenceRepository.findReferenceByName(currentCase.getId(), cData.getNameTxt());
+
+                    if (lstExistRefs == null) {
+                        FramingReference framingReference = new FramingReference();
+                        framingReference.setName(cData.getNameTxt());
+                        framingReference.setPhone(cData.getPhoneTxt());
+                        framingReference.setAddress(cData.getAddressTxt());
+                        framingReference.setPersonType(cData.getLiveWith() == true ? FramingMeetingConstants.PERSON_TYPE_HOUSEMATE : FramingMeetingConstants.PERSON_TYPE_REFERENCE);
+                        framingReference.setFramingMeeting(existFramning);
+                        newList.add(framingReference);
+                    }
+                }
+
+                if (newList.size() > 0) {
+                    framingReferenceRepository.save(newList);
+                }
             }
         }
 
@@ -1008,17 +1032,6 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         logComment.setType(ConstantsLogCase.ASSIGNMENT_SUPERVISOR_CASE);
         logComment.setObsolete(false);
         logCommentRepository.save(logComment);
-
-//        LogComment lSupMan = new LogComment();
-//
-//        lSupMan.setComments("Se ha asignado un supervisor al caso");
-//        lSupMan.setAction(ConstantsLogCase.ACT_ASSIGNMENT_SUPERVISOR_CASE);
-//        lSupMan.setCaseDetention(c);
-//        lSupMan.setSenderUser(sender);
-//        lSupMan.setTimestamp(Calendar.getInstance());
-//        lSupMan.setType(ConstantsLogCase.ASSIGNMENT_SUPERVISOR_CASE);
-//        lSupMan.setObsolete(false);
-//        logCommentRepository.save(lSupMan);
 
         return new ResponseMessage(false, "Se ha asignado al supervisor con éxito.");
     }

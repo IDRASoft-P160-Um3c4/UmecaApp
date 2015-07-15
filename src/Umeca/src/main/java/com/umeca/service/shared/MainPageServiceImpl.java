@@ -375,7 +375,6 @@ public class MainPageServiceImpl implements MainPageService {
         model.addObject("urlToGo", "/shared/messageHistory/deleteNotification.json?id=");
     }
 
-
     private void constructChannelingManagerMainPage(ModelAndView model) {
         List<LogNotificationDto> lstNotification = messageRepository.getMessagesByUserId(sharedUserService.GetLoggedUserId(), new PageRequest(0, 10));
         Gson json = new Gson();

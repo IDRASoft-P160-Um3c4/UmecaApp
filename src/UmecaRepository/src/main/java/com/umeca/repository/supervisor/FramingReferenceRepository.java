@@ -97,6 +97,12 @@ public interface FramingReferenceRepository extends JpaRepository<FramingReferen
             "INNER JOIN fm.caseDetention cd " +
             "WHERE cd.id =:idCase and fr.personType in (:lstPersonType)")
     public List<Long> findSelectedReferencesRel(@Param("idCase") Long idCase, @Param("lstPersonType") List<String> lstPersonType);
+
+    @Query("SELECT ref FROM FramingMeeting fm " +
+            "INNER JOIN fm.references ref " +
+            "INNER JOIN fm.caseDetention cd " +
+            "WHERE cd.id =:idCase and ref.name=:refName")
+    public List<FramingReference> findReferenceByName(@Param("idCase") Long idCase, @Param("refName") String refName);
 }
 
 

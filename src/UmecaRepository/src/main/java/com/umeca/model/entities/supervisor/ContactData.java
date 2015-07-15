@@ -21,6 +21,9 @@ public class ContactData {
     @Column(name = "address", nullable = false)
     private String addressTxt;
 
+    @Column(name = "live_with", nullable = false)
+    private Boolean liveWith;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_hearing_format", nullable = false)
     private HearingFormat hearingFormat;
@@ -63,5 +66,13 @@ public class ContactData {
 
     public void setHearingFormat(HearingFormat hearingFormat) {
         this.hearingFormat = hearingFormat;
+    }
+
+    public Boolean getLiveWith() {
+        return liveWith;
+    }
+
+    public void setLiveWith(Boolean liveWith) {
+        this.liveWith = liveWith;
     }
 }

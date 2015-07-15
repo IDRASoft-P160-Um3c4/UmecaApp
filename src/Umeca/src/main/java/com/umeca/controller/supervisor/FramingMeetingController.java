@@ -191,67 +191,10 @@ public class FramingMeetingController {
         try {
             Case caseDet = caseRepository.findOne(id);
 
-            List<HearingFormat> lstHF = hearingFormatRepository.findLastHearingFormatByCaseId(id, new PageRequest(0, 1));
-            if (lstHF != null && lstHF.size() > 0) {
-                HearingFormatSpecs hfs = lstHF.get(0).getHearingFormatSpecs();
-                if (hfs != null) {
-                    if (hfs.getArrangementType().equals(HearingFormatConstants.HEARING_TYPE_MC)) {
-                        model.addObject("resolution", "MC");
-                    } else {
-                        model.addObject("resolution", "SCCP");
-                    }
-                }
-            }
+            FramingMeeting fm = caseDet.getFramingMeeting();
 
-            if (caseDet.getFramingMeeting() == null) {
-                FramingMeeting framingMeeting = new FramingMeeting();
-                framingMeeting.setIsTerminated(false);
-                framingMeeting.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
-
-                Verification existVer = caseDet.getVerification();
-
-                caseDet.setFramingMeeting(framingMeeting);
-
-                caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_FRAMING_INCOMPLETE));
-                framingMeeting.setCaseDetention(caseDet);
-                framingMeetingService.save(framingMeeting);
-
-                if (existVer != null && existVer.getStatus().getName().equals(Constants.VERIFICATION_STATUS_COMPLETE)) {
-                    framingMeetingService.fillSaveVerifiedInfo(framingMeeting, existVer.getMeetingVerified());
-                }
-
-                HearingFormat lastFormat = lstHF.get(0); //busca si existe un formato y trae la ultima direccion
-
-                if (lastFormat != null) {
-                    //valida que no exista la direccion en la entrevista
-                    Boolean existAddress = false;
-                    Address formatAddress = lastFormat.getHearingImputed().getAddress();
-
-                    List<FramingAddress> lstExistFramingAddress = framingMeeting.getFramingAddresses();
-
-                    if (lstExistFramingAddress != null && lstExistFramingAddress.size() > 0) {
-                        for (FramingAddress fAdd : framingMeeting.getFramingAddresses()) {
-                            if (fAdd.getAddress().equals(formatAddress)) {
-                                existAddress = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (existAddress == false) {
-                        FramingAddress newFA = new FramingAddress();
-                        Address newAddr = new Address();
-                        newAddr.setStreet(formatAddress.getStreet());
-                        newAddr.setOutNum(formatAddress.getOutNum());
-                        newAddr.setInnNum(formatAddress.getInnNum());
-                        newAddr.setLocation(formatAddress.getLocation());
-                        newAddr.setAddressString(newAddr.toString());
-                        newFA.setAddress(newAddr);
-                        newFA.setFramingMeeting(framingMeeting);
-                        framingAddressRepository.save(newFA);
-                    }
-                }
-            }
+            if (fm == null)
+                fm = framingMeetingService.createFramingMeeting(id, model);
 
             FramingMeetingView framingMeetingView = framingMeetingService.fillForView(caseDet);
 
@@ -266,7 +209,7 @@ public class FramingMeetingController {
             }
 
             model.addObject("lstActivity", conv.toJson(listActivity));
-            FramingMeeting fm = caseDet.getFramingMeeting();
+
             if (fm != null && fm.getRelFramingMeetingActivities() != null) {
                 List<RelFramingMeetingActivity> listRelData = caseDet.getFramingMeeting().getRelFramingMeetingActivities();
                 if (listRelData != null && listRelData.size() > 0) {
@@ -921,15 +864,14 @@ public class FramingMeetingController {
     public
     @ResponseBody
     ResponseMessage personalDataDoUpsert(@RequestParam(required = true) Long idCase, @ModelAttribute FramingPersonalDataView view) {
-
-        FramingImputedPersonalData personalData = framingMeetingService.fillPersonalData(idCase, view);
-        FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
-        existFraming.setPersonalData(personalData);
-
-        if (existFraming.getIsTerminated() == true)
-            framingMeetingLogRepository.save(framingMeetingService.getFramingPersonalDataLog(existFraming, view, FramingMeetingConstants.LOG_TYPE_MODIFIED));
-
-        return framingMeetingService.save(existFraming);
+        ResponseMessage response;
+        try {
+            return framingMeetingService.savePersonalData(idCase, view);
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "personalDataDoUpsert", sharedUserService);
+            response = new ResponseMessage(false, "Ha ocurrido un error, intente más tarde");
+        }
+        return response;
     }
 
     @RequestMapping(value = "/supervisor/framingMeeting/personalData/getStates", method = RequestMethod.POST)

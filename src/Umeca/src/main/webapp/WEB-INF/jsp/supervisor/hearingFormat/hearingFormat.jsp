@@ -993,12 +993,12 @@
                               data-valmsg-replace="true"></span>
                                 </div>
                                 <%--<div class="col-xs-5">--%>
-                                    <%--<label>Elige el nuevo supervisor para el caso</label>--%>
-                                    <%--<br/>--%>
-                                    <%--<select class="form-control element-center"--%>
-                                            <%--ng-model="m.umecaSupervisor"--%>
-                                            <%--ng-options="e.description for e in lstSupervisor"--%>
-                                            <%--ng-init='lstSupervisor = ${lstSupervisor};'></select>--%>
+                                <%--<label>Elige el nuevo supervisor para el caso</label>--%>
+                                <%--<br/>--%>
+                                <%--<select class="form-control element-center"--%>
+                                <%--ng-model="m.umecaSupervisor"--%>
+                                <%--ng-options="e.description for e in lstSupervisor"--%>
+                                <%--ng-init='lstSupervisor = ${lstSupervisor};'></select>--%>
                                 <%--</div>--%>
                                 <br/>
                                 <br/>
@@ -1187,7 +1187,7 @@
                                 <br/>
                             </div>
 
-                            <div class="col-xs-3">
+                            <div class="col-xs-2">
                                 <label for="contactPhone">Tel&eacute;fono:</label>
                                 <br/>
                                 <input id="contactPhone" type="text"
@@ -1196,12 +1196,23 @@
                             </div>
 
 
-                            <div class="col-xs-4">
+                            <div class="col-xs-3">
                                 <label>Direcci&oacute;n</label>
                                 <br/>
                         <textarea class="input-xxlarge form-control limited" id="contactAddress"
                                   maxlength="980" ng-model="m.contactAddress">
                         </textarea>
+                            </div>
+
+                            <div class="col-xs-2">
+                                <label>
+                                    <input class="ace" id="contactLiveWith"
+                                           ng-disabled=" (m.disableAll==true) || (arrangment.isDefault==true && arrangment.selVal==true) "
+                                           type="checkbox"
+                                           ng-model="m.contactLiveWith">
+                                    <span class="lbl col-xs-10">&nbsp;&nbsp;&iquest;Vive con el imputado?</span>
+                                </label>
+                                <br/>
                             </div>
 
                             <div class="col-xs-2 element-right">
@@ -1240,6 +1251,7 @@
                                                 <th class="element-center">Nombre</th>
                                                 <th class="element-center">Tel&eacute;fono</th>
                                                 <th class="element-center">Direcci&oacute;n</th>
+                                                <th class="element-center">&iquest;Vive con <br/> el imputado?</th>
                                                 <th class="element-center">Quitar</th>
                                             </tr>
                                             </thead>
@@ -1250,6 +1262,7 @@
                                                     <td class="element-center">{{contact.name}}</td>
                                                     <td class="element-center">{{contact.phone}}</td>
                                                     <td class="element-center">{{contact.address}}</td>
+                                                    <td class="element-center">{{contact.liveWith==true?"Si":"No"}}</td>
                                                     <td class="element-center"><a href="javascript:;"
                                                                                   style="display:inline-block;"
                                                                                   title="Quitar de la lista"

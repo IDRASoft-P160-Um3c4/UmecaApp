@@ -16,6 +16,7 @@ import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
 import com.umeca.model.entities.shared.Victim;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.HearingFormatConstants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
@@ -34,6 +35,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
@@ -133,36 +135,97 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     @Autowired
     private ImputedRepository imputedRepository;
 
+
     @Transactional
-    @Override
-    public ResponseMessage save(FramingMeeting framingMeeting) {
+    public FramingMeeting createFramingMeeting(Long id, ModelAndView model) {
+        Case caseDet = caseRepository.findOne(id);
 
-        ResponseMessage response = new ResponseMessage();
-        try {
-            framingMeeting.setInitDate(new Date());
-            framingMeetingRepository.save(framingMeeting);
-
-            Imputed i = framingMeeting.getCaseDetention().getMeeting().getImputed();
-            FramingImputedPersonalData pD = framingMeeting.getPersonalData();
-
-            //se sustituye la info del imputado al guardar la informacion personal
-            i.setName(pD.getName());
-            i.setLastNameP(pD.getLastNameP());
-            i.setLastNameM(pD.getLastNameM());
-            i.setBirthDate(pD.getBirthDate());
-            imputedRepository.save(i);
-
-            //se sustituye la info del imputado al guardar la informacion personal
-
-            response.setHasError(false);
-            response.setMessage("Se ha guardado la informaci&oacute;n con &eacute;xito.");
-        } catch (Exception e) {
-            logException.Write(e, this.getClass(), "save", sharedUserService);
-            response.setHasError(true);
-            response.setMessage("Ha ocurrido un error al guardar la informaci&oacute;n. Intente m&aacute;s tarde");
-        } finally {
-            return response;
+        List<HearingFormat> lstHF = hearingFormatRepository.findLastHearingFormatByCaseId(id, new PageRequest(0, 1));
+        if (lstHF != null && lstHF.size() > 0) {
+            HearingFormatSpecs hfs = lstHF.get(0).getHearingFormatSpecs();
+            if (hfs != null) {
+                if (hfs.getArrangementType().equals(HearingFormatConstants.HEARING_TYPE_MC)) {
+                    model.addObject("resolution", "MC");
+                } else {
+                    model.addObject("resolution", "SCCP");
+                }
+            }
         }
+
+
+        FramingMeeting framingMeeting = new FramingMeeting();
+        framingMeeting.setIsTerminated(false);
+        framingMeeting.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
+
+        Verification existVer = caseDet.getVerification();
+
+        caseDet.setFramingMeeting(framingMeeting);
+
+        caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_FRAMING_INCOMPLETE));
+        framingMeeting.setCaseDetention(caseDet);
+
+        framingMeeting.setInitDate(new Date());
+        framingMeetingRepository.save(framingMeeting);
+
+        if (existVer != null && existVer.getStatus().getName().equals(Constants.VERIFICATION_STATUS_COMPLETE)) {
+            this.fillSaveVerifiedInfo(framingMeeting, existVer.getMeetingVerified());
+        }
+
+        HearingFormat lastFormat = lstHF.get(0); //busca si existe un formato y trae la ultima direccion
+
+        if (lastFormat != null) {
+            //valida que no exista la direccion en la entrevista
+            Boolean existAddress = false;
+            Address formatAddress = lastFormat.getHearingImputed().getAddress();
+
+            List<FramingAddress> lstExistFramingAddress = framingMeeting.getFramingAddresses();
+
+            if (lstExistFramingAddress != null && lstExistFramingAddress.size() > 0) {
+                for (FramingAddress fAdd : framingMeeting.getFramingAddresses()) {
+                    if (fAdd.getAddress().equals(formatAddress)) {
+                        existAddress = true;
+                        break;
+                    }
+                }
+            }
+
+            if (existAddress == false) {
+                FramingAddress newFA = new FramingAddress();
+                Address newAddr = new Address();
+                newAddr.setStreet(formatAddress.getStreet());
+                newAddr.setOutNum(formatAddress.getOutNum());
+                newAddr.setInnNum(formatAddress.getInnNum());
+                newAddr.setLocation(formatAddress.getLocation());
+                newAddr.setAddressString(newAddr.toString());
+                newFA.setAddress(newAddr);
+                newFA.setFramingMeeting(framingMeeting);
+                framingAddressRepository.save(newFA);
+            }
+
+            //obtiene los ultimos contactos y los agrega como personas que viven con el imputado o referencias
+            List<FramingReference> newList = new ArrayList<>();
+            //agregar los contactos a entrevista de encuadre como personas que viven con el imputado y referencias personales
+            for (ContactData cData : lastFormat.getContacts()) {
+                FramingReference framingReference = new FramingReference();
+                if (!cData.getNameTxt().equals("NO TIENE")) {
+                    framingReference.setName(cData.getNameTxt());
+                    framingReference.setPhone(cData.getPhoneTxt());
+                    framingReference.setAddress(cData.getAddressTxt());
+                    framingReference.setPersonType(cData.getLiveWith() == true ? FramingMeetingConstants.PERSON_TYPE_HOUSEMATE : FramingMeetingConstants.PERSON_TYPE_REFERENCE);
+                    framingReference.setIsAccompaniment(false);
+                    Relationship r = new Relationship();
+                    r.setId(19L);//para setear otro
+                    framingReference.setRelationship(r);
+                    framingReference.setFramingMeeting(framingMeeting);
+                    newList.add(framingReference);
+                }
+            }
+
+            if (newList.size() > 0)
+                framingReferenceRepository.save(newList);
+        }
+
+        return framingMeeting;
     }
 
     @Autowired
@@ -1161,67 +1224,61 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     @Transactional
     public ResponseMessage saveAddQuest(Long idCase, AdditionalQuestionsForView view) {
 
-        try {
-            FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
-            AdditionalFramingQuestions addQuest = existFraming.getAdditionalFramingQuestions();
+        FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
+        AdditionalFramingQuestions addQuest = existFraming.getAdditionalFramingQuestions();
 
-            if (addQuest == null) {
-                addQuest = new AdditionalFramingQuestions();
-            }
-
-            addQuest.setObservations(view.getObservations());
-            addQuest.setAddictionTreatment(view.getAddictionTreatment());
-            addQuest.setAddictionTreatmentInstitute(view.getAddictionTreatmentInstitute());
-            addQuest.setAddictionTreatmentDate(view.getAddictionTreatmentDate());
-            addQuest.setAddictedAcquaintance(view.getAddictedAcquaintance());
-            addQuest.setRelativeAbroad(view.getRelativeAbroad());
-            addQuest.setObligationIssue(view.getObligationIssue());
-
-            if (addQuest.getAddictedAcquaintancesRel() != null) {
-
-                List<AddictedAcquaintanceRel> addAqRel = existFraming.getAdditionalFramingQuestions().getAddictedAcquaintancesRel();
-
-                for (AddictedAcquaintanceRel rel : addAqRel) {
-                    addictedAcquaintanceRelRepository.delete(rel);
-                }
-            }
-            addQuest.setAddictedAcquaintancesRel(this.generateAddAqRel(addQuest, view.getSelectedAddictedAcquaintances()));
-
-
-            if (addQuest.getRelativesAbroadRel() != null) {
-
-                List<RelativesAbroadRel> addAqRel = existFraming.getAdditionalFramingQuestions().getRelativesAbroadRel();
-
-                for (RelativesAbroadRel rel : addAqRel) {
-                    relativesAbroadRelRepository.delete(rel);
-                }
-            }
-            addQuest.setRelativesAbroadRel(this.generateRelativeAbroadRel(addQuest, view.getSelectedRelativesAbroad()));
-
-            if (addQuest.getObligationIssues() != null) {
-
-                List<ObligationIssues> addOblIss = existFraming.getAdditionalFramingQuestions().getObligationIssues();
-
-                for (ObligationIssues rel : addOblIss) {
-                    obligationIssuesRepository.delete(rel);
-                }
-            }
-            addQuest.setObligationIssues(this.generateObligationIssuesRel(addQuest, view.getSelectedObligationIssues()));
-
-            existFraming.setAdditionalFramingQuestions(addQuest);
-
-            if (existFraming.getIsTerminated() == true) {
-                framingMeetingLogRepository.save(getAdditionalQuestionLog(existFraming, view, FramingMeetingConstants.LOG_TYPE_MODIFIED));
-            }
-
-            this.save(existFraming);
-
-            return new ResponseMessage(false, "Se ha guardado la informaci&oacute;n con &eacute;xito.");
-
-        } catch (Exception e) {
-            logException.Write(e, this.getClass(), "saveAddQuest", sharedUserService);
-            return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci&oacute;n. Intente m&aacute;s tarde.");
+        if (addQuest == null) {
+            addQuest = new AdditionalFramingQuestions();
         }
+
+        addQuest.setObservations(view.getObservations());
+        addQuest.setAddictionTreatment(view.getAddictionTreatment());
+        addQuest.setAddictionTreatmentInstitute(view.getAddictionTreatmentInstitute());
+        addQuest.setAddictionTreatmentDate(view.getAddictionTreatmentDate());
+        addQuest.setAddictedAcquaintance(view.getAddictedAcquaintance());
+        addQuest.setRelativeAbroad(view.getRelativeAbroad());
+        addQuest.setObligationIssue(view.getObligationIssue());
+
+        if (addQuest.getAddictedAcquaintancesRel() != null) {
+
+            List<AddictedAcquaintanceRel> addAqRel = existFraming.getAdditionalFramingQuestions().getAddictedAcquaintancesRel();
+
+            for (AddictedAcquaintanceRel rel : addAqRel) {
+                addictedAcquaintanceRelRepository.delete(rel);
+            }
+        }
+        addQuest.setAddictedAcquaintancesRel(this.generateAddAqRel(addQuest, view.getSelectedAddictedAcquaintances()));
+
+
+        if (addQuest.getRelativesAbroadRel() != null) {
+
+            List<RelativesAbroadRel> addAqRel = existFraming.getAdditionalFramingQuestions().getRelativesAbroadRel();
+
+            for (RelativesAbroadRel rel : addAqRel) {
+                relativesAbroadRelRepository.delete(rel);
+            }
+        }
+        addQuest.setRelativesAbroadRel(this.generateRelativeAbroadRel(addQuest, view.getSelectedRelativesAbroad()));
+
+        if (addQuest.getObligationIssues() != null) {
+
+            List<ObligationIssues> addOblIss = existFraming.getAdditionalFramingQuestions().getObligationIssues();
+
+            for (ObligationIssues rel : addOblIss) {
+                obligationIssuesRepository.delete(rel);
+            }
+        }
+        addQuest.setObligationIssues(this.generateObligationIssuesRel(addQuest, view.getSelectedObligationIssues()));
+
+        existFraming.setAdditionalFramingQuestions(addQuest);
+
+        if (existFraming.getIsTerminated() == true) {
+            framingMeetingLogRepository.save(getAdditionalQuestionLog(existFraming, view, FramingMeetingConstants.LOG_TYPE_MODIFIED));
+        }
+
+        framingMeetingRepository.save(existFraming);
+
+        return new ResponseMessage(false, "Se ha guardado la informaci&oacute;n con &eacute;xito.");
 
     }
 
@@ -1530,9 +1587,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     @Autowired
     private ImputedHomeRepository imputedHomeRepository;
 
-    @Override
-    @Transactional
-    public void fillSaveVerifiedInfo(FramingMeeting existFraming, Meeting verifMeeting) {
+    private void fillSaveVerifiedInfo(FramingMeeting existFraming, Meeting verifMeeting) {
 
         try {
             //actividades
@@ -3369,6 +3424,20 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         framingMeetingLog.setFinalValue(new Gson().toJson(lstElements));
 
         return framingMeetingLog;
+    }
+
+    @Transactional
+    public ResponseMessage savePersonalData(Long idCase, FramingPersonalDataView view) {
+
+        FramingImputedPersonalData personalData = this.fillPersonalData(idCase, view);
+        FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
+        existFraming.setPersonalData(personalData);
+
+        if (existFraming.getIsTerminated() == true)
+            framingMeetingLogRepository.save(this.getFramingPersonalDataLog(existFraming, view, FramingMeetingConstants.LOG_TYPE_MODIFIED));
+
+
+        return new ResponseMessage(false, "savePersonalData");
     }
 
 }

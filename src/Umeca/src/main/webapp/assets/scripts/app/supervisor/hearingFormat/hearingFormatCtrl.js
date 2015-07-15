@@ -10,6 +10,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
         $scope.lblTerms = "";
         $scope.MsgErrorContact = "";
         $scope.m.labelImpForm = "";
+        $scope.m.contactLiveWith = false;
 
         $scope.showLabels = false;
 
@@ -139,7 +140,8 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             var jsonRow = {
                 "name": $scope.m.contactName,
                 "phone": $scope.m.contactPhone,
-                "address": $scope.m.contactAddress
+                "address": $scope.m.contactAddress,
+                "liveWith":$scope.m.contactLiveWith
             };
 
             $scope.m.lstContactData.push(jsonRow);
@@ -147,6 +149,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.m.contactName = "";
             $scope.m.contactPhone = "";
             $scope.m.contactAddress = "";
+            $scope.m.contactLiveWith = false;
             $scope.MsgErrorContact = "";
 
         };
