@@ -43,7 +43,7 @@
 <br/>
 <div class="row">
    <div class="col-xs-6 align-left">
-       <i class="glyphicon glyphicon-plus-sign purple">&nbsp; </i><a href="#" onclick="addSpontaneousActivity()">Agrgar actividad espont&aacute;nea</a>
+       <i class="glyphicon glyphicon-plus-sign purple">&nbsp; </i><a href="#" onclick="addSpontaneousActivity()">Agregar actividad espont&aacute;nea</a>
    </div>
 </div>
 
