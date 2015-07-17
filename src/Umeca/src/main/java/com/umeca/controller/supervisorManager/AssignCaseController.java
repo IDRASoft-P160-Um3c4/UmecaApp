@@ -115,7 +115,7 @@ public class AssignCaseController {
                     add(joinMee.get("lastNameM"));
                     add(joinSt.get("description").alias("status"));
                     add(joinSup.get("id").alias("supervisor"));
-                    add(r.join("lastPreassignedSupervisor", JoinType.LEFT).get("id").alias("preassignedId"));
+                    add(r.join("umecaSupervisor", JoinType.LEFT).get("id").alias("preassignedId"));
                 }};
 
                 return result;
