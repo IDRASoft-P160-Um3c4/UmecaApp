@@ -2,10 +2,7 @@ package com.umeca.service.reviewer;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.umeca.model.catalog.Activity;
-import com.umeca.model.catalog.ImmigrationDocument;
-import com.umeca.model.catalog.Location;
-import com.umeca.model.catalog.Relationship;
+import com.umeca.model.catalog.*;
 import com.umeca.model.catalog.dto.AddressDto;
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.catalog.dto.DegreeDto;
@@ -43,6 +40,9 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
 
     @Autowired
     SharedUserService sharedUserService;
+
+    @Autowired
+    InformationAvailabilityRepository informationAvailabilityRepository;
 
     @Override
     public List<FieldMeetingSource> getValueOfMeetingByCode(String code, Meeting m, FieldMeetingSource template) {
@@ -1196,6 +1196,12 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             break;
                         case "dependentBoys":
                             meeting.getImputed().setDependentBoys(Integer.parseInt(fms.getJsonValue()));
+                            break;
+                        case "birthInfo":
+                            CatalogDto cInfoAvail = gson.fromJson(fms.getJsonValue(), CatalogDto.class);
+                            if (cInfoAvail != null && cInfoAvail.getId() != null) {
+                                meeting.getImputed().setBirthInfo(informationAvailabilityRepository.findOne(cInfoAvail.getId()));
+                            }
                             break;
                         case "birthCountry":
                             CatalogDto cCountry = gson.fromJson(fms.getJsonValue(), CatalogDto.class);

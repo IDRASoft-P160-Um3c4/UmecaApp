@@ -113,6 +113,9 @@ public class FramingMeetingController {
     @Autowired
     private FramingMeetingLogRepository framingMeetingLogRepository;
 
+    @Autowired
+    private InformationAvailabilityRepository informationAvailabilityRepository;
+
     @RequestMapping(value = "/supervisor/framingMeeting/index", method = RequestMethod.GET)
     public String index() {
         return "/supervisor/framingMeeting/index";
@@ -140,7 +143,7 @@ public class FramingMeetingController {
 
                 final javax.persistence.criteria.Join<Case, StatusCase> joinSt = r.join("status");
                 final javax.persistence.criteria.Join<Case, StatusCase> joinM = r.join("meeting").join("imputed");
-                final javax.persistence.criteria.Join<Case, StatusCase> joinUS = r.join("umecaSupervisor");
+//                final javax.persistence.criteria.Join<Case, StatusCase> joinUS = r.join("umecaSupervisor");
 //                final javax.persistence.criteria.Join<Case, HearingFormat> joinHF = r.join("hearingFormats", JoinType.INNER);
 
                 return new ArrayList<Selection<?>>() {{
@@ -290,6 +293,8 @@ public class FramingMeetingController {
 
             model.addObject("lstCL", new Gson().toJson(technicalReviewRepository.getCommunityLinksByCaseId(id)));
             model.addObject("lstPR", new Gson().toJson(technicalReviewRepository.getProceduralRiskByCaseId(id)));
+            model.addObject("lstInfoAvail", new Gson().toJson(informationAvailabilityRepository.findNoObsolete()));
+
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doNewCase", sharedUserService);
             return null;

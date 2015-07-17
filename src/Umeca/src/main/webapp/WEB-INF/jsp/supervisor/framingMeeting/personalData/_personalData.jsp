@@ -260,8 +260,20 @@
             <div class="widget-header">Lugar y fecha de nacimiento</div>
             <div class="widget-body">
                 <br/>
-
                 <div class="row">
+                    <div class="col-xs-2 element-left col-xs-offset-1">
+                        Seleccione una opci&oacute;n:
+                    </div>
+                    <div class="col-xs-3">
+                        <input type="hidden" value="{{pd.birthInfo.id}}" name="birthInfoId">
+                        <select class="form-control element-center" ng-model="pd.birthInfo"
+                                ng-init='lstInfoAvail = ${lstInfoAvail};'
+                                ng-options="e.name for e in lstInfoAvail"></select>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="row" ng-show="pd.birthInfo.specification==true">
                     <div class="col-xs-5 col-xs-offset-1">
                         <label>Pa&iacute;s</label>
                         <select class="form-control element-center" ng-model="pd.birthCountry"

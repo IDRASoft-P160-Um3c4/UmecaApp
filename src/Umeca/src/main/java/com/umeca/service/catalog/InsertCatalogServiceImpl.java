@@ -143,9 +143,11 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     InstitutionTypeRepository institutionTypeRepository;
     @Autowired
     ChannelingTypeRepository channelingTypeRepository;
+    @Autowired
+    InformationAvailabilityRepository informationAvailabilityRepository;
 
 
-    private String PATH = "C:\\Projects\\IDRASoft\\UmecaAppBranchMorelos\\UmecaApp\\db\\";
+    private String PATH = "C:\\Users\\Developer\\Desktop\\umeca_SANDRA\\UmecaApp\\db\\";
 
 //    private String PATH = "C:\\Users\\Rata\\Desktop\\branchSandra\\UmecaApp\\db\\";
 
@@ -1005,6 +1007,20 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             channelingTypeRepository.save(model);
         }
         channelingTypeRepository.flush();
+    }
+
+    @Override
+    public void informationAvailability() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "informationAvailability.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            InformationAvailability model = new InformationAvailability();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setIsObsolete(data[2].equals("1"));
+            model.setSpecification(data[3].equals("1"));
+            informationAvailabilityRepository.save(model);
+        }
+        informationAvailabilityRepository.flush();
     }
 
 

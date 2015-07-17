@@ -7,6 +7,7 @@ import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.Degree;
+import com.umeca.model.catalog.InformationAvailability;
 import com.umeca.model.catalog.Relationship;
 import com.umeca.model.catalog.dto.ScheduleDto;
 import com.umeca.model.entities.reviewer.*;
@@ -37,6 +38,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.persistence.Lob;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -135,6 +137,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     @Autowired
     private ImputedRepository imputedRepository;
 
+    @Autowired
+    private InformationAvailabilityRepository informationAvailabilityRepository;
+
 
     @Transactional
     public FramingMeeting createFramingMeeting(Long id, ModelAndView model) {
@@ -151,7 +156,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 }
             }
         }
-
 
         FramingMeeting framingMeeting = new FramingMeeting();
         framingMeeting.setIsTerminated(false);
@@ -255,6 +259,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             view.setEmail(existFraming.getPersonalData().getEmail());
             view.setSocialNetworking(existFraming.getPersonalData().getSocialNetworking());
             view.setComments(existFraming.getPersonalData().getComments());
+            view.setBirthInfoId(existFraming.getPersonalData().getBirthInfo().getId());
 
             if (existFraming.getPersonalData().getBirthStateCmb() != null) {
                 view.setBirthStateId(existFraming.getPersonalData().getBirthStateCmb().getId());
@@ -340,8 +345,18 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         personalData.setGender(view.getGender());
         personalData.setMaritalStatus(maritalStatusRepository.findOne(view.getMaritalStatus()));
         personalData.setMaritalStatusYears(view.getMaritalStatusYears());
-        personalData.setBirthCountry(countryRepository.findOne(view.getBirthCountryId()));
-        personalData.setBirthState(view.getBirthState());
+
+        InformationAvailability ia = informationAvailabilityRepository.findOne(view.getBirthInfoId());
+        personalData.setBirthInfo(ia);
+
+        if(ia.getSpecification()==true) {
+            personalData.setBirthCountry(countryRepository.findOne(view.getBirthCountryId()));
+            personalData.setBirthState(view.getBirthState());
+        }else{
+            personalData.setBirthCountry(countryRepository.findByName(Constants.COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW));
+            personalData.setBirthState(null);
+        }
+
         personalData.setBirthDate(view.getBirthDate());
         personalData.setPhysicalCondition(view.getPhysicalCondition());
         personalData.setPhone(view.getPhone());
@@ -349,6 +364,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         personalData.setEmail(view.getEmail());
         personalData.setSocialNetworking(view.getSocialNetworking());
         personalData.setComments(view.getComments());
+
 
         if (view.getBirthStateId() != null && view.getBirthStateId() > 0 && view.getIsMexico() != null && view.getIsMexico() == true)
             personalData.setBirthStateCmb(stateRepository.findOne(view.getBirthStateId()));

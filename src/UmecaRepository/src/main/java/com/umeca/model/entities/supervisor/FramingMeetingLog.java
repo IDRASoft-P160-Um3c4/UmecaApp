@@ -12,30 +12,31 @@ public class FramingMeetingLog {
 
     @Id
     @GeneratedValue
-    @Column(name = "id_framing_meeting_goal")
+    @Column(name = "id_framing_meeting_goal", nullable = false)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String title;
 
-    @Column(name = "final_value", length = 2500)
+    @Lob
+    @Column(name = "final_value", nullable = false)
     private String finalValue;
 
-    @Column(name = "log_type")
+    @Column(name = "log_type", nullable = false)
     private String logType;
 
-    @Column(name = "log_index")
+    @Column(name = "log_index", nullable = false)
     private Integer logIndex;
 
-    @Column(name = "log_date")
+    @Column(name = "log_date", nullable = false)
     private Calendar logDate;
 
     @OneToOne
-    @JoinColumn(name = "id_user")
+    @JoinColumn(name = "id_user", nullable = false)
     private User supervisor;
 
     @ManyToOne
-    @JoinColumn(name = "id_framing_meeting")
+    @JoinColumn(name = "id_framing_meeting", nullable = false)
     private FramingMeeting framingMeeting;
 
     @Transient

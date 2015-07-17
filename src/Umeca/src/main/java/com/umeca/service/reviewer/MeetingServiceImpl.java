@@ -138,6 +138,9 @@ public class MeetingServiceImpl implements MeetingService {
     RelSocialEnvironmentActivityRepository rsearRepository;
     @Autowired
     SharedLogExceptionService logException;
+    @Autowired
+    InformationAvailabilityRepository informationAvailabilityRepository;
+
 
     @Transactional
     @Override
@@ -289,6 +292,9 @@ public class MeetingServiceImpl implements MeetingService {
             cdtoList.add(new CatalogDto(r.getId(), r.getName(), r.getSpecification()));
         }
         model.addObject("listRel", gson.toJson(cdtoList));
+
+        List<SelectList> lstInfoAvail = informationAvailabilityRepository.findNoObsolete();
+        model.addObject("lstInfoAvail", gson.toJson(lstInfoAvail));
 
         return model;
     }
@@ -475,21 +481,35 @@ public class MeetingServiceImpl implements MeetingService {
         iCase.setBoys(imputed.getBoys());
         iCase.setNickname(imputed.getNickname());
         iCase.setDependentBoys(imputed.getDependentBoys());
-        Country country = countryRepository.findOne(imputed.getBirthCountry().getId());
-        iCase.setBirthCountry(country);
-        if (country.getAlpha2().equals(Constants.ALPHA2_MEXICO)) {
+        InformationAvailability ia = informationAvailabilityRepository.findOne(imputed.getBirthInfo().getId());
+        iCase.setBirthInfo(ia);
+
+        if (iCase.getBirthInfo().getSpecification() == true) {
+
+            Country country = countryRepository.findOne(imputed.getBirthCountry().getId());
+            iCase.setBirthCountry(country);
+
+            if (country.getAlpha2().equals(Constants.ALPHA2_MEXICO)) {
+                iCase.setBirthState("");
+                iCase.setBirthLocation("");
+                iCase.setBirthMunicipality("");
+                if (imputed.getLocation() != null && imputed.getLocation().getId() != null) {
+                    iCase.setLocation(locationRepository.findOne(imputed.getLocation().getId()));
+                }
+            } else {
+                iCase.setLocation(null);
+                iCase.setBirthState(imputed.getBirthState());
+                iCase.setBirthLocation(imputed.getBirthLocation());
+                iCase.setBirthMunicipality(imputed.getBirthMunicipality());
+            }
+        } else {
             iCase.setBirthState("");
             iCase.setBirthLocation("");
             iCase.setBirthMunicipality("");
-            if (imputed.getLocation() != null && imputed.getLocation().getId() != null) {
-                iCase.setLocation(locationRepository.findOne(imputed.getLocation().getId()));
-            }
-        } else {
-            iCase.setLocation(null);
-            iCase.setBirthState(imputed.getBirthState());
-            iCase.setBirthLocation(imputed.getBirthLocation());
-            iCase.setBirthMunicipality(imputed.getBirthMunicipality());
+            iCase.setLocation(locationRepository.findByName(Constants.COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW));
+            iCase.setBirthCountry(countryRepository.findByName(Constants.COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW));
         }
+
         iCase.setYearsMaritalStatus(imputed.getYearsMaritalStatus());
         if (seCase != null && seCase.getId() != null) {
             seCase.setId(seCase.getId());
@@ -1309,7 +1329,7 @@ public class MeetingServiceImpl implements MeetingService {
             if (usersReceiver != null && usersReceiver.size() > 0) {
                 Message m = new Message();
                 Imputed i = c.getMeeting().getImputed();
-                m.setTitle("Autorizar fuentes para el imputado <strong>" + i.getName() + " " + i.getLastNameP() + " " + i.getLastNameM()+".</strong>");
+                m.setTitle("Autorizar fuentes para el imputado <strong>" + i.getName() + " " + i.getLastNameP() + " " + i.getLastNameM() + ".</strong>");
                 m.setBody("Se termina de capturar informaci&oacute;n legal, se solicita autorizar fuentes.");
                 m.setCaseDetention(c);
                 m.setSender(userSender);

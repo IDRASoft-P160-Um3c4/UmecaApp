@@ -111,4 +111,6 @@ public interface InsertCatalogService {
     void preventionType();
 
     void economicSupport();
+
+    void informationAvailability();
 }

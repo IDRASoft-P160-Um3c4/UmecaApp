@@ -340,6 +340,12 @@ public class InsertCatalogController {
         return "channelingType";
     }
 
+    @RequestMapping(value = "/catalogs/informationAvailability", method = RequestMethod.GET)
+    public String informationAvailability() {
+        service.informationAvailability();
+        return "informationAvailability";
+    }
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll() {
         service.role();
@@ -394,6 +400,7 @@ public class InsertCatalogController {
         service.preventionType();
         service.economicSupport();
         service.channelingType();
+        service.informationAvailability();
         return "insertCatalog OK!!";
     }
 }

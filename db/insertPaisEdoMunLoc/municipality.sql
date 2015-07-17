@@ -1,4 +1,5 @@
-INSERT INTO cat_municipality(id_municipality,id_state,name,abbreviation,description) VALUES(1,09,'Álvaro Obregón','Álvaro Obregón','Álvaro Obregón')
+﻿INSERT INTO cat_municipality(id_municipality,id_state,name,abbreviation,description) VALUES 
+(1,09,'Álvaro Obregón','Álvaro Obregón','Álvaro Obregón')
 ,(2,09,'Azcapotzalco','Azcapotzalco','Azcapotzalco')
 ,(3,09,'Benito Juárez','Benito Juárez','Benito Juárez')
 ,(4,09,'Coyoacán','Coyoacán','Coyoacán')
@@ -2445,4 +2446,5 @@ INSERT INTO cat_municipality(id_municipality,id_state,name,abbreviation,descript
 ,(2445,32,'Apulco','Apulco','Apulco')
 ,(2446,32,'Apozol','Apozol','Apozol')
 ,(2447,32,'Juchipila','Juchipila','Juchipila')
-,(2448,32,'Moyahua de Estrada','Moyahua de Estrada','Moyahua de Estrada');
+,(2448,32,'Moyahua de Estrada','Moyahua de Estrada','Moyahua de Estrada')
+,(2449,33,'No proporcionado','No proporcionado','No proporcionado');

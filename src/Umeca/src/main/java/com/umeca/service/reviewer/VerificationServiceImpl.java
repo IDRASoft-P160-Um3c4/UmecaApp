@@ -12,6 +12,7 @@ import com.umeca.model.entities.reviewer.View.ChoiceView;
 import com.umeca.model.entities.reviewer.View.SearchToChoiceIds;
 import com.umeca.model.entities.reviewer.dto.*;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
@@ -55,9 +56,10 @@ public class VerificationServiceImpl implements VerificationService {
     UserRepository userRepository;
     @Autowired
     SourceVerificationRepository sourceVerificationRepository;
-
     @Autowired
     SharedLogExceptionService logException;
+    @Autowired
+    InformationAvailabilityRepository informationAvailabilityRepository;
 
     @Override
     public void createVerification(Case c) {
@@ -865,6 +867,9 @@ public class VerificationServiceImpl implements VerificationService {
             cdtoList.add(new CatalogDto(r.getId(), r.getName(), r.getSpecification()));
         }
         model.addObject("listRel", gson.toJson(cdtoList));
+
+        List<SelectList> lstInfoAvail = informationAvailabilityRepository.findNoObsolete();
+        model.addObject("lstInfoAvail", gson.toJson(lstInfoAvail));
     }
 
     @Autowired
@@ -1315,6 +1320,13 @@ public class VerificationServiceImpl implements VerificationService {
                 ca.setName(ht.getName());
                 ca.setId(ht.getId());
                 fms.setValue(ht.getName());
+                fms.setJsonValue(gson.toJson(ca));
+                break;
+            case "InformationAvailability":
+                InformationAvailability ia = informationAvailabilityRepository.findOne(idCat);
+                ca.setName(ia.getName());
+                ca.setId(ia.getId());
+                fms.setValue(ia.getName());
                 fms.setJsonValue(gson.toJson(ca));
                 break;
             case "Location":

@@ -10,35 +10,35 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="field_verification")
+@Table(name = "field_verification")
 public class FieldVerification {
     @Id
     @GeneratedValue
-    @Column(name="id_field_verification")
+    @Column(name = "id_field_verification")
     private Long id;
 
-    @Column(name = "code", length = 255,unique = true)
+    @Column(name = "code", length = 255, unique = true)
     private String code;
 
-    @Column(name="section")
+    @Column(name = "section")
     private String section;
 
-    @Column(name="section_code")
+    @Column(name = "section_code")
     private Integer sectionCode;
 
-    @Column(name="field_name", length = 500)
+    @Column(name = "field_name", length = 500)
     private String fieldName;
 
-    @Column(name="index_field")
+    @Column(name = "index_field")
     private Integer indexField;
 
-    @Column(name="is_obsolete")
+    @Column(name = "is_obsolete")
     private Boolean isObsolete;
 
-    @Column(name="id_subsection")
+    @Column(name = "id_subsection")
     private Integer idSubsection;
 
-    @Column(name="type_field")
+    @Column(name = "type_field")
     private String type;
 
     public Long getId() {
@@ -113,4 +113,13 @@ public class FieldVerification {
     public void setType(String type) {
         this.type = type;
     }
+
+    public Boolean getIsObsolete() {
+        return isObsolete;
+    }
+
+    public void setIsObsolete(Boolean isObsolete) {
+        this.isObsolete = isObsolete;
+    }
+
 }

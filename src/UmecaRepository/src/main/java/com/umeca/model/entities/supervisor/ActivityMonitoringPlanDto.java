@@ -154,7 +154,9 @@ public class ActivityMonitoringPlanDto {
             dto.setActivitySpec(actMonPlan.getActivitySpec());
             dto.setGoalSpec(actMonPlan.getGoalSpec());
             dto.setSourceSpec(actMonPlan.getSourceSpec());
-            dto.setChannelingId(actMonPlan.getChanneling().getId());
+            Channeling ch = actMonPlan.getChanneling();
+            if(ch != null)
+                dto.setChannelingId(ch.getId());
 
             List<ActivityMonitoringPlanArrangement> lstAssArr = actMonPlan.getLstAssignedArrangement();
             List<Long> lstAssArrId = new ArrayList<>();

@@ -1,6 +1,7 @@
 package com.umeca.model.entities.supervisor;
 
 import com.umeca.model.catalog.Country;
+import com.umeca.model.catalog.InformationAvailability;
 import com.umeca.model.catalog.MaritalStatus;
 import com.umeca.model.catalog.State;
 
@@ -66,6 +67,10 @@ public class FramingImputedPersonalData {
 
     @Column(name = "comments")
     private String comments;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_birth_info_availability",nullable = true)
+    protected InformationAvailability birthInfo;
 
     public Long getId() {
         return id;
@@ -201,5 +206,13 @@ public class FramingImputedPersonalData {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public InformationAvailability getBirthInfo() {
+        return birthInfo;
+    }
+
+    public void setBirthInfo(InformationAvailability birthInfo) {
+        this.birthInfo = birthInfo;
     }
 }

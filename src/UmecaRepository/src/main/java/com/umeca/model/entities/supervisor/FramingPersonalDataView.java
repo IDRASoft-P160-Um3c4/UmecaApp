@@ -23,6 +23,7 @@ public class FramingPersonalDataView {
     private Integer age;
     private String socialNetworking;
     private String comments;
+    private Long birthInfoId;
 
     public String getName() {
         return name;
@@ -166,5 +167,13 @@ public class FramingPersonalDataView {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public Long getBirthInfoId() {
+        return birthInfoId;
+    }
+
+    public void setBirthInfoId(Long birthInfoId) {
+        this.birthInfoId = birthInfoId;
     }
 }

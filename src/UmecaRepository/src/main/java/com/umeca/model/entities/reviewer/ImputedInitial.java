@@ -1,6 +1,7 @@
 package com.umeca.model.entities.reviewer;
 
 import com.umeca.model.catalog.Country;
+import com.umeca.model.catalog.InformationAvailability;
 import com.umeca.model.catalog.Location;
 import com.umeca.model.catalog.MaritalStatus;
 import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
@@ -73,6 +74,10 @@ public class ImputedInitial{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_location", nullable = true)
     protected Location location;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_birth_info_availability", nullable = true)
+    protected InformationAvailability birthInfo;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_meeting", nullable = false)
@@ -248,22 +253,27 @@ public class ImputedInitial{
         if (dependentBoys == null) {
             result.add(t.template.replace(e, "El n&uacute;mero de dependientes econ&oacute;micos"));
         }
-        if (birthCountry == null) {
-            result.add(t.template.replace(e, "El pa&iacute;s de nacimiento"));
-        } else {
-            if (birthCountry.getAlpha2().equals(Constants.ALPHA2_MEXICO)) {
-                if (location == null || (location != null && location.getId() == null)) {
-                    result.add(t.template.replace(e, "La localidad"));
-                }
+
+        if (birthInfo == null) {
+            result.add(t.template.replace(e, "El ap&oacute;do"));
+        } else if (birthInfo.getSpecification() == true) {
+            if (birthCountry == null) {
+                result.add(t.template.replace(e, "El pa&iacute;s de nacimiento"));
             } else {
-                if (birthMunicipality == null || (birthMunicipality != null && birthMunicipality.trim().equals(""))) {
-                    result.add(t.template.replace(e, "El municipio de nacimiento"));
-                }
-                if (birthState == null || (birthState != null && birthState.trim().equals(""))) {
-                    result.add(t.template.replace(e, "El estado de naciemiento"));
-                }
-                if (birthLocation == null || (birthLocation != null && birthLocation.trim().equals(""))) {
-                    result.add(t.template.replace(e, "La ciudad o localidad de nacimiento"));
+                if (birthCountry.getAlpha2().equals(Constants.ALPHA2_MEXICO)) {
+                    if (location == null || (location != null && location.getId() == null)) {
+                        result.add(t.template.replace(e, "La localidad"));
+                    }
+                } else {
+                    if (birthMunicipality == null || (birthMunicipality != null && birthMunicipality.trim().equals(""))) {
+                        result.add(t.template.replace(e, "El municipio de nacimiento"));
+                    }
+                    if (birthState == null || (birthState != null && birthState.trim().equals(""))) {
+                        result.add(t.template.replace(e, "El estado de naciemiento"));
+                    }
+                    if (birthLocation == null || (birthLocation != null && birthLocation.trim().equals(""))) {
+                        result.add(t.template.replace(e, "La ciudad o localidad de nacimiento"));
+                    }
                 }
             }
         }
@@ -286,4 +296,11 @@ public class ImputedInitial{
         this.foneticString = foneticString;
     }
 
+    public InformationAvailability getBirthInfo() {
+        return birthInfo;
+    }
+
+    public void setBirthInfo(InformationAvailability birthInfo) {
+        this.birthInfo = birthInfo;
+    }
 }

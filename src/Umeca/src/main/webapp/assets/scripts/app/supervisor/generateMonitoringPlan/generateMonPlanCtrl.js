@@ -55,7 +55,7 @@ app.controller('generateMonPlanController', function ($scope, $sce, sharedSvc) {
                     activityMonId: infoAct.activity.id,
                     goalId: infoAct.goal.id,
                     sourceId: infoAct.source.id,
-                    channelingId: infoAct.channeling.id,
+                    channelingId: ((infoAct.channeling) ? infoAct.channeling.id : undefined),
                     activitySpec: infoAct.activitySpec,
                     goalSpec: infoAct.goalSpec,
                     sourceSpec: infoAct.sourceSpec
