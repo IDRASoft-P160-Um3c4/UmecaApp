@@ -14,12 +14,10 @@ import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
 import com.umeca.model.entities.reviewer.dto.JobDto;
 import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
+import com.umeca.model.entities.shared.LogCase;
 import com.umeca.model.entities.shared.Victim;
 import com.umeca.model.entities.supervisor.*;
-import com.umeca.model.shared.Constants;
-import com.umeca.model.shared.HearingFormatConstants;
-import com.umeca.model.shared.MonitoringConstants;
-import com.umeca.model.shared.SelectList;
+import com.umeca.model.shared.*;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
@@ -29,6 +27,7 @@ import com.umeca.repository.shared.SystemSettingRepository;
 import com.umeca.repository.supervisor.*;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.LogCaseService;
 import com.umeca.service.shared.SharedLogCommentService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,7 +138,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
     @Autowired
     private InformationAvailabilityRepository informationAvailabilityRepository;
-
+    @Autowired
+    private LogCaseService logCaseService;
 
     @Transactional
     public FramingMeeting createFramingMeeting(Long id, ModelAndView model) {
@@ -1414,7 +1414,6 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 lsVic.add("Debe capturar las observaciones para la secci&oacute;n \"V&iacute;ctimas y testigos\".");
             }
 
-
             if (lsSN.size() > 0) {
                 validate.getGroupMessage().add(new GroupMessageMeetingDto("socialNetwork", lsSN));
             }
@@ -1589,6 +1588,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             SharedLogCommentService.generateLogComment(sb.toString(), userRepository.findOne(sharedUserService.GetLoggedUserId()),
                     existCase, MonitoringConstants.STATUS_PENDING_CREATION, null, MonitoringConstants.TYPE_COMMENT_ASSIGNED_CASE, logCommentRepository);
+
+            List<LogCase> logs = logCaseService.addLog(ConstantsLogCase.TERMINATE_FRAMING_MEETING, idCase, sb.toString());
 
             return new ResponseMessage(false, "Se ha guardado la informaci&oacute;n con &eacute;xito");
 

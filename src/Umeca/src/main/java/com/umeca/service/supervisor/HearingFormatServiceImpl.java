@@ -2,12 +2,8 @@ package com.umeca.service.supervisor;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.umeca.infrastructure.extensions.IntegerExt;
 import com.umeca.infrastructure.model.ResponseMessage;
-import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.Arrangement;
-import com.umeca.model.catalog.CloseCause;
-import com.umeca.model.catalog.District;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.shared.LogCase;
@@ -1032,6 +1028,9 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         logComment.setType(ConstantsLogCase.ASSIGNMENT_SUPERVISOR_CASE);
         logComment.setObsolete(false);
         logCommentRepository.save(logComment);
+
+        String cad = "Se ha asignado la entrevista de encuadre al supervisor " + u.getFullname()+".";
+        List<LogCase> logs = logCaseService.addLog(ConstantsLogCase.CODE_ASSIGN_FRAMING_MEETING, idCase, cad);
 
         return new ResponseMessage(false, "Se ha asignado al supervisor con éxito.");
     }

@@ -351,7 +351,7 @@ public class LogCaseServiceImpl implements LogCaseService {
             case ConstantsLogCase.CREATE_FRAMING_MEETING:
                 if(detail!=null)
                     logCase.setResume((String) detail);
-                logCase.setTitle(ConstantsLogCase.TT_FRAMING_MEETING);
+                logCase.setTitle(ConstantsLogCase.T_CREATE_FRAMING_MEETING);
                 logCase.setDate(Calendar.getInstance());
                 logCase.setActivity(ConstantsLogCase.ACT_FRAMING_MEETING);
                 logCase.setUser(user);
@@ -364,6 +364,26 @@ public class LogCaseServiceImpl implements LogCaseService {
                 logCase.setTitle(ConstantsLogCase.TT_EDIT_FRAMING_MEETING);
                 logCase.setDate(Calendar.getInstance());
                 logCase.setActivity(ConstantsLogCase.ACT_EDIT_FRAMING_MEETING);
+                logCase.setUser(user);
+                logCase.setCaseDetention(cd);
+                newLogs.add(logCase);
+                break;
+            case ConstantsLogCase.TERMINATE_FRAMING_MEETING:
+                if(detail!=null)
+                    logCase.setResume((String) detail);
+                logCase.setTitle(ConstantsLogCase.TT_FRAMING_MEETING);
+                logCase.setDate(Calendar.getInstance());
+                logCase.setActivity(ConstantsLogCase.ACT_FRAMING_MEETING);
+                logCase.setUser(user);
+                logCase.setCaseDetention(cd);
+                newLogs.add(logCase);
+                break;
+            case ConstantsLogCase.CODE_ASSIGN_FRAMING_MEETING:
+                if(detail!=null)
+                    logCase.setResume((String) detail);
+                logCase.setTitle(ConstantsLogCase.T_ASSIGN_FRAMING_MEETING);
+                logCase.setDate(Calendar.getInstance());
+                logCase.setActivity(ConstantsLogCase.ACT_ASSIGN_FRAMING_MEETING);
                 logCase.setUser(user);
                 logCase.setCaseDetention(cd);
                 newLogs.add(logCase);
