@@ -18,6 +18,7 @@ import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.catalog.LocationRepository;
+import com.umeca.repository.catalog.RelationshipRepository;
 import com.umeca.repository.catalog.RequestTypeRepository;
 import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.reviewer.CaseRequestRepository;
@@ -90,6 +91,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     private CloseCauseRepository closeCauseRepository;
     @Autowired
     private FramingReferenceRepository framingReferenceRepository;
+    @Autowired
+    private RelationshipRepository relationshipRepository;
 
     private Gson conv = new Gson();
 
@@ -929,12 +932,15 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 for (ContactData cData : hearingFormat.getContacts()) {
                     List<FramingReference> lstExistRefs = framingReferenceRepository.findReferenceByName(currentCase.getId(), cData.getNameTxt());
 
-                    if (lstExistRefs == null) {
+                    if (lstExistRefs == null || lstExistRefs.size() == 0) {
                         FramingReference framingReference = new FramingReference();
                         framingReference.setName(cData.getNameTxt());
                         framingReference.setPhone(cData.getPhoneTxt());
                         framingReference.setAddress(cData.getAddressTxt());
                         framingReference.setPersonType(cData.getLiveWith() == true ? FramingMeetingConstants.PERSON_TYPE_HOUSEMATE : FramingMeetingConstants.PERSON_TYPE_REFERENCE);
+                        framingReference.setRelationship(relationshipRepository.findOne(19L));//para setear otro
+                        framingReference.setHasVictimWitnessInfo(true);
+                        framingReference.setIsAccompaniment(false);
                         framingReference.setFramingMeeting(existFramning);
                         newList.add(framingReference);
                     }
@@ -1029,7 +1035,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         logComment.setObsolete(false);
         logCommentRepository.save(logComment);
 
-        String cad = "Se ha asignado la entrevista de encuadre al supervisor " + u.getFullname()+".";
+        String cad = "Se ha asignado la entrevista de encuadre al supervisor " + u.getFullname() + ".";
         List<LogCase> logs = logCaseService.addLog(ConstantsLogCase.CODE_ASSIGN_FRAMING_MEETING, idCase, cad);
 
         return new ResponseMessage(false, "Se ha asignado al supervisor con éxito.");

@@ -141,7 +141,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 "name": $scope.m.contactName,
                 "phone": $scope.m.contactPhone,
                 "address": $scope.m.contactAddress,
-                "liveWith":$scope.m.contactLiveWith
+                "liveWith":$scope.m.contactLiveWith==true
             };
 
             $scope.m.lstContactData.push(jsonRow);

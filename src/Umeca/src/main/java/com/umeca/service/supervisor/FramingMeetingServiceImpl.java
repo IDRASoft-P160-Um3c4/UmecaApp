@@ -217,6 +217,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                     framingReference.setAddress(cData.getAddressTxt());
                     framingReference.setPersonType(cData.getLiveWith() == true ? FramingMeetingConstants.PERSON_TYPE_HOUSEMATE : FramingMeetingConstants.PERSON_TYPE_REFERENCE);
                     framingReference.setIsAccompaniment(false);
+                    framingReference.setHasVictimWitnessInfo(true);
                     Relationship r = new Relationship();
                     r.setId(19L);//para setear otro
                     framingReference.setRelationship(r);
