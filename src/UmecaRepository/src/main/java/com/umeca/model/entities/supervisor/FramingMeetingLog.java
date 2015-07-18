@@ -15,24 +15,24 @@ public class FramingMeetingLog {
     @Column(name = "id_framing_meeting_goal", nullable = false)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String title;
 
     @Lob
-    @Column(name = "final_value", nullable = false)
+    @Column(name = "final_value")
     private String finalValue;
 
-    @Column(name = "log_type", nullable = false)
+    @Column(name = "log_type")
     private String logType;
 
-    @Column(name = "log_index", nullable = false)
+    @Column(name = "log_index")
     private Integer logIndex;
 
-    @Column(name = "log_date", nullable = false)
+    @Column(name = "log_date")
     private Calendar logDate;
 
     @OneToOne
-    @JoinColumn(name = "id_user", nullable = false)
+    @JoinColumn(name = "id_user")
     private User supervisor;
 
     @ManyToOne
