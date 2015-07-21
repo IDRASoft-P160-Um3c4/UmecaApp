@@ -223,7 +223,7 @@
                        ng-click="doConfirmVerifEqual('imputed.maritalStatus.id')"></i>
                     <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4" ng-show="verification"
                        code="imputed.maritalStatus.id"></i>
-                    <i class="icon-ban-circle inverse icon-only bigger-1 20"  ng-show="verification"
+                    <i class="icon-ban-circle gray icon-only bigger-1 20"  ng-show="verification"
                        ng-click="doConfirmVerifNotKnow('imputed.maritalStatus.id')"></i>
                     <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" onclick="window.showChoices('imputed.maritalStatus.id')"></i>
                 </div>

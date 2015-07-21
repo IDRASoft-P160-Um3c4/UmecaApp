@@ -52,15 +52,22 @@
         body {
             font-size: 11px;
         }
-
-        .icon-ban-circle {
-            color: #555 !important;;
+        .icon-ok-circle.green {
+            font-size: 150% ! important;
         }
 
-        .width-100 {
-            max-width: none !important;
-            width: 100% !important;
+        .icon-ban-circle.gray {
+            font-size: 150% ! important;
         }
+
+        .icon-remove-circle.red {
+            font-size: 150% ! important;
+        }
+
+        .purple.icon-list {
+            font-size: 150% ! important;
+        }
+
     </style>
     <script>
         window.cancelMeetingSource = function () {

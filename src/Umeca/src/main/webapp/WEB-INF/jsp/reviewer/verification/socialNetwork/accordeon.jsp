@@ -5,7 +5,7 @@
                ng-click="doConfirmVerifEqual('socialNetwork.comment')"></i>
             <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification"
                code="socialNetwork.comment"></i>
-            <i class="icon-ban-circle inverse icon-only bigger-1 20"  ng-show="verification"
+            <i class="icon-ban-circle gray icon-only bigger-120"  ng-show="verification"
                ng-click="doConfirmVerifNotKnow('socialNetwork.comment')"></i>
             <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" onclick="window.showChoices('socialNetwork.comment')"></i>
             Observaciones:
