@@ -367,7 +367,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
 /* CONSULTAS PARA ENVIAR INFORMACION A LA TABLETA*/
 
     /*DTO CASO*/
-    @Query("select new com.umeca.model.dto.tablet.TabletCaseDto(c.id, c.idFolder, c.idMP, c.recidivist, c.dateNotProsecute, c.dateObsolete, c.dateCreate) from Case c " +
+    @Query("select new com.umeca.model.dto.tablet.TabletCaseDto(c.id, c.idFolder, c.idMP, c.recidivist, c.dateNotProsecute, c.dateObsolete, c.dateCreate, c.previousStateCode) from Case c " +
             "inner join c.status s " +
             "inner join c.meeting m " +
             "inner join m.status sm " +

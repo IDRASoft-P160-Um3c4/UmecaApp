@@ -11,7 +11,7 @@ public class TabletCaseDto {
     public TabletCaseDto() {
     }
 
-    public TabletCaseDto(Long id, String idFolder, String idMP, Boolean recidivist, Date dateNotProsecute, Date dateObsolete, Date dateCreate) {
+    public TabletCaseDto(Long id, String idFolder, String idMP, Boolean recidivist, Date dateNotProsecute, Date dateObsolete, Date dateCreate, String previousStateCode) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         this.id = id;
         this.webId = id;
@@ -21,7 +21,7 @@ public class TabletCaseDto {
         this.dateNotProsecute = dateNotProsecute == null ? null : sdf.format(dateNotProsecute);
         this.dateObsolete = dateObsolete == null ? null : sdf.format(dateObsolete);
         this.dateCreate = dateCreate == null ? null : sdf.format(dateCreate);
-
+        this.previousStateCode = previousStateCode;
     }
 
     private Long webId;
@@ -32,6 +32,7 @@ public class TabletCaseDto {
     private String dateNotProsecute;
     private String dateObsolete;
     private String dateCreate;
+    private String previousStateCode;
     private TabletStatusCaseDto status;
     private TabletMeetingDto meeting;
     private TabletVerificationDto verification;
@@ -140,5 +141,13 @@ public class TabletCaseDto {
 
     public void setLogsCase(List<TabletLogCaseDto> logsCase) {
         this.logsCase = logsCase;
+    }
+
+    public String getPreviousStateCode() {
+        return previousStateCode;
+    }
+
+    public void setPreviousStateCode(String previousStateCode) {
+        this.previousStateCode = previousStateCode;
     }
 }

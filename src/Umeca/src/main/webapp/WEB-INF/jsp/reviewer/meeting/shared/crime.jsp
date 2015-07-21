@@ -1,14 +1,16 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/crimeCtrl.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/chosen.min.css"/>
 <script src="${pageContext.request.contextPath}/assets/scripts/umeca/chosen.jquery.min.js"></script>
+
 <style>
     .chosen-container-single .chosen-search:after {
         content: "" !important;
     }
 </style>
+
 <div class="row element-center" ng-controller="crimeController">
     <div class="row element-left" ng-init="readonlyBand = ${readonlyBand == null? false: readonlyBand};">
-        <b>Delitos:</b>
+        <b>Delitos:{{c.crime}}</b>
     </div>
     <input type="hidden" ng-update-hidden ng-init='listCrime = ${(listCrime == null) ? '[]': listCrime};'>
     <input type="hidden" ng-update-hidden ng-model="crimeString" name='listCrime'>
@@ -17,10 +19,13 @@
         <div class="row"  ng-show="readonlyBand == false">
     <div class="col-xs-5 element-center">
        Delito<br/><br/>
-        <select class="width-95 element-center chosen-select" ng-model="c.crime"
+        <select class="width-95 chosen-select" ng-model="c.crime"
+                id="selectCrime"
                 ng-options="e.name for e in optionsCrime"
                 ng-change="c.crimeId = c.crime.id"
-                ng-init='optionsCrime = ${optionsCrime};'></select>
+                ng-init='optionsCrime = ${optionsCrime};'>
+                <option value="">Selecciona un delito</option>
+        </select>
     </div>
     <div class="col-xs-1 element-center">
        Art&iacute;culo<br/><br/>
