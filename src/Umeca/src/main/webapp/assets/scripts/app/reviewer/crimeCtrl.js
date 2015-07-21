@@ -9,7 +9,6 @@ app.controller('crimeController', function ($scope, $timeout, $rootScope) {
 
         $scope.init = function () {
             $(".chosen-select").chosen();
-            $(".chosen-single span:nth-child(1)").text("Seleccione una opción");
             if ($scope.listCrime == undefined) {
                 $scope.listCrime = [];
             }
@@ -82,9 +81,12 @@ app.controller('crimeController', function ($scope, $timeout, $rootScope) {
             var abc = $scope.listCrime;
             $scope.crimeString = JSON.stringify(abc);
 
-            /*for(var item in $scope.listSchedule){
-             delete item[$$hashKey];
-             } */
+            $('#selectCrime')
+                .find('option:first-child').prop('selected', true)
+                .end().trigger('chosen:updated');
+
+            $scope.c.crime = undefined;
+
         }
 
         $scope.valAddedCrime = function () {

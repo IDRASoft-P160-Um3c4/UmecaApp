@@ -27,8 +27,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -267,6 +269,7 @@ public class LogCaseServiceImpl implements LogCaseService {
         if(rCount.equals(0L)){
             LogCase firstLog = new LogCase();
             firstLog.setDate(Calendar.getInstance());
+            firstLog.setCompletionDate(Calendar.getInstance());
             firstLog.setActivity(ConstantsLogCase.CREATE_LOG_CASE);
             firstLog.setTitle(ConstantsLogCase.CREATE_LOG_CASE);
             firstLog.setUser(user);
@@ -274,12 +277,14 @@ public class LogCaseServiceImpl implements LogCaseService {
             newLogs.add(firstLog);
         }
         LogCase logCase = new LogCase();
+
         switch (activityCode){
             case ConstantsLogCase.NEW_HEARING_FORMAT:
                 Long idObject = (Long) detail;
                 resume = generateResumeOfHearingFormat(idObject);
                 logCase.setResume(resume);
                 logCase.setDate(Calendar.getInstance());
+                logCase.setCompletionDate(Calendar.getInstance());
                 logCase.setActivity(ConstantsLogCase.ACT_ADD_HEARING_FORMAT);
                 logCase.setTitle(ConstantsLogCase.TT_ADD_HEARING_FORMAT);
                 logCase.setUser(user);
@@ -289,6 +294,7 @@ public class LogCaseServiceImpl implements LogCaseService {
             case ConstantsLogCase.OPEN_CASE_NOT_PROSECUTE:
                 logCase.setResume(ConstantsLogCase.RESUME_OPEN_NOT_PROSECUTE);
                 logCase.setDate(Calendar.getInstance());
+                logCase.setCompletionDate(Calendar.getInstance());
                 logCase.setActivity(ConstantsLogCase.ACT_OPEN_CASE_NOT_PROSECUTE);
                 logCase.setTitle(ConstantsLogCase.TT_OPEN_NOT_PROSECUTE);
                 logCase.setUser(user);
@@ -300,6 +306,11 @@ public class LogCaseServiceImpl implements LogCaseService {
                 logCase.setResume(plogCase.getResume());
                 logCase.setTitle(plogCase.getTitle());
                 logCase.setDate(Calendar.getInstance());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+                Date d = sdf.parse(plogCase.getDateString() +" "+ plogCase.getTimeString());
+                Calendar c = Calendar.getInstance();
+                c.setTime(d);
+                logCase.setCompletionDate(c);
                 logCase.setActivity(ConstantsLogCase.ACT_SPONTANEOUS_ACTIVITY);
                 logCase.setUser(user);
                 logCase.setCaseDetention(cd);
@@ -310,6 +321,7 @@ public class LogCaseServiceImpl implements LogCaseService {
                 logCase.setResume((String) detail);
                 logCase.setTitle(ConstantsLogCase.TT_CLOSE_CASE);
                 logCase.setDate(Calendar.getInstance());
+                logCase.setCompletionDate(Calendar.getInstance());
                 logCase.setActivity(ConstantsLogCase.ACT_CLOSE_CASE);
                 logCase.setUser(user);
                 logCase.setCaseDetention(cd);
@@ -323,6 +335,7 @@ public class LogCaseServiceImpl implements LogCaseService {
                 logCase.setResume(resume);
                 logCase.setTitle(ConstantsLogCase.TT_LOG_SUPERVISION_ACTIVITY);
                 logCase.setDate(Calendar.getInstance());
+                logCase.setCompletionDate(Calendar.getInstance());
                 logCase.setActivity(ConstantsLogCase.ACT_LOG_SUPERVISION_ACTIVITY);
                 logCase.setUser(user);
                 logCase.setCaseDetention(cd);
@@ -333,6 +346,7 @@ public class LogCaseServiceImpl implements LogCaseService {
                     logCase.setResume((String) detail);
                 logCase.setTitle(ConstantsLogCase.TT_CREATE_MONITORING_PLAN);
                 logCase.setDate(Calendar.getInstance());
+                logCase.setCompletionDate(Calendar.getInstance());
                 logCase.setActivity(ConstantsLogCase.ACT_CREATE_MONITORING_PLAN);
                 logCase.setUser(user);
                 logCase.setCaseDetention(cd);
@@ -343,6 +357,7 @@ public class LogCaseServiceImpl implements LogCaseService {
                     logCase.setResume((String) detail);
                 logCase.setTitle(ConstantsLogCase.TT_EDIT_MONITORING_PLAN);
                 logCase.setDate(Calendar.getInstance());
+                logCase.setCompletionDate(Calendar.getInstance());
                 logCase.setActivity(ConstantsLogCase.ACT_EDIT_MONITORING_PLAN);
                 logCase.setUser(user);
                 logCase.setCaseDetention(cd);
@@ -353,6 +368,7 @@ public class LogCaseServiceImpl implements LogCaseService {
                     logCase.setResume((String) detail);
                 logCase.setTitle(ConstantsLogCase.T_CREATE_FRAMING_MEETING);
                 logCase.setDate(Calendar.getInstance());
+                logCase.setCompletionDate(Calendar.getInstance());
                 logCase.setActivity(ConstantsLogCase.ACT_FRAMING_MEETING);
                 logCase.setUser(user);
                 logCase.setCaseDetention(cd);
@@ -363,6 +379,7 @@ public class LogCaseServiceImpl implements LogCaseService {
                     logCase.setResume((String) detail);
                 logCase.setTitle(ConstantsLogCase.TT_EDIT_FRAMING_MEETING);
                 logCase.setDate(Calendar.getInstance());
+                logCase.setCompletionDate(Calendar.getInstance());
                 logCase.setActivity(ConstantsLogCase.ACT_EDIT_FRAMING_MEETING);
                 logCase.setUser(user);
                 logCase.setCaseDetention(cd);
@@ -373,6 +390,7 @@ public class LogCaseServiceImpl implements LogCaseService {
                     logCase.setResume((String) detail);
                 logCase.setTitle(ConstantsLogCase.TT_FRAMING_MEETING);
                 logCase.setDate(Calendar.getInstance());
+                logCase.setCompletionDate(Calendar.getInstance());
                 logCase.setActivity(ConstantsLogCase.ACT_FRAMING_MEETING);
                 logCase.setUser(user);
                 logCase.setCaseDetention(cd);
@@ -383,6 +401,7 @@ public class LogCaseServiceImpl implements LogCaseService {
                     logCase.setResume((String) detail);
                 logCase.setTitle(ConstantsLogCase.T_ASSIGN_FRAMING_MEETING);
                 logCase.setDate(Calendar.getInstance());
+                logCase.setCompletionDate(Calendar.getInstance());
                 logCase.setActivity(ConstantsLogCase.ACT_ASSIGN_FRAMING_MEETING);
                 logCase.setUser(user);
                 logCase.setCaseDetention(cd);

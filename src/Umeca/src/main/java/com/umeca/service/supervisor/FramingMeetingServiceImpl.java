@@ -1340,7 +1340,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             }
 
             if (existFraming.getAddressComments() == null) {
-                lsDom.add("Debe capturar las observaiones para la secci&oacute;n \"Domicilios\".");
+                lsDom.add("Debe capturar las observaciones para la secci&oacute;n \"Domicilios\".");
             }
 
             if (lsDom.size() > 0)
