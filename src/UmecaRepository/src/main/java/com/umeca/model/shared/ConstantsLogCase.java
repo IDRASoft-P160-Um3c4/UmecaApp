@@ -51,4 +51,9 @@ public class ConstantsLogCase {
     public static final String ACT_ASSIGN_FRAMING_MEETING = "Se asgina supervisor para realizar la entrevista de encuadre";
 
 
+    public static final String T_CHANNELING = "Actividad de canalizaci&oacute;n";
+    public static final String CODE_CHANNELING = "CHANNELING_ACTIVITY";
+    public static final String ACT_CHANNELING = "Se ha registrado una actividad de canalización.";
+
+
 }

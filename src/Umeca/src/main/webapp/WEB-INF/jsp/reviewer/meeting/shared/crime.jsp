@@ -1,4 +1,4 @@
-7<script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/crimeCtrl.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/crimeCtrl.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/chosen.min.css"/>
 <script src="${pageContext.request.contextPath}/assets/scripts/umeca/chosen.jquery.min.js"></script>
 <style>
@@ -21,7 +21,9 @@
                 id="selectCrime"
                 ng-options="e.name for e in optionsCrime"
                 ng-change="c.crimeId = c.crime.id"
-                ng-init='optionsCrime = ${optionsCrime};'></select>
+                ng-init='optionsCrime = ${optionsCrime};'>
+            <option value="">Seleccione un delito</option>
+        </select>
     </div>
     <div class="col-xs-1 element-center">
        Art&iacute;culo<br/><br/>

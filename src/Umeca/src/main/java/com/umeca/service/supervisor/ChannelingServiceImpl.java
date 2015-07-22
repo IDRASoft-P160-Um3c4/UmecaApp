@@ -6,8 +6,10 @@ import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.*;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.shared.LogCase;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.ConstantsLogCase;
 import com.umeca.model.shared.SelectList;
 import com.umeca.model.shared.SelectOptsList;
 import com.umeca.repository.CaseRepository;
@@ -15,6 +17,7 @@ import com.umeca.repository.catalog.*;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.ChannelingRepository;
 import com.umeca.repository.supervisor.DistrictRepository;
+import com.umeca.service.shared.LogCaseService;
 import com.umeca.service.shared.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -69,6 +72,9 @@ public class ChannelingServiceImpl implements ChannelingService {
     @Autowired
     MessageService messageService;
 
+    @Autowired
+    LogCaseService logCaseService;
+
     @Override
     public void getChannelingCatalogs(ModelAndView model) {
         Gson gson = new Gson();
@@ -103,25 +109,26 @@ public class ChannelingServiceImpl implements ChannelingService {
     public void doUpsert(final ChannelingModel modelNew, User user, ResponseMessage response) {
 
         //Validar el caso
-        if(isValidCase(modelNew.getCaseId(), response) == false)
+        if (isValidCase(modelNew.getCaseId(), response) == false)
             return;
 
         Long channelingId = modelNew.getChannelingId();
         final Channeling model;
-        if(channelingId == null || channelingId <=0){
+        if (channelingId == null || channelingId <= 0) {
             //Insertar
             model = new Channeling();
 
             model.setCreatorUser(user);
-            model.setCaseDetention(new Case(){{setId(modelNew.getCaseId());}});
+            model.setCaseDetention(new Case() {{
+                setId(modelNew.getCaseId());
+            }});
             model.setIsObsolete(false);
             model.setCreationDate(Calendar.getInstance());
             fillByChannelingType(model, modelNew, response);
             model.setConsecutive(calculateNextConsecutiveByCaseId(modelNew.getCaseId()));
-        }
-        else{ //Modificar
+        } else { //Modificar
             model = channelingRepository.findOne(modelNew.getChannelingId());
-            if(model == null || model.getIsObsolete() == true){
+            if (model == null || model.getIsObsolete() == true) {
                 response.setHasError(true);
                 response.setMessage("El registro que desea modificar no se encuentra o ya no existe");
                 return;
@@ -134,15 +141,22 @@ public class ChannelingServiceImpl implements ChannelingService {
         }
 
         channelingRepository.save(model);
-        channelingTypeRepository.flush();
+        channelingRepository.flush();
         ChannelingNotification notificationInfo = channelingRepository.getNotificationInfoWithUser(model.getId());
+
+        CatChannelingType cat = channelingTypeRepository.findOne(modelNew.getChannelingTypeId());
+        String msg = "Se ha registrado una actividad de canalizaci&oacute;n de tipo " + cat.getName();
+        List<LogCase> logs = logCaseService.addLog(ConstantsLogCase.CODE_CHANNELING, modelNew.getCaseId(), msg);
 
         messageService.sendNotificationToRole(modelNew.getCaseId(),
                 String.format("<strong>Descripción:</strong> Se registró una canalización de tipo <strong>\"%s\"</strong><br/>" +
                                 "Para el imputado: <strong>%s</strong>. Causa penal <strong>%s</strong><br/>Registrado por el supervisor: <strong>%s</strong>",
                         notificationInfo.getChannelingType(), notificationInfo.getImputed(), notificationInfo.getIdMp(),
                         notificationInfo.getUser()),
-                new ArrayList<String>(){{add(Constants.ROLE_DIRECTOR);add(Constants.ROLE_CHANNELING_MANAGER);}},
+                new ArrayList<String>() {{
+                    add(Constants.ROLE_DIRECTOR);
+                    add(Constants.ROLE_CHANNELING_MANAGER);
+                }},
                 Constants.CHANNELING_NOTIFICATION_TITLE);
 
         response.setHasError(false);
@@ -151,13 +165,13 @@ public class ChannelingServiceImpl implements ChannelingService {
     @Override
     public void doObsolete(Long caseId, Long channelingId, User user, ResponseMessage response) {
         //Validar el caso
-        if(isValidCase(caseId, response) == false)
+        if (isValidCase(caseId, response) == false)
             return;
 
         ///TODO Validar si no existe una actividad en el plan de monitoreo que tenga una canalización asignada
         Long count = activityMonitoringPlanRepository.countInChanneling(channelingId);
 
-        if(count > 0){
+        if (count > 0) {
             response.setHasError(true);
             response.setMessage("No es posible eliminar este registro, ya que se encuentra en uso");
         }
@@ -183,18 +197,17 @@ public class ChannelingServiceImpl implements ChannelingService {
         CatInstitutionType institutionType = institutionTypeRepository.findOne(modelNew.getInstitutionTypeId());
         model.setInstitutionType(institutionType);
 
-        if(institutionType.getHasSpec()){
+        if (institutionType.getHasSpec()) {
             String specOther = modelNew.getSpecOther();
 
-            if(StringExt.isNullOrWhiteSpace(specOther)){
+            if (StringExt.isNullOrWhiteSpace(specOther)) {
                 response.setHasError(true);
                 response.setMessage("No se ha definido el campo de especificaciones");
                 return false;
             }
 
             model.setSpecOther(specOther);
-        }
-        else{
+        } else {
             model.setSpecOther(null);
         }
         return true;
@@ -202,20 +215,23 @@ public class ChannelingServiceImpl implements ChannelingService {
 
     private Long calculateNextConsecutiveByCaseId(Long caseId) {
         List<Long> lastConsecutive = channelingRepository.getLastConsecutiveByCaseId(caseId, new PageRequest(0, 1));
-        if(lastConsecutive == null || lastConsecutive.size() <= 0)
+        if (lastConsecutive == null || lastConsecutive.size() <= 0)
             return 1l;
         return lastConsecutive.get(0) + 1;
     }
 
 
-
     private void fillByChannelingType(final Channeling model, final ChannelingModel modelNew, ResponseMessage response) {
 
-        if( canSetInstitutionType(model, modelNew, response) == false)
+        if (canSetInstitutionType(model, modelNew, response) == false)
             return;
 
-        model.setChannelingType(new CatChannelingType() {{setId(modelNew.getChannelingTypeId());}});
-        model.setDistrict(new District(){{setId(modelNew.getDistrictId());}});
+        model.setChannelingType(new CatChannelingType() {{
+            setId(modelNew.getChannelingTypeId());
+        }});
+        model.setDistrict(new District() {{
+            setId(modelNew.getDistrictId());
+        }});
         model.setName(modelNew.getName());
 
         String code = channelingTypeRepository.getCodeById(modelNew.getChannelingTypeId());
@@ -225,11 +241,13 @@ public class ChannelingServiceImpl implements ChannelingService {
         model.setPreventionType(null);
         model.setEducationLevel(null);
 
-        switch (code){
+        switch (code) {
             case Constants.CHANNELING_TYPE_ECONOMIC_SUPPORT:
-                if(isCatalogValid(modelNew.getEconomicSupportId(), response) == false)
+                if (isCatalogValid(modelNew.getEconomicSupportId(), response) == false)
                     return;
-                model.setEconomicSupport(new CatEconomicSupport(){{setId(modelNew.getEconomicSupportId());}});
+                model.setEconomicSupport(new CatEconomicSupport() {{
+                    setId(modelNew.getEconomicSupportId());
+                }});
                 break;
 
             case Constants.CHANNELING_TYPE_TOXICOLOGICAL_TEST:
@@ -238,23 +256,26 @@ public class ChannelingServiceImpl implements ChannelingService {
                 break;
 
             case Constants.CHANNELING_TYPE_PREVENTION_TYPE:
-                if(isCatalogValid(modelNew.getPreventionTypeId(), response) == false)
+                if (isCatalogValid(modelNew.getPreventionTypeId(), response) == false)
                     return;
-                model.setPreventionType(new CatPreventionType(){{setId(modelNew.getPreventionTypeId());}});
+                model.setPreventionType(new CatPreventionType() {{
+                    setId(modelNew.getPreventionTypeId());
+                }});
                 break;
 
             case Constants.CHANNELING_TYPE_EDUCATION:
-                if(isCatalogValid(modelNew.getEducationLevelId(), response) == false)
+                if (isCatalogValid(modelNew.getEducationLevelId(), response) == false)
                     return;
-                model.setEducationLevel(new CatEducationLevel(){{setId(modelNew.getEducationLevelId());}});
+                model.setEducationLevel(new CatEducationLevel() {{
+                    setId(modelNew.getEducationLevelId());
+                }});
                 break;
         }
     }
 
     private boolean isCatalogValid(Long catalogId, ResponseMessage response) {
 
-        if(catalogId == null || catalogId <= 0)
-        {
+        if (catalogId == null || catalogId <= 0) {
             response.setHasError(true);
             response.setMessage("Faltan campos por seleccionar");
             return false;
@@ -265,8 +286,8 @@ public class ChannelingServiceImpl implements ChannelingService {
 
     private boolean isValidCase(Long caseId, ResponseMessage response) {
         Long count = caseRepository.isReadyForChanneling(caseId);
-        if( count > 0 )
-            return  true;
+        if (count > 0)
+            return true;
 
         response.setHasError(true);
         response.setMessage("No es posible agregar canalizaciones al caso debido a que no tiene entrevista de encuadre o el caso se encuentra cerrado");

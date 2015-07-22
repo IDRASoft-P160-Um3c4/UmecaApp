@@ -183,7 +183,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                             } else {
                                 idSources = fieldMeetingSourceRepository.getIdSourceByCodeWhithIdListWithoutState(idCase, fms.getFieldVerification().getCode(), fms.getIdFieldList(), Constants.ST_FIELD_VERIF_UNABLE);
                             }
-                            String sourcessay = "<br/>Informaci&oacute; recopilada:<br/>";
+                            String sourcessay = "<br/>Informaci&oacute;n recopilada:<br/>";
                             for (SearchToChoiceIds e : idSources) {
                                 List<FieldMeetingSource> result = new ArrayList<>();
                                 if (fms.getIdFieldList() == null) {
@@ -199,7 +199,6 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                                     sourcessay += StringEscape.escapeText(s) + ",";
                                 }
                                 sourcessay += "<br/>";
-
                             }
                             String finalText = Constants.UNABLE_VERIF_TEXT_DOC + sourcessay;
                             v = v.replace("{1}", finalText);

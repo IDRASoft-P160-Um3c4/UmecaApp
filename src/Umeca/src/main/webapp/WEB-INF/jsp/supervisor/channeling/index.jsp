@@ -131,7 +131,7 @@
 
             jQuery("#GridId").jqGrid('navGrid', '#GridPager', {
                 edit: false,
-                add: true, addfunc: window.upsert, addicon: 'icon-plus-sign purple',
+                add: false,
                 refresh: true, refreshicon: 'icon-refresh green',
                 del: false,
                 search: false});
