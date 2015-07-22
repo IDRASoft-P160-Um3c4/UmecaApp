@@ -61,7 +61,7 @@ public interface ChannelingRepository extends JpaRepository<Channeling, Long> {
     List<SelectList> findValidByCaseId(@Param("caseId") Long caseId);
 
     @Query("SELECT NEW com.umeca.model.entities.supervisor.ChannelingModelSheet(cd.idMP, i.name, i.lastNameP, i.lastNameM, " +
-            "i.birthDate, i.gender, i.celPhone, ct.name, c.name, it.name, c.institutionName, c.consecutive) " +
+            "i.birthDate, i.gender, i.celPhone, ct.name, c.name, it.name, c.institutionName, c.consecutive,cd.id) " +
             "FROM Channeling c " +
             "INNER JOIN c.caseDetention cd " +
             "INNER JOIN cd.meeting.imputed i " +

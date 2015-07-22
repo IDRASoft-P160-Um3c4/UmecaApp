@@ -61,7 +61,9 @@ public class ChannelingController {
 
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusCase",
-                new ArrayList<String>() {{add(Constants.CASE_STATUS_CLOSED);}}, JqGridFilterModel.COMPARE_NOT_IN);
+                new ArrayList<String>() {{
+                    add(Constants.CASE_STATUS_CLOSED);
+                }}, JqGridFilterModel.COMPARE_NOT_IN);
         opts.extraFilters.add(extraFilter);
         extraFilter = new JqGridRulesModel("isTerminated", "1", JqGridFilterModel.COMPARE_EQUAL);
         extraFilter.setbData(true);
@@ -152,13 +154,15 @@ public class ChannelingController {
     ChannelingService channelingService;
 
     @RequestMapping(value = "/supervisor/channeling/upsert", method = RequestMethod.POST)
-    public @ResponseBody ModelAndView insert(@RequestParam(required = true) Long id, Long channelingId) {
+    public
+    @ResponseBody
+    ModelAndView insert(@RequestParam(required = true) Long id, Long channelingId) {
         ModelAndView model = new ModelAndView("/supervisor/channeling/upsert");
 
         ChannelingModel channeling;
-        if(channelingId == null){
+        if (channelingId == null) {
             channeling = channelingService.getChannelingInfoByCaseId(id);
-        }else{
+        } else {
             channeling = channelingService.getChannelingInfoByCaseIdAndChannelingId(id, channelingId);
         }
 
@@ -172,7 +176,9 @@ public class ChannelingController {
 
 
     @RequestMapping(value = "/supervisor/channeling/doUpsert", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage doUpsert(@ModelAttribute final ChannelingModel model) {
+    public
+    @ResponseBody
+    ResponseMessage doUpsert(@ModelAttribute final ChannelingModel model) {
         ResponseMessage response = new ResponseMessage();
 
         try {
@@ -193,9 +199,9 @@ public class ChannelingController {
     }
 
 
-
     @RequestMapping(value = "/supervisor/channeling/doObsolete", method = RequestMethod.POST)
-    public @ResponseBody
+    public
+    @ResponseBody
     ResponseMessage doObsolete(@RequestParam(required = true) Long id, @RequestParam(required = true) Long channelingId) {
 
         ResponseMessage response = new ResponseMessage();
@@ -220,20 +226,28 @@ public class ChannelingController {
     @RequestMapping(value = "/supervisor/channeling/printSheet", method = RequestMethod.GET)
     public ModelAndView printSheet(@RequestParam(required = true) Long id, HttpServletResponse response) {
 
-        ChannelingModelSheet sheetInfo = channelingService.getChannelingSheetById(id);
+        ModelAndView model = null;
+        try {
+            ChannelingModelSheet sheetInfo = channelingService.getChannelingSheetById(id);
 
-        if(sheetInfo == null){
-            ModelAndView model = new ModelAndView("/supervisor/channeling/notSheet");
+            if (sheetInfo == null) {
+                model = new ModelAndView("/supervisor/channeling/notSheet");
+                response.setContentType("application/force-download");
+                response.setHeader("Content-Disposition", "attachment; filename=\"oficio-canalización.doc\"");
+                return model;
+            }
+
+            model = new ModelAndView("/supervisor/channeling/printSheet");
+            model.addObject("data", sheetInfo);
             response.setContentType("application/force-download");
-            response.setHeader("Content-Disposition", "attachment; filename=\"oficio-canalización.doc\"");
-            return model;
-        }
+            response.setHeader("Content-Disposition", "attachment; filename=\"oficio-canalización-" +
+                    sheetInfo.getIdMP() + "-" + sheetInfo.getConsecutiveTx() + ".doc\"");
 
-        ModelAndView model = new ModelAndView("/supervisor/channeling/printSheet");
-        model.addObject("data", sheetInfo);
-        response.setContentType("application/force-download");
-        response.setHeader("Content-Disposition", "attachment; filename=\"oficio-canalización-" +
-                sheetInfo.getIdMP() + "-" + sheetInfo.getConsecutiveTx() + ".doc\"");
+            channelingService.addLogChannelingDoc(sheetInfo.getIdCase(),sheetInfo.getChannelingType());
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "printSheet", userService);
+            model = null;
+        }
         return model;
     }
 

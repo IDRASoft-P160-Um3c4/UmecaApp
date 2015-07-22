@@ -22,6 +22,7 @@ import com.umeca.service.shared.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -292,5 +293,11 @@ public class ChannelingServiceImpl implements ChannelingService {
         response.setHasError(true);
         response.setMessage("No es posible agregar canalizaciones al caso debido a que no tiene entrevista de encuadre o el caso se encuentra cerrado");
         return false;
+    }
+
+    @Transactional
+    public void addLogChannelingDoc(Long caseId, String channelingType) {
+        String msg = "Se ha generado el oficio para la actividad de canalizaci&oacute;n de tipo " + channelingType+".";
+        List<LogCase> logs = logCaseService.addLog(ConstantsLogCase.CODE_SHEET_CHANNELING, caseId, msg);
     }
 }

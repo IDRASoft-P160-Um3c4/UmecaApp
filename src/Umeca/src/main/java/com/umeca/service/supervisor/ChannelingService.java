@@ -13,4 +13,5 @@ public interface ChannelingService {
     void doUpsert(ChannelingModel model, User user, ResponseMessage response);
     void doObsolete(Long id, Long channelingId, User user, ResponseMessage response);
     ChannelingModelSheet getChannelingSheetById(Long id);
+    void addLogChannelingDoc(Long caseId, String channelingType);
 }

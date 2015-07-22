@@ -418,6 +418,17 @@ public class LogCaseServiceImpl implements LogCaseService {
                 logCase.setCaseDetention(cd);
                 newLogs.add(logCase);
                 break;
+            case ConstantsLogCase.CODE_SHEET_CHANNELING:
+                if(detail!=null)
+                    logCase.setResume((String) detail);
+                logCase.setTitle(ConstantsLogCase.T_SHEET_CHANNELING);
+                logCase.setDate(Calendar.getInstance());
+                logCase.setCompletionDate(Calendar.getInstance());
+                logCase.setActivity(ConstantsLogCase.ACT_SHEET_CHANNELING);
+                logCase.setUser(user);
+                logCase.setCaseDetention(cd);
+                newLogs.add(logCase);
+                break;
         }
             logCaseRepository.save(newLogs);
         }catch (Exception e){

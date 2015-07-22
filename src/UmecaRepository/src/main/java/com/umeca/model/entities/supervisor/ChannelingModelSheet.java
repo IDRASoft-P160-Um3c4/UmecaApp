@@ -18,11 +18,12 @@ public class ChannelingModelSheet {
     private String institutionType;
     private String institutionName;
     private String consecutiveTx;
+    private Long idCase;
 
     public ChannelingModelSheet(String idMP, String first, String lastNameP, String lastNameM, Date birthday, Boolean gender,
                                 String phone, String channelingType, String name,
                                 String institutionType, String institutionName,
-                                Long consecutive) {
+                                Long consecutive, Long idCase) {
         this.idMP = Convert.convertToValidString(idMP);
         this.imputed = Convert.convertToValidString(first + " " + lastNameP + " " + lastNameM);
         this.birthdayTx = DateExt.dateToString(birthday) ;
@@ -33,6 +34,7 @@ public class ChannelingModelSheet {
         this.institutionType = Convert.convertToValidString(institutionType);
         this.institutionName = Convert.convertToValidString(institutionName);
         this.consecutiveTx = LongExt.paddingLeft("0", "4", consecutive);
+        this.idCase=idCase;
     }
 
     public String getIdMP() {
@@ -113,5 +115,13 @@ public class ChannelingModelSheet {
 
     public void setConsecutiveTx(String consecutiveTx) {
         this.consecutiveTx = consecutiveTx;
+    }
+
+    public Long getIdCase() {
+        return idCase;
+    }
+
+    public void setIdCase(Long idCase) {
+        this.idCase = idCase;
     }
 }

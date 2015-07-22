@@ -50,10 +50,13 @@ public class ConstantsLogCase {
     public static final String CODE_ASSIGN_FRAMING_MEETING = "ACT_ASSIGN_FRAMING_MEETING";
     public static final String ACT_ASSIGN_FRAMING_MEETING = "Se asgina supervisor para realizar la entrevista de encuadre";
 
-
     public static final String T_CHANNELING = "Actividad de canalizaci&oacute;n";
     public static final String CODE_CHANNELING = "CHANNELING_ACTIVITY";
-    public static final String ACT_CHANNELING = "Se ha registrado una actividad de canalización.";
+    public static final String ACT_CHANNELING = "Se ha registrado una actividad de canalizaci&oacute;n.";
+
+    public static final String T_SHEET_CHANNELING = "Oficio de canalizaci&oacute;n";
+    public static final String CODE_SHEET_CHANNELING = "SHEET_CHANNELING_ACTIVITY";
+    public static final String ACT_SHEET_CHANNELING = "Se ha generado un oficio de canalizaci&oacute;.";
 
 
 }
