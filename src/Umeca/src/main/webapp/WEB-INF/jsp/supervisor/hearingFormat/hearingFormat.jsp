@@ -1082,21 +1082,21 @@
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <div ng-show="m.arrType>0&&m.nationalArrangement!=undefined"
-                                                     class="col-xs-6">
-                                                    <label ng-bind-html="lblTerms"></label>
-                                                    <br/>
-                                            <textarea class="form-control limited" name="terms"
-                                                      ng-model="m.terms"
-                                                      maxlength="980"
-                                                      data-val="true"
-                                                      data-val-required="Plazo es un campo requerido">
-                                            </textarea>
-                                        <span class="field-validation-valid" data-valmsg-for="terms"
-                                              data-valmsg-replace="true"></span>
-                                                    <input ng-if="sendTerms==true" type="hidden" name="terms"
-                                                           value="{{m.terms}}"/>
-                                                </div>
+                                                    <div ng-show="m.arrType>0&&m.nationalArrangement!=undefined"
+                                                         class="col-xs-6">
+                                                        <label ng-bind-html="lblTerms"></label>
+                                                        <br/>
+                                                <textarea class="form-control limited" name="terms"
+                                                          ng-model="m.terms"
+                                                          maxlength="980"
+                                                          data-val="true"
+                                                          data-val-required="Plazo es un campo requerido">
+                                                </textarea>
+                                            <span class="field-validation-valid" data-valmsg-for="terms"
+                                                  data-valmsg-replace="true"></span>
+                                                        <input ng-if="sendTerms==true" type="hidden" name="terms"
+                                                               value="{{m.terms}}"/>
+                                                    </div>
                                             </div>
                                         </div>
                                         <br/>

@@ -87,7 +87,7 @@
                             <div class="col-xs-12">
                                 <div class='panel panel-primary'>
                                     <div class="panel-heading">
-                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Solicitu de de
+                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Solicitud de de
                                         cierre
                                     </div>
                                     <div class="panel-body">

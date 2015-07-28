@@ -1,9 +1,13 @@
 package com.umeca.service.supervisor;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.security.StringEscape;
+import com.umeca.model.catalog.Arrangement;
 import com.umeca.model.catalog.FulfillmentReportType;
+import com.umeca.model.dto.supervisorManager.RelFulfillmentReportArrangement;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.shared.LogChangeData;
@@ -18,6 +22,7 @@ import com.umeca.model.entities.supervisorManager.LogComment;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.OptionListSimple;
+import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.FulfillmentReportTypeRepository;
 import com.umeca.repository.catalog.RequestTypeRepository;
 import com.umeca.repository.catalog.ResponseTypeRepository;
@@ -36,11 +41,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 @Service
-public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanService{
+public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanService {
 
     @Autowired
     SharedLogExceptionService logException;
@@ -72,7 +80,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
     @Override
     @Transactional
     public boolean preAuthorize(SharedUserService sharedUserService, Long monPlanId, User user, ResponseMessage message) {
-        if(validatePreAuthorize(monPlanId, user.getId(), message) == false)
+        if (validatePreAuthorize(monPlanId, user.getId(), message) == false)
             return false;
 
         MonitoringPlan monPlan = monPlanRepository.findOne(monPlanId);
@@ -108,14 +116,15 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
     FulfillmentReportTypeRepository fulfillmentReportTypeRepository;
 
     @Override
-    public boolean requestAccomplishmentLog(Long monPlanId, Long fulfillmentReportId, User user, String sAction, String sComments, ResponseMessage message) {
+    @Transactional
+    public boolean requestAccomplishmentLog(Long monPlanId, Long fulfillmentReportId, User user, String sAction, String sComments, ResponseMessage message, String lstArrangements, Date fulfillmentDate) {
 
-        if(validatePreAccomplishmentLog(monPlanId, user.getId(), message) == false)
+        if (validatePreAccomplishmentLog(monPlanId, user.getId(), message) == false)
             return false;
 
         FulfillmentReportType fulfillmentReportType = fulfillmentReportTypeRepository.findOne(fulfillmentReportId);
 
-        if(fulfillmentReportType == null){
+        if (fulfillmentReportType == null) {
             message.setMessage("No se encontr&oacute; el tipo de reporte de cumplimiento.");
             message.setHasError(true);
             return false;
@@ -151,6 +160,28 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
         fulfillmentReport.setUserRequest(user);
         fulfillmentReport.setStatus(MonitoringConstants.LOG_ACCOMPLISHMENT_PENDING);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(fulfillmentDate);
+        fulfillmentReport.setFulfillmentDate(cal);
+
+        Gson gson = new Gson();
+        List<SelectList> lstSelect = gson.fromJson(lstArrangements, new TypeToken<List<SelectList>>() {
+        }.getType());
+        List<RelFulfillmentReportArrangement> relFulfillmentReportArrangements = new ArrayList<>();
+
+        for (SelectList curr : lstSelect) {
+            if (curr.getLock() == true) {
+                Arrangement a = new Arrangement();
+                a.setId(curr.getId());
+                RelFulfillmentReportArrangement rel = new RelFulfillmentReportArrangement();
+                rel.setArrangement(a);
+                rel.setFulfillmentReport(fulfillmentReport);
+                relFulfillmentReportArrangements.add(rel);
+            }
+        }
+        fulfillmentReport.setRelFulfillmentReportArrangements(relFulfillmentReportArrangements);
+
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlanId));
         monPlanRepository.save(monPlan);
         logCommentMonPlanRepository.save(commentModel);
@@ -165,21 +196,21 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
         Long monPlanId = null;
         AuthRejMonActivitiesResponse authRejMonActRes = new AuthRejMonActivitiesResponse();
         String fullComment = null;
-        for(OptionListSimple act : model.getLstAutRejActMon()){
-            try{
+        for (OptionListSimple act : model.getLstAutRejActMon()) {
+            try {
                 ActivityMonitoringPlan actMon = actMonPlanRepository.findOne(act.getId());
 
-                if(actMon == null || actMon.getId() == null)
+                if (actMon == null || actMon.getId() == null)
                     continue;
 
                 String status = actMon.getStatus();
-                if(MonitoringConstants.LST_STATUS_ACTIVITY_PRE_AUTH.contains(status) == false)
+                if (MonitoringConstants.LST_STATUS_ACTIVITY_PRE_AUTH.contains(status) == false)
                     continue;
 
-                if(monPlanId == null)
+                if (monPlanId == null)
                     monPlanId = actMon.getMonitoringPlan().getId();
 
-                switch (act.getValue()){
+                switch (act.getValue()) {
                     case 1: //Autorizado
                         authorizeActivity(act, actMon, authRejMonActRes);
                         break;
@@ -190,27 +221,29 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
                         continue;
                 }
 
-                if(fullComment == null){
+                if (fullComment == null) {
                     fullComment = act.getDescription();
-                }
-                else{
-                    fullComment = fullComment  + ", " + act.getDescription();
+                } else {
+                    fullComment = fullComment + ", " + act.getDescription();
                 }
 
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 logException.Write(ex, this.getClass(), "authRejLstMonActImpl", sharedUserService);
             }
         }
 
         monPlanRepository.flush();
 
-        Long activitiesInPre = actMonPlanRepository.countActivitiesByInLstStatus(monPlanId, new ArrayList<String>()
-            {{add(MonitoringConstants.STATUS_ACTIVITY_PRE_NEW); add(MonitoringConstants.STATUS_ACTIVITY_PRE_MODIFIED); add(MonitoringConstants.STATUS_ACTIVITY_PRE_DELETED);}});
+        Long activitiesInPre = actMonPlanRepository.countActivitiesByInLstStatus(monPlanId, new ArrayList<String>() {{
+            add(MonitoringConstants.STATUS_ACTIVITY_PRE_NEW);
+            add(MonitoringConstants.STATUS_ACTIVITY_PRE_MODIFIED);
+            add(MonitoringConstants.STATUS_ACTIVITY_PRE_DELETED);
+        }});
 
         //Si ya no hay actividades se debe quitar el tiempo, para que no se suspenda en caso de pasar las n horas
         MonitoringPlan monitoringPlan = monPlanRepository.findOne(monPlanId);
         String message;
-        if(activitiesInPre == null || activitiesInPre == 0){
+        if (activitiesInPre == null || activitiesInPre == 0) {
             monitoringPlan.setPosAuthorizationChangeTime(null);
             message = ".<br/>Todas las actividades fueron autorizada(s) o rechazada(s).";
             //CaseRequest... Response
@@ -219,8 +252,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
                     "Todas las actividades fueron autorizada(s) y/o rechazada(s). Comentarios: " + StringEscape.escapeText(model.getComments()),
                     Constants.ST_REQUEST_UPDATE_MONPLAN_AUTH);
 
-        }
-        else{
+        } else {
             message = ".<br/>No todas las actividades fueron autorizada(s) o rechazada(s). Debe revisar si durante la autorización se insertaron, modificaron o eliminaron actividades.";
         }
 
@@ -237,7 +269,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
     }
 
     private void rejectActivity(OptionListSimple act, ActivityMonitoringPlan actMon, AuthRejMonActivitiesResponse authRejMonActRes) {
-        switch (actMon.getStatus()){
+        switch (actMon.getStatus()) {
             case MonitoringConstants.STATUS_ACTIVITY_PRE_NEW:
                 actMon.setReplaced(null);
                 actMon.setPreAuthorizeMode(null);
@@ -250,7 +282,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
 
             case MonitoringConstants.STATUS_ACTIVITY_PRE_MODIFIED:
                 ActivityMonitoringPlan actMonOld = actMon.getActMonPlanToReplace();
-                if(actMonOld != null && actMonOld.getId() != null){
+                if (actMonOld != null && actMonOld.getId() != null) {
                     actMonOld.setPreAuthorizeMode(null);
                     actMonOld.setReplaced(null);
                     actMonOld.setStatus(MonitoringConstants.STATUS_ACTIVITY_MODIFIED);
@@ -281,7 +313,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
     }
 
     private void authorizeActivity(OptionListSimple act, ActivityMonitoringPlan actMon, AuthRejMonActivitiesResponse authRejMonActRes) {
-        switch (actMon.getStatus()){
+        switch (actMon.getStatus()) {
             case MonitoringConstants.STATUS_ACTIVITY_PRE_NEW:
                 actMon.setReplaced(null);
                 actMon.setPreAuthorizeMode(null);
@@ -294,7 +326,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
 
             case MonitoringConstants.STATUS_ACTIVITY_PRE_MODIFIED:
                 ActivityMonitoringPlan actMonOld = actMon.getActMonPlanToReplace();
-                if(actMonOld != null && actMonOld.getId() != null){
+                if (actMonOld != null && actMonOld.getId() != null) {
                     actMonOld.setPreAuthorizeMode(null);
                     actMonOld.setStatus(MonitoringConstants.STATUS_ACTIVITY_DELETED);
                     actMonOld.setActMonPlanToReplace(null);
@@ -325,7 +357,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
     private boolean validatePreAccomplishmentLog(Long monPlanId, Long userId, ResponseMessage message) {
         Long monPlanUserId = monPlanRepository.getIdByUserAndNotStatus(monPlanId, MonitoringConstants.STATUS_END, userId);
 
-        if(monPlanUserId == null || monPlanUserId != monPlanId){
+        if (monPlanUserId == null || monPlanUserId != monPlanId) {
             message.setMessage("El plan de seguimiento está en estado \"TERMINADO\" o usted ya no es propietario del plan de seguimiento, por favor contacte a su coordinador");
             return false;
         }
@@ -338,7 +370,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
             add(MonitoringConstants.STATUS_ACTIVITY_DELETED);
         }});
 
-        if(countValidActivities == 0){
+        if (countValidActivities == 0) {
             message.setMessage("Al menos debe existir una actividad válida en el plan de seguimiento");
             return false;
         }
@@ -350,7 +382,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
 
         Long monPlanUserId = monPlanRepository.getIdByUser(monPlanId, MonitoringConstants.STATUS_PENDING_CREATION, userId);
 
-        if(monPlanUserId == null || monPlanUserId != monPlanId){
+        if (monPlanUserId == null || monPlanUserId != monPlanId) {
             message.setMessage("El plan de seguimiento no está en estado \"EN PROCESO DE GENERAR\" o usted ya no es propietario del plan de seguimiento, por favor contacte a su coordinador");
             return false;
         }
