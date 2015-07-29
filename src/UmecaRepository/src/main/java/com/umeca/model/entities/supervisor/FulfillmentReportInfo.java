@@ -13,11 +13,15 @@ public class FulfillmentReportInfo {
     private Long id;
     private String type;
     private Calendar timestamp;
+    private String comment;
+    private Calendar fulfillmentDate;
 
-    public FulfillmentReportInfo(Long id, String type, Calendar timestamp) {
+    public FulfillmentReportInfo(Long id, String type, Calendar timestamp, String comment, Calendar fulfillmentDate) {
         this.id = id;
         this.type = type;
         this.timestamp = timestamp;
+        this.comment = comment;
+        this.fulfillmentDate = fulfillmentDate;
     }
 
     public Long getId() {
@@ -42,5 +46,21 @@ public class FulfillmentReportInfo {
 
     public void setTimestamp(Calendar timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Calendar getFulfillmentDate() {
+        return fulfillmentDate;
+    }
+
+    public void setFulfillmentDate(Calendar fulfillmentDate) {
+        this.fulfillmentDate = fulfillmentDate;
     }
 }

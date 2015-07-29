@@ -53,6 +53,9 @@ public class FulfillmentReport {
     @Column(name = "fulfilment_date", nullable = false)
     private Calendar fulfillmentDate;
 
+    @Column(name = "comment", nullable = false)
+    private String comment;
+
     public Long getId() {
         return id;
     }
@@ -123,6 +126,14 @@ public class FulfillmentReport {
 
     public void setFulfillmentDate(Calendar fulfillmentDate) {
         this.fulfillmentDate = fulfillmentDate;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }
 

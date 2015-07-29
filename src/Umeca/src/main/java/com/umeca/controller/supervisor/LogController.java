@@ -261,7 +261,7 @@ public class LogController {
             Date dt = sdf.parse(requestAccomplishment.getAccomplishmentDate());
 
             if (manageMonitoringPlanService.requestAccomplishmentLog(requestAccomplishment.getId(), requestAccomplishment.getFulfillmentReportId(), user, MonitoringConstants.LOG_PENDING_ACCOMPLISHMENT,
-                    "Solicitud de la autorización del reporte de incumplimiento por parte del usuario " + user.getUsername(), response, requestAccomplishment.getLstArrangement(), dt) == false) {
+                    "Solicitud de la autorización del reporte de incumplimiento por parte del usuario " + user.getUsername(), response, requestAccomplishment.getLstArrangement(), dt, requestAccomplishment.getComment()) == false) {
                 response.setHasError(true);
                 return response;
             }

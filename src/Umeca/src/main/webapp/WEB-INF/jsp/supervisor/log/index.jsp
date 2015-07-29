@@ -193,7 +193,7 @@
 
             $scope.initArrangementLst = function () {
                 for (var i = 0; i < $scope.lstArrangements.length; i++) {
-                    $scope.lstArrangements[i].block = false;
+                    $scope.lstArrangements[i].lock = false;
                 }
             };
 
@@ -234,9 +234,10 @@
                                     $scope.WaitFor = false;
                                     $scope.$apply();
                                 }else{
-                                    scope = angular.element('#dlgUpModalId').scope()
+                                    scope = angular.element('#dlgUpModalId').scope();
                                     scope.Model.dlg.modal('hide');
                                     scope.Model.def.resolve({isCancel: false});
+                                    $("#GridId").trigger("reloadGrid");
                                 }
                             })
                             .error(function () {

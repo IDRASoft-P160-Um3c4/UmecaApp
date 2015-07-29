@@ -20,8 +20,10 @@ import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
+import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.FulfillmentReportRepository;
+import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
@@ -46,6 +48,10 @@ public class ActiveMonitoringPlanController {
     SharedLogExceptionService logException;
     @Autowired
     SharedUserService sharedUserService;
+    @Autowired
+    HearingFormatRepository hearingFormatRepository;
+    @Autowired
+    ArrangementRepository arrangementRepository;
 
 
     @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/index", method = RequestMethod.GET)
@@ -174,19 +180,25 @@ public class ActiveMonitoringPlanController {
 
     private static void GetFulFillmentReportInfo(Long id, ModelAndView model, FulfillmentReportRepository fulfillmentReportRepository) {
         try {
-            List<FulfillmentReportInfo> lstFulfillmentReportInfo = fulfillmentReportRepository.getFulfillmentReportInfoByMonPlanId(id, new PageRequest(0,1)); //Top 1
-            if(lstFulfillmentReportInfo == null || lstFulfillmentReportInfo.size() == 0)
+            Gson gson = new Gson();
+            List<FulfillmentReportInfo> lstFulfillmentReportInfo = fulfillmentReportRepository.getFulfillmentReportInfoByMonPlanId(id, new PageRequest(0, 1)); //Top 1
+            if (lstFulfillmentReportInfo == null || lstFulfillmentReportInfo.size() == 0)
                 return;
 
             FulfillmentReportInfo fulfillmentReportInfo = lstFulfillmentReportInfo.get(0);
             model.addObject("fulfillmentReportId", fulfillmentReportInfo.getId());
             model.addObject("fulfillmentReportType", fulfillmentReportInfo.getType());
             model.addObject("fulfillmentReportTimestamp", CalendarExt.calendarToFormatString(fulfillmentReportInfo.getTimestamp(), "dd/MM/yyyy HH:mm"));
-        }catch (Exception ex){
+            model.addObject("comment", fulfillmentReportInfo.getComment());
+            model.addObject("fulfillmentDate", CalendarExt.calendarToFormatString(fulfillmentReportInfo.getFulfillmentDate(), "dd/MM/yyyy"));
+
+            List<SelectList> lstGeneric = fulfillmentReportRepository.getArrangementsByFulfillmentReportId(fulfillmentReportInfo.getId());
+            model.addObject("lstArrangements", gson.toJson(lstGeneric));
+
+        } catch (Exception ex) {
             return;
         }
     }
-
 
     @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/rejectAccomplishment", method = RequestMethod.POST)
     public ModelAndView rejectAccomplishment(@RequestParam Long id) {
@@ -248,14 +260,14 @@ public class ActiveMonitoringPlanController {
             }
 
             Long fulfillmentReportId = model.getFulfillmentReportId();
-            if(model.getFulfillmentReportId() == null){
+            if (model.getFulfillmentReportId() == null) {
                 response.setMessage("No se ha definido un el reporte de incumplimiento a autorizar/rechazar.");
                 return response;
             }
 
             FulfillmentReport fulfillmentReport = fulfillmentReportRepository.findOne(fulfillmentReportId);
 
-            if(fulfillmentReport == null){
+            if (fulfillmentReport == null) {
                 response.setMessage("No se ha encontrado el reporte de incumplimiento a autorizar/rechazar. Por favor reinicie e intente de nuevo");
                 return response;
             }

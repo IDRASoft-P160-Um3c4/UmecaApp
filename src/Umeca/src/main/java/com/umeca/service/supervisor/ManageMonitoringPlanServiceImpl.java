@@ -117,7 +117,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
 
     @Override
     @Transactional
-    public boolean requestAccomplishmentLog(Long monPlanId, Long fulfillmentReportId, User user, String sAction, String sComments, ResponseMessage message, String lstArrangements, Date fulfillmentDate) {
+    public boolean requestAccomplishmentLog(Long monPlanId, Long fulfillmentReportId, User user, String sAction, String sComments, ResponseMessage message, String lstArrangements, Date fulfillmentDate, String comment) {
 
         if (validatePreAccomplishmentLog(monPlanId, user.getId(), message) == false)
             return false;
@@ -158,6 +158,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
         fulfillmentReport.setMonitoringPlan(monPlan);
         fulfillmentReport.setTimestamp(now);
         fulfillmentReport.setUserRequest(user);
+        fulfillmentReport.setComment(comment);
         fulfillmentReport.setStatus(MonitoringConstants.LOG_ACCOMPLISHMENT_PENDING);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
