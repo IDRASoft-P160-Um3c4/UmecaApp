@@ -251,6 +251,7 @@ app.controller('personalDataController', function ($scope, $timeout, $q, $http, 
         } else {
             $scope.m.birthInfo = $scope.lstInfoAvail[0];
         }
+        $scope.m.birthInfoId = $scope.m.birthInfo.id;
     };
 
 });
