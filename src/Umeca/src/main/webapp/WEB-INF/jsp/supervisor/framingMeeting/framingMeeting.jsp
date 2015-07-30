@@ -439,24 +439,6 @@
                                     </div>
                                 </a>
                             </li>
-                            <li id="liVictim">
-                                <a data-toggle="tab" href="#victim">
-                                    <div class="row">
-                                        <div class="col-xs-10">
-                                            <i class="orange icon-eye-open bigger-200"></i>
-                                            Victimas y testigos
-                                        </div>
-                                        <div class="col-xs-2" ng-show="listMsgError['victim']">
-                                            <div class="tools">
-                                                <div class="inline position-relative">
-                                                    <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
-                                                       ng-click="showMessageError('victim');"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
                             <li id="liSchool">
                                 <a data-toggle="tab" href="#school">
                                     <div class="row">
@@ -585,6 +567,24 @@
                                     </div>
                                 </a>
                             </li>
+                            <li id="liVictim">
+                                <a data-toggle="tab" href="#victim">
+                                    <div class="row">
+                                        <div class="col-xs-10">
+                                            <i class="orange icon-eye-open bigger-200"></i>
+                                            Victimas y testigos
+                                        </div>
+                                        <div class="col-xs-2" ng-show="listMsgError['victim']">
+                                            <div class="tools">
+                                                <div class="inline position-relative">
+                                                    <i class=" icon-exclamation-sign red  icon-only bigger-120  dropdown-toggle"
+                                                       ng-click="showMessageError('victim');"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
                         </ul>
 
                         <div class="tab-content">
@@ -612,10 +612,6 @@
                             <div id="references" class="tab-pane">
                                 <%@ include
                                         file="/WEB-INF/jsp/supervisor/framingMeeting/references/_framingReferences.jsp" %>
-                            </div>
-
-                            <div id="victim" class="tab-pane">
-                                <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/victim/_framingVictim.jsp" %>
                             </div>
 
                             <div id="school" class="tab-pane">
@@ -650,6 +646,9 @@
                                 <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/fingerPrinting/index.jsp" %>
                             </div>
 
+                            <div id="victim" class="tab-pane">
+                                <%@ include file="/WEB-INF/jsp/supervisor/framingMeeting/victim/_framingVictim.jsp" %>
+                            </div>
                         </div>
                     </div>
                 </div>
