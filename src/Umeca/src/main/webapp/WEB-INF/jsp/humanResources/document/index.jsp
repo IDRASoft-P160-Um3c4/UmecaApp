@@ -4,7 +4,7 @@
 
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/document/documentCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/document/docCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-datepicker.min.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css"/>
     <title>Oficios</title>
