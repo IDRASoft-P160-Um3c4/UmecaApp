@@ -434,6 +434,9 @@
                                         class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Minutas para
                                     direcci&oacute;n</a>
                                 </li>
+                                <li><a href="<c:url value='/humanResources/document/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Oficios</a>
+                                </li>
                             </ul>
                         </li>
                     </sec:authorize>
