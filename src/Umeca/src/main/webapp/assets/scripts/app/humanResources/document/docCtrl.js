@@ -51,6 +51,19 @@ app.controller('documentController', function ($scope, $timeout, $sce, $rootScop
         $scope.$apply();
     };
 
+    $scope.setAgreementFileError = function (msg) {
+        $scope.$apply(function () {
+            $scope.MsgError = $sce.trustAsHtml(msg);
+            $timeout(function () {
+                $scope.MsgError = $sce.trustAsHtml("");
+            }, 5000)
+        });
+    };
+
+    $timeout(function () {
+        $scope.init();
+    }, 0);
+
     $scope.init = function () {
     };
 

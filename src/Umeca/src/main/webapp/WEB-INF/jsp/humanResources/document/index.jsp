@@ -7,8 +7,14 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/document/docCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-datepicker.min.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css"/>
+    <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet" type="text/css">
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/vendor/jquery.ui.widget.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.iframe-transport.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.fileupload.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/upload/uploadFileCtrl.js"></script>
     <title>Oficios</title>
 </head>
+
 
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
@@ -19,12 +25,27 @@
         $(document).ready(function () {
 
             upsertDocument = function (id) {
-                var params = {"id":id};
+                var params = {"id": id};
                 window.showUpsertParams(params, "#angJsjqGridId", "<c:url value='/humanResources/document/upsertDocument.html'/>", "#GridDocument");
             };
 
             deleteDocument = function (id) {
                 window.showObsolete(id, "#angJsjqGridId", "<c:url value='/humanResources/document/documentDoObsolete.json'/>", "#GridDocument");
+            };
+
+            upsertAttachment = function (id) {
+                var params = {"id": id};
+                window.showUpsertParams(params, "#angJsjqGridId", "<c:url value='/humanResources/document/upsertAttachment.html'/>", "#GridDocument");
+            };
+
+            downloadAttachment = function(id) {
+                var params= [];
+                params["idParam"]=id;
+                window.goToUrlMvcUrl("<c:url value='/shared/uploadFileGeneric/downloadFile.html?id=idParam' />",params);
+            };
+
+            deleteAttachment = function(id) {
+                window.showAction(id, "#angJsjqGridId", '<c:url value='/humanResources/document/attachmentObsolete.json' />', "#GridDocument", "Eliminar archivo", "&iquest;Desea eliminar el archivo elegido?", "danger");
             };
 
             jQuery("#GridDocument").jqGrid({
@@ -91,7 +112,7 @@
                         sorttype: 'string',
                         search: false
                     },
-                       {
+                    {
                         name: 'Action',
                         index: 'Action',
                         width: 75,
@@ -117,80 +138,98 @@
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
                         var be = "";
-
                         be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar documento\" onclick=\"upsertDocument(" + cl + ");\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
                         be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar documento\" onclick=\"deleteDocument('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
-                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Adjuntar archivo\" onclick=\"summaryMinute('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
-
+                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Adjuntar archivo\" onclick=\"upsertAttachment('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
                 },
-                <%--subGridOptions: {--%>
-                    <%--plusicon: "glyphicon glyphicon-chevron-down position-relative",--%>
-                    <%--minusicon: "glyphicon glyphicon-chevron-right position-relative",--%>
-                    <%--reloadOnExpand: false,--%>
-                    <%--selectOnExpand: true--%>
-                <%--},--%>
-                <%--subGrid: true,--%>
-                <%--loadComplete: function () {--%>
-                    <%--var table = this;--%>
-                    <%--setTimeout(function () {--%>
-                        <%--updatePagerIcons(table);--%>
-                        <%--enableTooltips(table);--%>
-                    <%--}, 0);--%>
-                <%--},--%>
-                <%--subGridRowExpanded: function (subgrid_id, row_id) {--%>
-                    <%--var subgrid_table_id, pager_id;--%>
-                    <%--subgrid_table_id = subgrid_id + "_t";--%>
-                    <%--pager_id = "p_" + subgrid_table_id;--%>
-                    <%--$("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='" + pager_id + "' class='scroll'></div>");--%>
-                    <%--$("#" + subgrid_table_id).jqGrid({--%>
-                        <%--url: '<c:url value='/shared/agreement/list.json?id=' />' + row_id,--%>
-                        <%--autoencode: true,--%>
-                        <%--datatype: "json",--%>
-                        <%--mtype: 'POST',--%>
-                        <%--colNames: ['Acuerdo', 'Estado', 'Concluido'],--%>
-                        <%--colModel: [--%>
-                            <%--{--%>
-                                <%--name: 'title',--%>
-                                <%--index: 'title',--%>
-                                <%--sorttype: 'string',--%>
-                                <%--width: 400,--%>
-                                <%--align: "center",--%>
-                                <%--searchoptions: {sopt: ['bw']}--%>
-                            <%--},--%>
-                            <%--{--%>
-                                <%--name: 'isDoneStr',--%>
-                                <%--index: 'isDoneStr',--%>
-                                <%--width: 150,--%>
-                                <%--align: "center",--%>
-                                <%--sortable: false,--%>
-                                <%--search: false--%>
-                            <%--},--%>
-                            <%--{--%>
-                                <%--name: 'isFinishedStr',--%>
-                                <%--index: 'isFinishedStr',--%>
-                                <%--width: 150,--%>
-                                <%--align: "center",--%>
-                                <%--sortable: false,--%>
-                                <%--search: false--%>
-                            <%--}--%>
-                        <%--],--%>
-                        <%--rowNum: 20,--%>
-                        <%--pager: pager_id,--%>
-                        <%--sortname: 'id',--%>
-                        <%--sortorder: "asc",--%>
-                        <%--height: '100%',--%>
-                        <%--loadComplete: function () {--%>
-                            <%--var table = this;--%>
-                            <%--setTimeout(function () {--%>
-                                <%--updatePagerIcons(table);--%>
-                                <%--enableTooltips(table);--%>
-                            <%--}, 0);--%>
-                        <%--}--%>
-                    <%--});--%>
-                    <%--$("#" + subgrid_table_id).jqGrid('navGrid', "#" + pager_id, {edit: false, add: false, del: false})--%>
-                <%--}--%>
+                subGridOptions: {
+                    plusicon: "glyphicon glyphicon-chevron-down position-relative",
+                    minusicon: "glyphicon glyphicon-chevron-right position-relative",
+                    reloadOnExpand: false,
+                    selectOnExpand: true
+                },
+                subGrid: true,
+                loadComplete: function () {
+                    var table = this;
+                    setTimeout(function () {
+                        updatePagerIcons(table);
+                        enableTooltips(table);
+                    }, 0);
+                },
+                subGridRowExpanded: function (subgrid_id, row_id) {
+                    var subgrid_table_id, pager_id;
+                    subgrid_table_id = subgrid_id + "_t";
+                    pager_id = "p_" + subgrid_table_id;
+                    $("#" + subgrid_id).html("<table id='" + subgrid_table_id + "' class='scroll'></table><div id='" + pager_id + "' class='scroll'></div>");
+                    $("#" + subgrid_table_id).jqGrid({
+                        url: '<c:url value='/humanResources/document/listAttachment.json?id=' />' + row_id,
+                        autoencode: true,
+                        datatype: "json",
+                        mtype: 'POST',
+                        colNames: ['ID', 'Archivo', 'Descripci&oacute;n', 'Fecha de subida','Acci&oacute;n'],
+                        colModel: [
+                            {name: 'id', index: 'id', hidden: true},
+                            {
+                                name: 'name',
+                                index: 'name',
+                                width: 350,
+                                align: "center",
+                                sortable: false,
+                                search: false
+                            },
+                            {
+                                name: 'description',
+                                index: 'description',
+                                width: 250,
+                                align: "center",
+                                sortable: false,
+                                search: false
+                            },
+                            {
+                                name: 'strDate',
+                                index: 'strDate',
+                                width: 150,
+                                align: "center",
+                                sortable: false,
+                                search: false
+                            },
+                            {
+                                name: 'Action',
+                                index: 'Action',
+                                width: 75,
+                                align: "center",
+                                sortable: false,
+                                search: false,
+                                formatter: window.actionFormatter
+                            }
+                        ],
+                        rowNum: 20,
+                        pager: pager_id,
+                        sortname: 'id',
+                        sortorder: "asc",
+                        height: '100%',
+                        gridComplete: function () {
+                            var ids = $(this).jqGrid('getDataIDs');
+                            for (var i = 0; i < ids.length; i++) {
+                                var cl = ids[i];
+                                var be="";
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar\" onclick=\"downloadAttachment('" + cl + "');\"><span class=\"glyphicon glyphicon-cloud-download\"></span></a>";
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar\" onclick=\"deleteAttachment('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                                $(this).jqGrid('setRowData', ids[i], { Action: be });
+                            }
+                        },
+                        loadComplete: function () {
+                            var table = this;
+                            setTimeout(function () {
+                                updatePagerIcons(table);
+                                enableTooltips(table);
+                            }, 0);
+                        }
+                    });
+                    $("#" + subgrid_table_id).jqGrid('navGrid', "#" + pager_id, {edit: false, add: false, del: false})
+                }
             });
 
             jQuery("#GridDocument").jqGrid('navGrid', '#GridPager', {
