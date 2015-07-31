@@ -36,7 +36,7 @@ margin-top: 0;
     </div>
     </div>
     <br/>
-    <div class="row">
+    <div class="row" ng-show="a.isHomeless!=true">
         <!-- se deben de ejecutar los metoeos del servicio para rellenar los catalogos necesarios y para cargar el modelo-->
         <!--agregar en el controlador padre la variable nameAddress con lo que lleva el name menos las propiedades(incluyendo .)
         ejemplo: se necesita que el name de la calle sea victim.address.street; el valor de nameAddress = "victim.address."-->
@@ -64,7 +64,7 @@ margin-top: 0;
 
     <br/>
 
-    <div class="row">
+    <div class="row" ng-show="a.isHomeless!=true">
         <div class="col-xs-6">
             <label>Estado:</label>
             <select class="form-control element-center" ng-model="state" find-municipality
@@ -73,7 +73,7 @@ margin-top: 0;
                     ng-change="stateId = state.id;"></select><br/>
 
         </div>
-        <div class="col-xs-6">
+        <div class="col-xs-6" ng-show="a.isHomeless!=true">
             <label>Municipio:</label>
             <input type="hidden" ng-model="urlMunicipality"
                    ng-init='urlMunicipality = "<c:url value="/catalogs/address/municipalityByStId.json"/>"'>
@@ -84,7 +84,7 @@ margin-top: 0;
 
         </div>
     </div>
-    <div class="row">
+    <div class="row" ng-show="a.isHomeless!=true">
         <div class="col-xs-12">
             <label>Localidad/Colonia:</label>
             <br/>
