@@ -57,6 +57,9 @@ public class FramingAddress {
     @JoinColumn(name = "id_belong")
     private HomeType homeType;
 
+    @Column(name = "is_homeless")
+    private Boolean isHomeless;
+
     public Long getId() {
         return id;
     }
@@ -172,7 +175,7 @@ public class FramingAddress {
         if (this.phone == null || this.phone.trim().equals(""))
             return false;
 
-        if (this.registerType.getName().toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_ACTUAL)) {
+        if (this.registerType.getName().toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_ACTUAL) && this.isHomeless == false) {
 
             if (this.timeAgo == null || this.timeAgo.trim().equals(""))
                 return false;
@@ -207,6 +210,14 @@ public class FramingAddress {
         }
 
         return true;
+    }
+
+    public Boolean getIsHomeless() {
+        return isHomeless;
+    }
+
+    public void setIsHomeless(Boolean isHomeless) {
+        this.isHomeless = isHomeless;
     }
 }
 
