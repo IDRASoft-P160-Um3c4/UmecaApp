@@ -39,10 +39,39 @@
 </div>
 <div class="modal-body">
 <form id="FormAddressId" class="form-horizontal" role="form">
+    <div class="row">
+        <div class="col-xs-12 element-center">
+            &iquest;El imputado se encuentra en situaci&oacute;n de calle?
+            <br/>
+            <div class="radio">
+                <label>
+                    <input name="isHomeless" class="ace" type="radio"
+                           ng-value="true"
+                           ng-model="a.isHomeless"
+                           ng-checked="a.isHomeless==true">
+                    <span class="lbl">&nbsp;&nbsp;S&iacute;</span>
+                </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <label>
+                    <input name="isHomeless" class="ace" type="radio"
+                           ng-value="false"
+                           ng-model="a.isHomeless"
+                           ng-checked="a.isHomeless==false"
+                           data-val="true"
+                           data-val-required="Debe seleccionar un valor">
+                    <span class="lbl">&nbsp;&nbsp;No</span>
+                </label>
+            </div>
+
+        </div>
+
+    </div>
+    <br/>
 <%@ include file="/WEB-INF/jsp/address/index.jsp" %>
 <br/>
 
-<div class="row">
+<div class="row" ng-show="a.isHomeless!=true">
     <div class="col-xs-8">
         <label>Tel&eacute;fono(s)</label>
         <br/>
@@ -62,7 +91,7 @@
 <input type="hidden" name="schedule" value="{{fa.schedule}}">
 
 <div class="row">
-    <div class="col-xs-6">
+    <div class="col-xs-6" ng-show="a.isHomeless!=true">
         <label>Tipo de propiedad</label>
         <br/>
         <select class="form-control element-center"
@@ -71,7 +100,7 @@
                 ng-init='lstHomeType= ${lstHomeType};'></select>
     </div>
 
-    <div class="col-xs-6">
+    <div class="col-xs-6" ng-show="a.isHomeless!=true">
         <label>Tipo de domicilio</label>
         <br/>
         <select class="form-control element-center"
@@ -101,7 +130,8 @@
 
 <div class="row">
     <div class="widget-box">
-        <div class="widget-header">Domicilio {{fa.registerType.name}}</div>
+        <div class="widget-header" ng-show="a.isHomeless!=true">Domicilio {{fa.registerType.name}}</div>
+        <div class="widget-header" ng-show="a.isHomeless==true">Situaci&oacute;n de calle</div>
         <div class="widget-body">
 
             <div class="row" ng-show="fa.registerType.id==3">
@@ -139,7 +169,9 @@
                 <div class="col-xs-12">
                     <div class="col-xs-8">
                         <br/>
-                        <label for="timeAgo">Tiempo de vivir en el domicilio</label>
+                        <label for="timeAgo" ng-show="a.isHomeless!=true">Tiempo de vivir en el domicilio</label>
+                        <label for="timeAgo" ng-show="a.isHomeless==true">Tiempo de situaci&oacute;n de calle</label>
+
                         <br/>
                         <input id="timeAgo" ng-model="fa.timeAgo"
                                name="timeAgo" type="text"
@@ -152,8 +184,9 @@
                     </div>
 
                     <div class="col-xs-8">
-                        <label>Descripci&oacute;n de como llegar al domicilio<label
-                                class="info-example">(color de casa, ruta, etc.)</label></label>
+                        <label  ng-show="a.isHomeless!=true">Descripci&oacute;n de como llegar al domicilio<label
+                                class="info-example" ng-show="a.isHomeless!=true">(color de casa, ruta, etc.)</label></label>
+                        <label for="timeAgo" ng-show="a.isHomeless==true">Lugar de localizaci&oacute;n</label>
                         <br/>
                         <textarea class="input-xxlarge form-control limited" name="addressRef"
                                   ng-model="fa.addressRef"
@@ -181,7 +214,7 @@
                 </div>
             </div>
 
-            <div class="row" ng-show="fa.registerType.id!=3">
+            <div class="row" ng-show="fa.registerType.id!=3 && a.isHomeless!=true">
                 <div class="col-xs-12">
                     <div class="col-xs-12">
                         <br/>

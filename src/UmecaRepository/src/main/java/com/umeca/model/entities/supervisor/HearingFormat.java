@@ -121,6 +121,15 @@ public class HearingFormat {
     @JoinColumn(name = "id_district")
     private District district;
 
+    @Column(name="is_homeless")
+    private Boolean isHomeless;
+
+    @Column(name="time_ago")
+    private String timeAgo;
+
+    @Column(name="location_place")
+    private String locationPlace;
+
     @Transient
     private Boolean isSubstracted;
 
@@ -403,4 +412,29 @@ public class HearingFormat {
     public void setDistrict(District district) {
         this.district = district;
     }
+
+    public Boolean getIsHomeless() {
+        return isHomeless;
+    }
+
+    public void setIsHomeless(Boolean isHomeless) {
+        this.isHomeless = isHomeless;
+    }
+
+    public String getTimeAgo() {
+        return timeAgo;
+    }
+
+    public void setTimeAgo(String timeAgo) {
+        this.timeAgo = timeAgo;
+    }
+
+    public String getLocationPlace() {
+        return locationPlace;
+    }
+
+    public void setLocationPlace(String locationPlace) {
+        this.locationPlace = locationPlace;
+    }
+
 }

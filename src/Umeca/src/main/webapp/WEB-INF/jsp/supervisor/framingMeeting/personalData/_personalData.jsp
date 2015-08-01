@@ -261,10 +261,10 @@
             <div class="widget-body">
                 <br/>
                 <div class="row">
-                    <div class="col-xs-2 element-left col-xs-offset-1">
+                    <div class="col-xs-3 element-left col-xs-offset-1">
                         Seleccione una opci&oacute;n:
                     </div>
-                    <div class="col-xs-3">
+                    <div class="col-xs-4">
                         <input type="hidden" value="{{pd.birthInfo.id}}" name="birthInfoId">
                         <select class="form-control element-center" ng-model="pd.birthInfo"
                                 ng-init='lstInfoAvail = ${lstInfoAvail};'
@@ -326,6 +326,7 @@
                     </div>
                     <div class="col-xs-5">
                         <label>Edad</label>
+                        <br/>
                         <br/>
                         <input id="age" ng-model="pd.age"
                                type="text" class="input-xxlarge" readonly/>

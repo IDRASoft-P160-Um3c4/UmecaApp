@@ -18,4 +18,9 @@ public interface RegisterTypeRepository extends JpaRepository<RegisterType, Long
     @Query("select new com.umeca.model.shared.SelectList(rt.id,rt.name) from RegisterType rt order by rt.name")
     List<SelectList> getAllRegisterType();
 
+    @Query("select rt from RegisterType rt " +
+            "where lower(rt.name)= com.umeca.model.entities.supervisor.FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_ACTUAL")
+    RegisterType getRegisterTypeActual();
+
+
 }
