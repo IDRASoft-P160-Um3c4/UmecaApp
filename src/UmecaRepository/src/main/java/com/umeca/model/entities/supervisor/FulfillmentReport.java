@@ -1,12 +1,13 @@
 package com.umeca.model.entities.supervisor;
 
 import com.umeca.model.catalog.FulfillmentReportType;
+import com.umeca.model.dto.supervisorManager.RelFulfillmentReportArrangement;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
-import com.umeca.model.entities.supervisor.MonitoringPlan;
 
 import javax.persistence.*;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -46,6 +47,14 @@ public class FulfillmentReport {
     @JoinColumn(name = "id_user_request", nullable = false)
     private User userRequest;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "fulfillmentReport", cascade = CascadeType.ALL)
+    private List<RelFulfillmentReportArrangement> relFulfillmentReportArrangements;
+
+    @Column(name = "fulfilment_date", nullable = false)
+    private Calendar fulfillmentDate;
+
+    @Column(name = "comment", nullable = false)
+    private String comment;
 
     public Long getId() {
         return id;
@@ -101,6 +110,30 @@ public class FulfillmentReport {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public List<RelFulfillmentReportArrangement> getRelFulfillmentReportArrangements() {
+        return relFulfillmentReportArrangements;
+    }
+
+    public void setRelFulfillmentReportArrangements(List<RelFulfillmentReportArrangement> relFulfillmentReportArrangements) {
+        this.relFulfillmentReportArrangements = relFulfillmentReportArrangements;
+    }
+
+    public Calendar getFulfillmentDate() {
+        return fulfillmentDate;
+    }
+
+    public void setFulfillmentDate(Calendar fulfillmentDate) {
+        this.fulfillmentDate = fulfillmentDate;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }
 

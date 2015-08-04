@@ -909,25 +909,38 @@ public class MeetingServiceImpl implements MeetingService {
     public ResponseMessage doUpsertAddress(ImputedHome imputedHome, Long idCase, String sch) {
         ResponseMessage result = new ResponseMessage();
         try {
-            if (!imputedHome.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_PREVIOUS)) {
+
+            if (!imputedHome.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_PREVIOUS) && imputedHome.getIsHomeless() == false) {
                 ResponseMessage validate = validateSchedules(sch, "el domicilio");
                 if (validate != null) {
                     return validate;
                 }
             }
+
             Case c = caseRepository.findOne(idCase);
+
             if (imputedHome.getId() != null && imputedHome.getId() == 0) {
                 imputedHome.setId(null);
             }
+
             imputedHome.setMeeting(c.getMeeting());
             imputedHome.setHomeType(homeTypeRepository.findOne(imputedHome.getHomeType().getId()));
             imputedHome.setRegisterType(registerTypeRepository.findOne(imputedHome.getRegisterType().getId()));
+
+
             if (imputedHome.getAddress() != null && imputedHome.getAddress().getLocation() != null && imputedHome.getAddress().getLocation().getId() != null) {
-                Long locationId = imputedHome.getAddress().getLocation().getId();
-                imputedHome.getAddress().setLocation(locationRepository.findOne(locationId));
+
+                if(imputedHome.getIsHomeless()==false) {
+                    Long locationId = imputedHome.getAddress().getLocation().getId();
+                    imputedHome.getAddress().setLocation(locationRepository.findOne(locationId));
+                }else{
+                    imputedHome.getAddress().setLocation(locationRepository.findByLocName(Constants.COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW));
+                }
+
                 imputedHome.getAddress().setAddressString(imputedHome.getAddress().toString());
                 imputedHome.setAddress(addressRepository.save(imputedHome.getAddress()));
             }
+
             ImputedHome newImputedHome = imputedHomeRepository.save(imputedHome);
             if (!newImputedHome.getRegisterType().equals(Constants.REGYSTER_TYPE_PREVIOUS)) {
                 List<Schedule> listToDelete = newImputedHome.getSchedule();

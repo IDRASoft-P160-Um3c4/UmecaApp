@@ -597,7 +597,7 @@ public class MinuteController {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
 
-                final javax.persistence.criteria.Join<Case, StatusCase> joinUF = r.join("uploadFileGeneric");
+                final javax.persistence.criteria.Join<AgreementFileRel, UploadFileGeneric> joinUF = r.join("uploadFileGeneric");
 
                 return new ArrayList<Selection<?>>() {{
                     add(joinUF.get("id"));

@@ -6,6 +6,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.model.dto.supervisorManager.RequestAccomplishmentDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
@@ -36,7 +37,9 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -49,11 +52,11 @@ public class LogController {
     private FulfillmentReportTypeRepository fulfillmentReportTypeRepository;
 
     @RequestMapping(value = "/supervisor/log/index", method = RequestMethod.GET)
-    public ModelAndView  index() {
+    public ModelAndView index() {
         ModelAndView model = new ModelAndView("/supervisor/log/index");
 
         Gson gson = new Gson();
-        String sLstGeneric ;
+        String sLstGeneric;
         List<SelectList> lstGeneric = fulfillmentReportTypeRepository.findNotObsolete();
         sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstFulfillmentReport", sLstGeneric);
@@ -140,11 +143,11 @@ public class LogController {
         try {
             Gson gson = new Gson();
             Long caseId = monitoringPlanRepository.getCaseIdByMonPlan(id);
-            String sLstGeneric ;
+            String sLstGeneric;
             List<SelectList> lstGeneric = new ArrayList<>();
             //Find last hearing format to get last assigned arrangements
             logCaseService.fillgeneralDataLog(caseId, model);
-            model.addObject("titleDoc","ESTRATEGIA DE SUPERVISI&Oacute;N");
+            model.addObject("titleDoc", "ESTRATEGIA DE SUPERVISI&Oacute;N");
             model.addObject("caseId", caseId);
 
             lstGeneric = framingReferenceRepository.findAllValidByCaseId(caseId);
@@ -178,7 +181,7 @@ public class LogController {
 
         try {
             Long caseId = monitoringPlanRepository.getCaseIdByMonPlan(id);
-            logCaseService.fillgeneralDataLog(caseId,model);
+            logCaseService.fillgeneralDataLog(caseId, model);
             Gson gson = new Gson();
             List<SelectList> lstGeneric = framingReferenceRepository.findAllValidByCaseId(caseId);
             String sLstGeneric = gson.toJson(lstGeneric);
@@ -191,7 +194,7 @@ public class LogController {
             List<ActivityMonitoringPlanArrangementLog> lstActMonPlanArrangement = activityMonitoringPlanRepository.getListAccomplishmentActMonPlanArrangementByMonPlanId(id);
             sLstGeneric = gson.toJson(lstActMonPlanArrangement);
             model.addObject("lstActMonPlanArrangement", sLstGeneric);
-            model.addObject("titleDoc","REPORTE DE INCUMPLIMIENTO Y CUMPLIMIENTO");
+            model.addObject("titleDoc", "REPORTE DE INCUMPLIMIENTO Y CUMPLIMIENTO");
 
             return model;
         } catch (Exception ex) {
@@ -230,7 +233,7 @@ public class LogController {
             response.setHasError(false);
             return response;
         } catch (Exception ex) {
-            logException.Write(ex, this.getClass(), "requestAccomplishmentLog", userService);
+            logException.Write(ex, this.getClass(), "filterLog", userService);
             response.setHasError(true);
             response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
             return response;
@@ -244,7 +247,7 @@ public class LogController {
     @RequestMapping(value = "/supervisor/log/requestAccomplishmentLog", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage requestAccomplishmentLog(@RequestParam Long id, @RequestParam Long fulfillmentReportId) { //Id de MonitoringPlan
+    ResponseMessage requestAccomplishmentLog(@ModelAttribute RequestAccomplishmentDto requestAccomplishment) {
         ResponseMessage response = new ResponseMessage();
 
         try {
@@ -254,8 +257,11 @@ public class LogController {
             if (userService.isValidUser(user, response) == false)
                 return response;
 
-            if (manageMonitoringPlanService.requestAccomplishmentLog(id, fulfillmentReportId, user, MonitoringConstants.LOG_PENDING_ACCOMPLISHMENT,
-                    "Solicitud de la autorización del reporte de incumplimiento por parte del usuario " + user.getUsername(), response) == false) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            Date dt = sdf.parse(requestAccomplishment.getAccomplishmentDate());
+
+            if (manageMonitoringPlanService.requestAccomplishmentLog(requestAccomplishment.getId(), requestAccomplishment.getFulfillmentReportId(), user, MonitoringConstants.LOG_PENDING_ACCOMPLISHMENT,
+                    "Solicitud de la autorización del reporte de incumplimiento por parte del usuario " + user.getUsername(), response, requestAccomplishment.getLstArrangement(), dt, requestAccomplishment.getComment()) == false) {
                 response.setHasError(true);
                 return response;
             }
@@ -306,5 +312,26 @@ public class LogController {
         response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
         return response;
     }
+
+
+    @RequestMapping(value = "/supervisor/log/requestAuthAccomplishment", method = RequestMethod.POST)
+    public ModelAndView requestAuthAccomplishment(@RequestParam Long id) {
+        ModelAndView model = new ModelAndView("/supervisor/log/requestAuthAccomplishment");
+        Gson gson = new Gson();
+        String sLstGeneric;
+        List<SelectList> lstGeneric = fulfillmentReportTypeRepository.findNotObsolete();
+        sLstGeneric = gson.toJson(lstGeneric);
+        model.addObject("lstFulfillmentReport", sLstGeneric);
+
+        List<Long> ids = hearingFormatRepository.getLastHearingFormatByMonPlan(id, new PageRequest(0, 1));
+        lstGeneric = arrangementRepository.findLstArrangementByHearingFormatId(ids.get(0));
+        sLstGeneric = gson.toJson(lstGeneric);
+        model.addObject("lstArrangements", sLstGeneric);
+
+        model.addObject("idMP", id);
+
+        return model;
+    }
+
 
 }

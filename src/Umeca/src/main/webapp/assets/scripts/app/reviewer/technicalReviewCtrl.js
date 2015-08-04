@@ -33,7 +33,6 @@ app.controller('tecRevController', function ($scope, $timeout, $sce) {
                 return false;
             } else {
                 $scope.isFinished = true;
-                $scope.$apply();
             }
         }
 

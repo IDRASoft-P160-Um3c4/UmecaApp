@@ -250,4 +250,65 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
         });
     }
 
+
+
+
+
+    $scope.saveRolEvaluatorActivities = function(urlToPost){
+        $scope.msgError = undefined;
+        $scope.waitFor = true;
+
+        try{
+            var lstEvents = $scope.m.calendar.fullCalendar('clientEvents');
+
+            var lstActivities = [];
+
+            for(var i=0; i<lstEvents.length; i++){
+                var event = lstEvents[i];
+
+                if(event.isModified !== true)
+                    continue;
+
+                var infoAct = event.infoActivity;
+
+                var start = window.formatDateTime(event.start);
+                var end = window.formatDateTime(event.end);
+
+
+
+                lstActivities.push({
+                    rolActivityId: event.idActivity,
+                    eventId : event._id,
+                    end: end,
+                    start: start,
+                    evaluatorId: infoAct.evaluator.id,
+                    place: infoAct.place,
+                    activities: infoAct.activities,
+                    supervisorId: infoAct.evaluator.id
+                });
+            }
+
+            if(lstActivities.length === 0 && $scope.lstActivityDelIds.length === 0){
+                sharedSvc.showMsg({title: "Rol de evaluación",message: "No existen actividades para agregar, actualizar o eliminar",type: "info"});
+                $scope.waitFor = false;
+                return false;
+            }
+
+            var activityUpsert = {lstActivitiesUpsert:lstActivities, lstActivitiesDel: $scope.lstActivityDelIds};
+
+            $.ajax({
+                url: urlToPost,
+                type: "POST",
+                data: JSON.stringify(activityUpsert),
+                success: $scope.handleSuccess,
+                error: $scope.handleError,
+                dataType: "json",
+                contentType: "application/json"
+            });
+        }catch(e){
+            $scope.waitFor = false;
+        }
+
+    }
+
 });

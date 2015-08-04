@@ -18,6 +18,35 @@
                 </div>
                 <div class="modal-body">
                     <form id="FormAddressId" name="FormAddressId" class="form-horizontal" role="form">
+                        <div class="row">
+                            <div class="col-xs-12 element-center">
+                                &iquest;El imputado se encuentra en situaci&oacute;n de calle?
+                                <br/>
+                                <div class="radio" ng-init='a.isHomeless = ${d.isHomeless == null ? false : d.isHomeless}'>
+                                    <label>
+                                        <input name="isHomeless" class="ace" type="radio"
+                                               ng-value="true"
+                                               ng-model="a.isHomeless"
+                                               ng-checked="a.isHomeless==true">
+                                        <span class="lbl">&nbsp;&nbsp;S&iacute;</span>
+                                    </label>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <label>
+                                        <input name="isHomeless" class="ace" type="radio"
+                                               ng-value="false"
+                                               ng-model="a.isHomeless"
+                                               ng-checked="a.isHomeless==false"
+                                               data-val="true"
+                                               data-val-required="Debe seleccionar un valor">
+                                        <span class="lbl">&nbsp;&nbsp;No</span>
+                                    </label>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <br/>
                         Ingrese su c&oacute;digo postal para obtnener autom&aacute;ticamente su informaci&oacute;n
                         <br/>
                         <br/>
@@ -37,7 +66,7 @@
                         Cancelar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormAddressId','<c:url value="/reviewer/meeting//address/doUpsert.json?idCase=${idCase}"/>');">
+                          ng-click="submit('#FormAddressId','<c:url value="/reviewer/meeting/address/doUpsert.json?idCase=${idCase}"/>');">
                           Guardar
                     </span>
                 </div>

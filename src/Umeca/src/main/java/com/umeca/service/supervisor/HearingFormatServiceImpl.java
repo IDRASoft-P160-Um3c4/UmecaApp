@@ -16,10 +16,7 @@ import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
-import com.umeca.repository.catalog.ArrangementRepository;
-import com.umeca.repository.catalog.LocationRepository;
-import com.umeca.repository.catalog.RelationshipRepository;
-import com.umeca.repository.catalog.RequestTypeRepository;
+import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.AddressRepository;
 import com.umeca.repository.reviewer.CaseRequestRepository;
 import com.umeca.repository.reviewer.CrimeRepository;
@@ -93,6 +90,10 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     private FramingReferenceRepository framingReferenceRepository;
     @Autowired
     private RelationshipRepository relationshipRepository;
+    @Autowired
+    private RegisterTypeRepository registerTypeRepository;
+    @Autowired
+    private HomeTypeRepository homeTypeRepository;
 
     private Gson conv = new Gson();
 
@@ -105,6 +106,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             hearingFormat = hearingFormatRepository.findOne(viewFormat.getIdFormat());
         else
             hearingFormat = new HearingFormat();
+
 
         hearingFormat.setRegisterTime(Calendar.getInstance());
         hearingFormat.setSupervisor(userRepository.findOne(sharedUserService.GetLoggedUserId()));
@@ -216,6 +218,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         hearingImputed.setImputeTel(viewFormat.getImputedTel());
 
+
         if (viewFormat.getLocation() != null && viewFormat.getLocation().getId() != null) {
             Address address = hearingImputed.getAddress();
             if (address == null)
@@ -226,13 +229,19 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             address.setInnNum(viewFormat.getInnNum());
             address.setLat(viewFormat.getLat());
             address.setLng(viewFormat.getLng());
-            address.setLocation(locationRepository.findOne(viewFormat.getLocation().getId()));
+            if (viewFormat.getIsHomeless() == true)
+                address.setLocation(locationRepository.findByLocName(Constants.COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW));
+            else
+                address.setLocation(locationRepository.findOne(viewFormat.getLocation().getId()));
             address.setAddressString(address.toString());
 
             hearingImputed.setAddress(address);
         }
 
         hearingFormat.setHearingImputed(hearingImputed);
+        hearingFormat.setIsHomeless(viewFormat.getIsHomeless());
+        hearingFormat.setTimeAgo(viewFormat.getTimeAgo());
+        hearingFormat.setLocationPlace(viewFormat.getLocationPlace());
         //}
 
         HearingFormatSpecs hearingSpecs = hearingFormat.getHearingFormatSpecs();
@@ -463,6 +472,11 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 if (homes != null && homes.size() > 0) {
                     Collections.sort(homes, ImputedHome.imputedHomeComparator);
                     hearingFormatView.setIdAddres(homes.get(0).getAddress().getId());
+                    hearingFormatView.setIsHomeless(homes.get(0).getIsHomeless());
+                    hearingFormatView.setTimeAgo(homes.get(0).getTimeLive());
+                    hearingFormatView.setLocationPlace(homes.get(0).getDescription());
+                } else {
+                    hearingFormatView.setIsHomeless(false);
                 }
 
                 User us = userRepository.findOne(sharedUserService.GetLoggedUserId());
@@ -495,6 +509,9 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormatView.setCanSave(false);
         hearingFormatView.setCanEdit(false);
         hearingFormatView.setDisableAll(true);
+        hearingFormatView.setIsHomeless(existHF.getIsHomeless());
+        hearingFormatView.setTimeAgo(existHF.getTimeAgo());
+        hearingFormatView.setLocationPlace(existHF.getLocationPlace());
 
         hearingFormatView.setIsSubstracted(existHF.getCaseDetention().getIsSubstracted());
 
@@ -909,9 +926,13 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                     FramingMeeting existFraming = hearingFormat.getCaseDetention().getFramingMeeting();
 
                     if (existFraming != null) {
-                        Address fAddress = addressRepository.findOne(framingAddressRepository.getLastIdAddressByIdCase(idCase));
+                        Long lastId= framingAddressRepository.getLastIdAddressByIdCase(idCase);
 
-                        if (fAddress != null && !newFormatAddress.equals(fAddress)) {
+                        Address fAddress = null;
+                        if(lastId!=null)
+                            fAddress=addressRepository.findOne(lastId);
+
+                        if (fAddress==null||(fAddress != null && !newFormatAddress.equals(fAddress))) {
                             FramingAddress newFramAddr = new FramingAddress();
 
                             newFramAddr.setFramingMeeting(existFraming);
@@ -922,6 +943,15 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                             addrObj.setLocation(newFormatAddress.getLocation());
                             addrObj.setAddressString(addrObj.toString());
                             newFramAddr.setAddress(addrObj);
+                            newFramAddr.setIsHomeless(hearingFormatView.getIsHomeless());
+                            newFramAddr.setTimeAgo(hearingFormatView.getTimeAgo());
+                            newFramAddr.setAddressRef(hearingFormat.getLocationPlace());
+
+                            if(hearingFormatView.getIsHomeless()==true) {
+                                newFramAddr.setRegisterType(registerTypeRepository.getRegisterTypeActual());
+                                newFramAddr.setHomeType(homeTypeRepository.getOwnHomeType());
+                            }
+
                             framingAddressRepository.save(newFramAddr);
                         }
                     }

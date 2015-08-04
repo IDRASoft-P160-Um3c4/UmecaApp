@@ -585,7 +585,70 @@
                                             <br/>
 
                                             <div class="row">
+                                                <div class="col-xs-12 element-center">
+                                                    &iquest;El imputado se encuentra en situaci&oacute;n de calle?
+                                                    <br/>
+
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input name="isHomeless" class="ace" type="radio"
+                                                                   ng-value="true"
+                                                                   ng-model="a.isHomeless"
+                                                                   ng-checked="a.isHomeless==true">
+                                                            <span class="lbl">&nbsp;&nbsp;S&iacute;</span>
+                                                        </label>
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <label>
+                                                            <input name="isHomeless" class="ace" type="radio"
+                                                                   ng-value="false"
+                                                                   ng-model="a.isHomeless"
+                                                                   ng-checked="a.isHomeless==false"
+                                                                   data-val="true">
+                                                            <span class="lbl">&nbsp;&nbsp;No</span>
+                                                        </label>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <br/>
+
+                                            <div class="row">
                                                 <%@ include file="/WEB-INF/jsp/address/index.jsp" %>
+                                            </div>
+
+                                            <div class="row" ng-if="a.isHomeless==true">
+
+                                                    <div class="col-xs-6">
+                                                        <br/>
+                                                        <label>Tiempo en sitauci&oacute;n de calle</label>
+                                                        <br/>
+                                                        <textarea class="input-xxlarge form-control limited"
+                                                                  id="timeAgo"
+                                                                  name="timeAgo"
+                                                                  ng-model="m.timeAgo"
+                                                                  maxlength="980" data-val="true"
+                                                                  data-val-required="Tiempo en sitauci&oacute;n de calle es un campo requerido">
+                                                        </textarea>
+                                                        <span class="field-validation-valid" data-valmsg-for="timeAgo"
+                                                              data-valmsg-replace="true"></span>
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                        <br/>
+                                                        <label>Lugar de localizaci&oacute;n</label>
+                                                        <br/>
+                                                        <textarea class="input-xxlarge form-control limited"
+                                                                  id="locationPlace"
+                                                                  name="locationPlace"
+                                                                  ng-model="m.locationPlace"
+                                                                  maxlength="980" data-val="true"
+                                                                  data-val-required="Lugar de localizaci&oacute;n es un campo requerido">
+                                                        </textarea>
+                                                        <span class="field-validation-valid" data-valmsg-for="locationPlace"
+                                                              data-valmsg-replace="true"></span>
+                                                    </div>
                                             </div>
 
                                             <br/>
@@ -1086,14 +1149,14 @@
                                                      class="col-xs-6">
                                                     <label ng-bind-html="lblTerms"></label>
                                                     <br/>
-                                            <textarea class="form-control limited" name="terms"
-                                                      ng-model="m.terms"
-                                                      maxlength="980"
-                                                      data-val="true"
-                                                      data-val-required="Plazo es un campo requerido">
-                                            </textarea>
-                                        <span class="field-validation-valid" data-valmsg-for="terms"
-                                              data-valmsg-replace="true"></span>
+                                                <textarea class="form-control limited" name="terms"
+                                                          ng-model="m.terms"
+                                                          maxlength="980"
+                                                          data-val="true"
+                                                          data-val-required="Plazo es un campo requerido">
+                                                </textarea>
+                                            <span class="field-validation-valid" data-valmsg-for="terms"
+                                                  data-valmsg-replace="true"></span>
                                                     <input ng-if="sendTerms==true" type="hidden" name="terms"
                                                            value="{{m.terms}}"/>
                                                 </div>

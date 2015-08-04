@@ -81,6 +81,9 @@ public class HearingFormatView {
     private Integer imputedPresence;
     private String hearingResult;
     private Integer previousHearing;
+    private Boolean isHomeless;
+    private String timeAgo;
+    private String locationPlace ;
 
     private Long districtId;
 
@@ -650,5 +653,29 @@ public class HearingFormatView {
 
     public void setDistrictId(Long districtId) {
         this.districtId = districtId;
+    }
+
+    public Boolean getIsHomeless() {
+        return isHomeless;
+    }
+
+    public void setIsHomeless(Boolean isHomeless) {
+        this.isHomeless = isHomeless;
+    }
+
+    public String getTimeAgo() {
+        return timeAgo;
+    }
+
+    public void setTimeAgo(String timeAgo) {
+        this.timeAgo = timeAgo;
+    }
+
+    public String getLocationPlace() {
+        return locationPlace;
+    }
+
+    public void setLocationPlace(String locationPlace) {
+        this.locationPlace = locationPlace;
     }
 }
