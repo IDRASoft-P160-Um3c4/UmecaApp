@@ -20,6 +20,8 @@ import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileView;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.SelectList;
+import com.umeca.repository.catalog.ChannelingDropTypeRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.ChannelingService;
@@ -128,6 +130,7 @@ public class ChannelingController {
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
                     add(r.get("consecutive"));
+                    add(r.get("isAuthorizeToDrop"));
                     add(joinChTy.get("name"));
                     add(r.get("name"));
                     add(joinInTy.get("name"));
@@ -223,6 +226,53 @@ public class ChannelingController {
         }
     }
 
+
+    @Autowired
+    ChannelingDropTypeRepository channelingDropTypeRepository;
+
+    @RequestMapping(value = "/supervisor/channeling/requestDrop", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ModelAndView requestDrop(@RequestParam(required = true) Long id, @RequestParam(required = true) Long channelingId) {
+        ModelAndView model = new ModelAndView("/supervisor/channeling/requestDrop");
+
+        ChannelingModel channeling;
+        channeling = channelingService.getChannelingInfoByCaseIdAndChannelingId(id, channelingId);
+
+        Gson gson = new Gson();
+        String sObject = gson.toJson(channeling);
+        model.addObject("channeling", sObject);
+
+        List<SelectList> lstChannelingDrop = channelingDropTypeRepository.findNotObsolete();
+        model.addObject("lstChannelingDropType", gson.toJson(lstChannelingDrop));
+
+        return model;
+    }
+
+    @RequestMapping(value = "/supervisor/channeling/doRequestDrop", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doRequestDrop(@ModelAttribute final ChannelingDropModel model) {
+
+        ResponseMessage response = new ResponseMessage();
+        try {
+
+            User user = new User();
+            if (userService.isValidUser(user, response) == false)
+                return response;
+
+            channelingService.requestDrop(model, user, response, userService);
+
+            return response;
+
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doRequestDrop", userService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+            return response;
+        }
+    }
+
     @RequestMapping(value = "/supervisor/channeling/printSheet", method = RequestMethod.GET)
     public ModelAndView printSheet(@RequestParam(required = true) Long id, HttpServletResponse response) {
 
@@ -250,6 +300,4 @@ public class ChannelingController {
         }
         return model;
     }
-
-
 }

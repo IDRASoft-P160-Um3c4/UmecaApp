@@ -77,6 +77,9 @@ public class Channeling {
     @Column(name="consecutive", nullable = false)
     private Long consecutive;
 
+    @Column(name="is_authorize_to_drop", nullable = true)
+    private Boolean isAuthorizeToDrop;
+
     @Column(name="is_obsolete", nullable = false)
     private Boolean isObsolete;
 
@@ -232,6 +235,13 @@ public class Channeling {
         this.deleteUser = deleteUser;
     }
 
+    public Boolean isAuthorizeToDrop() {
+        return isAuthorizeToDrop;
+    }
+
+    public void setAuthorizeToDrop(Boolean isAuthorizeToDrop) {
+        this.isAuthorizeToDrop = isAuthorizeToDrop;
+    }
 }
 
 

@@ -113,4 +113,6 @@ public interface InsertCatalogService {
     void economicSupport();
 
     void informationAvailability();
+
+    void channelingDropType();
 }

@@ -346,6 +346,12 @@ public class InsertCatalogController {
         return "informationAvailability";
     }
 
+    @RequestMapping(value = "/catalogs/channelingDropType", method = RequestMethod.GET)
+    public String channelingDropType() {
+        service.channelingDropType();
+        return "channelingDropType";
+    }
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll() {
         service.role();
@@ -401,6 +407,7 @@ public class InsertCatalogController {
         service.economicSupport();
         service.channelingType();
         service.informationAvailability();
+        service.channelingDropType();
         return "insertCatalog OK!!";
     }
 }
