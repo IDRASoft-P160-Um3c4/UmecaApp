@@ -147,7 +147,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     InformationAvailabilityRepository informationAvailabilityRepository;
 
 
-    private String PATH = "C:\\Users\\Developer\\Desktop\\umeca_SANDRA\\UmecaApp\\db\\";
+    private String PATH = "C:\\Projects\\Umeca\\UmecaApp\\db\\";
 
 //    private String PATH = "C:\\Users\\Rata\\Desktop\\branchSandra\\UmecaApp\\db\\";
 

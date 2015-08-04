@@ -164,7 +164,6 @@
         });
     </script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
-    <title>Rol de supervisi&oacute;n</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
@@ -173,7 +172,12 @@
     <div class="page-content">
         <div class="page-header">
             <h1 class="element-center">
-                <i class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Rol de supervisi&oacute;n
+                <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
+                    <i class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Rol de evaluaci&oacute;n
+                </sec:authorize>
+                <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
+                    <i class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Rol de supervisi&oacute;n
+                </sec:authorize>
             </h1>
         </div>
         <div class="row">
@@ -181,10 +185,18 @@
                 <div class="row">
                     <div class="space"></div>
                     <div class="col-xs-2 col-xs-offset-5 element-center">
-                        <div class="btn btn-primary element-center" ng-disabled="waitFor==true"
-                             ng-click="saveRolActivities('<c:url value="/supervisorManager/rolSupervision/doUpsert.json" />')">
-                            <i class="glyphicon glyphicon-ok-circle"></i> &nbsp; Guardar
-                        </div>
+                        <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
+                            <div class="btn btn-primary element-center" ng-disabled="waitFor==true"
+                                 ng-click="saveRolEvaluatorActivities('<c:url value="/managereval/rolEvaluation/doUpsert.json" />')">
+                                <i class="glyphicon glyphicon-ok-circle"></i> &nbsp; Guardar
+                            </div>
+                        </sec:authorize>
+                        <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
+                            <div class="btn btn-primary element-center" ng-disabled="waitFor==true"
+                                 ng-click="saveRolActivities('<c:url value="/supervisorManager/rolSupervision/doUpsert.json" />')">
+                                <i class="glyphicon glyphicon-ok-circle"></i> &nbsp; Guardar
+                            </div>
+                        </sec:authorize>
                     </div>
                 </div>
                 <div class="row" ng-show="msgError">

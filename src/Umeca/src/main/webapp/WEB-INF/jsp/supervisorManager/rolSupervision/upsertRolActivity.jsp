@@ -5,13 +5,23 @@
             <div class="modal-header">
                 <div class="alert alert-info">
                     <button type="button" class="close" ng-click="cancel()">&times;</button>
-                    <h4 class="modal-title element-center">Rol de supervisi&oacute;n</h4>
+                    <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
+                        <h4 class="modal-title element-center">Rol de evaluaci&oacute;n</h4>
+                    </sec:authorize>
+                    <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
+                        <h4 class="modal-title element-center">Rol de supervisi&oacute;n</h4>
+                    </sec:authorize>
                 </div>
             </div>
             <div class="modal-body">
                 <form id="rolActivityForm" name="rolActivityForm" class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="selectSupervisor" class="col-xs-3 control-label">Supervisores disponibles:</label>
+                        <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
+                            <label for="selectSupervisor" class="col-xs-3 control-label">Evaluadores disponibles:</label>
+                        </sec:authorize>
+                        <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
+                            <label for="selectSupervisor" class="col-xs-3 control-label">Supervisores disponibles:</label>
+                        </sec:authorize>
                         <div class="col-xs-9">
                             <select class="form-control element-center" ng-model="m.supervisor" id="selectSupervisor"
                                     ng-options="(e.name + ' (' + e.description + ')') for e in lstSupervisor"
@@ -20,6 +30,14 @@
                             </select>
                         </div>
                     </div>
+                    <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
+                        <div class="form-group">
+                            <label for="selectSupervisor" class="col-xs-3  control-label">Lugar:</label>
+                            <div class="col-xs-4">
+                                <input class="form-control" ng-model="m.place" id="id-place" type="text" />
+                            </div>
+                        </div>
+                    </sec:authorize>
                     <div class="row">
                         <div class="col-xs-10 col-xs-offset-1">
                             <div class="widget-box light-border">
@@ -181,6 +199,59 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
+                                            <div class="row"  ng-show="isNew">
+                                                <div class="col-xs-10 col-xs-offset-1 widget-container-span">
+                                                    <div class="widget-box transparent">
+                                                        <div class="widget-header">
+                                                            <h6 class="lighter">Elige las actividad(es) a realizar</h6>
+                                                        </div>
+
+                                                        <div class="widget-body">
+                                                            <div class="widget-main padding-6 no-padding-left no-padding-right">
+                                                                <div class="row">
+                                                                    <div class="col-xs-4 col-xs-offset-1">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" ng-model = "m.activities[0]" />
+                                                                                <span class="control-label">Ir al tribunal</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-4">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" ng-model = "m.activities[1]"/>
+                                                                                <span class="control-label">Ir a la fiscal&iacute;a</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                    <div class="col-xs-4 col-xs-offset-1">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" ng-model = "m.activities[2]"/>
+                                                                                <span class="control-label">Integraci&oacute;n</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-4">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" ng-model = "m.activities[3]"/>
+                                                                                <span class="control-label">Verificac&oacute;n</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </sec:authorize>
                                     </div>
                                 </div>
                             </div>
@@ -195,7 +266,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-primary" ng-show="isNew" ng-click="add()">Agregar</button>
+                <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
+                    <button type="button" class="btn btn-default btn-primary" ng-show="isNew" ng-click="addEvaluator()">Agregar</button>
+                </sec:authorize>
+                <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
+                    <button type="button" class="btn btn-default btn-primary" ng-show="isNew" ng-click="add()">Agregar</button>
+                </sec:authorize>
                 <button type="button" class="btn btn-default btn-primary" ng-show="!isNew && !isReadOnly" ng-click="save()">Modificar</button>
                 <button type="button" class="btn btn-default btn-danger" ng-show="!isNew && !isReadOnly"  ng-click="delete()">Eliminar</button>
                 <button type="button" class="btn btn-default" ng-click="cancel()">{{(isReadOnly?'Regresar':'Cancelar')}}</button>

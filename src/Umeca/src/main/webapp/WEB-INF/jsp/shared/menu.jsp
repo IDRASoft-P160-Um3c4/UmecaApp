@@ -233,6 +233,9 @@
                         </li>
                         <li class="nav-li-blue"><a href="<c:url value='/detentionRecord/detainedSheet.html' />"><i
                                 class="icon icon-envelope"></i>&nbsp;&nbsp;S&aacute;bana de detenidos</a></li>
+                        <li class="nav-li-blue"><a href="<c:url value='/managereval/rolEvaluation/index.html'/>"><i
+                                class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Rol evaluaci&oacute;n</a>
+                        </li>
                     </sec:authorize>
 
                     <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">

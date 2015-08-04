@@ -56,10 +56,18 @@ public class RolSupervisionController {
     @Autowired
     UserRepository userRepository;
 
-    @RequestMapping(value = "/supervisorManager/rolSupervision/index", method = RequestMethod.GET)
+
+    @RequestMapping(value = {"/supervisorManager/rolSupervision/index", "/managereval/rolEvaluation/index"}, method = RequestMethod.GET)
     public @ResponseBody ModelAndView index(){
         ModelAndView model = new ModelAndView("/supervisorManager/rolSupervision/index");
         Gson gson = new Gson();
+        if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
+            List<SelectList> lstEvaluator = userRepository.getLstValidUsersByRole(Constants.ROLE_REVIEWER);
+            String sLstGeneric = gson.toJson(lstEvaluator);
+            model.addObject("lstSupervisor", sLstGeneric);
+            model.addObject("urlGetActivities", "/managereval/rolEvaluation/getActivities.json");
+            return model;
+        }
         List<SelectList> lstSupervisor = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
         String sLstGeneric = gson.toJson(lstSupervisor);
         model.addObject("lstSupervisor", sLstGeneric);
@@ -71,7 +79,7 @@ public class RolSupervisionController {
     @Autowired
     RolActivityService rolActivityService;
 
-    @RequestMapping(value = "/supervisorManager/rolSupervision/doUpsert", method = RequestMethod.POST)
+    @RequestMapping(value = {"/supervisorManager/rolSupervision/doUpsert", "/managereval/rolEvaluation/doUpsert"}, method = RequestMethod.POST)
     public @ResponseBody ResponseMessage doUpsert(@RequestBody RolActivityRequest model){
         ResponseMessage response = new ResponseMessage();
         response.setTitle("Rol de supervisión");
@@ -107,7 +115,7 @@ public class RolSupervisionController {
     }
 
 
-    @RequestMapping(value = "/supervisorManager/rolSupervision/getActivities", method = RequestMethod.POST)
+    @RequestMapping(value = {"/supervisorManager/rolSupervision/getActivities", "/managereval/rolEvaluation/getActivities"}, method = RequestMethod.POST)
     public @ResponseBody ResponseRolActivities getActivities(@RequestBody RequestActivities req){
         ResponseRolActivities response = new ResponseRolActivities();
         response.setHasError(true);
