@@ -141,7 +141,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 "name": $scope.m.contactName,
                 "phone": $scope.m.contactPhone,
                 "address": $scope.m.contactAddress,
-                "liveWith":$scope.m.contactLiveWith==true
+                "liveWith": $scope.m.contactLiveWith == true
             };
 
             $scope.m.lstContactData.push(jsonRow);
@@ -318,13 +318,17 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.m.additionalData = data.additionalData;
             $scope.m.isView = data.isView;
 
+            $scope.a.isHomeless = data.isHomeless;
+            $scope.m.timeAgo = data.timeAgo;
+            $scope.m.locationPlace = data.locationPlace;
+
             //radios
             $scope.m.ctrlDet = data.controlDetention;
 
             $scope.m.ext = data.extension;
 
             //if ($scope.m.isFinished == true) {
-                $scope.m.extDate = $scope.myFormatDate(data.extDate);
+            $scope.m.extDate = $scope.myFormatDate(data.extDate);
             //} else {
             //    $scope.m.extDate = "";
             //}

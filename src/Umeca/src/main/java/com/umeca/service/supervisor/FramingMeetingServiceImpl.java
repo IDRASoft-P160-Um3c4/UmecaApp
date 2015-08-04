@@ -350,10 +350,10 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         InformationAvailability ia = informationAvailabilityRepository.findOne(view.getBirthInfoId());
         personalData.setBirthInfo(ia);
 
-        if(ia.getSpecification()==true) {
+        if (ia.getSpecification() == true) {
             personalData.setBirthCountry(countryRepository.findOne(view.getBirthCountryId()));
             personalData.setBirthState(view.getBirthState());
-        }else{
+        } else {
             personalData.setBirthCountry(countryRepository.findByName(Constants.COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW));
             personalData.setBirthState(null);
         }
@@ -808,7 +808,12 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         address.setStreet(view.getStreet());
         address.setOutNum(view.getOutNum());
         address.setInnNum(view.getInnNum());
-        address.setLocation(locationRepository.findOne(view.getLocation().getId()));
+
+        if (view.getIsHomeless() == true)
+            address.setLocation(locationRepository.findByLocName(Constants.COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW));
+        else
+            address.setLocation(locationRepository.findOne(view.getLocation().getId()));
+
         address.setAddressString(address.toString());
 
         return address;
@@ -834,6 +839,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             obj.setReasonAnother(existAddress.getReasonAnother());
             obj.setTimeLive(existAddress.getTimeLive());
             obj.setReasonChange(existAddress.getReasonChange());
+            obj.setIsHomeless(existAddress.getIsHomeless());
 
             List<ScheduleDto> scheduleDto = new ArrayList<>();
 
@@ -846,6 +852,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             }
 
             obj.setSchedule(new Gson().toJson(scheduleDto));
+        } else {
+            obj.setIsHomeless(false);
         }
 
         return obj;
@@ -890,21 +898,25 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             existFramingAddress.setReasonAnother(view.getReasonAnother());
             existFramingAddress.setTimeLive(view.getTimeLive());
             existFramingAddress.setReasonChange(view.getReasonChange());
+            existFramingAddress.setIsHomeless(view.getIsHomeless());
 
             List<ScheduleDto> scheduleDto = new Gson().fromJson(view.getSchedule(), new TypeToken<List<ScheduleDto>>() {
             }.getType());
-            List<Schedule> schedule = new ArrayList<>();
 
-            for (ScheduleDto act : scheduleDto) {
-                Schedule newObj = new Schedule();
-                newObj.setDay(act.getDay());
-                newObj.setStart(act.getStart());
-                newObj.setEnd(act.getEnd());
-                newObj.setFramingAddress(existFramingAddress);
-                schedule.add(newObj);
+            if(scheduleDto!=null && scheduleDto.size()>0) {
+                List<Schedule> schedule = new ArrayList<>();
+
+                for (ScheduleDto act : scheduleDto) {
+                    Schedule newObj = new Schedule();
+                    newObj.setDay(act.getDay());
+                    newObj.setStart(act.getStart());
+                    newObj.setEnd(act.getEnd());
+                    newObj.setFramingAddress(existFramingAddress);
+                    schedule.add(newObj);
+                }
+
+                existFramingAddress.setSchedule(schedule);
             }
-
-            existFramingAddress.setSchedule(schedule);
 
             framingAddressRepository.save(existFramingAddress);
 

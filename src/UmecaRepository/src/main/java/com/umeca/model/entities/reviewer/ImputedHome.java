@@ -54,7 +54,7 @@ public class ImputedHome implements EntityGrid{
     @OneToMany(mappedBy="imputedHome", cascade={CascadeType.ALL})
     private List<Schedule> schedule;
 
-    @Column(name="phone", length = 200, nullable = false)
+    @Column(name="phone", length = 200)
     private String phone;
 
     @OneToOne(fetch=FetchType.LAZY)

@@ -24,6 +24,7 @@ public class FramingAddressDto {
     private String specification;
     private Long registerTypeId;
     private Long homeTypeId;
+    private Boolean isHomeless;
 
     private String addressStr;
     private String registerTypeStr;
@@ -235,5 +236,13 @@ public class FramingAddressDto {
 
     public void setHomeTypeStr(String homeTypeStr) {
         this.homeTypeStr = homeTypeStr;
+    }
+
+    public Boolean getIsHomeless() {
+        return isHomeless;
+    }
+
+    public void setIsHomeless(Boolean isHomeless) {
+        this.isHomeless = isHomeless;
     }
 }

@@ -15,7 +15,7 @@
                            href="#collapseImputedHome{{$index}}">
                             <i class="icon-angle-down bigger-110" data-icon-hide="icon-angle-down"
                                data-icon-show="icon-angle-right"></i>
-                            Domicilio {{$index+1}}
+                            Domicilio {{$index+1}} {{a.isHomeless==true?'(Situaci&oacute;n de calle)':''}}
                         </a>
                     </h4>
                 </div>
