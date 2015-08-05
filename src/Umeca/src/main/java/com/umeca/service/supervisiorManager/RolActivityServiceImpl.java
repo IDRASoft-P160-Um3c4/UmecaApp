@@ -77,8 +77,6 @@ public class RolActivityServiceImpl implements RolActivityService{
     @Override
     public void getLstActivities(RequestActivities req, String statusNotIn, ResponseRolActivities response) {
 
-
-
         if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
             List<RolActivityResponse> lstAllActivities = rolActivityRepository.getAllActivitiesEvaluator(statusNotIn,
                     (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd());
@@ -149,7 +147,6 @@ public class RolActivityServiceImpl implements RolActivityService{
                     lstAct.add(act);
                 }
             }
-            rolActivity.setPlace(dto.getPlace());
             rolActivity.setActivities(lstAct);
         }
 
@@ -174,6 +171,10 @@ public class RolActivityServiceImpl implements RolActivityService{
         rolActivity.setUserModify(user);
         rolActivity.setModifyTime(fullModel.getNow());
 
+        if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
+            rolActivity.setPlace(dto.getPlace());
+        }
+
         DtoToModelAndSave(dto, rolActivityRepository, user, fullModel, rolActivity, false);
         fullModel.addActsUpd();
     }
@@ -189,6 +190,7 @@ public class RolActivityServiceImpl implements RolActivityService{
             User evaluator = new User();
             evaluator.setId(dto.getEvaluatorId());
             rolActivity.setEvaluator(evaluator);
+            rolActivity.setPlace(dto.getPlace());
         }
         else {
             User supervisor = new User();

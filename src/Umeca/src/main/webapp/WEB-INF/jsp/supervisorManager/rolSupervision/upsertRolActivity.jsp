@@ -237,8 +237,7 @@
                                             <div class="col-xs-10 col-xs-offset-1 widget-container-span">
                                                 <div class="widget-box transparent">
                                                     <div class="widget-header">
-                                                        <h6 class="lighter">Elige las actividad(es) a realizar
-                                                            {{m.activities}}</h6>
+                                                        <h6 class="lighter">Elige las actividad(es) a realizar</h6>
                                                     </div>
 
                                                     <div class="widget-body">
@@ -250,7 +249,7 @@
                                                                         <label>
                                                                             <input type="checkbox"
                                                                                    ng-model="lstEvaAct[$index].isSelected"/>
-                                                                            <span class="control-label">Ir al tribunal</span>
+                                                                            <span class="control-label">{{evAct.name}}</span>
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -282,7 +281,7 @@
                         Agregar
                     </button>
                 </sec:authorize>
-                <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
+                    <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
                     <button type="button" class="btn btn-default btn-primary" ng-show="isNew" ng-click="add()">Agregar
                     </button>
                 </sec:authorize>

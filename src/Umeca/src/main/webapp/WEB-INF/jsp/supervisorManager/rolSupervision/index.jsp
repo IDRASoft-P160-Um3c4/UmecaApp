@@ -28,14 +28,24 @@
             var lstSupervisor = ${lstSupervisor};
             var isEvaluator = ${isEvaluator};
 
+            var titleD = "Rol de supervisi&oacute;n";
+            var msgDA = "No es posible agregar una actividad para el rol de supervisi&oacute;n con fecha anterior a la fecha actual.";
+            var msgDM = "No es posible modificar una actividad para el rol de supervisi&oacute;n con fecha anterior a la fecha actual.";
+
+            if(isEvaluator === true){
+                titleD = "Rol de evaluaci&oacute;n";
+                msgDA = "No es posible agregar una actividad para el rol de evaluaci&oacute;n con fecha anterior a la fecha actual.";
+                msgDM = "No es posible modificar una actividad para el rol de evaluaci&oacute;n con fecha anterior a la fecha actual.";
+            }
+
             window.calendarOnEventChange = function (event, revertFunc) {
                 var today = new Date();
                 today.setHours(0, 0, 0, 0);
                 if (event.start < today) {
                     revertFunc();
                     scope.showMsg({
-                        title: "Rol de supervisi&oacute;n",
-                        msg: "No es posible modificar una actividad para el rol de supervisi&oacute;n con fecha anterior a la fecha actual.",
+                        title: titleD,
+                        msg: msgDM,
                         type: "danger"
                     });
                     return;
@@ -110,13 +120,12 @@
                     today.setHours(0, 0, 0, 0);
                     if (start < today) {
                         scope.showMsg({
-                            title: "Rol de supervisi&oacute;n",
-                            msg: 'No es posible agregar una actividad para el rol de supervisi&oacute;n con fecha anterior a la fecha actual.',
+                            title: titleD,
+                            msg: msgDA,
                             type: "danger"
                         });
                         return;
                     }
-
                     scope.showDlg({start: start, end: end, isNew: true})
                             .then(function (result) {
                                 for (i = 0; i < result.activities.length; i++) {
@@ -136,29 +145,57 @@
                         //return;
                     }
 
-                    scope.showDlg({
-                        title: 'Modificar o eliminar actividad',
-                        start: event.start,
-                        end: event.end,
-                        isNew: false,
-                        event: event,
-                        isReadOnly: isReadOnly
-                    })
-                            .then(function (result) {
-                                switch (result.option) {
-                                    case 'REMOVE':
-                                        calendar.fullCalendar('removeEvents', function (ev) {
-                                            return (ev._id == event._id);
-                                        });
-                                        scopeMon.addActivityToDelete(event.idActivity);
-                                        break;
-                                    case 'UPDATE':
-                                        calendar.fullCalendar('updateEvent', event);
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            });
+                    if(isEvaluator === true){
+                        scope.showDlgEvaluator({
+                            title: 'Modificar o eliminar actividad',
+                            start: event.start,
+                            end: event.end,
+                            isNew: false,
+                            event: event,
+                            isReadOnly: isReadOnly
+                        })
+                                .then(function (result) {
+                                    switch (result.option) {
+                                        case 'REMOVE':
+                                            calendar.fullCalendar('removeEvents', function (ev) {
+                                                return (ev._id == event._id);
+                                            });
+                                            scopeMon.addActivityToDelete(event.idActivity);
+                                            break;
+                                        case 'UPDATE':
+                                            calendar.fullCalendar('updateEvent', event);
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                });
+
+                    }else{
+                        scope.showDlg({
+                            title: 'Modificar o eliminar actividad',
+                            start: event.start,
+                            end: event.end,
+                            isNew: false,
+                            event: event,
+                            isReadOnly: isReadOnly
+                        })
+                                .then(function (result) {
+                                    switch (result.option) {
+                                        case 'REMOVE':
+                                            calendar.fullCalendar('removeEvents', function (ev) {
+                                                return (ev._id == event._id);
+                                            });
+                                            scopeMon.addActivityToDelete(event.idActivity);
+                                            break;
+                                        case 'UPDATE':
+                                            calendar.fullCalendar('updateEvent', event);
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                });
+                    }
+
                 }
 
             });

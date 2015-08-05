@@ -294,7 +294,7 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
             $scope.workingTrack = false;
             $scope.$apply();
             if(data.hasError === true){
-                sharedSvc.showMsg({title: "Rol de supervisión",message: data.message,type: "danger"});
+                sharedSvc.showMsg({title: "Rol de evaluación",message: data.message,type: "danger"});
                 return;
             }
 
@@ -331,7 +331,7 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
                     className = 'label-success';
             }
 
-            var evaluator = $scope.idToObject(act.supervisorId, $scope.m.lstSupervisor);
+            var evaluator = $scope.idToObject(act.evaluatorId, $scope.m.lstSupervisor);
 
             var event = {
                 doTitle: function(isModified){
@@ -340,8 +340,8 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
                     + this.infoActivity.evaluator.description;
                 },
                 title: "Usuario "
-                + $scope.idToName(act.supervisorId, lstSupervisor, 0) + "\nNombre: "
-                + $scope.idToName(act.supervisorId, lstSupervisor, 1),
+                + $scope.idToName(act.evaluatorId, lstSupervisor, 0) + "\nNombre: "
+                + $scope.idToName(act.evaluatorId, lstSupervisor, 1),
                 idActivity: act.rolActivityId,
                 start: window.stringToDate(act.start),
                 end: end,
@@ -349,6 +349,7 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
                 className: className,
                 infoActivity:{
                     evaluator: evaluator,
+                    place: act.place
                 }
             };
             lstEvents.push(event);
@@ -412,5 +413,8 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
         }
 
     };
+
+
+
 
 });

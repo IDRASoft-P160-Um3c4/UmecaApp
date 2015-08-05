@@ -30,7 +30,7 @@ public interface RolActivityRepository extends JpaRepository<RolActivity, Long>{
 
 
 
-    @Query("SELECT new com.umeca.model.dto.supervisorManager.RolActivityResponse(ra.id, ra.end, ra.start, ra.evaluator.id, ra.status) " +
+    @Query("SELECT new com.umeca.model.dto.supervisorManager.RolActivityResponse(ra.id, ra.end, ra.start, ra.evaluator.id, ra.status, ra.place) " +
             "FROM RolActivity ra " +
             "INNER JOIN ra.evaluator su " +
             "WHERE ra.status <>:status AND " +
