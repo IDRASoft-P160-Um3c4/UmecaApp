@@ -11,15 +11,15 @@
                             Pizarra de informaci&oacute;n (Top 10)
                         </h4>
 
-                        <div class="widget-toolbar no-border" ng-init='lstNotification = ${lstNotification};'>
+                        <div class="widget-toolbar no-border" ng-init ='lstNotification = ${lstNotification}; lstNotificationA= ${lstNotificationA};'>
                             <ul class="nav nav-tabs" id="recent-tab">
                                 <li class="active">
                                     <a data-toggle="tab" href="#tasks-tab">Actividades</a>
                                 </li>
                                 <li>
                                     <a data-toggle="tab" href="#notifications-tab">Notificaciones
-                                        <span class="badge badge-danger" ng-show="lstNotification.length > 0">
-                                            &nbsp;&nbsp;{{lstNotification.length}}
+                                        <span class="badge badge-danger" ng-show="lstNotification.length > 0 || lstNotificationA.length > 0">
+                                            &nbsp;&nbsp;{{lstNotification.length + lstNotificationA.length}}
                                         </span>
                                     </a>
                                 </li>

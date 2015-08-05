@@ -260,6 +260,8 @@ public class Constants {
     public static final String CHANNELING_ABSENCE_TITLE = "Inasistencia a la canalización";
     public static final String CHANNELING_RESCHEDULE_TITLE = "Reagendar cita de canalización";
     public static final String CHANNELING_DROP_CHANNELING_TITLE = "SOLICITUD DE BAJA DE CANALIZACIÓN";
+    public static final String CHANNELING_DROP_REJ_TITLE = "RECHAZÓ SOLICITUD DE BAJA DE CANALIZACIÓN";
+    public static final String CHANNELING_DROP_AUTH_TITLE = "AUTORIZÓ SOLICITUD DE BAJA DE CANALIZACIÓN";
     public static final String CHANNELING_SUPERVISION_ACTIVITY_CODE = "ACCA";
     public static final int CHANNELING_NOTIFICATION_GOAL_FIRST_DATE = 9; //Identificador del catálogo activity_goals.txt
     public static final int CHANNELING_NOTIFICATION_GOAL_TRACK = 10; //Identificador del catálogo activity_goals.txt

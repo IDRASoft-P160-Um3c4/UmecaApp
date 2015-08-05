@@ -17,6 +17,7 @@ public class JqGridFilterModel {
     public static final String COMPARE_NOT_IN = "not in";
     public static final String BETWEEN = "between";
     public static final String COMPARE_NOT_EQUAL = "neq";
+    public static final String IS_NULL = "is_null";
 
     public String sidx;
     public String sord;

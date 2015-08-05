@@ -4,6 +4,7 @@
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/vendor/jquery.ui.widget.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisorManager/channeling/authRejChannelingDropCtrl.js"></script>
     <title>Proyectos</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
@@ -13,7 +14,7 @@
 
     <script>
         window.authRejChannelingDrop = function (id) {
-            window.showUpsertParams({id: id}, "#angJsjqGridId", '<c:url value='/supervisorManager/channelingInfo/authRejChannelingDrop.html' />', "#GridId");
+            window.showUpsert(id, "#angJsjqGridId", '<c:url value='/supervisorManager/channelingInfo/authRejChannelingDrop.html' />', "#GridId");
         };
 
         $(document).ready(function () {

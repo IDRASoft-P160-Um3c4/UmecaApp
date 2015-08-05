@@ -81,6 +81,9 @@ public class ChannelingServiceImpl implements ChannelingService {
     @Autowired
     LogCaseService logCaseService;
 
+    @Autowired
+    ChannelingDropInfoRepository channelingDropInfoRepository;
+
     @Override
     public void getChannelingCatalogs(ModelAndView model) {
         Gson gson = new Gson();
@@ -305,9 +308,6 @@ public class ChannelingServiceImpl implements ChannelingService {
         List<LogCase> logs = logCaseService.addLog(ConstantsLogCase.CODE_SHEET_CHANNELING, caseId, msg);
     }
 
-    @Autowired
-    private ChannelingDropInfoRepository channelingDropInfoRepository;
-
     @Override
     @Transactional
     public void requestDrop(ChannelingDropModel model, User user, ResponseMessage response, SharedUserService userService) {
@@ -341,6 +341,9 @@ public class ChannelingServiceImpl implements ChannelingService {
         channelingDropInfo.setCreatorComments(model.getComments());
         channelingDropInfo.setCreationDate(now);
         channelingDropInfo.setCreatorUser(user);
+        CatChannelingDropType catChannelingDropType = new CatChannelingDropType();
+        catChannelingDropType.setId(model.getChannelingDropTypeId());
+        channelingDropInfo.setChannelingDropType(catChannelingDropType);
         channelingDropInfoRepository.save(channelingDropInfo);
 
         channeling.setAuthorizeToDrop(false);
@@ -360,13 +363,96 @@ public class ChannelingServiceImpl implements ChannelingService {
                                 "Solicitado por el supervisor: <strong>%s</strong><br/><br/>" +
                                 "Fecha de solicitud: <b>%s</b>",
                         channeling.getChannelingType().getName(), imputedFullName, caseDetention.getIdMP(),
-                        userService.getFullNameById(userService.GetLoggedUserId()), scheduleRequest),
+                        userService.getFullNameById(user.getId()), scheduleRequest),
                 new ArrayList<String>(){{add(Constants.ROLE_SUPERVISOR_MANAGER);}}, Constants.CHANNELING_DROP_CHANNELING_TITLE);
 
     }
 
     @Override
     public ChannelingInfoDropModel getAuthRejChannelingDropInfoById(Long id) {
-        return null;
+        return channelingDropInfoRepository.getChannelingDropInfoById(id);
+    }
+
+    @Override
+    @Transactional
+    public void doAuthRejChannelingDrop(ChannelingInfoDropModel model, User user, SharedUserService userService, ResponseMessage response) {
+        final ChannelingDropInfo channelingDropInfo = channelingDropInfoRepository.findOne(model.getId());
+
+        if(model.getAuthRejValue() == null){
+            response.setHasError(true);
+            response.setMessage("Debe autorizar o rechazar la solicitud");
+            return;
+        }
+
+        if(channelingDropInfo == null){
+            response.setHasError(true);
+            response.setMessage("La solicitud no existe, por favor reinicie y vuelva a intentar");
+            return;
+        }
+
+        if(channelingDropInfo.getIsAuthorized() != null){
+            response.setHasError(true);
+            response.setMessage("La solicitud ya fue atendida");
+            return;
+        }
+
+        Channeling channeling = channelingDropInfo.getChanneling();
+        Boolean authRejVal = model.getAuthRejValue();
+        Calendar now = Calendar.getInstance();
+
+        channelingDropInfo.setAuthorizerComments(model.getCommentsAuthorizer());
+        channelingDropInfo.setAuthorizerRejecterUser(user);
+        channelingDropInfo.setAuthRejDate(now);
+
+        if(authRejVal == false){
+            channeling.setAuthorizeToDrop(null);
+            channelingDropInfo.setIsAuthorized(false);
+        }
+        else{
+            channeling.setAuthorizeToDrop(true);
+            channelingDropInfo.setIsAuthorized(true);
+        }
+
+        channelingRepository.save(channeling);
+        channelingDropInfoRepository.save(channelingDropInfo);
+        channelingRepository.flush();
+
+        Case caseDetention = channeling.getCaseDetention();
+        Imputed imputed = caseDetention.getMeeting().getImputed();
+        String imputedFullName = imputed.getName() + " " + imputed.getLastNameP() + " " + imputed.getLastNameM();
+        String scheduleRequest = CalendarExt.calendarToFormatString(now, Constants.FORMAT_CALENDAR_I);
+
+
+
+        if(authRejVal == false) {
+            messageService.sendNotification(caseDetention.getId(),
+                    String.format("<strong>La solicitud de baja fue rechazada</strong><br/>" +
+                                    "<strong>Descripción:</strong> Canalización de tipo <strong>\"%s\"</strong><br/>" +
+                                    "Para el imputado: <strong>%s</strong>. Causa penal <strong>%s</strong><br/>" +
+                                    "Solicitado por el supervisor: <strong>%s</strong><br/>" +
+                                    "Comentarios: %s<br/><br/>" +
+                                    "Fecha del rechazo: <b>%s</b>",
+                            channeling.getChannelingType().getName(), imputedFullName, caseDetention.getIdMP(),
+                            userService.getFullNameById(user.getId()), model.getCommentsAuthorizer(), scheduleRequest), user,
+                    Constants.CHANNELING_DROP_REJ_TITLE, "", new ArrayList<Long>() {{
+                        add(channelingDropInfo.getCreatorUser().getId());
+                    }});
+        }
+        else{
+            messageService.sendNotification(caseDetention.getId(),
+                    String.format("<strong>La solicitud de baja fue autorizada</strong><br/>" +
+                                    "<strong>Descripción:</strong> Canalización de tipo <strong>\"%s\"</strong><br/>" +
+                                    "Para el imputado: <strong>%s</strong>. Causa penal <strong>%s</strong><br/>" +
+                                    "Solicitado por el supervisor: <strong>%s</strong><br/>" +
+                                    "Comentarios: %s<br/><br/>" +
+                                    "Fecha de la autorización: <b>%s</b>",
+                            channeling.getChannelingType().getName(), imputedFullName, caseDetention.getIdMP(),
+                            userService.getFullNameById(user.getId()), model.getCommentsAuthorizer(), scheduleRequest), user,
+                    Constants.CHANNELING_DROP_AUTH_TITLE, "", new ArrayList<Long>() {{
+                        add(channelingDropInfo.getCreatorUser().getId());
+                    }});
+        }
+
+        response.setHasError(false);
     }
 }

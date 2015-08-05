@@ -19,4 +19,5 @@ public interface MessageService {
     Message sendNotificationToUser(Long caseId, String body,  final Long userSenderId,  final Long userReceiverId);
     Message sendNotificationToUser(Long caseId, String body,  final Long userReceiverId);
 
+    Message sendNotification(final Long caseId, String body, User userSender, String title, String footer, List<Long> lstUserIdReceivers);
 }

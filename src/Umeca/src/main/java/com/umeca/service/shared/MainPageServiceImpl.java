@@ -319,11 +319,17 @@ public class MainPageServiceImpl implements MainPageService {
         sLstGeneric = json.toJson(lstGeneric);
         model.addObject("lstActivitiesNew", sLstGeneric);
 
-        List<CommentMonitoringPlanNotice> lstGen = logCommentRepository.getEnabledCommentsByUserId(userId);
+        List<CommentMonitoringPlanNotice> lstGen = logCommentRepository.getEnabledCommentsByUserId(userId, new PageRequest(0, 5));
 
         sLstGeneric = json.toJson(lstGen);
         model.addObject("lstNotification", sLstGeneric);
         model.addObject("urlToGo", "/supervisor/log/deleteComment.json");
+
+        List<LogNotificationDto> lstNotification = messageRepository.getMessagesByUserId(sharedUserService.GetLoggedUserId(), new PageRequest(0, 5));
+
+        model.addObject("lstNotificationA", json.toJson(lstNotification));
+        model.addObject("urlToGoA", "/shared/messageHistory/deleteNotification.json?id=");
+
     }
 
 

@@ -1,5 +1,6 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.model.catalog.CatChannelingDropType;
 import com.umeca.model.entities.account.User;
 
 import javax.persistence.*;
@@ -17,6 +18,10 @@ public class ChannelingDropInfo {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_channeling", nullable = false)
     private Channeling channeling;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_cat_channeling_drop_type", nullable = false)
+    private CatChannelingDropType channelingDropType;
 
     @Column(name = "creator_comments", length = 100, nullable = false)
     private String creatorComments;
@@ -59,6 +64,14 @@ public class ChannelingDropInfo {
 
     public String getCreatorComments() {
         return creatorComments;
+    }
+
+    public CatChannelingDropType getChannelingDropType() {
+        return channelingDropType;
+    }
+
+    public void setChannelingDropType(CatChannelingDropType channelingDropType) {
+        this.channelingDropType = channelingDropType;
     }
 
     public void setCreatorComments(String creatorComments) {

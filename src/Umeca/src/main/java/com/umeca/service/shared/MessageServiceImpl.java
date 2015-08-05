@@ -38,7 +38,7 @@ public class MessageServiceImpl implements MessageService {
         return sendNotification(caseId, body, userSender, title, footer, lstUserIdReceivers);
     }
 
-    private Message sendNotification(final Long caseId, String body, User userSender, String title, String footer, List<Long> lstUserIdReceivers) {
+    public Message sendNotification(final Long caseId, String body, User userSender, String title, String footer, List<Long> lstUserIdReceivers) {
         final Message msg = new Message();
 
         try {
