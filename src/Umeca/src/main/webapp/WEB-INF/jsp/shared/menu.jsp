@@ -254,6 +254,8 @@
                                 </li>
                                 <li><a href="<c:url value='/supervisorManager/caseObsolete.html' />"><i
                                         class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;Casos eliminados</a></li>
+                                <li><a href="<c:url value='/supervisorManager/channelingInfo/index.html' />"><i
+                                        class="glyphicon glyphicon-check"></i>&nbsp;&nbsp;Autorizar/Rechazar solicitud baja</a></li>
                             </ul>
                         </li>
                         <li class="dropdown nav-li-blue">

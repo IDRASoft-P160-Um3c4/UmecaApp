@@ -147,10 +147,12 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     @Autowired
     InformationAvailabilityRepository informationAvailabilityRepository;
     @Autowired
+    ChannelingDropTypeRepository channelingDropTypeRepository;
+    @Autowired
     EvaluationActivityRepository evaluationActivityRepository;
 
 
-    private String PATH = "C:\\Projects\\Umeca\\UmecaApp\\db\\";
+    private String PATH = "C:\\Projects\\IDRASoft\\UmecaAppBranchMorelos\\UmecaApp\\db\\";
 
 //    private String PATH = "C:\\Users\\Rata\\Desktop\\branchSandra\\UmecaApp\\db\\";
 
@@ -1040,5 +1042,29 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         evaluationActivityRepository.flush();
     }
 
-
+    @Override
+    public void channelingDropType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "channeling_drop_type.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            CatChannelingDropType model = new CatChannelingDropType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            channelingDropTypeRepository.save(model);
+        }
+        channelingDropTypeRepository.flush();
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+

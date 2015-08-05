@@ -1,13 +1,16 @@
 package com.umeca.service.supervisor;
 
 import com.google.gson.Gson;
+import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.*;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.shared.LogCase;
 import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.entities.supervisorManager.ChannelingInfoDropModel;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.ConstantsLogCase;
 import com.umeca.model.shared.SelectList;
@@ -15,8 +18,10 @@ import com.umeca.model.shared.SelectOptsList;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
+import com.umeca.repository.supervisor.ChannelingDropInfoRepository;
 import com.umeca.repository.supervisor.ChannelingRepository;
 import com.umeca.repository.supervisor.DistrictRepository;
+import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.LogCaseService;
 import com.umeca.service.shared.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -177,7 +182,6 @@ public class ChannelingServiceImpl implements ChannelingService {
             response.setMessage("No es posible eliminar este registro, ya que se encuentra en uso");
         }
 
-
         Channeling model = channelingRepository.findOne(channelingId);
 
         model.setIsObsolete(true);
@@ -299,5 +303,70 @@ public class ChannelingServiceImpl implements ChannelingService {
     public void addLogChannelingDoc(Long caseId, String channelingType) {
         String msg = "Se ha generado el oficio para la actividad de canalizaci&oacute;n de tipo " + channelingType+".";
         List<LogCase> logs = logCaseService.addLog(ConstantsLogCase.CODE_SHEET_CHANNELING, caseId, msg);
+    }
+
+    @Autowired
+    private ChannelingDropInfoRepository channelingDropInfoRepository;
+
+    @Override
+    @Transactional
+    public void requestDrop(ChannelingDropModel model, User user, ResponseMessage response, SharedUserService userService) {
+        //Validar el caso
+        if(model == null){
+            response.setHasError(true);
+            response.setMessage("No existen datos correctos para procesar la solicitud");
+        }
+
+        if (isValidCase(model.getCaseId(), response) == false)
+            return;
+
+        Channeling channeling = channelingRepository.findOne(model.getChannelingId());
+
+        if (channeling == null) {
+            response.setHasError(true);
+            response.setMessage("No existe la canalización que desea dar de baja");
+            return;
+        }
+
+        if(channeling.isAuthorizeToDrop() != null) {
+            response.setHasError(true);
+            response.setMessage("La canalización ya está en proceso de darse da baja o ya está dada de baja");
+            return;
+        }
+
+        ChannelingDropInfo channelingDropInfo = new ChannelingDropInfo();
+        Calendar now = Calendar.getInstance();
+
+        channelingDropInfo.setChanneling(channeling);
+        channelingDropInfo.setCreatorComments(model.getComments());
+        channelingDropInfo.setCreationDate(now);
+        channelingDropInfo.setCreatorUser(user);
+        channelingDropInfoRepository.save(channelingDropInfo);
+
+        channeling.setAuthorizeToDrop(false);
+        channelingRepository.save(channeling);
+        channelingRepository.flush();
+
+        response.setHasError(false);
+
+        Case caseDetention = channeling.getCaseDetention();
+        Imputed imputed = caseDetention.getMeeting().getImputed();
+        String imputedFullName = imputed.getName() + " " + imputed.getLastNameP() + " " + imputed.getLastNameM();
+        String scheduleRequest = CalendarExt.calendarToFormatString(now, Constants.FORMAT_CALENDAR_I);
+
+        messageService.sendNotificationToRole(model.getCaseId(),
+                String.format("<strong>Descripción:</strong> Canalización de tipo <strong>\"%s\"</strong><br/>" +
+                                "Para el imputado: <strong>%s</strong>. Causa penal <strong>%s</strong><br/>" +
+                                "Solicitado por el supervisor: <strong>%s</strong><br/><br/>" +
+                                "Fecha de solicitud: <b>%s</b>",
+                        channeling.getChannelingType().getName(), imputedFullName, caseDetention.getIdMP(),
+                        userService.getFullNameById(userService.GetLoggedUserId()), scheduleRequest),
+                new ArrayList<String>(){{add(Constants.ROLE_SUPERVISOR_MANAGER);}}, Constants.CHANNELING_DROP_CHANNELING_TITLE);
+
+    }
+
+    @Override
+    public ChannelingInfoDropModel getAuthRejChannelingDropInfoById(Long id) {
+        return null;
     }
 }

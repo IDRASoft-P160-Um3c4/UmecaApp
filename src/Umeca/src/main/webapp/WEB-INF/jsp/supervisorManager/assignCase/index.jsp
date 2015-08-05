@@ -175,6 +175,7 @@
             };
 
             $scope.promptAssignCase = function (id, cbo) {
+                $scope.comments = "";
                 if ($(cbo).val() == "") {
                     $scope.MsgBoxMsg = $sce.trustAsHtml("Para hacer la asignaci&oacute;n de un caso, es necesario seleccionar un <strong>supervisor</strong>.");
                     $scope.Type = "danger";
@@ -185,6 +186,7 @@
                 $("#AssignCaseDialog").modal("show");
                 $scope.caseId = id;
                 $scope.supervisorId = $(cbo).val();
+                $scope.$apply();
             };
 
             $scope.MsgBoxOK = function () {
