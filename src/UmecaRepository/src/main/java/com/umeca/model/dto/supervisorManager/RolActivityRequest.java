@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class RolActivityRequest {
+
     private List<Long> lstActivitiesDel;
     private List<RolActivityEvent> lstActivitiesUpserted;
     private List<RolActivityDto> lstActivitiesUpsert;
@@ -90,4 +91,5 @@ public class RolActivityRequest {
     public Calendar getNow() {
         return now;
     }
+
 }

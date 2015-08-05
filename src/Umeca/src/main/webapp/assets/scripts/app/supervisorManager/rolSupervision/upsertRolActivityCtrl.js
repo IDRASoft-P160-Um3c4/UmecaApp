@@ -84,8 +84,6 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
             });
         }, 1);
 
-
-        $scope.m.activities = [];
         $scope.m.place = null;
 
         return def.promise;
@@ -314,8 +312,8 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
 
         isValid = false;
 
-        for (var i = 0; i < $scope.m.activities.length; i++) {
-            if ($scope.m.activities[i] === true) {
+        for (var i = 0; i < $scope.lstEvaAct.length; i++) {
+            if ($scope.lstEvaAct[i].isSelected === true) {
                 isValid = true;
                 break;
             }
@@ -355,6 +353,12 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
                     return false;
                 }
 
+                var activities = [];
+                for(var i= 0, len = $scope.lstEvaAct.length; i<len; i++){
+                    var act = $scope.lstEvaAct[i];
+                    activities.push({id: act.id, name: act.name, isSelected: act.isSelected});
+                }
+
                 var eventAct = {
                     title: "",
                     doTitle: function (isModified) {
@@ -371,7 +375,7 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
                     infoActivity: {
                         evaluator: $scope.m.supervisor,
                         place: $scope.m.place,
-                        activities: $scope.m.activities
+                        activities: activities
                     }
                 };
 
@@ -399,7 +403,6 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
     };
 
     $scope.addEvaluator = function () {
-
         if ($scope.validEvaluator() === false)
             return false;
 

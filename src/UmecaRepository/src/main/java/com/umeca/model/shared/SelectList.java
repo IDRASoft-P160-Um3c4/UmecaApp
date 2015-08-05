@@ -15,6 +15,7 @@ public class SelectList implements EntityGrid{
     private String code;
     private Long aux;
     private Boolean lock;
+    private Boolean isSelected;
     private Boolean specification;
     private String strDate;
     private String logType;
@@ -31,6 +32,12 @@ public class SelectList implements EntityGrid{
     public SelectList(Long id, Boolean lock) {
         this.id = id;
         this.lock = lock;
+    }
+
+    public SelectList(Long id, Boolean isSelected,String name) {
+        this.id = id;
+        this.name = name;
+        this.isSelected = isSelected;
     }
 
     public SelectList(Integer id, String description) {
@@ -261,5 +268,13 @@ public class SelectList implements EntityGrid{
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public Boolean getIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(Boolean isSelected) {
+        this.isSelected = isSelected;
     }
 }

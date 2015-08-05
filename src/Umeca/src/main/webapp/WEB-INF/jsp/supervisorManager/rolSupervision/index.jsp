@@ -26,6 +26,7 @@
 
         jQuery(function ($) {
             var lstSupervisor = ${lstSupervisor};
+            var isEvaluator = ${isEvaluator};
 
             window.calendarOnEventChange = function (event, revertFunc) {
                 var today = new Date();
@@ -93,7 +94,10 @@
                 selectable: true,
                 selectHelper: true,
                 viewRender: function (view, element) {
-                    scopeMon.loadActivities(view.start, view.end, '<c:url value='${urlGetActivities}' />');
+                    if(isEvaluator === true)
+                        scopeMon.loadActivitiesEvaluator(view.start, view.end, '<c:url value='${urlGetActivities}' />');
+                    else
+                        scopeMon.loadActivities(view.start, view.end, '<c:url value='${urlGetActivities}' />');
                 },
                 eventResize: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
                     window.calendarOnEventChange(event, revertFunc);
