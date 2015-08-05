@@ -285,9 +285,19 @@
                     <button type="button" class="btn btn-default btn-primary" ng-show="isNew" ng-click="add()">Agregar
                     </button>
                 </sec:authorize>
-                <button type="button" class="btn btn-default btn-primary" ng-show="!isNew && !isReadOnly"
-                        ng-click="save()">Modificar
-                </button>
+
+                <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
+                    <button type="button" class="btn btn-default btn-primary" ng-show="!isNew && !isReadOnly"
+                            ng-click="saveEvaluator()">Modificar
+                    </button>
+                </sec:authorize>
+                <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
+                    <button type="button" class="btn btn-default btn-primary" ng-show="!isNew && !isReadOnly"
+                            ng-click="save()">Modificar
+                    </button>
+                </sec:authorize>
+
+
                 <button type="button" class="btn btn-default btn-danger" ng-show="!isNew && !isReadOnly"
                         ng-click="delete()">Eliminar
                 </button>

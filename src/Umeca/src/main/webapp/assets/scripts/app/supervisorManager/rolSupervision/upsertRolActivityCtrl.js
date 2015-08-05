@@ -84,7 +84,6 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
             });
         }, 1);
 
-        $scope.m.place = null;
 
         return def.promise;
     };
@@ -250,7 +249,6 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
         $scope.hideMsg();
     };
 
-
     $scope.cancel = function () {
         $scope.IsOk = false;
         $scope.hideMsg();
@@ -285,8 +283,39 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
     $scope.clearDaysOfWeek();
 
 
+    $scope.saveEvaluator = function () {
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
 
+        var d = {};
+        if ($scope.validateDates(d) === false)
+            return false;
 
+        if (d.dateInit < today) {
+            $scope.msgError = "No es posible modificar la actividad ya que la fecha de inicio está definida antes de la fecha actual";
+            return false;
+        }
+
+        var dateInit = new Date(d.dateInit);
+        var dateEnd = new Date(d.dateEnd);
+        dateInit.setHours(d.timeInit.hours, d.timeInit.minutes, 0, 0);
+        dateEnd.setHours(d.timeEnd.hours, d.timeEnd.minutes, 0, 0);
+
+        $scope.m.event.start = dateInit;
+        $scope.m.event.end = dateEnd;
+        $scope.m.event.isModified = true;
+
+        $scope.m.event.infoActivity = {
+            evaluator: $scope.m.supervisor,
+            place: $scope.m.place
+        };
+
+        $scope.m.event.doTitle(true);
+
+        $scope.IsOk = true;
+        $scope.option = "UPDATE";
+        $scope.hideMsg();
+    };
 
     $scope.fillFieldsEvaluator = function (event) {
         $scope.m.event = event;
@@ -348,7 +377,6 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
             });
         }, 1);
 
-        $scope.m.place = null;
 
         return def.promise;
     };

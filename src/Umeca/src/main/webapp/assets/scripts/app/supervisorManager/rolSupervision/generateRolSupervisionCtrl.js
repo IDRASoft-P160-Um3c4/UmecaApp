@@ -3,6 +3,7 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
     $scope.lstActivityDelIds = [];
     $scope.msgError = undefined;
     $scope.waitFor = false;
+    var titleD = "Rol de supervisión"
 
     $scope.addActivityToDelete = function(id){
         if(id === -1)
@@ -251,6 +252,7 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
 
 
     $scope.loadActivitiesEvaluator = function(dateStart, dateEnd, urlToPost){
+        titleD = "Rol de evaluación";
         var yearStart = dateStart.getFullYear();
         var monthStart = dateStart.getMonth();
         var yearEnd = dateEnd.getFullYear();
