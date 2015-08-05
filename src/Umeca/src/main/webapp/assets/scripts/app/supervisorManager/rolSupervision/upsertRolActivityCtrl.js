@@ -252,6 +252,9 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
     $scope.cancel = function () {
         $scope.IsOk = false;
         $scope.hideMsg();
+        $scope.m.supervisor = $scope.lstSupervisor[0];
+        $scope.m.place = null;
+
     };
 
     $scope.onBusinessWeek = function () {

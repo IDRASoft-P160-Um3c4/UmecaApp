@@ -41,7 +41,7 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
             }
 
             if(lstActivities.length === 0 && $scope.lstActivityDelIds.length === 0){
-                sharedSvc.showMsg({title: "Rol de supervisión",message: "No existen actividades para agregar, actualizar o eliminar",type: "info"});
+                sharedSvc.showMsg({title: titleD,message: "No existen actividades para agregar, actualizar o eliminar",type: "info"});
                 $scope.waitFor = false;
                 return false;
             }
@@ -91,7 +91,7 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
                     }
 
                 }catch(eIn){}
-                sharedSvc.showMsg({title: "Rol de supervisión",message: resp.message,type: "success"}).then();
+                sharedSvc.showMsg({title: titleD,message: resp.message,type: "success"}).then();
             }
             $scope.$apply();
         } catch (e) {
@@ -221,7 +221,7 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
             $scope.workingTrack = false;
             $scope.$apply();
             if(data.hasError === true){
-                sharedSvc.showMsg({title: "Rol de supervisión",message: data.message,type: "danger"});
+                sharedSvc.showMsg({title: titleD,message: data.message,type: "danger"});
                 return;
             }
 
