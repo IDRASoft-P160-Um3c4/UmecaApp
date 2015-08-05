@@ -13,6 +13,8 @@ public class RolActivityResponse {
     private Calendar startCalendar;
     private Long supervisorId;
     private String status;
+    private Long evaluatorId;
+    private String place;
 
     public RolActivityResponse(Long rolActivityId, Calendar endCalendar, Calendar startCalendar, Long supervisorId, String status){
         this.rolActivityId = rolActivityId;
@@ -20,6 +22,15 @@ public class RolActivityResponse {
         this.startCalendar = startCalendar;
         this.supervisorId = supervisorId;
         this.status = status;
+    }
+
+    public RolActivityResponse(Long rolActivityId, Calendar endCalendar, Calendar startCalendar, Long evaluatorId, String status, String place){
+        this.rolActivityId = rolActivityId;
+        this.endCalendar = endCalendar;
+        this.startCalendar = startCalendar;
+        this.status = status;
+        this.evaluatorId = evaluatorId;
+        this.place = place;
     }
 
     public Long getRolActivityId() {
@@ -91,4 +102,23 @@ public class RolActivityResponse {
         start = CalendarExt.calendarToString(startCalendar);
         return start;
     }
+
+    public Long getEvaluatorId() {
+        return evaluatorId;
+    }
+
+    public void setEvaluatorId(Long evaluatorId) {
+        this.evaluatorId = evaluatorId;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+
+
 }

@@ -285,5 +285,6 @@ public class Constants {
     /** códigos para causas de cierre **/
 
     public static final String COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW = "No proporcionado";
+
 }
 

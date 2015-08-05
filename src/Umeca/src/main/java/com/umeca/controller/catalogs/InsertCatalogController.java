@@ -346,6 +346,12 @@ public class InsertCatalogController {
         return "informationAvailability";
     }
 
+    @RequestMapping(value = "/catalogs/evaluationActivity", method = RequestMethod.GET)
+    public String evaluationActivity() {
+        service.evaluationActivity();
+        return "evaluationActivity";
+    }
+
     @RequestMapping(value = "/catalogs/channelingDropType", method = RequestMethod.GET)
     public String channelingDropType() {
         service.channelingDropType();
@@ -407,6 +413,7 @@ public class InsertCatalogController {
         service.economicSupport();
         service.channelingType();
         service.informationAvailability();
+        service.evaluationActivity();
         service.channelingDropType();
         return "insertCatalog OK!!";
     }

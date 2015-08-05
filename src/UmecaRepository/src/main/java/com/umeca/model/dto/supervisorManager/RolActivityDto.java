@@ -3,6 +3,7 @@ package com.umeca.model.dto.supervisorManager;
 import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.model.entities.supervisor.ActivityMonitoringPlanArrangement;
 import com.umeca.model.entities.supervisorManager.RolActivity;
+import com.umeca.model.shared.SelectList;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,6 +17,9 @@ public class RolActivityDto {
     private String start;
     private Calendar endCalendar;
     private Calendar startCalendar;
+    private Long evaluatorId;
+    private String place;
+    private List<SelectList> activities;
 
     public String getEventId() {
         return eventId;
@@ -63,6 +67,30 @@ public class RolActivityDto {
 
     public void setStartCalendar(Calendar startCalendar) {
         this.startCalendar = startCalendar;
+    }
+
+    public Long getEvaluatorId() {
+        return evaluatorId;
+    }
+
+    public void setEvaluatorId(Long evaluatorId) {
+        this.evaluatorId = evaluatorId;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public List<SelectList> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List<SelectList> activities) {
+        this.activities = activities;
     }
 
     public Calendar getEndCalendar() {

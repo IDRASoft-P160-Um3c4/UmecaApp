@@ -2,18 +2,24 @@ package com.umeca.service.supervisiorManager;
 
 import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.model.catalog.EvaluationActivity;
 import com.umeca.model.dto.supervisorManager.*;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.managereval.RelRolActivityEvaluationActivity;
 import com.umeca.model.entities.supervisor.RequestActivities;
 import com.umeca.model.entities.supervisorManager.RolActivity;
+import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
+import com.umeca.repository.managereval.EvaluationActivityRepository;
 import com.umeca.repository.supervisor.LogChangeDataRepository;
 import com.umeca.repository.supervisorManager.RolActivityRepository;
+import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -33,6 +39,8 @@ public class RolActivityServiceImpl implements RolActivityService{
 
     @Autowired
     RolActivityRepository rolActivityRepository;
+    @Autowired
+    EvaluationActivityRepository evaluationActivityRepository;
 
     @Override
     public boolean doUpsertDelete(RolActivityRequest fullModel, User user, ResponseMessage response) {
@@ -68,14 +76,27 @@ public class RolActivityServiceImpl implements RolActivityService{
 
     @Override
     public void getLstActivities(RequestActivities req, String statusNotIn, ResponseRolActivities response) {
-        List<RolActivityResponse> lstAllActivities = rolActivityRepository.getAllActivities(statusNotIn,
-                        (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd());
-        response.setLstRolActivities(lstAllActivities);
 
-        List<SelectList> lstSupervisor = rolActivityRepository.getAllValidSupervisors(statusNotIn,
-                (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd());
-        response.setLstSupervisor(lstSupervisor);
-        response.setHasError(false);
+        if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
+            List<RolActivityResponse> lstAllActivities = rolActivityRepository.getAllActivitiesEvaluator(statusNotIn,
+                    (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd());
+            response.setLstRolActivities(lstAllActivities);
+
+            List<SelectList> lstSupervisor = rolActivityRepository.getAllValidEvaluators(statusNotIn,
+                    (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd());
+            response.setLstSupervisor(lstSupervisor);
+            response.setHasError(false);
+        }
+        else {
+            List<RolActivityResponse> lstAllActivities = rolActivityRepository.getAllActivities(statusNotIn,
+                    (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd());
+            response.setLstRolActivities(lstAllActivities);
+
+            List<SelectList> lstSupervisor = rolActivityRepository.getAllValidSupervisors(statusNotIn,
+                    (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd());
+            response.setLstSupervisor(lstSupervisor);
+            response.setHasError(false);
+        }
     }
 
     private boolean validateDates(Calendar startCalendar, Calendar endCalendar) {
@@ -107,11 +128,27 @@ public class RolActivityServiceImpl implements RolActivityService{
 
     }
 
+    @Autowired
+    SharedUserService sharedUserService;
+
     private void create(RolActivityDto dto, RolActivityRepository rolActivityRepository, User user, RolActivityRequest fullModel) {
 
         RolActivity rolActivity = new RolActivity();
         rolActivity.setUserCreate(user);
         rolActivity.setCreationTime(fullModel.getNow());
+
+        //
+        if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
+            List<EvaluationActivity> lstAct= new ArrayList<>();
+
+            for(SelectList curr : dto.getActivities()){
+                if(curr.getIsSelected()==true){
+                    EvaluationActivity act = evaluationActivityRepository.findOne(curr.getId());
+                    lstAct.add(act);
+                }
+            }
+            rolActivity.setActivities(lstAct);
+        }
 
         DtoToModelAndSave(dto, rolActivityRepository, user, fullModel, rolActivity, true);
         fullModel.addActsIns();
@@ -134,6 +171,10 @@ public class RolActivityServiceImpl implements RolActivityService{
         rolActivity.setUserModify(user);
         rolActivity.setModifyTime(fullModel.getNow());
 
+        if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
+            rolActivity.setPlace(dto.getPlace());
+        }
+
         DtoToModelAndSave(dto, rolActivityRepository, user, fullModel, rolActivity, false);
         fullModel.addActsUpd();
     }
@@ -145,9 +186,17 @@ public class RolActivityServiceImpl implements RolActivityService{
     private void DtoToModelAndSave(RolActivityDto dto, RolActivityRepository rolActivityRepository, User user, RolActivityRequest fullModel,
                                    RolActivity rolActivity, boolean isNew) {
 
-        User supervisor = new User();
-        supervisor.setId(dto.getSupervisorId());
-        rolActivity.setSupervisor(supervisor);
+        if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
+            User evaluator = new User();
+            evaluator.setId(dto.getEvaluatorId());
+            rolActivity.setEvaluator(evaluator);
+            rolActivity.setPlace(dto.getPlace());
+        }
+        else {
+            User supervisor = new User();
+            supervisor.setId(dto.getSupervisorId());
+            rolActivity.setSupervisor(supervisor);
+        }
 
         Calendar cal = dto.getEndCalendar();
         rolActivity.setEnd(cal);
