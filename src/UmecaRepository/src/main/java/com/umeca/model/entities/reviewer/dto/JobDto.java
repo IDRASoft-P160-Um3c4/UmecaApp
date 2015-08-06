@@ -26,7 +26,7 @@ public class JobDto implements EntityGrid {
     private String phone;
     private String startPrev;
     private String start;
-    private Float salaryWeek;
+    private String salaryWeek;
     private String end;
     private String reasonChange;
     private String address;
@@ -38,7 +38,7 @@ public class JobDto implements EntityGrid {
 
     }
 
-    public JobDto(Long id, String company, String post, String nameHead, Float salaryWeek, String phone, Date iDate, Date eDate, Long idEmployee, String reasonChange) {
+    public JobDto(Long id, String company, String post, String nameHead, String salaryWeek, String phone, Date iDate, Date eDate, Long idEmployee, String reasonChange) {
         this.id = id;
         this.company = company;
         this.post = post;
@@ -140,11 +140,11 @@ public class JobDto implements EntityGrid {
         this.phone = phone;
     }
 
-    public Float getSalaryWeek() {
+    public String getSalaryWeek() {
         return salaryWeek;
     }
 
-    public void setSalaryWeek(Float salaryWeek) {
+    public void setSalaryWeek(String salaryWeek) {
         this.salaryWeek = salaryWeek;
     }
 

@@ -8,13 +8,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import javax.persistence.*;
 import java.io.Serializable;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Desarrollo
- * Date: 8/05/14
- * Time: 01:16 PM
- * To change this template use File | Settings | File Templates.
- */
 @Entity
 @Table(name="reference")
 public class Reference implements EntityGrid{
@@ -22,7 +15,7 @@ public class Reference implements EntityGrid{
     public Reference() {
     }
 
-    public Reference(Long id,String fullName, String relName,Integer age, String phone,Boolean isAccompaniment, String specificationRelationship) {
+    public Reference(Long id,String fullName, String relName,String age, String phone,Boolean isAccompaniment, String specificationRelationship) {
         this.id = id;
         this.fullName = fullName;
         this.age = age;
@@ -43,7 +36,7 @@ public class Reference implements EntityGrid{
     private String fullName;
 
     @Column(name="age", nullable = false)
-    private Integer age;
+    private String age;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_relationship", nullable = false)
@@ -100,13 +93,6 @@ public class Reference implements EntityGrid{
         this.fullName = fullName;
     }
 
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
     @JsonIgnore
     public Relationship getRelationship() {
         return relationship;
@@ -211,5 +197,13 @@ public class Reference implements EntityGrid{
 
     public void setBlock(Boolean block) {
         this.block = block;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
     }
 }

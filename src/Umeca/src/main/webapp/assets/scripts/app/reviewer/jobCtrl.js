@@ -177,6 +177,9 @@ app.controller('jobController', function($scope, $timeout,$rootScope) {
            $scope.j.nameHead = "";
            $scope.j.reasonChange = "";
            $scope.j.address = "";
+           $scope.j.registerType = $scope.lstRegisterType[0];
+           $scope.j.registerTypeId = $scope.lstRegisterType[0].id;
        }
+        $scope.$apply();
     };
 });

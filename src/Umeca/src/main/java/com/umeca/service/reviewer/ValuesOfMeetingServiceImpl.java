@@ -1188,7 +1188,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             break;
                         case "yearsMaritalStatus":
                             if (fms.getJsonValue() != null && !fms.getJsonValue().equals("")) {
-                                meeting.getImputed().setYearsMaritalStatus(Integer.parseInt(fms.getJsonValue()));
+                                meeting.getImputed().setYearsMaritalStatus(fms.getJsonValue());
                             }
                             break;
                         case "boys":
@@ -1399,7 +1399,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                         }
                                         break;
                                     case "age":
-                                        psn.setAge(Integer.parseInt(fms.getJsonValue()));
+                                        psn.setAge(fms.getJsonValue());
                                         break;
                                     case "dependent":
                                         cDto = gson.fromJson(fms.getJsonValue(), CatalogDto.class);
@@ -1484,7 +1484,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                     }
                                     break;
                                 case "age":
-                                    r.setAge(Integer.parseInt(fms.getJsonValue()));
+                                    r.setAge(fms.getJsonValue());
                                     break;
                                 case "address":
                                     r.setAddress(fms.getJsonValue());
@@ -1553,7 +1553,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                     j.setStart(dateS);
                                     break;
                                 case "salaryWeek":
-                                    j.setSalaryWeek(Float.parseFloat(fms.getJsonValue()));
+                                    j.setSalaryWeek(fms.getJsonValue());
                                     break;
                                 case "startPrev":
                                     Date date = new Date();

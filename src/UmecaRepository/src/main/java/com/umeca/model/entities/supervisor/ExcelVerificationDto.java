@@ -23,7 +23,7 @@ public class ExcelVerificationDto {
     private String imputedAlias;
     private String sourceName;
     private String sourceRelationship;
-    private Integer age;
+    private String age;
     private String sourceAddress;
     private Long idSource;
     private String statusCase;
@@ -47,7 +47,7 @@ public class ExcelVerificationDto {
                                 String imputedAlias,
                                 String sourceName,
                                 String sourceRelationship,
-                                Integer age,
+                                String age,
                                 String sourceAddress,
                                 Long idSource,
                                 String statusCase) {
@@ -141,14 +141,6 @@ public class ExcelVerificationDto {
 
     public void setSourceRelationship(String sourceRelationship) {
         this.sourceRelationship = sourceRelationship;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
     }
 
     public String getSourceAddress() {
@@ -254,6 +246,14 @@ public class ExcelVerificationDto {
 
     public void setVerificationMethod(String verificationMethod) {
         this.verificationMethod = verificationMethod;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
     }
 }
 

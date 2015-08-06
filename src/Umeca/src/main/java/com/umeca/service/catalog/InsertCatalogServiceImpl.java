@@ -152,7 +152,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     EvaluationActivityRepository evaluationActivityRepository;
 
 
-    private String PATH = "C:\\Projects\\Umeca\\UmecaApp\\db\\";
+    private String PATH = "C:\\Users\\DeveloperII\\Source\\UmecaApp\\db\\";
 
 //    private String PATH = "C:\\Users\\Rata\\Desktop\\branchSandra\\UmecaApp\\db\\";
 

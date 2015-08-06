@@ -172,6 +172,10 @@
                         </li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
+
+                        <li class="nav-li-blue"><a href="<c:url value='/managereval/formulationDate/index.html' />"><i
+                                class="icon icon-calendar"></i>&nbsp;&nbsp;Cita formulaci&oacute;n</a></li>
+
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
                                     class="glyphicon glyphicon-folder-close"></i>
