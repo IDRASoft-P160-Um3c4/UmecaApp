@@ -7,7 +7,7 @@ public class ExcelReferenceDto {
 
     private Long idCase;
     private String name;
-    private Integer age;
+    private String age;
     private String document;
     private String relationship;
     private String address;
@@ -17,7 +17,7 @@ public class ExcelReferenceDto {
     private String specificationRelationship;
     private Boolean block;
 
-    public ExcelReferenceDto(Long idCase, String name, Integer age, String document, String relationship, String address, String phone, Boolean accompaniment, String specificationRelationship, Boolean block) {
+    public ExcelReferenceDto(Long idCase, String name, String age, String document, String relationship, String address, String phone, Boolean accompaniment, String specificationRelationship, Boolean block) {
         this.idCase = idCase;
         this.name = name;
         this.age = age;
@@ -39,14 +39,6 @@ public class ExcelReferenceDto {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
     }
 
     public String getRelationship() {
@@ -125,5 +117,13 @@ public class ExcelReferenceDto {
 
     public void setBlock(Boolean block) {
         this.block = block;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
     }
 }

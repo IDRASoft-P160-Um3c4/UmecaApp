@@ -18,7 +18,7 @@ public class SocialNetworkDto {
     Long depId;
     String name;
     String phone;
-    Integer age;
+    String age;
     String specification;
     String address;
     String specificationRelationship;
@@ -98,11 +98,11 @@ public class SocialNetworkDto {
         this.phone = phone;
     }
 
-    public Integer getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(String age) {
         this.age = age;
     }
 

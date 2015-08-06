@@ -36,7 +36,8 @@ app.controller('socialNetworkController', function($scope, $timeout,$rootScope) 
             return;
 
         if($scope.p.docId === undefined){
-            $scope.p.doc = $scope.lstDoc[0];
+            console.log($scope.lstDoc.length - 1)
+            $scope.p.doc = $scope.lstDoc[$scope.lstDoc.length - 1];
             $scope.p.docId = $scope.p.doc.id;
         }
         else{

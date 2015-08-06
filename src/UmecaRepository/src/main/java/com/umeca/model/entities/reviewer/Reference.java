@@ -22,7 +22,7 @@ public class Reference implements EntityGrid{
     public Reference() {
     }
 
-    public Reference(Long id,String fullName, String relName,Integer age, String phone,Boolean isAccompaniment, String specificationRelationship) {
+    public Reference(Long id,String fullName, String relName,String age, String phone,Boolean isAccompaniment, String specificationRelationship) {
         this.id = id;
         this.fullName = fullName;
         this.age = age;
@@ -43,7 +43,7 @@ public class Reference implements EntityGrid{
     private String fullName;
 
     @Column(name="age", nullable = false)
-    private Integer age;
+    private String age;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_relationship", nullable = false)
@@ -100,13 +100,6 @@ public class Reference implements EntityGrid{
         this.fullName = fullName;
     }
 
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
     @JsonIgnore
     public Relationship getRelationship() {
         return relationship;
@@ -211,5 +204,13 @@ public class Reference implements EntityGrid{
 
     public void setBlock(Boolean block) {
         this.block = block;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
     }
 }

@@ -149,7 +149,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     ChannelingDropTypeRepository channelingDropTypeRepository;
 
 
-    private String PATH = "C:\\Projects\\IDRASoft\\UmecaAppBranchMorelos\\UmecaApp\\db\\";
+    private String PATH = "C:\\Users\\DeveloperII\\Source\\UmecaApp\\db\\";
 
 //    private String PATH = "C:\\Users\\Rata\\Desktop\\branchSandra\\UmecaApp\\db\\";
 

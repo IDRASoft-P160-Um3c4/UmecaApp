@@ -130,11 +130,10 @@
                 Edad:
             </div>
             <div class="col-xs-8">
-                <input class="form-control" data-val="true"
-                       data-val-length="Debe tener al menos 1 y m&aacute;ximo 2 n&uacute;mero"
-                       data-val-regex-pattern="([0-9]+)"    ng-readonly="!p.block"
-                       data-val-regex="La edad s&oacute;lo puede contener n&uacute;meros"
-                       data-val-length-max="2" data-val-length-min="1" data-val-required="La edad es un campo requerido"
+                <input class="form-control"
+                       data-val="true" data-val-length="Deber terner m&aacute;ximo 100 caracteres"
+                       ng-readonly="!p.block"
+                       data-val-length-max="100" data-val-length-min="1" data-val-required="La edad es un campo requerido"
                        type="text" name="age" ng-init="age = person.age" value="{{age}}">
             </div>
             <div class="col-xs-12">

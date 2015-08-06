@@ -32,7 +32,7 @@ public class PersonSocialNetwork{
     private Relationship relationship;
 
     @Column(name="age", nullable = false)
-    private Integer age;
+    private String age;
 
     @Column(name="phone", nullable = false, length = 200)
     private String phone;
@@ -94,11 +94,11 @@ public class PersonSocialNetwork{
         this.relationship = relationship;
     }
 
-    public Integer getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(String age) {
         this.age = age;
     }
 

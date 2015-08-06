@@ -128,7 +128,7 @@ public class VerificationServiceImpl implements VerificationService {
             phone = i.getCelPhone();
         }
         svImputed.setPhone(phone);
-        svImputed.setAge(userService.calculateAge(i.getBirthDate()));
+        svImputed.setAge(Integer.toString(userService.calculateAge(i.getBirthDate())));
         svImputed.setAddress(addressImputed);
         svImputed.setVisible(Boolean.FALSE);
         svImputed.setAuthorized(Boolean.TRUE);
