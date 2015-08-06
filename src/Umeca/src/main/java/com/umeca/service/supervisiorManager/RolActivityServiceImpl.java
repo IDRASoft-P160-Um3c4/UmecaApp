@@ -55,6 +55,7 @@ public class RolActivityServiceImpl implements RolActivityService{
         List<Long> lstActivitiesDel = fullModel.getLstActivitiesDel();
         for(Long id : lstActivitiesDel){
             delete(id, fullModel, user);
+
         }
         rolActivityRepository.flush();
 
@@ -80,8 +81,9 @@ public class RolActivityServiceImpl implements RolActivityService{
                 String endHour = dto.getEndCalendar().get(GregorianCalendar.HOUR_OF_DAY) + ":"
                         + dto.getEndCalendar().get(GregorianCalendar.MINUTE) + " hrs";
 
-
                 String activities = "";
+
+                String title = null;
 
                 if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
                     List<SelectList> lstActivities = dto.getActivities();
@@ -91,16 +93,20 @@ public class RolActivityServiceImpl implements RolActivityService{
                     }
                 }
 
-
-
                 if(dto.getRolActivityId() > 0) {
 
                     update(dto, rolActivityRepository, user, fullModel);
                     if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
-                        bodyMsg = "";
+                        userR.setId(dto.getEvaluatorId());
+                        bodyMsg = "<br/><div class=\"row\"><div class=\"col-xs-3\"><strong>Lugar:</strong> " + dto.getPlace() + "</div><div class=\"col-xs-3\"><strong>Actividad(es):</strong>" +
+                                "<ul>"+ activities +"</ul>" +
+                                "</div></div><div class=\"row\"><div class=\"col-xs-12\"><strong>Fecha inicio actividad:</strong> " + startDate +"<br/>" +
+                                "<strong>Fecha fin actividad:</strong> " + endDate +"<br/><strong>Hora inicio actividad:</strong> "+ startHour +"<br/>" +
+                                "<strong>Hora fin actividad:</strong> "+ endHour +"<br/></div></div>";
                     }else{
-                        //bodyMsg = "";
+
                     }
+                    title = "ACTIVIDAD RE-AGENDADA";
                 } else {
                     create(dto, rolActivityRepository, user, fullModel);
                     if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
@@ -110,14 +116,13 @@ public class RolActivityServiceImpl implements RolActivityService{
                                 "</div></div><div class=\"row\"><div class=\"col-xs-12\"><strong>Fecha inicio actividad:</strong> " + startDate +"<br/>" +
                                 "<strong>Fecha fin actividad:</strong> " + endDate +"<br/><strong>Hora inicio actividad:</strong> "+ startHour +"<br/>" +
                                 "<strong>Hora fin actividad:</strong> "+ endHour +"<br/></div></div>";
-
                     }else{
 
                         //BodyMsg = "";
                     }
-                    //messageService.sendNotification(null, bodyMsg, user,"ACTIVIDAD ROL EVALUACIÓN", null,lstUserIdReceivers );
-                    messageService.sendNotificationToUser(null, bodyMsg, user, userR, "ACTIVIDAD ROL EVALUACIÓN", null);
+                    title = "ACTIVIDAD ROL EVALUACIÓN";
                 }
+                messageService.sendNotificationToUser(null, bodyMsg, user, userR, title, null);
             }catch(Exception ex){
                 logException.Write(ex, this.getClass(), "doUpsertDelete", user.getUsername());
             }
