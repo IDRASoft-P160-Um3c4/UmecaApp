@@ -31,7 +31,7 @@ app.controller('crimeController', function ($scope, $timeout, $rootScope) {
         }, 0);
 
         $scope.validateCrime = function () {
-            valid = true;
+            var valid = true;
             var strArticle = $scope.c.article + "";
             if ($scope.c.crime == undefined) {
                 $scope.listMsgError.push("Debe seleccionar un delito");
@@ -89,6 +89,10 @@ app.controller('crimeController', function ($scope, $timeout, $rootScope) {
 
         }
 
+        $scope.cleanListCrime = function(){
+            $scope.listCrime = [];
+        };
+
         $scope.valAddedCrime = function () {
             $scope.listMsgError = [];
             valid = true;
@@ -101,6 +105,10 @@ app.controller('crimeController', function ($scope, $timeout, $rootScope) {
 
         $rootScope.$on('valAddCrime', function (event,scope,prop) {
             scope[prop]=$scope.valAddedCrime();
+        });
+
+        $rootScope.$on('cleanListCrimeLegal', function () {
+            $scope.cleanListCrime();
         });
 
     }

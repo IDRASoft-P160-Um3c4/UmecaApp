@@ -58,6 +58,8 @@ public class CriminalProceedingView {
 
     private Long locationId;
 
+    private Boolean isFolderAccess;
+
     public Long getIdCase() {
 
         return idCase;
@@ -209,5 +211,13 @@ public class CriminalProceedingView {
 
     public void setLocationId(Long locationId) {
         this.locationId = locationId;
+    }
+
+    public Boolean getIsFolderAccess() {
+        return isFolderAccess;
+    }
+
+    public void setIsFolderAccess(Boolean isFolderAccess) {
+        this.isFolderAccess = isFolderAccess;
     }
 }

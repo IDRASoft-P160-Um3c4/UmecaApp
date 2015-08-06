@@ -10,6 +10,7 @@ import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
 import com.umeca.model.entities.reviewer.View.MeetingView;
 import com.umeca.model.entities.reviewer.View.PersonSocialNetworkView;
+import com.umeca.model.shared.ConsMessage;
 import com.umeca.model.shared.Constants;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
@@ -18,6 +19,7 @@ import com.umeca.service.reviewer.ScheduleService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -472,8 +474,8 @@ public class MeetingController {
     @RequestMapping(value = "/reviewer/meeting/terminateMeeting", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage terminateMeeting(@ModelAttribute Meeting meeting, @RequestParam String sch, String activities) {
-        return meetingService.doTerminateMeeting(meeting, sch, activities);
+    ResponseMessage terminateMeeting(@ModelAttribute Meeting meeting, @RequestParam String sch, String activities, @RequestParam(required = false,defaultValue="false") Boolean cancelMeeting) {
+        return meetingService.doTerminateMeeting(meeting, sch, activities, cancelMeeting);
     }
 
     @RequestMapping(value = "/reviewer/meeting/saveProceedingLegal", method = RequestMethod.POST)
@@ -512,11 +514,34 @@ public class MeetingController {
         return meetingService.savePartialCurrent(cpv);
     }
 
+    @RequestMapping(value = "/reviewer/meeting/saveTimeDetention", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage saveDetentionTime(@ModelAttribute CriminalProceedingView cpv) {
+        ResponseMessage responseMessage;
+        try {
+            responseMessage = meetingService.saveDetentionTime(cpv);
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "savePartialPrevious", userService);
+            responseMessage= new ResponseMessage(true, ConsMessage.MSG_ERROR_UPSERT);
+        }
+        return responseMessage;
+    }
+
     @RequestMapping(value = "/reviewer/meeting/upsertComment", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage upsertComment(@RequestParam String comment,@RequestParam Long idCase, @RequestParam Integer typeComment) {
         return meetingService.upsertComment(idCase, comment, typeComment);
+    }
+
+    @RequestMapping(value = "/reviewer/meeting/showTerminateMeeting", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ModelAndView showTerminateMeeting() {
+        ModelAndView model = new ModelAndView("reviewer/meeting/terminateMeeting");
+
+        return  model;
     }
 
 }

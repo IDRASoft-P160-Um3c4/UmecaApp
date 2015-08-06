@@ -14,21 +14,24 @@ public class ManagerevalView implements EntityGrid {
     private String idFolder;
     private String crime;
 
-    public ManagerevalView(Long id, String idFolder, String name, String lastNameP, String lastNameM, String crime){
+    public ManagerevalView(Long id, String idFolder, String name, String lastNameP, String lastNameM, String crime) {
         this.id = id;
         this.name = name;
         this.lastNameP = lastNameP;
         this.lastNameM = lastNameM;
         this.idFolder = idFolder;
-        this.crime = crime;
+        if (crime == null)
+            this.crime = "Sin acceso a la carpeta";
+        else
+            this.crime = crime;
         createFullname();
     }
 
-    public String getCrime(){
+    public String getCrime() {
         return crime;
     }
 
-    public void setCrime(String crime){
+    public void setCrime(String crime) {
         this.crime = crime;
     }
 
@@ -42,7 +45,7 @@ public class ManagerevalView implements EntityGrid {
 
     private void createFullname() {
         this.fullname = "";
-        if (this.name != null )
+        if (this.name != null)
             this.fullname += this.name + " ";
         if (this.lastNameP != null)
             this.fullname += this.lastNameP + " ";

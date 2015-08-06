@@ -1,4 +1,4 @@
-app.controller('meetingController', function($scope, $timeout, $sce) {
+app.controller('meetingController', function($scope, $timeout, $sce, $rootScope) {
     $scope.model = {};
     $scope.verification=false;
     $scope.selectSource=false;
@@ -15,6 +15,7 @@ app.controller('meetingController', function($scope, $timeout, $sce) {
     $scope.listMsgError ={};
     $scope.Model = {};
     $scope.validf = {};
+    $scope.cancelMeeting=false;
 
     $scope.showMessageError = function(elementClick){
         $("#divErrorMessage").show();
@@ -54,12 +55,17 @@ app.controller('meetingController', function($scope, $timeout, $sce) {
                 return;
             }
             var obj = JSON.parse(resp.message);
+
+            $scope.cancel();
+
             if(obj.groupMessage != undefined){
                 for(var i=0; i < obj.groupMessage.length; i++){
                     var g1= obj.groupMessage[i];
                     $scope.listMsgError[g1.section]= $sce.trustAsHtml( g1.messages);
                 }
             }
+
+            $scope.$emit('updateListMsgError', $scope.listMsgError);
             $scope.$apply();
 
         } catch (e) {
@@ -87,6 +93,11 @@ app.controller('meetingController', function($scope, $timeout, $sce) {
             dlg.replaceWith("");
         });
     };
+
+    $rootScope.$on('updateListMsgError', function (event, lstMsgError) {
+        $scope.listMsgError = lstMsgError;
+    });
+
 })
 app.controller('scController', function($scope, $timeout, $sce) {
 
@@ -140,5 +151,4 @@ app.controller('scController', function($scope, $timeout, $sce) {
         $scope.msgError = $sce.trustAsHtml( "Error de red. Por favor intente más tarde.");
         $scope.$apply();
     };
-
 });

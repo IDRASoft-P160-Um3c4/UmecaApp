@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.umeca.model.catalog.Location;
 import com.umeca.model.entities.shared.Victim;
 
@@ -47,6 +48,9 @@ public class CurrentCriminalProceeding {
 
     @OneToMany(mappedBy = "criminalProceeding", cascade = {CascadeType.ALL})
     private List<Victim> victims;
+
+    @Column(name = "is_folder_access")
+    private Boolean isFolderAccess;
 
     public Long getId() {
         return id;
@@ -121,4 +125,11 @@ public class CurrentCriminalProceeding {
         this.locationDetention = locationDetention;
     }
 
+    public Boolean getIsFolderAccess() {
+        return isFolderAccess;
+    }
+
+    public void setIsFolderAccess(Boolean isFolderAccess) {
+        this.isFolderAccess = isFolderAccess;
+    }
 }
