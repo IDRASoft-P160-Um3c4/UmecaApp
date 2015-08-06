@@ -30,7 +30,7 @@ public class ExcelCaseInfoDto {
     private String imputedBirthLocation;
     private String imputedCelPhone;
     private String imputedMaritalStatus;
-    private Integer imputedYearsMaritalStatus;
+    private String imputedYearsMaritalStatus;
     private Integer imputedChildren;
     private Integer imputedChildrenDependant;
     private String imputedPhysicalCondition;
@@ -116,7 +116,7 @@ public class ExcelCaseInfoDto {
                             String imputedBirthLocationCmb,
                             String imputedCelPhone,
                             String imputedMaritalStatus,
-                            Integer imputedYearsMaritalStatus,
+                            String imputedYearsMaritalStatus,
                             Integer imputedChildren,
                             Integer imputedChildrenDependant,
                             String imputedPhysicalCondition,
@@ -336,11 +336,11 @@ public class ExcelCaseInfoDto {
         this.imputedMaritalStatus = imputedMaritalStatus;
     }
 
-    public Integer getImputedYearsMaritalStatus() {
+    public String getImputedYearsMaritalStatus() {
         return imputedYearsMaritalStatus;
     }
 
-    public void setImputedYearsMaritalStatus(Integer imputedYearsMaritalStatus) {
+    public void setImputedYearsMaritalStatus(String imputedYearsMaritalStatus) {
         this.imputedYearsMaritalStatus = imputedYearsMaritalStatus;
     }
 

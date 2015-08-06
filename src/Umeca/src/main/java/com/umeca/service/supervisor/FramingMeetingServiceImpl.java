@@ -294,10 +294,10 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 view.setGender(2);
 
             view.setMaritalStatus(existVerifMeet.getImputed().getMaritalStatus().getId());
-            Integer years = existVerifMeet.getImputed().getYearsMaritalStatus();
+            String years = existVerifMeet.getImputed().getYearsMaritalStatus();
 
             if (years != null)
-                view.setMaritalStatusYears(years.toString());
+                view.setMaritalStatusYears(years);
 
             view.setBirthCountryId(existVerifMeet.getImputed().getBirthCountry().getId());
 

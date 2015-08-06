@@ -1188,7 +1188,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             break;
                         case "yearsMaritalStatus":
                             if (fms.getJsonValue() != null && !fms.getJsonValue().equals("")) {
-                                meeting.getImputed().setYearsMaritalStatus(Integer.parseInt(fms.getJsonValue()));
+                                meeting.getImputed().setYearsMaritalStatus(fms.getJsonValue());
                             }
                             break;
                         case "boys":

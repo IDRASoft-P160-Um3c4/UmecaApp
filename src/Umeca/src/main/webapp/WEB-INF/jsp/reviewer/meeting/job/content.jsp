@@ -228,13 +228,15 @@
 
                         <div class="col-xs-3">
                             <input class="form-control" data-val="true"
-                                   data-val-length="Debe tener m&aacute;ximo 7 caracteres" name="salaryWeek"
+                                   data-val-length="Debe tener m&aacute;ximo 100 caracteres" name="salaryWeek"
                                    data-val-length-max="100" data-val-length-min="1"
                                    data-val-required="El salario semanal es un campo requerido"
                                    type="text" value=""
-                                   ng-init='j.salaryWeek = ${(j.salaryWeek == null) ? '' : j.salaryWeek}'
-                                   ng-model="j.salaryWeek">
+                                   ng-model="j.salaryWeek"
+                                   ng-init='j.salaryWeek= "${(j.nameHead == null) ? "" : j.salaryWeek}"'>
+
                         </div>
+
                         <div class="row">
                             <div class="col-xs-9 col-xs-offset-3">
                                 <span class="field-validation-valid" data-valmsg-for="salaryWeek"

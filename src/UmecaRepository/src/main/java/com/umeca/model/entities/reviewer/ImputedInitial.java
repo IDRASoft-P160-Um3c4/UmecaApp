@@ -42,8 +42,8 @@ public class ImputedInitial{
     @Column(name = "cel_phone", length = 20, nullable = true)
     protected String celPhone;
 
-    @Column(name = "years_marital_status", nullable = true)
-    protected Integer yearsMaritalStatus;
+    @Column(name = "years_marital_status", nullable = true, length = 100)
+    protected String yearsMaritalStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_marital_status", nullable = true)
@@ -139,14 +139,6 @@ public class ImputedInitial{
         this.meeting = meeting;
     }
 
-    public Integer getYearsMaritalStatus() {
-        return yearsMaritalStatus;
-    }
-
-    public void setYearsMaritalStatus(Integer yearsMaritalStatus) {
-        this.yearsMaritalStatus = yearsMaritalStatus;
-    }
-
     public MaritalStatus getMaritalStatus() {
         return maritalStatus;
     }
@@ -217,6 +209,14 @@ public class ImputedInitial{
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public String getYearsMaritalStatus() {
+        return yearsMaritalStatus;
+    }
+
+    public void setYearsMaritalStatus(String yearsMaritalStatus) {
+        this.yearsMaritalStatus = yearsMaritalStatus;
     }
 
     public void validateMeeting(TerminateMeetingMessageDto t) {

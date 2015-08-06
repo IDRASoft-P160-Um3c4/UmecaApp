@@ -523,4 +523,16 @@ public class ManagerevalController {
 
     }
 
+
+    @RequestMapping(value = {"/managereval/formulationDate/index"}, method = RequestMethod.GET)
+    public ModelAndView formulationDate() {
+        ModelAndView mv = new ModelAndView("/managereval/formulationDate/index");
+        return mv;
+    }
+
+    @RequestMapping(value = {"/managereval/formulationDate/upsert"}, method = RequestMethod.POST)
+    public ModelAndView upsert(){
+        ModelAndView vm = new ModelAndView("/managereval/formulationDate/upsert");
+        return vm;
+    }
 }

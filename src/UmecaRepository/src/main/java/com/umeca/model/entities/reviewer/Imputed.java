@@ -50,7 +50,7 @@ public class Imputed {
     protected String celPhone;
 
     @Column(name = "years_marital_status", nullable = true)
-    protected Integer yearsMaritalStatus;
+    protected String yearsMaritalStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_marital_status", nullable = true)
@@ -146,11 +146,11 @@ public class Imputed {
         this.meeting = meeting;
     }
 
-    public Integer getYearsMaritalStatus() {
+    public String getYearsMaritalStatus() {
         return yearsMaritalStatus;
     }
 
-    public void setYearsMaritalStatus(Integer yearsMaritalStatus) {
+    public void setYearsMaritalStatus(String yearsMaritalStatus) {
         this.yearsMaritalStatus = yearsMaritalStatus;
     }
 
