@@ -213,20 +213,33 @@ public class MainPageServiceImpl implements MainPageService {
                 break;
         }
 
-        List<LogNotificationDto> top10Notif = logNotificationRepository.getReviewerNotifications(userId, new PageRequest(0, 10));
-        /*List<LogNotificationDto> top10Notif = new ArrayList<>();
+        List<LogNotificationDto> lstNotificationA = logNotificationRepository.getReviewerNotifications(userId, new PageRequest(0, 5));
+        List<LogNotificationDto> lstNotificationB = messageRepository.getMessagesByUserId(sharedUserService.GetLoggedUserId(), new PageRequest(0, 5));
+
+        List<LogNotificationDto> lstNotifications = new ArrayList<>();
+
+        lstNotifications.addAll(lstNotificationA);
+        lstNotifications.addAll(lstNotificationB);
+
+        Collections.sort(lstNotifications, LogNotificationDto.dateSorter);
+
+
+        List<LogNotificationDto> top10Notifications = new ArrayList<>();
+
         int topN = 0;
-        for (LogNotificationDto not : lstNotif) {
-            top10Notif.add(not);
+        for (LogNotificationDto not : lstNotifications) {
+            top10Notifications.add(not);
             topN++;
             if (topN == 10)
                 break;
-        } */
+        }
+
 
         Gson conv = new Gson();
 
+
         model.addObject("lstActivities", conv.toJson(top10));
-        model.addObject("lstNotification", conv.toJson(top10Notif));
+        model.addObject("lstNotification", conv.toJson(top10Notifications));
         model.addObject("urlToGo", "/reviewer/log/deleteNotification.json?id=");
 
     }

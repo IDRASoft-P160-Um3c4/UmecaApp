@@ -15,6 +15,7 @@ import com.umeca.repository.managereval.EvaluationActivityRepository;
 import com.umeca.repository.supervisor.LogChangeDataRepository;
 import com.umeca.repository.supervisorManager.RolActivityRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.MessageServiceImpl;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,8 @@ public class RolActivityServiceImpl implements RolActivityService{
     RolActivityRepository rolActivityRepository;
     @Autowired
     EvaluationActivityRepository evaluationActivityRepository;
+    @Autowired
+    MessageServiceImpl messageService;
 
     @Override
     public boolean doUpsertDelete(RolActivityRequest fullModel, User user, ResponseMessage response) {
@@ -56,15 +59,38 @@ public class RolActivityServiceImpl implements RolActivityService{
 
         List<RolActivityDto> lstActivitiesUpsert = fullModel.getLstActivitiesUpsert();
         for(RolActivityDto dto:lstActivitiesUpsert){
+            List<Long> lstUserIdReceivers = null;
+            long userId = 0;
+            User userR = new User();
+            String bodyMsg = null;
 
             if(!validateDates(dto.getStartCalendar(), dto.getEndCalendar()))
                 continue;
-
             try{
-                if(dto.getRolActivityId() > 0)
+                if(dto.getRolActivityId() > 0) {
+
                     update(dto, rolActivityRepository, user, fullModel);
-                else
+                    if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
+                        lstUserIdReceivers.add(dto.getEvaluatorId());
+                        bodyMsg = "";
+                    }else{
+                        //lstUserIdReceivers.add(dto.getSupervisorId());
+                        //BodyMsg = "";
+                    }
+                } else {
                     create(dto, rolActivityRepository, user, fullModel);
+                    if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
+                        userId = dto.getEvaluatorId();
+                        userR.setId(userId);
+                        bodyMsg = "<br/><div class=\"row\"><div class=\"col-xs-3\"><strong>Lugar:</strong> " + dto.getPlace() + "</div><div class=\"col-xs-3\"><strong>Actividad(es):</strong><ul><li>dto.activities</li><li>dto.activities</li><li>dto.activities</li><li>dto.activities</li></ul></div></div><div class=\"row\"><div class=\"col-xs-12\"><strong>Fecha inicio actividad:</strong> " + dto.getStart() +"<br/><strong>Fecha fin actividad:</strong> " + dto.getEnd() +"<br/><strong>Hora inicio actividad:</strong> dto.start<br/><strong>Hora fin actividad:</strong> dto.end<br/></div></div>";
+
+                    }else{
+                        lstUserIdReceivers.add(dto.getSupervisorId());
+                        //BodyMsg = "";
+                    }
+                    //messageService.sendNotification(null, bodyMsg, user,"ACTIVIDAD ROL EVALUACIÓN", null,lstUserIdReceivers );
+                    messageService.sendNotificationToUser(null, bodyMsg, user, userR, "ACTIVIDAD ROL EVALUACIÓN", null);
+                }
             }catch(Exception ex){
                 logException.Write(ex, this.getClass(), "doUpsertDelete", user.getUsername());
             }
