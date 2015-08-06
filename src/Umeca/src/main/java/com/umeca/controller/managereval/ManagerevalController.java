@@ -187,7 +187,8 @@ public class ManagerevalController {
                 final Join<Case, Meeting> joinMeVe = r.join("meeting");
                 final Join<Meeting, Imputed> joinMee = joinMeVe.join("imputed");
                 final Join<Meeting, CurrentCriminalProceeding> joinCCP = joinMeVe.join("currentCriminalProceeding");
-                final Join<CurrentCriminalProceeding, Crime> joinC = joinCCP.join("crimeList");
+                final Join<CurrentCriminalProceeding, Crime> joinC = joinCCP.join("crimeList",JoinType.LEFT);
+                final Join<CurrentCriminalProceeding, Crime> joinCC = joinC.join("crime",JoinType.LEFT);
 
                 ArrayList<Selection<?>> result = new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
@@ -195,7 +196,7 @@ public class ManagerevalController {
                     add(joinMee.get("name"));
                     add(joinMee.get("lastNameP"));
                     add(joinMee.get("lastNameM"));
-                    add(joinC.join("crime").get("name").alias("crime"));
+                    add(joinCC.get("name").alias("crime"));
                 }};
 
                 return result;

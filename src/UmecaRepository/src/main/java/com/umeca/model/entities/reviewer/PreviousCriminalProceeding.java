@@ -53,6 +53,15 @@ public class PreviousCriminalProceeding {
     @JoinColumn(name="id_meeting", nullable = true)
     private Meeting meeting;
 
+    @Column(name="warrant", length = 255, nullable = true)
+    private String warrant;
+
+    @Column(name="platform_mexico", length = 255, nullable = true)
+    private String platformMexico;
+
+    @Column(name="afis", length = 255, nullable = true)
+    private String afis;
+
     public Long getId() {
         return id;
     }
@@ -131,5 +140,29 @@ public class PreviousCriminalProceeding {
 
     public void setSpecificationNumberConvictions(String specificationNumberConvictions) {
         this.specificationNumberConvictions = specificationNumberConvictions;
+    }
+
+    public String getWarrant() {
+        return warrant;
+    }
+
+    public void setWarrant(String warrant) {
+        this.warrant = warrant;
+    }
+
+    public String getPlatformMexico() {
+        return platformMexico;
+    }
+
+    public void setPlatformMexico(String platformMexico) {
+        this.platformMexico = platformMexico;
+    }
+
+    public String getAfis() {
+        return afis;
+    }
+
+    public void setAfis(String afis) {
+        this.afis = afis;
     }
 }

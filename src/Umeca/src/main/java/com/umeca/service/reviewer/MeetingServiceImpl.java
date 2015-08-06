@@ -388,6 +388,9 @@ public class MeetingServiceImpl implements MeetingService {
                 model.addObject("municipalityId", loc.getMunicipality().getId());
                 model.addObject("locationId", loc.getId());
             }
+            model.addObject("isFolderAccess", ccp.getIsFolderAccess());
+        } else {
+            model.addObject("isFolderAccess", true);
         }
 
         PreviousCriminalProceeding pcp = c.getMeeting().getPreviousCriminalProceeding();
@@ -406,6 +409,11 @@ public class MeetingServiceImpl implements MeetingService {
             if (pcp.getComplyProcessAbove() != null) {
                 model.addObject("complyProcessAboveId", pcp.getComplyProcessAbove().getId());
             }
+
+            model.addObject("warrant", pcp.getWarrant());
+            model.addObject("platformMexico", pcp.getPlatformMexico());
+            model.addObject("afis", pcp.getAfis());
+
         } else if (listLegalBefore.equals("[]")) {
             model.addObject("firstProceeding", "Ninguno");
             model.addObject("openProcessNumber", "0");
@@ -930,10 +938,10 @@ public class MeetingServiceImpl implements MeetingService {
 
             if (imputedHome.getAddress() != null && imputedHome.getAddress().getLocation() != null && imputedHome.getAddress().getLocation().getId() != null) {
 
-                if(imputedHome.getIsHomeless()==false) {
+                if (imputedHome.getIsHomeless() == false) {
                     Long locationId = imputedHome.getAddress().getLocation().getId();
                     imputedHome.getAddress().setLocation(locationRepository.findOne(locationId));
-                }else{
+                } else {
                     imputedHome.getAddress().setLocation(locationRepository.findByLocName(Constants.COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW));
                 }
 
@@ -1052,9 +1060,10 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Transactional
     @Override
-    public ResponseMessage doTerminateMeeting(Meeting meeting, String sch, String activities) {
+    public ResponseMessage doTerminateMeeting(Meeting meeting, String sch, String activities, Boolean cancelMeeting) {
         ResponseMessage result = new ResponseMessage();
         try {
+
             Case c = caseRepository.findOne(meeting.getCaseDetention().getId());
             Meeting m = c.getMeeting();
             m.setCommentCountry(meeting.getLeaveCountry().getCommentCountry());
@@ -1088,26 +1097,31 @@ public class MeetingServiceImpl implements MeetingService {
                 schedule.setSchool(s);
             }
             scheduleRepository.save(listSchedules);
-
-
             refreshLeaveCountry(meeting.getLeaveCountry(), c);
 
-            caseRepository.save(c);
             TerminateMeetingMessageDto validate = new TerminateMeetingMessageDto();
-            m.getImputed().validateMeeting(validate);
-            if (m.getSocialEnvironment() == null) {
-                m.setSocialEnvironment(new SocialEnvironment());
+
+            if (cancelMeeting != true) {
+                m.getImputed().validateMeeting(validate);
+                if (m.getSocialEnvironment() == null) {
+                    m.setSocialEnvironment(new SocialEnvironment());
+                }
+                m.getSocialEnvironment().validateMeeting(validate);
+                if (m.getSchool() == null) {
+                    m.setSchool(new School());
+                }
+                m.getSchool().validateMeeting(validate);
+                if (m.getLeaveCountry() == null) {
+                    m.setLeaveCountry(new LeaveCountry());
+                }
+                m.getLeaveCountry().validateMeeting(validate, m.getSocialEnvironment().getComment());
+                m.validateMeeting(validate);
+            } else {
+                c.setHasNegation(true);
             }
-            m.getSocialEnvironment().validateMeeting(validate);
-            if (m.getSchool() == null) {
-                m.setSchool(new School());
-            }
-            m.getSchool().validateMeeting(validate);
-            if (m.getLeaveCountry() == null) {
-                m.setLeaveCountry(new LeaveCountry());
-            }
-            m.getLeaveCountry().validateMeeting(validate, m.getSocialEnvironment().getComment());
-            m.validateMeeting(validate);
+
+            caseRepository.save(c);
+
             if (validate.existsMessageProperties()) {
                 List<String> listGeneral = new ArrayList<>();
                 listGeneral.add(Convert.convertToValidString("No se puede terminar la entrevista puesto que falta por responder preguntas, para m&aacute;s detalles revise los mensajes de cada secci&oacute;n"));
@@ -1115,8 +1129,15 @@ public class MeetingServiceImpl implements MeetingService {
                 validate.formatMessages();
                 return new ResponseMessage(true, gson.toJson(validate));
             }
-            c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
-            m.setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE_LEGAL));
+
+            if (cancelMeeting != true) {
+                c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
+                m.setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE_LEGAL));
+            } else {
+                c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
+                c.setDateNotProsecute(new Date());
+            }
+
             m.setDateTerminate(new Date());
             caseRepository.save(c);
             result.setHasError(false);
@@ -1174,6 +1195,10 @@ public class MeetingServiceImpl implements MeetingService {
         pcpc.setComplyPM(electionNotApplyRepository.findOne(cpv.getComplyPMId()));
         pcpc.setComplyCSPP(electionNotApplyRepository.findOne(cpv.getComplyCSPPId()));
         pcpc.setComplyProcessAbove(electionNotApplyRepository.findOne(cpv.getComplyProcessAboveId()));
+        pcpc.setWarrant(cpv.getWarrant());
+        pcpc.setPlatformMexico(cpv.getPlatformMexico());
+        pcpc.setAfis(cpv.getAfis());
+
 
     }
 
@@ -1195,26 +1220,48 @@ public class MeetingServiceImpl implements MeetingService {
             ccpc.setMeeting(m);
         }
         ccpc.setMeeting(c.getMeeting());
-        ccpc.setBehaviorDetention(cpv.getBehaviorDetention());
-        ccpc.setAdditionalInfo(cpv.getAdditionalInfo());
+
         List<Crime> listOldCrime = ccpc.getCrimeList();
         if (listOldCrime != null) {
+            ccpc.setCrimeList(null);
+            for (Crime curr : listOldCrime) {
+                curr.setCriminalProceeding(null);
+            }
             crimeRepository.delete(listOldCrime);
         }
-        if (cpv.getListCrime() != null && !cpv.getListCrime().equals("")) {
-            ccpc.setCrimeList(legalService.generateCrime(cpv.getListCrime(), ccpc));
-        }
+
         List<CoDefendant> listOldCoDefendant = ccpc.getCoDefendantList();
         if (listOldCoDefendant != null) {
+            ccpc.setCoDefendantList(null);
+            for (CoDefendant curr : listOldCoDefendant) {
+                curr.setCriminalProceeding(null);
+            }
             coDefendantRepository.delete(listOldCoDefendant);
         }
-        if (cpv.getListCoDefendant() != null && !cpv.getListCoDefendant().equals("")) {
-            ccpc.setCoDefendantList(legalService.getnerateCoDefendant(cpv.getListCoDefendant(), ccpc));
-        }
-        ccpc.setPlaceDetention(cpv.getPlaceDetention());
 
-        if (cpv.getLocationId() != null)
-            ccpc.setLocationDetention(locationRepository.findOne(cpv.getLocationId()));
+        if (cpv.getIsFolderAccess() == false) {
+            ccpc.setBehaviorDetention("Sin acceso a la carpeta");
+            ccpc.setAdditionalInfo("Sin acceso a la carpeta");
+            ccpc.setPlaceDetention(cpv.getPlaceDetention());
+            ccpc.setLocationDetention(locationRepository.findByLocName(Constants.COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW));
+            ccpc.setIsFolderAccess(cpv.getIsFolderAccess());
+        } else {
+            ccpc.setIsFolderAccess(cpv.getIsFolderAccess());
+            ccpc.setBehaviorDetention(cpv.getBehaviorDetention());
+            ccpc.setAdditionalInfo(cpv.getAdditionalInfo());
+            ccpc.setPlaceDetention(cpv.getPlaceDetention());
+
+            if (cpv.getListCrime() != null && !cpv.getListCrime().equals("")) {
+                ccpc.setCrimeList(legalService.generateCrime(cpv.getListCrime(), ccpc));
+            }
+
+            if (cpv.getListCoDefendant() != null && !cpv.getListCoDefendant().equals("")) {
+                ccpc.setCoDefendantList(legalService.getnerateCoDefendant(cpv.getListCoDefendant(), ccpc));
+            }
+
+            if (cpv.getLocationId() != null)
+                ccpc.setLocationDetention(locationRepository.findOne(cpv.getLocationId()));
+        }
     }
 
     @Transactional
@@ -1243,6 +1290,18 @@ public class MeetingServiceImpl implements MeetingService {
             logException.Write(e, this.getClass(), "savePartialPrevious", userService);
             return new ResponseMessage(true, ConsMessage.MSG_ERROR_UPSERT);
         }
+    }
+
+    @Transactional
+    @Override
+    public ResponseMessage saveDetentionTime(CriminalProceedingView cpv) {
+        ResponseMessage resp = new ResponseMessage();
+
+//            Case c = caseRepository.findOne(cpv.getIdCase());
+//            refreshCurrentProceeding(cpv, c);
+//            caseRepository.save(c);
+//            return new ResponseMessage(false, ConsMessage.MSG_SUCCESS_UPSERT, "current");
+        return resp;
     }
 
     @Override
@@ -1406,16 +1465,20 @@ public class MeetingServiceImpl implements MeetingService {
         List<String> current = new ArrayList<>(), previous = new ArrayList<>();
         String e = "entity";
         List<String> messageError = new ArrayList<>();
-        if (cpv.getListCrime().trim().equals("[]"))
-            current.add("Debe agregar al menos un delito.");
-        if (cpv.getHaveCoDependant() && cpv.getListCoDefendant().trim().equals(""))
-            current.add("Ha marcado que existen coimputados. Por favor agregue los coimputados del caso");
-        if (cpv.getPlaceDetention().trim().equals(""))
-            current.add(Convert.convertToValidString(v.template.replace(e, "Referencias del lugar de detenci&oacute;n")));
-        if (cpv.getBehaviorDetention().trim().equals(""))
-            current.add(Convert.convertToValidString(v.template.replace(e, "El comportamiento durante la detenci&oacute;n")));
-        if (victimRepository.sizeVictimLegalByIdCase(cpv.getIdCase()) == 0)
-            current.add(Convert.convertToValidString("Debe agregar al menos una v&iacute;ctima"));
+
+        if (cpv.getIsFolderAccess() == true) {
+            if (cpv.getListCrime().trim().equals("[]"))
+                current.add("Debe agregar al menos un delito.");
+            if (cpv.getHaveCoDependant() && cpv.getListCoDefendant().trim().equals(""))
+                current.add("Ha marcado que existen coimputados. Por favor agregue los coimputados del caso");
+            if (cpv.getPlaceDetention().trim().equals(""))
+                current.add(Convert.convertToValidString(v.template.replace(e, "Referencias del lugar de detenci&oacute;n")));
+            if (cpv.getBehaviorDetention().trim().equals(""))
+                current.add(Convert.convertToValidString(v.template.replace(e, "El comportamiento durante la detenci&oacute;n")));
+            if (victimRepository.sizeVictimLegalByIdCase(cpv.getIdCase()) == 0)
+                current.add(Convert.convertToValidString("Debe agregar al menos una v&iacute;ctima"));
+        }
+
         if (cpv.getFirstProceeding().trim().equals(""))
             previous.add(Convert.convertToValidString(v.template.replace(e, "El primer caso ")));
         if (cpv.getOpenProcessNumber() == null)

@@ -45,6 +45,13 @@
                 });
             }, 1000);
         }
+
+        showTerminate = function(){
+            var params = {id: 10};
+            window.showUpsertParams(params, "#angJsjqGridIdMeeting", "<c:url value='/reviewer/meeting/showTerminateMeeting.html'/>", undefined, undefined, undefined);
+        }
+
+
     </script>
     <style>
         .width-100 {
@@ -332,13 +339,24 @@
                     <span class="btn btn-default btn-sm" onclick="window.cancelMeeting()">
                         Regresar
                     </span>
-                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-click="hideMessageError();" ng-confirm-action
-                          confirm-message="&iquest;Est&aacute; seguro que desea terminar la entrevista de riesgos procesales?"
-                          confirm-title="Terminar entrevista" confirm-type="info"
-                          confirmed-click-action="submit('#FormSchool , #FormPersonalData, #FormLeaveCountry, #FormCommentHomeId, #FormCommentReferenceId, #FormCommentJobId, #FormSocialNetworkIndexId, #FormCommentDrugId','<c:url value="/reviewer/meeting/terminateMeeting.json?idCase=${idCase}"/>');">
-                          Terminar
+                <%--<span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-click="hideMessageError();" ng-confirm-action--%>
+                <%--confirm-message="&iquest;Est&aacute; seguro que desea terminar la entrevista de riesgos procesales?"--%>
+                <%--confirm-title="Terminar entrevista" confirm-type="info"--%>
+                <%--confirmed-click-action="submit('#FormSchool , #FormPersonalData, #FormLeaveCountry, #FormCommentHomeId, #FormCommentReferenceId, #FormCommentJobId, #FormSocialNetworkIndexId, #FormCommentDrugId','<c:url value="/reviewer/meeting/terminateMeeting.json?idCase=${idCase}"/>');">--%>
+                <%--Terminar--%>
+                <%--</span>--%>
+                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                           onclick="showTerminate();">
+                                              Terminar
                     </span>
+            </div>
+        </div>
 
+        <div id="angJsjqGridIdMeeting" ng-controller="modalDlgController">
+            <div class="blocker" ng-show="working">
+                <div>
+                    Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
+                </div>
             </div>
         </div>
 

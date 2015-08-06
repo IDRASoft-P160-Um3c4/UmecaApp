@@ -9,14 +9,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Project: Umeca
- * User: Israel
- * Date: 6/13/14
- * Time: 4:34 PM
- */
-
-
 @Entity
 @Table(name = "activity_monitoring_plan")
 public class ActivityMonitoringPlan {

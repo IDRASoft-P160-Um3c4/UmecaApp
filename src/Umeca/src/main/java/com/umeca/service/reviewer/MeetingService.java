@@ -57,7 +57,7 @@ public interface MeetingService {
 
     ResponseMessage upsertLeaveCountry(Long id, LeaveCountry leaveCountry);
 
-    ResponseMessage doTerminateMeeting(Meeting meeting, String sch,String activity);
+    ResponseMessage doTerminateMeeting(Meeting meeting, String sch,String activity, Boolean cancelMeeting);
 
     ResponseMessage validateCreateMeeting(Imputed imputed);
 
@@ -70,6 +70,8 @@ public interface MeetingService {
     ResponseMessage savePartialPrevious(CriminalProceedingView cpv);
 
     ResponseMessage savePartialCurrent(CriminalProceedingView cpv);
+
+    ResponseMessage saveDetentionTime(CriminalProceedingView cpv);
 
     ResponseMessage upsertComment(Long idCase, String comment, Integer commentType);
 }

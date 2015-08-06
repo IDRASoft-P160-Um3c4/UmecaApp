@@ -300,4 +300,65 @@ public class ChannelingController {
         }
         return model;
     }
+
+    @RequestMapping(value = "/supervisor/channeling/reportAttendance", method = RequestMethod.GET)
+    public ModelAndView reportAttendance(@RequestParam(required = true) Long id, HttpServletResponse response) {
+
+        ModelAndView model = null;
+        try {
+            ChannelingModelSheet sheetInfo = channelingService.getChannelingSheetById(id);
+
+            if (sheetInfo == null) {
+                model = new ModelAndView("/supervisor/channeling/notReport");
+                response.setContentType("application/force-download");
+                response.setHeader("Content-Disposition", "attachment; filename=\"reporte-asistencias.doc\"");
+                return model;
+            }
+
+            List<ActivityChannelingModel> lstActivitiesChanneling = channelingService.getLstActivitiesChanneling(id);
+
+            if (lstActivitiesChanneling == null ||  lstActivitiesChanneling.size() < 1) {
+                model = new ModelAndView("/supervisor/channeling/notReport");
+                response.setContentType("application/force-download");
+                response.setHeader("Content-Disposition", "attachment; filename=\"reporte-asistencias.doc\"");
+                return model;
+            }
+
+            List<ActivityChannelingModel> lstActivities = new ArrayList<>();
+            List<ActivityChannelingModel> lstActivitiesAttendance = new ArrayList<>();
+            List<ActivityChannelingModel> lstActivitiesNotAttendance = new ArrayList<>();
+
+            ActivityChannelingModel act;
+            Integer attendance;
+
+            for(int i = lstActivitiesChanneling.size()-1; i>=0; i--){
+                act = lstActivitiesChanneling.get(i);
+                attendance = act.getAttendance();
+
+                if(attendance == -1)
+                    lstActivities.add(act);
+                else if(attendance == 0)
+                    lstActivitiesNotAttendance.add(act);
+                else
+                    lstActivitiesAttendance.add(act);
+            }
+
+            model = new ModelAndView("/supervisor/channeling/reportAttendance");
+            model.addObject("data", sheetInfo);
+            model.addObject("lstActAtt", lstActivitiesAttendance);
+            model.addObject("lstActNoAtt", lstActivitiesNotAttendance);
+            model.addObject("lstActNa", lstActivities);
+
+            response.setContentType("application/force-download");
+            response.setHeader("Content-Disposition", "attachment; filename=\"reporte-asistencias-" +
+                    sheetInfo.getIdMP() + "-" + sheetInfo.getConsecutiveTx() + ".doc\"");
+
+            channelingService.addLogChannelingDoc(sheetInfo.getIdCase(),sheetInfo.getChannelingType());
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "reportAttendance", userService);
+            model = null;
+        }
+        return model;
+    }
+
 }

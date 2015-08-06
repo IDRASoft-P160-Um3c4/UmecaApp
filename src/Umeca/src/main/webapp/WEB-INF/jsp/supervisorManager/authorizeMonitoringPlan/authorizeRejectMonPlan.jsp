@@ -12,7 +12,7 @@
              ng-init="isAuthorized=${isAuthorized};
         fulfillmentReportType='${fulfillmentReportType == null ? "" : fulfillmentReportType}';
         fulfillmentReportTimestamp='${fulfillmentReportTimestamp == null ? "" : fulfillmentReportTimestamp}';">
-            <div class="modal-content" ng-init='lstArrangements=${lstArrangements};'>
+            <div class="modal-content" ng-init='lstArrangements=${lstArrangements ==  null ? "[]" : lstArrangements};'>
                 <div class="modal-header">
                     <div ng-class="(isAuthorized ? 'alert alert-info' : 'alert alert-warning')">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -104,7 +104,7 @@
                         </div>
                         <br/>
 
-                        <div class="row">
+                        <div class="row" ng-show="lstArrangements.length>0">
                             <div class="col-xs-12">
                                 <div ng-class="(isAuthorized ? 'panel panel-primary' : 'panel panel-warning')">
                                     <div class="panel-heading">

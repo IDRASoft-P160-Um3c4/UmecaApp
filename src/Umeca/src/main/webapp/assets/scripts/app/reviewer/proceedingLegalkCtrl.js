@@ -1,4 +1,4 @@
-app.controller('proceedingLegalController', function ($scope, $timeout, $sce, $http) {
+app.controller('proceedingLegalController', function ($scope, $timeout, $sce, $http, $rootScope) {
     $scope.m = {};
     $scope.listElection = [];
     $scope.lstRelationship = [];
@@ -281,7 +281,9 @@ app.controller('proceedingLegalController', function ($scope, $timeout, $sce, $h
         }, 0);
     };
 
-
+    $scope.cleanListCrime=function() {
+        $rootScope.$broadcast('cleanListCrimeLegal');
+    }
     $timeout(function () {
         $scope.init();
     }, 0);

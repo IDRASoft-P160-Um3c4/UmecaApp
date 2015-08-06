@@ -1,42 +1,27 @@
 package com.umeca.controller.supervisorManager;
 
 import com.google.gson.Gson;
-import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
-import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
-import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
-import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.dto.supervisorManager.ResponseRolActivities;
 import com.umeca.model.dto.supervisorManager.RolActivityRequest;
 import com.umeca.model.entities.account.User;
-import com.umeca.model.entities.reviewer.Case;
-import com.umeca.model.entities.reviewer.Imputed;
-import com.umeca.model.entities.reviewer.Meeting;
-import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.entities.supervisor.RequestActivities;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
-import com.umeca.repository.catalog.ArrangementRepository;
-import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.repository.managereval.EvaluationActivityRepository;
-import com.umeca.repository.supervisor.*;
-import com.umeca.repository.supervisorManager.RolActivityRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisiorManager.RolActivityService;
-import com.umeca.service.supervisor.MonitoringPlanService;
-import com.umeca.service.supervisor.TrackMonPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Selection;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,7 +42,6 @@ public class RolSupervisionController {
     UserRepository userRepository;
     @Autowired
     EvaluationActivityRepository evaluationActivityRepository;
-
 
     @RequestMapping(value = {"/supervisorManager/rolSupervision/index", "/managereval/rolEvaluation/index"}, method = RequestMethod.GET)
     public @ResponseBody ModelAndView index(){

@@ -50,8 +50,7 @@
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
                         var row = $(this).getRowData(cl);
-
-                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Revisar solicitud de baja de canalizaci&oacute;n\" onclick=\"window.authRejChannelingDrop('" + cl + "');\"><span class=\"glyphicon glyphicon-list-alt\"></span></a>";
+                        var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Revisar solicitud de baja de canalizaci&oacute;n\" onclick=\"window.authRejChannelingDrop('" + cl + "');\"><span class=\" glyphicon glyphicon-eye-open\"></span></a>";
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }
                 },

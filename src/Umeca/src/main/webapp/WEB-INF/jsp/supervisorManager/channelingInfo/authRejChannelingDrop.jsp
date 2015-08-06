@@ -125,16 +125,16 @@
                                         <hr/>
                                         <div class="row">
                                             <div class="col-xs-8 col-xs-offset-2 element-center">
-                                                <label class="form-control-static"><b>Seleccione la acci&oacute;n a realzar sobre esta solicitud</b></label>
+                                                <label class="form-control-static"><b>Seleccione la acci&oacute;n a realizar sobre esta solicitud</b></label>
                                             </div>
                                             <div class="space-12"></div>
                                             <div class="col-xs-8 col-xs-offset-2 element-center">
                                                 <input type="radio"  name="authRejValue"
                                                        id="authId" ng-value="true" ng-model="m.authRejValue" value="true" ng-init="m.authRejValue = false">
-                                                <label for="authId">Si</label>   &nbsp;&nbsp;&nbsp;
+                                                <label for="authId">Autorizar</label>   &nbsp;&nbsp;&nbsp;
                                                 <input type="radio"  name="authRejValue"
                                                        id="rejId" ng-value="false" ng-model="m.authRejValue" value="false">
-                                                <label for="rejId">No</label>
+                                                <label for="rejId">Rechazar</label>
                                             </div>
                                         </div>
                                         <hr/>

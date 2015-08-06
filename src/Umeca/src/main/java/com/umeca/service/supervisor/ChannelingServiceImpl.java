@@ -183,6 +183,8 @@ public class ChannelingServiceImpl implements ChannelingService {
         if (count > 0) {
             response.setHasError(true);
             response.setMessage("No es posible eliminar este registro, ya que se encuentra en uso");
+            response.setTitle("Eliminar canalización");
+            return;
         }
 
         Channeling model = channelingRepository.findOne(channelingId);
@@ -454,5 +456,10 @@ public class ChannelingServiceImpl implements ChannelingService {
         }
 
         response.setHasError(false);
+    }
+
+    @Override
+    public List<ActivityChannelingModel> getLstActivitiesChanneling(Long id) {
+        return channelingRepository.getLstActivitiesChanneling(id);
     }
 }

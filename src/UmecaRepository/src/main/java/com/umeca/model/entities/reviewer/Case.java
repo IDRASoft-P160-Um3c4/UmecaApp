@@ -112,6 +112,9 @@ public class Case {
     @Column(name = "has_hearing_format", columnDefinition = "TINYINT(1) DEFAULT 0")
     private boolean hasHearingFormat;
 
+    @Column(name = "has_negation", columnDefinition = "TINYINT(1) DEFAULT 0")
+    private boolean hasNegation;
+
     @Transient
     private String idString;
 
@@ -346,5 +349,13 @@ public class Case {
 
     public void setHasHearingFormat(boolean hasHearingFormat) {
         this.hasHearingFormat = hasHearingFormat;
+    }
+
+    public boolean isHasNegation() {
+        return hasNegation;
+    }
+
+    public void setHasNegation(boolean hasNegation) {
+        this.hasNegation = hasNegation;
     }
 }

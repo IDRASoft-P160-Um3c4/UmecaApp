@@ -51,6 +51,13 @@ public class SelectList implements EntityGrid{
         this.description = description;
     }
 
+    public SelectList(Long id, String name, String description, Boolean isSelected) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.isSelected = isSelected;
+    }
+
     public SelectList(Integer id, Calendar calendar) {
         this.idAux = id;
         this.calendar = calendar;
