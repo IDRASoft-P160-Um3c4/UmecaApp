@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -58,34 +59,60 @@ public class RolActivityServiceImpl implements RolActivityService{
         rolActivityRepository.flush();
 
         List<RolActivityDto> lstActivitiesUpsert = fullModel.getLstActivitiesUpsert();
-        for(RolActivityDto dto:lstActivitiesUpsert){
-            List<Long> lstUserIdReceivers = null;
-            long userId = 0;
-            User userR = new User();
-            String bodyMsg = null;
 
+        for(RolActivityDto dto:lstActivitiesUpsert){
             if(!validateDates(dto.getStartCalendar(), dto.getEndCalendar()))
                 continue;
             try{
+                User userR = new User();
+                String bodyMsg = null;
+                String startDate = dto.getStartCalendar().get(GregorianCalendar.DAY_OF_MONTH) + "/"
+                        + (dto.getStartCalendar().get(GregorianCalendar.MONTH) + 1)  + "/"
+                        + dto.getStartCalendar().get(GregorianCalendar.YEAR);
+
+                String endDate = dto.getEndCalendar().get(GregorianCalendar.DAY_OF_MONTH) + "/"
+                        + (dto.getEndCalendar().get(GregorianCalendar.MONTH) + 1) + "/"
+                        + dto.getEndCalendar().get(GregorianCalendar.YEAR);
+
+                String startHour = dto.getStartCalendar().get(GregorianCalendar.HOUR_OF_DAY) + ":"
+                        + dto.getStartCalendar().get(GregorianCalendar.MINUTE) + " hrs";
+
+                String endHour = dto.getEndCalendar().get(GregorianCalendar.HOUR_OF_DAY) + ":"
+                        + dto.getEndCalendar().get(GregorianCalendar.MINUTE) + " hrs";
+
+
+                String activities = "";
+
+                if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
+                    List<SelectList> lstActivities = dto.getActivities();
+                    for(SelectList act: lstActivities){
+                        if(act.getIsSelected() == true)
+                            activities = activities + "<li>" + act.getName() + "</li>";
+                    }
+                }
+
+
+
                 if(dto.getRolActivityId() > 0) {
 
                     update(dto, rolActivityRepository, user, fullModel);
                     if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
-                        lstUserIdReceivers.add(dto.getEvaluatorId());
                         bodyMsg = "";
                     }else{
-                        //lstUserIdReceivers.add(dto.getSupervisorId());
-                        //BodyMsg = "";
+                        //bodyMsg = "";
                     }
                 } else {
                     create(dto, rolActivityRepository, user, fullModel);
                     if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
-                        userId = dto.getEvaluatorId();
-                        userR.setId(userId);
-                        bodyMsg = "<br/><div class=\"row\"><div class=\"col-xs-3\"><strong>Lugar:</strong> " + dto.getPlace() + "</div><div class=\"col-xs-3\"><strong>Actividad(es):</strong><ul><li>dto.activities</li><li>dto.activities</li><li>dto.activities</li><li>dto.activities</li></ul></div></div><div class=\"row\"><div class=\"col-xs-12\"><strong>Fecha inicio actividad:</strong> " + dto.getStart() +"<br/><strong>Fecha fin actividad:</strong> " + dto.getEnd() +"<br/><strong>Hora inicio actividad:</strong> dto.start<br/><strong>Hora fin actividad:</strong> dto.end<br/></div></div>";
+                        userR.setId(dto.getEvaluatorId());
+                        bodyMsg = "<br/><div class=\"row\"><div class=\"col-xs-3\"><strong>Lugar:</strong> " + dto.getPlace() + "</div><div class=\"col-xs-3\"><strong>Actividad(es):</strong>" +
+                                "<ul>"+ activities +"</ul>" +
+                                "</div></div><div class=\"row\"><div class=\"col-xs-12\"><strong>Fecha inicio actividad:</strong> " + startDate +"<br/>" +
+                                "<strong>Fecha fin actividad:</strong> " + endDate +"<br/><strong>Hora inicio actividad:</strong> "+ startHour +"<br/>" +
+                                "<strong>Hora fin actividad:</strong> "+ endHour +"<br/></div></div>";
 
                     }else{
-                        lstUserIdReceivers.add(dto.getSupervisorId());
+
                         //BodyMsg = "";
                     }
                     //messageService.sendNotification(null, bodyMsg, user,"ACTIVIDAD ROL EVALUACIÓN", null,lstUserIdReceivers );
