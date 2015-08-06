@@ -409,6 +409,11 @@ public class MeetingServiceImpl implements MeetingService {
             if (pcp.getComplyProcessAbove() != null) {
                 model.addObject("complyProcessAboveId", pcp.getComplyProcessAbove().getId());
             }
+
+            model.addObject("warrant", pcp.getWarrant());
+            model.addObject("platformMexico", pcp.getPlatformMexico());
+            model.addObject("afis", pcp.getAfis());
+
         } else if (listLegalBefore.equals("[]")) {
             model.addObject("firstProceeding", "Ninguno");
             model.addObject("openProcessNumber", "0");
@@ -1111,7 +1116,7 @@ public class MeetingServiceImpl implements MeetingService {
                 }
                 m.getLeaveCountry().validateMeeting(validate, m.getSocialEnvironment().getComment());
                 m.validateMeeting(validate);
-            }else{
+            } else {
                 c.setHasNegation(true);
             }
 
@@ -1125,10 +1130,10 @@ public class MeetingServiceImpl implements MeetingService {
                 return new ResponseMessage(true, gson.toJson(validate));
             }
 
-            if(cancelMeeting!=true) {
+            if (cancelMeeting != true) {
                 c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
                 m.setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE_LEGAL));
-            }else{
+            } else {
                 c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
                 c.setDateNotProsecute(new Date());
             }
@@ -1190,6 +1195,10 @@ public class MeetingServiceImpl implements MeetingService {
         pcpc.setComplyPM(electionNotApplyRepository.findOne(cpv.getComplyPMId()));
         pcpc.setComplyCSPP(electionNotApplyRepository.findOne(cpv.getComplyCSPPId()));
         pcpc.setComplyProcessAbove(electionNotApplyRepository.findOne(cpv.getComplyProcessAboveId()));
+        pcpc.setWarrant(cpv.getWarrant());
+        pcpc.setPlatformMexico(cpv.getPlatformMexico());
+        pcpc.setAfis(cpv.getAfis());
+
 
     }
 
