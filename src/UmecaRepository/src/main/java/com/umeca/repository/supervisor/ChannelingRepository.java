@@ -1,6 +1,7 @@
 package com.umeca.repository.supervisor;
 
 import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.entities.supervisorManager.ChannelingInfoDropModel;
 import com.umeca.model.shared.SelectList;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

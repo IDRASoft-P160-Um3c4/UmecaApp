@@ -223,6 +223,9 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
                         Expression<Calendar> expDt = r.get(rule.field);
                         p.getExpressions().add(cb.between(expDt, rule.dtIni, rule.dtEnd));
                         break;
+                    case JqGridFilterModel.IS_NULL:
+                        p.getExpressions().add(cb.isNull(exp));
+                        break;
                     default:
                         p.getExpressions().add(cb.like(cb.lower(exp), rule.data.trim().toLowerCase() + "%"));
                         break;

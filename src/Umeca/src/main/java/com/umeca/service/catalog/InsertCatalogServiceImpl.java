@@ -17,6 +17,7 @@ import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.humanResources.*;
+import com.umeca.repository.managereval.EvaluationActivityRepository;
 import com.umeca.repository.shared.CatFileTypeRepository;
 import com.umeca.repository.shared.QuestionaryRepository;
 import com.umeca.repository.shared.SystemSettingRepository;
@@ -147,6 +148,8 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     InformationAvailabilityRepository informationAvailabilityRepository;
     @Autowired
     ChannelingDropTypeRepository channelingDropTypeRepository;
+    @Autowired
+    EvaluationActivityRepository evaluationActivityRepository;
 
 
     private String PATH = "C:\\Users\\DeveloperII\\Source\\UmecaApp\\db\\";
@@ -1023,6 +1026,20 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             informationAvailabilityRepository.save(model);
         }
         informationAvailabilityRepository.flush();
+    }
+
+    @Override
+    public void evaluationActivity() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "evaluationActivity.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            EvaluationActivity model = new EvaluationActivity();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setObsolete(data[2].equals("1"));
+            model.setSpecification(data[3].equals("1"));
+            evaluationActivityRepository.save(model);
+        }
+        evaluationActivityRepository.flush();
     }
 
     @Override

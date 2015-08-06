@@ -19,6 +19,7 @@ import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
+import com.umeca.repository.managereval.EvaluationActivityRepository;
 import com.umeca.repository.supervisor.*;
 import com.umeca.repository.supervisorManager.RolActivityRepository;
 import com.umeca.service.account.SharedUserService;
@@ -52,9 +53,10 @@ public class RolSupervisionController {
     SharedLogExceptionService logException;
     @Autowired
     SharedUserService sharedUserService;
-
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    EvaluationActivityRepository evaluationActivityRepository;
 
 
     @RequestMapping(value = {"/supervisorManager/rolSupervision/index", "/managereval/rolEvaluation/index"}, method = RequestMethod.GET)
@@ -62,14 +64,22 @@ public class RolSupervisionController {
         ModelAndView model = new ModelAndView("/supervisorManager/rolSupervision/index");
         Gson gson = new Gson();
         if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
+
             List<SelectList> lstEvaluator = userRepository.getLstValidUsersByRole(Constants.ROLE_REVIEWER);
             String sLstGeneric = gson.toJson(lstEvaluator);
             model.addObject("lstSupervisor", sLstGeneric);
+            model.addObject("isEvaluator", true);
             model.addObject("urlGetActivities", "/managereval/rolEvaluation/getActivities.json");
+            List<SelectList> lstEvaAct = evaluationActivityRepository.getAllNoObsolete();
+            for(SelectList curr : lstEvaAct){
+                curr.setIsSelected(false);
+            }
+            model.addObject("lstEvaAct", gson.toJson(lstEvaAct));
             return model;
         }
         List<SelectList> lstSupervisor = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
         String sLstGeneric = gson.toJson(lstSupervisor);
+        model.addObject("isEvaluator", false);
         model.addObject("lstSupervisor", sLstGeneric);
         model.addObject("urlGetActivities", "/supervisorManager/rolSupervision/getActivities.json");
         return model;

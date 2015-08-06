@@ -114,5 +114,7 @@ public interface InsertCatalogService {
 
     void informationAvailability();
 
+    void evaluationActivity();
+
     void channelingDropType();
 }

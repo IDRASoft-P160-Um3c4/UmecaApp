@@ -8,18 +8,16 @@ import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.CatChannelingType;
-import com.umeca.model.catalog.CatInstitutionType;
 import com.umeca.model.catalog.District;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
-import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.entities.supervisor.Channeling;
+import com.umeca.model.entities.supervisor.ChannelingDropInfo;
+import com.umeca.model.entities.supervisor.FramingMeeting;
 import com.umeca.model.entities.supervisorManager.ChannelingInfoDropModel;
 import com.umeca.model.entities.supervisorManager.ChannelingInfoDropView;
-import com.umeca.model.shared.Constants;
-import com.umeca.model.shared.SelectList;
-import com.umeca.repository.catalog.ChannelingDropTypeRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.ChannelingService;
@@ -32,7 +30,6 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +54,11 @@ public class ChannelingInfoController {
     public
     @ResponseBody
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("isAuthorized", "", JqGridFilterModel.IS_NULL);
+        opts.extraFilters.add(extraFilter);
+
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
@@ -115,7 +117,7 @@ public class ChannelingInfoController {
     public
     @ResponseBody
     ModelAndView authRejChannelingDrop(@RequestParam(required = true) Long id) {
-        ModelAndView model = new ModelAndView("/supervisor/channelingInfo/authRejChannelingDrop");
+        ModelAndView model = new ModelAndView("/supervisorManager/channelingInfo/authRejChannelingDrop");
 
         ChannelingInfoDropModel channelingInfo;
         channelingInfo = channelingService.getAuthRejChannelingDropInfoById(id);
@@ -131,7 +133,7 @@ public class ChannelingInfoController {
     @RequestMapping(value = "/supervisorManager/channelingInfo/doAuthRejChannelingDrop", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage doAuthRejChannelingDrop(@ModelAttribute final ChannelingModel model) {
+    ResponseMessage doAuthRejChannelingDrop(@ModelAttribute final ChannelingInfoDropModel model) {
         ResponseMessage response = new ResponseMessage();
 
         try {
@@ -140,7 +142,15 @@ public class ChannelingInfoController {
             if (userService.isValidUser(user, response) == false)
                 return response;
 
-            channelingService.doUpsert(model, user, response);
+            if (userService.isValidPasswordForUser(user.getId(), model.getPassword()) == false){
+                response.setMessage("La contrase&ntilde;a es incorrecta, verifique los datos.");
+                response.setHasError(true);
+                return response;
+            }
+
+            channelingService.doAuthRejChannelingDrop(model, user, userService, response);
+
+            return response;
 
         } catch (Exception ex) {
             logException.Write(ex, this.getClass(), "doAuthRejChannelingDrop", userService);

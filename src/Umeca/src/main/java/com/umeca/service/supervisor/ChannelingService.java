@@ -19,4 +19,5 @@ public interface ChannelingService {
     void addLogChannelingDoc(Long caseId, String channelingType);
     void requestDrop(ChannelingDropModel model, User user, ResponseMessage response, SharedUserService userService);
     ChannelingInfoDropModel getAuthRejChannelingDropInfoById(Long id);
+    void doAuthRejChannelingDrop(ChannelingInfoDropModel model, User user, SharedUserService userService, ResponseMessage response);
 }
