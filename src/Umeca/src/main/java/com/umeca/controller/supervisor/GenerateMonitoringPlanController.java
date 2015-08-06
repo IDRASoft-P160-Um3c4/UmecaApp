@@ -37,13 +37,6 @@ import javax.persistence.criteria.Selection;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Project: Umeca
- * User: Israel
- * Date: 6/3/14
- * Time: 12:03 PM
- */
-
 @Controller
 public class GenerateMonitoringPlanController {
 
@@ -168,14 +161,15 @@ public class GenerateMonitoringPlanController {
             sLstGeneric = gson.toJson(lstGeneric);
             model.addObject("lstChanneling", sLstGeneric);
 
+            /*
             boolean hasChanneling = true;
             if(lstGeneric == null || lstGeneric.size() == 0){
                 hasChanneling = false;
-            }
+            } */
 
             lstGeneric = supervisionActivityRepository.findAllValidSl();
 
-            if(hasChanneling == false){
+            /*if(hasChanneling == false){
                 for(int i=lstGeneric.size()-1; i >= 0; i--){
                     SelectList data = lstGeneric.get(i);
                     if(data.getCode().equals(Constants.CHANNELING_SUPERVISION_ACTIVITY_CODE)){
@@ -183,7 +177,8 @@ public class GenerateMonitoringPlanController {
                         break;
                     }
                 }
-            }
+            }*/ //Se eliminó esto para poder obetenr la información de las canalizaciones que fueron dadas de baja, pero se debe tomar en cuenta de que
+            //si selecciona una actividad de canalización, no verá una canalización para seleccionar.
 
             sLstGeneric = gson.toJson(lstGeneric);
             model.addObject("lstActivities", sLstGeneric);

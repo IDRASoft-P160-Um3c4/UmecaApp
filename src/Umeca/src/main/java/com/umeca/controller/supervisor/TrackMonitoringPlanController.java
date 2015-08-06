@@ -349,9 +349,11 @@ public class TrackMonitoringPlanController {
                 }
             }
 
+
+
             Channeling channeling = activityMonitoringPlan.getChanneling();
-            if(channeling != null && activityMonitoringPlan.getActivityGoal() != null
-                    && activityMonitoringPlan.getActivityGoal().getId() == Constants.CHANNELING_NOTIFICATION_GOAL_TRACK){
+            if(channeling != null && activityMonitoringPlan.getActivityGoal() != null && activityMonitoringPlan.getActivityGoal().getId() != null
+                    && Constants.LstChannelingNotificationGoal.contains(activityMonitoringPlan.getActivityGoal().getId())){
                 //Asistencia a la canalización
                 Integer channelingAssistance = model.getChannelingAssistance();
                 if(channelingAssistance != null){

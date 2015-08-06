@@ -100,7 +100,7 @@ var convertToEvents = function (lstActivitiesMonPlan, caseInfo, lstArrangements,
             doTitle: function (isModified) {
                 this.title = (isModified === true ? "*" : "") + "Caso "
                         + this.infoActivity.caseInfo.caseId + "  (" + this.infoActivity.caseInfo.mpId + ") Imputado: "
-                        + this.infoActivity.caseInfo.personName + " / " + this.infoActivity.activity.name + " / " + this.infoActivity.goal.name;
+                        + this.infoActivity.caseInfo.personName + " / " + (this.infoActivity.activity != null ? this.infoActivity.activity.name : "") + " / " + this.infoActivity.goal.name;
             },
             idActivity: act.activityId,
             start: actStart,
