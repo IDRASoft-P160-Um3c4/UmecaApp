@@ -8,13 +8,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import javax.persistence.*;
 import java.io.Serializable;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Desarrollo
- * Date: 8/05/14
- * Time: 01:16 PM
- * To change this template use File | Settings | File Templates.
- */
 @Entity
 @Table(name="reference")
 public class Reference implements EntityGrid{
