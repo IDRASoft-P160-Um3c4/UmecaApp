@@ -30,6 +30,11 @@
             window.goToUrlMvcUrl(goTo);
         };
 
+        window.reportAttendance = function (channelingId) {
+            var goTo = "<c:url value='/supervisor/channeling/reportAttendance.html'/>" + "?id=" + channelingId;
+            window.goToUrlMvcUrl(goTo);
+        };
+
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/supervisor/channeling/list.json' />',
@@ -40,9 +45,9 @@
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idMP', index: 'idMP', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'imputed', index: 'imputed', width: 320, align: "center", sorttype: 'string', search: false },
+                    { name: 'imputed', index: 'imputed', width: 330, align: "center", sorttype: 'string', search: false },
                     { name: 'district', index: 'district', width: 250, align: "center", sorttype: 'string', search: false },
-                    { name: 'supervisor', index: 'supervisor', width: 180, align: "center", sorttype: 'string', search: false },
+                    { name: 'supervisor', index: 'supervisor', width: 200, align: "center", sorttype: 'string', search: false },
                     { name: 'Action', width: 110, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                 ],
                 rowNum: 10,
@@ -99,7 +104,7 @@
                             { name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                             { name: 'institutionType', index: 'institutionType', width: 200, align: "center", sorttype: 'string', search: false },
                             { name: 'institutionName', index: 'institutionName', width: 200, align: "center", sorttype: 'string', search: false },
-                            { name: 'Action', width: 110, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
+                            { name: 'Action', width: 135, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                         ],
                         rowNum: 20,
                         pager: pager_id,
@@ -114,6 +119,7 @@
 
                                 var be = "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar/consultar canalizaci&oacute;n\" onclick=\"window.upsert('" + row_id + "', '" + cl + "', '" + "#" + subgrid_table_id + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar oficio\" onclick=\"window.printSheet('" + cl + "');\"><span class=\"glyphicon glyphicon-download\"></span></a>";
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Reporte de asistencias / inasistencias\" onclick=\"window.reportAttendance('" + cl + "');\"><span class=\"glyphicon glyphicon-list-alt\"></span></a>";
                                 if(row.canDrop === 'true')
                                     be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar baja de canalizaci&oacute;n\" onclick=\"window.drop('" + row_id + "', '" + cl + "', '" + "#" + subgrid_table_id + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar canalizaci&oacute;n\" onclick=\"window.obsolete('" + row_id + "', '" + cl + "', '" + "#" + subgrid_table_id + "');\"><span class=\"glyphicon glyphicon-remove\"></span></a>";

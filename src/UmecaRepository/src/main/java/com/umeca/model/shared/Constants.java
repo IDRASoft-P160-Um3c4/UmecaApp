@@ -3,6 +3,7 @@ package com.umeca.model.shared;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Created with IntelliJ IDEA.
@@ -263,12 +264,19 @@ public class Constants {
     public static final String CHANNELING_DROP_REJ_TITLE = "RECHAZÓ SOLICITUD DE BAJA DE CANALIZACIÓN";
     public static final String CHANNELING_DROP_AUTH_TITLE = "AUTORIZÓ SOLICITUD DE BAJA DE CANALIZACIÓN";
     public static final String CHANNELING_SUPERVISION_ACTIVITY_CODE = "ACCA";
-    public static final int CHANNELING_NOTIFICATION_GOAL_FIRST_DATE = 9; //Identificador del catálogo activity_goals.txt
-    public static final int CHANNELING_NOTIFICATION_GOAL_TRACK = 10; //Identificador del catálogo activity_goals.txt
-    public static final int CHANNELING_NOTIFICATION_GOAL_CONCLUSION = 11; //Identificador del catálogo activity_goals.txt
-    public static final int CHANNELING_NOTIFICATION_GOAL_LOWER = 12; //Identificador del catálogo activity_goals.txt
+    public static final long CHANNELING_NOTIFICATION_GOAL_FIRST_DATE = 9l; //Identificador del catálogo activity_goals.txt
+    public static final long CHANNELING_NOTIFICATION_GOAL_TRACK = 10l; //Identificador del catálogo activity_goals.txt
+    public static final long CHANNELING_NOTIFICATION_GOAL_CONCLUSION = 11l; //Identificador del catálogo activity_goals.txt
+    public static final long CHANNELING_NOTIFICATION_GOAL_LOWER = 12l; //Identificador del catálogo activity_goals.txt
 
-    /**
+    public static final List<Long> LstChannelingNotificationGoal = new ArrayList<Long>(){{
+        add(CHANNELING_NOTIFICATION_GOAL_FIRST_DATE);
+        add(CHANNELING_NOTIFICATION_GOAL_TRACK);
+        add(CHANNELING_NOTIFICATION_GOAL_CONCLUSION);
+        add(CHANNELING_NOTIFICATION_GOAL_LOWER);
+    }};
+
+    /**                                         `
      * códigos para causas de cierre *
      */
 

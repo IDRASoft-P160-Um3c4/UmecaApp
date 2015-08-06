@@ -58,7 +58,7 @@ public interface ChannelingRepository extends JpaRepository<Channeling, Long> {
 
     @Query("SELECT new com.umeca.model.shared.SelectList(c.id, c.name, c.channelingType.name) " +
             "FROM Channeling AS c " +
-            "WHERE c.caseDetention.id = :caseId")
+            "WHERE c.caseDetention.id = :caseId AND c.isObsolete = false AND c.isAuthorizeToDrop IS NULL")
     List<SelectList> findValidByCaseId(@Param("caseId") Long caseId);
 
     @Query("SELECT NEW com.umeca.model.entities.supervisor.ChannelingModelSheet(cd.idMP, i.name, i.lastNameP, i.lastNameM, " +
@@ -68,7 +68,16 @@ public interface ChannelingRepository extends JpaRepository<Channeling, Long> {
             "INNER JOIN cd.meeting.imputed i " +
             "INNER JOIN c.channelingType ct " +
             "INNER JOIN c.institutionType it " +
-            "WHERE c.id = :id")
+            "WHERE c.id = :id AND c.isObsolete = false")
     ChannelingModelSheet getChannelingSheetById(@Param("id")Long id);
 
+
+    @Query("SELECT NEW com.umeca.model.entities.supervisor.ActivityChannelingModel(amp.start, amp.end, amp.channelingAssistance, " +
+            "amp.isJustified, amp.commentsJustification, ra.id) " +
+            "FROM ActivityMonitoringPlan amp " +
+            "INNER JOIN amp.channeling c " +
+            "LEFT JOIN amp.rescheduleAppointment ra " +
+            "WHERE c.id = :id AND c.isObsolete = false " +
+            "ORDER BY amp.start DESC")
+    List<ActivityChannelingModel> getLstActivitiesChanneling(@Param("id")Long id);
 }

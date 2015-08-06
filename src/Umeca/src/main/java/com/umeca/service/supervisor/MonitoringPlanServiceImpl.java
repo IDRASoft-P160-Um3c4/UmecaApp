@@ -29,12 +29,6 @@ import java.util.UUID;
 
 import static com.umeca.model.shared.MonitoringConstants.*;
 
-/**
- * Project: Umeca
- * User: Israel
- * Date: 6/13/14
- * Time: 5:47 PM
- */
 @Service
 public class MonitoringPlanServiceImpl implements MonitoringPlanService {
 
@@ -231,7 +225,7 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService {
         ChannelingNotification notificationInfo = channelingRepository.getNotificationInfo(channelingId);
 
         switch (goalId.intValue()){
-            case Constants.CHANNELING_NOTIFICATION_GOAL_FIRST_DATE:
+            case (int)Constants.CHANNELING_NOTIFICATION_GOAL_FIRST_DATE:
                 messageService.sendNotificationToRole(dto.getCaseId(),
                         String.format("<strong>Descripción:</strong> Se registró la primer cita de canalización del tipo <strong>\"%s\"</strong><br/>" +
                                         "Para el imputado: <strong>%s</strong>. Causa penal <strong>%s</strong><br/>Registrado por el supervisor: <strong>%s</strong><br/>" +
@@ -243,7 +237,7 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService {
                         new ArrayList<String>(){{add(Constants.ROLE_CHANNELING_MANAGER);}},
                         Constants.CHANNELING_FIRST_DATE_NOTIFICATION_TITLE);
                 break;
-            case Constants.CHANNELING_NOTIFICATION_GOAL_TRACK:
+            case (int)Constants.CHANNELING_NOTIFICATION_GOAL_TRACK:
                 messageService.sendNotificationToRole(dto.getCaseId(),
                         String.format("<strong>Descripción:</strong> Se registró una actividad de canalización del tipo <strong>\"%s\"</strong><br/>" +
                                         "Para el imputado: <strong>%s</strong>. Causa penal <strong>%s</strong><br/>Registrado por el supervisor: <strong>%s</strong><br/>" +
@@ -256,7 +250,7 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService {
                         new ArrayList<String>(){{add(Constants.ROLE_CHANNELING_MANAGER);}},
                         Constants.CHANNELING_TRACK_NOTIFICATION_TITLE);
                 break;
-            case Constants.CHANNELING_NOTIFICATION_GOAL_CONCLUSION:
+            case (int)Constants.CHANNELING_NOTIFICATION_GOAL_CONCLUSION:
                 messageService.sendNotificationToRole(dto.getCaseId(),
                         String.format("<strong>Descripción:</strong> Se registró la conclusión de la actividad de canalización del tipo <strong>\"%s\"</strong><br/>" +
                                         "Para el imputado: <strong>%s</strong>. Causa penal <strong>%s</strong><br/>Registrado por el supervisor: <strong>%s</strong><br/>" +
@@ -268,7 +262,7 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService {
                         new ArrayList<String>(){{add(Constants.ROLE_CHANNELING_MANAGER);}},
                         Constants.CHANNELING_CONCLUSION_NOTIFICATION_TITLE);
                 break;
-            case Constants.CHANNELING_NOTIFICATION_GOAL_LOWER:
+            case (int)Constants.CHANNELING_NOTIFICATION_GOAL_LOWER:
                 messageService.sendNotificationToRole(dto.getCaseId(),
                         String.format("<strong>Descripción:</strong> Se registró la baja de la actividad de canalización del tipo <strong>\"%s\"</strong><br/>" +
                                         "Para el imputado: <strong>%s</strong>. Causa penal <strong>%s</strong><br/>Registrado por el supervisor: <strong>%s</strong><br/>" +

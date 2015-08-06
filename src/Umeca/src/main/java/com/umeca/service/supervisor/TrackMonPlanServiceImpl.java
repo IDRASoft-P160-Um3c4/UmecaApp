@@ -169,7 +169,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         model.addObject("actGoal", actMonPlanInfo.getActivityGoalName());
         genericId = actMonPlanInfo.getActivityGoalId();
         model.addObject("actGoalId", genericId);
-        model.addObject("hasActGoalChannelingTrack", genericId == Constants.CHANNELING_NOTIFICATION_GOAL_TRACK);
+        model.addObject("hasActGoalChannelingTrack", Constants.LstChannelingNotificationGoal.contains(genericId));
 
         model.addObject("actSources", StringEscape.escapeText(actMonPlanInfo.getAidSourceName()));
         model.addObject("actStatus", actMonPlanInfo.getActStatus());
