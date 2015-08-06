@@ -60,6 +60,13 @@ public class CriminalProceedingView {
 
     private Boolean isFolderAccess;
 
+    private String warrant;
+
+    private String platformMexico;
+
+    private String afis;
+
+
     public Long getIdCase() {
 
         return idCase;
@@ -219,5 +226,29 @@ public class CriminalProceedingView {
 
     public void setIsFolderAccess(Boolean isFolderAccess) {
         this.isFolderAccess = isFolderAccess;
+    }
+
+    public String getWarrant() {
+        return warrant;
+    }
+
+    public void setWarrant(String warrant) {
+        this.warrant = warrant;
+    }
+
+    public String getPlatformMexico() {
+        return platformMexico;
+    }
+
+    public void setPlatformMexico(String platformMexico) {
+        this.platformMexico = platformMexico;
+    }
+
+    public String getAfis() {
+        return afis;
+    }
+
+    public void setAfis(String afis) {
+        this.afis = afis;
     }
 }
