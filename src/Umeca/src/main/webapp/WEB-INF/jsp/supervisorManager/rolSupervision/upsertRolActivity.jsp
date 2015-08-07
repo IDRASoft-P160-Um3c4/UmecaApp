@@ -20,11 +20,12 @@
                         <label class="col-xs-3 col-xs-offset-1  control-label">Nombre de la actividad (identificador):</label>
 
                         <div class="col-xs-6">
-                            <input class="form-control" ng-model="m.activityName" id="id-activityName" type="text"/>
+                            <input class="form-control" ng-model="m.activityName" ng-required id="id-activityName" type="text"/>
                         </div>
                     </div>
                     <div class="form-group center" ng-show="!isNew">
-                        <p>Nombre de la actividad: {{m.activityName}}</p>
+                        <h5>Nombre de la actividad: {{m.activityName}}</h5>
+                        <h5>Usuario: {{m.supervisor.name}} - {{m.supervisor.description}}</h5>
                     </div>
                     <div class="form-group" ng-show="isNew">
                         <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
@@ -48,7 +49,7 @@
                             <label class="col-xs-3 col-xs-offset-1  control-label">Lugar:</label>
 
                             <div class="col-xs-6">
-                                <input class="form-control" ng-model="m.place" id="id-place" type="text"/>
+                                <input class="form-control" ng-model="m.place" ng-required id="id-place" type="text"/>
                             </div>
                         </div>
                     </sec:authorize>

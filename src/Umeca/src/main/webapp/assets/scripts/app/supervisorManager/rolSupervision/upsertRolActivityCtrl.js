@@ -85,6 +85,8 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
             });
         }, 1);
 
+        $scope.m.activityName = null;
+        $scope.m.place = null;
 
         return def.promise;
     };
@@ -94,6 +96,11 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
         $scope.msgError = "";
 
         isValid = false;
+
+        if($scope.m.activityName === null || $scope.m.activityName === ''){
+            $scope.msgError = "Debe escribir un nombre para la actividad";
+            return false;
+        }
 
         for (var i = 0; i < $scope.m.daysOfWeek.length; i++) {
             if ($scope.m.daysOfWeek[i] === true) {
@@ -402,6 +409,11 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
                 isValid = true;
                 break;
             }
+        }
+
+        if($scope.m.activityName === null || $scope.m.activityName === ''){
+            $scope.msgError = "Debe escribir un nombre para la actividad";
+            return false;
         }
 
         if($scope.m.place === null || $scope.m.place === ''){
