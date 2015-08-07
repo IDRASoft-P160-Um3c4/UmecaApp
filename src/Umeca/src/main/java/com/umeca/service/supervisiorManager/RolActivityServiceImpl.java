@@ -25,13 +25,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-/**
- * Project: Umeca
- * User: Israel
- * Date: 6/13/14
- * Time: 5:47 PM
- */
-@Service
+@Service("rolActivityService")
 public class RolActivityServiceImpl implements RolActivityService{
 
     Calendar today = CalendarExt.getToday();
@@ -45,10 +39,6 @@ public class RolActivityServiceImpl implements RolActivityService{
     EvaluationActivityRepository evaluationActivityRepository;
     @Autowired
     MessageServiceImpl messageService;
-
-    @Autowired
-    RolActivityService rolActivityService;
-
 
     @Override
     public boolean doUpsertDelete(RolActivityRequest fullModel, User user, ResponseMessage response) {
