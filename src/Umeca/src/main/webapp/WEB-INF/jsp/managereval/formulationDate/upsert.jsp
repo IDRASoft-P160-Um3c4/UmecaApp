@@ -9,7 +9,7 @@
 
 <div>
     <div id="dlgUpModalId" class="modal fade" ng-controller="formulationDateCtrl" ng-cloak>
-        <div class="modal-dialog" style="width:800px">
+        <div class="modal-dialog" style="width:820px">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="alert alert-info ">
@@ -36,7 +36,7 @@
                         Cancelar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormForumulationDateId', '<c:url value=""/>');">
+                          ng-click="submit('#FormForumulationDateId', '<c:url value="/managereval/formulationDate/doupsert.json"/>');">
                           Guardar
                     </span>
                 </div>
