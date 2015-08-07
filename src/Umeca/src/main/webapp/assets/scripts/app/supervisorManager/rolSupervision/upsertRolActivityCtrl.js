@@ -288,7 +288,6 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
 
     $scope.clearDaysOfWeek();
 
-
     $scope.saveEvaluator = function () {
         var today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -313,7 +312,8 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
 
         $scope.m.event.infoActivity = {
             evaluator: $scope.m.supervisor,
-            place: $scope.m.place
+            place: $scope.m.place,
+            activityName: $scope.m.activityName
         };
 
         $scope.m.event.doTitle(true);
