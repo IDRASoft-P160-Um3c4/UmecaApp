@@ -16,7 +16,7 @@
             </div>
             <div class="modal-body">
                 <form id="rolActivityForm" name="rolActivityForm" class="form-horizontal" role="form">
-                    <div class="form-group">
+                    <div class="form-group" ng-show="isNew">
                         <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
                             <label for="selectSupervisor" class="col-xs-3 control-label">Evaluadores
                                 disponibles:</label>
