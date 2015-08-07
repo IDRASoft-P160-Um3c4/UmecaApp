@@ -216,31 +216,35 @@ public class MainPageServiceImpl implements MainPageService {
         List<LogNotificationDto> lstNotificationA = logNotificationRepository.getReviewerNotifications(userId, new PageRequest(0, 5));
         List<LogNotificationDto> lstNotificationB = messageRepository.getMessagesByUserId(sharedUserService.GetLoggedUserId(), new PageRequest(0, 5));
 
-        List<LogNotificationDto> lstNotifications = new ArrayList<>();
+//        List<LogNotificationDto> lstNotifications = new ArrayList<>();
+//
+//        lstNotifications.addAll(lstNotificationA);
+//        lstNotifications.addAll(lstNotificationB);
+//
+//        Collections.sort(lstNotifications, LogNotificationDto.dateSorter);
 
-        lstNotifications.addAll(lstNotificationA);
-        lstNotifications.addAll(lstNotificationB);
 
-        Collections.sort(lstNotifications, LogNotificationDto.dateSorter);
-
-
-        List<LogNotificationDto> top10Notifications = new ArrayList<>();
-
-        int topN = 0;
-        for (LogNotificationDto not : lstNotifications) {
-            top10Notifications.add(not);
-            topN++;
-            if (topN == 10)
-                break;
-        }
+//        List<LogNotificationDto> top10Notifications = new ArrayList<>();
+//
+//        int topN = 0;
+//        for (LogNotificationDto not : lstNotifications) {
+//            top10Notifications.add(not);
+//            topN++;
+//            if (topN == 10)
+//                break;
+//        }
 
 
         Gson conv = new Gson();
 
 
         model.addObject("lstActivities", conv.toJson(top10));
-        model.addObject("lstNotification", conv.toJson(top10Notifications));
+        model.addObject("lstNotification", conv.toJson(lstNotificationA));
         model.addObject("urlToGo", "/reviewer/log/deleteNotification.json?id=");
+
+
+        model.addObject("lstNotificationA", conv.toJson(lstNotificationB));
+        model.addObject("urlToGoA", "/shared/messageHistory/deleteNotification.json?id=");
 
     }
 
