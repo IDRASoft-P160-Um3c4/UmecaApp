@@ -18,6 +18,7 @@ public class ActivityReportView implements EntityGrid {
     private String isForManager;
     private String description;
     private Long fileId;
+    private String fileName;
 
     public ActivityReportView(Long id, Calendar creationDate, String reportName, Integer reportFor, Long fileId) {
         this.id = id;
@@ -27,6 +28,14 @@ public class ActivityReportView implements EntityGrid {
         this.fileId = fileId;
     }
 
+    public ActivityReportView(Long id, Calendar creationDate, String reportName, String description, Long fileId, String fileName) {
+        this.id = id;
+        this.creationDate = creationDate;
+        this.reportName = reportName;
+        this.description = description;
+        this.fileId = fileId;
+        this.fileName = fileName;
+    }
 
     public ActivityReportView(Long id, String reportName, String description, Calendar creationDate) {
         this.id = id;
@@ -104,5 +113,13 @@ public class ActivityReportView implements EntityGrid {
 
     public void setFileId(Long fileId) {
         this.fileId = fileId;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }
