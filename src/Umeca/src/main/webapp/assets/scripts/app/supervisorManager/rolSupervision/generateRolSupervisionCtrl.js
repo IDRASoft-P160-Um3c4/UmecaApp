@@ -36,7 +36,8 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
                     eventId : event._id,
                     end: end,
                     start: start,
-                    supervisorId: infoAct.supervisor.id
+                    supervisorId: infoAct.supervisor.id,
+                    activityName: infoAct.activityName
                 });
             }
 
@@ -207,7 +208,8 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
                 allDay: false,
                 className: className,
                 infoActivity:{
-                    supervisor: supervisor
+                    supervisor: supervisor,
+                    activityName: act.activityName
                 }
             };
             lstEvents.push(event);
@@ -351,7 +353,8 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
                 className: className,
                 infoActivity:{
                     evaluator: evaluator,
-                    place: act.place
+                    place: act.place,
+                    activityName: act.activityName
                 }
             };
             lstEvents.push(event);
@@ -387,7 +390,8 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
                     start: start,
                     evaluatorId: infoAct.evaluator.id,
                     place: infoAct.place,
-                    activities: infoAct.activities
+                    activities: infoAct.activities,
+                    activityName: infoAct.activityName
                 });
             }
 

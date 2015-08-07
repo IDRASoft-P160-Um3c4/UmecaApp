@@ -13,6 +13,7 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
 
     $scope.fillFields = function (event) {
         $scope.m.event = event;
+        $scope.m.activityName = event.infoActivity.activityName;
         $scope.m.supervisor = event.infoActivity.supervisor;
         if ($scope.m.supervisor === undefined)
             $scope.m.supervisor = $scope.lstSupervisor[0];
@@ -171,7 +172,8 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
                     isModified: true,
                     className: 'label-info',
                     infoActivity: {
-                        supervisor: $scope.m.supervisor
+                        supervisor: $scope.m.supervisor,
+                        activityName: $scope.m.activityName
                     }
                 };
 
@@ -233,7 +235,8 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
         $scope.m.event.isModified = true;
 
         $scope.m.event.infoActivity = {
-            supervisor: $scope.m.supervisor
+            supervisor: $scope.m.supervisor,
+            activityName: $scope.m.activityName
         };
 
         $scope.m.event.doTitle(true);
@@ -322,6 +325,7 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
 
     $scope.fillFieldsEvaluator = function (event) {
         $scope.m.event = event;
+        $scope.m.activityName = event.infoActivity.activityName;
         $scope.m.supervisor = event.infoActivity.evaluator;
         $scope.m.place = event.infoActivity.place;
         if ($scope.m.supervisor === undefined)
@@ -472,7 +476,8 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
                     infoActivity: {
                         evaluator: $scope.m.supervisor,
                         place: $scope.m.place,
-                        activities: activities
+                        activities: activities,
+                        activityName: $scope.m.activityName
                     }
                 };
 

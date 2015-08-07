@@ -17,15 +17,25 @@
             <div class="modal-body">
                 <form id="rolActivityForm" name="rolActivityForm" class="form-horizontal" role="form">
                     <div class="form-group" ng-show="isNew">
+                        <label class="col-xs-3 col-xs-offset-1  control-label">Nombre de la actividad (identificador):</label>
+
+                        <div class="col-xs-6">
+                            <input class="form-control" ng-model="m.activityName" id="id-activityName" type="text"/>
+                        </div>
+                    </div>
+                    <div class="form-group center" ng-show="!isNew">
+                        <p>Nombre de la actividad: {{m.activityName}}</p>
+                    </div>
+                    <div class="form-group" ng-show="isNew">
                         <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
-                            <label for="selectSupervisor" class="col-xs-3 control-label">Evaluadores
+                            <label for="selectSupervisor" class="col-xs-3 col-xs-offset-1 control-label">Evaluadores
                                 disponibles:</label>
                         </sec:authorize>
                         <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
-                            <label for="selectSupervisor" class="col-xs-3 control-label">Supervisores
+                            <label for="selectSupervisor" class="col-xs-3 col-xs-offset-1 control-label">Supervisores
                                 disponibles:</label>
                         </sec:authorize>
-                        <div class="col-xs-9">
+                        <div class="col-xs-6">
                             <select class="form-control element-center" ng-model="m.supervisor" id="selectSupervisor"
                                     ng-options="(e.name + ' (' + e.description + ')') for e in lstSupervisor"
                                     ng-change="m.supervisorId = m.supervisor.id"
@@ -35,9 +45,9 @@
                     </div>
                     <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
                         <div class="form-group">
-                            <label for="selectSupervisor" class="col-xs-3  control-label">Lugar:</label>
+                            <label class="col-xs-3 col-xs-offset-1  control-label">Lugar:</label>
 
-                            <div class="col-xs-4">
+                            <div class="col-xs-6">
                                 <input class="form-control" ng-model="m.place" id="id-place" type="text"/>
                             </div>
                         </div>
