@@ -263,6 +263,19 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
             });
     }
 
+    $rootScope.$on('setNotKnowValues', function (event, clearFields) {
+        if(clearFields==true) {
+            $scope.street = "";
+            $scope.outNum = "";
+            $scope.innNum = "";
+        }else{
+            $scope.street = "No proporcionado";
+            $scope.outNum = "# exterior";
+            $scope.innNum = "# interior";
+
+        }
+    });
+
     $timeout(function () {
         $scope.init();
     }, 0);

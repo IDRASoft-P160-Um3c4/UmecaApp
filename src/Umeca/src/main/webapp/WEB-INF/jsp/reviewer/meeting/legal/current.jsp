@@ -20,7 +20,8 @@
             <br/>
 
             <div class="row">
-                <div class="col-xs-12 element-center" ng-init="isFolderAccess=${isFolderAccess}">
+                <div class="col-xs-12 element-center"
+                     ng-init="isFolderAccess=${isFolderAccess==null?true:isFolderAccess}">
                     <label>&iquest;Tiene acceso a la carpeta?</label>
 
                     <div class="radio">

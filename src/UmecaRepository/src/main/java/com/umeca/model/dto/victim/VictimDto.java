@@ -20,6 +20,7 @@ public class VictimDto implements EntityGrid {
     private String phone;
     private String addressString;
     private String specification;
+    private Long infoAddressId;
 
     public VictimDto() {
     }
@@ -44,7 +45,7 @@ public class VictimDto implements EntityGrid {
         this.age = victim.getAge();
         this.phone = victim.getPhone();
         this.specification = victim.getSpecification();
-
+        this.infoAddressId = victim.getInfoAddress().getId();
 
         return this;
     }
@@ -111,5 +112,13 @@ public class VictimDto implements EntityGrid {
 
     public void setSpecification(String specification) {
         this.specification = specification;
+    }
+
+    public Long getInfoAddressId() {
+        return infoAddressId;
+    }
+
+    public void setInfoAddressId(Long infoAddressId) {
+        this.infoAddressId = infoAddressId;
     }
 }
