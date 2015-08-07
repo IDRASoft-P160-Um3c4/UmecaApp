@@ -112,7 +112,7 @@ public class ActivityReportController {
     @ResponseBody
     ResponseMessage doUpsert(@RequestBody ActivityReportRequest model) {
         ResponseMessage response = new ResponseMessage();
-        response.setTitle("Agenda de actividades ");
+        response.setTitle("Subir archivo");
 
         try {
             User user = new User();
