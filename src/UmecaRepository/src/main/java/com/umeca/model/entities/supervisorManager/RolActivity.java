@@ -18,6 +18,9 @@ public class RolActivity {
     @Column(name = "id_rol_activity", nullable = false)
     private Long id;
 
+    @Column(name = "name", length = 100, nullable = false)
+    private String name;
+
     @Column(name = "start", nullable = false)
     private Calendar start;
 
@@ -175,5 +178,13 @@ public class RolActivity {
 
     public void setActivities(List<EvaluationActivity> activities) {
         this.activities = activities;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

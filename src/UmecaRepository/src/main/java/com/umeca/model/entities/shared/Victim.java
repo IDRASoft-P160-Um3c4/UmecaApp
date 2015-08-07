@@ -1,5 +1,6 @@
 package com.umeca.model.entities.shared;
 
+import com.umeca.model.catalog.InformationAvailability;
 import com.umeca.model.catalog.Relationship;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.CurrentCriminalProceeding;
@@ -30,6 +31,10 @@ public class Victim {
     private Relationship relationship;
 
     @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id_information_availability", nullable = true)
+    private InformationAvailability infoAddress;
+
+    @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_address", nullable = false)
     private Address address;
 
@@ -45,6 +50,12 @@ public class Victim {
 
     @Column(name="phone", length = 500, nullable = true)
     private String phone;
+
+    @Transient
+    private Long infoAddressId;
+
+    @Transient
+    private Boolean hasInfoAddress;
 
     public Long getId() {
         return id;
@@ -108,5 +119,29 @@ public class Victim {
 
     public void setSpecification(String specification) {
         this.specification = specification;
+    }
+
+    public InformationAvailability getInfoAddress() {
+        return infoAddress;
+    }
+
+    public void setInfoAddress(InformationAvailability infoAddress) {
+        this.infoAddress = infoAddress;
+    }
+
+    public Long getInfoAddressId() {
+        return infoAddressId;
+    }
+
+    public void setInfoAddressId(Long infoAddressId) {
+        this.infoAddressId = infoAddressId;
+    }
+
+    public Boolean getHasInfoAddress() {
+        return hasInfoAddress;
+    }
+
+    public void setHasInfoAddress(Boolean hasInfoAddress) {
+        this.hasInfoAddress = hasInfoAddress;
     }
 }
