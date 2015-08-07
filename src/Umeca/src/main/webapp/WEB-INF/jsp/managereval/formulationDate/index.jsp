@@ -34,7 +34,7 @@
         colNames: ['ID','Fecha registro formulaci&oacute;n','Oficio','C&eacutedula de notificaci&oacute;n','Datos imputado','Datos evaluador','Fecha audiencia', 'Fecha entrevista Umeca', 'Acci&oacute;n'],
         colModel: [
           { name: 'id', index: 'id', hidden: true },
-          { name: 'stampDate', index: 'stampDate', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+          { name: 'stampDate', index: 'timestamp', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
           { name: 'documentNumber', index: 'documentNumber', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
           { name: 'notification', index: 'notification', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
           { name: 'fullNameimputed', index: 'fullNameimputed', width: 200, align: "center", sortable: false, search: false},
@@ -91,7 +91,7 @@
 
   </script>
 
-  <h2 class="element-center"><i class="icon icon-calendar"></i>&nbsp;&nbsp;Cita formulaci&oacute;n</h2>
+  <h2 class="element-center"><i class="icon icon-calendar"></i>&nbsp;&nbsp;Cita de formulaci&oacute;n</h2>
   <div id="angJsjqGridId" ng-controller="modalDlgController">
     <table id="GridId" class="element-center" style="margin: auto"></table>
     <div id="GridPager"></div>
