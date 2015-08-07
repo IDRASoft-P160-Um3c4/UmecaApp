@@ -51,7 +51,10 @@ public class RolActivityServiceImpl implements RolActivityService{
             delete(id, fullModel, user);
             RolActivity act = rolActivityRepository.findOne(id);
             User userN = new User();
-            userN.setId(act.getEvaluator().getId());
+            if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER))
+                userN.setId(act.getEvaluator().getId());
+            else
+                userN.setId(act.getSupervisor().getId());
             messageService.sendNotificationToUser(null, "<br/><div class=\"row\"><div class=\"col-xs-6\">La actividad con identificador '" + act.getName() + "' ha sido eliminada.", user, userN, "ACTIVIDAD ROL EVALUACIÓN ELIMINADA - " + act.getName() + "</div></div>", null);
         }
         rolActivityRepository.flush();

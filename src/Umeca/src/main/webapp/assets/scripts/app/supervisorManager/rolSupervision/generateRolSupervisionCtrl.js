@@ -195,11 +195,18 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
 
             var event = {
                 doTitle: function(isModified){
-                    this.title = (isModified === true ? "*" : "") + "Usuario "
-                        + this.infoActivity.supervisor.name + "\nNombre: "
+                    this.title = (isModified === true ? "*" : "") +
+                        "Actividad: "
+                        + this.infoActivity.activityName +
+                        "\nUsuario "
+                        + this.infoActivity.supervisor.name +
+                        "\nNombre: "
                         + this.infoActivity.supervisor.description;
                 },
-                title: "Usuario "
+                title:
+                    "Actividad: "
+                    + act.activityName +
+                    "\nUsuario "
                     + $scope.idToName(act.supervisorId, lstSupervisor, 0) + "\nNombre: "
                     + $scope.idToName(act.supervisorId, lstSupervisor, 1),
                 idActivity: act.rolActivityId,
@@ -339,13 +346,25 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
 
             var event = {
                 doTitle: function(isModified){
-                    this.title = (isModified === true ? "*" : "") + "Usuario "
-                    + this.infoActivity.evaluator.name + "\nNombre: "
-                    + this.infoActivity.evaluator.description;
+                    this.title = (isModified === true ? "*" : "") +
+                    "Actividad: "
+                    + this.infoActivity.activityName +
+                    "\nUsuario "
+                    + this.infoActivity.evaluator.name +
+                    "\nNombre: "
+                    + this.infoActivity.evaluator.description +
+                    "\nLugar: "
+                    + this.infoActivity.place;
                 },
-                title: "Usuario "
-                + $scope.idToName(act.evaluatorId, lstSupervisor, 0) + "\nNombre: "
-                + $scope.idToName(act.evaluatorId, lstSupervisor, 1),
+                title:
+                "Actividad: "
+                + act.activityName +
+                "\nUsuario "
+                + $scope.idToName(act.evaluatorId, lstSupervisor, 0) +
+                "\nNombre: "
+                + $scope.idToName(act.evaluatorId, lstSupervisor, 1) +
+                "\nLugar: "
+                + act.place,
                 idActivity: act.rolActivityId,
                 start: window.stringToDate(act.start),
                 end: end,

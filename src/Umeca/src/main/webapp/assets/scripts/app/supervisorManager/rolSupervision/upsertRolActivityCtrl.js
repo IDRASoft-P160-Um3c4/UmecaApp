@@ -161,7 +161,10 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
                 var eventAct = {
                     title: "",
                     doTitle: function (isModified) {
-                        this.title = (isModified === true ? "*" : "") + "Usuario "
+                        this.title = (isModified === true ? "*" : "") +
+                        "Actividad: "
+                        + this.infoActivity.activityName +
+                        "\nUsuario "
                         + this.infoActivity.supervisor.name + "\nNombre: "
                         + this.infoActivity.supervisor.description;
                     },
@@ -463,9 +466,15 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
                 var eventAct = {
                     title: "",
                     doTitle: function (isModified) {
-                        this.title = (isModified === true ? "*" : "") + "Usuario "
-                        + this.infoActivity.evaluator.name + "\nNombre: "
-                        + this.infoActivity.evaluator.description;
+                        this.title = (isModified === true ? "*" : "") +
+                        "Actividad: "
+                        + this.infoActivity.activityName +
+                        "\nUsuario "
+                        + this.infoActivity.evaluator.name +
+                        "\nNombre: "
+                        + this.infoActivity.evaluator.description +
+                        "\nLugar: "
+                        + this.infoActivity.place;
                     },
                     idActivity: -1,
                     start: dateStepInit,
