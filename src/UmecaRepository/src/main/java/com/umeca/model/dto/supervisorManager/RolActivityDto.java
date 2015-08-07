@@ -20,6 +20,7 @@ public class RolActivityDto {
     private Long evaluatorId;
     private String place;
     private List<SelectList> activities;
+    private String activityName;
 
     public String getEventId() {
         return eventId;
@@ -124,5 +125,13 @@ public class RolActivityDto {
             lstDtos.add(dto);
         }
         return lstDtos;
+    }
+
+    public String getActivityName() {
+        return activityName;
+    }
+
+    public void setActivityName(String activityName) {
+        this.activityName = activityName;
     }
 }

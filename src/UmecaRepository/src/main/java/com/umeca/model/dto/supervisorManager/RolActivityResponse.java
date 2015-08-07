@@ -15,22 +15,25 @@ public class RolActivityResponse {
     private String status;
     private Long evaluatorId;
     private String place;
+    private String activityName;
 
-    public RolActivityResponse(Long rolActivityId, Calendar endCalendar, Calendar startCalendar, Long supervisorId, String status){
+    public RolActivityResponse(Long rolActivityId, Calendar endCalendar, Calendar startCalendar, Long supervisorId, String status ,String activityName){
         this.rolActivityId = rolActivityId;
         this.endCalendar = endCalendar;
         this.startCalendar = startCalendar;
         this.supervisorId = supervisorId;
         this.status = status;
+        this.activityName = activityName;
     }
 
-    public RolActivityResponse(Long rolActivityId, Calendar endCalendar, Calendar startCalendar, Long evaluatorId, String status, String place){
+    public RolActivityResponse(Long rolActivityId, Calendar endCalendar, Calendar startCalendar, Long evaluatorId, String status, String place, String activityName){
         this.rolActivityId = rolActivityId;
         this.endCalendar = endCalendar;
         this.startCalendar = startCalendar;
         this.status = status;
         this.evaluatorId = evaluatorId;
         this.place = place;
+        this.activityName = activityName;
     }
 
     public Long getRolActivityId() {
@@ -120,5 +123,11 @@ public class RolActivityResponse {
     }
 
 
+    public String getActivityName() {
+        return activityName;
+    }
 
+    public void setActivityName(String activityName) {
+        this.activityName = activityName;
+    }
 }

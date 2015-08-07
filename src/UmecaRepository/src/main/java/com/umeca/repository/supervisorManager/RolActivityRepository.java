@@ -13,7 +13,7 @@ import java.util.List;
 @Repository("qRolActivityRepository")
 public interface RolActivityRepository extends JpaRepository<RolActivity, Long>{
 
-    @Query("SELECT new com.umeca.model.dto.supervisorManager.RolActivityResponse(ra.id, ra.end, ra.start, ra.supervisor.id, ra.status) " +
+    @Query("SELECT new com.umeca.model.dto.supervisorManager.RolActivityResponse(ra.id, ra.end, ra.start, ra.supervisor.id, ra.status, ra.name) " +
             "FROM RolActivity ra " +
             "INNER JOIN ra.supervisor su " +
             "WHERE ra.status <>:status AND " +
@@ -30,7 +30,7 @@ public interface RolActivityRepository extends JpaRepository<RolActivity, Long>{
 
 
 
-    @Query("SELECT new com.umeca.model.dto.supervisorManager.RolActivityResponse(ra.id, ra.end, ra.start, ra.evaluator.id, ra.status, ra.place) " +
+    @Query("SELECT new com.umeca.model.dto.supervisorManager.RolActivityResponse(ra.id, ra.end, ra.start, ra.evaluator.id, ra.status, ra.place, ra.name) " +
             "FROM RolActivity ra " +
             "INNER JOIN ra.evaluator su " +
             "WHERE ra.status <>:status AND " +
