@@ -80,6 +80,9 @@ public class Channeling {
     @Column(name="is_authorize_to_drop", nullable = true)
     private Boolean isAuthorizeToDrop;
 
+    @Column(name="is_volunteer", nullable = false)
+    private Boolean isVolunteer;
+
     @Column(name="is_obsolete", nullable = false)
     private Boolean isObsolete;
 
@@ -241,6 +244,22 @@ public class Channeling {
 
     public void setAuthorizeToDrop(Boolean isAuthorizeToDrop) {
         this.isAuthorizeToDrop = isAuthorizeToDrop;
+    }
+
+    public Boolean getIsAuthorizeToDrop() {
+        return isAuthorizeToDrop;
+    }
+
+    public void setIsAuthorizeToDrop(Boolean isAuthorizeToDrop) {
+        this.isAuthorizeToDrop = isAuthorizeToDrop;
+    }
+
+    public Boolean getIsVolunteer() {
+        return isVolunteer;
+    }
+
+    public void setIsVolunteer(Boolean isVolunteer) {
+        this.isVolunteer = isVolunteer;
     }
 }
 

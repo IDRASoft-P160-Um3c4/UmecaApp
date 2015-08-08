@@ -82,6 +82,9 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
             $scope.m.activitySpec = "";
             $scope.m.goalSpec = "";
             $scope.m.sourceSpec = "";
+
+            if ($scope.lstChanneling && $scope.lstChanneling.length > 0) $scope.m.channeling = $scope.lstChanneling[0];
+
             $scope.changeSource();
         };
 
@@ -161,10 +164,18 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
             var isValid = false;
             $scope.msgError = "";
 
-            for (var key in $scope.m.lstArrangements) {
-                if ($scope.m.lstArrangements[key] === true) {
+            if($scope.m.activity && $scope.m.activity.code === "ACCA"){
+                if($scope.m.channeling && $scope.m.channeling.isSelected === true){
                     isValid = true;
-                    break;
+                }
+            }
+
+            if(isValid !== true){
+                for (var key in $scope.m.lstArrangements) {
+                    if ($scope.m.lstArrangements[key] === true) {
+                        isValid = true;
+                        break;
+                    }
                 }
             }
 

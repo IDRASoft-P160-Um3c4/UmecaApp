@@ -158,6 +158,14 @@ public class GenerateMonitoringPlanController {
             model.addObject("lstArrangements", sLstGeneric);
 
             lstGeneric = channelingRepository.findValidByCaseId(caseId);
+
+            Boolean bValue;
+            for (SelectList sl : lstGeneric){
+                bValue = sl.getIsSelected();
+                if(bValue != null && bValue)
+                    sl.setName(Constants.CHANNELING_IS_VOLUNTEER_TITLE + " " + sl.getName());
+            }
+
             sLstGeneric = gson.toJson(lstGeneric);
             model.addObject("lstChanneling", sLstGeneric);
 

@@ -43,6 +43,10 @@
             <td style="min-width: 250px; text-align: left;">${data.consecutiveTx}</td>
         </tr>
         <tr>
+            <td style="font-weight: bolder; min-width: 250px; text-align: left;">&iquest;Canalizaci&oacute;n voluntaria?</td>
+            <td style="min-width: 250px; text-align: left;">${(data.isVolunteer ? "Si" : "No") }</td>
+        </tr>
+        <tr>
             <td style="font-weight: bolder; min-width: 250px; text-align: left;">Tipo de canalizaci&oacute;n:</td>
             <td style="min-width: 250px; text-align: left;">${data.channelingType}</td>
         </tr>

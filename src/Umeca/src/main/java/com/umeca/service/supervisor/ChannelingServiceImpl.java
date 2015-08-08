@@ -132,6 +132,9 @@ public class ChannelingServiceImpl implements ChannelingService {
                 setId(modelNew.getCaseId());
             }});
             model.setIsObsolete(false);
+            Boolean isVolunteer = modelNew.getIsVolunteer();
+            model.setIsVolunteer(isVolunteer == null ? false : isVolunteer);
+
             model.setCreationDate(Calendar.getInstance());
             fillByChannelingType(model, modelNew, response);
             model.setConsecutive(calculateNextConsecutiveByCaseId(modelNew.getCaseId()));
@@ -242,6 +245,7 @@ public class ChannelingServiceImpl implements ChannelingService {
         model.setDistrict(new District() {{
             setId(modelNew.getDistrictId());
         }});
+
         model.setName(modelNew.getName());
 
         String code = channelingTypeRepository.getCodeById(modelNew.getChannelingTypeId());

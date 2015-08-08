@@ -268,6 +268,7 @@ public class Constants {
     public static final long CHANNELING_NOTIFICATION_GOAL_TRACK = 10l; //Identificador del catálogo activity_goals.txt
     public static final long CHANNELING_NOTIFICATION_GOAL_CONCLUSION = 11l; //Identificador del catálogo activity_goals.txt
     public static final long CHANNELING_NOTIFICATION_GOAL_LOWER = 12l; //Identificador del catálogo activity_goals.txt
+    public static final String CHANNELING_IS_VOLUNTEER_TITLE = "(VOLUNTARIA)";
 
     public static final List<Long> LstChannelingNotificationGoal = new ArrayList<Long>(){{
         add(CHANNELING_NOTIFICATION_GOAL_FIRST_DATE);

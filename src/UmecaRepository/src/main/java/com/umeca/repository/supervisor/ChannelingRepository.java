@@ -29,7 +29,7 @@ public interface ChannelingRepository extends JpaRepository<Channeling, Long> {
 
     @Query("SELECT new com.umeca.model.entities.supervisor.ChannelingModel(c.id, cd.id, cd.idMP, i.name, i.lastNameP, i.lastNameM, d.id, s.fullname" +
             ", c.name, c.channelingType.id, c.institutionType.id, c.economicSupport.id, c.preventionType.id, c.educationLevel.id" +
-            ", c.specOther, c.institutionName, c.consecutive) " +
+            ", c.specOther, c.institutionName, c.consecutive, c.isVolunteer) " +
             "FROM Channeling AS c " +
             "INNER JOIN c.caseDetention cd " +
             "INNER JOIN cd.meeting.imputed i " +
@@ -56,13 +56,13 @@ public interface ChannelingRepository extends JpaRepository<Channeling, Long> {
     ChannelingNotification getNotificationInfo(@Param("channelingId") Long id);
 
 
-    @Query("SELECT new com.umeca.model.shared.SelectList(c.id, c.name, c.channelingType.name) " +
+    @Query("SELECT new com.umeca.model.shared.SelectList(c.id, c.name, c.channelingType.name, c.isVolunteer) " +
             "FROM Channeling AS c " +
             "WHERE c.caseDetention.id = :caseId AND c.isObsolete = false AND c.isAuthorizeToDrop IS NULL")
     List<SelectList> findValidByCaseId(@Param("caseId") Long caseId);
 
     @Query("SELECT NEW com.umeca.model.entities.supervisor.ChannelingModelSheet(cd.idMP, i.name, i.lastNameP, i.lastNameM, " +
-            "i.birthDate, i.gender, i.celPhone, ct.name, c.name, it.name, c.institutionName, c.consecutive,cd.id) " +
+            "i.birthDate, i.gender, i.celPhone, ct.name, c.name, it.name, c.institutionName, c.consecutive, cd.id, c.isVolunteer) " +
             "FROM Channeling c " +
             "INNER JOIN c.caseDetention cd " +
             "INNER JOIN cd.meeting.imputed i " +
