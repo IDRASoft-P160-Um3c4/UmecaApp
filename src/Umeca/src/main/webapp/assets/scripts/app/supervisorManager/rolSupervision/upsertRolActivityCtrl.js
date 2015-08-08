@@ -13,6 +13,7 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
 
     $scope.fillFields = function (event) {
         $scope.m.event = event;
+        $scope.m.activityName = event.infoActivity.activityName;
         $scope.m.supervisor = event.infoActivity.supervisor;
         if ($scope.m.supervisor === undefined)
             $scope.m.supervisor = $scope.lstSupervisor[0];
@@ -84,6 +85,8 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
             });
         }, 1);
 
+        $scope.m.activityName = null;
+        $scope.m.place = null;
 
         return def.promise;
     };
@@ -93,6 +96,11 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
         $scope.msgError = "";
 
         isValid = false;
+
+        if($scope.m.activityName === null || $scope.m.activityName === ''){
+            $scope.msgError = "Debe escribir un nombre para la actividad";
+            return false;
+        }
 
         for (var i = 0; i < $scope.m.daysOfWeek.length; i++) {
             if ($scope.m.daysOfWeek[i] === true) {
@@ -160,7 +168,10 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
                 var eventAct = {
                     title: "",
                     doTitle: function (isModified) {
-                        this.title = (isModified === true ? "*" : "") + "Usuario "
+                        this.title = (isModified === true ? "*" : "") +
+                        "Actividad: "
+                        + this.infoActivity.activityName +
+                        "\nUsuario "
                         + this.infoActivity.supervisor.name + "\nNombre: "
                         + this.infoActivity.supervisor.description;
                     },
@@ -171,7 +182,8 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
                     isModified: true,
                     className: 'label-info',
                     infoActivity: {
-                        supervisor: $scope.m.supervisor
+                        supervisor: $scope.m.supervisor,
+                        activityName: $scope.m.activityName
                     }
                 };
 
@@ -233,7 +245,8 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
         $scope.m.event.isModified = true;
 
         $scope.m.event.infoActivity = {
-            supervisor: $scope.m.supervisor
+            supervisor: $scope.m.supervisor,
+            activityName: $scope.m.activityName
         };
 
         $scope.m.event.doTitle(true);
@@ -285,7 +298,6 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
 
     $scope.clearDaysOfWeek();
 
-
     $scope.saveEvaluator = function () {
         var today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -310,7 +322,8 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
 
         $scope.m.event.infoActivity = {
             evaluator: $scope.m.supervisor,
-            place: $scope.m.place
+            place: $scope.m.place,
+            activityName: $scope.m.activityName
         };
 
         $scope.m.event.doTitle(true);
@@ -322,6 +335,7 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
 
     $scope.fillFieldsEvaluator = function (event) {
         $scope.m.event = event;
+        $scope.m.activityName = event.infoActivity.activityName;
         $scope.m.supervisor = event.infoActivity.evaluator;
         $scope.m.place = event.infoActivity.place;
         if ($scope.m.supervisor === undefined)
@@ -397,6 +411,11 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
             }
         }
 
+        if($scope.m.activityName === null || $scope.m.activityName === ''){
+            $scope.msgError = "Debe escribir un nombre para la actividad";
+            return false;
+        }
+
         if($scope.m.place === null || $scope.m.place === ''){
             $scope.msgError = "Debe escribir el lugar de la actividad";
             return false;
@@ -459,9 +478,15 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
                 var eventAct = {
                     title: "",
                     doTitle: function (isModified) {
-                        this.title = (isModified === true ? "*" : "") + "Usuario "
-                        + this.infoActivity.evaluator.name + "\nNombre: "
-                        + this.infoActivity.evaluator.description;
+                        this.title = (isModified === true ? "*" : "") +
+                        "Actividad: "
+                        + this.infoActivity.activityName +
+                        "\nUsuario "
+                        + this.infoActivity.evaluator.name +
+                        "\nNombre: "
+                        + this.infoActivity.evaluator.description +
+                        "\nLugar: "
+                        + this.infoActivity.place;
                     },
                     idActivity: -1,
                     start: dateStepInit,
@@ -472,7 +497,8 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
                     infoActivity: {
                         evaluator: $scope.m.supervisor,
                         place: $scope.m.place,
-                        activities: activities
+                        activities: activities,
+                        activityName: $scope.m.activityName
                     }
                 };
 
