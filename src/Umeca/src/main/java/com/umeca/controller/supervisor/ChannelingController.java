@@ -283,7 +283,7 @@ public class ChannelingController {
             if (sheetInfo == null) {
                 model = new ModelAndView("/supervisor/channeling/notSheet");
                 response.setContentType("application/force-download");
-                response.setHeader("Content-Disposition", "attachment; filename=\"oficio-canalización.doc\"");
+                response.setHeader("Content-Disposition", "attachment; filename=\"sin-oficio-canalización.doc\"");
                 return model;
             }
 
@@ -311,7 +311,7 @@ public class ChannelingController {
             if (sheetInfo == null) {
                 model = new ModelAndView("/supervisor/channeling/notReport");
                 response.setContentType("application/force-download");
-                response.setHeader("Content-Disposition", "attachment; filename=\"reporte-asistencias.doc\"");
+                response.setHeader("Content-Disposition", "attachment; filename=\"sin-reporte-asistencias.doc\"");
                 return model;
             }
 
@@ -320,7 +320,7 @@ public class ChannelingController {
             if (lstActivitiesChanneling == null ||  lstActivitiesChanneling.size() < 1) {
                 model = new ModelAndView("/supervisor/channeling/notReport");
                 response.setContentType("application/force-download");
-                response.setHeader("Content-Disposition", "attachment; filename=\"reporte-asistencias.doc\"");
+                response.setHeader("Content-Disposition", "attachment; filename=\"sin-actividades-reporte-asistencias.doc\"");
                 return model;
             }
 
@@ -331,7 +331,7 @@ public class ChannelingController {
             ActivityChannelingModel act;
             Integer attendance;
 
-            for(int i = lstActivitiesChanneling.size()-1; i>=0; i--){
+            for(int i = 0, len = lstActivitiesChanneling.size(); i<len; i++){
                 act = lstActivitiesChanneling.get(i);
                 attendance = act.getAttendance();
 

@@ -13,14 +13,17 @@ public class ActivityChannelingModel {
     private String hasJustification;
     private String commentsJustify;
     private String hasReschedule;
+    private String activityGoal;
 
-    public ActivityChannelingModel(Calendar start, Calendar end, Integer attendance, Boolean isJustified, String commentsJustify, Long hasReschedule) {
+    public ActivityChannelingModel(Calendar start, Calendar end, Integer attendance, Boolean isJustified, String commentsJustify,
+                                   Long hasReschedule, String activityGoal) {
         this.startTx = CalendarExt.calendarToFormatString(start, Constants.FORMAT_CALENDAR_I);
         this.endTx = CalendarExt.calendarToFormatString(end, Constants.FORMAT_CALENDAR_I);
         this.attendance = attendance == null ? -1 : attendance;
         this.hasJustification = isJustified == null ? "NA" : (isJustified ? "SI" : "NO");
         this.commentsJustify = commentsJustify;
         this.hasReschedule = hasReschedule == null ? "NO" : "SI";
+        this.activityGoal = activityGoal;
     }
 
     public String getStartTx() {
@@ -69,5 +72,13 @@ public class ActivityChannelingModel {
 
     public void setHasReschedule(String hasReschedule) {
         this.hasReschedule = hasReschedule;
+    }
+
+    public String getActivityGoal() {
+        return activityGoal;
+    }
+
+    public void setActivityGoal(String activityGoal) {
+        this.activityGoal = activityGoal;
     }
 }
