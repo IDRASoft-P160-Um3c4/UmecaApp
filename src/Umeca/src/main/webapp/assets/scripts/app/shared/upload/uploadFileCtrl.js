@@ -32,7 +32,8 @@ app.controller('uploadFileController', function($scope, $timeout, $sce) {
 
     $scope.init = function () {
          if($scope.listTypeName==undefined || $scope.listTypeName.length == 0){
-             $scope.m.typeNameFileId = $scope.defaultType.id;
+             if($scope.defaultType)
+                $scope.m.typeNameFileId = $scope.defaultType.id;
              return;
          }
          $scope.m.typeNameFile =$scope.listTypeName[0];

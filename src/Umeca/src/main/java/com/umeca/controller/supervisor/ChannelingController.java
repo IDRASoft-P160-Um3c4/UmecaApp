@@ -11,13 +11,9 @@ import com.umeca.model.catalog.CatChannelingType;
 import com.umeca.model.catalog.CatInstitutionType;
 import com.umeca.model.catalog.District;
 import com.umeca.model.entities.account.User;
-import com.umeca.model.entities.director.project.Project;
-import com.umeca.model.entities.director.project.ProjectActivity;
-import com.umeca.model.entities.director.project.ProjectActivityModel;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
-import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileView;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
@@ -36,7 +32,6 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 @Controller
