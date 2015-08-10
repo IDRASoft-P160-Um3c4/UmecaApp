@@ -2,6 +2,8 @@ package com.umeca.repository.supervisor;
 
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.entities.supervisorManager.ChannelingInfoDropModel;
+import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -73,11 +75,12 @@ public interface ChannelingRepository extends JpaRepository<Channeling, Long> {
 
 
     @Query("SELECT NEW com.umeca.model.entities.supervisor.ActivityChannelingModel(amp.start, amp.end, amp.channelingAssistance, " +
-            "amp.isJustified, amp.commentsJustification, ra.id) " +
+            "amp.isJustified, amp.commentsJustification, ra.id, ag.name) " +
             "FROM ActivityMonitoringPlan amp " +
             "INNER JOIN amp.channeling c " +
+            "INNER JOIN amp.activityGoal ag " +
             "LEFT JOIN amp.rescheduleAppointment ra " +
-            "WHERE c.id = :id AND c.isObsolete = false " +
-            "ORDER BY amp.start DESC")
+            "WHERE c.id = :id AND c.isObsolete = false AND amp.status <> '" + MonitoringConstants.STATUS_ACTIVITY_DELETED +
+            "' ORDER BY amp.start ASC")
     List<ActivityChannelingModel> getLstActivitiesChanneling(@Param("id")Long id);
 }

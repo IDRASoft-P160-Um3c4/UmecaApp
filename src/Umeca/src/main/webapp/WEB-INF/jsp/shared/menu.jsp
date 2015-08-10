@@ -336,10 +336,10 @@
                                 <i class="icon-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="<c:url value='/channelingManager/queryChanneling/index.html' />">
-                                    <i class="glyphicon glyphicon-search"></i>&nbsp;&nbsp;Consultar canalizaciones</a></li>
                                 <li><a href="<c:url value='/channelingManager/documentRepository/index.html' />">
                                     <i class="glyphicon glyphicon-cloud-upload"></i>&nbsp;&nbsp;Repositorio de documentos</a></li>
+                                <li><a href="<c:url value='/channelingManager/queryChanneling/index.html' />">
+                                    <i class="glyphicon glyphicon-search"></i>&nbsp;&nbsp;Canalizaciones por caso</a></li>
                             </ul>
                         </li>
                     </sec:authorize>
