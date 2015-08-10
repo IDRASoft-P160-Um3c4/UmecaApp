@@ -213,8 +213,8 @@ public class MainPageServiceImpl implements MainPageService {
                 break;
         }
 
-        List<LogNotificationDto> lstNotificationA = logNotificationRepository.getReviewerNotifications(userId, new PageRequest(0, 5));
-        List<LogNotificationDto> lstNotificationB = messageRepository.getMessagesByUserId(sharedUserService.GetLoggedUserId(), new PageRequest(0, 5));
+        List<LogNotificationDto> lstNotification = logNotificationRepository.getReviewerNotifications(userId, new PageRequest(0, 5));
+        List<LogNotificationDto> lstNotificationA = messageRepository.getMessagesByUserId(sharedUserService.GetLoggedUserId(), new PageRequest(0, 5));
 
 //        List<LogNotificationDto> lstNotifications = new ArrayList<>();
 //
@@ -239,11 +239,11 @@ public class MainPageServiceImpl implements MainPageService {
 
 
         model.addObject("lstActivities", conv.toJson(top10));
-        model.addObject("lstNotification", conv.toJson(lstNotificationA));
+        model.addObject("lstNotification", conv.toJson(lstNotification));
         model.addObject("urlToGo", "/reviewer/log/deleteNotification.json?id=");
 
 
-        model.addObject("lstNotificationA", conv.toJson(lstNotificationB));
+        model.addObject("lstNotificationA", conv.toJson(lstNotificationA));
         model.addObject("urlToGoA", "/shared/messageHistory/deleteNotification.json?id=");
 
     }
