@@ -43,6 +43,9 @@ public class RolActivityServiceImpl implements RolActivityService{
     @Override
     public boolean doUpsertDelete(RolActivityRequest fullModel, User user, ResponseMessage response) {
 
+        String bodyMsg = "";
+        String activities = "";
+        String title = "";
         fullModel.setNow(Calendar.getInstance());
 
         //First set status to delete for all activities
@@ -51,11 +54,26 @@ public class RolActivityServiceImpl implements RolActivityService{
             delete(id, fullModel, user);
             RolActivity act = rolActivityRepository.findOne(id);
             User userN = new User();
-            if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER))
+            if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)) {
                 userN.setId(act.getEvaluator().getId());
-            else
+                bodyMsg = "<br/><div class=\"row\"><div class=\"col-xs-12\">La actividad con identificador '" + act.getName() + "' ha sido eliminada." +
+                        "<div class=\"row\"><div class=\"col-xs-12\"><strong>Nombre de la actividad:</strong> " + act.getName() + "</div></div>" +
+                        "<div class=\"row\"><div class=\"col-xs-4\"><strong>Lugar:</strong> " + act.getPlace() + "</div></div>" +
+                        "<div class=\"row\"><div class=\"col-xs-12\"><strong>Fecha inicio actividad:</strong> "+ getStrDate(act.getStart()) +"<br/>" +
+                        "<strong>Fecha fin actividad:</strong> " + getStrDate(act.getEnd()) + "<br/>" + "<strong>Hora inicio actividad:</strong> "+ getStrHour(act.getStart()) +"<br/>" +
+                        "<strong>Hora fin actividad:</strong> "+ getStrHour(act.getEnd()) +"<br/></div></div>";
+            }
+            else{
+                bodyMsg = "<br/><div class=\"row\"><div class=\"col-xs-12\">La actividad con identificador '" + act.getName() + "' ha sido eliminada." +
+                        "<div class=\"row\"><div class=\"col-xs-12\"><strong>Nombre de la actividad:</strong> " + act.getName() + "</div></div>" +
+                        "<div class=\"row\"><div class=\"col-xs-4\"><strong>Lugar:</strong> " + act.getPlace() + "</div></div>" +
+                        "<div class=\"row\"><div class=\"col-xs-12\"><strong>Fecha inicio actividad:</strong> " + getStrDate(act.getStart()) +"<br/>" +
+                        "<strong>Fecha fin actividad:</strong> " + getStrDate(act.getEnd()) +"<br/><strong>Hora inicio actividad:</strong> "+ getStrHour(act.getStart()) +"<br/>" +
+                        "<strong>Hora fin actividad:</strong> "+ getStrHour(act.getEnd()) +"<br/></div></div>";
                 userN.setId(act.getSupervisor().getId());
-            messageService.sendNotificationToUser(null, "<br/><div class=\"row\"><div class=\"col-xs-12\">La actividad con identificador '" + act.getName() + "' ha sido eliminada.", user, userN, "ACTIVIDAD ROL EVALUACIÓN ELIMINADA - " + act.getName() + "</div></div>", null);
+            }
+
+            messageService.sendNotificationToUser(null, bodyMsg, user, userN, "ACTIVIDAD ROL EVALUACIÓN ELIMINADA - " + act.getName(), null);
         }
         rolActivityRepository.flush();
 
@@ -66,23 +84,12 @@ public class RolActivityServiceImpl implements RolActivityService{
                 continue;
             try{
                 User userR = new User();
-                String bodyMsg = null;
-                String startDate = dto.getStartCalendar().get(GregorianCalendar.DAY_OF_MONTH) + "/"
-                        + (dto.getStartCalendar().get(GregorianCalendar.MONTH) + 1)  + "/"
-                        + dto.getStartCalendar().get(GregorianCalendar.YEAR);
 
-                String endDate = dto.getEndCalendar().get(GregorianCalendar.DAY_OF_MONTH) + "/"
-                        + (dto.getEndCalendar().get(GregorianCalendar.MONTH) + 1) + "/"
-                        + dto.getEndCalendar().get(GregorianCalendar.YEAR);
+                String startDate = getStrDate(dto.getStartCalendar());
+                String endDate = getStrDate(dto.getEndCalendar());
+                String startHour = getStrHour(dto.getStartCalendar());
+                String endHour = getStrHour(dto.getEndCalendar());
 
-                String startHour = dto.getStartCalendar().get(GregorianCalendar.HOUR_OF_DAY) + ":"
-                        + dto.getStartCalendar().get(GregorianCalendar.MINUTE) + " hrs";
-
-                String endHour = dto.getEndCalendar().get(GregorianCalendar.HOUR_OF_DAY) + ":"
-                        + dto.getEndCalendar().get(GregorianCalendar.MINUTE) + " hrs";
-
-                String activities = "";
-                String title = "";
 
                 if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER) && dto.getRolActivityId() < 0){
                     List<SelectList> lstActivities = dto.getActivities();
@@ -148,6 +155,20 @@ public class RolActivityServiceImpl implements RolActivityService{
 
         rolActivityRepository.flush();
         return true;
+    }
+
+
+    private String getStrDate(Calendar date){
+        String strDate = date.get(GregorianCalendar.DAY_OF_MONTH) + "/"
+                + (date.get(GregorianCalendar.MONTH) + 1)  + "/"
+                + date.get(GregorianCalendar.YEAR);
+        return strDate;
+    }
+
+    private String getStrHour(Calendar date){
+        String strHour = date.get(GregorianCalendar.HOUR_OF_DAY) + ":"
+                + date.get(GregorianCalendar.MINUTE) + " hrs";
+        return  strHour;
     }
 
     @Override
