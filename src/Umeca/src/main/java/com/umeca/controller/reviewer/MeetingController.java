@@ -5,7 +5,11 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.infrastructure.model.managerEval.ManagerevalView;
 import com.umeca.model.catalog.StatusMeeting;
+import com.umeca.model.catalog.StatusVerification;
+import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.managereval.CaseEvaluationView;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
 import com.umeca.model.entities.reviewer.View.MeetingView;
@@ -23,9 +27,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Selection;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -540,8 +542,70 @@ public class MeetingController {
     @ResponseBody
     ModelAndView showTerminateMeeting() {
         ModelAndView model = new ModelAndView("reviewer/meeting/terminateMeeting");
-
         return  model;
+    }
+
+
+    @RequestMapping(value = "/reviewer/handingOver/index", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    ModelAndView handingOverIndex() {
+        ModelAndView model = new ModelAndView("reviewer/detainedEval");
+        return  model;
+    }
+
+
+    @RequestMapping(value = {"/reviewer/handingOver/list"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel handingOverList(@ModelAttribute JqGridFilterModel opts) {
+        opts.extraFilters = new ArrayList<>();
+
+        JqGridRulesModel extraFilter = new JqGridRulesModel("statusMeeting",
+                new ArrayList<String>() {{
+                    add(Constants.S_MEETING_INCOMPLETE_LEGAL);
+                    add(Constants.S_MEETING_COMPLETE);
+                    add(Constants.S_MEETING_INCOMPLETE);
+                }}
+                , JqGridFilterModel.COMPARE_IN
+        );
+
+        opts.extraFilters.add(extraFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+                final Join<Case, Meeting> joinMe = r.join("meeting");
+                final Join<Meeting, Imputed> joinImp = joinMe.join("imputed");
+                final Join<Meeting, CurrentCriminalProceeding> joinLegal = joinMe.join("currentCriminalProceeding");
+                final Join<CurrentCriminalProceeding, Crime> joinC = joinLegal.join("crimeList",JoinType.LEFT);
+                final Join<CurrentCriminalProceeding, Crime> joinCC = joinC.join("crime",JoinType.LEFT);
+
+                ArrayList<Selection<?>> result = new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(r.get("idFolder"));
+                    add(joinImp.get("name"));
+                    add(joinImp.get("lastNameP"));
+                    add(joinImp.get("lastNameM"));
+                    add(joinImp.get("birthDate"));
+                    add(joinCC.get("name").alias("crime"));
+                    add(joinLegal.get("handingOverDate"));
+                }};
+
+                return result;
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("statusCode"))
+                    return r.join("verification").join("status").get("name");
+                if (field.equals("statusCaseCode"))
+                    return r.join("status").get("name");
+
+                return null;
+            }
+        }, Case.class, ManagerevalView.class);
+        return result;
     }
 
 }
