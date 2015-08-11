@@ -83,6 +83,13 @@ public class Channeling {
     @Column(name="is_volunteer", nullable = false)
     private Boolean isVolunteer;
 
+    @Column(name="is_fulfilled", nullable = true)
+    private Boolean isFulfilled;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_fulfilled_user", nullable = true)
+    private User fulfilledUser;
+
     @Column(name="is_obsolete", nullable = false)
     private Boolean isObsolete;
 
@@ -260,6 +267,22 @@ public class Channeling {
 
     public void setIsVolunteer(Boolean isVolunteer) {
         this.isVolunteer = isVolunteer;
+    }
+
+    public Boolean getIsFulfilled() {
+        return isFulfilled;
+    }
+
+    public void setIsFulfilled(Boolean isFulfilled) {
+        this.isFulfilled = isFulfilled;
+    }
+
+    public User getFulfilledUser() {
+        return fulfilledUser;
+    }
+
+    public void setFulfilledUser(User fulfilledUser) {
+        this.fulfilledUser = fulfilledUser;
     }
 }
 

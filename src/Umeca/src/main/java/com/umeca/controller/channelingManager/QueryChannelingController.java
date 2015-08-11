@@ -126,6 +126,7 @@ public class QueryChannelingController {
                     add(r.get("name"));
                     add(joinInTy.get("name"));
                     add(r.get("institutionName"));
+                    add(r.get("isFulfilled"));
                 }};
             }
 
@@ -137,6 +138,8 @@ public class QueryChannelingController {
                     return r.join("channelingType").get("name");
                 if (field.equals("institutionType"))
                     return r.join("institutionType").get("name");
+                if (field.equals("isFulfilledTx"))
+                    return r.get("isFulfilled");
                 return null;
             }
         }, Channeling.class, ChannelingView.class);
@@ -175,11 +178,10 @@ public class QueryChannelingController {
             model.addObject("data", sheetInfo);
             model.addObject("lstActAtt", lstActivitiesChanneling);
 
-/*
             response.setContentType("application/force-download");
             response.setHeader("Content-Disposition", "attachment; filename=\"actividades-" +
                     sheetInfo.getIdMP() + "-" + sheetInfo.getConsecutiveTx() + ".doc\"");
-*/
+
 
             channelingService.addLogChannelingDoc(sheetInfo.getIdCase(),sheetInfo.getChannelingType());
         } catch (Exception ex) {

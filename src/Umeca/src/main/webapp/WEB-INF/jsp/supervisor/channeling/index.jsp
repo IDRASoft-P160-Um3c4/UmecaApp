@@ -30,6 +30,10 @@
             window.goToUrlMvcUrl(goTo);
         };
 
+        window.isFulfilled = function(channelingId, gridId){
+            window.showUpsert(channelingId, "#angJsjqGridId", '<c:url value='/supervisor/channeling/isFulfilled.html' />', gridId);
+        };
+
         window.reportAttendance = function (channelingId) {
             var goTo = "<c:url value='/supervisor/channeling/reportAttendance.html'/>" + "?id=" + channelingId;
             window.goToUrlMvcUrl(goTo);
@@ -95,16 +99,17 @@
                         autoencode:true,
                         datatype: "json",
                         mtype: 'POST',
-                        colNames: ['ID','Puede dar baja', '#', 'Tipo de canalizaci&oacute;n', 'Nombre de canalizaci&oacute;n', 'Tipo de instituci&oacute;n', 'Nombre de instituci&oacute;n', 'Acci&oacute;n'],
+                        colNames: ['ID','Puede dar baja', '#', 'Tipo de canalizaci&oacute;n', 'Nombre de canalizaci&oacute;n', 'Tipo de instituci&oacute;n', 'Nombre de instituci&oacute;n', 'Imposici&oacute;n cumplida', 'Acci&oacute;n'],
                         colModel: [
                             { name: 'id', index: 'id', hidden: true },
                             { name: 'canDrop', index: 'canDrop', hidden: true },
                             { name: 'consecutiveTx', index: 'consecutiveTx', width: 100, align: "center", sorttype: 'string', search: false },
-                            { name: 'channelingType', index: 'channelingType', width: 200, align: "center", sorttype: 'string', search: false },
-                            { name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                            { name: 'institutionType', index: 'institutionType', width: 200, align: "center", sorttype: 'string', search: false },
-                            { name: 'institutionName', index: 'institutionName', width: 200, align: "center", sorttype: 'string', search: false },
-                            { name: 'Action', width: 135, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
+                            { name: 'channelingType', index: 'channelingType', width: 170, align: "center", sorttype: 'string', search: false },
+                            { name: 'name', index: 'name', width: 180, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                            { name: 'institutionType', index: 'institutionType', width: 165, align: "center", sorttype: 'string', search: false },
+                            { name: 'institutionName', index: 'institutionName', width: 165, align: "center", sorttype: 'string', search: false },
+                            { name: 'isFulfilledTx', index: 'isFulfilledTx', width: 150, align: "center", sorttype: 'string', search: false },
+                            { name: 'Action', width: 140, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                         ],
                         rowNum: 20,
                         pager: pager_id,
@@ -120,6 +125,7 @@
                                 var be = "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar/consultar canalizaci&oacute;n\" onclick=\"window.upsert('" + row_id + "', '" + cl + "', '" + "#" + subgrid_table_id + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar oficio\" onclick=\"window.printSheet('" + cl + "');\"><span class=\"glyphicon glyphicon-download\"></span></a>";
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Reporte de asistencias / inasistencias\" onclick=\"window.reportAttendance('" + cl + "');\"><span class=\"glyphicon glyphicon-list-alt\"></span></a>";
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Indicar si cumpli&oacute; o no la imposici&oacute;n\" onclick=\"window.isFulfilled('" + cl + "', '" + "#" + subgrid_table_id + "');\"><span class=\"glyphicon glyphicon-saved\"></span></a>";
                                 if(row.canDrop === 'true')
                                     be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Solicitar baja de canalizaci&oacute;n\" onclick=\"window.drop('" + row_id + "', '" + cl + "', '" + "#" + subgrid_table_id + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar canalizaci&oacute;n\" onclick=\"window.obsolete('" + row_id + "', '" + cl + "', '" + "#" + subgrid_table_id + "');\"><span class=\"glyphicon glyphicon-remove\"></span></a>";

@@ -41,6 +41,7 @@ public class Constants {
     public static final String FILE_PREFIX_USER = "USR_";
     public static final String FILE_PREFIX_PHOTO_EMPLOYEE = "PHOTO_EMPLOYEE_";
     public static final Long CHANNELING_ID_TYPE_FILE_CHANNELING_END_RECORD = 4l;
+    public static final String CHANNELING_FULFILL_TITLE = "RESULTADO DE LA IMPOSICIÓN";
 
     public static String S_MEETING_INCOMPLETE = "INCOMPLETE";
     public static String S_MEETING_INCOMPLETE_LEGAL = "INCOMPLETE_LEGAL";

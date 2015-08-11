@@ -64,7 +64,7 @@ public interface ChannelingRepository extends JpaRepository<Channeling, Long> {
     List<SelectList> findValidByCaseId(@Param("caseId") Long caseId);
 
     @Query("SELECT NEW com.umeca.model.entities.supervisor.ChannelingModelSheet(cd.idMP, i.name, i.lastNameP, i.lastNameM, " +
-            "i.birthDate, i.gender, i.celPhone, ct.name, c.name, it.name, c.institutionName, c.consecutive, cd.id, c.isVolunteer) " +
+            "i.birthDate, i.gender, i.celPhone, ct.name, c.name, it.name, c.institutionName, c.consecutive, cd.id, c.isVolunteer, c.isFulfilled) " +
             "FROM Channeling c " +
             "INNER JOIN c.caseDetention cd " +
             "INNER JOIN cd.meeting.imputed i " +
@@ -83,4 +83,9 @@ public interface ChannelingRepository extends JpaRepository<Channeling, Long> {
             "WHERE c.id = :id AND c.isObsolete = false AND amp.status <> '" + MonitoringConstants.STATUS_ACTIVITY_DELETED +
             "' ORDER BY amp.start ASC")
     List<ActivityChannelingModel> getLstActivitiesChanneling(@Param("id")Long id);
+
+    @Query("SELECT c.isFulfilled " +
+            "FROM Channeling c " +
+            "WHERE c.id = :id ")
+    Boolean isFulfilledByChannelingId(@Param("id") Long id);
 }

@@ -20,12 +20,14 @@ public class ChannelingModelSheet {
     private String consecutiveTx;
     private Long idCase;
     private Boolean isVolunteer;
+    private String isFulFilledTx;
 
     public ChannelingModelSheet(String idMP, String first, String lastNameP, String lastNameM, Date birthday, Boolean gender,
                                 String phone, String channelingType, String name,
                                 String institutionType, String institutionName,
-                                Long consecutive, Long idCase, Boolean isVolunteer) {
+                                Long consecutive, Long idCase, Boolean isVolunteer, Boolean isFulFilled) {
         this.isVolunteer = isVolunteer;
+        this.isFulFilledTx = (isFulFilled == null ? "NA" : (isFulFilled ? "SI" : "NO"));
         this.idMP = Convert.convertToValidString(idMP);
         this.imputed = Convert.convertToValidString(first + " " + lastNameP + " " + lastNameM);
         this.birthdayTx = DateExt.dateToString(birthday) ;
@@ -133,5 +135,13 @@ public class ChannelingModelSheet {
 
     public void setIsVolunteer(Boolean isVolunteer) {
         this.isVolunteer = isVolunteer;
+    }
+
+    public String getIsFulFilledTx() {
+        return isFulFilledTx;
+    }
+
+    public void setIsFulFilledTx(String isFulFilledTx) {
+        this.isFulFilledTx = isFulFilledTx;
     }
 }
