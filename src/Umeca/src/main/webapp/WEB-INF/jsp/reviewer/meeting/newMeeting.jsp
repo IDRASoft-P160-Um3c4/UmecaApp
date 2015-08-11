@@ -3,6 +3,7 @@
     $(document).ready(function () {
         window.showModalFormDlg("#dlgUpModalId", "#FormCatId");
     });
+
 </script>
 <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 <div>
@@ -17,7 +18,6 @@
                 </div>
                 <div class="modal-body">
                     <form id="FormCatId" name="FormCatId" class="form-horizontal" role="form">
-                        <br />
                         <div class="row">
                             <div class="col-xs-12">
                                 <label>Ingrese la informaci&oacute;n requerida para poder generar un nuevo n&uacute;mero de expediente:</label>
@@ -155,6 +155,42 @@
                                 <label class="info-note" for="isAccepted">&iquest;El imputado acepta que se realice la entrevista de riesgos procesales?</label>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-xs-12 element-center">
+                                <input type="checkbox" ng-model="m.isFormulation" id="isFormulation"
+                                       ng-init="m.isFormulation= false">
+                                <label class="info-note" for="isAccepted">&iquest;Se trata de una entrevista de formulaci&oacute;n?</label>
+                            </div>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div class="panel panel-info">
+                            <div class="panel-heading element-center">
+                                <div class="panel-title">Negaci&oacute;n de entrevista</div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-12 element-center">
+                                        <p>&iquest;Est&aacute; seguro que desea terminar la entrevista de riesgos procesales?</p>
+                                        <br/>
+                                        <p>Raz&oacute;n de negaci&oacute;n</p>
+                                <textarea rows="4" cols="50">
+
+                                </textarea>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="panel-footer element-right">
+                                <span class="btn btn-default btn-sm" ng-click="cancel()">
+                                    Cancelar
+                                </span>
+                                <span class="btn btn-primary btn-sm" ng-click="cancel()">
+                                    Terminar
+                                </span>
+                            </div>
+                        </div>
+
                     </form>
                     <br />
                     <div class="row"  ng-show="MsgError">
@@ -166,6 +202,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true || m.isAccepted == true || m.isNegation"
+                          ng-click="submitRedirect('#FormCatId','<c:url value="/reviewer/meeting/doNewMeeting.json"/>');">
+                          El imputado niega la entrevista
+                    </span>
                     <span class="btn btn-default btn-sm" ng-click="cancel()">
                         Cancelar
                     </span>
