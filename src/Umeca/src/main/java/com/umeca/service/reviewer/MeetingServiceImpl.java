@@ -395,9 +395,17 @@ public class MeetingServiceImpl implements MeetingService {
                 model.addObject("municipalityId", loc.getMunicipality().getId());
                 model.addObject("locationId", loc.getId());
             }
+
             model.addObject("isFolderAccess", ccp.getIsFolderAccess());
+            model.addObject("handingOverMil", ccp.getHandingOverDate().getTime());
+
+            if (ccp.getHandingOverDate() != null)
+                model.addObject("hasHandingOverInfo", true);
+
         } else {
             model.addObject("isFolderAccess", true);
+            model.addObject("handingOverMil", -1);
+            model.addObject("hasHandingOverInfo", false);
         }
 
         PreviousCriminalProceeding pcp = c.getMeeting().getPreviousCriminalProceeding();
@@ -1301,14 +1309,31 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Transactional
     @Override
-    public ResponseMessage saveDetentionTime(CriminalProceedingView cpv) {
-        ResponseMessage resp = new ResponseMessage();
+    public ResponseMessage saveHandingOverInfo(CriminalProceedingView cpv) {
+        Case c = caseRepository.findOne(cpv.getIdCase());
+        refreshHandingOverInfo(cpv, c);
+        caseRepository.save(c);
+        ResponseMessage r = new ResponseMessage(false, ConsMessage.MSG_SUCCESS_UPSERT, "current");
+        r.setReturnData(c.getMeeting().getCurrentCriminalProceeding().getHandingOverDate());
+        return r;
+    }
 
-//            Case c = caseRepository.findOne(cpv.getIdCase());
-//            refreshCurrentProceeding(cpv, c);
-//            caseRepository.save(c);
-//            return new ResponseMessage(false, ConsMessage.MSG_SUCCESS_UPSERT, "current");
-        return resp;
+    private void refreshHandingOverInfo(CriminalProceedingView cpv, Case c) {
+        Meeting m = c.getMeeting();
+        CurrentCriminalProceeding ccpc = m.getCurrentCriminalProceeding();
+        if (ccpc == null) {
+            ccpc = new CurrentCriminalProceeding();
+            ccpc.setMeeting(m);
+            m.setCurrentCriminalProceeding(ccpc);
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+        try {
+            Date d = sdf.parse(cpv.getHandingOverDate() + " " + cpv.getHandingOverTime());
+            ccpc.setHandingOverDate(d);
+        } catch (Exception e) {
+            System.out.println("error al parsear la fecha");
+        }
     }
 
     @Override

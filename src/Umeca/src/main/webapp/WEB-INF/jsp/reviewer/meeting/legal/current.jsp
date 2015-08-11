@@ -27,7 +27,7 @@
                     <div class="radio">
                         <label>
                             <input name="isFolderAccess" class="ace" type="radio"
-                                   ng-value="true"
+                                   ng-value="true"  ng-disabled="${readonlyBand}"
                                    ng-model="isFolderAccess"
                                    ng-checked="isFolderAccess==true">
                             <span class="lbl">&nbsp;&nbsp;S&iacute;</span>
@@ -35,7 +35,7 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <label>
                             <input name="isFolderAccess" class="ace" type="radio"
-                                   ng-value="false"
+                                   ng-value="false"  ng-disabled="${readonlyBand}"
                                    ng-model="isFolderAccess"
                                    ng-change="cleanListCrime();"
                                    ng-checked="isFolderAccess==false">

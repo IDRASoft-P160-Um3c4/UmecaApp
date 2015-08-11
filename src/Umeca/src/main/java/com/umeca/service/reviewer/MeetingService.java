@@ -71,7 +71,7 @@ public interface MeetingService {
 
     ResponseMessage savePartialCurrent(CriminalProceedingView cpv);
 
-    ResponseMessage saveDetentionTime(CriminalProceedingView cpv);
-
     ResponseMessage upsertComment(Long idCase, String comment, Integer commentType);
+
+    ResponseMessage saveHandingOverInfo(CriminalProceedingView cpv);
 }
