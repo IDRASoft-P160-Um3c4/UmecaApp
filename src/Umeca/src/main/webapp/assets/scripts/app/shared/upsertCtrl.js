@@ -178,9 +178,23 @@
         }
     }
 
-
     $scope.formatHtml = function (sHtml) {
         return $sce.trustAsHtml(sHtml);
     };
+
+    $scope.submitNegation = function(formId){
+        var stVal = true;
+        if ($(formId).valid() == false) {
+            $scope.Invalid = true;
+            return false;
+        }
+
+        $scope.WaitFor = true;
+
+        $scope.m.isNegation = true;
+
+        return true;
+
+    }
 
 });

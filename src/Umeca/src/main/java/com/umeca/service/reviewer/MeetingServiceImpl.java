@@ -165,7 +165,14 @@ public class MeetingServiceImpl implements MeetingService {
             Meeting meeting = new Meeting();
             meeting.setMeetingType(HearingFormatConstants.MEETING_PROCEDURAL_RISK);
             meeting.setCaseDetention(caseDetention);
-            StatusMeeting statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE);
+            StatusMeeting statusMeeting;
+            if(!imputed.getMeeting().getDeclineReason().isEmpty()){
+                statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_DECLINE);
+                meeting.setDeclineReason(imputed.getMeeting().getDeclineReason());
+            }
+            else{
+                statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE);
+            }
             meeting.setStatus(statusMeeting);
             meeting.setReviewer(userRepository.findOne(userService.GetLoggedUserId()));
             meeting.setDateCreate(new Date());

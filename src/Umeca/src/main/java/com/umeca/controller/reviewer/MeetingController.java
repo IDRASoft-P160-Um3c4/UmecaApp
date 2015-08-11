@@ -42,6 +42,11 @@ public class MeetingController {
         return "/reviewer/meeting/index";
     }
 
+    @RequestMapping(value = "/reviewer/declined/index", method = RequestMethod.GET)
+    public String decline() {
+        return "/reviewer/decline/index";
+    }
+
     @Autowired
     SharedUserService userService;
     @Autowired
@@ -93,6 +98,73 @@ public class MeetingController {
                     add(joinImp.get("gender"));
                     add(joinSM.get("description"));
                     add(joinUsr.get("id").alias("reviewerId"));
+                    add(r.join("status").get("name").alias("statusCase"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("statusCode"))
+                    return r.join("meeting").join("status").get("name");
+                else if (field.equals("reviewerId"))
+                    return r.join("meeting").join("reviewer").get("id");
+                if (field.equals("idFolder"))
+                    return r.get("idFolder");
+                else if (field.equals("fullname"))
+                    return r.join("meeting").join("imputed").get("name");
+                else if (field.equals("statusCase")){
+                    return r.join("status").get("name");
+                }else
+                    return null;
+            }
+        }, Case.class, MeetingView.class);
+
+        return result;
+
+    }
+
+
+    @RequestMapping(value = "/reviewer/meeting/listDeclined", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listDeclined(@ModelAttribute JqGridFilterModel opts) {
+        Long userId = userService.GetLoggedUserId();
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("reviewerId", userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+
+        JqGridRulesModel extraFilter2 = new JqGridRulesModel("statusCode",
+                new ArrayList<String>() {{
+                    add(Constants.S_MEETING_DECLINE);
+                    add(Constants.S_MEETING_INCOMPLETE_LEGAL);
+                }}
+                , JqGridFilterModel.COMPARE_IN
+        );
+        opts.extraFilters.add(extraFilter2);
+        JqGridRulesModel extraFilter3 =new JqGridRulesModel("statusCase", Constants.CASE_STATUS_MEETING, JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter3);
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                final javax.persistence.criteria.Join<Case, Meeting> joinM = r.join("meeting");
+                final javax.persistence.criteria.Join<Meeting, StatusMeeting> joinSM = joinM.join("status");
+                final javax.persistence.criteria.Join<Meeting, Imputed> joinImp = joinM.join("imputed");
+                final javax.persistence.criteria.Join<Meeting, Imputed> joinUsr = joinM.join("reviewer");
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(joinSM.get("name").alias("statusCode"));
+                    add(r.get("idFolder"));
+                    add(joinImp.get("name"));
+                    add(joinImp.get("lastNameP"));
+                    add(joinImp.get("lastNameM"));
+                    add(joinImp.get("birthDate"));
+                    add(joinImp.get("gender"));
+                    add(joinSM.get("description"));
+                    add(joinUsr.get("id").alias("reviewerId"));
+                    add(joinUsr.get("fullname").alias("reviewerName"));
                     add(r.join("status").get("name").alias("statusCase"));
                 }};
             }
@@ -326,7 +398,11 @@ public class MeetingController {
             return validateCreate;
         Long idCase = meetingService.createMeeting(imputed);
         ResponseMessage result = new ResponseMessage(false, "Se ha guardado exitosamente");
-        result.setUrlToGo("meeting.html?id=" + idCase);
+        if(!imputed.getMeeting().getDeclineReason().isEmpty()){
+
+        }else {
+            result.setUrlToGo("meeting.html?id=" + idCase);
+        }
         return result;
     }
 

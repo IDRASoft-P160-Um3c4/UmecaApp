@@ -96,6 +96,10 @@
                                         href="<c:url value='/shared/messageHistory/index.html' />"><i
                                         class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
                                 </li>
+                                <li><a
+                                        href="<c:url value='/reviewer/declined/index.html' />"><i
+                                        class="glyphicon icon-comments-alt"></i>&nbsp;&nbsp;Entrevistas con negaci&oacute;n</a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-li-blue"><a href="<c:url value='/reviewer/caseRequest/index.html' />"><i
