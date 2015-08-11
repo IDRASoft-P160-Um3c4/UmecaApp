@@ -17,7 +17,7 @@ import java.util.Date;
  */
 public class MeetingView implements EntityGrid {
 
-    public MeetingView(Long id,String statusCode,  String idFolder, String name, String lastNameP, String lastNameM, Date dateBirth, Boolean gender, String description,Long reviewerId,String statusCase) {
+    public MeetingView(Long id,String statusCode,  String idFolder, String name, String lastNameP, String lastNameM, Date dateBirth, Boolean gender, String description, Long reviewerId, String reviewerName, String statusCase) {
         this.id = id;
         this.idFolder = idFolder;
         this.name = name;
@@ -28,6 +28,8 @@ public class MeetingView implements EntityGrid {
         this.description = description;
         this.statusCode = statusCode;
         this.reviewerId = reviewerId;
+        this.reviewerName = reviewerName;
+
         //this.statusCase = statusCase;
         createFullname();
         if(gender!=null){
@@ -70,9 +72,12 @@ public class MeetingView implements EntityGrid {
 
     private Long reviewerId;
 
+    private String reviewerName;
+
     private String statusCase;
 
     private String statusCode;
+
     public Long getId() {
         return id;
     }
@@ -198,4 +203,11 @@ public class MeetingView implements EntityGrid {
           this.fullname+=this.lastNameM;
     };
 
+    public String getReviewerName() {
+        return reviewerName;
+    }
+
+    public void setReviewerName(String reviewerName) {
+        this.reviewerName = reviewerName;
+    }
 }

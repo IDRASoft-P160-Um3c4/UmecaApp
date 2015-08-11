@@ -22,21 +22,11 @@
 <div class="container body-content">
 
     <script>
-        window.newMeeting = function() {
-            window.showUpsert(null, "#angJsjqGridId", "<c:url value='/reviewer/meeting/newMeeting.html'/>", "#GridId", "<c:url value='/reviewer/meeting/meeting.html'/>");
-        };
 
-        window.upsert=function(id){
+        window.document = function(id){
             var params= [];
             params["idParam"]=id;
-            window.goToUrlMvcUrl("<c:url value='/reviewer/meeting/meeting.html?id=idParam'/>",params);
-
-        };
-
-        window.legal=function(id){
-            var params= [];
-            params["idParam"]=id;
-            window.goToUrlMvcUrl("<c:url value='/reviewer/meeting/legal/index.html?id=idParam'/>",params);
+            //window.goToUrlMvcUrl("<c:url value='/reviewer/meeting/legal/index.html?id=idParam'/>",params);
 
         };
 
