@@ -324,7 +324,11 @@ public class MeetingController {
             return validateCreate;
         Long idCase = meetingService.createMeeting(imputed);
         ResponseMessage result = new ResponseMessage(false, "Se ha guardado exitosamente");
-        result.setUrlToGo("meeting.html?id=" + idCase);
+        if(!imputed.getMeeting().getDeclineReason().isEmpty()){
+
+        }else {
+            result.setUrlToGo("meeting.html?id=" + idCase);
+        }
         return result;
     }
 

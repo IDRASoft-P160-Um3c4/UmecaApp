@@ -44,6 +44,7 @@ public class Constants {
     public static final String CHANNELING_FULFILL_TITLE = "RESULTADO DE LA IMPOSICIÓN";
 
     public static String S_MEETING_INCOMPLETE = "INCOMPLETE";
+    public static String S_MEETING_DECLINE = "DECLINE";
     public static String S_MEETING_INCOMPLETE_LEGAL = "INCOMPLETE_LEGAL";
     public static String S_MEETING_COMPLETE = "COMPLETE";
     public static String S_MEETING_COMPLETE_VERIFICATION = "COMPLETE_VERIFICATION";
