@@ -5,6 +5,7 @@ import com.umeca.model.catalog.Location;
 import com.umeca.model.entities.shared.Victim;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,6 +52,9 @@ public class CurrentCriminalProceeding {
 
     @Column(name = "is_folder_access")
     private Boolean isFolderAccess;
+
+    @Column(name = "handing_over_date")
+    private Date handingOverDate;
 
     public Long getId() {
         return id;
@@ -131,5 +135,13 @@ public class CurrentCriminalProceeding {
 
     public void setIsFolderAccess(Boolean isFolderAccess) {
         this.isFolderAccess = isFolderAccess;
+    }
+
+    public Date getHandingOverDate() {
+        return handingOverDate;
+    }
+
+    public void setHandingOverDate(Date handingOverDate) {
+        this.handingOverDate = handingOverDate;
     }
 }

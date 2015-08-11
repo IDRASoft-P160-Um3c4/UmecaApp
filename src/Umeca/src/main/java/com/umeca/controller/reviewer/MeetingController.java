@@ -517,10 +517,10 @@ public class MeetingController {
     @RequestMapping(value = "/reviewer/meeting/saveTimeDetention", method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage saveDetentionTime(@ModelAttribute CriminalProceedingView cpv) {
+    ResponseMessage saveHandingOverInfo(@ModelAttribute CriminalProceedingView cpv) {
         ResponseMessage responseMessage;
         try {
-            responseMessage = meetingService.saveDetentionTime(cpv);
+            responseMessage = meetingService.saveHandingOverInfo(cpv);
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "savePartialPrevious", userService);
             responseMessage= new ResponseMessage(true, ConsMessage.MSG_ERROR_UPSERT);
