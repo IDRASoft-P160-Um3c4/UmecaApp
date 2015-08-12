@@ -42,7 +42,19 @@
 
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_REVIEWER')">
-
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-list"></i>
+                                &nbsp;&nbsp;Tablero
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a
+                                        href="<c:url value='/reviewer/handingOver/index.html'/>"><i
+                                        class="glyphicon icon-bell"></i>&nbsp;&nbsp;Puesta a disposici&oacute;n</a>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
                                     class="glyphicon glyphicon-folder-close"></i>
@@ -141,7 +153,8 @@
                                         class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Entrevista de encuadre&nbsp;&nbsp;
                                 </a></li>
                                 <li><a href="<c:url value='/supervisor/channeling/index.html' />"><i
-                                        class="glyphicon glyphicon-screenshot"></i>&nbsp;&nbsp;Registro de canalizaciones&nbsp;&nbsp;
+                                        class="glyphicon glyphicon-screenshot"></i>&nbsp;&nbsp;Registro de
+                                    canalizaciones&nbsp;&nbsp;
                                 </a></li>
                                 <li><a href="<c:url value='/supervisor/requestCloseCase/index.html'/>"><i
                                         class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Cerrar casos</a></li>
@@ -264,7 +277,8 @@
                                 <li><a href="<c:url value='/supervisorManager/caseObsolete.html' />"><i
                                         class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;Casos eliminados</a></li>
                                 <li><a href="<c:url value='/supervisorManager/channelingInfo/index.html' />"><i
-                                        class="glyphicon glyphicon-check"></i>&nbsp;&nbsp;Autorizar/Rechazar solicitud baja</a></li>
+                                        class="glyphicon glyphicon-check"></i>&nbsp;&nbsp;Autorizar/Rechazar solicitud
+                                    baja</a></li>
                             </ul>
                         </li>
                         <li class="dropdown nav-li-blue">
@@ -341,9 +355,11 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="<c:url value='/channelingManager/documentRepository/index.html' />">
-                                    <i class="glyphicon glyphicon-cloud-upload"></i>&nbsp;&nbsp;Repositorio de documentos</a></li>
+                                    <i class="glyphicon glyphicon-cloud-upload"></i>&nbsp;&nbsp;Repositorio de
+                                    documentos</a></li>
                                 <li><a href="<c:url value='/channelingManager/queryChanneling/index.html' />">
-                                    <i class="glyphicon glyphicon-search"></i>&nbsp;&nbsp;Canalizaciones por caso</a></li>
+                                    <i class="glyphicon glyphicon-search"></i>&nbsp;&nbsp;Canalizaciones por caso</a>
+                                </li>
                             </ul>
                         </li>
                     </sec:authorize>
