@@ -166,11 +166,10 @@ public class MeetingServiceImpl implements MeetingService {
             meeting.setMeetingType(HearingFormatConstants.MEETING_PROCEDURAL_RISK);
             meeting.setCaseDetention(caseDetention);
             StatusMeeting statusMeeting;
-            if(!imputed.getMeeting().getDeclineReason().isEmpty()){
+            if (!imputed.getMeeting().getDeclineReason().isEmpty()) {
                 statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_DECLINE);
                 meeting.setDeclineReason(imputed.getMeeting().getDeclineReason());
-            }
-            else{
+            } else {
                 statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE);
             }
             meeting.setStatus(statusMeeting);
@@ -397,7 +396,10 @@ public class MeetingServiceImpl implements MeetingService {
             }
 
             model.addObject("isFolderAccess", ccp.getIsFolderAccess());
-            model.addObject("handingOverMil", ccp.getHandingOverDate().getTime());
+            if (ccp.getHandingOverDate() != null)
+                model.addObject("handingOverMil", ccp.getHandingOverDate().getTime());
+            else
+                model.addObject("handingOverMil", -1);
 
             if (ccp.getHandingOverDate() != null)
                 model.addObject("hasHandingOverInfo", true);
