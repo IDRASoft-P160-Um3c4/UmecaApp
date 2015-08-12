@@ -100,3 +100,9 @@
         </div>
     </div>
 </div>
+<script>
+    var date=new Date();
+    $('#handingOverDate').datepicker({autoclose:true, endDate:date}).next().on(ace.click_event, function(){
+        $(this).prev().focus();
+    });
+</script>

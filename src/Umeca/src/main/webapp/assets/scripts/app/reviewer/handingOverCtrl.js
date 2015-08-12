@@ -65,19 +65,25 @@ app.controller('handingOverController', function ($scope, $timeout, $http, $root
 
         $scope.updateTime = function () {
 
-            $interval(function () {
-                var now = new Date();
-                $scope.currentDate = dateFilter(now, "yyyy/MM/dd");
-                $scope.currentTime = dateFilter(now, "HH:mm:ss");
-                if ($scope.hasHandingOverInfo == true) {
-                    var diff = now.getTime() - $scope.handingOverMil;
+            //$interval(function () {
+            var now = new Date();
+            $scope.currentDate = dateFilter(now, "yyyy/MM/dd");
+            $scope.currentTime = dateFilter(now, "HH:mm:ss");
+            if ($scope.hasHandingOverInfo == true) {
+
+                var diff = now.getTime() - $scope.handingOverMil;
+
+                if(diff > 0) {
                     if (diff < _48hrsMil) {
                         $scope.setLeftTime(diff);
                     } else {
                         $scope.leftTime = "El plazo a vencido.";
                     }
+                }else{
+                    $scope.leftTime = "La fecha proporcionada es mayor a la actual.";
                 }
-            });
+            }
+            //});
 
         };
 
