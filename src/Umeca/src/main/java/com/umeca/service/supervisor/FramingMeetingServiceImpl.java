@@ -201,6 +201,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 newAddr.setInnNum(formatAddress.getInnNum());
                 newAddr.setLocation(formatAddress.getLocation());
                 newAddr.setAddressString(newAddr.toString());
+                newFA.setIsHomeless(lastFormat.getIsHomeless());
+                newFA.setTimeAgo(lastFormat.getTimeAgo());
+                newFA.setAddressRef(lastFormat.getLocationPlace());
                 newFA.setAddress(newAddr);
                 newFA.setFramingMeeting(framingMeeting);
                 framingAddressRepository.save(newFA);
@@ -1644,7 +1647,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             for (ImputedHome act : verifMeeting.getImputedHomes()) {
                 FramingAddress framingAddress = new FramingAddress();
-
+                framingAddress.setIsHomeless(act.getIsHomeless());
                 framingAddress.setAddressRef(act.getDescription());
                 framingAddress.setSpecification(act.getSpecification());
                 framingAddress.setTimeLive(act.getTimeLive());
