@@ -1,8 +1,8 @@
 package com.umeca.model.entities.account;
 
+import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 import com.umeca.model.entities.shared.Message;
 import com.umeca.model.entities.shared.RelMessageUserReceiver;
-import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
