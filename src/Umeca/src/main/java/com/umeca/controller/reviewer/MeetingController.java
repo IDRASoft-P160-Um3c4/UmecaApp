@@ -26,9 +26,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Selection;
+import javax.persistence.criteria.*;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -683,7 +682,7 @@ public class MeetingController {
                 final Join<Case, Meeting> joinMe = r.join("meeting");
                 final Join<Meeting, Imputed> joinImp = joinMe.join("imputed");
                 final Join<Meeting, CurrentCriminalProceeding> joinLegal = joinMe.join("currentCriminalProceeding");
-                final Join<CurrentCriminalProceeding, Crime> joinC = joinLegal.join("crimeList",JoinType.LEFT);
+                final Join<CurrentCriminalProceeding, Crime> joinC = joinLegal.join("crimeList", JoinType.LEFT);
                 final Join<CurrentCriminalProceeding, Crime> joinCC = joinC.join("crime",JoinType.LEFT);
 
                 ArrayList<Selection<?>> result = new ArrayList<Selection<?>>() {{

@@ -48,6 +48,35 @@ public class MeetingView implements EntityGrid {
         this.statusCase = statusCase;
     }
 
+    public MeetingView(Long id,String statusCode,  String idFolder, String name, String lastNameP, String lastNameM, Date dateBirth, Boolean gender, String description, Long reviewerId, String statusCase) {
+        this.id = id;
+        this.idFolder = idFolder;
+        this.name = name;
+        this.lastNameP = lastNameP;
+        this.lastNameM = lastNameM;
+        this.dateBirth = dateBirth;
+        this.gender = gender;
+        this.description = description;
+        this.statusCode = statusCode;
+        this.reviewerId = reviewerId;
+        //this.statusCase = statusCase;
+        createFullname();
+        if(gender!=null){
+            if(gender.equals(Constants.GENDER_FEMALE))
+                this.genderString = "Femenino";
+            else
+                this.genderString = "Masculino";
+        }else{
+            this.genderString="Sin proporcionar";
+        }
+        Date date = Calendar.getInstance().getTime();
+        date.setTime(dateBirth.getTime());
+//        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        this.dateBirthString = formatter.format(date);
+        this.statusCase = statusCase;
+    }
+
     private Long id;
 
     private String idFolder;
