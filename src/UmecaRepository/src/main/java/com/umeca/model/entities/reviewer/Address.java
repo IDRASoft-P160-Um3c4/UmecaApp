@@ -127,7 +127,7 @@ public class Address implements EntityGrid {
             result = "Calle: " + street;
         }
         if (outNum != null && !outNum.equals("")) {
-            result = result + ", Ext: " + innNum;
+            result = result + ", Ext: " + outNum;
         }
         if (innNum != null && !innNum.equals("")) {
             result = result + ", Int: " + innNum;
