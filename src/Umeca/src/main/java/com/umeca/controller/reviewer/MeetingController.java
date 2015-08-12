@@ -3,6 +3,7 @@ package com.umeca.controller.reviewer;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
+import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.StatusMeeting;
@@ -12,20 +13,19 @@ import com.umeca.model.entities.reviewer.View.MeetingView;
 import com.umeca.model.entities.reviewer.View.PersonSocialNetworkView;
 import com.umeca.model.shared.ConsMessage;
 import com.umeca.model.shared.Constants;
-import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.MeetingService;
 import com.umeca.service.reviewer.ScheduleService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,8 +121,7 @@ public class MeetingController {
 
     }
 
-
-    @RequestMapping(value = "/reviewer/meeting/listDeclined", method = RequestMethod.POST)
+    @RequestMapping(value = "/reviewer/declined/listDeclined", method = RequestMethod.POST)
     public
     @ResponseBody
     JqGridResultModel listDeclined(@ModelAttribute JqGridFilterModel opts) {
@@ -188,6 +187,35 @@ public class MeetingController {
 
     }
 
+
+    @RequestMapping(value = "/reviewer/declined/printSheet", method = RequestMethod.GET)
+    public ModelAndView printSheet(@RequestParam(required = true) Long id, HttpServletResponse response) {
+
+        ModelAndView model = null;
+        try {
+            //ChannelingModelSheet sheetInfo = channelingService.getChannelingSheetById(id);
+
+//            if (sheetInfo == null) {
+//                model = new ModelAndView("/supervisor/channeling/notSheet");
+//                response.setContentType("application/force-download");
+//                response.setHeader("Content-Disposition", "attachment; filename=\"sin-oficio-canalización.doc\"");
+//                return model;
+//            }
+
+//            model = new ModelAndView("/supervisor/channeling/printSheet");
+//            model.addObject("data", sheetInfo);
+//            response.setContentType("application/force-download");
+//            response.setHeader("Content-Disposition", "attachment; filename=\"oficio-canalización-" +
+//                    sheetInfo.getIdMP() + "-" + sheetInfo.getConsecutiveTx() + ".doc\"");
+//
+//            channelingService.addLogChannelingDoc(sheetInfo.getIdCase(),sheetInfo.getChannelingType());
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "printSheet", userService);
+            model = null;
+        }
+        return model;
+    }
+
     @RequestMapping(value = "/reviewer/meeting/listAddress", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -224,6 +252,7 @@ public class MeetingController {
         return result;
 
     }
+
 
     @RequestMapping(value = "/reviewer/meeting/listSocialNetwork", method = RequestMethod.POST)
     public

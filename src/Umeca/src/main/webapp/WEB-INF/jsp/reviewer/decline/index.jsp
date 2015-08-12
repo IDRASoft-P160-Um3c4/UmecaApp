@@ -32,7 +32,7 @@
 
         $(document).ready(function() {
             jQuery("#GridId").jqGrid({
-                url: '<c:url value='/reviewer/meeting/listDeclined.json' />',
+                url: '<c:url value='/reviewer/declined/listDeclined.json' />',
                 autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
