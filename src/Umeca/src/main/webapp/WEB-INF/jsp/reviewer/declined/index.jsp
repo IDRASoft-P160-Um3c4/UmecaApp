@@ -23,10 +23,10 @@
 
     <script>
 
-        window.document = function(id){
-            var params= [];
-            params["idParam"]=id;
-            //window.goToUrlMvcUrl("<c:url value='/reviewer/meeting/legal/index.html?id=idParam'/>",params);
+        window.printDocument = function(id){
+            var goTo = "<c:url value='/reviewer/meeting/declined/printSheet.html'/>" + "?id=" + id;
+            window.goToUrlMvcUrl(goTo);
+
 
         };
 
@@ -67,7 +67,7 @@
                         var status = row.statusCode;
                         var be="";
                         if ( status == 'DECLINE') {
-                            be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar informe de negaci&oacute;n\" onclick=\"window.document('" + cl + "');\"><i class=\"icon-file\"></i></a>";
+                            be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar informe de negaci&oacute;n\" onclick=\"window.printDocument('" + cl + "');\"><i class=\"icon-file\"></i></a>";
                         }
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }

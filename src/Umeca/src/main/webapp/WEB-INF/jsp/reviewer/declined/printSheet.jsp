@@ -1,75 +1,29 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<head>
-    <title>Oficio de canalizaci&oacute;n</title>
-</head>
-<body style="text-align: center">
-    <h1>Oficio de canalizaci&oacute;n</h1>
-    <br>
-    <br>
-    <h3 style="border: 1px solid black">Informaci&oacute;n personal del imputado</h3>
-    <table style="text-align: center; margin: auto; font-size: medium; ">
-        <tbody>
-        <tr>
-            <td style="font-weight: bolder; min-width: 250px; text-align: left;">Nombre:</td>
-            <td style="min-width: 250px; text-align: left;">${data.imputed}</td>
-        </tr>
-        <tr>
-            <td style="font-weight: bolder; min-width: 250px; text-align: left;">Fecha de nacimiento:</td>
-            <td style="min-width: 250px; text-align: left;">${data.birthdayTx}</td>
-        </tr>
-        <tr>
-            <td style="font-weight: bolder; min-width: 250px; text-align: left;">G&eacute;nero:</td>
-            <td style="min-width: 250px; text-align: left;">${data.gender}</td>
-        </tr>
-        <tr>
-            <td style="font-weight: bolder; min-width: 250px; text-align: left;">Tel&eacute;fono:</td>
-            <td style="min-width: 250px; text-align: left;">${data.phone}</td>
-        </tr>
-        <tr>
-            <td style="font-weight: bolder; min-width: 250px; text-align: left;">Causa penal:</td>
-            <td style="min-width: 250px; text-align: left;">${data.idMP}</td>
-        </tr>
-        </tbody>
-    </table>
-
-    <br>
-    <br>
-    <h3 style="border: 1px solid black">Informaci&oacute;n de la canalizaci&oacute;n</h3>
-    <table style="text-align: center; margin: auto; font-size: medium; ">
-        <tbody>
-        <tr>
-            <td style="font-weight: bolder; min-width: 250px; text-align: left;">N&uacute;mero de canalizaci&oacute;n:</td>
-            <td style="min-width: 250px; text-align: left;">${data.consecutiveTx}</td>
-        </tr>
-        <tr>
-            <td style="font-weight: bolder; min-width: 250px; text-align: left;">&iquest;Canalizaci&oacute;n voluntaria?</td>
-            <td style="min-width: 250px; text-align: left;">${(data.isVolunteer ? "Si" : "No") }</td>
-        </tr>
-        <tr>
-            <td style="font-weight: bolder; min-width: 250px; text-align: left;">Tipo de canalizaci&oacute;n:</td>
-            <td style="min-width: 250px; text-align: left;">${data.channelingType}</td>
-        </tr>
-        <tr>
-            <td style="font-weight: bolder; min-width: 250px; text-align: left;">Nombre de la canalizaci&oacute;n:</td>
-            <td style="min-width: 250px; text-align: left;">${data.name}</td>
-        </tr>
-        <tr>
-            <td style="font-weight: bolder; min-width: 250px; text-align: left;">Tipo de la instituci&oacute;n:</td>
-            <td style="min-width: 250px; text-align: left;">${data.institutionType}</td>
-        </tr>
-        <tr>
-            <td style="font-weight: bolder; min-width: 250px; text-align: left;">Nombre de la instituci&oacute;n:</td>
-            <td style="min-width: 250px; text-align: left;">${data.institutionName}</td>
-        </tr>
-        <tr>
-            <td style="font-weight: bolder; min-width: 250px; text-align: left;">Imposici&oacute;n cumplida:</td>
-            <td style="min-width: 250px; text-align: left;">${data.isFulFilledTx}</td>
-        </tr>
-        </tbody>
-    </table>
-
-</body>
+    <head>
+        <title>INFORME DE NEGACI&Oacute;N</title>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+        <style type="text/css">
+            ol{margin:0;padding:0}.c0{orphans:2;widows:2;text-align:center;direction:ltr}.c1{orphans:2;widows:2;text-align:justify;direction:ltr}.c3{background-color:#ffffff;max-width:451.4pt;padding:72pt 72pt 72pt 72pt}.c4{font-size:24pt}.c5{font-size:12pt}.c2{height:11pt}.title{padding-top:0pt;color:#000000;font-size:21pt;padding-bottom:0pt;font-family:"Trebuchet MS";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}.subtitle{padding-top:0pt;color:#666666;font-size:13pt;padding-bottom:10pt;font-family:"Trebuchet MS";line-height:1.15;page-break-after:avoid;font-style:italic;orphans:2;widows:2;text-align:left}li{color:#000000;font-size:11pt;font-family:"Arial"}p{margin:0;color:#000000;font-size:11pt;font-family:"Arial"}h1{padding-top:10pt;color:#000000;font-size:16pt;padding-bottom:0pt;font-family:"Trebuchet MS";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h2{padding-top:10pt;color:#000000;font-weight:bold;font-size:13pt;padding-bottom:0pt;font-family:"Trebuchet MS";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h3{padding-top:8pt;color:#666666;font-weight:bold;font-size:12pt;padding-bottom:0pt;font-family:"Trebuchet MS";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h4{padding-top:8pt;color:#666666;text-decoration:underline;font-size:11pt;padding-bottom:0pt;font-family:"Trebuchet MS";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h5{padding-top:8pt;color:#666666;font-size:11pt;padding-bottom:0pt;font-family:"Trebuchet MS";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h6{padding-top:8pt;color:#666666;font-size:11pt;padding-bottom:0pt;font-family:"Trebuchet MS";line-height:1.15;page-break-after:avoid;font-style:italic;orphans:2;widows:2;text-align:left}
+        </style>
+    </head>
+    <body class="c3">
+    <p class="c0">
+        <span class="c4">INFORME DE NEGACI&Oacute;N</span>
+    </p>
+    <br/>
+    <br/>
+    <br/>
+    <p class="c1">
+        <span class="c5">ASUNTO: SE REMITE INFORME DE NEGACI&Oacute;N</span>
+    </p>
+    <br/>
+    <p class="c1">
+        <span class="c5">
+            El dia ${data.negationDateString} en el &aacute;rea de separos, explic&aacute;ndole el motivo de la entrevista de evaluaci&oacute;n de riesgos procesales, advirti&eacute;ndole los beneficios, consecuencias y resultados que esta puede tener, el imputado ${data.fullname}, no mostr&oacute; inter&eacute;s en participar, manifestando lo siguiente &ldquo;${data.reason}&rdquo;, asimismo se hace saber que NO OTORG&Oacute; CONSENTIMIENTO. Motivo por el cual no se puede emitir OPINI&Oacute;N T&Eacute;CNICA DE EVALUACI&Oacute;N DE RIESGOS PROCESALES, debido a que se carece de datos e informaci&oacute;n verificable y corroborable.
+        </span>
+    </p>
+    </body>
 </html>
 
 

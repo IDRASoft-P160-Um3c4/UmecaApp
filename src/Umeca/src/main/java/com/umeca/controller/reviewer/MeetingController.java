@@ -8,9 +8,6 @@ import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.model.managerEval.ManagerevalView;
 import com.umeca.model.catalog.StatusMeeting;
-import com.umeca.model.catalog.StatusVerification;
-import com.umeca.model.entities.account.User;
-import com.umeca.model.entities.managereval.CaseEvaluationView;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
 import com.umeca.model.entities.reviewer.View.MeetingView;
@@ -190,25 +187,25 @@ public class MeetingController {
     }
 
 
-    @RequestMapping(value = "/reviewer/declined/printSheet", method = RequestMethod.GET)
+    @RequestMapping(value = "/reviewer/meeting/declined/printSheet", method = RequestMethod.GET)
     public ModelAndView printSheet(@RequestParam(required = true) Long id, HttpServletResponse response) {
 
         ModelAndView model = null;
         try {
+
+            MeetingView sheetInfo = meetingService.getMeetingSheetById(id);
             //ChannelingModelSheet sheetInfo = channelingService.getChannelingSheetById(id);
+            if (sheetInfo == null) {
+                model = new ModelAndView("/reviewer/declined/notSheet");
+                response.setContentType("application/force-download");
+                response.setHeader("Content-Disposition", "attachment; filename=\"sin-oficio-canalización.doc\"");
+                return model;
+            }
 
-//            if (sheetInfo == null) {
-//                model = new ModelAndView("/supervisor/channeling/notSheet");
-//                response.setContentType("application/force-download");
-//                response.setHeader("Content-Disposition", "attachment; filename=\"sin-oficio-canalización.doc\"");
-//                return model;
-//            }
-
-//            model = new ModelAndView("/supervisor/channeling/printSheet");
-//            model.addObject("data", sheetInfo);
-//            response.setContentType("application/force-download");
-//            response.setHeader("Content-Disposition", "attachment; filename=\"oficio-canalización-" +
-//                    sheetInfo.getIdMP() + "-" + sheetInfo.getConsecutiveTx() + ".doc\"");
+            model = new ModelAndView("/reviewer/declined/printSheet");
+            model.addObject("data", sheetInfo);
+            response.setContentType("application/force-download");
+            response.setHeader("Content-Disposition", "attachment; filename=\"informe-negación-" +sheetInfo.getName() + sheetInfo.getLastNameP() +sheetInfo.getLastNameM() + ".doc\"");
 //
 //            channelingService.addLogChannelingDoc(sheetInfo.getIdCase(),sheetInfo.getChannelingType());
         } catch (Exception ex) {
@@ -427,7 +424,7 @@ public class MeetingController {
         Long idCase = meetingService.createMeeting(imputed);
         ResponseMessage result = new ResponseMessage(false, "Se ha guardado exitosamente");
         if(imputed.getMeeting().getDeclineReason() != null){
-
+            result.setUrlToGo("declined.html");
         }else {
             result.setUrlToGo("meeting.html?id=" + idCase);
         }

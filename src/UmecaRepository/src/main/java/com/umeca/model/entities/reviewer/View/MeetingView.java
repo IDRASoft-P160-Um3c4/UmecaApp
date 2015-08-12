@@ -48,6 +48,22 @@ public class MeetingView implements EntityGrid {
         this.statusCase = statusCase;
     }
 
+    public MeetingView(Long id, String name, String lastNameP, String lastNameM, Date negationDate, String reason) {
+        this.id = id;
+        this.name = name;
+        this.lastNameP = lastNameP;
+        this.lastNameM = lastNameM;
+        this.negationDate = negationDate;
+        this.reason = reason;
+
+        createFullname();
+
+        Date date = Calendar.getInstance().getTime();
+        date.setTime(negationDate.getTime());
+        DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        this.negationDateString = formatter.format(date);
+    }
+
     public MeetingView(Long id,String statusCode,  String idFolder, String name, String lastNameP, String lastNameM, Date dateBirth, Boolean gender, String description, Long reviewerId, String statusCase) {
         this.id = id;
         this.idFolder = idFolder;
@@ -91,6 +107,8 @@ public class MeetingView implements EntityGrid {
 
     private Date dateBirth;
 
+    private Date negationDate;
+
     private Boolean gender;
 
     private String description;
@@ -99,6 +117,8 @@ public class MeetingView implements EntityGrid {
 
     private String dateBirthString;
 
+    private String negationDateString;
+
     private Long reviewerId;
 
     private String reviewerName;
@@ -106,6 +126,8 @@ public class MeetingView implements EntityGrid {
     private String statusCase;
 
     private String statusCode;
+
+    private String reason;
 
     public Long getId() {
         return id;
@@ -238,5 +260,29 @@ public class MeetingView implements EntityGrid {
 
     public void setReviewerName(String reviewerName) {
         this.reviewerName = reviewerName;
+    }
+
+    public Date getNegationDate() {
+        return negationDate;
+    }
+
+    public void setNegationDate(Date negationDate) {
+        this.negationDate = negationDate;
+    }
+
+    public String getNegationDateString() {
+        return negationDateString;
+    }
+
+    public void setNegationDateString(String negationDateString) {
+        this.negationDateString = negationDateString;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 }

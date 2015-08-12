@@ -14,6 +14,7 @@ import com.umeca.model.catalog.dto.ElectionDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
+import com.umeca.model.entities.reviewer.View.MeetingView;
 import com.umeca.model.entities.reviewer.dto.CoDefendantDto;
 import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
 import com.umeca.model.entities.reviewer.dto.RelActivityObjectDto;
@@ -1316,6 +1317,11 @@ public class MeetingServiceImpl implements MeetingService {
         ResponseMessage r = new ResponseMessage(false, ConsMessage.MSG_SUCCESS_UPSERT, "current");
         r.setReturnData(c.getMeeting().getCurrentCriminalProceeding().getHandingOverDate());
         return r;
+    }
+
+    @Override
+    public MeetingView getMeetingSheetById(Long id) {
+        return meetingRepository.getMeetingSheetById(id);
     }
 
     private void refreshHandingOverInfo(CriminalProceedingView cpv, Case c) {

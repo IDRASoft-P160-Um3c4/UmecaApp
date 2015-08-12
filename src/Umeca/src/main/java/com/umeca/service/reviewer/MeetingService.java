@@ -3,6 +3,7 @@ package com.umeca.service.reviewer;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
+import com.umeca.model.entities.reviewer.View.MeetingView;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -74,4 +75,6 @@ public interface MeetingService {
     ResponseMessage upsertComment(Long idCase, String comment, Integer commentType);
 
     ResponseMessage saveHandingOverInfo(CriminalProceedingView cpv);
+
+    MeetingView getMeetingSheetById(Long id);
 }
