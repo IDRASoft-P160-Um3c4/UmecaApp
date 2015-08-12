@@ -65,7 +65,7 @@ app.controller('handingOverController', function ($scope, $timeout, $http, $root
 
         $scope.updateTime = function () {
 
-            //$interval(function () {
+            $interval(function () {
             var now = new Date();
             $scope.currentDate = dateFilter(now, "yyyy/MM/dd");
             $scope.currentTime = dateFilter(now, "HH:mm:ss");
@@ -83,7 +83,7 @@ app.controller('handingOverController', function ($scope, $timeout, $http, $root
                     $scope.leftTime = "La fecha proporcionada es mayor a la actual.";
                 }
             }
-            //});
+            });
 
         };
 
