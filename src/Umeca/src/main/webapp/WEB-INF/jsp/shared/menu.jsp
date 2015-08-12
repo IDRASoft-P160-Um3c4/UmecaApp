@@ -97,7 +97,7 @@
                                         class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
                                 </li>
                                 <li><a
-                                        href="<c:url value='/reviewer/declined/index.html' />"><i
+                                        href="<c:url value='/reviewer/meeting/declined.html' />"><i
                                         class="glyphicon icon-comments-alt"></i>&nbsp;&nbsp;Entrevistas con negaci&oacute;n</a>
                                 </li>
                             </ul>

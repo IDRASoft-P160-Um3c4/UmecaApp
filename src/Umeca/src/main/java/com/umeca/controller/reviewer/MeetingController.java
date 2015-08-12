@@ -42,9 +42,9 @@ public class MeetingController {
         return "/reviewer/meeting/index";
     }
 
-    @RequestMapping(value = "/reviewer/declined/index", method = RequestMethod.GET)
+    @RequestMapping(value = "/reviewer/meeting/declined", method = RequestMethod.GET)
     public String decline() {
-        return "/reviewer/decline/index";
+        return "/reviewer/declined/index";
     }
 
     @Autowired
@@ -123,7 +123,7 @@ public class MeetingController {
 
     }
 
-    @RequestMapping(value = "/reviewer/declined/listDeclined", method = RequestMethod.POST)
+    @RequestMapping(value = "/reviewer/meeting/listDeclined", method = RequestMethod.POST)
     public
     @ResponseBody
     JqGridResultModel listDeclined(@ModelAttribute JqGridFilterModel opts) {
@@ -426,7 +426,7 @@ public class MeetingController {
             return validateCreate;
         Long idCase = meetingService.createMeeting(imputed);
         ResponseMessage result = new ResponseMessage(false, "Se ha guardado exitosamente");
-        if(!imputed.getMeeting().getDeclineReason().isEmpty()){
+        if(imputed.getMeeting().getDeclineReason() != null){
 
         }else {
             result.setUrlToGo("meeting.html?id=" + idCase);
