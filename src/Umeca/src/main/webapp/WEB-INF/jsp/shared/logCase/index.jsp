@@ -4,6 +4,13 @@
 <html>
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css"/>
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/assets/content/themes/umeca/bootstrap-timepicker.css"/>
+    <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-datepicker.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-timepicker.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/moment.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/daterangepicker.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/logCaseCtrl.js"></script>
 
     <%--<title>Bit&aacute;cora de supervisi&oacute;n</title>--%>
@@ -43,7 +50,7 @@
 <br/>
 <div class="row">
    <div class="col-xs-6 align-left">
-       <i class="glyphicon glyphicon-plus-sign purple">&nbsp; </i><a href="#" onclick="addSpontaneousActivity()">Agrgar actividad espont&aacute;nea</a>
+       <i class="glyphicon glyphicon-plus-sign purple">&nbsp; </i><a href="#" onclick="addSpontaneousActivity()">Agregar actividad espont&aacute;nea</a>
    </div>
 </div>
 
@@ -69,7 +76,12 @@
                             <tr>
                                 <th class="col-xs-2 element-center">
                                     <i class="icon-caret-right blue"></i>
-                                    FECHA Y HORA
+                                    FECHA Y HORA DE REGISTRO
+                                </th>
+
+                                <th class="col-xs-2 element-center">
+                                    <i class="icon-caret-right blue"></i>
+                                    FECHA Y HORA DE REALIZACI&Oacute;N
                                 </th>
 
                                 <th class="col-xs-2 element-center">
@@ -80,7 +92,7 @@
                                     <i class="icon-caret-right blue"></i>
                                     REALIZADO POR
                                 </th>
-                                <th class="col-xs-6 element-center">
+                                <th class="col-xs-4 element-center">
                                     <i class="icon-caret-right blue"></i>
                                     DETALLES
                                 </th>
@@ -90,6 +102,7 @@
                             <tbody ng-repeat="a in listLog">
                             <tr>
                                 <td><span ng-bind-html="formatHtml(a.dateString)"></span></td>
+                                <td><span ng-bind-html="formatHtml(a.dateCompletionString)"></span></td>
                                 <td><span ng-bind-html="formatHtml(a.activity)"></span>
                                 </td>
                                 <td><span ng-bind-html="formatHtml(a.userName)"></span></td>

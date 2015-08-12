@@ -59,3 +59,5 @@ public class ChannelingCaseView implements EntityGrid {
         this.supervisor = supervisor;
     }
 }
+
+

@@ -3,6 +3,7 @@ package com.umeca.model.shared;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Created with IntelliJ IDEA.
@@ -39,7 +40,11 @@ public class Constants {
     public static final Integer ACT_REPORT_FOR_NOBODY = 0;
     public static final String FILE_PREFIX_USER = "USR_";
     public static final String FILE_PREFIX_PHOTO_EMPLOYEE = "PHOTO_EMPLOYEE_";
+    public static final Long CHANNELING_ID_TYPE_FILE_CHANNELING_END_RECORD = 4l;
+    public static final String CHANNELING_FULFILL_TITLE = "RESULTADO DE LA IMPOSICIÓN";
+
     public static String S_MEETING_INCOMPLETE = "INCOMPLETE";
+    public static String S_MEETING_DECLINE = "DECLINE";
     public static String S_MEETING_INCOMPLETE_LEGAL = "INCOMPLETE_LEGAL";
     public static String S_MEETING_COMPLETE = "COMPLETE";
     public static String S_MEETING_COMPLETE_VERIFICATION = "COMPLETE_VERIFICATION";
@@ -76,10 +81,10 @@ public class Constants {
     public static final String CASE_STATUS_EDIT_TEC_REV = "ST_CASE_EDIT_TEC_REV";
     public static final String CASE_STATUS_NOT_PROSECUTE = "ST_CASE_NOT_PROSECUTE";
     public static final String CASE_STATUS_NOT_PROSECUTE_OPEN = "ST_CASE_NOT_PROSECUTE_OPEN";
-    public static final String CASE_STATUS_CLOSE_FORGIVENESS = "ST_CASE_CLOSE_FORGIVENESS";
-    public static final String CASE_STATUS_CLOSE_AGREEMENT = "ST_CASE_CLOSE_AGREEMENT";
-    public static final String CASE_STATUS_CLOSE_DESIST = "ST_CASE_CLOSE_DESIST";
-    public static final String CASE_STATUS_CLOSE_OTHER = "ST_CASE_CLOSE_OTHER";
+//    public static final String CASE_STATUS_CLOSE_FORGIVENESS = "ST_CASE_CLOSE_FORGIVENESS";
+//    public static final String CASE_STATUS_CLOSE_AGREEMENT = "ST_CASE_CLOSE_AGREEMENT";
+//    public static final String CASE_STATUS_CLOSE_DESIST = "ST_CASE_CLOSE_DESIST";
+//    public static final String CASE_STATUS_CLOSE_OTHER = "ST_CASE_CLOSE_OTHER";
 
     //sataus field verification
     public static final String ST_FIELD_VERIF_DONTKNOW = "DONT_KNOW";
@@ -88,9 +93,9 @@ public class Constants {
     public static final String ST_FIELD_VERIF_UNABLE = "UNABLE_VERIFICATION";
 
     public static final String ST_FIELD_VERIF_IMPUTED = "IS_IMPUTED";
-    public static final String CASE_STATUS_PRE_CLOSED = "ST_CASE_PRE_CLOSED";
+    //    public static final String CASE_STATUS_PRE_CLOSED = "ST_CASE_PRE_CLOSED";
     public static final String CASE_STATUS_CLOSED = "ST_CASE_CLOSED";
-    public static final String CASE_STATUS_PRISON_CLOSED = "ST_CASE_PRISON_CLOSED";
+//    public static final String CASE_STATUS_PRISON_CLOSED = "ST_CASE_PRISON_CLOSED";
 
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
     public static final String ROLE_REVIEWER = "ROLE_REVIEWER";
@@ -100,10 +105,15 @@ public class Constants {
     public static final String ROLE_NOTUSE = "ROLE_NOTUSE";
     public static final String ROLE_ANONYMOUS = "ANONYMOUS";
     public static final String ROLE_HUMAN_RESOURCES = "ROLE_HUMAN_RESOURCES";
+    public static final String ROLE_CHANNELING_MANAGER = "ROLE_CHANNELING_MANAGER";
+    public static final String ROLE_DIRECTOR = "ROLE_DIRECTOR";
+    public static final String ROLE_ATTORNEY_REGISTRATION_ = "ROLE_ATTORNEY_REGISTRATION";
+
     public static String FORMAT_CALENDAR_I = "dd/MM/yyyy HH:mm";
     public static String FORMAT_CALENDAR_II = "dd-MM-yyyy";
     public static String FORMAT_CALENDAR_III = "dd-MM-yyyy HH:mm";
     public static String FORMAT_VERIFICATION_DATE = "yyyy-MM-dd hh:mm:ss.S";
+    public static String FORMAT_TIME_I = "HH:mm";
 
     public static final String SYSTEM_SETTINGS_ARCHIVE = "ARCHIVE";
     public static final String SYSTEM_SETTINGS_ARCHIVE_MAX_NUMBER_FILES = "MaxNumberFiles";
@@ -146,9 +156,8 @@ public class Constants {
     public static final String RESPONSE_TYPE_PENDING = "PENDING";
     public static final String RESPONSE_TYPE_ACCEPTED = "ACCEPTED";
     public static final String RESPONSE_TYPE_REJECTED = "REJECTED";
-    public static final String CASE_STATUS_OBSOLETE_EVALUATION = "ST_CASE_OBSOLETE_EVALUATION";
-    public static final String CASE_STATUS_OBSOLETE_SUPERVISION = "ST_CASE_OBSOLETE_SUPERVISION";
-
+    //public static final String CASE_STATUS_OBSOLETE_EVALUATION = "ST_CASE_OBSOLETE_EVALUATION";
+//    public static final String CASE_STATUS_OBSOLETE_SUPERVISION = "ST_CASE_OBSOLETE_SUPERVISION";
 
     public static final Long MARITAL_SINGLE = 1L;
     public static final Long MARITAL_MARRIED = 2L;
@@ -194,14 +203,13 @@ public class Constants {
     public static final String NAME_RELATIONSHIP_NONE = "Ninguno";
 
     public static String S_MEETING_OBSOLETE = "OBSOLETE";
-    public static final String ROLE_DIRECTOR = "ROLE_DIRECTOR";
 
     public static final String ACTION_AUTHORIZE_LOG_COMMENT = "AUTORIZAR ELIMINAR CASO";
 
-    public static final Long ID_CLOSE_CAUSE_FORGIVENESS = 1L;
-    public static final Long ID_CLOSE_CAUSE_AGREEMENT = 2L;
-    public static final Long ID_CLOSE_CAUSE_DESIST = 3L;
-    public static final Long ID_CLOSE_CAUSE_OTHER = 4L;
+//    public static final Long ID_CLOSE_CAUSE_FORGIVENESS = 1L;
+//    public static final Long ID_CLOSE_CAUSE_AGREEMENT = 2L;
+//    public static final Long ID_CLOSE_CAUSE_DESIST = 3L;
+//    public static final Long ID_CLOSE_CAUSE_OTHER = 4L;
 
     public static final String CODE_TOTAL_FULFILLMENT = "TOTAL_NON_FULFILLMENT";
     public static final String CODE_PARTIAL_FULFILLMENT = "PARTIAL_NON_FULFILLMENT";
@@ -248,6 +256,48 @@ public class Constants {
     public static final String CHANNELING_TYPE_MEDICAL_TREATMENT = "TMP";
     public static final String CHANNELING_TYPE_EDUCATION = "ES";
     public static final String CHANNELING_TYPE_JOB = "EM";
+    public static final String CHANNELING_NOTIFICATION_TITLE = "Registro de canalización";
+    public static final String CHANNELING_FIRST_DATE_NOTIFICATION_TITLE = "Primer cita de canalización";
+    public static final String CHANNELING_TRACK_NOTIFICATION_TITLE = "Seguimiento de la canalización";
+    public static final String CHANNELING_CONCLUSION_NOTIFICATION_TITLE = "Conclusión de la canalización";
+    public static final String CHANNELING_LOWER_NOTIFICATION_TITLE = "Baja de la canalización";
+    public static final String CHANNELING_ABSENCE_TITLE = "Inasistencia a la canalización";
+    public static final String CHANNELING_RESCHEDULE_TITLE = "Reagendar cita de canalización";
+    public static final String CHANNELING_DROP_CHANNELING_TITLE = "SOLICITUD DE BAJA DE CANALIZACIÓN";
+    public static final String CHANNELING_DROP_REJ_TITLE = "RECHAZÓ SOLICITUD DE BAJA DE CANALIZACIÓN";
+    public static final String CHANNELING_DROP_AUTH_TITLE = "AUTORIZÓ SOLICITUD DE BAJA DE CANALIZACIÓN";
+    public static final String CHANNELING_END_RECORD_TITLE = "CONCLUSIÓN DEL SERVICIO DE LA CANALIZACIÓN";
+    public static final String CHANNELING_SUPERVISION_ACTIVITY_CODE = "ACCA";
+    public static final long CHANNELING_NOTIFICATION_GOAL_FIRST_DATE = 9l; //Identificador del catálogo activity_goals.txt
+    public static final long CHANNELING_NOTIFICATION_GOAL_TRACK = 10l; //Identificador del catálogo activity_goals.txt
+    public static final long CHANNELING_NOTIFICATION_GOAL_CONCLUSION = 11l; //Identificador del catálogo activity_goals.txt
+    public static final long CHANNELING_NOTIFICATION_GOAL_LOWER = 12l; //Identificador del catálogo activity_goals.txt
+    public static final String CHANNELING_IS_VOLUNTEER_TITLE = "(VOLUNTARIA)";
+
+    public static final List<Long> LstChannelingNotificationGoal = new ArrayList<Long>(){{
+        add(CHANNELING_NOTIFICATION_GOAL_FIRST_DATE);
+        add(CHANNELING_NOTIFICATION_GOAL_TRACK);
+        add(CHANNELING_NOTIFICATION_GOAL_CONCLUSION);
+        add(CHANNELING_NOTIFICATION_GOAL_LOWER);
+    }};
+
+    /**                                         `
+     * códigos para causas de cierre *
+     */
+
+    public static final String CLOSE_CAUSE_FORGIVENESS = "CAUSE_FORGIVENESS";
+    public static final String CLOSE_CAUSE_AGREEMENT = "CAUSE_AGREEMENT";
+    public static final String CLOSE_CAUSE_DESIST = "CAUSE_DESIST";
+    public static final String CLOSE_CAUSE_OTHER = "CAUSE_OTHER";
+    public static final String CLOSE_CAUSE_NO_ENTAILMENT = "CAUSE_NO_ENTAILMENT";
+    public static final String CLOSE_CAUSE_OBSOLETE_EVALUATION = "CAUSE_OBSOLETE_EVALUATION";
+    public static final String CLOSE_CAUSE_OBSOLETE_SUPERVISION = "CAUSE_OBSOLETE_SUPERVISION";
+    public static final String CLOSE_CAUSE_PROMISE_PRISION = "CAUSE_PROMISE_PRISION";
+    public static final String CLOSE_CAUSE_DISMISSAL = "CAUSE_DISMISSAL";
+
+    /** códigos para causas de cierre **/
+
+    public static final String COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW = "No proporcionado";
 
 }
 

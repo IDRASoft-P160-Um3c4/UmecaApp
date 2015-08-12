@@ -2,28 +2,30 @@ package com.umeca.service.supervisiorManager;
 
 import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.model.catalog.EvaluationActivity;
 import com.umeca.model.dto.supervisorManager.*;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.managereval.RelRolActivityEvaluationActivity;
 import com.umeca.model.entities.supervisor.RequestActivities;
 import com.umeca.model.entities.supervisorManager.RolActivity;
+import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
+import com.umeca.repository.managereval.EvaluationActivityRepository;
 import com.umeca.repository.supervisor.LogChangeDataRepository;
 import com.umeca.repository.supervisorManager.RolActivityRepository;
+import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.MessageServiceImpl;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
-/**
- * Project: Umeca
- * User: Israel
- * Date: 6/13/14
- * Time: 5:47 PM
- */
-@Service
+@Service("rolActivityService")
 public class RolActivityServiceImpl implements RolActivityService{
 
     Calendar today = CalendarExt.getToday();
@@ -33,30 +35,119 @@ public class RolActivityServiceImpl implements RolActivityService{
 
     @Autowired
     RolActivityRepository rolActivityRepository;
+    @Autowired
+    EvaluationActivityRepository evaluationActivityRepository;
+    @Autowired
+    MessageServiceImpl messageService;
 
     @Override
     public boolean doUpsertDelete(RolActivityRequest fullModel, User user, ResponseMessage response) {
 
+        String bodyMsg = "";
+        String activities = "";
+        String title = "";
         fullModel.setNow(Calendar.getInstance());
 
         //First set status to delete for all activities
         List<Long> lstActivitiesDel = fullModel.getLstActivitiesDel();
         for(Long id : lstActivitiesDel){
             delete(id, fullModel, user);
+            RolActivity act = rolActivityRepository.findOne(id);
+            User userN = new User();
+            if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)) {
+                userN.setId(act.getEvaluator().getId());
+                bodyMsg = "<br/><div class=\"row\"><div class=\"col-xs-12\">La actividad con identificador '" + act.getName() + "' ha sido eliminada." +
+                        "<div class=\"row\"><div class=\"col-xs-12\"><strong>Nombre de la actividad:</strong> " + act.getName() + "</div></div>" +
+                        "<div class=\"row\"><div class=\"col-xs-4\"><strong>Lugar:</strong> " + act.getPlace() + "</div></div>" +
+                        "<div class=\"row\"><div class=\"col-xs-12\"><strong>Fecha inicio actividad:</strong> "+ getStrDate(act.getStart()) +"<br/>" +
+                        "<strong>Fecha fin actividad:</strong> " + getStrDate(act.getEnd()) + "<br/>" + "<strong>Hora inicio actividad:</strong> "+ getStrHour(act.getStart()) +"<br/>" +
+                        "<strong>Hora fin actividad:</strong> "+ getStrHour(act.getEnd()) +"<br/></div></div>";
+            }
+            else{
+                bodyMsg = "<br/><div class=\"row\"><div class=\"col-xs-12\">La actividad con identificador '" + act.getName() + "' ha sido eliminada." +
+                        "<div class=\"row\"><div class=\"col-xs-12\"><strong>Nombre de la actividad:</strong> " + act.getName() + "</div></div>" +
+                        "<div class=\"row\"><div class=\"col-xs-4\"><strong>Lugar:</strong> " + act.getPlace() + "</div></div>" +
+                        "<div class=\"row\"><div class=\"col-xs-12\"><strong>Fecha inicio actividad:</strong> " + getStrDate(act.getStart()) +"<br/>" +
+                        "<strong>Fecha fin actividad:</strong> " + getStrDate(act.getEnd()) +"<br/><strong>Hora inicio actividad:</strong> "+ getStrHour(act.getStart()) +"<br/>" +
+                        "<strong>Hora fin actividad:</strong> "+ getStrHour(act.getEnd()) +"<br/></div></div>";
+                userN.setId(act.getSupervisor().getId());
+            }
+
+            messageService.sendNotificationToUser(null, bodyMsg, user, userN, "ACTIVIDAD ROL EVALUACIÓN ELIMINADA - " + act.getName(), null);
         }
         rolActivityRepository.flush();
 
         List<RolActivityDto> lstActivitiesUpsert = fullModel.getLstActivitiesUpsert();
-        for(RolActivityDto dto:lstActivitiesUpsert){
 
+        for(RolActivityDto dto:lstActivitiesUpsert){
             if(!validateDates(dto.getStartCalendar(), dto.getEndCalendar()))
                 continue;
-
             try{
-                if(dto.getRolActivityId() > 0)
+                User userR = new User();
+
+                String startDate = getStrDate(dto.getStartCalendar());
+                String endDate = getStrDate(dto.getEndCalendar());
+                String startHour = getStrHour(dto.getStartCalendar());
+                String endHour = getStrHour(dto.getEndCalendar());
+
+
+                if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER) && dto.getRolActivityId() < 0){
+                    List<SelectList> lstActivities = dto.getActivities();
+                    for(SelectList act: lstActivities){
+                        if(act.getIsSelected() == true)
+                            activities = activities + "<li>" + act.getName() + "</li>";
+                    }
+                }
+
+                if(dto.getRolActivityId() > 0) {
+
                     update(dto, rolActivityRepository, user, fullModel);
-                else
+                    if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
+                        userR.setId(dto.getEvaluatorId());
+                        RolActivity rolActivity = rolActivityRepository.findOne(dto.getRolActivityId());
+                        List<EvaluationActivity> lstActivities = rolActivity.getActivities();
+                        for(EvaluationActivity act: lstActivities){
+                            activities = activities + "<li>" + act.getName() + "</li>";
+                        }
+
+                        bodyMsg = "<br/><div class=\"row\"><div class=\"col-xs-12\"><strong>Nombre de la actividad:</strong> " + dto.getActivityName() + "</div></div>" +
+                                "<div class=\"row\"><div class=\"col-xs-4\"><strong>Lugar:</strong> " + dto.getPlace() + "</div><div class=\"col-xs-4\"><strong>Actividad(es):</strong>" +
+                                "<ul>"+ activities +"</ul>" +
+                                "</div></div><div class=\"row\"><div class=\"col-xs-12\"><strong>Fecha inicio actividad:</strong> " + startDate +"<br/>" +
+                                "<strong>Fecha fin actividad:</strong> " + endDate +"<br/><strong>Hora inicio actividad:</strong> "+ startHour +"<br/>" +
+                                "<strong>Hora fin actividad:</strong> "+ endHour +"<br/></div></div>";
+                        title = "ACTIVIDAD ROL EVALUACIÓN RE-AGENDADA - " + dto.getActivityName();
+                    }else{
+                        userR.setId(dto.getSupervisorId());
+                        bodyMsg = "<br/><div class=\"row\"><div class=\"col-xs-12\"><strong>Nombre de la actividad:</strong> " + dto.getActivityName() + "</div></div>" +
+                                "<div class=\"row\"><div class=\"col-xs-12\"><strong>Fecha inicio actividad:</strong> " + startDate +"<br/>" +
+                                "<strong>Fecha fin actividad:</strong> " + endDate +"<br/><strong>Hora inicio actividad:</strong> "+ startHour +"<br/>" +
+                                "<strong>Hora fin actividad:</strong> "+ endHour +"<br/></div></div>";
+                        title = "ACTIVIDAD ROL SUPERVISIÓN RE-AGENDADA - " + dto.getActivityName();
+                    }
+
+                } else {
                     create(dto, rolActivityRepository, user, fullModel);
+                    if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
+                        userR.setId(dto.getEvaluatorId());
+                        bodyMsg = "<br/><div class=\"row\"><div class=\"col-xs-12\"><strong>Nombre de la actividad:</strong> " + dto.getActivityName() + "</div></div>" +
+                                "<div class=\"row\"><div class=\"col-xs-4\"><strong>Lugar:</strong> " + dto.getPlace() + "</div><div class=\"col-xs-4\"><strong>Actividad(es):</strong>" +
+                                "<ul>"+ activities +"</ul>" +
+                                "</div></div><div class=\"row\"><div class=\"col-xs-12\"><strong>Fecha inicio actividad:</strong> " + startDate +"<br/>" +
+                                "<strong>Fecha fin actividad:</strong> " + endDate +"<br/><strong>Hora inicio actividad:</strong> "+ startHour +"<br/>" +
+                                "<strong>Hora fin actividad:</strong> "+ endHour +"<br/></div></div>";
+                        title = "ACTIVIDAD ROL EVALUACIÓN - " + dto.getActivityName();
+                    }else{
+                        userR.setId(dto.getSupervisorId());
+                        bodyMsg = "<br/><div class=\"row\"><div class=\"col-xs-12\"><strong>Nombre de la actividad:</strong> " + dto.getActivityName() + "</div></div>" +
+                                "<div class=\"row\"><div class=\"col-xs-12\"><strong>Fecha inicio actividad:</strong> " + startDate +"<br/>" +
+                                "<strong>Fecha fin actividad:</strong> " + endDate +"<br/><strong>Hora inicio actividad:</strong> "+ startHour +"<br/>" +
+                                "<strong>Hora fin actividad:</strong> "+ endHour +"<br/></div></div>";
+                        title = "ACTIVIDAD ROL SUPERVISIÓN - " + dto.getActivityName();
+                    }
+
+                }
+                messageService.sendNotificationToUser(null, bodyMsg, user, userR, title, null);
             }catch(Exception ex){
                 logException.Write(ex, this.getClass(), "doUpsertDelete", user.getUsername());
             }
@@ -66,16 +157,43 @@ public class RolActivityServiceImpl implements RolActivityService{
         return true;
     }
 
+
+    private String getStrDate(Calendar date){
+        String strDate = date.get(GregorianCalendar.DAY_OF_MONTH) + "/"
+                + (date.get(GregorianCalendar.MONTH) + 1)  + "/"
+                + date.get(GregorianCalendar.YEAR);
+        return strDate;
+    }
+
+    private String getStrHour(Calendar date){
+        String strHour = date.get(GregorianCalendar.HOUR_OF_DAY) + ":"
+                + date.get(GregorianCalendar.MINUTE) + " hrs";
+        return  strHour;
+    }
+
     @Override
     public void getLstActivities(RequestActivities req, String statusNotIn, ResponseRolActivities response) {
-        List<RolActivityResponse> lstAllActivities = rolActivityRepository.getAllActivities(statusNotIn,
-                        (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd());
-        response.setLstRolActivities(lstAllActivities);
 
-        List<SelectList> lstSupervisor = rolActivityRepository.getAllValidSupervisors(statusNotIn,
-                (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd());
-        response.setLstSupervisor(lstSupervisor);
-        response.setHasError(false);
+        if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
+            List<RolActivityResponse> lstAllActivities = rolActivityRepository.getAllActivitiesEvaluator(statusNotIn,
+                    (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd());
+            response.setLstRolActivities(lstAllActivities);
+
+            List<SelectList> lstSupervisor = rolActivityRepository.getAllValidEvaluators(statusNotIn,
+                    (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd());
+            response.setLstSupervisor(lstSupervisor);
+            response.setHasError(false);
+        }
+        else {
+            List<RolActivityResponse> lstAllActivities = rolActivityRepository.getAllActivities(statusNotIn,
+                    (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd());
+            response.setLstRolActivities(lstAllActivities);
+
+            List<SelectList> lstSupervisor = rolActivityRepository.getAllValidSupervisors(statusNotIn,
+                    (req.getYearStart() * 100) + req.getMonthStart(), (req.getYearEnd() * 100) + req.getMonthEnd());
+            response.setLstSupervisor(lstSupervisor);
+            response.setHasError(false);
+        }
     }
 
     private boolean validateDates(Calendar startCalendar, Calendar endCalendar) {
@@ -107,11 +225,27 @@ public class RolActivityServiceImpl implements RolActivityService{
 
     }
 
+    @Autowired
+    SharedUserService sharedUserService;
+
     private void create(RolActivityDto dto, RolActivityRepository rolActivityRepository, User user, RolActivityRequest fullModel) {
 
         RolActivity rolActivity = new RolActivity();
         rolActivity.setUserCreate(user);
         rolActivity.setCreationTime(fullModel.getNow());
+
+        //
+        if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
+            List<EvaluationActivity> lstAct= new ArrayList<>();
+
+            for(SelectList curr : dto.getActivities()){
+                if(curr.getIsSelected()==true){
+                    EvaluationActivity act = evaluationActivityRepository.findOne(curr.getId());
+                    lstAct.add(act);
+                }
+            }
+            rolActivity.setActivities(lstAct);
+        }
 
         DtoToModelAndSave(dto, rolActivityRepository, user, fullModel, rolActivity, true);
         fullModel.addActsIns();
@@ -134,6 +268,10 @@ public class RolActivityServiceImpl implements RolActivityService{
         rolActivity.setUserModify(user);
         rolActivity.setModifyTime(fullModel.getNow());
 
+        if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
+            rolActivity.setPlace(dto.getPlace());
+        }
+
         DtoToModelAndSave(dto, rolActivityRepository, user, fullModel, rolActivity, false);
         fullModel.addActsUpd();
     }
@@ -145,9 +283,18 @@ public class RolActivityServiceImpl implements RolActivityService{
     private void DtoToModelAndSave(RolActivityDto dto, RolActivityRepository rolActivityRepository, User user, RolActivityRequest fullModel,
                                    RolActivity rolActivity, boolean isNew) {
 
-        User supervisor = new User();
-        supervisor.setId(dto.getSupervisorId());
-        rolActivity.setSupervisor(supervisor);
+        if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
+            User evaluator = new User();
+            evaluator.setId(dto.getEvaluatorId());
+            rolActivity.setEvaluator(evaluator);
+            rolActivity.setPlace(dto.getPlace());
+        }
+        else {
+            User supervisor = new User();
+            supervisor.setId(dto.getSupervisorId());
+            rolActivity.setSupervisor(supervisor);
+        }
+
 
         Calendar cal = dto.getEndCalendar();
         rolActivity.setEnd(cal);
@@ -158,6 +305,7 @@ public class RolActivityServiceImpl implements RolActivityService{
 
         if(isNew){
             rolActivity.setUserCreate(user);
+            rolActivity.setName(dto.getActivityName());
             rolActivity.setStatus(MonitoringConstants.STATUS_ACTIVITY_NEW);
 
         }else{

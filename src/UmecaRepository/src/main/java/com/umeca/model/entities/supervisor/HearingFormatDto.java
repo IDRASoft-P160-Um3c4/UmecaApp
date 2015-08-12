@@ -73,8 +73,11 @@ public class HearingFormatDto {
             result += "</ul>";
         }
 
-        result += "<strong>Supervisor preasignado:  </strong>";
-        result += umecaSupervisor.getFullname();
+        if (umecaSupervisor != null) {
+            result += "<strong>Supervisor preasignado:  </strong>";
+            result += umecaSupervisor.getFullname();
+        }
+
         return result;
     }
 

@@ -21,7 +21,7 @@ public class SourceVerification implements EntityGrid{
     public SourceVerification() {
     }
 
-    public SourceVerification(Long id,String fullName, Integer age, String relationshipString, String address, String phone, Boolean isAuthorized, Date dateComplete, Long idCase, Boolean visible) {
+    public SourceVerification(Long id,String fullName, String age, String relationshipString, String address, String phone, Boolean isAuthorized, Date dateComplete, Long idCase, Boolean visible) {
         this.id =  id;
         this.fullName = fullName;
         this.age = age;
@@ -59,7 +59,7 @@ public class SourceVerification implements EntityGrid{
     private String fullName;
 
     @Column(name="age", nullable = false)
-    private Integer age;
+    private String age;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_relationship", nullable = true)
@@ -135,14 +135,6 @@ public class SourceVerification implements EntityGrid{
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
     }
 
     public Relationship getRelationship() {
@@ -272,5 +264,13 @@ public class SourceVerification implements EntityGrid{
 
     public void setSpecification(String specification) {
         this.specification = specification;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
     }
 }

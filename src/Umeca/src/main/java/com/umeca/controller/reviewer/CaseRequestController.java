@@ -30,7 +30,7 @@ import com.umeca.repository.reviewer.CaseRequestRepository;
 import com.umeca.repository.reviewer.SourceVerificationRepository;
 import com.umeca.repository.shared.MessageRepository;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
-import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
+import com.umeca.repository.supervisor.LogNotificationRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +40,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -190,7 +191,7 @@ public class CaseRequestController {
     @Autowired
     ResponseTypeRepository responseTypeRepository;
     @Autowired
-    LogNotificationReviewerRepository logNotificationReviewerRepository;
+    LogNotificationRepository logNotificationRepository;
 
     @RequestMapping(value = "/reviewer/caseRequest/doMakeRequest", method = RequestMethod.POST)
     public
@@ -206,6 +207,8 @@ public class CaseRequestController {
             Gson gson = new Gson();
             CaseRequest caseRequest = new CaseRequest();
             Message requestMessage = new Message();
+            requestMessage.setIsObsolete(false);
+            requestMessage.setTitle("");
             Long userId = userService.GetLoggedUserId();
             List<SelectList> usersReceiver = userRepository.getLstValidUsersByRole(Constants.ROLE_EVALUATION_MANAGER);
             User userSender = userRepository.findOne(userId);
@@ -219,9 +222,11 @@ public class CaseRequestController {
             requestMessage.setSender(userSender);
             if (usersReceiver != null && usersReceiver.size() > 0) {
                 Message m = new Message();
-                m.setText(StringEscape.escapeText(requestDto.getReason()));
+                m.setBody(requestDto.getReason());
                 m.setCaseDetention(c);
                 m.setSender(userSender);
+                m.setTitle(requestType.getDescription() + ". Caso con carpeta de investigaci&oacute;n " + c.getIdFolder());
+                m.setIsObsolete(false);
                 List<RelMessageUserReceiver> listrmur = new ArrayList<>();
                 User managerEval = new User();
                 for (SelectList ur : usersReceiver) {
@@ -229,11 +234,12 @@ public class CaseRequestController {
                     RelMessageUserReceiver rmr = new RelMessageUserReceiver();
                     rmr.setUser(u);
                     rmr.setMessage(m);
+                    rmr.setIsObsolete(false);
                     listrmur.add(rmr);
                     managerEval = u;
                 }
                 m.setMessageUserReceivers(listrmur);
-                m.setCreationDate(new Date());
+                m.setCreationDate(Calendar.getInstance());
                 requestMessage.setMessageUserReceivers(listrmur);
                 m = messageRepository.save(m);
                 caseRequest.setRequestMessage(m);
@@ -255,16 +261,15 @@ public class CaseRequestController {
                 c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_REQUEST));
                 qCaseRepository.save(c);
 
-                LogNotificationReviewer notif = new LogNotificationReviewer();
+                LogNotification notif = new LogNotification();
                 notif.setIsObsolete(false);
                 notif.setSubject("Se ha realizado una solicitud para el caso con carpeta de investigaci&oacute;n " + c.getIdFolder() + ".");
                 User uSender = userRepository.findOne(userService.GetLoggedUserId());
                 notif.setSenderUser(uSender);
-//                notif.setMessage("El usuario " + uSender.getFullname() + " realiz&oacute; la solcitud: " + requestType.getDescription());
                 notif.setMessage("El usuario " + uSender.getFullname() + " realizó la solcitud: " + requestType.getDescription());
                 notif.setReceiveUser(managerEval);
 
-                logNotificationReviewerRepository.save(notif);
+                logNotificationRepository.save(notif);
                 return new ResponseMessage(false, "");
             } else {
                 return new ResponseMessage(true, "No existen coordinadores registrados para realizar tu solicitud");

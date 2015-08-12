@@ -1,4 +1,4 @@
-package com.umeca.repository.supervisor;
+    package com.umeca.repository.supervisor;
 
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.supervisor.AccomplishmentLogReport;
@@ -119,10 +119,16 @@ public interface HearingFormatRepository extends JpaRepository<HearingFormat, Lo
             "WHERE C.id=:caseId and HF.isFinished=true order by hf.registerTime asc")
     List<Integer> getLastArrangementType(@Param("caseId") Long caseId, Pageable pageable);
 
+//    @Query("SELECT U FROM HearingFormat HF " +
+//            "INNER JOIN HF.umecaSupervisor U " +
+//            "WHERE HF.id=:hfId and HF.isFinished=true")
+//    User getLastPreassignedSupervisor(@Param("hfId") Long hfId);
+
     @Query("SELECT U FROM HearingFormat HF " +
-            "INNER JOIN HF.umecaSupervisor U " +
+            "INNER JOIN HF.caseDetention cd " +
+            "INNER JOIN cd.umecaSupervisor U " +
             "WHERE HF.id=:hfId and HF.isFinished=true")
-    User getLastPreassignedSupervisor(@Param("hfId") Long hfId);
+    User getAssignedSupervisor(@Param("hfId") Long hfId);
 }
 
 

@@ -29,7 +29,7 @@ public class RequestEvaluationView implements EntityGrid {
         this.name = name;
         this.lastNameP = lastNameP;
         this.lastNameM = lastNameM;
-        this.fullName = name + " " +lastNameP + " " + lastNameM;
+        this.fullName = name + " " + lastNameP + " " + lastNameM;
     }
 
     /*codigos de evaluacion
@@ -48,42 +48,44 @@ public class RequestEvaluationView implements EntityGrid {
         this.lastNameM = lastNameM;
         this.statusMeeting = statusMeeting;
         this.statusVerification = statusVerification;
-        this.fullName = this.name+" "+this.lastNameP+" "+this.lastNameM;
+        this.fullName = this.name + " " + this.lastNameP + " " + this.lastNameM;
         this.statusCase = statusCase;
-        status= "";
-        if(!this.statusCase.equals(Constants.CASE_STATUS_REQUEST)){
-            status =".G.";
+        status = "";
+        if (!this.statusCase.equals(Constants.CASE_STATUS_REQUEST)) {
+            status = ".G.";
         }
-        if(this.statusCase.equals(Constants.CASE_STATUS_MEETING)){
-            if(this.statusMeeting.equals(Constants.S_MEETING_INCOMPLETE_LEGAL)){
-                description="Por agregar informaci&oacute;n legal";
-                status+= ".A.";
-            }else if(this.statusMeeting.equals(Constants.S_MEETING_INCOMPLETE)){
+        if (this.statusCase.equals(Constants.CASE_STATUS_MEETING)) {
+            if (this.statusMeeting.equals(Constants.S_MEETING_INCOMPLETE_LEGAL)) {
+                description = "Por agregar informaci&oacute;n legal";
+                status += ".A.";
+            } else if (this.statusMeeting.equals(Constants.S_MEETING_INCOMPLETE)) {
                 status += ".E.";
-                description="Entrevista de riesgos procesales incompleta";
+                description = "Entrevista de riesgos procesales incompleta";
             }
-        }else if(this.statusCase.equals(Constants.CASE_STATUS_SOURCE_VALIDATION)){
-            description="Autorizaci&oacute; de fuentes pendiente";
-            status+=".B.";
+        } else if (this.statusCase.equals(Constants.CASE_STATUS_SOURCE_VALIDATION)) {
+            description = "Autorizaci&oacute; de fuentes pendiente";
+            status += ".B.";
+        } else if (this.statusCase.equals(Constants.CASE_STATUS_VERIFICATION)) {
+            if (this.statusVerification.equals(Constants.VERIFICATION_STATUS_NEW_SOURCE)) {
+                description = "Autorizaci&oacute; de fuentes pendiente";
+                status += ".B.";
+            }
+            if (this.statusVerification.equals(Constants.VERIFICATION_STATUS_AUTHORIZED)) {
+                description = "En verificaci&oacute;n";
+                status += ".C.";
+            }
         }
-        else if(this.statusCase.equals(Constants.CASE_STATUS_VERIFICATION)) {
-            if(this.statusVerification.equals(Constants.VERIFICATION_STATUS_NEW_SOURCE)){
-                description="Autorizaci&oacute; de fuentes pendiente";
-                status+=".B.";
-            }
-            if(this.statusVerification.equals(Constants.VERIFICATION_STATUS_AUTHORIZED)){
-                description="En verificaci&oacute;n";
-                status +=".C.";
-            }
-        }else if(this.statusCase.equals(Constants.CASE_STATUS_TECHNICAL_REVIEW)){
-            description="Con opini&oacute;n t&eacute;cnica generada";
-            status +=".D.";
+        else if (this.statusCase.equals(Constants.CASE_STATUS_TECHNICAL_REVIEW)) {
+            description = "Con opini&oacute;n t&eacute;cnica generada";
+            status += ".D.";
         }
-        if(this.statusCase.equals(Constants.CASE_STATUS_REQUEST)){
-            description="Pendiente por autorizaci&oacute;n";
-            status +=".F.";
+        if (this.statusCase.equals(Constants.CASE_STATUS_REQUEST)) {
+            description = "Pendiente por autorizaci&oacute;n";
+            status += ".F.";
+        }
 
-        }
+        if (description == null)
+            description = "Sin solicitudes realizadas";
 
     }
 

@@ -13,6 +13,7 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
 
     $scope.fillFields = function (event) {
         $scope.m.event = event;
+        $scope.m.activityName = event.infoActivity.activityName;
         $scope.m.supervisor = event.infoActivity.supervisor;
         if ($scope.m.supervisor === undefined)
             $scope.m.supervisor = $scope.lstSupervisor[0];
@@ -84,6 +85,9 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
             });
         }, 1);
 
+        $scope.m.activityName = null;
+        $scope.m.place = null;
+
         return def.promise;
     };
 
@@ -92,6 +96,11 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
         $scope.msgError = "";
 
         isValid = false;
+
+        if($scope.m.activityName === null || $scope.m.activityName === ''){
+            $scope.msgError = "Debe escribir un nombre para la actividad";
+            return false;
+        }
 
         for (var i = 0; i < $scope.m.daysOfWeek.length; i++) {
             if ($scope.m.daysOfWeek[i] === true) {
@@ -159,7 +168,10 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
                 var eventAct = {
                     title: "",
                     doTitle: function (isModified) {
-                        this.title = (isModified === true ? "*" : "") + "Usuario "
+                        this.title = (isModified === true ? "*" : "") +
+                        "Actividad: "
+                        + this.infoActivity.activityName +
+                        "\nUsuario "
                         + this.infoActivity.supervisor.name + "\nNombre: "
                         + this.infoActivity.supervisor.description;
                     },
@@ -170,7 +182,8 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
                     isModified: true,
                     className: 'label-info',
                     infoActivity: {
-                        supervisor: $scope.m.supervisor
+                        supervisor: $scope.m.supervisor,
+                        activityName: $scope.m.activityName
                     }
                 };
 
@@ -232,7 +245,8 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
         $scope.m.event.isModified = true;
 
         $scope.m.event.infoActivity = {
-            supervisor: $scope.m.supervisor
+            supervisor: $scope.m.supervisor,
+            activityName: $scope.m.activityName
         };
 
         $scope.m.event.doTitle(true);
@@ -248,10 +262,12 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
         $scope.hideMsg();
     };
 
-
     $scope.cancel = function () {
         $scope.IsOk = false;
         $scope.hideMsg();
+        $scope.m.supervisor = $scope.lstSupervisor[0];
+        $scope.m.place = null;
+
     };
 
     $scope.onBusinessWeek = function () {
@@ -281,4 +297,242 @@ app.controller('upsertRolActivityController', function ($scope, $timeout, $q, sh
     };
 
     $scope.clearDaysOfWeek();
+
+    $scope.saveEvaluator = function () {
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        var d = {};
+        if ($scope.validateDates(d) === false)
+            return false;
+
+        if (d.dateInit < today) {
+            $scope.msgError = "No es posible modificar la actividad ya que la fecha de inicio está definida antes de la fecha actual";
+            return false;
+        }
+
+        var dateInit = new Date(d.dateInit);
+        var dateEnd = new Date(d.dateEnd);
+        dateInit.setHours(d.timeInit.hours, d.timeInit.minutes, 0, 0);
+        dateEnd.setHours(d.timeEnd.hours, d.timeEnd.minutes, 0, 0);
+
+        $scope.m.event.start = dateInit;
+        $scope.m.event.end = dateEnd;
+        $scope.m.event.isModified = true;
+
+        $scope.m.event.infoActivity = {
+            evaluator: $scope.m.supervisor,
+            place: $scope.m.place,
+            activityName: $scope.m.activityName
+        };
+
+        $scope.m.event.doTitle(true);
+
+        $scope.IsOk = true;
+        $scope.option = "UPDATE";
+        $scope.hideMsg();
+    };
+
+    $scope.fillFieldsEvaluator = function (event) {
+        $scope.m.event = event;
+        $scope.m.activityName = event.infoActivity.activityName;
+        $scope.m.supervisor = event.infoActivity.evaluator;
+        $scope.m.place = event.infoActivity.place;
+        if ($scope.m.supervisor === undefined)
+            $scope.m.supervisor = $scope.lstSupervisor[0];
+
+    };
+
+    $scope.showDlgEvaluator = function (params) {
+        $scope.msgError = "";
+        $scope.clearDaysOfWeek();
+        $scope.startDt = params.start;
+        $scope.endDt = params.end;
+        $scope.isNew = params.isNew;
+        $scope.isReadOnly = params.isReadOnly;
+        $scope.rolActivities = [];
+        $scope.m.chkBusinessWeek = false;
+        $scope.m.chkWeek = false;
+
+        if (params.isNew === false) {
+            $scope.fillFieldsEvaluator(params.event);
+        }
+        else {
+            $scope.m.event = undefined;
+        }
+
+        var startTime = window.getTimeFormat($scope.startDt, false);
+        var endTime = window.getTimeFormat($scope.endDt, false);
+
+        if (startTime === endTime)
+            endTime = "23:59:59";
+
+        var dateInit = new Date($scope.startDt);
+        var dateEnd = new Date($scope.endDt);
+        dateInit.setHours(0, 0, 0, 0);
+        dateEnd.setHours(0, 0, 0, 0);
+
+        $($scope.cfg.startDateId).datepicker('update', dateInit);
+        $($scope.cfg.endDateId).datepicker('update', dateEnd);
+
+        $($scope.cfg.startTimeId).timepicker('setTime', startTime);
+        $($scope.cfg.endTimeId).timepicker('setTime', endTime);
+
+        $scope.m.daysOfWeek[$scope.startDt.getDay()] = true;
+
+        var def = $q.defer();
+
+        $timeout(function () {
+            dlgMsgBox.modal('show');
+            dlgMsgBox.on('hidden.bs.modal', function () {
+                if ($scope.IsOk === true) {
+                    def.resolve({activities: $scope.rolActivities, option: $scope.option, event: $scope.m.event});
+                }
+                else {
+                    def.reject();
+                }
+            });
+        }, 1);
+
+
+        return def.promise;
+    };
+
+    $scope.validEvaluator = function () {
+        $scope.msgError = "";
+
+        isValid = false;
+
+
+        for (var i = 0; i < $scope.m.daysOfWeek.length; i++) {
+            if ($scope.m.daysOfWeek[i] === true) {
+                isValid = true;
+                break;
+            }
+        }
+
+        if($scope.m.activityName === null || $scope.m.activityName === ''){
+            $scope.msgError = "Debe escribir un nombre para la actividad";
+            return false;
+        }
+
+        if($scope.m.place === null || $scope.m.place === ''){
+            $scope.msgError = "Debe escribir el lugar de la actividad";
+            return false;
+        }
+
+        if (isValid === false) {
+            $scope.msgError = "Al menos debe seleccionar un día de la semana para añadir la actividad";
+            return false;
+        }
+
+        isValid = false;
+
+        for (var i = 0; i < $scope.lstEvaAct.length; i++) {
+            if ($scope.lstEvaAct[i].isSelected === true) {
+                isValid = true;
+                break;
+            }
+        }
+
+        if (isValid === false) {
+            $scope.msgError = "Al menos debe seleccionar una actividad";
+            return false;
+        }
+
+        return true;
+    };
+
+    $scope.generateActivitiesEvaluator = function () {
+
+        var d = {};
+        if ($scope.validateDates(d) === false)
+            return false;
+
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        $scope.rolActivities = [];
+
+        var dateStepInit = new Date(d.dateInit);
+        var dateStepEnd = new Date(d.dateInit);
+        dateStepInit.setHours(d.timeInit.hours, d.timeInit.minutes, 0, 0);
+        dateStepEnd.setHours(d.timeEnd.hours, d.timeEnd.minutes, 0, 0);
+
+        var iCount = 0;
+        while (dateStepInit < d.dateEnd) {
+
+            if ($scope.m.daysOfWeek[dateStepInit.getDay()] === true) {
+
+                if (dateStepInit < today) {
+                    $scope.msgError = "No es posible añadir actividades en el rol de evaluación antes de la fecha actual";
+                    return false;
+                }
+
+                var activities = [];
+                for(var i= 0, len = $scope.lstEvaAct.length; i<len; i++){
+                    var act = $scope.lstEvaAct[i];
+                    activities.push({id: act.id, name: act.name, isSelected: act.isSelected});
+                }
+
+                var eventAct = {
+                    title: "",
+                    doTitle: function (isModified) {
+                        this.title = (isModified === true ? "*" : "") +
+                        "Actividad: "
+                        + this.infoActivity.activityName +
+                        "\nUsuario "
+                        + this.infoActivity.evaluator.name +
+                        "\nNombre: "
+                        + this.infoActivity.evaluator.description +
+                        "\nLugar: "
+                        + this.infoActivity.place;
+                    },
+                    idActivity: -1,
+                    start: dateStepInit,
+                    end: dateStepEnd,
+                    allDay: false,
+                    isModified: true,
+                    className: 'label-info',
+                    infoActivity: {
+                        evaluator: $scope.m.supervisor,
+                        place: $scope.m.place,
+                        activities: activities,
+                        activityName: $scope.m.activityName
+                    }
+                };
+
+                eventAct.doTitle(true);
+                $scope.rolActivities.push(eventAct);
+
+                if (++iCount > 100) {
+                    $scope.msgError = "No puede añadir más de 100 actividades";
+                    return false;
+                }
+            }
+
+            dateStepInit = new Date(dateStepInit.getFullYear(), dateStepInit.getMonth(), dateStepInit.getDate() + 1);
+            dateStepEnd = new Date(dateStepEnd.getFullYear(), dateStepEnd.getMonth(), dateStepEnd.getDate() + 1);
+            dateStepInit.setHours(d.timeInit.hours, d.timeInit.minutes, 0, 0);
+            dateStepEnd.setHours(d.timeEnd.hours, d.timeEnd.minutes, 0, 0);
+        }
+
+        if (iCount === 0) {
+            $scope.msgError = "Al menos debe seleccionar un día de la semana dentro del intervalo de tiempo que eligió para crear al menos una actividad";
+            return false;
+        }
+
+        return true;
+    };
+
+    $scope.addEvaluator = function () {
+        if ($scope.validEvaluator() === false)
+            return false;
+
+        if ($scope.generateActivitiesEvaluator() === false)
+            return false;
+
+        $scope.IsOk = true;
+        $scope.hideMsg();
+    };
 });

@@ -83,12 +83,13 @@
 
     <div class="col-xs-2">
         &Uacute;ltimo consumo:
+        <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
     </div>
     <div class="col-xs-4">
         <div class="input-group">
             <input class="form-control date-picker" id="lastUse" data-val="true" type="text"
                    data-date-format="yyyy/mm/dd" ng-init="d.lastUse = '${d.lastUse == null ? "" : d.lastUse}';"
-                   readonly="readonly"
+
                    name="lastUse" data-val-required="La &uacute;ltima fecha de consumo es un campo requerido"
                    ng-model="d.lastUse"/>
 																	<span class="input-group-addon">

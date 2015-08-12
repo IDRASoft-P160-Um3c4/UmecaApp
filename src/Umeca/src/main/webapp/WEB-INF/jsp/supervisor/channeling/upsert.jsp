@@ -35,25 +35,33 @@
                             <div class="col-xs-12">
                                 <div class="panel panel-default panel-primary">
                                     <div class="panel-heading">
-                                        <h6><i class="glyphicon glyphicon-map-marker"></i>&nbsp;&nbsp;{{(m.channelingId <= 0 ? 'Agregar' : 'Editar/Consultar')}} canalizaci&oacute;n</h6>
+                                        <h6><i class="glyphicon glyphicon-map-marker"></i>&nbsp;&nbsp;{{(m.channelingId > 0 ? 'Editar/Consultar' : 'Agregar')}} canalizaci&oacute;n</h6>
                                     </div>
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-xs-12">
-                                                <div class="row" ng-show="m.consecutiveTx">
-                                                    <div class="col-xs-4 element-right">
-                                                        <label class="form-control-static">N&uacute;mero de canalizaci&oacuten:</label>
-                                                    </div>
-                                                    <div class="col-xs-8">
-                                                        <label class="form-control-static"><strong>{{m.consecutiveTx}}</strong></label>
-                                                    </div>
-                                                </div>
                                                 <div class="row">
                                                     <div class="col-xs-4 element-right">
                                                         <label class="form-control-static">Nombre del imputado:</label>
                                                     </div>
-                                                    <div class="col-xs-8">
+                                                    <div class="col-xs-4">
                                                         <label class="form-control-static"><strong>{{m.imputed}}</strong></label>
+                                                    </div>
+                                                    <div class="col-xs-4">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input type="checkbox" ng-model="m.isVolunteer" name="isVolunteer"  ng-disabled="m.channelingId > 0"/>
+                                                                <span class="control-label"><strong>Canalizaci&oacute;n voluntaria</strong></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row" ng-show="m.consecutiveTx">
+                                                    <div class="col-xs-4 element-right">
+                                                        <label class="form-control-static">N&uacute;mero de canalizaci&oacuten:</label>
+                                                    </div>
+                                                    <div class="col-xs-4">
+                                                        <label class="form-control-static"><strong>{{m.consecutiveTx}}</strong></label>
                                                     </div>
                                                 </div>
                                                 <div class="row">

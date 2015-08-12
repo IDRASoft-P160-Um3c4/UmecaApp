@@ -1,11 +1,5 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!--
-* Project: Umeca
-* User: Israel
-* Date: 4/30/14
-* Time: 9:53 AM
--->
 
 <html>
 <head>
@@ -16,8 +10,12 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/showMessageErrorDrct.js"></script>
-    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
-    </script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css"/>
+    <link rel="stylesheet"   href="${pageContext.request.contextPath}/assets/content/themes/umeca/bootstrap-timepicker.css"/>
+    <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-datepicker.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-timepicker.min.js"></script>
+
     <title>Usuarios</title>
     <script>
         window.cancelLegal = function () {
@@ -43,8 +41,10 @@
         <label class="info-example" style="font-size: small;!important">BAJO NINGUNA CIRCUNSTANCIA SE LE SOLICITAR&Aacute;
             ESTA INFORMACI&Oacute;N AL IMPUTADO</label>
     </div>
+    <%@ include file="/WEB-INF/jsp/reviewer/meeting/handingOver.jsp" %>
     <%@ include file="/WEB-INF/jsp/reviewer/meeting/imputedName.jsp" %>
-    <div ng-controller="proceedingLegalController">
+
+    <div class="col-xs-12" ng-controller="proceedingLegalController">
         <input type="hidden" id="urlMun" value="<c:url value='/reviewer/legal/getMun.json'/>"/>
         <input type="hidden" id="urlLoc" value="<c:url value='/reviewer/legal/getLoc.json'/>"/>
 

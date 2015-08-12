@@ -47,11 +47,20 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
                                                           @Param("yearmonthEnd")int yearmonthEnd);
 
     @Query("SELECT new com.umeca.model.entities.supervisor.ActivityMonitoringPlanInfo(amp.id, mp.id, cd.id, cd.idMP, mp.status, " +
-            "amp.end, amp.start, sa.name, ag.name, fssr.name, rs.name, amp.status, im.name, im.lastNameP, im.lastNameM, " +
-            "sd.fullname, amp.comments, amp.doneTime, mp.generationTime, mp.authorizationTime, mp.posAuthorizationChangeTime) " +
-            "FROM ActivityMonitoringPlan amp INNER JOIN amp.monitoringPlan mp INNER JOIN mp.caseDetention cd INNER JOIN cd.meeting.imputed im " +
-            "INNER JOIN amp.supervisionActivity sa INNER JOIN amp.activityGoal ag INNER JOIN amp.framingSelectedSourceRel.framingReference fssr " +
-            "INNER JOIN fssr.relationship rs LEFT JOIN amp.supervisorDone sd " +
+            "amp.end, amp.start, sa.name, ag.name, ag.id, fssr.name, rs.name, amp.status, im.name, im.lastNameP, im.lastNameM, " +
+            "sd.fullname, amp.comments, amp.doneTime, mp.generationTime, mp.authorizationTime, mp.posAuthorizationChangeTime, " +
+            "ch.id, ch.name, cht.name, amp.channelingAssistance) " +
+            "FROM ActivityMonitoringPlan amp " +
+            "INNER JOIN amp.monitoringPlan mp " +
+            "INNER JOIN mp.caseDetention cd " +
+            "INNER JOIN cd.meeting.imputed im " +
+            "INNER JOIN amp.supervisionActivity sa " +
+            "INNER JOIN amp.activityGoal ag " +
+            "INNER JOIN amp.framingSelectedSourceRel.framingReference fssr " +
+            "INNER JOIN fssr.relationship rs " +
+            "LEFT JOIN amp.supervisorDone sd " +
+            "LEFT JOIN amp.channeling ch " +
+            "LEFT JOIN ch.channelingType cht " +
             "WHERE amp.id =:actMonId")
     ActivityMonitoringPlanInfo getActivityInfo(@Param("actMonId")Long actMonId);
 
@@ -171,6 +180,10 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
             "FROM ActivityMonitoringPlan amp INNER JOIN amp.lstAssignedArrangement laa INNER JOIN laa.assignedArrangement aa " +
             "INNER JOIN aa.arrangement arr WHERE amp.id =:activityId")
     List<ActivityMonitoringPlanArrangementLog> getListActMonPlanArrangementByActivityIdToShow(@Param("activityId")Long activityId);
+
+    @Query("SELECT COUNT(amp.id) FROM ActivityMonitoringPlan amp " +
+            "WHERE amp.channeling.id = :channelingId")
+    Long countInChanneling(@Param("channelingId")Long channelingId);
 }
 
 

@@ -75,6 +75,17 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "where U.enabled = true and lower(U.username) like :str order by U.id")
     List<SelectList> getUserRolesByUsername(@Param("str") String str, Pageable pageable);
 
+    @Query("SELECT distinct new com.umeca.model.shared.SelectList(E.id, concat(E.name,' ',E.lastNameP,' ',E.lastNameM,' - ',D.name), R.description) FROM Employee E " +
+            "inner join E.users U " +
+            "inner join E.district D " +
+            "inner join U.roles R " +
+            "where U.enabled = true and (" +
+            "lower(E.name) like :str or " +
+            "lower(E.lastNameP) like :str or " +
+            "lower(E.lastNameM) like :str) " +
+            "order by U.id")
+    List<SelectList> getUserRolesByEmployeeName(@Param("str") String str, Pageable pageable);
+
     @Query("SELECT new com.umeca.model.shared.SelectList(u.id, u.username, R.description) FROM Employee E " +
             "inner join E.users U " +
             "inner join U.roles R " +
@@ -82,4 +93,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<SelectList> getUserRolesByEmployeeId(@Param("employeeId") Long employeeId);
 
 
+
+    @Query("SELECT U.id FROM User U " +
+            "INNER JOIN U.roles R " +
+            "WHERE U.enabled = true and R.role IN :lstRoles")
+    List<Long> getLstValidUsersIdByLstRoles(@Param("lstRoles") List<String> lstRoles);
+
+
+    @Query("SELECT U.fullname FROM User U " +
+            "WHERE U.id = :userId")
+    String getFullNameById(@Param("userId")Long id);
 }

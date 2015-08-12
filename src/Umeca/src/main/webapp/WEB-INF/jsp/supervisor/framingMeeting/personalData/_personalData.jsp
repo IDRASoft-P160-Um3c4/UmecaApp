@@ -260,8 +260,20 @@
             <div class="widget-header">Lugar y fecha de nacimiento</div>
             <div class="widget-body">
                 <br/>
-
                 <div class="row">
+                    <div class="col-xs-3 element-left col-xs-offset-1">
+                        Seleccione una opci&oacute;n:
+                    </div>
+                    <div class="col-xs-4">
+                        <input type="hidden" value="{{pd.birthInfo.id}}" name="birthInfoId">
+                        <select class="form-control element-center" ng-model="pd.birthInfo"
+                                ng-init='lstInfoAvail = ${lstInfoAvail};'
+                                ng-options="e.name for e in lstInfoAvail"></select>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="row" ng-show="pd.birthInfo.specification==true">
                     <div class="col-xs-5 col-xs-offset-1">
                         <label>Pa&iacute;s</label>
                         <select class="form-control element-center" ng-model="pd.birthCountry"
@@ -297,11 +309,12 @@
                 <div class="row">
                     <div class="col-xs-5 col-xs-offset-1">
                         <label for="birthDate">Fecha de nacimiento</label>
+                        <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (1980/11/30)</small>
 
                         <div class="input-group">
                             <input class="form-control date-picker"
                                    id="birthDate" name="birthDate" ng-model="pd.birthDate"
-                                   data-date-format="yyyy/mm/dd" type="text" readonly data-val="true"
+                                   data-date-format="yyyy/mm/dd" type="text"  data-val="true"
                                    data-val-required="Fecha de naciemiento es un campo requerido"
                                    ng-change="calcAge();">
                             <span class="input-group-addon">
@@ -313,6 +326,7 @@
                     </div>
                     <div class="col-xs-5">
                         <label>Edad</label>
+                        <br/>
                         <br/>
                         <input id="age" ng-model="pd.age"
                                type="text" class="input-xxlarge" readonly/>

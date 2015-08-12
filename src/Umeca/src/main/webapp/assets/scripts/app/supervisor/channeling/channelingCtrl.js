@@ -12,6 +12,11 @@ app.controller('channelingController', function($scope) {
 
     };
 
+    $scope.initDropCatalogs = function(){
+        $scope.m.channelingDropType = $scope.lstChannelingDropType[0];
+        $scope.m.channelingDropTypeId = $scope.m.channelingDropType.id;
+    };
+
     $scope.onChangeChannelingType = function () {
         $scope.clearAllCatalog();
 

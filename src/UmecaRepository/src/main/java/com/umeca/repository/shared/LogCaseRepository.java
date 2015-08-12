@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface LogCaseRepository extends JpaRepository<LogCase, Long> {
 
-    @Query("select new com.umeca.model.entities.shared.LogCase(lg.date, lg.activity, u.fullname, lg.title, lg.resume) from LogCase lg " +
+    @Query("select new com.umeca.model.entities.shared.LogCase(lg.date, lg.completionDate , lg.activity, u.fullname, lg.title, lg.resume) from LogCase lg " +
             "inner join lg.caseDetention cd " +
             "inner join lg.user u " +
             "where cd.id = :idCase order by lg.date asc")

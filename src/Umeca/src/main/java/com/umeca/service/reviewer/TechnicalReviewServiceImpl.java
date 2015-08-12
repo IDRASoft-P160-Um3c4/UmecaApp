@@ -160,8 +160,12 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         file.setAddressV(StringEscape.escapeText(Convert.convertToValidString(ver.getMeetingVerified().getImputedHomes().get(0).getAddress().getAddressString())));
         Long idCase = ver.getCaseDetention().getId();
         file.setAddress(StringEscape.escapeText(Convert.convertToValidString(meeting.getImputedHomes().get(0).getAddress().getAddressString())));
-        String template = "Campo: {0} <br/>Valor: {1}<br/> Fuente: {2}<br/>Raz&oacute;n: {3}<br/>";
-        String templateUnable = "Campo: {0} <br/>Valor: {1}<br/>Raz&oacute;n: {3}<br/>";
+//        String template = "Campo: {0} <br/>Valor: {1}<br/> Fuente: {2}<br/>Raz&oacute;n: {3}<br/>";
+//        String templateUnable = "Campo: {0} <br/>Valor: {1}<br/>Raz&oacute;n: {3}<br/>";
+
+        String template = "<td> <b>Campo: {0}</b></td> <td>Valor: {1}</td><td> Fuente: {2}</td> <td>Raz&oacute;n: {3}</td>";
+        String templateUnable = "<td> <b>Campo: {0}</b></td><td> Valor: {1}</td><td></td>Fuente:NA<td>Raz&oacute;n: {3}</td>";
+
         for (int i = 0; i < Constants.NAMES_MEETING.length; i++) {
             List<FieldMeetingSource> listFMS = fieldMeetingSourceRepository.getAllFinalByIdCaseAndSectionCode(idCase, (i + 1));
             if (listFMS.size() > 0 && listFMS.get(0) != null) {
@@ -179,7 +183,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                             } else {
                                 idSources = fieldMeetingSourceRepository.getIdSourceByCodeWhithIdListWithoutState(idCase, fms.getFieldVerification().getCode(), fms.getIdFieldList(), Constants.ST_FIELD_VERIF_UNABLE);
                             }
-                            String sourcessay = "<br/>Informaci&oacute; recopilada:<br/>";
+                            String sourcessay = "<br/>Informaci&oacute;n recopilada:<br/>";
                             for (SearchToChoiceIds e : idSources) {
                                 List<FieldMeetingSource> result = new ArrayList<>();
                                 if (fms.getIdFieldList() == null) {
@@ -195,7 +199,6 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                                     sourcessay += StringEscape.escapeText(s) + ",";
                                 }
                                 sourcessay += "<br/>";
-
                             }
                             String finalText = Constants.UNABLE_VERIF_TEXT_DOC + sourcessay;
                             v = v.replace("{1}", finalText);
@@ -212,9 +215,10 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                         v = v.replace("{0}", fms.getFieldVerification().getFieldName());
                         section.getValues().add(Convert.convertToValidString(v));
 
-                        file.getSections().add(section);
+//                        file.getSections().add(section);
                     }
                 }
+                file.getSections().add(section);
             }
         }
 

@@ -27,22 +27,23 @@ public class ImputedHomeDto {
     private String schedule;
     private String phone;
     private String reasonSecondary;
+    private Boolean isHomeless;
 
-    public ImputedHomeDto dtoImputedHome(ImputedHome ih, String schedule){
-        this.id=ih.getId();
-        if(ih.getAddress()!=null){
+    public ImputedHomeDto dtoImputedHome(ImputedHome ih, String schedule) {
+        this.id = ih.getId();
+        if (ih.getAddress() != null) {
             Address a = ih.getAddress();
             this.addressId = a.getId();
             this.street = a.getStreet();
-            this.outNum  = a.getOutNum();
+            this.outNum = a.getOutNum();
             this.innNum = a.getInnNum();
-            if(a.getLocation()!=null){
+            if (a.getLocation() != null) {
                 this.locationId = a.getLocation().getId();
             }
             this.addressString = a.getAddressString();
         }
-        this.timeLive=ih.getTimeLive();
-        if(ih.getHomeType()!=null){
+        this.timeLive = ih.getTimeLive();
+        if (ih.getHomeType() != null) {
             this.belongId = ih.getHomeType().getId();
         }
         this.reasonChange = ih.getReasonChange();
@@ -50,9 +51,10 @@ public class ImputedHomeDto {
         this.phone = ih.getPhone();
         this.schedule = schedule;
         this.reasonSecondary = ih.getReasonSecondary();
-        if(ih.getRegisterType()!=null){
+        if (ih.getRegisterType() != null) {
             this.typeId = ih.getRegisterType().getId();
         }
+        this.isHomeless = ih.getIsHomeless();
 
         return this;
     }
@@ -175,5 +177,13 @@ public class ImputedHomeDto {
 
     public void setReasonSecondary(String reasonSecondary) {
         this.reasonSecondary = reasonSecondary;
+    }
+
+    public Boolean getIsHomeless() {
+        return isHomeless;
+    }
+
+    public void setIsHomeless(Boolean isHomeless) {
+        this.isHomeless = isHomeless;
     }
 }

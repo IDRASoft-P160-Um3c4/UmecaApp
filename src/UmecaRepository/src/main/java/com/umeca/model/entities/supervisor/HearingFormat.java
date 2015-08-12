@@ -69,9 +69,9 @@ public class HearingFormat {
     @Column(name = "umeca_time")
     private Time umecaTime;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_user_umeca")
-    private User umecaSupervisor;
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "id_user_umeca")
+//    private User umecaSupervisor;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_hearing_type")
@@ -120,6 +120,15 @@ public class HearingFormat {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_district")
     private District district;
+
+    @Column(name="is_homeless")
+    private Boolean isHomeless;
+
+    @Column(name="time_ago")
+    private String timeAgo;
+
+    @Column(name="location_place")
+    private String locationPlace;
 
     @Transient
     private Boolean isSubstracted;
@@ -324,13 +333,13 @@ public class HearingFormat {
         this.umecaTime = umecaTime;
     }
 
-    public User getUmecaSupervisor() {
-        return umecaSupervisor;
-    }
-
-    public void setUmecaSupervisor(User umecaSupervisor) {
-        this.umecaSupervisor = umecaSupervisor;
-    }
+//    public User getUmecaSupervisor() {
+//        return umecaSupervisor;
+//    }
+//
+//    public void setUmecaSupervisor(User umecaSupervisor) {
+//        this.umecaSupervisor = umecaSupervisor;
+//    }
 
     public HearingType getHearingType() {
         return hearingType;
@@ -403,4 +412,29 @@ public class HearingFormat {
     public void setDistrict(District district) {
         this.district = district;
     }
+
+    public Boolean getIsHomeless() {
+        return isHomeless;
+    }
+
+    public void setIsHomeless(Boolean isHomeless) {
+        this.isHomeless = isHomeless;
+    }
+
+    public String getTimeAgo() {
+        return timeAgo;
+    }
+
+    public void setTimeAgo(String timeAgo) {
+        this.timeAgo = timeAgo;
+    }
+
+    public String getLocationPlace() {
+        return locationPlace;
+    }
+
+    public void setLocationPlace(String locationPlace) {
+        this.locationPlace = locationPlace;
+    }
+
 }

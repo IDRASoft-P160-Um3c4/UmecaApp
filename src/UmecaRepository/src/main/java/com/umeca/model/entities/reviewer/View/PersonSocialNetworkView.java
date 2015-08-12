@@ -18,7 +18,7 @@ public class PersonSocialNetworkView  implements EntityGrid {
 
    private String relName;
 
-   private Integer age;
+   private String age;
 
     private String phone;
 
@@ -35,7 +35,7 @@ public class PersonSocialNetworkView  implements EntityGrid {
     public PersonSocialNetworkView() {
     }
 
-    public PersonSocialNetworkView(Long id, String name, String relName, Integer age, String phone, Boolean isAccompaniment, Long dependent, String specificationRelationship) {
+    public PersonSocialNetworkView(Long id, String name, String relName, String age, String phone, Boolean isAccompaniment, Long dependent, String specificationRelationship) {
         this.id = id;
         this.name = name;
         this.relName = relName;
@@ -71,14 +71,6 @@ public class PersonSocialNetworkView  implements EntityGrid {
 
     public void setRelName(String relName) {
         this.relName = relName;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
     }
 
     public String getPhone() {
@@ -127,5 +119,13 @@ public class PersonSocialNetworkView  implements EntityGrid {
 
     public void setSpecificationRelationship(String specificationRelationship) {
         this.specificationRelationship = specificationRelationship;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
     }
 }

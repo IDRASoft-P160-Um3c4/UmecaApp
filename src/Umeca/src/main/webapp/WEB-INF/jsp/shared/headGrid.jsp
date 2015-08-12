@@ -1,9 +1,3 @@
-<!--
-* Project: Umeca
-* User: Israel
-* Date: 4/30/14
-* Time: 9:53 AM
--->
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <META content="IE=10.000" http-equiv="X-UA-Compatible">

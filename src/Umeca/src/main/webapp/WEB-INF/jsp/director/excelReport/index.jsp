@@ -92,9 +92,6 @@
                         case 'ST_CASE_HEARING_FORMAT_END':
                             be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formatos de audiencia\" onclick=\"showHearingFormats('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
                             break;
-                        case 'ST_CASE_PRE_CLOSED':
-                            be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formatos de audiencia\" onclick=\"showHearingFormats('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
-                            break;
                         default : //eliminar
                             be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formatos de audiencia\" onclick=\"showHearingFormats('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
                             break;
@@ -132,7 +129,7 @@
         jQuery("#GridCasesId").jqGrid('navButtonAdd', "#GridPager",
                 {
                     caption: "",
-                    title: "Descargar informaci�n de casos en excel",
+                    title: "Descargar información de casos en excel",
                     buttonicon: 'icon-download-alt red',
 
                     onClickButton: function () {
@@ -203,7 +200,7 @@
 
                         <div class="col-xs-3 col-xs-offset-2">
                             <label for="initDate">Fecha inicio</label>
-
+                            <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
                             <div class="row">
                                 <div class="input-group">
                                     <input id="initDate" name="initDate"
@@ -211,7 +208,7 @@
                                            class="form-control date-picker"
                                            type="text"
                                            data-date-format="yyyy/mm/dd" data-val="true"
-                                           readonly
+
                                            data-val-required="Fecha de inicio es un campo requerido"/>
                                                             <span class="input-group-addon">
                                                                 <i class="icon-calendar bigger-110"></i>
@@ -225,13 +222,13 @@
 
                         <div class="col-xs-3 col-xs-offset-1">
                             <label for="endDate">Fecha fin</label>
-
+                            <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
                             <div class="row">
                                 <div class="input-group">
                                     <input id="endDate" name="endDate"
                                            class="form-control date-picker" type="text"
                                            data-date-format="yyyy/mm/dd" data-val="true"
-                                           readonly
+
                                            ng-model="endDate"
                                            data-val-required="Fecha de fin es un campo requerido"/>
                                                             <span class="input-group-addon">
@@ -332,7 +329,7 @@
                         <div class="checkbox">
                             <label>
                                 <input class="ace" type="checkbox"
-                                       ng-click='addIdToList("lstMaritalSt",4); addIdToList("lstMarStStr","-Uni�n libre");'>
+                                       ng-click='addIdToList("lstMaritalSt",4); addIdToList("lstMarStStr","-Unión libre");'>
                                 <span class="lbl col-xs-10">&nbsp;&nbsp;Uni&oacute;n libre</span>
                             </label>
                         </div>
@@ -375,21 +372,21 @@
                         <div class="checkbox">
                             <label>
                                 <input class="ace" type="checkbox"
-                                       ng-click='addIdToList("lstDrugs",3); addIdToList("lstDrugsStr","-Coca�na");'>
+                                       ng-click='addIdToList("lstDrugs",3); addIdToList("lstDrugsStr","-Cocaína");'>
                                 <span class="lbl col-xs-10">&nbsp;&nbsp;Cocaca&iacute;na</span>
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
                                 <input class="ace" type="checkbox"
-                                       ng-click='addIdToList("lstDrugs",4); addIdToList("lstDrugsStr","-Hero�na");'>
+                                       ng-click='addIdToList("lstDrugs",4); addIdToList("lstDrugsStr","-Heroína");'>
                                 <span class="lbl col-xs-10">&nbsp;&nbsp;Hero&iacute;na</span>
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
                                 <input class="ace" type="checkbox"
-                                       ng-click='addIdToList("lstDrugs",5); addIdToList("lstDrugsStr","-Opi�ceos");'>
+                                       ng-click='addIdToList("lstDrugs",5); addIdToList("lstDrugsStr","-Opiáceos");'>
                                 <span class="lbl col-xs-10">&nbsp;&nbsp;Opi&aacute;ceos</span>
                             </label>
                         </div>
@@ -470,7 +467,7 @@
                         <div class="checkbox">
                             <label>
                                 <input class="ace" type="checkbox"
-                                       ng-click='addIdToList("lstAcademicLvl",1); addIdToList("lstAcLvlStr","-Sin instrucci�n acad�mica");'>
+                                       ng-click='addIdToList("lstAcademicLvl",1); addIdToList("lstAcLvlStr","-Sin instrucción académica");'>
                                 <span class="lbl col-xs-10">&nbsp;&nbsp;Sin instrucci&oacute;n acad&eacute;mica</span>
                             </label>
                         </div>
@@ -612,21 +609,21 @@
                                     <div class="checkbox">
                                         <label>
                                             <input class="ace" type="checkbox"
-                                                   ng-click='addIdToList("lstStatusMeeting",3); addIdToList("lstStCaseStr","-Informaci�n legal completa");'>
+                                                   ng-click='addIdToList("lstStatusMeeting",3); addIdToList("lstStCaseStr","-Información legal completa");'>
                                             <span class="lbl col-xs-10">&nbsp;&nbsp;Informaci&oacute;n legal completa</span>
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
                                             <input class="ace" type="checkbox"
-                                                   ng-click='addIdToList("lstStatusVerification",4); addIdToList("lstStCaseStr","-Verificaci�n completa");'>
+                                                   ng-click='addIdToList("lstStatusVerification",4); addIdToList("lstStCaseStr","-Verificación completa");'>
                                             <span class="lbl col-xs-10">&nbsp;&nbsp;Verificaci&oacute;n completa</span>
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
                                             <input class="ace" type="checkbox"
-                                                   ng-click='addIdToList("lstStatusCase",2); addIdToList("lstStCaseStr","-Opini�n t�cnica");'>
+                                                   ng-click='addIdToList("lstStatusCase",2); addIdToList("lstStCaseStr","-Opinión técnica");'>
                                             <span class="lbl col-xs-10">&nbsp;&nbsp;Opini&oacute;n t&eacute;cnica</span>
                                         </label>
                                     </div>
@@ -643,7 +640,7 @@
                                     <div class="checkbox">
                                         <label>
                                             <input class="ace" type="checkbox"
-                                                   ng-click='addIdToList("lstLvlRisk",1); addIdToList("lstLvlRkStr","-M�nimo");'>
+                                                   ng-click='addIdToList("lstLvlRisk",1); addIdToList("lstLvlRkStr","-Mínimo");'>
                                             <span class="lbl col-xs-10">&nbsp;&nbsp;M&iacute;nimo</span>
                                         </label>
                                     </div>

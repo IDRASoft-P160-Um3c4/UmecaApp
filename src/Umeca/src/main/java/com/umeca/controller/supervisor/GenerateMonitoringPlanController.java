@@ -13,6 +13,7 @@ import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
@@ -35,13 +36,6 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Project: Umeca
- * User: Israel
- * Date: 6/3/14
- * Time: 12:03 PM
- */
 
 @Controller
 public class GenerateMonitoringPlanController {
@@ -135,6 +129,8 @@ public class GenerateMonitoringPlanController {
     @Autowired
     private MonitoringPlanRepository monitoringPlanRepository;
     @Autowired
+    private ChannelingRepository channelingRepository;
+    @Autowired
     private ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
     @Autowired
     private TechnicalReviewRepository qTechnicalReviewRepository;
@@ -148,57 +144,94 @@ public class GenerateMonitoringPlanController {
     public
     @ResponseBody
     ModelAndView generate(@RequestParam Long id) { //Id de MonitoringPlan
-        ModelAndView model = new ModelAndView("/supervisor/generateMonitoringPlan/generate");
-        Gson gson = new Gson();
+        try {
+            ModelAndView model = new ModelAndView("/supervisor/generateMonitoringPlan/generate");
+            Gson gson = new Gson();
 
-        Long caseId = monitoringPlanRepository.getCaseIdByMonPlan(id);
+            Long caseId = monitoringPlanRepository.getCaseIdByMonPlan(id);
 
-        //Find last hearing format to get last assigned arrangements
-        List<Long> lastHearingFormatId = hearingFormatRepository.getLastHearingFormatByMonPlan(id, new PageRequest(0, 1));
+            //Find last hearing format to get last assigned arrangements
+            List<Long> lastHearingFormatId = hearingFormatRepository.getLastHearingFormatByMonPlan(id, new PageRequest(0, 1));
 
-        List<SelectList> lstGeneric = arrangementRepository.findLstArrangementByHearingFormatId(lastHearingFormatId.get(0));
-        String sLstGeneric = gson.toJson(lstGeneric);
-        model.addObject("lstArrangements", sLstGeneric);
+            List<SelectList> lstGeneric = arrangementRepository.findLstArrangementByHearingFormatId(lastHearingFormatId.get(0));
+            String sLstGeneric = gson.toJson(lstGeneric);
+            model.addObject("lstArrangements", sLstGeneric);
 
-        lstGeneric = supervisionActivityRepository.findAllValidSl();
-        sLstGeneric = gson.toJson(lstGeneric);
-        model.addObject("lstActivities", sLstGeneric);
+            lstGeneric = channelingRepository.findValidByCaseId(caseId);
 
-        lstGeneric = activityGoalRepository.findAllValidMonitoring();
-        sLstGeneric = gson.toJson(lstGeneric);
-        model.addObject("lstGoals", sLstGeneric);
+            Boolean bValue;
+            for (SelectList sl : lstGeneric){
+                bValue = sl.getIsSelected();
+                if(bValue != null && bValue)
+                    sl.setName(Constants.CHANNELING_IS_VOLUNTEER_TITLE + " " + sl.getName());
+            }
 
-        lstGeneric = framingReferenceRepository.findAllValidByCaseId(caseId);
-        sLstGeneric = gson.toJson(lstGeneric);
-        model.addObject("lstSources", sLstGeneric);
-        Long idTec = qTechnicalReviewRepository.getTechnicalReviewByCaseId(caseId);
-        if (idTec != null) {
-            model.addObject("idTec", idTec);
-            model.addObject("idVer", caseRepository.getVerifIdByCaseId(caseId));
+            sLstGeneric = gson.toJson(lstGeneric);
+            model.addObject("lstChanneling", sLstGeneric);
 
+            /*
+            boolean hasChanneling = true;
+            if(lstGeneric == null || lstGeneric.size() == 0){
+                hasChanneling = false;
+            } */
+
+            lstGeneric = supervisionActivityRepository.findAllValidSl();
+
+            /*if(hasChanneling == false){
+                for(int i=lstGeneric.size()-1; i >= 0; i--){
+                    SelectList data = lstGeneric.get(i);
+                    if(data.getCode().equals(Constants.CHANNELING_SUPERVISION_ACTIVITY_CODE)){
+                        lstGeneric.remove(i);
+                        break;
+                    }
+                }
+            }*/ //Se eliminó esto para poder obetenr la información de las canalizaciones que fueron dadas de baja, pero se debe tomar en cuenta de que
+            //si selecciona una actividad de canalización, no verá una canalización para seleccionar.
+
+            sLstGeneric = gson.toJson(lstGeneric);
+            model.addObject("lstActivities", sLstGeneric);
+
+            lstGeneric = activityGoalRepository.findAllValidMonitoring();
+            sLstGeneric = gson.toJson(lstGeneric);
+            model.addObject("lstGoals", sLstGeneric);
+
+            lstGeneric = framingReferenceRepository.findAllValidByCaseId(caseId);
+            sLstGeneric = gson.toJson(lstGeneric);
+            model.addObject("lstSources", sLstGeneric);
+            Long idTec = qTechnicalReviewRepository.getTechnicalReviewByCaseId(caseId);
+            if (idTec != null) {
+                model.addObject("idTec", idTec);
+                model.addObject("idVer", caseRepository.getVerifIdByCaseId(caseId));
+
+            }
+            MonitoringPlanInfo mpi = monitoringPlanRepository.getInfoById(id);
+
+            String[] arrProp = new String[]{"personName", "idMP"};
+            mpi = (MonitoringPlanInfo) StringEscape.escapeAttrs(mpi, arrProp);
+
+            model.addObject("caseId", mpi.getIdCase());
+            model.addObject("mpId", mpi.getIdMP());
+            model.addObject("personName", mpi.getPersonName());
+            model.addObject("monStatus", mpi.getMonStatus());
+            model.addObject("monitoringPlanId", mpi.getIdMonitoringPlan());
+            model.addObject("monitoringPlanId", mpi.getIdMonitoringPlan());
+            model.addObject("isSubstracted", caseRepository.getSubstractedByCaseId(caseId));
+            model.addObject("isInAuthorizeReady", MonitoringConstants.LST_STATUS_AUTHORIZE_READY.contains(mpi.getMonStatus()));
+
+            List<ActivityMonitoringPlan> lstActivities = activityMonitoringPlanRepository.findValidActivitiesBy(id, MonitoringConstants.STATUS_ACTIVITY_DELETED);
+            List<ActivityMonitoringPlanDto> lstDtoActivities = ActivityMonitoringPlanDto.convertToDtos(lstActivities);
+
+            sLstGeneric = gson.toJson(lstDtoActivities);
+            model.addObject("lstActivitiesMonPlan", sLstGeneric);
+            List<ScheduleLogDto> listSchedules = scheduleService.getFramingScheduleByIdCase(caseId);
+            model.addObject("lstSchedules", gson.toJson(listSchedules));
+            return model;
+
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "generate", sharedUserService);
+            return null;
         }
-        MonitoringPlanInfo mpi = monitoringPlanRepository.getInfoById(id);
 
-        String[] arrProp = new String[]{"personName", "idMP"};
-        mpi = (MonitoringPlanInfo) StringEscape.escapeAttrs(mpi, arrProp);
-
-        model.addObject("caseId", mpi.getIdCase());
-        model.addObject("mpId", mpi.getIdMP());
-        model.addObject("personName", mpi.getPersonName());
-        model.addObject("monStatus", mpi.getMonStatus());
-        model.addObject("monitoringPlanId", mpi.getIdMonitoringPlan());
-        model.addObject("monitoringPlanId", mpi.getIdMonitoringPlan());
-        model.addObject("isSubstracted", caseRepository.getSubstractedByCaseId(caseId));
-        model.addObject("isInAuthorizeReady", MonitoringConstants.LST_STATUS_AUTHORIZE_READY.contains(mpi.getMonStatus()));
-
-        List<ActivityMonitoringPlan> lstActivities = activityMonitoringPlanRepository.findValidActivitiesBy(id, MonitoringConstants.STATUS_ACTIVITY_DELETED);
-        List<ActivityMonitoringPlanDto> lstDtoActivities = ActivityMonitoringPlanDto.convertToDtos(lstActivities);
-
-        sLstGeneric = gson.toJson(lstDtoActivities);
-        model.addObject("lstActivitiesMonPlan", sLstGeneric);
-        List<ScheduleLogDto> listSchedules = scheduleService.getFramingScheduleByIdCase(caseId);
-        model.addObject("lstSchedules", gson.toJson(listSchedules));
-        return model;
     }
 
     @Autowired

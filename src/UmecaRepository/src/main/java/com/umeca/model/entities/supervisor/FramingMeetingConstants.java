@@ -18,6 +18,7 @@ public class FramingMeetingConstants {
     public static final String LOG_TYPE_DELETED = "DELETED";
 
     public static final String LOW_CASE_REGISTER_TYPE_ACTUAL = "actual";
+    public static final String LOW_CASE_HOME_TYPE_OWN = "propia";
     public static final String LOW_CASE_REGISTER_TYPE_SECONDARY = "secundario";
     public static final String LOW_CASE_REGISTER_TYPE_PREV = "anterior";
     public static final String LOW_CASE_REGISTER_TYPE_OTHER = "otro";

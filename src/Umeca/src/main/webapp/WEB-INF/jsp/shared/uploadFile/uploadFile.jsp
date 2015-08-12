@@ -106,7 +106,7 @@
                                                     <div class="col-xs-8" ng-show="!defaultType">
                                                         <select class="form-control element-center" ng-model="m.typeNameFile"
                                                                 ng-options="e.name for e in listTypeName"
-                                                                ng-change="m.typeNameFileId = m.typeNameFile.Id"
+                                                                ng-change="m.typeNameFileId = m.typeNameFile.id"
                                                                 ng-init='listTypeName = ${listTypeName == null? "[]":listTypeName};'></select>
                                                     </div>
                                                     <div class="col-xs-8" ng-show="defaultType">

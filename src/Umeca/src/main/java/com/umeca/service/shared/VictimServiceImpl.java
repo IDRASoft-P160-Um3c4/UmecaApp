@@ -8,7 +8,9 @@ import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.CurrentCriminalProceeding;
 import com.umeca.model.entities.shared.Victim;
+import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
+import com.umeca.repository.catalog.InformationAvailabilityRepository;
 import com.umeca.repository.catalog.LocationRepository;
 import com.umeca.repository.catalog.RelationshipRepository;
 import com.umeca.repository.reviewer.AddressRepository;
@@ -16,6 +18,7 @@ import com.umeca.repository.reviewer.CurrentCriminalProceedingRepository;
 import com.umeca.repository.shared.VictimRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
+import org.eclipse.jdt.internal.compiler.impl.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +49,8 @@ public class VictimServiceImpl implements VictimService {
     SharedLogExceptionService logException;
     @Autowired
     SharedUserService userService;
+    @Autowired
+    InformationAvailabilityRepository informationAvailabilityRepository;
 
     @Override
     public ModelAndView upsertVictim(Long id, Long idCase) {
@@ -53,6 +58,7 @@ public class VictimServiceImpl implements VictimService {
         try{
         Gson gson = new Gson();
         model.addObject("lstRelationship", gson.toJson(relationshipRepository.findNotObsolete()));
+            model.addObject("lstInfoAvail", gson.toJson(informationAvailabilityRepository.findNoObsolete()));
         model.addObject("idCase", idCase);
         addressService.fillCatalogAddress(model);
         if(id!=null && id > 0){
@@ -88,14 +94,28 @@ public class VictimServiceImpl implements VictimService {
             sVictim.setAge(victim.getAge());
             sVictim.setPhone(victim.getPhone());
 
-            sVictim.getAddress().setStreet(victim.getAddress().getStreet());
-            sVictim.getAddress().setInnNum(victim.getAddress().getInnNum());
-            sVictim.getAddress().setOutNum(victim.getAddress().getOutNum());
+            if(victim.getHasInfoAddress()==true) {
+                sVictim.getAddress().setStreet(victim.getAddress().getStreet());
+                sVictim.getAddress().setInnNum(victim.getAddress().getInnNum());
+                sVictim.getAddress().setOutNum(victim.getAddress().getOutNum());
+                sVictim.getAddress().setLocation(locationRepository.findOne(victim.getAddress().getLocation().getId()));
+                sVictim.getAddress().setLng(victim.getAddress().getLng());
+                sVictim.getAddress().setLat(victim.getAddress().getLat());
+                sVictim.getAddress().setAddressString(sVictim.getAddress().toString());
+                sVictim.setInfoAddress(informationAvailabilityRepository.findOne(victim.getInfoAddressId()));
+            }else{
+                sVictim.getAddress().setStreet("No proporcionada");
+                sVictim.getAddress().setInnNum("# interior");
+                sVictim.getAddress().setOutNum("# exterior");
+                sVictim.getAddress().setLocation(locationRepository.findByLocName(Constants.COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW));
+                sVictim.getAddress().setLng(null);
+                sVictim.getAddress().setLat(null);
+                sVictim.getAddress().setAddressString(sVictim.getAddress().toString());
+                sVictim.setInfoAddress(informationAvailabilityRepository.findOne(victim.getInfoAddressId()));
+            }
+
             sVictim.setSpecification(victim.getSpecification());
-            sVictim.getAddress().setLocation(locationRepository.findOne(victim.getAddress().getLocation().getId()));
-            sVictim.getAddress().setLng(victim.getAddress().getLng());
-            sVictim.getAddress().setLat(victim.getAddress().getLat());
-            sVictim.getAddress().setAddressString(sVictim.getAddress().toString());
+
             sVictim.setAddress(addressRepository.save(sVictim.getAddress()));
             if(victim.getRelationship()!=null){
                 sVictim.setRelationship(relationshipRepository.findOne(victim.getRelationship().getId()));

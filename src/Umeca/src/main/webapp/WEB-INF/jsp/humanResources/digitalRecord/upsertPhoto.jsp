@@ -32,7 +32,6 @@
                         return;
                     }
                 } catch (e) {
-                    alert("d   " + e);
                     scope.setPhotoError("Hubo un error al momento de procesar la respuesta: " + e);
                     return;
                 } finally {
@@ -148,10 +147,6 @@
                 <div class="modal-footer">
                     <span class="btn btn-default btn-sm" ng-click="cancel()">
                         Cancelar
-                    </span>
-                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-show="canSave==true"
-                          ng-click="submitPhoto('#FormPhotoId', '<c:url value="/humanResources/digitalRecord/doUpsertPhoto.json"/>');">
-                          Guardar
                     </span>
                 </div>
             </div>

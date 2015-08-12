@@ -147,13 +147,13 @@
 
                                                         <div class="col-xs-6">
                                                             <label>Fecha</label>
-                                                            <br/>
+                                                            <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
 
                                                             <div class="input-group">
                                                                 <input class="form-control date-picker"
                                                                        name="incidentDate" type="text"
                                                                        data-date-format="yyyy/mm/dd"
-                                                                       readonly
+
                                                                        ng-model="incident.incidentDate" data-val="true"
                                                                        data-val-required="Fecha es un campo requerido"/>
                                                                     <span class="input-group-addon">

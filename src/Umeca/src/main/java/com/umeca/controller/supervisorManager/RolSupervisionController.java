@@ -1,49 +1,28 @@
 package com.umeca.controller.supervisorManager;
 
 import com.google.gson.Gson;
-import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
-import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
-import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
-import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.dto.supervisorManager.ResponseRolActivities;
 import com.umeca.model.dto.supervisorManager.RolActivityRequest;
 import com.umeca.model.entities.account.User;
-import com.umeca.model.entities.reviewer.Case;
-import com.umeca.model.entities.reviewer.Imputed;
-import com.umeca.model.entities.reviewer.Meeting;
-import com.umeca.model.entities.supervisor.*;
+import com.umeca.model.entities.supervisor.RequestActivities;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
-import com.umeca.repository.catalog.ArrangementRepository;
-import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
-import com.umeca.repository.supervisor.*;
-import com.umeca.repository.supervisorManager.RolActivityRepository;
+import com.umeca.repository.managereval.EvaluationActivityRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisiorManager.RolActivityService;
-import com.umeca.service.supervisor.MonitoringPlanService;
-import com.umeca.service.supervisor.TrackMonPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Selection;
-import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Project: Umeca
- * User: Israel
- * Date: 6/3/14
- * Time: 12:03 PM
- */
 
 @Controller
 public class RolSupervisionController {
@@ -52,16 +31,32 @@ public class RolSupervisionController {
     SharedLogExceptionService logException;
     @Autowired
     SharedUserService sharedUserService;
-
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    EvaluationActivityRepository evaluationActivityRepository;
 
-    @RequestMapping(value = "/supervisorManager/rolSupervision/index", method = RequestMethod.GET)
+    @RequestMapping(value = {"/supervisorManager/rolSupervision/index", "/managereval/rolEvaluation/index"}, method = RequestMethod.GET)
     public @ResponseBody ModelAndView index(){
         ModelAndView model = new ModelAndView("/supervisorManager/rolSupervision/index");
         Gson gson = new Gson();
+        if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){
+
+            List<SelectList> lstEvaluator = userRepository.getLstValidUsersByRole(Constants.ROLE_REVIEWER);
+            String sLstGeneric = gson.toJson(lstEvaluator);
+            model.addObject("lstSupervisor", sLstGeneric);
+            model.addObject("isEvaluator", true);
+            model.addObject("urlGetActivities", "/managereval/rolEvaluation/getActivities.json");
+            List<SelectList> lstEvaAct = evaluationActivityRepository.getAllNoObsolete();
+            for(SelectList curr : lstEvaAct){
+                curr.setIsSelected(false);
+            }
+            model.addObject("lstEvaAct", gson.toJson(lstEvaAct));
+            return model;
+        }
         List<SelectList> lstSupervisor = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
         String sLstGeneric = gson.toJson(lstSupervisor);
+        model.addObject("isEvaluator", false);
         model.addObject("lstSupervisor", sLstGeneric);
         model.addObject("urlGetActivities", "/supervisorManager/rolSupervision/getActivities.json");
         return model;
@@ -71,7 +66,7 @@ public class RolSupervisionController {
     @Autowired
     RolActivityService rolActivityService;
 
-    @RequestMapping(value = "/supervisorManager/rolSupervision/doUpsert", method = RequestMethod.POST)
+    @RequestMapping(value = {"/supervisorManager/rolSupervision/doUpsert", "/managereval/rolEvaluation/doUpsert"}, method = RequestMethod.POST)
     public @ResponseBody ResponseMessage doUpsert(@RequestBody RolActivityRequest model){
         ResponseMessage response = new ResponseMessage();
         response.setTitle("Rol de supervisión");
@@ -107,7 +102,7 @@ public class RolSupervisionController {
     }
 
 
-    @RequestMapping(value = "/supervisorManager/rolSupervision/getActivities", method = RequestMethod.POST)
+    @RequestMapping(value = {"/supervisorManager/rolSupervision/getActivities", "/managereval/rolEvaluation/getActivities"}, method = RequestMethod.POST)
     public @ResponseBody ResponseRolActivities getActivities(@RequestBody RequestActivities req){
         ResponseRolActivities response = new ResponseRolActivities();
         response.setHasError(true);

@@ -1,10 +1,8 @@
 package com.umeca.repository.reviewer;
 
-import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.reviewer.Imputed;
-import com.umeca.model.shared.SelectList;
+import com.umeca.model.entities.reviewer.ImputedInitial;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -27,3 +25,5 @@ public interface ImputedRepository extends JpaRepository<Imputed, Long>{
     @Query("select i from Imputed as i where name=:name and lastNameP = :lnP and lastNameM = :lnM and birthDate = :db")
     List<Imputed> findImputedRegister(@Param("name")String name, @Param("lnP")String lastNameP,@Param("lnM")String lastNameM,@Param("db") Date birthDate);
 }
+
+

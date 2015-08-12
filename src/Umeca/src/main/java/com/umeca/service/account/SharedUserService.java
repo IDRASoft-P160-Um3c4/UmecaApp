@@ -116,14 +116,20 @@ public class SharedUserService {
     }
 
 
-    public List<SelectList> getUserRoles(String username, Long employeeId) {
+    public List<SelectList> getUserRoles(String employeeName, String username, Long employeeId) {
 
-        List<SelectList> lstUsr;
-        if (username == null)
-            lstUsr = userRepository.getUserRolesByEmployeeId(employeeId);
-        else
+        List<SelectList> lstUsr = new ArrayList<>();
+        if (username != null)
             lstUsr = userRepository.getUserRolesByUsername(username, new PageRequest(0, 20));
+        else if (employeeName != null)
+            lstUsr = userRepository.getUserRolesByEmployeeName(employeeName, new PageRequest(0, 20));
+        else if (employeeId != null)
+            lstUsr = userRepository.getUserRolesByEmployeeId(employeeId);
 
+        return doFinalUsrEmployeeList(lstUsr);
+    }
+
+    public List<SelectList> doFinalUsrEmployeeList(List<SelectList> lstUsr) {
         List<SelectList> lst = new ArrayList<>();
 
         for (int a = 0; a < lstUsr.size(); a++) {
@@ -159,4 +165,15 @@ public class SharedUserService {
         return lst;
     }
 
+    public List<Long> getLstValidUsersIdByLstRoles(List<String> lstRoles) {
+        return userRepository.getLstValidUsersIdByLstRoles(lstRoles);
+    }
+
+    public User findOne(Long id) {
+        return userRepository.findOne(id);
+    }
+
+    public String getFullNameById(Long id) {
+        return userRepository.getFullNameById(id);
+    }
 }

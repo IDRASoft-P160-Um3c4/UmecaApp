@@ -1,6 +1,7 @@
 package com.umeca.service.shared;
 
 import com.umeca.infrastructure.security.StringEscape;
+import com.umeca.model.catalog.RequestType;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.CaseRequest;
@@ -16,6 +17,7 @@ import com.umeca.service.account.SharedUserService;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -25,10 +27,15 @@ public class CaseRequestService {
                                                SharedUserService sharedUserService, User user, MonitoringPlan monPlan, String text, String role, String requestType) {
         CaseRequest caseRequest = new CaseRequest();
         final Message msg = new Message();
+
+        RequestType rt = requestTypeRepository.findByCode(requestType);
+
         msg.setCaseDetention(monPlan.getCaseDetention());
-        msg.setCreationDate(new Date());
+        msg.setCreationDate(Calendar.getInstance());
         msg.setSender(user);
-        msg.setText(StringEscape.escapeText(text));
+        msg.setTitle("");
+        msg.setBody(StringEscape.escapeText(text));
+        msg.setIsObsolete(false);
         List<User> lstUserReceivers = sharedUserService.getLstValidUserIdsByRole(role);
         List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
 
@@ -36,13 +43,14 @@ public class CaseRequestService {
             lstRmUr.add(new RelMessageUserReceiver(){{
                 setMessage(msg);
                 setUser(userRcv);
+                setIsObsolete(false);
             }});
         }
         msg.setMessageUserReceivers(lstRmUr);
         messageRepository.save(msg);
 
         caseRequest.setRequestMessage(msg);
-        caseRequest.setRequestType(requestTypeRepository.findByCode(requestType));
+        caseRequest.setRequestType(rt);
         caseRequestRepository.save(caseRequest);
     }
 
@@ -51,9 +59,11 @@ public class CaseRequestService {
         CaseRequest caseRequest = new CaseRequest();
         final Message msg = new Message();
         msg.setCaseDetention(caseDet);
-        msg.setCreationDate(new Date());
+        msg.setCreationDate(Calendar.getInstance());
         msg.setSender(user);
-        msg.setText(StringEscape.escapeText(text));
+        msg.setBody(StringEscape.escapeText(text));
+        msg.setTitle("");
+        msg.setIsObsolete(false);
         List<User> lstUserReceivers = sharedUserService.getLstValidUserIdsByRole(role);
         List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
 
@@ -61,6 +71,7 @@ public class CaseRequestService {
             lstRmUr.add(new RelMessageUserReceiver(){{
                 setMessage(msg);
                 setUser(userRcv);
+                setIsObsolete(false);
             }});
         }
         msg.setMessageUserReceivers(lstRmUr);
@@ -85,15 +96,18 @@ public class CaseRequestService {
 
             final Message msg = new Message();
             msg.setCaseDetention(caseDetention);
-            msg.setCreationDate(new Date());
+            msg.setCreationDate(Calendar.getInstance());
             msg.setSender(user);
-            msg.setText(StringEscape.escapeText(text));
+            msg.setBody(StringEscape.escapeText(text));
+            msg.setTitle("");
+            msg.setIsObsolete(false);
 
             List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
 
             lstRmUr.add(new RelMessageUserReceiver(){{
                 setMessage(msg);
                 setUser(caseRequest.getRequestMessage().getSender());
+                setIsObsolete(false);
             }});
 
             msg.setMessageUserReceivers(lstRmUr);
@@ -120,18 +134,21 @@ public class CaseRequestService {
         caseRequest.setStateBefore(statusBefore);
         final Message msg = new Message();
         msg.setCaseDetention(caseDetention);
-        msg.setCreationDate(new Date());
+        msg.setCreationDate(Calendar.getInstance());
         Long userId = sharedUserService.GetLoggedUserId();
         User u = new User();
         u.setId(userId);
         msg.setSender(u);
-        msg.setText(StringEscape.escapeText(text));
+        msg.setBody(StringEscape.escapeText(text));
+        msg.setTitle("");
+        msg.setIsObsolete(false);
         List<User> lstUserReceivers = sharedUserService.getLstValidUserIdsByRole(roleSender);
         List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
         for(final User userRcv : lstUserReceivers){
             lstRmUr.add(new RelMessageUserReceiver(){{
                 setMessage(msg);
                 setUser(userRcv);
+                setIsObsolete(false);
             }});
         }
         msg.setMessageUserReceivers(lstRmUr);
@@ -152,17 +169,20 @@ public class CaseRequestService {
         final CaseRequest caseRequest = lstCaseRequest.get(0);
         final Message msg = new Message();
         msg.setCaseDetention(caseDetention);
-        msg.setCreationDate(new Date());
+        msg.setCreationDate(Calendar.getInstance());
         Long userId = sharedUserService.GetLoggedUserId();
         User u = new User();
         u.setId(userId);
         msg.setSender(u);
-        msg.setText(StringEscape.escapeText(text));
+        msg.setBody(StringEscape.escapeText(text));
+        msg.setTitle("");
+        msg.setIsObsolete(false);
         List<RelMessageUserReceiver> lstRmUr = new ArrayList<>();
 
         lstRmUr.add(new RelMessageUserReceiver(){{
             setMessage(msg);
             setUser(caseRequest.getRequestMessage().getSender());
+            setIsObsolete(false);
         }});
 
         msg.setMessageUserReceivers(lstRmUr);

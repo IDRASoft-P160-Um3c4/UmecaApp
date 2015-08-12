@@ -17,6 +17,7 @@ import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.humanResources.*;
+import com.umeca.repository.managereval.EvaluationActivityRepository;
 import com.umeca.repository.shared.CatFileTypeRepository;
 import com.umeca.repository.shared.QuestionaryRepository;
 import com.umeca.repository.shared.SystemSettingRepository;
@@ -143,9 +144,19 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     InstitutionTypeRepository institutionTypeRepository;
     @Autowired
     ChannelingTypeRepository channelingTypeRepository;
+    @Autowired
+    InformationAvailabilityRepository informationAvailabilityRepository;
+    @Autowired
+    ChannelingDropTypeRepository channelingDropTypeRepository;
+    @Autowired
+    EvaluationActivityRepository evaluationActivityRepository;
 
 
-    private String PATH = "C:\\Projects\\IDRASoft\\UmecaAppBranchMorelos\\UmecaApp\\db\\";
+    private String PATH = "C:\\Projects\\Umeca\\UmecaApp\\db\\";
+
+//    private String PATH = "C:\\Users\\Rata\\Desktop\\branchSandra\\UmecaApp\\db\\";
+
+//    private String PATH = "C:\\Projects\\IDRASoft\\UmecaAppBranchMorelos\\UmecaApp\\db\\";
 
     //para la maquina virtual donde se montara el war
 //    private String PATH = "C:\\Users\\idrasoft\\Desktop\\umeca_catalog\\db\\";
@@ -321,7 +332,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     @Override
     public void supervisionActivity() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "supervision_activity.txt", "\\|", 5);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "supervision_activity.txt", "\\|", 6);
         for (String[] data : lstDta) {
             SupervisionActivity model = new SupervisionActivity();
             model.setId(Long.parseLong(data[0]));
@@ -329,6 +340,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             model.setDescription(data[2]);
             model.setIsObsolete(Boolean.parseBoolean(data[3]));
             model.setSpecification(data[4].equals("1"));
+            model.setCode(data[5]);
             supervisionActivityRepository.save(model);
         }
         supervisionActivityRepository.flush();
@@ -788,12 +800,14 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
     @Override
     public void closeCause() {
-        List<String[]> lstDta = ReaderFile.readFile(PATH + "close_cause.txt", "\\|", 3);
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "close_cause.txt", "\\|", 5);
         for (String[] data : lstDta) {
             CloseCause model = new CloseCause();
             model.setId(Long.parseLong(data[0]));
-            model.setName(data[1]);
-            model.setIsObsolete(data[2].equals("1"));
+            model.setCode(data[1]);
+            model.setName(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            model.setIsVisible(data[4].equals("1"));
             closeCauseRepository.save(model);
         }
         closeCauseRepository.flush();
@@ -970,7 +984,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
                 institutionTypeRepository.save(model);
             }
             institutionTypeRepository.flush();
-        } catch (Exception ex){
+        } catch (Exception ex) {
 
         }
 
@@ -987,7 +1001,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
             model.setLstInstitutionType(new ArrayList<CatInstitutionType>());
 
-            for(String sInstTypeId : lstInstType){
+            for (String sInstTypeId : lstInstType) {
                 final long instTypeId = Integer.parseInt(sInstTypeId);
                 CatInstitutionType instType = institutionTypeRepository.findOne(instTypeId);
                 model.getLstInstitutionType().add(instType);
@@ -1000,5 +1014,57 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         channelingTypeRepository.flush();
     }
 
+    @Override
+    public void informationAvailability() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "informationAvailability.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            InformationAvailability model = new InformationAvailability();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setIsObsolete(data[2].equals("1"));
+            model.setSpecification(data[3].equals("1"));
+            informationAvailabilityRepository.save(model);
+        }
+        informationAvailabilityRepository.flush();
+    }
 
+    @Override
+    public void evaluationActivity() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "evaluationActivity.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            EvaluationActivity model = new EvaluationActivity();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setObsolete(data[2].equals("1"));
+            model.setSpecification(data[3].equals("1"));
+            evaluationActivityRepository.save(model);
+        }
+        evaluationActivityRepository.flush();
+    }
+
+    @Override
+    public void channelingDropType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "channeling_drop_type.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            CatChannelingDropType model = new CatChannelingDropType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            channelingDropTypeRepository.save(model);
+        }
+        channelingDropTypeRepository.flush();
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+

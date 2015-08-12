@@ -1,17 +1,21 @@
 package com.umeca.model.shared;
 
+import com.umeca.infrastructure.jqgrid.model.EntityGrid;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class SelectList {
+public class SelectList implements EntityGrid{
     private Long id;
     private Integer idAux;
     private Calendar calendar;
     private String name;
     private String description;
+    private String code;
     private Long aux;
     private Boolean lock;
+    private Boolean isSelected;
     private Boolean specification;
     private String strDate;
     private String logType;
@@ -30,6 +34,12 @@ public class SelectList {
         this.lock = lock;
     }
 
+    public SelectList(Long id, Boolean isSelected,String name) {
+        this.id = id;
+        this.name = name;
+        this.isSelected = isSelected;
+    }
+
     public SelectList(Integer id, String description) {
         this.idAux = id;
         this.description = description;
@@ -41,6 +51,13 @@ public class SelectList {
         this.description = description;
     }
 
+    public SelectList(Long id, String name, String description, Boolean isSelected) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.isSelected = isSelected;
+    }
+
     public SelectList(Integer id, Calendar calendar) {
         this.idAux = id;
         this.calendar = calendar;
@@ -50,6 +67,14 @@ public class SelectList {
         this.id = id;
         this.name = description + " / " + name;
         this.description = secDescription;
+    }
+
+    public SelectList(Long id, String name, Boolean specification, String code, Long aux) {
+        this.id = id;
+        this.name = name;
+        this.specification = specification;
+        this.code = code;
+        this.aux = aux;
     }
 
     public SelectList(Long id, String arrangement, String description, Integer typeArrangement) {
@@ -68,6 +93,13 @@ public class SelectList {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.aux = aux;
+    }
+
+    public SelectList(Long id, String name, boolean specification, Long aux) {
+        this.id = id;
+        this.name = name;
+        this.specification = specification;
         this.aux = aux;
     }
 
@@ -127,6 +159,15 @@ public class SelectList {
         this.name = name;
         this.aux = aux;
     }
+
+    public SelectList(Long id, String name, String description, Calendar calendar) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        if (calendar != null)
+            this.strDate = sdf.format(calendar.getTime());
+    }
+
 
     public Long getId() {
         return id;
@@ -226,5 +267,21 @@ public class SelectList {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Boolean getIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(Boolean isSelected) {
+        this.isSelected = isSelected;
     }
 }

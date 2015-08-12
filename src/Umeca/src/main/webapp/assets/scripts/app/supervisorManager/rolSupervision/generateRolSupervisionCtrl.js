@@ -3,13 +3,13 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
     $scope.lstActivityDelIds = [];
     $scope.msgError = undefined;
     $scope.waitFor = false;
-
+    var titleD = "Rol de supervisión"
 
     $scope.addActivityToDelete = function(id){
         if(id === -1)
             return;
         $scope.lstActivityDelIds.push(id);
-    }
+    };
 
     $scope.saveRolActivities = function(urlToPost){
         $scope.msgError = undefined;
@@ -36,12 +36,13 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
                     eventId : event._id,
                     end: end,
                     start: start,
-                    supervisorId: infoAct.supervisor.id
+                    supervisorId: infoAct.supervisor.id,
+                    activityName: infoAct.activityName
                 });
             }
 
             if(lstActivities.length === 0 && $scope.lstActivityDelIds.length === 0){
-                sharedSvc.showMsg({title: "Rol de supervisión",message: "No existen actividades para agregar, actualizar o eliminar",type: "info"});
+                sharedSvc.showMsg({title: titleD,message: "No existen actividades para agregar, actualizar o eliminar",type: "info"});
                 $scope.waitFor = false;
                 return false;
             }
@@ -62,7 +63,7 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
         }
 
 
-    }
+    };
 
     $scope.handleSuccess = function(resp){
         try{
@@ -91,7 +92,7 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
                     }
 
                 }catch(eIn){}
-                sharedSvc.showMsg({title: "Rol de supervisión",message: resp.message,type: "success"}).then();
+                sharedSvc.showMsg({title: titleD,message: resp.message,type: "success"}).then();
             }
             $scope.$apply();
         } catch (e) {
@@ -194,11 +195,18 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
 
             var event = {
                 doTitle: function(isModified){
-                    this.title = (isModified === true ? "*" : "") + "Usuario "
-                        + this.infoActivity.supervisor.name + "\nNombre: "
+                    this.title = (isModified === true ? "*" : "") +
+                        "Actividad: "
+                        + this.infoActivity.activityName +
+                        "\nUsuario "
+                        + this.infoActivity.supervisor.name +
+                        "\nNombre: "
                         + this.infoActivity.supervisor.description;
                 },
-                title: "Usuario "
+                title:
+                    "Actividad: "
+                    + act.activityName +
+                    "\nUsuario "
                     + $scope.idToName(act.supervisorId, lstSupervisor, 0) + "\nNombre: "
                     + $scope.idToName(act.supervisorId, lstSupervisor, 1),
                 idActivity: act.rolActivityId,
@@ -207,7 +215,8 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
                 allDay: false,
                 className: className,
                 infoActivity:{
-                    supervisor: supervisor
+                    supervisor: supervisor,
+                    activityName: act.activityName
                 }
             };
             lstEvents.push(event);
@@ -221,7 +230,7 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
             $scope.workingTrack = false;
             $scope.$apply();
             if(data.hasError === true){
-                sharedSvc.showMsg({title: "Rol de supervisión",message: data.message,type: "danger"});
+                sharedSvc.showMsg({title: titleD,message: data.message,type: "danger"});
                 return;
             }
 
@@ -239,7 +248,7 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
                 type: "danger"
             });
         }
-    }
+    };
 
     $scope.handleErrorLoad = function(data){
         $scope.workingTrack = false;
@@ -248,6 +257,189 @@ app.controller('rolSupervisionController', function ($scope, sharedSvc) {
             message: "<strong>No fue posible conectarse al servidor</strong> <br/><br/>Por favor intente más tarde",
             type: "danger"
         });
-    }
+    };
+
+
+    $scope.loadActivitiesEvaluator = function(dateStart, dateEnd, urlToPost){
+        titleD = "Rol de evaluación";
+        var yearStart = dateStart.getFullYear();
+        var monthStart = dateStart.getMonth();
+        var yearEnd = dateEnd.getFullYear();
+        var monthEnd = dateEnd.getMonth();
+
+        if(yearStart === yearEnd && monthStart === monthEnd){
+            if($scope.yearStart === yearStart && $scope.monthStart === monthStart ||
+                $scope.yearEnd === yearEnd && $scope.monthEnd === monthEnd){
+                return;
+            }
+        }
+        else{
+            if($scope.yearStart === yearStart && $scope.monthStart === monthStart &&
+                $scope.yearEnd === yearEnd && $scope.monthEnd === monthEnd){
+                return;
+            }
+        }
+
+        $scope.yearStart = dateStart.getFullYear();
+        $scope.monthStart = dateStart.getMonth();
+
+        $scope.yearEnd = dateEnd.getFullYear();
+        $scope.monthEnd = dateEnd.getMonth();
+
+        $scope.workingTrack = true;
+        $scope.$apply();
+
+        $.ajax({
+            url: urlToPost,
+            type: "POST",
+            data: JSON.stringify({monPlanId:-1, yearStart: $scope.yearStart, monthStart: ($scope.monthStart+1),
+                yearEnd: $scope.yearEnd, monthEnd: ($scope.monthEnd+1)}),
+            success: $scope.handleSuccessLoadEvaluator,
+            error: $scope.handleErrorLoad,
+            dataType: "json",
+            contentType: "application/json"
+        });
+    };
+    $scope.handleSuccessLoadEvaluator = function(data){
+        try{
+            $scope.workingTrack = false;
+            $scope.$apply();
+            if(data.hasError === true){
+                sharedSvc.showMsg({title: "Rol de evaluación",message: data.message,type: "danger"});
+                return;
+            }
+
+            var info = $scope.processActivitiesEvaluator(data);
+            $scope.m.calendar.fullCalendar('removeEvents');
+
+            for(i=0; i<info.length; i++){
+                $scope.m.calendar.fullCalendar('renderEvent', info[i], true);
+            }
+            $scope.m.calendar.fullCalendar('unselect');
+        }catch(ex){
+            sharedSvc.showMsg({
+                title: "Error de red",
+                message: "<strong>No fue posible conectarse al servidor</strong> <br/><br/>Por favor intente más tarde",
+                type: "danger"
+            });
+        }
+    };
+    $scope.processActivitiesEvaluator = function(data){
+        var lstSupervisor = data.lstSupervisor;
+        var lstRolActivities = data.lstRolActivities;
+        var lstEvents = [];
+        var today = window.stringToDate(data.today);
+        today.setHours(0,0,0,0);
+
+
+        for(var i=0; i<lstRolActivities.length; i++){
+            var act = lstRolActivities[i];
+            var className = 'label-info';
+            var end = window.stringToDate(act.end);
+
+            if(act.status === "NUEVA" || act.status === "MODIFICADA"){
+                if(end < today)
+                    className = 'label-success';
+            }
+
+            var evaluator = $scope.idToObject(act.evaluatorId, $scope.m.lstSupervisor);
+
+            var event = {
+                doTitle: function(isModified){
+                    this.title = (isModified === true ? "*" : "") +
+                    "Actividad: "
+                    + this.infoActivity.activityName +
+                    "\nUsuario "
+                    + this.infoActivity.evaluator.name +
+                    "\nNombre: "
+                    + this.infoActivity.evaluator.description +
+                    "\nLugar: "
+                    + this.infoActivity.place;
+                },
+                title:
+                "Actividad: "
+                + act.activityName +
+                "\nUsuario "
+                + $scope.idToName(act.evaluatorId, lstSupervisor, 0) +
+                "\nNombre: "
+                + $scope.idToName(act.evaluatorId, lstSupervisor, 1) +
+                "\nLugar: "
+                + act.place,
+                idActivity: act.rolActivityId,
+                start: window.stringToDate(act.start),
+                end: end,
+                allDay: false,
+                className: className,
+                infoActivity:{
+                    evaluator: evaluator,
+                    place: act.place,
+                    activityName: act.activityName
+                }
+            };
+            lstEvents.push(event);
+        }
+
+        return lstEvents;
+    };
+    $scope.saveRolEvaluatorActivities = function(urlToPost){
+        $scope.msgError = undefined;
+        $scope.waitFor = true;
+
+        try{
+            var lstEvents = $scope.m.calendar.fullCalendar('clientEvents');
+
+            var lstActivities = [];
+
+            for(var i=0; i<lstEvents.length; i++){
+                var event = lstEvents[i];
+
+                if(event.isModified !== true)
+                    continue;
+
+                var infoAct = event.infoActivity;
+
+                var start = window.formatDateTime(event.start);
+                var end = window.formatDateTime(event.end);
+
+
+                lstActivities.push({
+                    rolActivityId: event.idActivity,
+                    eventId : event._id,
+                    end: end,
+                    start: start,
+                    evaluatorId: infoAct.evaluator.id,
+                    place: infoAct.place,
+                    activities: infoAct.activities,
+                    activityName: infoAct.activityName
+                });
+            }
+
+            if(lstActivities.length === 0 && $scope.lstActivityDelIds.length === 0){
+                sharedSvc.showMsg({title: "Rol de evaluación",message: "No existen actividades para agregar, actualizar o eliminar",type: "info"});
+                $scope.waitFor = false;
+                return false;
+            }
+
+            var activityUpsert = {lstActivitiesUpsert:lstActivities, lstActivitiesDel: $scope.lstActivityDelIds};
+
+
+            $.ajax({
+                url: urlToPost,
+                type: "POST",
+                data: JSON.stringify(activityUpsert),
+                success: $scope.handleSuccess,
+                error: $scope.handleError,
+                dataType: "json",
+                contentType: "application/json"
+            });
+
+        }catch(e){
+            $scope.waitFor = false;
+        }
+
+    };
+
+
+
 
 });

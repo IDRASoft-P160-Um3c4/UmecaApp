@@ -12,16 +12,24 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
         var today = new Date();
         $scope.m.dToday = today.getDate() + "/" + (today.getMonth()+1) + "/" + today.getFullYear();
 
-        $scope.config = function (cfg, lstArrangements, lstActivities, lstGoals, lstSources) {
+        $scope.config = function (cfg, lstArrangements, lstActivities, lstGoals, lstSources, lstChanneling) {
             $scope.cfg = cfg;
             $scope.lstArrangements = lstArrangements;
             $scope.lstActivities = lstActivities;
             $scope.lstGoals = lstGoals;
             $scope.lstSources = lstSources;
+            $scope.lstChanneling = lstChanneling;
 
             if ($scope.lstActivities.length > 0) $scope.m.activity = $scope.lstActivities[0];
             if ($scope.lstGoals.length > 0) $scope.m.goal = $scope.lstGoals[0];
             if ($scope.lstSources.length > 0) $scope.m.source = $scope.lstSources[0];
+            if ($scope.lstChanneling.length > 0) $scope.m.channeling = $scope.lstChanneling[0];
+        };
+
+        $scope.fixGoal = function(){
+            if($scope.m.goal.aux !== 3)
+                return;
+            $scope.m.goal = $scope.lstGoals[0];
         };
 
         $scope.hideMsg = function () {
@@ -42,6 +50,7 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
             $scope.m.lstArrangements = event.infoActivity.lstArrangements;
             $scope.m.activity = event.infoActivity.activity;
             $scope.m.goal = event.infoActivity.goal;
+            $scope.m.channeling = event.infoActivity.channeling;
             $scope.m.source = event.infoActivity.source;
             $scope.m.activitySpec = event.infoActivity.activitySpec;
             $scope.m.goalSpec = event.infoActivity.goalSpec;
@@ -73,6 +82,9 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
             $scope.m.activitySpec = "";
             $scope.m.goalSpec = "";
             $scope.m.sourceSpec = "";
+
+            if ($scope.lstChanneling && $scope.lstChanneling.length > 0) $scope.m.channeling = $scope.lstChanneling[0];
+
             $scope.changeSource();
         };
 
@@ -152,10 +164,18 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
             var isValid = false;
             $scope.msgError = "";
 
-            for (var key in $scope.m.lstArrangements) {
-                if ($scope.m.lstArrangements[key] === true) {
+            if($scope.m.activity && $scope.m.activity.code === "ACCA"){
+                if($scope.m.channeling && $scope.m.channeling.isSelected === true){
                     isValid = true;
-                    break;
+                }
+            }
+
+            if(isValid !== true){
+                for (var key in $scope.m.lstArrangements) {
+                    if ($scope.m.lstArrangements[key] === true) {
+                        isValid = true;
+                        break;
+                    }
                 }
             }
 
@@ -360,6 +380,7 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
                             lstArrangements: lstArrangements,
                             activity: $scope.m.activity,
                             goal: $scope.m.goal,
+                            channeling: $scope.m.channeling,
                             source: $scope.m.source,
                             caseInfo: $scope.cfg.caseInfo,
                             //se agrega la especificacion de actividad, objetivo y fuente
@@ -417,6 +438,7 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
         $scope.clearFields = function () {
             if ($scope.lstActivities.length > 0) $scope.m.activity = $scope.lstActivities[0];
             if ($scope.lstGoals.length > 0) $scope.m.goal = $scope.lstGoals[0];
+            if ($scope.lstChanneling.length > 0) $scope.m.channeling = $scope.lstChanneling[0];
             if ($scope.lstSources.length > 0) $scope.m.source = $scope.lstSources[0];
 
             $scope.m.isOtherSourceSelected = false;
@@ -453,6 +475,7 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
                 lstArrangements: $scope.m.lstArrangements,
                 activity: $scope.m.activity,
                 goal: $scope.m.goal,
+                channeling: $scope.m.channeling,
                 source: $scope.m.source,
                 activitySpec: $scope.m.activitySpec,
                 goalSpec: $scope.m.goalSpec,

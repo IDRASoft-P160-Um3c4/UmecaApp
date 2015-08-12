@@ -22,15 +22,13 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
     @Query("select distinct (c.id) from Case as c " +
             "inner join c.status st " +
             "where (st.name not in " +
-            "      (com.umeca.model.shared.Constants.CASE_STATUS_OBSOLETE_EVALUATION," +
-            "       com.umeca.model.shared.Constants.CASE_STATUS_OBSOLETE_SUPERVISION," +
-            "       com.umeca.model.shared.Constants.CASE_STATUS_NOT_PROSECUTE) and (c.dateCreate between :initDate and :endDate))")
+            "      (com.umeca.model.shared.Constants.CASE_STATUS_NOT_PROSECUTE) and (c.dateCreate between :initDate and :endDate))")
     List<Long> findIdCasesByDates(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
 
     @Query("select distinct (c.id) from Case as c " +
             "inner join c.meeting m " +
             "inner join c.status st " +
-            "where (st.name not in (com.umeca.model.shared.Constants.CASE_STATUS_OBSOLETE_EVALUATION,com.umeca.model.shared.Constants.CASE_STATUS_OBSOLETE_SUPERVISION,com.umeca.model.shared.Constants.CASE_STATUS_NOT_PROSECUTE)) " +
+            "where (st.name not in (com.umeca.model.shared.Constants.CASE_STATUS_NOT_PROSECUTE)) " +
             "and (c.dateCreate between :initDate and :endDate) " +
             "and (m.meetingType=com.umeca.model.shared.HearingFormatConstants.MEETING_PROCEDURAL_RISK)")
     List<Long> countCasesEvaluation(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
@@ -38,7 +36,7 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
     @Query("select distinct (c.id) from Case as c " +
             "inner join c.status st " +
             "left join c.hearingFormats hf " +
-            "where (st.name not in (com.umeca.model.shared.Constants.CASE_STATUS_OBSOLETE_EVALUATION,com.umeca.model.shared.Constants.CASE_STATUS_OBSOLETE_SUPERVISION,com.umeca.model.shared.Constants.CASE_STATUS_NOT_PROSECUTE)) " +
+            "where (st.name not in (com.umeca.model.shared.Constants.CASE_STATUS_NOT_PROSECUTE)) " +
             "and (c.dateCreate between :initDate and :endDate) " +
             "and hf.id is not null")
     List<Long> countCasesSupervision(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
@@ -279,11 +277,7 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "left join c.technicalReview as tr " +
             "left join c.framingMeeting as fm " +
             "left join c.monitoringPlan as mp " +
-            "where ((c.id in (:lstCases)) " +
-            "and (st.name not in " +
-            "                   (com.umeca.model.shared.Constants.CASE_STATUS_OBSOLETE_EVALUATION, " +
-            "                    com.umeca.model.shared.Constants.CASE_STATUS_NOT_PROSECUTE, " +
-            "                    com.umeca.model.shared.Constants.CASE_STATUS_OBSOLETE_SUPERVISION)))")
+            "where (c.id in (:lstCases))")
     List<ExcelStatusCasesInfo> getAllCasesAtEvaluationSupervision(@Param("lstCases") List<Long> lstCases);
 
     @Query("select new com.umeca.model.shared.SelectList(C.id,HF.id) from Case c " +

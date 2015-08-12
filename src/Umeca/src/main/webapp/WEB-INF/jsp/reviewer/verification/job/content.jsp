@@ -148,11 +148,12 @@
                         <div class="row widget-main">
                             <div class="col-xs-3">
                                 Fecha Inicio:
+                                <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
                             </div>
                             <div class="col-xs-3">
                                 <div class="input-group">
                                     <input class="form-control date-picker" id="jdpStart" type="text"
-                                           readonly="readonly"
+
                                            data-date-format="yyyy/mm/dd" value="{{j.startPrev}}"
                                            data-val="true" data-val-required="La fecha de inicio es un campo requerido"
                                            name="jobs.startPrev"/> <span class="input-group-addon">
@@ -162,11 +163,12 @@
                             </div>
                             <div class="col-xs-3">
                                 Fecha Fin:
+                                <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
                             </div>
                             <div class="col-xs-3">
                                 <div class="input-group">
                                     <input class="form-control date-picker" id="jdbEnd" type="text"
-                                           data-date-format="yyyy/mm/dd" value="{{j.end}}" readonly="readonly"
+                                           data-date-format="yyyy/mm/dd" value="{{j.end}}"
                                            data-val="true" data-val-required="La fecha de fin es un campo requerido"
                                            name="jobs.end"/>
 																	<span class="input-group-addon">
@@ -213,11 +215,12 @@
                         <div class="row">
                             <div class="col-xs-3">
                                 Fecha Inicio:
+                                <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
                             </div>
                             <div class="col-xs-3">
                                 <div class="input-group">
                                     <input class="form-control date-picker" id="jdpStartCurrent" type="text"
-                                           data-date-format="yyyy/mm/dd" value="{{j.start}}" readonly="readonly"
+                                           data-date-format="yyyy/mm/dd" value="{{j.start}}"
                                            data-val="true" data-val-required="La fecha de inicio es un campo requerido"
                                            name="jobs.start"/>
 																	<span class="input-group-addon">
@@ -258,7 +261,7 @@
                                            ng-show="verification"  id-code ="jobs.schedule"  id-element="{{j.id}}"></i>
                                         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                                            ng-click="doConfirmVerifNotKnow('jobs.schedule', j.id)"></i>
-                                        <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('jobs.schedule',j.id)"></i>
+                                        <i class="red icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('jobs.schedule',j.id)"></i>
                                         <i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h6>
                                 </div>
 

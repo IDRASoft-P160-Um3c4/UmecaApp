@@ -20,7 +20,7 @@ public class ExcelJobDto {
     private String phone;
     private Date startPrev;
     private Date start;
-    private Float salary;
+    private String salary;
     private Date end;
     private String startStr;
     private String startPrevStr;
@@ -33,7 +33,7 @@ public class ExcelJobDto {
     private List<ScheduleDto> schedule;
     private static final DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-    public ExcelJobDto(Long idCase, String post, String nameHead, String company, String phone, Date startPrev, Date start, Float salary, Date end, String reasonChange, String address, String registerType, Long registerTypeId, Boolean block) {
+    public ExcelJobDto(Long idCase, String post, String nameHead, String company, String phone, Date startPrev, Date start, String salary, Date end, String reasonChange, String address, String registerType, Long registerTypeId, Boolean block) {
         this.idCase = idCase;
         this.post = post;
         this.nameHead = nameHead;
@@ -50,7 +50,7 @@ public class ExcelJobDto {
         this.block = block;
     }
 
-    public ExcelJobDto(Long idCase, Long id, String company, String post, String nameHead, String phone, String registerType, Date start, Date startPrev, Date end, Float salary, String reasonChange, String address, Boolean block) {
+    public ExcelJobDto(Long idCase, Long id, String company, String post, String nameHead, String phone, String registerType, Date start, Date startPrev, Date end, String salary, String reasonChange, String address, Boolean block) {
         this.idCase = idCase;
         this.id = id;
         this.post = post;
@@ -148,14 +148,6 @@ public class ExcelJobDto {
         this.start = start;
     }
 
-    public Float getSalary() {
-        return salary;
-    }
-
-    public void setSalary(Float salary) {
-        this.salary = salary;
-    }
-
     public Date getEnd() {
         return end;
     }
@@ -242,5 +234,13 @@ public class ExcelJobDto {
 
     public void setSchedule(List<ScheduleDto> schedule) {
         this.schedule = schedule;
+    }
+
+    public String getSalary() {
+        return salary;
+    }
+
+    public void setSalary(String salary) {
+        this.salary = salary;
     }
 }

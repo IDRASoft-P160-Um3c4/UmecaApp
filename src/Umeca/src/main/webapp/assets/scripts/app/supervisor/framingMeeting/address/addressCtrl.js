@@ -44,6 +44,8 @@ app.controller('addressFMController', function ($scope, $timeout, $http, $rootSc
             $scope.fa.schedule = JSON.parse($scope.fa.schedule);
 
         $scope.clrFields();
+
+        $scope.a.isHomeless = $scope.fa.isHomeless;
     };
 
     $scope.fillRegisterType = function () {
@@ -144,8 +146,10 @@ app.controller('addressFMController', function ($scope, $timeout, $http, $rootSc
             $scope.Invalid = true;
         }
 
-        if ($scope.validateSchedule() == false) {
-            $scope.Invalid = true;
+        if ($scope.a.isHomeless != true && $scope.fa.registerType.id != 3) {
+            if ($scope.validateSchedule() == false) {
+                $scope.Invalid = true;
+            }
         }
 
         if ($scope.Invalid == true)
@@ -171,7 +175,7 @@ app.controller('addressFMController', function ($scope, $timeout, $http, $rootSc
             }
             if (resp.hasError === false) {
                 $scope.Model.dlg.modal('hide');
-                $scope.Model.def.resolve({ isCancel: false, resp: resp });
+                $scope.Model.def.resolve({isCancel: false, resp: resp});
                 return;
             }
 
@@ -191,7 +195,7 @@ app.controller('addressFMController', function ($scope, $timeout, $http, $rootSc
 
     $scope.cancel = function () {
         $scope.Model.dlg.modal('hide');
-        $scope.Model.def.reject({ isCancel: true });
+        $scope.Model.def.reject({isCancel: true});
     };
 
     $scope.setDlg = function (dlg, urlToSubmit) {
@@ -203,4 +207,5 @@ app.controller('addressFMController', function ($scope, $timeout, $http, $rootSc
             dlg.replaceWith("");
         });
     };
-});
+})
+;

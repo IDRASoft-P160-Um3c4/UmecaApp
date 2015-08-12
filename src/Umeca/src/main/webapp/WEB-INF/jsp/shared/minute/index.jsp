@@ -32,9 +32,9 @@
                 window.goToUrlMvcUrl(url);
             };
 
-            upsertMinute = function () {
-                if (isRH == true) {
-                    var url = "<c:url value='/shared/minute/upsertMinute.html'/>";
+            summaryMinute = function (id) {
+                if (isRH == true || isDir == true) {
+                    var url = "<c:url value='/shared/minute/summaryMinute.html?id='/>" + id;
                     window.goToUrlMvcUrl(url);
                 }
             };
@@ -138,7 +138,8 @@
                         } else {
                             be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Consultar minuta\" onclick=\"editMinute(" + cl + ");\"><span class=\"glyphicon glyphicon-search\"></span></a>";
                         }
-                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar documento de minuta\" onclick=\"downloadMinute('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
+                        if (isRH == true || isDir == true)
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar documento de minuta\" onclick=\"summaryMinute('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
                 },

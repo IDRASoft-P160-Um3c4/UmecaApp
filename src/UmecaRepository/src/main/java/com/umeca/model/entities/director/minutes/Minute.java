@@ -17,10 +17,10 @@ public class Minute {
     @Column(name = "id_minute")
     private Long id;
 
-    @Column(name = "title")
+    @Column(name = "title",length = 500)
     private String title;
 
-    @Column(name = "agenda")
+    @Column(name = "agenda",length = 750)
     private String agenda;
 
     @Column(name = "minute_date")
@@ -30,7 +30,7 @@ public class Minute {
     @JoinColumn(name = "id_employee")
     private Employee attendant;
 
-    @Column(name = "place")
+    @Column(name = "place", length = 500)
     private String place;
 
     @Column(name = "start_time")
@@ -49,7 +49,7 @@ public class Minute {
     @JoinColumn(name = "id_finish_user")
     private User finishUser;
 
-    @Column(name = "finish_comment")
+    @Column(name = "finish_comment",length = 750)
     private String finishComment;
 
     @OneToMany(mappedBy = "minute", cascade = CascadeType.ALL, orphanRemoval = true)

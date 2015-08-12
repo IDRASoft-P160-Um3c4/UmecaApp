@@ -1,6 +1,7 @@
 package com.umeca.model.entities.director.view;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -16,8 +17,8 @@ public class CaseRequestDto {
     String typeRequest;
     String messageRequest;
     String messageResponse;
-    Date dateRequest;
-    Date dateResponse;
+    Calendar dateRequest;
+    Calendar dateResponse;
     String dateRequestString;
     String dateResponseString;
     String userRequest;
@@ -31,8 +32,8 @@ public class CaseRequestDto {
                           String typeRequest,
                           String messageRequest,
                           String messageResponse,
-                          Date dateRequest,
-                          Date dateResponse,
+                          Calendar dateRequest,
+                          Calendar dateResponse,
                           String userRequest,
                           String userResponse, String response) {
         this.status = status;
@@ -83,19 +84,19 @@ public class CaseRequestDto {
         this.messageResponse = messageResponse;
     }
 
-    public Date getDateRequest() {
+    public Calendar getDateRequest() {
         return dateRequest;
     }
 
-    public void setDateRequest(Date dateRequest) {
+    public void setDateRequest(Calendar dateRequest) {
         this.dateRequest = dateRequest;
     }
 
-    public Date getDateResponse() {
+    public Calendar getDateResponse() {
         return dateResponse;
     }
 
-    public void setDateResponse(Date dateResponse) {
+    public void setDateResponse(Calendar dateResponse) {
         this.dateResponse = dateResponse;
     }
 

@@ -1,11 +1,5 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!--
-* Project: Umeca
-* User: Israel
-* Date: 4/30/14
-* Time: 9:53 AM
--->
 
 <html>
 <head>
@@ -65,7 +59,7 @@
                         if (status == "AUTHORIZED") {
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Entrevistar fuentes\" onclick=\"window.viewSource('" + cl + "');\"><span class=\"icon-group blue\"></span></a>";
                         }else if(status == "MEETING_COMPLETE"){
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Verificati�n final\" onclick=\"window.disable('" + cl+"');\"><span class=\"glyphicon glyphicon-ok-circle\"></span></a>";
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Verificaci&oacute;n final\" onclick=\"window.disable('" + cl+"');\"><span class=\"glyphicon glyphicon-ok-circle\"></span></a>";
                         }
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }

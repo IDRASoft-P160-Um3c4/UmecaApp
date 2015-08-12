@@ -8,6 +8,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.security.StringEscape;
+import com.umeca.model.catalog.CloseCause;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.dto.CaseInfo;
 import com.umeca.model.entities.account.User;
@@ -80,11 +81,7 @@ public class CaseActiveController {
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
                 new ArrayList<String>() {{
                     add(Constants.CASE_STATUS_CLOSED);
-                    add(Constants.CASE_STATUS_PRISON_CLOSED);
-                    add(Constants.CASE_STATUS_OBSOLETE_EVALUATION);
-                    add(Constants.CASE_STATUS_OBSOLETE_SUPERVISION);
-                }}, JqGridFilterModel.COMPARE_NOT_IN
-        );
+                }}, JqGridFilterModel.COMPARE_NOT_IN);
         opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
@@ -153,7 +150,6 @@ public class CaseActiveController {
                 final javax.persistence.criteria.Join<Case, StatusCase> joinSt = r.join("status");
                 final javax.persistence.criteria.Join<Case, StatusCase> joinM = r.join("meeting").join("imputed");
 
-
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
                     add(joinSt.get("name"));
@@ -190,7 +186,12 @@ public class CaseActiveController {
     JqGridResultModel listObsolete(@ModelAttribute JqGridFilterModel opts) {
 
         opts.extraFilters = new ArrayList<>();
-        JqGridRulesModel extraFilter = new JqGridRulesModel("status", Constants.CASE_STATUS_OBSOLETE_SUPERVISION, JqGridFilterModel.COMPARE_EQUAL
+
+        JqGridRulesModel extraFilter = new JqGridRulesModel("status", Constants.CASE_STATUS_CLOSED, JqGridFilterModel.COMPARE_EQUAL
+        );
+        opts.extraFilters.add(extraFilter);
+
+        extraFilter = new JqGridRulesModel("closeCause", Constants.CLOSE_CAUSE_OBSOLETE_SUPERVISION, JqGridFilterModel.COMPARE_EQUAL
         );
         opts.extraFilters.add(extraFilter);
 
@@ -200,8 +201,8 @@ public class CaseActiveController {
             public <T> List<Selection<?>> getFields(final Root<T> r) {
 
                 final javax.persistence.criteria.Join<Case, StatusCase> joinSt = r.join("status");
+                final javax.persistence.criteria.Join<Case, CloseCause> joinCaseCloseCause = r.join("closeCause");
                 final javax.persistence.criteria.Join<Case, StatusCase> joinM = r.join("meeting").join("imputed");
-
 
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
@@ -223,6 +224,8 @@ public class CaseActiveController {
                     return r.join("meeting").join("imputed").get("name");
                 else if (field.equals("status"))
                     return r.join("status").get("name");
+                else if (field.equals("closeCause"))
+                    return r.join("closeCause").get("code");
                 else if (field.equals("arrangement"))
                     return r.join("hearingFormats").join("assignedArrangements").join("arrangement").get("id");
                 else
@@ -320,7 +323,7 @@ public class CaseActiveController {
             }
 
             StatusCase caseStatus = caseDet.getStatus();
-            if (!caseStatus.getName().equals(Constants.CASE_STATUS_PRE_CLOSED) && !caseStatus.getName().equals(Constants.CASE_STATUS_CLOSE_REQUEST)) {
+            if (!caseStatus.getName().equals(Constants.CASE_STATUS_CLOSE_REQUEST)) {
                 response.setMessage("El caso se encuentra en estado " + caseStatus.getDescription() + ", por ello no puede ser autorizado/rechazado para cerrarse");
                 return response;
             }
@@ -361,9 +364,9 @@ public class CaseActiveController {
                 return response;
             }
 
-            String caseStatus = caseDet.getStatus().getName();
-            if (caseStatus.equals(Constants.CASE_STATUS_REQUEST_SUPERVISION) == false) {
-                response.setMessage("El caso se encuentra en estado " + caseStatus + ", por ello no puede ser autorizado\rechazado para eliminar");
+            StatusCase statusCase = caseDet.getStatus();
+            if (statusCase.getName().equals(Constants.CASE_STATUS_REQUEST_SUPERVISION) == false) {
+                response.setMessage("El caso se encuentra en estado " + statusCase.getDescription() + ", por ello no puede ser autorizado\rechazado para eliminar");
                 return response;
             }
 
@@ -420,9 +423,7 @@ public class CaseActiveController {
             }
 
             String caseStatus = caseDet.getStatus().getName();
-            if (caseStatus.equals(Constants.CASE_STATUS_PRE_CLOSED) == true ||
-                    caseStatus.equals(Constants.CASE_STATUS_PRISON_CLOSED) == true ||
-                    caseStatus.equals(Constants.CASE_STATUS_PRE_CLOSED) == true) {
+            if (caseStatus.equals(Constants.CASE_STATUS_CLOSED) == true) {
                 response.setMessage("No es posible cerrar el caso, ya ha sido cerrado.");
                 return response;
             }
@@ -462,7 +463,7 @@ public class CaseActiveController {
             model.addObject("mpId", StringEscape.escapeText(existCase.getIdMP()));
             model.addObject("fullName", StringEscape.escapeText(imp.getName()) + " " + StringEscape.escapeText(imp.getLastNameP()) + " " + StringEscape.escapeText(imp.getLastNameM()) + " ");
             model.addObject("status", existCase.getStatus().getDescription());
-            model.addObject("lstCloseCause", new Gson().toJson(closeCauseRepository.findNoObsolete()));
+            model.addObject("lstCloseCause", new Gson().toJson(closeCauseRepository.findVisibleNoObsolete()));
 
             return model;
         } catch (Exception ex) {
@@ -526,9 +527,7 @@ public class CaseActiveController {
             add(Constants.CASE_STATUS_HEARING_FORMAT_END);
             add(Constants.CASE_STATUS_FRAMING_INCOMPLETE);
             add(Constants.CASE_STATUS_FRAMING_COMPLETE);
-            add(Constants.CASE_STATUS_CLOSE_REQUEST);
-            add(Constants.CASE_STATUS_CLOSED);
-            add(Constants.CASE_STATUS_REQUEST_SUPERVISION);
+            add(Constants.CASE_STATUS_NOT_PROSECUTE_OPEN);
         }}, JqGridFilterModel.COMPARE_IN);
         opts.extraFilters.add(extraFilter1);
 

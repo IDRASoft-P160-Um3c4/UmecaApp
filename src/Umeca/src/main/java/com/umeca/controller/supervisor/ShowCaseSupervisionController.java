@@ -73,7 +73,6 @@ public class ShowCaseSupervisionController {
         }}, JqGridFilterModel.COMPARE_IN);
         opts.extraFilters.add(extraFilter1);
 
-
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             Join<MonitoringPlan, User> joinUs;
             Join<Case, MonitoringPlan> joinMP;

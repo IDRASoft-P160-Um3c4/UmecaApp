@@ -14,6 +14,7 @@ import com.umeca.model.catalog.dto.ElectionDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
+import com.umeca.model.entities.reviewer.View.MeetingView;
 import com.umeca.model.entities.reviewer.dto.CoDefendantDto;
 import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
 import com.umeca.model.entities.reviewer.dto.RelActivityObjectDto;
@@ -43,6 +44,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -61,6 +63,8 @@ public class MeetingServiceImpl implements MeetingService {
     private CaseRepository caseRepository;
     @Autowired
     private ImputedRepository imputedRepository;
+    @Autowired
+    private ImputedInitialRepository imputedInitialRepository;
     @Autowired
     private MeetingRepository meetingRepository;
     @Autowired
@@ -135,6 +139,9 @@ public class MeetingServiceImpl implements MeetingService {
     RelSocialEnvironmentActivityRepository rsearRepository;
     @Autowired
     SharedLogExceptionService logException;
+    @Autowired
+    InformationAvailabilityRepository informationAvailabilityRepository;
+
 
     @Transactional
     @Override
@@ -145,10 +152,13 @@ public class MeetingServiceImpl implements MeetingService {
             imputed.setName(imputed.getName().trim());
             imputed.setLastNameP(imputed.getLastNameP().trim());
             imputed.setLastNameM(imputed.getLastNameM().trim());
+
             if (imputedRepository.findImputedRegister(imputed.getName(), imputed.getLastNameP(), imputed.getLastNameM(), imputed.getBirthDate()).size() > 0)
                 caseDetention.setRecidivist(true);
             else
                 caseDetention.setRecidivist(false);
+
+
             caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
             caseDetention.setIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
             caseDetention.setDateCreate(new Date());
@@ -156,13 +166,25 @@ public class MeetingServiceImpl implements MeetingService {
             Meeting meeting = new Meeting();
             meeting.setMeetingType(HearingFormatConstants.MEETING_PROCEDURAL_RISK);
             meeting.setCaseDetention(caseDetention);
-            StatusMeeting statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE);
+            StatusMeeting statusMeeting;
+            if (!imputed.getMeeting().getDeclineReason().isEmpty()) {
+                statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_DECLINE);
+                meeting.setDeclineReason(imputed.getMeeting().getDeclineReason());
+            } else {
+                statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE);
+            }
             meeting.setStatus(statusMeeting);
             meeting.setReviewer(userRepository.findOne(userService.GetLoggedUserId()));
             meeting.setDateCreate(new Date());
+
+            ImputedInitial imputedInitial = imputed.cloneObj();
+            meeting.setImputedInitial(imputedInitial);
+            imputedInitial.setMeeting(meeting);
+
             meeting = meetingRepository.save(meeting);
             imputed.setMeeting(meeting);
             imputedRepository.save(imputed);
+            imputedInitialRepository.save(imputedInitial);
             result = caseDetention.getId();
         } catch (Exception e) {
             e.printStackTrace();
@@ -278,6 +300,9 @@ public class MeetingServiceImpl implements MeetingService {
         }
         model.addObject("listRel", gson.toJson(cdtoList));
 
+        List<SelectList> lstInfoAvail = informationAvailabilityRepository.findNoObsolete();
+        model.addObject("lstInfoAvail", gson.toJson(lstInfoAvail));
+
         return model;
     }
 
@@ -370,6 +395,20 @@ public class MeetingServiceImpl implements MeetingService {
                 model.addObject("municipalityId", loc.getMunicipality().getId());
                 model.addObject("locationId", loc.getId());
             }
+
+            model.addObject("isFolderAccess", ccp.getIsFolderAccess());
+            if (ccp.getHandingOverDate() != null)
+                model.addObject("handingOverMil", ccp.getHandingOverDate().getTime());
+            else
+                model.addObject("handingOverMil", -1);
+
+            if (ccp.getHandingOverDate() != null)
+                model.addObject("hasHandingOverInfo", true);
+
+        } else {
+            model.addObject("isFolderAccess", true);
+            model.addObject("handingOverMil", -1);
+            model.addObject("hasHandingOverInfo", false);
         }
 
         PreviousCriminalProceeding pcp = c.getMeeting().getPreviousCriminalProceeding();
@@ -388,6 +427,11 @@ public class MeetingServiceImpl implements MeetingService {
             if (pcp.getComplyProcessAbove() != null) {
                 model.addObject("complyProcessAboveId", pcp.getComplyProcessAbove().getId());
             }
+
+            model.addObject("warrant", pcp.getWarrant());
+            model.addObject("platformMexico", pcp.getPlatformMexico());
+            model.addObject("afis", pcp.getAfis());
+
         } else if (listLegalBefore.equals("[]")) {
             model.addObject("firstProceeding", "Ninguno");
             model.addObject("openProcessNumber", "0");
@@ -463,21 +507,35 @@ public class MeetingServiceImpl implements MeetingService {
         iCase.setBoys(imputed.getBoys());
         iCase.setNickname(imputed.getNickname());
         iCase.setDependentBoys(imputed.getDependentBoys());
-        Country country = countryRepository.findOne(imputed.getBirthCountry().getId());
-        iCase.setBirthCountry(country);
-        if (country.getAlpha2().equals(Constants.ALPHA2_MEXICO)) {
+        InformationAvailability ia = informationAvailabilityRepository.findOne(imputed.getBirthInfo().getId());
+        iCase.setBirthInfo(ia);
+
+        if (iCase.getBirthInfo().getSpecification() == true) {
+
+            Country country = countryRepository.findOne(imputed.getBirthCountry().getId());
+            iCase.setBirthCountry(country);
+
+            if (country.getAlpha2().equals(Constants.ALPHA2_MEXICO)) {
+                iCase.setBirthState("");
+                iCase.setBirthLocation("");
+                iCase.setBirthMunicipality("");
+                if (imputed.getLocation() != null && imputed.getLocation().getId() != null) {
+                    iCase.setLocation(locationRepository.findOne(imputed.getLocation().getId()));
+                }
+            } else {
+                iCase.setLocation(null);
+                iCase.setBirthState(imputed.getBirthState());
+                iCase.setBirthLocation(imputed.getBirthLocation());
+                iCase.setBirthMunicipality(imputed.getBirthMunicipality());
+            }
+        } else {
             iCase.setBirthState("");
             iCase.setBirthLocation("");
             iCase.setBirthMunicipality("");
-            if (imputed.getLocation() != null && imputed.getLocation().getId() != null) {
-                iCase.setLocation(locationRepository.findOne(imputed.getLocation().getId()));
-            }
-        } else {
-            iCase.setLocation(null);
-            iCase.setBirthState(imputed.getBirthState());
-            iCase.setBirthLocation(imputed.getBirthLocation());
-            iCase.setBirthMunicipality(imputed.getBirthMunicipality());
+            iCase.setLocation(locationRepository.findByName(Constants.COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW));
+            iCase.setBirthCountry(countryRepository.findByName(Constants.COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW));
         }
+
         iCase.setYearsMaritalStatus(imputed.getYearsMaritalStatus());
         if (seCase != null && seCase.getId() != null) {
             seCase.setId(seCase.getId());
@@ -877,25 +935,38 @@ public class MeetingServiceImpl implements MeetingService {
     public ResponseMessage doUpsertAddress(ImputedHome imputedHome, Long idCase, String sch) {
         ResponseMessage result = new ResponseMessage();
         try {
-            if (!imputedHome.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_PREVIOUS)) {
+
+            if (!imputedHome.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_PREVIOUS) && imputedHome.getIsHomeless() == false) {
                 ResponseMessage validate = validateSchedules(sch, "el domicilio");
                 if (validate != null) {
                     return validate;
                 }
             }
+
             Case c = caseRepository.findOne(idCase);
+
             if (imputedHome.getId() != null && imputedHome.getId() == 0) {
                 imputedHome.setId(null);
             }
+
             imputedHome.setMeeting(c.getMeeting());
             imputedHome.setHomeType(homeTypeRepository.findOne(imputedHome.getHomeType().getId()));
             imputedHome.setRegisterType(registerTypeRepository.findOne(imputedHome.getRegisterType().getId()));
+
+
             if (imputedHome.getAddress() != null && imputedHome.getAddress().getLocation() != null && imputedHome.getAddress().getLocation().getId() != null) {
-                Long locationId = imputedHome.getAddress().getLocation().getId();
-                imputedHome.getAddress().setLocation(locationRepository.findOne(locationId));
+
+                if (imputedHome.getIsHomeless() == false) {
+                    Long locationId = imputedHome.getAddress().getLocation().getId();
+                    imputedHome.getAddress().setLocation(locationRepository.findOne(locationId));
+                } else {
+                    imputedHome.getAddress().setLocation(locationRepository.findByLocName(Constants.COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW));
+                }
+
                 imputedHome.getAddress().setAddressString(imputedHome.getAddress().toString());
                 imputedHome.setAddress(addressRepository.save(imputedHome.getAddress()));
             }
+
             ImputedHome newImputedHome = imputedHomeRepository.save(imputedHome);
             if (!newImputedHome.getRegisterType().equals(Constants.REGYSTER_TYPE_PREVIOUS)) {
                 List<Schedule> listToDelete = newImputedHome.getSchedule();
@@ -1007,9 +1078,10 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Transactional
     @Override
-    public ResponseMessage doTerminateMeeting(Meeting meeting, String sch, String activities) {
+    public ResponseMessage doTerminateMeeting(Meeting meeting, String sch, String activities, Boolean cancelMeeting) {
         ResponseMessage result = new ResponseMessage();
         try {
+
             Case c = caseRepository.findOne(meeting.getCaseDetention().getId());
             Meeting m = c.getMeeting();
             m.setCommentCountry(meeting.getLeaveCountry().getCommentCountry());
@@ -1043,26 +1115,31 @@ public class MeetingServiceImpl implements MeetingService {
                 schedule.setSchool(s);
             }
             scheduleRepository.save(listSchedules);
-
-
             refreshLeaveCountry(meeting.getLeaveCountry(), c);
 
-            caseRepository.save(c);
             TerminateMeetingMessageDto validate = new TerminateMeetingMessageDto();
-            m.getImputed().validateMeeting(validate);
-            if (m.getSocialEnvironment() == null) {
-                m.setSocialEnvironment(new SocialEnvironment());
+
+            if (cancelMeeting != true) {
+                m.getImputed().validateMeeting(validate);
+                if (m.getSocialEnvironment() == null) {
+                    m.setSocialEnvironment(new SocialEnvironment());
+                }
+                m.getSocialEnvironment().validateMeeting(validate);
+                if (m.getSchool() == null) {
+                    m.setSchool(new School());
+                }
+                m.getSchool().validateMeeting(validate);
+                if (m.getLeaveCountry() == null) {
+                    m.setLeaveCountry(new LeaveCountry());
+                }
+                m.getLeaveCountry().validateMeeting(validate, m.getSocialEnvironment().getComment());
+                m.validateMeeting(validate);
+            } else {
+                c.setHasNegation(true);
             }
-            m.getSocialEnvironment().validateMeeting(validate);
-            if (m.getSchool() == null) {
-                m.setSchool(new School());
-            }
-            m.getSchool().validateMeeting(validate);
-            if (m.getLeaveCountry() == null) {
-                m.setLeaveCountry(new LeaveCountry());
-            }
-            m.getLeaveCountry().validateMeeting(validate, m.getSocialEnvironment().getComment());
-            m.validateMeeting(validate);
+
+            caseRepository.save(c);
+
             if (validate.existsMessageProperties()) {
                 List<String> listGeneral = new ArrayList<>();
                 listGeneral.add(Convert.convertToValidString("No se puede terminar la entrevista puesto que falta por responder preguntas, para m&aacute;s detalles revise los mensajes de cada secci&oacute;n"));
@@ -1070,8 +1147,15 @@ public class MeetingServiceImpl implements MeetingService {
                 validate.formatMessages();
                 return new ResponseMessage(true, gson.toJson(validate));
             }
-            c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
-            m.setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE_LEGAL));
+
+            if (cancelMeeting != true) {
+                c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
+                m.setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE_LEGAL));
+            } else {
+                c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
+                c.setDateNotProsecute(new Date());
+            }
+
             m.setDateTerminate(new Date());
             caseRepository.save(c);
             result.setHasError(false);
@@ -1129,6 +1213,10 @@ public class MeetingServiceImpl implements MeetingService {
         pcpc.setComplyPM(electionNotApplyRepository.findOne(cpv.getComplyPMId()));
         pcpc.setComplyCSPP(electionNotApplyRepository.findOne(cpv.getComplyCSPPId()));
         pcpc.setComplyProcessAbove(electionNotApplyRepository.findOne(cpv.getComplyProcessAboveId()));
+        pcpc.setWarrant(cpv.getWarrant());
+        pcpc.setPlatformMexico(cpv.getPlatformMexico());
+        pcpc.setAfis(cpv.getAfis());
+
 
     }
 
@@ -1150,26 +1238,48 @@ public class MeetingServiceImpl implements MeetingService {
             ccpc.setMeeting(m);
         }
         ccpc.setMeeting(c.getMeeting());
-        ccpc.setBehaviorDetention(cpv.getBehaviorDetention());
-        ccpc.setAdditionalInfo(cpv.getAdditionalInfo());
+
         List<Crime> listOldCrime = ccpc.getCrimeList();
         if (listOldCrime != null) {
+            ccpc.setCrimeList(null);
+            for (Crime curr : listOldCrime) {
+                curr.setCriminalProceeding(null);
+            }
             crimeRepository.delete(listOldCrime);
         }
-        if (cpv.getListCrime() != null && !cpv.getListCrime().equals("")) {
-            ccpc.setCrimeList(legalService.generateCrime(cpv.getListCrime(), ccpc));
-        }
+
         List<CoDefendant> listOldCoDefendant = ccpc.getCoDefendantList();
         if (listOldCoDefendant != null) {
+            ccpc.setCoDefendantList(null);
+            for (CoDefendant curr : listOldCoDefendant) {
+                curr.setCriminalProceeding(null);
+            }
             coDefendantRepository.delete(listOldCoDefendant);
         }
-        if (cpv.getListCoDefendant() != null && !cpv.getListCoDefendant().equals("")) {
-            ccpc.setCoDefendantList(legalService.getnerateCoDefendant(cpv.getListCoDefendant(), ccpc));
-        }
-        ccpc.setPlaceDetention(cpv.getPlaceDetention());
 
-        if (cpv.getLocationId() != null)
-            ccpc.setLocationDetention(locationRepository.findOne(cpv.getLocationId()));
+        if (cpv.getIsFolderAccess() == false) {
+            ccpc.setBehaviorDetention("Sin acceso a la carpeta");
+            ccpc.setAdditionalInfo("Sin acceso a la carpeta");
+            ccpc.setPlaceDetention(cpv.getPlaceDetention());
+            ccpc.setLocationDetention(locationRepository.findByLocName(Constants.COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW));
+            ccpc.setIsFolderAccess(cpv.getIsFolderAccess());
+        } else {
+            ccpc.setIsFolderAccess(cpv.getIsFolderAccess());
+            ccpc.setBehaviorDetention(cpv.getBehaviorDetention());
+            ccpc.setAdditionalInfo(cpv.getAdditionalInfo());
+            ccpc.setPlaceDetention(cpv.getPlaceDetention());
+
+            if (cpv.getListCrime() != null && !cpv.getListCrime().equals("")) {
+                ccpc.setCrimeList(legalService.generateCrime(cpv.getListCrime(), ccpc));
+            }
+
+            if (cpv.getListCoDefendant() != null && !cpv.getListCoDefendant().equals("")) {
+                ccpc.setCoDefendantList(legalService.getnerateCoDefendant(cpv.getListCoDefendant(), ccpc));
+            }
+
+            if (cpv.getLocationId() != null)
+                ccpc.setLocationDetention(locationRepository.findOne(cpv.getLocationId()));
+        }
     }
 
     @Transactional
@@ -1197,6 +1307,40 @@ public class MeetingServiceImpl implements MeetingService {
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "savePartialPrevious", userService);
             return new ResponseMessage(true, ConsMessage.MSG_ERROR_UPSERT);
+        }
+    }
+
+    @Transactional
+    @Override
+    public ResponseMessage saveHandingOverInfo(CriminalProceedingView cpv) {
+        Case c = caseRepository.findOne(cpv.getIdCase());
+        refreshHandingOverInfo(cpv, c);
+        caseRepository.save(c);
+        ResponseMessage r = new ResponseMessage(false, ConsMessage.MSG_SUCCESS_UPSERT, "current");
+        r.setReturnData(c.getMeeting().getCurrentCriminalProceeding().getHandingOverDate());
+        return r;
+    }
+
+    @Override
+    public MeetingView getMeetingSheetById(Long id) {
+        return meetingRepository.getMeetingSheetById(id);
+    }
+
+    private void refreshHandingOverInfo(CriminalProceedingView cpv, Case c) {
+        Meeting m = c.getMeeting();
+        CurrentCriminalProceeding ccpc = m.getCurrentCriminalProceeding();
+        if (ccpc == null) {
+            ccpc = new CurrentCriminalProceeding();
+            ccpc.setMeeting(m);
+            m.setCurrentCriminalProceeding(ccpc);
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+        try {
+            Date d = sdf.parse(cpv.getHandingOverDate() + " " + cpv.getHandingOverTime());
+            ccpc.setHandingOverDate(d);
+        } catch (Exception e) {
+            System.out.println("error al parsear la fecha");
         }
     }
 
@@ -1283,9 +1427,11 @@ public class MeetingServiceImpl implements MeetingService {
             List<FieldMeetingSource> listFS = verificationService.createAllFieldVerificationOfImputed(c.getId());
             fieldMeetingSourceRepository.save(listFS);
             //add request to authorize sources
-            Gson gson = new Gson();
+            //Gson gson = new Gson();
             CaseRequest caseRequest = new CaseRequest();
             Message requestMessage = new Message();
+            requestMessage.setIsObsolete(false);
+            requestMessage.setTitle("");
             Long userId = userService.GetLoggedUserId();
             List<SelectList> usersReceiver = userRepository.getLstValidUsersByRole(Constants.ROLE_EVALUATION_MANAGER);
             User userSender = userRepository.findOne(userId);
@@ -1294,21 +1440,26 @@ public class MeetingServiceImpl implements MeetingService {
             requestMessage.setSender(userSender);
             if (usersReceiver != null && usersReceiver.size() > 0) {
                 Message m = new Message();
-                m.setText("Se termina de capturar informaci&oacute;n legal, se solicita autorizar fuentes.");
+                Imputed i = c.getMeeting().getImputed();
+                m.setTitle("Autorizar fuentes para el imputado <strong>" + i.getName() + " " + i.getLastNameP() + " " + i.getLastNameM() + ".</strong>");
+                m.setBody("Se termina de capturar informaci&oacute;n legal, se solicita autorizar fuentes.");
                 m.setCaseDetention(c);
                 m.setSender(userSender);
                 List<RelMessageUserReceiver> listrmur = new ArrayList<>();
-                User managerEval = new User();
+                //User managerEval = new User();
                 for (SelectList ur : usersReceiver) {
                     User u = userRepository.findOne(ur.getId());
                     RelMessageUserReceiver rmr = new RelMessageUserReceiver();
                     rmr.setUser(u);
                     rmr.setMessage(m);
+                    rmr.setIsObsolete(false);
                     listrmur.add(rmr);
-                    managerEval = u;
+                    //managerEval = u;
                 }
+
+                m.setIsObsolete(false);
                 m.setMessageUserReceivers(listrmur);
-                m.setCreationDate(new Date());
+                m.setCreationDate(Calendar.getInstance());
                 requestMessage.setMessageUserReceivers(listrmur);
                 m = messageRepository.save(m);
                 caseRequest.setRequestMessage(m);
@@ -1354,16 +1505,20 @@ public class MeetingServiceImpl implements MeetingService {
         List<String> current = new ArrayList<>(), previous = new ArrayList<>();
         String e = "entity";
         List<String> messageError = new ArrayList<>();
-        if (cpv.getListCrime().trim().equals("[]"))
-            current.add("Debe agregar al menos un delito.");
-        if (cpv.getHaveCoDependant() && cpv.getListCoDefendant().trim().equals(""))
-            current.add("Ha marcado que existen coimputados. Por favor agregue los coimputados del caso");
-        if (cpv.getPlaceDetention().trim().equals(""))
-            current.add(Convert.convertToValidString(v.template.replace(e, "Referencias del lugar de detenci&oacute;n")));
-        if (cpv.getBehaviorDetention().trim().equals(""))
-            current.add(Convert.convertToValidString(v.template.replace(e, "El comportamiento durante la detenci&oacute;n")));
-        if (victimRepository.sizeVictimLegalByIdCase(cpv.getIdCase()) == 0)
-            current.add(Convert.convertToValidString("Debe agregar al menos una v&iacute;ctima"));
+
+        if (cpv.getIsFolderAccess() == true) {
+            if (cpv.getListCrime().trim().equals("[]"))
+                current.add("Debe agregar al menos un delito.");
+            if (cpv.getHaveCoDependant() && cpv.getListCoDefendant().trim().equals(""))
+                current.add("Ha marcado que existen coimputados. Por favor agregue los coimputados del caso");
+            if (cpv.getPlaceDetention().trim().equals(""))
+                current.add(Convert.convertToValidString(v.template.replace(e, "Referencias del lugar de detenci&oacute;n")));
+            if (cpv.getBehaviorDetention().trim().equals(""))
+                current.add(Convert.convertToValidString(v.template.replace(e, "El comportamiento durante la detenci&oacute;n")));
+            if (victimRepository.sizeVictimLegalByIdCase(cpv.getIdCase()) == 0)
+                current.add(Convert.convertToValidString("Debe agregar al menos una v&iacute;ctima"));
+        }
+
         if (cpv.getFirstProceeding().trim().equals(""))
             previous.add(Convert.convertToValidString(v.template.replace(e, "El primer caso ")));
         if (cpv.getOpenProcessNumber() == null)

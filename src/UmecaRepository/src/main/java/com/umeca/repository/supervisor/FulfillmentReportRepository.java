@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository("fulfillmentReportRepository")
 public interface FulfillmentReportRepository extends JpaRepository<FulfillmentReport, Long> {
-    @Query("SELECT  new com.umeca.model.entities.supervisor.FulfillmentReportInfo(fr.id, frt.name, fr.timestamp) FROM FulfillmentReport AS fr " +
+    @Query("SELECT  new com.umeca.model.entities.supervisor.FulfillmentReportInfo(fr.id, frt.name, fr.timestamp, fr.comment, fr.fulfillmentDate) FROM FulfillmentReport AS fr " +
             "INNER JOIN fr.fulfillmentReportType AS frt " +
             "WHERE fr.monitoringPlan.id=:monPlanId ORDER BY fr.id DESC")
     List<FulfillmentReportInfo> getFulfillmentReportInfoByMonPlanId(@Param("monPlanId") Long monPlanId, Pageable pageable);
@@ -25,5 +25,11 @@ public interface FulfillmentReportRepository extends JpaRepository<FulfillmentRe
             "inner join MP.caseDetention CD " +
             "where (CD.id in(:lstCases)) and FR.status=com.umeca.model.shared.MonitoringConstants.LOG_ACCOMPLISHMENT_AUTHORIZED")
     List<SelectList> finAllSummaryInfoFulfillmentReportInfo(@Param("lstCases") List<Long> lstCases);
+
+    @Query("select new com.umeca.model.shared.SelectList(AR.id, AR.description) from FulfillmentReport FR " +
+            "inner join FR.relFulfillmentReportArrangements rel " +
+            "inner join rel.arrangement AR " +
+            "where FR.id=:fulfillmentId")
+    List<SelectList> getArrangementsByFulfillmentReportId(@Param("fulfillmentId") Long fulfillmentId);
 
 }

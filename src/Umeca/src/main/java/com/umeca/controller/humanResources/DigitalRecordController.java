@@ -28,7 +28,6 @@ import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.shared.UpDwFileGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -188,19 +187,13 @@ public class DigitalRecordController {
         ModelAndView model = new ModelAndView("/humanResources/digitalRecord/index");
         Gson gson = new Gson();
 
-
-        String password = "";
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String hashedPass = passwordEncoder.encode(password);
-        System.out.println(hashedPass);
-
         //objetos para datos generales
         model.addObject("idEmployee", id);
         model.addObject("listState", gson.toJson(stateRepository.getStatesByCountryAlpha2("MX")));
         model.addObject("lstMaritalSt", gson.toJson(maritalStatusRepository.findAll()));
         model.addObject("lstDocType", gson.toJson(documentTypeRepository.findNotObsolete()));
         model.addObject("lstEmployeeSchedule", gson.toJson(employeeScheduleRepository.findAllEmployeeSchedule()));
-        model.addObject("lstAssignedUsr", gson.toJson(sharedUserService.getUserRoles(null, id)));
+        model.addObject("lstAssignedUsr", gson.toJson(sharedUserService.getUserRoles(null, null, id)));
 
         String employeeName = employeeRepository.getEmployeeNameById((id));
 
@@ -1153,8 +1146,8 @@ public class DigitalRecordController {
     public
     @ResponseBody
     String searchUsr(@RequestParam(required = true) String str) {
-        String param = "%" + str + "%";
-        List<SelectList> lst = sharedUserService.getUserRoles(param, null);
+        String param = str + "%";
+        List<SelectList> lst = sharedUserService.getUserRoles(null, param, null);
         return new Gson().toJson(lst);
 
     }

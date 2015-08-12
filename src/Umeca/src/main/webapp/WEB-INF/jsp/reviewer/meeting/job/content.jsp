@@ -124,11 +124,12 @@
                     <div class="row widget-main">
                         <div class="col-xs-3">
                             Fecha Inicio:
+                            <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
                         </div>
                         <div class="col-xs-3">
                             <div class="input-group">
                                 <input class="form-control date-picker" id="jdpStart" type="text"
-                                       data-date-format="yyyy/mm/dd" value="${j.startPrev}" readonly="readonly"
+                                       data-date-format="yyyy/mm/dd" value="${j.startPrev}"
                                        data-val="true" data-val-required="La fecha de inicio es un campo requerido"
                                        name="startPrev"/> <span class="input-group-addon">
 																		<i class="icon-calendar bigger-110"></i>
@@ -143,11 +144,12 @@
                         </div>
                         <div class="col-xs-3">
                             Fecha Fin:
+                            <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
                         </div>
                         <div class="col-xs-3">
                             <div class="input-group">
                                 <input class="form-control date-picker" id="jdbEnd" type="text"
-                                       data-date-format="yyyy/mm/dd" value='${j.end}' readonly="readonly"
+                                       data-date-format="yyyy/mm/dd" value='${j.end}'
                                        data-val="true" data-val-required="La fecha de fin es un campo requerido"
                                        name="end"/>
 																	<span class="input-group-addon">
@@ -201,11 +203,12 @@
                     <div class="row">
                         <div class="col-xs-3">
                             Fecha Inicio:
+                            <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
                         </div>
                         <div class="col-xs-3">
                             <div class="input-group">
                                 <input class="form-control date-picker" id="jdpStartCurrent" type="text"
-                                       data-date-format="yyyy/mm/dd" value='${j.start}' readonly="readonly"
+                                       data-date-format="yyyy/mm/dd" value='${j.start}'
                                        data-val="true" data-val-required="La fecha de inicio es un campo requerido"
                                        name="start"/>
 																	<span class="input-group-addon">
@@ -222,17 +225,18 @@
                         <div class="col-xs-3">
                             Salario semanal:
                         </div>
+
                         <div class="col-xs-3">
                             <input class="form-control" data-val="true"
-                                   data-val-length="Debe tener m&aacute;ximo 7 caracteres" name="salaryWeek"
-                                   data-val-length-max="7" data-val-length-min="1"
+                                   data-val-length="Debe tener m&aacute;ximo 100 caracteres" name="salaryWeek"
+                                   data-val-length-max="100" data-val-length-min="1"
                                    data-val-required="El salario semanal es un campo requerido"
-                                   data-val-regex-pattern="([0-9]+(.[0-9])?)"
-                                   data-val-regex="El salario s&oacute;lo puede contener n&uacute;meros y un punto"
                                    type="text" value=""
-                                   ng-init='j.salaryWeek = ${(j.salaryWeek == null)? 0 : j.salaryWeek}'
-                                   ng-model="j.salaryWeek">
+                                   ng-model="j.salaryWeek"
+                                   ng-init='j.salaryWeek= "${(j.nameHead == null) ? "" : j.salaryWeek}"'>
+
                         </div>
+
                         <div class="row">
                             <div class="col-xs-9 col-xs-offset-3">
                                 <span class="field-validation-valid" data-valmsg-for="salaryWeek"

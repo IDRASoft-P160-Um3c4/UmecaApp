@@ -18,7 +18,7 @@ import java.util.List;
 @Repository("qActivityGoalRepository")
 public interface ActivityGoalRepository extends JpaRepository<ActivityGoal, Long> {
 
-    @Query("SELECT new com.umeca.model.shared.SelectList(ag.id, ag.name, ag.specification) FROM ActivityGoal ag " +
+    @Query("SELECT new com.umeca.model.shared.SelectList(ag.id, ag.name, ag.specification, agroup.id) FROM ActivityGoal ag " +
             "inner join ag.activityGroup agroup WHERE ag.isObsolete=false and agroup.code = 'MONITORING_PLAN'")
     List<SelectList> findAllValidMonitoring();
 

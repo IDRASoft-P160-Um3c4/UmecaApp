@@ -7,19 +7,24 @@ public class ChannelingView implements EntityGrid {
 
     private Long id;
     private Long consecutive;
+    private Boolean canDrop;
     private String consecutiveTx;
     private String channelingType;
     private String name;
     private String institutionType;
     private String institutionName;
+    private String isFulfilledTx;
 
-    public ChannelingView(Long id, Long consecutive, String channelingType, String name, String institutionType, String institutionName) {
+    public ChannelingView(Long id, Long consecutive, Boolean isAuthorizeToDrop, String channelingType, String name,
+                          String institutionType, String institutionName, Boolean isFulfilled) {
         this.id = id;
         this.consecutive = consecutive;
+        this.canDrop = isAuthorizeToDrop == null ? true : false;
         this.channelingType = channelingType;
         this.name = name;
         this.institutionType = institutionType;
         this.institutionName = institutionName;
+        this.isFulfilledTx = isFulfilled == null ? "NA" : (isFulfilled ? "Si" : "No");
     }
 
     @Override
@@ -37,6 +42,18 @@ public class ChannelingView implements EntityGrid {
 
     public void setConsecutive(Long consecutive) {
         this.consecutive = consecutive;
+    }
+
+    public Boolean getCanDrop() {
+        return canDrop;
+    }
+
+    public void setCanDrop(Boolean canDrop) {
+        this.canDrop = canDrop;
+    }
+
+    public void setConsecutiveTx(String consecutiveTx) {
+        this.consecutiveTx = consecutiveTx;
     }
 
     public String getChannelingType() {
@@ -73,5 +90,13 @@ public class ChannelingView implements EntityGrid {
 
     public String getConsecutiveTx() {
         return LongExt.paddingLeft("0", "4", consecutive);
+    }
+
+    public String getIsFulfilledTx() {
+        return isFulfilledTx;
+    }
+
+    public void setIsFulfilledTx(String isFulfilledTx) {
+        this.isFulfilledTx = isFulfilledTx;
     }
 }

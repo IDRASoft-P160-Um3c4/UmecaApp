@@ -104,10 +104,11 @@
                                 <div class="row">
                                     <div class="col-xs-4 element-right">
                                         <label for="date-pk-act-start" >Fecha inicial:</label>
+                                        <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
                                     </div>
                                     <div class="col-xs-8">
                                         <div class="input-group">
-                                            <input class="form-control date-picker" id="date-pk-act-start" readonly="readonly"
+                                            <input class="form-control date-picker" id="date-pk-act-start"
                                                    type="text" data-date-format="dd-mm-yyyy" ng-model="m.startDate"  ng-init="m.startDate = '${startDate}'"/>
                                                 <span class="input-group-addon">
                                                     <i class="icon-calendar bigger-110"></i>
@@ -120,10 +121,11 @@
                                 <div class="row">
                                     <div class="col-xs-4 element-right">
                                         <label for="date-pk-act-end" >Fecha final:</label>
+                                        <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
                                     </div>
                                     <div class="col-xs-8">
                                         <div class="input-group">
-                                            <input class="form-control date-picker" id="date-pk-act-end" readonly="readonly"
+                                            <input class="form-control date-picker" id="date-pk-act-end"
                                                    type="text" data-date-format="dd-mm-yyyy" ng-model="m.endDate"  ng-init="m.endDate = '${endDate}'"/>
                                                 <span class="input-group-addon">
                                                     <i class="icon-calendar bigger-110"></i>

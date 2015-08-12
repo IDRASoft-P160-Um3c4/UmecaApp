@@ -54,7 +54,7 @@ public class ImputedHome implements EntityGrid{
     @OneToMany(mappedBy="imputedHome", cascade={CascadeType.ALL})
     private List<Schedule> schedule;
 
-    @Column(name="phone", length = 200, nullable = false)
+    @Column(name="phone", length = 200)
     private String phone;
 
     @OneToOne(fetch=FetchType.LAZY)
@@ -66,6 +66,9 @@ public class ImputedHome implements EntityGrid{
 
     @Column(name="reasonSecondary", length = 500)
     private String reasonSecondary;
+
+    @Column(name="is_homeless")
+    private Boolean isHomeless;
 
     @Transient
     private String addressString;
@@ -227,5 +230,13 @@ public class ImputedHome implements EntityGrid{
 
     public void setReasonSecondary(String reasonSecondary) {
         this.reasonSecondary = reasonSecondary;
+    }
+
+    public Boolean getIsHomeless() {
+        return isHomeless;
+    }
+
+    public void setIsHomeless(Boolean isHomeless) {
+        this.isHomeless = isHomeless;
     }
 }

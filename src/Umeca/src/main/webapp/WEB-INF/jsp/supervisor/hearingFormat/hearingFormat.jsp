@@ -364,7 +364,6 @@
                                                                        class="form-control date-picker"
                                                                        id="id-date-picker-1" type="text"
                                                                        data-date-format="yyyy/mm/dd" data-val="true"
-                                                                       readonly
                                                                        data-val-required="Fecha de audiencia es un campo requerido"/>
                                     <span class="input-group-addon">
                                         <i class="icon-calendar bigger-110"></i>
@@ -540,7 +539,7 @@
                                                                        name="imputedBirthDateStr" type="text"
                                                                        data-date-format="yyyy/mm/dd"
                                                                        ng-disabled="m.canEdit==false"
-                                                                       readonly ng-change="calcAge();"
+                                                                       ng-change="calcAge();"
                                                                        ng-model="m.impBthDay" data-val="true"
                                                                        data-val-required="Fecha de nacimiento es un campo requerido"/>
                                                 <span class="input-group-addon">
@@ -586,7 +585,70 @@
                                             <br/>
 
                                             <div class="row">
+                                                <div class="col-xs-12 element-center">
+                                                    &iquest;El imputado se encuentra en situaci&oacute;n de calle?
+                                                    <br/>
+
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input name="isHomeless" class="ace" type="radio"
+                                                                   ng-value="true"
+                                                                   ng-model="a.isHomeless"
+                                                                   ng-checked="a.isHomeless==true">
+                                                            <span class="lbl">&nbsp;&nbsp;S&iacute;</span>
+                                                        </label>
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <label>
+                                                            <input name="isHomeless" class="ace" type="radio"
+                                                                   ng-value="false"
+                                                                   ng-model="a.isHomeless"
+                                                                   ng-checked="a.isHomeless==false"
+                                                                   data-val="true">
+                                                            <span class="lbl">&nbsp;&nbsp;No</span>
+                                                        </label>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <br/>
+
+                                            <div class="row">
                                                 <%@ include file="/WEB-INF/jsp/address/index.jsp" %>
+                                            </div>
+
+                                            <div class="row" ng-if="a.isHomeless==true">
+
+                                                    <div class="col-xs-6">
+                                                        <br/>
+                                                        <label>Tiempo en sitauci&oacute;n de calle</label>
+                                                        <br/>
+                                                        <textarea class="input-xxlarge form-control limited"
+                                                                  id="timeAgo"
+                                                                  name="timeAgo"
+                                                                  ng-model="m.timeAgo"
+                                                                  maxlength="980" data-val="true"
+                                                                  data-val-required="Tiempo en sitauci&oacute;n de calle es un campo requerido">
+                                                        </textarea>
+                                                        <span class="field-validation-valid" data-valmsg-for="timeAgo"
+                                                              data-valmsg-replace="true"></span>
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                        <br/>
+                                                        <label>Lugar de localizaci&oacute;n</label>
+                                                        <br/>
+                                                        <textarea class="input-xxlarge form-control limited"
+                                                                  id="locationPlace"
+                                                                  name="locationPlace"
+                                                                  ng-model="m.locationPlace"
+                                                                  maxlength="980" data-val="true"
+                                                                  data-val-required="Lugar de localizaci&oacute;n es un campo requerido">
+                                                        </textarea>
+                                                        <span class="field-validation-valid" data-valmsg-for="locationPlace"
+                                                              data-valmsg-replace="true"></span>
+                                                    </div>
                                             </div>
 
                                             <br/>
@@ -749,7 +811,7 @@
                                                             <input class="form-control date-picker"
                                                                    id="imputationDateStr" name="imputationDateStr"
                                                                    ng-model="m.impDate"
-                                                                   data-date-format="yyyy/mm/dd" type="text" readonly
+                                                                   data-date-format="yyyy/mm/dd" type="text"
                                                                    data-val="true"
                                                                    data-val-required="Fecha es un campo requerido">
                             <span class="input-group-addon">
@@ -818,7 +880,7 @@
                                                             <input class="form-control date-picker"
                                                                    id="extDateStr" name="extDateStr"
                                                                    ng-model="m.extDate"
-                                                                   data-date-format="yyyy/mm/dd" type="text" readonly
+                                                                   data-date-format="yyyy/mm/dd" type="text"
                                                                    data-val="true"
                                                                    data-val-required="Fecha es un campo requerido">
                             <span class="input-group-addon">
@@ -894,7 +956,7 @@
                                                                 <input class="form-control date-picker"
                                                                        id="linkageDateStr" data-date-format="yyyy/mm/dd"
                                                                        name="linkageDateStr" ng-model="m.linkageDate"
-                                                                       type="text" readonly data-val="true"
+                                                                       type="text" data-val="true"
                                                                        data-val-required="Fecha es un campo requerido">
                 <span class="input-group-addon">
                     <i class="icon-calendar bigger-110"></i>
@@ -968,7 +1030,7 @@
                                         <input id="umecaDateStr" name="umecaDateStr"
                                                ng-model="m.umecaDate"
                                                class="form-control date-picker" id="id-date-picker-umeca" type="text"
-                                               data-date-format="yyyy/mm/dd" data-val="true" readonly
+                                               data-date-format="yyyy/mm/dd" data-val="true"
                                                data-val-required="Cita en la UMECA es un campo requerido"/>
                                     <span class="input-group-addon">
                                         <i class="icon-calendar bigger-110"></i>
@@ -992,14 +1054,14 @@
                         <span class="field-validation-valid" data-valmsg-for="umecaTimeStr"
                               data-valmsg-replace="true"></span>
                                 </div>
-                                <div class="col-xs-5">
-                                    <label>Elige el nuevo supervisor para el caso</label>
-                                    <br/>
-                                    <select class="form-control element-center"
-                                            ng-model="m.umecaSupervisor"
-                                            ng-options="e.description for e in lstSupervisor"
-                                            ng-init='lstSupervisor = ${lstSupervisor};'></select>
-                                </div>
+                                <%--<div class="col-xs-5">--%>
+                                <%--<label>Elige el nuevo supervisor para el caso</label>--%>
+                                <%--<br/>--%>
+                                <%--<select class="form-control element-center"--%>
+                                <%--ng-model="m.umecaSupervisor"--%>
+                                <%--ng-options="e.description for e in lstSupervisor"--%>
+                                <%--ng-init='lstSupervisor = ${lstSupervisor};'></select>--%>
+                                <%--</div>--%>
                                 <br/>
                                 <br/>
                                 <br/>
@@ -1087,14 +1149,14 @@
                                                      class="col-xs-6">
                                                     <label ng-bind-html="lblTerms"></label>
                                                     <br/>
-                                            <textarea class="form-control limited" name="terms"
-                                                      ng-model="m.terms"
-                                                      maxlength="980"
-                                                      data-val="true"
-                                                      data-val-required="Plazo es un campo requerido">
-                                            </textarea>
-                                        <span class="field-validation-valid" data-valmsg-for="terms"
-                                              data-valmsg-replace="true"></span>
+                                                <textarea class="form-control limited" name="terms"
+                                                          ng-model="m.terms"
+                                                          maxlength="980"
+                                                          data-val="true"
+                                                          data-val-required="Plazo es un campo requerido">
+                                                </textarea>
+                                            <span class="field-validation-valid" data-valmsg-for="terms"
+                                                  data-valmsg-replace="true"></span>
                                                     <input ng-if="sendTerms==true" type="hidden" name="terms"
                                                            value="{{m.terms}}"/>
                                                 </div>
@@ -1187,7 +1249,7 @@
                                 <br/>
                             </div>
 
-                            <div class="col-xs-3">
+                            <div class="col-xs-2">
                                 <label for="contactPhone">Tel&eacute;fono:</label>
                                 <br/>
                                 <input id="contactPhone" type="text"
@@ -1196,12 +1258,23 @@
                             </div>
 
 
-                            <div class="col-xs-4">
+                            <div class="col-xs-3">
                                 <label>Direcci&oacute;n</label>
                                 <br/>
                         <textarea class="input-xxlarge form-control limited" id="contactAddress"
                                   maxlength="980" ng-model="m.contactAddress">
                         </textarea>
+                            </div>
+
+                            <div class="col-xs-2">
+                                <label>
+                                    <input class="ace" id="contactLiveWith"
+                                           ng-disabled=" (m.disableAll==true) || (arrangment.isDefault==true && arrangment.selVal==true) "
+                                           type="checkbox"
+                                           ng-model="m.contactLiveWith">
+                                    <span class="lbl col-xs-10">&nbsp;&nbsp;&iquest;Vive con el imputado?</span>
+                                </label>
+                                <br/>
                             </div>
 
                             <div class="col-xs-2 element-right">
@@ -1240,6 +1313,7 @@
                                                 <th class="element-center">Nombre</th>
                                                 <th class="element-center">Tel&eacute;fono</th>
                                                 <th class="element-center">Direcci&oacute;n</th>
+                                                <th class="element-center">&iquest;Vive con <br/> el imputado?</th>
                                                 <th class="element-center">Quitar</th>
                                             </tr>
                                             </thead>
@@ -1250,6 +1324,7 @@
                                                     <td class="element-center">{{contact.name}}</td>
                                                     <td class="element-center">{{contact.phone}}</td>
                                                     <td class="element-center">{{contact.address}}</td>
+                                                    <td class="element-center">{{contact.liveWith==true?"Si":"No"}}</td>
                                                     <td class="element-center"><a href="javascript:;"
                                                                                   style="display:inline-block;"
                                                                                   title="Quitar de la lista"

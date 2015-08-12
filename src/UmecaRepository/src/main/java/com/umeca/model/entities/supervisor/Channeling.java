@@ -1,13 +1,11 @@
 package com.umeca.model.entities.supervisor;
 
-import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 import com.umeca.model.catalog.*;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 
 import javax.persistence.*;
 import java.util.Calendar;
-import java.util.List;
 
 @Entity
 @Table(name = "channeling", uniqueConstraints = @UniqueConstraint(columnNames = {"id_case", "consecutive"}))
@@ -78,6 +76,19 @@ public class Channeling {
 
     @Column(name="consecutive", nullable = false)
     private Long consecutive;
+
+    @Column(name="is_authorize_to_drop", nullable = true)
+    private Boolean isAuthorizeToDrop;
+
+    @Column(name="is_volunteer", nullable = false)
+    private Boolean isVolunteer;
+
+    @Column(name="is_fulfilled", nullable = true)
+    private Boolean isFulfilled;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_fulfilled_user", nullable = true)
+    private User fulfilledUser;
 
     @Column(name="is_obsolete", nullable = false)
     private Boolean isObsolete;
@@ -232,6 +243,46 @@ public class Channeling {
 
     public void setDeleteUser(User deleteUser) {
         this.deleteUser = deleteUser;
+    }
+
+    public Boolean isAuthorizeToDrop() {
+        return isAuthorizeToDrop;
+    }
+
+    public void setAuthorizeToDrop(Boolean isAuthorizeToDrop) {
+        this.isAuthorizeToDrop = isAuthorizeToDrop;
+    }
+
+    public Boolean getIsAuthorizeToDrop() {
+        return isAuthorizeToDrop;
+    }
+
+    public void setIsAuthorizeToDrop(Boolean isAuthorizeToDrop) {
+        this.isAuthorizeToDrop = isAuthorizeToDrop;
+    }
+
+    public Boolean getIsVolunteer() {
+        return isVolunteer;
+    }
+
+    public void setIsVolunteer(Boolean isVolunteer) {
+        this.isVolunteer = isVolunteer;
+    }
+
+    public Boolean getIsFulfilled() {
+        return isFulfilled;
+    }
+
+    public void setIsFulfilled(Boolean isFulfilled) {
+        this.isFulfilled = isFulfilled;
+    }
+
+    public User getFulfilledUser() {
+        return fulfilledUser;
+    }
+
+    public void setFulfilledUser(User fulfilledUser) {
+        this.fulfilledUser = fulfilledUser;
     }
 }
 

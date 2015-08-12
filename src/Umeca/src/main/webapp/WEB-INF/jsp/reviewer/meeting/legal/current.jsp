@@ -19,46 +19,75 @@
             </div>
             <br/>
 
-            <%@ include file="/WEB-INF/jsp/reviewer/meeting/shared/crime.jsp" %>
+            <div class="row">
+                <div class="col-xs-12 element-center"
+                     ng-init="isFolderAccess=${isFolderAccess==null?true:isFolderAccess}">
+                    <label>&iquest;Tiene acceso a la carpeta?</label>
 
-
-            <br/>
-
-            <div class="widget-box">
-                <div class="widget-header">
-                    <input type="hidden" ng-update-hidden ng-model="haveCoDependant"
-                           ng-init="haveCoDependant = ${haveCoDependant==null? false: haveCoDependant};"
-                           name='haveCoDependant'>
-                    <h5>&nbsp;<input type="checkbox" ng-model="haveCoDependant">&nbsp;Detenci&oacute;n de coimputados
-                    </h5>
-                </div>
-                <div class="widget-body" ng-show="haveCoDependant == true">
-                    <div class="row">
-                        <div class="col-xs-10 col-xs-offset-1">
-                            <br/>
-                            <%@ include file="/WEB-INF/jsp/reviewer/meeting/shared/coDependant.jsp" %>
-
-                        </div>
+                    <div class="radio">
+                        <label>
+                            <input name="isFolderAccess" class="ace" type="radio"
+                                   ng-value="true"  ng-disabled="${readonlyBand}"
+                                   ng-model="isFolderAccess"
+                                   ng-checked="isFolderAccess==true">
+                            <span class="lbl">&nbsp;&nbsp;S&iacute;</span>
+                        </label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <label>
+                            <input name="isFolderAccess" class="ace" type="radio"
+                                   ng-value="false"  ng-disabled="${readonlyBand}"
+                                   ng-model="isFolderAccess"
+                                   ng-change="cleanListCrime();"
+                                   ng-checked="isFolderAccess==false">
+                            <span class="lbl">&nbsp;&nbsp;No</span>
+                        </label>
                     </div>
                 </div>
             </div>
-            <br/>
 
-            <div class="widget-box">
-                <div class="widget-header">
-                    <h5>&nbsp;Informaci&oacute;n de la v&iacute;ctima</h5>
+            <div ng-show="isFolderAccess!=false">
+                <div class="row">
+                    <%@ include file="/WEB-INF/jsp/reviewer/meeting/shared/crime.jsp" %>
                 </div>
-                <div class="widget-body">
-                    <div class="row">
-                        <div class="row">
-                            <%@ include file="/WEB-INF/jsp/victim/index.jsp" %>
-                        </div>
-                        <br/>
 
+                <br/>
+
+                <div class="widget-box">
+                    <div class="widget-header">
+                        <input type="hidden" ng-update-hidden ng-model="haveCoDependant"
+                               ng-init="haveCoDependant = ${haveCoDependant==null? false: haveCoDependant};"
+                               name='haveCoDependant'>
+                        <h5>&nbsp;<input type="checkbox" ng-model="haveCoDependant">&nbsp;Detenci&oacute;n de
+                            coimputados
+                        </h5>
+                    </div>
+                    <div class="widget-body" ng-show="haveCoDependant == true">
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
-                                Observaciones <br/>
                                 <br/>
+                                <%@ include file="/WEB-INF/jsp/reviewer/meeting/shared/coDependant.jsp" %>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="widget-box">
+                    <div class="widget-header">
+                        <h5>&nbsp;Informaci&oacute;n de la v&iacute;ctima</h5>
+                    </div>
+                    <div class="widget-body">
+                        <div class="row">
+                            <div class="row">
+                                <%@ include file="/WEB-INF/jsp/victim/index.jsp" %>
+                            </div>
+                            <br/>
+
+                            <div class="row">
+                                <div class="col-xs-10 col-xs-offset-1">
+                                    Observaciones <br/>
+                                    <br/>
                             <textarea class="width-100" ng-model="m.additionalInfo" id="additionalInfo"
                                       name="additionalInfo"
                                       data-val="true"
@@ -69,19 +98,19 @@
                             </textarea>
                                 <span class="field-validation-valid" data-valmsg-for="additionalInfo"
                                       data-valmsg-replace="true"></span>
+                                </div>
                             </div>
                         </div>
+                        <br/>
                     </div>
-                    <br/>
                 </div>
-            </div>
-            <br/>
+                <br/>
 
-            <div class="row">
-                <div class="col-xs-3 element-left">Comportamiento antes de detenci&oacute;n:<br/>
-                    <label class="info-example">(resistencia, persecuci&oacute;n, violencia, etc.)</label>
-                </div>
-                <div class="col-xs-9">
+                <div class="row">
+                    <div class="col-xs-3 element-left">Comportamiento antes de detenci&oacute;n:<br/>
+                        <label class="info-example">(resistencia, persecuci&oacute;n, violencia, etc.)</label>
+                    </div>
+                    <div class="col-xs-9">
                 <textarea class="form-control" name="behaviorDetention" id="behaviorDetention"
                           ng-model="m.behaviorDetention"
                           data-val="true" data-val-required="El comportamiento es un campo requerido"
@@ -90,52 +119,52 @@
                           data-val-length="Debe tener al menos 5 y m&aacute;ximo 500 caracteres."></textarea>
                     <span class="field-validation-valid" data-valmsg-for="behaviorDetention"
                           data-valmsg-replace="true"></span>
-                </div>
-            </div>
-            <br/>
-
-            <div class="row">
-                <div class="col-xs-3 element-left">Lugar de detenci&oacute;n:</div>
-                <div class="col-xs-12">
-                    <div class="col-xs-3">
-                        <div>
-                            <label>Estado</label>
-                            <br/>
-                            <select class="form-control element-center"
-                                    ng-model="m.state"
-                                    ng-options="e.name for e in lstStates"
-                                    ng-init='lstStates = ${lstStates}'
-                                    ng-change="municipalityId=undefined; getMun();"></select>
-                        </div>
-                    </div>
-                    <div class="col-xs-4">
-                        <div>
-                            <label>Municipio</label>
-                            <br/>
-                            <select class="form-control element-center"
-                                    ng-model="m.municipality"
-                                    ng-options="mu.name for mu in lstMun"
-                                    ng-change="locationId=undefined; getLoc();"></select>
-                        </div>
-                    </div>
-                    <div class="col-xs-5">
-                        <div>
-                            <label>Localidad</label>
-                            <br/>
-                            <select class="form-control element-center"
-                                    ng-model="m.location"
-                                    ng-options="l.name for l in lstLocation">
-                            </select>
-                            <input type="hidden" name="locationId" value="{{m.location.id}}"/>
-                        </div>
                     </div>
                 </div>
-            </div>
-            <br/>
+                <br/>
 
-            <div class="row">
-                <div class="col-xs-3 element-left">Referencias del lugar de detenci&oacute;n:</div>
-                <div class="col-xs-9">
+                <div class="row">
+                    <div class="col-xs-3 element-left">Lugar de detenci&oacute;n:</div>
+                    <div class="col-xs-12">
+                        <div class="col-xs-3">
+                            <div>
+                                <label>Estado</label>
+                                <br/>
+                                <select class="form-control element-center"
+                                        ng-model="m.state"
+                                        ng-options="e.name for e in lstStates"
+                                        ng-init='lstStates = ${lstStates}'
+                                        ng-change="municipalityId=undefined; getMun();"></select>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div>
+                                <label>Municipio</label>
+                                <br/>
+                                <select class="form-control element-center"
+                                        ng-model="m.municipality"
+                                        ng-options="mu.name for mu in lstMun"
+                                        ng-change="locationId=undefined; getLoc();"></select>
+                            </div>
+                        </div>
+                        <div class="col-xs-5">
+                            <div>
+                                <label>Localidad</label>
+                                <br/>
+                                <select class="form-control element-center"
+                                        ng-model="m.location"
+                                        ng-options="l.name for l in lstLocation">
+                                </select>
+                                <input type="hidden" name="locationId" value="{{m.location.id}}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="row">
+                    <div class="col-xs-3 element-left">Referencias del lugar de detenci&oacute;n:</div>
+                    <div class="col-xs-9">
                 <textarea class="form-control" name="placeDetention" ng-model="m.placeDetention" id="placeDetention"
                           ng-init='m.placeDetention="${placeDetention==null?'':placeDetention}";'
                           data-val="true" data-val-required="El lugar de detenci&oacute;n es un campo requerido"
@@ -143,9 +172,9 @@
                           data-val-length="Debe tener al menos 1 y m&aacute;ximo 255 caracteres."></textarea>
                     <span class="field-validation-valid" data-valmsg-for="placeDetention"
                           data-valmsg-replace="true"></span>
+                    </div>
                 </div>
             </div>
-
 
         </div>
     </div>

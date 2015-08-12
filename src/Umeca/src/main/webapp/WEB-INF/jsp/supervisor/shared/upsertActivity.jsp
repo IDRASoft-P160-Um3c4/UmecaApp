@@ -27,27 +27,26 @@
             <div class="widget-body">
                 <div class="widget-main padding-4">
 
-                        <div class="content" ng-init='lstSchedules = ${lstSchedules == null ? "[]":lstSchedules}'>
-                            <div class="row" ng-repeat="ls in lstSchedules">
-                                <div class = "col-xs-12">
-                                    <label class="smaller lighter blue">{{ls.name}}</label><br/>
-                                    <div class="row">
-                                        <div class="col-xs-5" ng-repeat="sch in ls.sch">
-                                                <i class="icon-asterisk green">
-                                                </i>
-                                                {{sch.day}} / {{sch.start}} - {{sch.end}}
+                    <div class="content" ng-init='lstSchedules = ${lstSchedules == null ? "[]":lstSchedules}'>
+                        <div class="row" ng-repeat="ls in lstSchedules | orderBy: 'name'">
+                            <div class = "col-xs-12">
+                                <label class="smaller lighter blue">{{ls.name}}</label><br/>
+                                <div class="row">
+                                    <div class="col-xs-5" ng-repeat="sch in ls.sch">
+                                            <i class="icon-asterisk green">
+                                            </i>
+                                            {{sch.day}} / {{sch.start}} - {{sch.end}}
 
-                                        </div>
                                     </div>
-
-                                </div>
-                                <div class="col-xs-12">
-                                    <div class="hr hr8"></div>
                                 </div>
 
                             </div>
-                        </div>
+                            <div class="col-xs-12">
+                                <div class="hr hr8"></div>
+                            </div>
 
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -58,7 +57,7 @@
     <label class="col-xs-3 control-label">Obligaciones procesales:</label>
 
     <div class="col-xs-9">
-        <div class="row" ng-repeat="e in lstArrangements">
+        <div class="row" ng-repeat="e in lstArrangements | orderBy: 'name'">
             <div class="col-xs-11 checkbox">
                 <label>
                     <input type="checkbox" ng-model="m.lstArrangements[e.id]" ng-disabled="isReadOnly"/>
@@ -75,8 +74,8 @@
 
     <div class="col-xs-9">
         <select class="form-control element-center" ng-model="m.activity" id="selectActivity"
-                ng-options="e.name for e in lstActivities"
-                ng-change="m.activityId = m.activity.id"
+                ng-options="e.name for e in lstActivities | orderBy: 'name'"
+                ng-change="m.activityId = m.activity.id; fixGoal();"
                 ng-disabled="isReadOnly">
         </select>
     </div>
@@ -93,13 +92,24 @@
         <span class="field-validation-error" ng-show="activitySpecError!=''">{{activitySpecError}}</span>
     </div>
 </div>
+<div class="form-group" ng-show="m.activity.code==='ACCA' && lstChanneling">
+    <label for="selectActivity" class="col-xs-3 control-label">Canalizaciones registradas para el imputado:</label>
+
+    <div class="col-xs-9">
+        <select class="form-control element-center" ng-model="m.channeling" id="selectChanneling"
+                ng-options="(e.name + ' (' + e.description + ')') for e in lstChanneling | orderBy: 'name'"
+                ng-change="m.channelingId = m.channeling.id"
+                ng-disabled="isReadOnly">
+        </select>
+    </div>
+</div>
 
 <div class="form-group">
     <label for="selectGoal" class="col-xs-3 control-label">Objetivo de la actividad:</label>
 
     <div class="col-xs-9">
         <select class="form-control element-center" ng-model="m.goal" id="selectGoal"
-                ng-options="e.name for e in lstGoals"
+                ng-options="e.name for e in lstGoals | filter: {aux:( m.activity.code === 'ACCA' ? '' : '!3')}  | orderBy: ['aux', 'name']"
                 ng-change="m.goalId = m.goal.id"
                 ng-disabled="isReadOnly">
         </select>
@@ -123,7 +133,7 @@
 
     <div class="col-xs-9">
         <select class="form-control element-center" ng-model="m.source" id="selectSource"
-                ng-options="e.name for e in lstSources"
+                ng-options="e.name for e in lstSources | orderBy: 'name'"
                 ng-change="m.sourceId = m.source.id; changeSource();"
                 ng-disabled="isReadOnly">
         </select>
@@ -155,10 +165,11 @@
         <div class="row">
             <div class="col-xs-6">
                 <label for="id-date-picker-end" class="control-label">Fecha inicial:</label>
+                <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
                 <div class="row">
                     <div class="col-xs-10">
                         <div class="input-group">
-                            <input class="form-control date-picker" id="id-date-picker-group-start" readonly="readonly"
+                            <input class="form-control date-picker" id="id-date-picker-group-start"
                                    type="text" data-date-format="dd-mm-yyyy"/>
                                                                 <span class="input-group-addon">
                                                                     <i class="icon-calendar bigger-110"></i>
@@ -169,10 +180,11 @@
             </div>
             <div class="col-xs-6">
                 <label for="id-date-picker-end" class="control-label">Fecha final:</label>
+                <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
                 <div class="row">
                     <div class="col-xs-10">
                         <div class="input-group">
-                            <input class="form-control date-picker" id="id-date-picker-group-end" readonly="readonly"
+                            <input class="form-control date-picker" id="id-date-picker-group-end"
                                    type="text" data-date-format="dd-mm-yyyy"/>
                                                                 <span class="input-group-addon">
                                                                     <i class="icon-calendar bigger-110"></i>
@@ -219,11 +231,12 @@
 <div class="row" ng-show="!m.isForToday">
     <div class="col-xs-6">
         <label for="id-date-picker-start" class="control-label">Fecha inicial:</label>
+        <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
 
         <div class="row">
             <div class="col-xs-10">
                 <div class="input-group">
-                    <input class="form-control date-picker" id="id-date-picker-start" readonly="readonly"
+                    <input class="form-control date-picker" id="id-date-picker-start"
                            type="text" data-date-format="dd-mm-yyyy"/>
 																	<span class="input-group-addon">
 																		<i class="icon-calendar bigger-110"></i>
@@ -234,11 +247,12 @@
     </div>
     <div class="col-xs-6">
         <label for="id-date-picker-end" class="control-label">Fecha final:</label>
+        <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
 
         <div class="row">
             <div class="col-xs-10">
                 <div class="input-group">
-                    <input class="form-control date-picker" id="id-date-picker-end" readonly="readonly"
+                    <input class="form-control date-picker" id="id-date-picker-end"
                            type="text" data-date-format="dd-mm-yyyy"/>
                                                                 <span class="input-group-addon">
                                                                     <i class="icon-calendar bigger-110"></i>

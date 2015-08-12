@@ -71,8 +71,8 @@ public class Job implements EntityGrid {
     @Column(name = "start")
     private Date start;
 
-    @Column(name = "salary_week", nullable = true)
-    private Float salaryWeek;
+    @Column(name = "salary_week", nullable = true, length = 100)
+    private String salaryWeek;
 
     @Column(name = "end", nullable = true)
     private Date end;
@@ -162,11 +162,11 @@ public class Job implements EntityGrid {
         this.start = start;
     }
 
-    public Float getSalaryWeek() {
+    public String getSalaryWeek() {
         return salaryWeek;
     }
 
-    public void setSalaryWeek(Float salaryWeek) {
+    public void setSalaryWeek(String salaryWeek) {
         this.salaryWeek = salaryWeek;
     }
 

@@ -15,16 +15,17 @@ import java.util.Calendar;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="log_case")
+@Table(name = "log_case")
 public class LogCase {
 
     public LogCase() {
     }
 
-    public LogCase(Calendar date, String activity, String userName, String title, String resume) {
+    public LogCase(Calendar date, Calendar dateCompletion, String activity, String userName, String title, String resume) {
         SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy hh:mm");
         this.date = date;
         this.dateString = format1.format(date.getTime());
+        this.dateCompletionString = dateCompletion == null ? null : format1.format(dateCompletion.getTime());
         this.activity = activity;
         this.userName = userName;
         this.title = title;
@@ -36,16 +37,19 @@ public class LogCase {
     @Column(name = "id_log_case", nullable = false)
     private Long id;
 
-    @Column(name="date")
+    @Column(name = "date")
     private Calendar date;
+
+    @Column(name = "completion_date")
+    private Calendar completionDate;
 
     @JoinColumn(name = "activity", nullable = false)
     private String activity;
 
-    @Column(name="resume", length = 1500)
+    @Column(name = "resume", length = 1500)
     private String resume;
 
-    @Column(name="title", length = 500)
+    @Column(name = "title", length = 500)
     private String title;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -65,6 +69,11 @@ public class LogCase {
     @Transient
     private String dateString;
 
+    @Transient
+    private String dateCompletionString;
+
+    @Transient
+    private String timeString;
 
     public Long getId() {
         return id;
@@ -146,4 +155,27 @@ public class LogCase {
         this.dateString = dateString;
     }
 
+    public String getTimeString() {
+        return timeString;
+    }
+
+    public void setTimeString(String timeString) {
+        this.timeString = timeString;
+    }
+
+    public Calendar getCompletionDate() {
+        return completionDate;
+    }
+
+    public void setCompletionDate(Calendar completionDate) {
+        this.completionDate = completionDate;
+    }
+
+    public String getDateCompletionString() {
+        return dateCompletionString;
+    }
+
+    public void setDateCompletionString(String dateCompletionString) {
+        this.dateCompletionString = dateCompletionString;
+    }
 }

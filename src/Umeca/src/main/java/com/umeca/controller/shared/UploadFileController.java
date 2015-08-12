@@ -1,6 +1,7 @@
 package com.umeca.controller.shared;
 
 import com.google.gson.Gson;
+import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
@@ -11,6 +12,8 @@ import com.umeca.model.catalog.TypeNameFile;
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.dto.CaseInfo;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.shared.UploadFile;
 import com.umeca.model.entities.shared.UploadFileRequest;
 import com.umeca.model.entities.shared.UploadFileView;
@@ -20,6 +23,7 @@ import com.umeca.repository.catalog.TypeNameFileRepository;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.CaseService;
+import com.umeca.service.shared.MessageService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.shared.UpDwFileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +40,7 @@ import javax.persistence.criteria.Selection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -148,7 +149,6 @@ public class UploadFileController {
         model.addObject("caseId", id);
         CaseInfo caseInfo = caseRepository.getInfoById(id);
 
-
         String[] arrProp = new String[]{"folderId", "personName"};
         caseInfo = (CaseInfo) StringEscape.escapeAttrs(caseInfo, arrProp);
 
@@ -180,6 +180,9 @@ public class UploadFileController {
 
     @Autowired
     CaseService caseService;
+
+    @Autowired
+    MessageService messageService;
 
     @RequestMapping(value = "/shared/uploadFile/doUploadFile", method = RequestMethod.POST)
     public
@@ -217,7 +220,6 @@ public class UploadFileController {
                 return resMsg;
             }
 
-
             UploadFile uploadFile = new UploadFile();
 
             MultipartFile mpf = request.getFile(itr.next());
@@ -244,16 +246,33 @@ public class UploadFileController {
                 }
             }
 
-
             String path = request.getSession().getServletContext().getRealPath("");
             path = new File(path, uploadFile.getPath()).toString();
             //uploadFile.setPath(new File(path, uploadFile.getPath()).toString());
-
 
             if (upDwFileService.saveOnDiskUploadFile(mpf, path, uploadFile, resMsg, logException, sharedUserService) == false)
                 return resMsg;
 
             upDwFileService.save(uploadFile);
+
+            if(uploadRequest.getTypeId() == Constants.CHANNELING_ID_TYPE_FILE_CHANNELING_END_RECORD){
+
+                Case caseDetention = caseRepository.findOne(uploadRequest.getCaseId());
+                Imputed imputed = caseDetention.getMeeting().getImputed();
+                String imputedFullName = imputed.getName() + " " + imputed.getLastNameP() + " " + imputed.getLastNameM();
+
+                messageService.sendNotificationToRole(uploadRequest.getCaseId(),
+                        String.format("<strong>Se ha adjuntado el documento \"Constancia finalización de canalización\" que acredita la conclusión del mismo</strong><br/>" +
+                                        "<strong>Descripción:</strong> %s <br/>" +
+                                        "Para el imputado: <strong>%s</strong>. Causa penal <strong>%s</strong><br/>" +
+                                        "Registrador por: <b>%s</b><br/>"+
+                                        "Fecha de solicitud: <b>%s</b>",
+                                uploadRequest.getDescription(), imputedFullName, caseDetention.getIdMP(),
+                                userService.getFullNameById(userService.GetLoggedUserId()), CalendarExt.calendarToFormatString(Calendar.getInstance(), Constants.FORMAT_CALENDAR_I)),
+                        new ArrayList<String>(){{add(Constants.ROLE_CHANNELING_MANAGER);add(Constants.ROLE_SUPERVISOR_MANAGER);}},
+                        Constants.CHANNELING_END_RECORD_TITLE);
+            }
+
 
             resMsg.setMessage("El archivo " + uploadFile.getFileName() + " fue subido de forma correcta, usted puede continuar subiendo archivos, sin cerrar la ventana");
             resMsg.setHasError(false);

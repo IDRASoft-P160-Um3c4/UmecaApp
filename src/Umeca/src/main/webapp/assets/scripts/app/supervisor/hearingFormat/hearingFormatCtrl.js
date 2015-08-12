@@ -10,6 +10,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
         $scope.lblTerms = "";
         $scope.MsgErrorContact = "";
         $scope.m.labelImpForm = "";
+        $scope.m.contactLiveWith = false;
 
         $scope.showLabels = false;
 
@@ -139,7 +140,8 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             var jsonRow = {
                 "name": $scope.m.contactName,
                 "phone": $scope.m.contactPhone,
-                "address": $scope.m.contactAddress
+                "address": $scope.m.contactAddress,
+                "liveWith": $scope.m.contactLiveWith == true
             };
 
             $scope.m.lstContactData.push(jsonRow);
@@ -147,6 +149,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.m.contactName = "";
             $scope.m.contactPhone = "";
             $scope.m.contactAddress = "";
+            $scope.m.contactLiveWith = false;
             $scope.MsgErrorContact = "";
 
         };
@@ -182,7 +185,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             if (!$scope.m.vincProcess) {
                 $scope.hasError = true;
-                $scope.m.errLinkProc = "Debe seleccionar una opci�n";
+                $scope.m.errLinkProc = "Debe seleccionar una opción";
             }
             else
                 $scope.m.errLinkProc = "";
@@ -315,16 +318,20 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $scope.m.additionalData = data.additionalData;
             $scope.m.isView = data.isView;
 
+            $scope.a.isHomeless = data.isHomeless;
+            $scope.m.timeAgo = data.timeAgo;
+            $scope.m.locationPlace = data.locationPlace;
+
             //radios
             $scope.m.ctrlDet = data.controlDetention;
 
             $scope.m.ext = data.extension;
 
-            if ($scope.m.isFinished == true) {
-                $scope.m.extDate = $scope.myFormatDate(data.extDate);
-            } else {
-                $scope.m.extDate = "";
-            }
+            //if ($scope.m.isFinished == true) {
+            $scope.m.extDate = $scope.myFormatDate(data.extDate);
+            //} else {
+            //    $scope.m.extDate = "";
+            //}
 
             $scope.m.formImp = data.impForm;
 
@@ -450,6 +457,18 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             $.post(urlToPost, $(formId).serialize())
                 .success($scope.handleSuccessNewCase)
+                .error($scope.handleError);
+
+            return true;
+        };
+
+
+        $scope.submitAssignSupervisor = function (formId, urlToPost) {
+
+            $scope.WaitFor = true;
+
+            $.post(urlToPost, $(formId).serialize())
+                .success($scope.handleSuccessAssign)
                 .error($scope.handleError);
 
             return true;
@@ -714,20 +733,25 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             if ($scope.lstSupervisor === undefined || $scope.lstSupervisor.length <= 0)
                 return;
+            $scope.m.umecaSupervisor = $scope.lstSupervisor[0];
+        };
 
-            if ($scope.m.umecaSupervisorId === undefined) {
-                $scope.m.umecaSupervisor = $scope.lstSupervisor[0];
-                $scope.m.umecaSupervisorId = $scope.m.umecaSupervisor.id;
-            }
-            else {
-                for (var i = 0; i < $scope.lstSupervisor.length; i++) {
-                    var rel = $scope.lstSupervisor[i];
+        $scope.handleSuccessAssign = function (resp) {
+            $scope.WaitFor = false;
 
-                    if (rel.id === $scope.m.umecaSupervisorId) {
-                        $scope.m.umecaSupervisor = rel;
-                        break;
-                    }
+            try {
+                if (resp.hasError === undefined) {
+                    resp = resp.responseMessage;
                 }
+
+                if (resp.hasError === false) {
+                    $scope.Model.dlg.modal('hide');
+                    $scope.Model.def.resolve({isCancel: false, resp: resp});
+                    return;
+                }
+
+            } catch (e) {
+                $scope.MsgError = $sce.trustAsHtml("Error inesperado de datos. Por favor intente más tarde.");
             }
         };
 
@@ -800,11 +824,15 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
         $scope.init = function () {
             $scope.fillFormat($scope.m);
-            $scope.fillSelSupervisor();
+            //$scope.fillSelSupervisor();
             $scope.fillSelHearingType();
             $scope.fillSelDistrict();
             $scope.disableView($scope.m.disableAll);
             $scope.lockArrangements();
+        };
+
+        $scope.initAssignCase = function () {
+            $scope.fillSelSupervisor();
         };
 
         $scope.chgLblTerms = function () {
@@ -816,6 +844,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
         $timeout(function () {
             $scope.init();
+            $scope.initAssignCase();
         }, 0);
 
         $scope.returnUrlId = function () {

@@ -85,6 +85,7 @@
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('drugs.lastUse',d.id);"></i>
             <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('drugs.lastUse',d.id)"></i>
             &Uacute;ltimo consumo:
+            <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
         </div>
         <div class="col-xs-4">
             <div class="input-group">

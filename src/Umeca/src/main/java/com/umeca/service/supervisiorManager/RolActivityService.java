@@ -5,6 +5,7 @@ import com.umeca.model.dto.supervisorManager.ResponseRolActivities;
 import com.umeca.model.dto.supervisorManager.RolActivityRequest;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.supervisor.RequestActivities;
+import org.springframework.stereotype.Service;
 
 public interface RolActivityService {
     boolean doUpsertDelete(RolActivityRequest model, User user, ResponseMessage response);

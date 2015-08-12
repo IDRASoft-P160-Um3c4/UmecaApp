@@ -1,5 +1,6 @@
 package com.umeca.model.entities.supervisorManager;
 
+import com.umeca.model.catalog.EvaluationActivity;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.supervisor.*;
@@ -17,6 +18,9 @@ public class RolActivity {
     @Column(name = "id_rol_activity", nullable = false)
     private Long id;
 
+    @Column(name = "name", length = 100, nullable = false)
+    private String name;
+
     @Column(name = "start", nullable = false)
     private Calendar start;
 
@@ -30,11 +34,18 @@ public class RolActivity {
     private int searchEnd;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_supervisor", nullable = false)
+    @JoinColumn(name="id_supervisor", nullable = true)
     private User supervisor;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_evaluator", nullable = true)
+    private User evaluator;
 
     @Column(name = "status", length = 100, nullable = false)
     private String status;
+
+    @Column(name = "place", length = 100, nullable = true)
+    private String place;
 
     @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id_user_create", nullable = false)
@@ -49,6 +60,13 @@ public class RolActivity {
 
     @Column(name = "modify_time", nullable = true)
     private Calendar modifyTime;
+
+    @ManyToMany
+    @JoinTable(name = "rel_activity_evaluation_activity",
+            joinColumns = {@JoinColumn(name = "id_rol_activity", referencedColumnName = "id_rol_activity")},
+            inverseJoinColumns = {@JoinColumn(name = "id_evaluation_activity", referencedColumnName = "id_evaluation_activity",unique = false)})
+
+    private List<EvaluationActivity> activities;
 
     public Long getId() {
         return id;
@@ -136,5 +154,37 @@ public class RolActivity {
 
     public void setModifyTime(Calendar modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public User getEvaluator() {
+        return evaluator;
+    }
+
+    public void setEvaluator(User evaluator) {
+        this.evaluator = evaluator;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public List<EvaluationActivity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List<EvaluationActivity> activities) {
+        this.activities = activities;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

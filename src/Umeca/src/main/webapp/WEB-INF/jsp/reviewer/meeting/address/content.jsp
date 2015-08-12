@@ -16,7 +16,7 @@
     </div>
 </div>
 <br/>
-<div class="row">
+<div class="row" ng-show="a.isHomeless!=true">
     <div class="col-xs-2 element-left col-xs-offset-1">
         Tel&eacute;fono:
     </div>
@@ -38,21 +38,34 @@
     <div class="col-xs-2 element-left col-xs-offset-1">
         Tipo de propiedad:
     </div>
-    <div class="col-xs-2">
+    <div class="col-xs-2" ng-show="a.isHomeless!=true">
         <input type="hidden" ng-update-hidden ng-model="a.homeTypeId" name="homeType.id" id="perId"
                ng-init="a.homeTypeId = ${homeTypeId == null ? "undefined" : homeTypeId};">
         <select class="form-control element-center" ng-model="a.homeType"
                 ng-options="e.name for e in lstHomeType"
                 ng-change="a.homeTypeId = a.homeType.id;" ng-init='lstHomeType = ${lstHomeType};'></select>
     </div>
+
+    <div class="col-xs-3" ng-show="a.isHomeless==true">
+        Situaci&oacute;n de calle
+    </div>
+
     <div class="col-xs-3 element-right">
         Tipo de domiclio:
     </div>
-    <div class="col-xs-3">
+
+    <div class="col-xs-3" ng-show="a.isHomeless!=true">
         <select class="form-control element-center" ng-model="a.type"
                 ng-options="e.name for e in listType"
                 ng-change="a.typeId = a.type.id;" ng-init='listType= ${listRegisterType};'></select>
     </div>
+
+    <div class="col-xs-3" ng-show="a.isHomeless==true">
+        Situaci&oacute;n de calle
+    </div>
+
+
+
 </div>
 <br/>
 <div class="row" ng-show="a.homeType.specification == true">
@@ -141,8 +154,13 @@
     <div class="row" ng-show="a.typeId ==1 || a.typeId ==2">
         <div class="col-xs-10 col-xs-offset-1">
             <div class="widget-box">
-                <div class="widget-header">
+
+                <div class="widget-header" ng-if="a.isHomeless!=true">
                     <h4>Domicilio {{a.type.name}}</h4>
+                </div>
+
+                <div class="widget-header" ng-if="a.isHomeless==true">
+                    <h4>Situaci&oacute;n de calle</h4>
                 </div>
 
                 <div class="widget-body">
@@ -151,9 +169,14 @@
                     <div class="row">
                         <div class="col-xs-10 col-xs-offset-1">
                             <div class="row">
-                                <div class="col-xs-5">
+
+                                <div class="col-xs-5" ng-if="a.isHomeless!=true">
                                     Tiempo de vivir en el domicilio:
                                 </div>
+                                <div class="col-xs-5" ng-if="a.isHomeless==true">
+                                    Tiempo en situaci&oacute;n de calle:
+                                </div>
+
                                 <div class="col-xs-7">
                                     <input class="form-control" data-val="true"
                                            data-val-length="Debe tener al menos 1 y m&aacute;ximo 30 caracteres"
@@ -175,8 +198,13 @@
                             <br/>
 
                             <div class="row">
-                                <div class="col-xs-3">
+
+                                <div class="col-xs-3" ng-if="a.isHomeless!=true">
                                     Descripci&oacute;n de c&oacute;mo llegar al domicilio:<br/>
+                                    <label class="info-example">(color de casa, ruta, etc.)</label>
+                                </div>
+                                <div class="col-xs-3" ng-if="a.isHomeless==true">
+                                    Lugar de localizaci&oacute;n
                                     <label class="info-example">(color de casa, ruta, etc.)</label>
                                 </div>
                                 <div class="col-xs-9">
@@ -212,7 +240,7 @@
                             </div>
                             <br/>
 
-                            <div class="row">
+                            <div class="row" ng-show="a.isHomeless!=true">
                                 <div class="col-xs-12">
                                     <div class="widget-header header-color-blue">
                                         <h5 class="bigger lighter">

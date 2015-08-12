@@ -1,16 +1,76 @@
-app.controller('minuteController', function ($scope, $timeout, $sce, $rootScope) {
+window.ptlUmcDependencies.push('ui.bootstrap');
+app.controller('minuteController', function ($scope, $timeout, $sce, $rootScope, $http) {
 
         $scope.minute = {};
         $scope.WaitFor = false;
         $scope.MsgSuccess;
         $scope.MsgError;
         $scope.MsgErrorAssis;
-        $scope.lstAssistantSel = [];
         $scope.isNew = false;
         $scope.successObs = false;
+        $scope.lstAssistantSel = [];
+
+        $scope.getAssistant = function (val) {
+            var url = "getEmployees.json";
+            return $http.get(url, {params: {str: val}})
+                .then(function (response) {
+
+                    for (var x = response.data.length - 1; x > -1; x--) {
+                        if ($scope.findSelAssistant(response.data[x]) == true) {
+                            response.data.splice(x, 1);
+                        }
+                    }
+
+                    return response.data.map(function (item) {
+                        item.desc = item.name + " (" + item.description + ") ";
+                        return item;
+                    });
+                });
+        };
+
+        $scope.getAttendant = function (val) {
+            var url = "getEmployees.json";
+            return $http.get(url, {params: {str: val}})
+                .then(function (response) {
+
+                    return response.data.map(function (item) {
+                        item.desc = item.name + " (" + item.description + ") ";
+                        return item;
+
+                    });
+                });
+        };
+
+        $scope.findSelAssistant = function (obj) {
+            var ret = false;
+            for (var x = 0; x < $scope.lstAssistantSel.length; x++) {
+                if (obj.id === $scope.lstAssistantSel[x].id) {
+                    ret = true;
+                    break;
+                }
+            }
+            return ret;
+        }
+
+        $scope.selAssistant = function (obj) {
+            $scope.MsgErrorAssis = $sce.trustAsHtml("");
+
+            if ($scope.findSelAssistant(obj) == true) {
+                $scope.MsgErrorAssis = $sce.trustAsHtml("El asistente ya ha sido agregado.");
+            } else {
+                $scope.lstAssistantSel.push(obj);
+            }
+
+            $scope.assistantSel = undefined;
+        };
+
+        $scope.removeAssistant = function (idx) {
+            if ($scope.isRH == true && $scope.minute.isFinished == false)
+                $scope.lstAssistantSel.splice(idx, 1);
+        };
+
 
         $scope.init = function () {
-            $scope.fillSelect("minute", "attendant", "lstEmployee", "attendantId");
             if ($scope.minute.assistantsIds != undefined)
                 $scope.lstAssistantSel = JSON.parse($scope.minute.assistantsIds);
 
@@ -36,11 +96,13 @@ app.controller('minuteController', function ($scope, $timeout, $sce, $rootScope)
         };
 
         $scope.validateAssistant = function () {
+            $scope.MsgErrorAssis = $sce.trustAsHtml("");
+
             if (!($scope.lstAssistantSel.length > 0)) {
                 $scope.MsgErrorAssis = $sce.trustAsHtml("Debe seleccionar al menos un asistente.");
                 return false;
             }
-            $scope.MsgErrorAssis = $sce.trustAsHtml("");
+
             return true;
         };
 
@@ -140,6 +202,15 @@ app.controller('minuteController', function ($scope, $timeout, $sce, $rootScope)
                 $scope.WaitFor = false;
                 $scope.MsgSuccess = $sce.trustAsHtml("");
                 $scope.MsgError = $sce.trustAsHtml("Error de red. Por favor intente más tarde.");
+            });
+        };
+
+        $scope.setAgreementFileError = function (msg) {
+            $scope.$apply(function () {
+                $scope.MsgError = $sce.trustAsHtml(msg);
+                $timeout(function () {
+                    $scope.MsgError = $sce.trustAsHtml("");
+                }, 5000)
             });
         };
 

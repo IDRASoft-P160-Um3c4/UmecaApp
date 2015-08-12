@@ -11,14 +11,13 @@ import com.umeca.model.catalog.CatChannelingType;
 import com.umeca.model.catalog.CatInstitutionType;
 import com.umeca.model.catalog.District;
 import com.umeca.model.entities.account.User;
-import com.umeca.model.entities.director.project.Project;
-import com.umeca.model.entities.director.project.ProjectActivity;
-import com.umeca.model.entities.director.project.ProjectActivityModel;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.SelectList;
+import com.umeca.repository.catalog.ChannelingDropTypeRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.ChannelingService;
@@ -31,8 +30,8 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 @Controller
@@ -59,7 +58,9 @@ public class ChannelingController {
 
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusCase",
-                new ArrayList<String>() {{add(Constants.CASE_STATUS_CLOSED);}}, JqGridFilterModel.COMPARE_NOT_IN);
+                new ArrayList<String>() {{
+                    add(Constants.CASE_STATUS_CLOSED);
+                }}, JqGridFilterModel.COMPARE_NOT_IN);
         opts.extraFilters.add(extraFilter);
         extraFilter = new JqGridRulesModel("isTerminated", "1", JqGridFilterModel.COMPARE_EQUAL);
         extraFilter.setbData(true);
@@ -124,10 +125,12 @@ public class ChannelingController {
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
                     add(r.get("consecutive"));
+                    add(r.get("isAuthorizeToDrop"));
                     add(joinChTy.get("name"));
                     add(r.get("name"));
                     add(joinInTy.get("name"));
                     add(r.get("institutionName"));
+                    add(r.get("isFulfilled"));
                 }};
             }
 
@@ -139,6 +142,9 @@ public class ChannelingController {
                     return r.join("channelingType").get("name");
                 if (field.equals("institutionType"))
                     return r.join("institutionType").get("name");
+                if (field.equals("isFulfilledTx"))
+                    return r.get("isFulfilled");
+
                 return null;
             }
         }, Channeling.class, ChannelingView.class);
@@ -150,13 +156,15 @@ public class ChannelingController {
     ChannelingService channelingService;
 
     @RequestMapping(value = "/supervisor/channeling/upsert", method = RequestMethod.POST)
-    public @ResponseBody ModelAndView insert(@RequestParam(required = true) Long id, Long channelingId) {
+    public
+    @ResponseBody
+    ModelAndView insert(@RequestParam(required = true) Long id, Long channelingId) {
         ModelAndView model = new ModelAndView("/supervisor/channeling/upsert");
 
         ChannelingModel channeling;
-        if(channelingId == null){
+        if (channelingId == null) {
             channeling = channelingService.getChannelingInfoByCaseId(id);
-        }else{
+        } else {
             channeling = channelingService.getChannelingInfoByCaseIdAndChannelingId(id, channelingId);
         }
 
@@ -170,7 +178,9 @@ public class ChannelingController {
 
 
     @RequestMapping(value = "/supervisor/channeling/doUpsert", method = RequestMethod.POST)
-    public @ResponseBody ResponseMessage doUpsert(@ModelAttribute final ChannelingModel model) {
+    public
+    @ResponseBody
+    ResponseMessage doUpsert(@ModelAttribute final ChannelingModel model) {
         ResponseMessage response = new ResponseMessage();
 
         try {
@@ -191,9 +201,9 @@ public class ChannelingController {
     }
 
 
-
     @RequestMapping(value = "/supervisor/channeling/doObsolete", method = RequestMethod.POST)
-    public @ResponseBody
+    public
+    @ResponseBody
     ResponseMessage doObsolete(@RequestParam(required = true) Long id, @RequestParam(required = true) Long channelingId) {
 
         ResponseMessage response = new ResponseMessage();
@@ -214,5 +224,177 @@ public class ChannelingController {
             return response;
         }
     }
+
+
+    @Autowired
+    ChannelingDropTypeRepository channelingDropTypeRepository;
+
+    @RequestMapping(value = "/supervisor/channeling/requestDrop", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ModelAndView requestDrop(@RequestParam(required = true) Long id, @RequestParam(required = true) Long channelingId) {
+        ModelAndView model = new ModelAndView("/supervisor/channeling/requestDrop");
+
+        ChannelingModel channeling;
+        channeling = channelingService.getChannelingInfoByCaseIdAndChannelingId(id, channelingId);
+
+        Gson gson = new Gson();
+        String sObject = gson.toJson(channeling);
+        model.addObject("channeling", sObject);
+
+        List<SelectList> lstChannelingDrop = channelingDropTypeRepository.findNotObsolete();
+        model.addObject("lstChannelingDropType", gson.toJson(lstChannelingDrop));
+
+        return model;
+    }
+
+    @RequestMapping(value = "/supervisor/channeling/doRequestDrop", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doRequestDrop(@ModelAttribute final ChannelingDropModel model) {
+
+        ResponseMessage response = new ResponseMessage();
+        try {
+
+            User user = new User();
+            if (userService.isValidUser(user, response) == false)
+                return response;
+
+            channelingService.requestDrop(model, user, response, userService);
+
+            return response;
+
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doRequestDrop", userService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/supervisor/channeling/printSheet", method = RequestMethod.GET)
+    public ModelAndView printSheet(@RequestParam(required = true) Long id, HttpServletResponse response) {
+
+        ModelAndView model = null;
+        try {
+            ChannelingModelSheet sheetInfo = channelingService.getChannelingSheetById(id);
+
+            if (sheetInfo == null) {
+                model = new ModelAndView("/supervisor/channeling/notSheet");
+                response.setContentType("application/force-download");
+                response.setHeader("Content-Disposition", "attachment; filename=\"sin-oficio-canalización.doc\"");
+                return model;
+            }
+
+            model = new ModelAndView("/supervisor/channeling/printSheet");
+            model.addObject("data", sheetInfo);
+            response.setContentType("application/force-download");
+            response.setHeader("Content-Disposition", "attachment; filename=\"oficio-canalización-" +
+                    sheetInfo.getIdMP() + "-" + sheetInfo.getConsecutiveTx() + ".doc\"");
+
+            channelingService.addLogChannelingDoc(sheetInfo.getIdCase(),sheetInfo.getChannelingType());
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "printSheet", userService);
+            model = null;
+        }
+        return model;
+    }
+
+    @RequestMapping(value = "/supervisor/channeling/reportAttendance", method = RequestMethod.GET)
+    public ModelAndView reportAttendance(@RequestParam(required = true) Long id, HttpServletResponse response) {
+
+        ModelAndView model = null;
+        try {
+            ChannelingModelSheet sheetInfo = channelingService.getChannelingSheetById(id);
+
+            if (sheetInfo == null) {
+                model = new ModelAndView("/supervisor/channeling/notReport");
+                response.setContentType("application/force-download");
+                response.setHeader("Content-Disposition", "attachment; filename=\"sin-reporte-asistencias.doc\"");
+                return model;
+            }
+
+            List<ActivityChannelingModel> lstActivitiesChanneling = channelingService.getLstActivitiesChanneling(id);
+
+            if (lstActivitiesChanneling == null ||  lstActivitiesChanneling.size() < 1) {
+                model = new ModelAndView("/supervisor/channeling/notReport");
+                response.setContentType("application/force-download");
+                response.setHeader("Content-Disposition", "attachment; filename=\"sin-actividades-reporte-asistencias.doc\"");
+                return model;
+            }
+
+            List<ActivityChannelingModel> lstActivities = new ArrayList<>();
+            List<ActivityChannelingModel> lstActivitiesAttendance = new ArrayList<>();
+            List<ActivityChannelingModel> lstActivitiesNotAttendance = new ArrayList<>();
+
+            ActivityChannelingModel act;
+            Integer attendance;
+
+            for(int i = 0, len = lstActivitiesChanneling.size(); i<len; i++){
+                act = lstActivitiesChanneling.get(i);
+                attendance = act.getAttendance();
+
+                if(attendance == -1)
+                    lstActivities.add(act);
+                else if(attendance == 0)
+                    lstActivitiesNotAttendance.add(act);
+                else
+                    lstActivitiesAttendance.add(act);
+            }
+
+            model = new ModelAndView("/supervisor/channeling/reportAttendance");
+            model.addObject("data", sheetInfo);
+            model.addObject("lstActAtt", lstActivitiesAttendance);
+            model.addObject("lstActNoAtt", lstActivitiesNotAttendance);
+            model.addObject("lstActNa", lstActivities);
+
+            response.setContentType("application/force-download");
+            response.setHeader("Content-Disposition", "attachment; filename=\"reporte-asistencias-" +
+                    sheetInfo.getIdMP() + "-" + sheetInfo.getConsecutiveTx() + ".doc\"");
+
+            channelingService.addLogChannelingDoc(sheetInfo.getIdCase(),sheetInfo.getChannelingType());
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "reportAttendance", userService);
+            model = null;
+        }
+        return model;
+    }
+
+    @RequestMapping(value = "/supervisor/channeling/isFulfilled", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ModelAndView isFulfilled(@RequestParam(required = true) Long id) {
+        ModelAndView model = new ModelAndView("/supervisor/channeling/isFulfilled");
+        Boolean isFulfilled = channelingService.isFulfilledByChannelingId(id);
+        model.addObject("channelingId", id);
+        model.addObject("isFulfilled", (isFulfilled == null ? false : isFulfilled));
+
+        return model;
+    }
+
+    @RequestMapping(value = "/supervisor/channeling/doIsFulfilled", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doIsFulfilled(@ModelAttribute final ChannelingFulfilledModel model) {
+
+        ResponseMessage response = new ResponseMessage();
+        try {
+
+            User user = new User();
+            if (userService.isValidUser(user, response) == false)
+                return response;
+
+            channelingService.doIsFulfilled(model, user, response, userService);
+
+            return response;
+
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doIsFulfilled", userService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+            return response;
+        }
+    }
+
 
 }

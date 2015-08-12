@@ -16,4 +16,7 @@ public interface CountryRepository extends JpaRepository<Country,Long> {
 
     @Query("select c from Country as c order by c.name")
     List<Country> findAllOrderByName();
+
+    @Query("select c from Country as c where c.name = :countryName")
+    Country findByName(@Param("countryName")String countryName);
 }

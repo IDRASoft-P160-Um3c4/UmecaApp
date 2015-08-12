@@ -41,5 +41,22 @@ public class ConstantsLogCase {
     public static final String EDIT_FRAMING_MEETING = "EDIT_FRAMING_MEETING";
     public static final String TT_EDIT_FRAMING_MEETING = "Se modifica entrevista de encuadre";
     public static final String ACT_EDIT_FRAMING_MEETING = "Modificaci&oacute;n de entrevista de encuadre";
+    public static final String ASSIGNMENT_SUPERVISOR_CASE = "ASSIGNMENT_SUPERVISOR_CASE";
+    public static final String ACT_ASSIGNMENT_SUPERVISOR_CASE = "Se ha asignado un supervisor al caso";
+    public static final String TERMINATE_FRAMING_MEETING = "TERMINATE_FRAMING_MEETING";
+    public static final String T_CREATE_FRAMING_MEETING = "Se crea entrevista de encuadre";
+
+    public static final String T_ASSIGN_FRAMING_MEETING = "Supervisor asignado para entrevista de encuadre";
+    public static final String CODE_ASSIGN_FRAMING_MEETING = "ACT_ASSIGN_FRAMING_MEETING";
+    public static final String ACT_ASSIGN_FRAMING_MEETING = "Se asgina supervisor para realizar la entrevista de encuadre";
+
+    public static final String T_CHANNELING = "Actividad de canalizaci&oacute;n";
+    public static final String CODE_CHANNELING = "CHANNELING_ACTIVITY";
+    public static final String ACT_CHANNELING = "Se ha registrado una actividad de canalizaci&oacute;n.";
+
+    public static final String T_SHEET_CHANNELING = "Oficio de canalizaci&oacute;n";
+    public static final String CODE_SHEET_CHANNELING = "SHEET_CHANNELING_ACTIVITY";
+    public static final String ACT_SHEET_CHANNELING = "Se ha generado un oficio de canalizaci&oacute;.";
+
 
 }

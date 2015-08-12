@@ -99,7 +99,7 @@
                                          ng-model="school.address"
                                          ng-init='school.address = "${(m.school.address == null) ? "" : m.school.address}"'
                                          data-val="true" data-val-required="La direcci&oacute;n es un campo requerido"
-                                         data-val-length="Debe tener al menos 6 y m�ximo 500 caracteres"
+                                         data-val-length="Debe tener al menos 6 y m&aacute;ximo 500 caracteres"
                                          data-val-length-max="500"
                                          data-val-length-min="6">${m.school.address}</textarea>
             <span class="field-validation-valid"
@@ -195,7 +195,7 @@
                        ng-show="verification" id-code="school.schedule"></i>
                     <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                        ng-click="doConfirmVerifNotKnow('school.schedule')"></i>
-                    <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
+                    <i class="red icon-list icon-only bigger-120" ng-show="selectSource"
                        ng-click="showChoices('school.schedule')"></i>
                     &nbsp; <i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h6>
             </div>

@@ -37,26 +37,68 @@
             window.showUpsert(null, "#angJsjqGridId", "<c:url value='/supervisor/hearingFormat/newConditionalReprieve.html'/>", "#GridCasesId");
         };
 
+        assignSupervisor = function (id) {
+            window.showUpsert(id, "#angJsjqGridId", "<c:url value='/supervisor/hearingFormat/assignSupervisor.html'/>", "#GridCasesId");
+        };
+
         window.obsoleteCase = function (id) {
             window.showObsolete(id, "#angJsjqGridId", "<c:url value='/supervisor/hearingFormat/obsoleteCase.json'/>", "#GridCasesId");
         };
         $(document).ready(function () {
             jQuery("#GridCasesId").jqGrid({
                 url: '<c:url value='/supervisor/hearingFormat/listCases.json' />',
-                autoencode:true,
+                autoencode: true,
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'idStatus', 'Carpeta <br/>de Investigaci&oacute;n', 'Carpeta Judicial', 'Nombre completo', 'Estatus', 'Acci&oacute;n','framingMeetingId','idTR'],
+                colNames: ['ID', 'idStatus', 'Carpeta <br/>de Investigaci&oacute;n', 'Carpeta Judicial', 'Nombre completo', 'Estatus', 'Asignado a ', 'Acci&oacute;n', 'framingMeetingId', 'idTR', 'hasHF'],
                 colModel: [
-                    { name: 'id', index: 'id', hidden: true },
-                    { name: 'status', index: 'status', hidden: true },
-                    { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'idMP', index: 'idMP', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'fullName', index: 'fullName', width: 250, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'statusDesc', index: 'statusDesc', width: 350, align: "center", search: false},
-                    { name: 'Action', width: 70, align: "center", sortable: false, search: false, formatter:window.actionFormatter },
-                    { name: 'framingMeetingId', index: 'framingMeetingId', hidden: true },
-                    { name: 'idTR', index: 'idTR', hidden: true }
+                    {name: 'id', index: 'id', hidden: true},
+                    {name: 'status', index: 'status', hidden: true},
+                    {
+                        name: 'idFolder',
+                        index: 'idFolder',
+                        width: 200,
+                        align: "center",
+                        sorttype: 'string',
+                        searchoptions: {sopt: ['bw']}
+                    },
+                    {
+                        name: 'idMP',
+                        index: 'idMP',
+                        width: 150,
+                        align: "center",
+                        sorttype: 'string',
+                        searchoptions: {sopt: ['bw']}
+                    },
+                    {
+                        name: 'fullName',
+                        index: 'fullName',
+                        width: 250,
+                        align: "center",
+                        sorttype: 'string',
+                        searchoptions: {sopt: ['bw']}
+                    },
+                    {name: 'statusDesc', index: 'statusDesc', width: 200, align: "center", search: false},
+                    {
+                        name: 'assignedSupervisorName',
+                        index: 'assignedSupervisorName',
+                        width: 150,
+                        align: "center",
+                        sortable: false,
+                        search: false,
+                        formatter: window.actionFormatter
+                    },
+                    {
+                        name: 'Action',
+                        width: 70,
+                        align: "center",
+                        sortable: false,
+                        search: false,
+                        formatter: window.actionFormatter
+                    },
+                    {name: 'framingMeetingId', index: 'framingMeetingId', hidden: true},
+                    {name: 'idTR', index: 'idTR', hidden: true},
+                    {name: 'hasHF', index: 'hasHF', hidden: true},
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],
@@ -72,9 +114,14 @@
                     var ids = $(this).jqGrid('getDataIDs');
                     var status = $(this).jqGrid('getCol', 'status', false);
 
+                    var hasHF = $(this).jqGrid('getCol', 'hasHF', false);
+                    var assignedSupervisor = $(this).jqGrid('getCol', 'assignedSupervisorName', false);
+
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
                         var be = "";
+                        var bs = "";
+
                         switch (status[i]) {
 
                             case 'ST_CASE_TECHNICAL_REVIEW_COMPLETE':
@@ -92,26 +139,32 @@
                             case 'ST_CASE_HEARING_FORMAT_END':
                                 be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formatos de audiencia\" onclick=\"showHearingFormats('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
                                 break;
-                            case 'ST_CASE_PRE_CLOSED':
-                                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formatos de audiencia\" onclick=\"showHearingFormats('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
-                                break;
                             case 'ST_CASE_FRAMING_MEETING_INCOMPLETE':
                                 be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formatos de audiencia\" onclick=\"showHearingFormats('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
                                 break;
                             case 'ST_CASE_FRAMING_MEETING_COMPLETE':
                                 be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formatos de audiencia\" onclick=\"showHearingFormats('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
                                 break;
-                            /* default : //eliminar
-                             be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formatos de audiencia\" onclick=\"showHearingFormats('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
-                             break;*/
                         }
                         var row = $(this).getRowData(cl);
                         var framingMeetingId = row.framingMeetingId;
                         var idTR = row.idTR;
-                        if(framingMeetingId == '' && idTR == ''){
+                        if (framingMeetingId == '' && idTR == '') {
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar caso\" onclick=\"obsoleteCase('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                         }
-                        $(this).jqGrid('setRowData', ids[i], { Action: be });
+
+                        if (hasHF[i] == 'true') {
+                            if (assignedSupervisor[i] != 'null') {
+                                bs = assignedSupervisor[i];
+                            } else {
+                                bs = "Sin asignar";
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Asignar supervisor\" onclick=\"assignSupervisor('" + cl + "');\"><span class=\"glyphicon glyphicon-user\"></span></a>";
+                            }
+                        } else {
+                            bs = "Sin asignar";
+                        }
+                        $(this).jqGrid('setRowData', ids[i], {Action: be});
+                        $(this).jqGrid('setRowData', ids[i], {assignedSupervisorName: bs});
                     }
                 },
                 loadComplete: function () {
@@ -128,7 +181,8 @@
                 add: true, addfunc: newCaseConditionalReprieve, addicon: 'icon-plus-sign purple',
                 refresh: true, refreshicon: 'icon-refresh green',
                 del: false,
-                search: false});
+                search: false
+            });
 
             jQuery("#GridCasesId").jqGrid('navSeparatorAdd', '#GridPager');
             jQuery("#GridCasesId").jqGrid('navButtonAdd', "#GridPager",
@@ -142,7 +196,8 @@
                                 $("#GridCasesId").jqGrid('toExcelFile', {nombre: "datosXls", formato: "excel"});
                             } catch (e) {
                             }
-                        }});
+                        }
+                    });
 
             jQuery("#GridCasesId").jqGrid('filterToolbar', {
                 stringResult: true,

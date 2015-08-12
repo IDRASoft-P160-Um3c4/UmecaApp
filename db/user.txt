@@ -10,3 +10,5 @@ id|username|password|email|fullname|enabled|code role
 9|supervisorC|$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm|supervisor@idrasoft.com.mx|SuperC|true|ROLE_SUPERVISOR
 10|supervisorD|$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm|supervisor@idrasoft.com.mx|SuperD|true|ROLE_SUPERVISOR
 11|recursos|$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm|supervisor@idrasoft.com.mx|RecursosH|true|ROLE_HUMAN_RESOURCES
+12|canalizaciones|$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm|canalizaciones@idrasoft.com.mx|Mr. Canalización|true|ROLE_CHANNELING_MANAGER
+13|procuraduria|$2a$10$qLDt3VE0hNlNagllqdl1AOVM3qeOJwhVqsOcpzITBYFYYRHgPYKRm|procuraduria@idrasoft.com.mx|Registro Procuraduría|true|ROLE_DETENTION_RECORD

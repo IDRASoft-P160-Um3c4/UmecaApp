@@ -256,4 +256,5 @@ INSERT INTO cat_country (id_country, name, alpha2,alpha3,latitude, longitude) VA
 (876, 'Wallis and Futuna', 'WF', 'WLF', -13.3, -176.2),
 (882, 'Samoa', 'WS', 'WSM', -13.5833, -172.3333),
 (887, 'Yeme', 'YE', 'YEM', 15, 48),
-(894, 'Zambia', 'ZM', 'ZMB', -15, 30);
+(894, 'Zambia', 'ZM', 'ZMB', -15, 30),
+(895, 'No proporcionado', 'NA', 'NA', 23, -102);

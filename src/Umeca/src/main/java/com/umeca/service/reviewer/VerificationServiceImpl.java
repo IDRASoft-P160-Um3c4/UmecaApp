@@ -12,6 +12,7 @@ import com.umeca.model.entities.reviewer.View.ChoiceView;
 import com.umeca.model.entities.reviewer.View.SearchToChoiceIds;
 import com.umeca.model.entities.reviewer.dto.*;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
@@ -55,9 +56,10 @@ public class VerificationServiceImpl implements VerificationService {
     UserRepository userRepository;
     @Autowired
     SourceVerificationRepository sourceVerificationRepository;
-
     @Autowired
     SharedLogExceptionService logException;
+    @Autowired
+    InformationAvailabilityRepository informationAvailabilityRepository;
 
     @Override
     public void createVerification(Case c) {
@@ -126,7 +128,7 @@ public class VerificationServiceImpl implements VerificationService {
             phone = i.getCelPhone();
         }
         svImputed.setPhone(phone);
-        svImputed.setAge(userService.calculateAge(i.getBirthDate()));
+        svImputed.setAge(Integer.toString(userService.calculateAge(i.getBirthDate())));
         svImputed.setAddress(addressImputed);
         svImputed.setVisible(Boolean.FALSE);
         svImputed.setAuthorized(Boolean.TRUE);
@@ -590,11 +592,14 @@ public class VerificationServiceImpl implements VerificationService {
                 Verification verification = caseDetention.getVerification();
                 verification.setStatus(statusVerificationRepository.findByCode(Constants.VERIFICATION_STATUS_COMPLETE));
                 verification.setDateComplete(new Date());
+
                 /*SE PLANCHA LA INFO DEL MEETING CON LA INFO DE LA VERIFICACION*/
                 Imputed i = caseDetention.getMeeting().getImputed();
                 i.setName(verification.getMeetingVerified().getImputed().getName());
                 i.setLastNameP(verification.getMeetingVerified().getImputed().getLastNameP());
                 i.setLastNameM(verification.getMeetingVerified().getImputed().getLastNameM());
+                i.setBirthDate(verification.getMeetingVerified().getImputed().getBirthDate());
+                i.setFoneticString(sharedUserService.getFoneticByName(i.getName(),i.getLastNameP(),i.getLastNameM()));
 
                 imputedRepository.save(i);
 
@@ -611,6 +616,7 @@ public class VerificationServiceImpl implements VerificationService {
 
                 addressRepository.save(aM);
                 /*SE PLANCHA LA INFO DEL MEETING CON LA INFO DE LA VERIFICACION*/
+
                 caseRepository.save(caseDetention);
                 return new ResponseMessage(false, "Se ha terminado con &eacute;xito la verificaci&oacute;n");
             }
@@ -861,6 +867,9 @@ public class VerificationServiceImpl implements VerificationService {
             cdtoList.add(new CatalogDto(r.getId(), r.getName(), r.getSpecification()));
         }
         model.addObject("listRel", gson.toJson(cdtoList));
+
+        List<SelectList> lstInfoAvail = informationAvailabilityRepository.findNoObsolete();
+        model.addObject("lstInfoAvail", gson.toJson(lstInfoAvail));
     }
 
     @Autowired
@@ -1311,6 +1320,13 @@ public class VerificationServiceImpl implements VerificationService {
                 ca.setName(ht.getName());
                 ca.setId(ht.getId());
                 fms.setValue(ht.getName());
+                fms.setJsonValue(gson.toJson(ca));
+                break;
+            case "InformationAvailability":
+                InformationAvailability ia = informationAvailabilityRepository.findOne(idCat);
+                ca.setName(ia.getName());
+                ca.setId(ia.getId());
+                fms.setValue(ia.getName());
                 fms.setJsonValue(gson.toJson(ca));
                 break;
             case "Location":

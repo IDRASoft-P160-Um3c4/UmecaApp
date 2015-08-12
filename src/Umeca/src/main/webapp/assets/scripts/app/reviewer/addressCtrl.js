@@ -46,6 +46,8 @@ app.controller('addressController', function($scope, $timeout, $http,$rootScope)
             }
         }
 
+        //if($scope.a.isHomeless === undefined)
+        //    $scope.a.isHomeless = false;
     };
 
     $scope.showChoicesSection = function(idSection, idList, idSource, sectionName, listView){

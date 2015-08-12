@@ -65,6 +65,25 @@ app.controller('personalDataFMController', function ($scope, $timeout, $http, $q
                 }
         };
 
+        $scope.fillBirthInfo = function () {
+
+            if ($scope.lstInfoAvail === undefined || (!$scope.lstInfoAvail.length > 0))
+                return;
+
+            if ($scope.pd.birthInfoId > 0) {
+
+                for (var i = 0; i < $scope.lstInfoAvail.length; i++) {
+                    if ($scope.pd.birthInfoId == $scope.lstInfoAvail[i].id) {
+                        $scope.pd.birthInfo = $scope.lstInfoAvail[i];
+                        break;
+                    }
+                }
+            }
+            else {
+                $scope.pd.birthInfo = $scope.lstInfoAvail[0];
+            }
+        };
+
         $scope.loadPersonalData = function () {
 
             var currentTimeout = null;
@@ -99,6 +118,9 @@ app.controller('personalDataFMController', function ($scope, $timeout, $http, $q
             $scope.pd.gender = data.gender;
             $scope.pd.maritalStatus = data.maritalStatus;
             $scope.pd.maritalStatusYears = data.maritalStatusYears;
+
+            $scope.pd.birthInfoId = data.birthInfoId;
+            $scope.fillBirthInfo();
             $scope.pd.birthCountryId = data.birthCountryId;
             $scope.fillCountry();
             $scope.pd.birthState = data.birthState;
@@ -252,7 +274,7 @@ app.controller('personalDataFMController', function ($scope, $timeout, $http, $q
 
         $scope.cancel = function () {
             $scope.Model.dlg.modal('hide');
-            $scope.Model.def.reject({ isCancel: true });
+            $scope.Model.def.reject({isCancel: true});
         };
 
         $scope.setDlg = function (dlg, urlToSubmit) {

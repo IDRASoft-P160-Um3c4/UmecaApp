@@ -8,6 +8,7 @@ import com.umeca.model.entities.reviewer.Drug;
 import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.reviewer.dto.JobDto;
 import com.umeca.model.entities.supervisor.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -15,7 +16,6 @@ import java.util.List;
  * Created by Vmware on 05/06/2014.
  */
 public interface FramingMeetingService {
-    ResponseMessage save(FramingMeeting framingMeeting);
 
     FramingMeetingView fillForView(Case existCase);
 
@@ -52,8 +52,6 @@ public interface FramingMeetingService {
 
     ResponseMessage doTerminate(Long idCase);
 
-    void fillSaveVerifiedInfo(FramingMeeting existFraming, Meeting verifMeeting);
-
     ResponseMessage upsertComments(Long idCase, Integer commentType, String comments);
 
     FramingActivityView fillActivityForView(Long idActivity, Long idCase);
@@ -79,5 +77,9 @@ public interface FramingMeetingService {
     FramingMeetingLog getFramingPersonalDataLog(FramingMeeting framingMeeting, FramingPersonalDataView personalData, String logType);
 
     FramingMeetingLog getFramingAddressLog(FramingMeeting framingMeeting, FramingAddressDto framingAddressDto, String logType);
+
+    FramingMeeting createFramingMeeting(Long id, ModelAndView model);
+
+    ResponseMessage savePersonalData(Long idCase, FramingPersonalDataView view);
 
 }

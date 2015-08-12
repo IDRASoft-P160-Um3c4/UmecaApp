@@ -39,15 +39,20 @@
 <table border="5">
     <c:forEach var="section" items="${data.sections}">
         <tr>
-            <td>${section.name}</td>
+            <td><h4>${section.name}</h4></td>
             <td>
                 <table style="width:100%;">
                     <c:forEach var="value" items="${section.values}">
                         <tr>
-                            <td>
-                                <div style="width:100%;border-width:1px;border-color:blue;border-style:none none double none;">
-                                        ${value}
-                                </div>
+                                <%--<td>--%>
+                                <%--<div style="width:100%;border-width:1px;border-color:blue;border-style:none none double none;">--%>
+                                ${value}
+                                <%--</div>--%>
+                                <%--</td>--%>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <hr>
                             </td>
                         </tr>
                     </c:forEach>

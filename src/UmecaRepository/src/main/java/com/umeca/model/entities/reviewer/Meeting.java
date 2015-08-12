@@ -38,6 +38,9 @@ public class Meeting {
     private Imputed imputed;
 
     @OneToOne(mappedBy="meeting", cascade={CascadeType.ALL})
+    private ImputedInitial imputedInitial;
+
+    @OneToOne(mappedBy="meeting", cascade={CascadeType.ALL})
     private SocialNetwork socialNetwork;
 
     @OneToMany(mappedBy="meeting", cascade={CascadeType.ALL})
@@ -70,6 +73,9 @@ public class Meeting {
     @ManyToOne(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name="id_status", nullable = false)
     private StatusMeeting status;
+
+    @Column(name="decline_reason", nullable = true, length = 500)
+    private String declineReason;
 
     @Column(name="meeting_type")
     private Integer meetingType;
@@ -343,5 +349,21 @@ public class Meeting {
 
     public void setDateTerminateLegal(Date dateTerminateLegal) {
         this.dateTerminateLegal = dateTerminateLegal;
+    }
+
+    public ImputedInitial getImputedInitial() {
+        return imputedInitial;
+    }
+
+    public void setImputedInitial(ImputedInitial imputedInitial) {
+        this.imputedInitial = imputedInitial;
+    }
+
+    public String getDeclineReason() {
+        return declineReason;
+    }
+
+    public void setDeclineReason(String declineReason) {
+        this.declineReason = declineReason;
     }
 }

@@ -13,13 +13,27 @@ public class RolActivityResponse {
     private Calendar startCalendar;
     private Long supervisorId;
     private String status;
+    private Long evaluatorId;
+    private String place;
+    private String activityName;
 
-    public RolActivityResponse(Long rolActivityId, Calendar endCalendar, Calendar startCalendar, Long supervisorId, String status){
+    public RolActivityResponse(Long rolActivityId, Calendar endCalendar, Calendar startCalendar, Long supervisorId, String status ,String activityName){
         this.rolActivityId = rolActivityId;
         this.endCalendar = endCalendar;
         this.startCalendar = startCalendar;
         this.supervisorId = supervisorId;
         this.status = status;
+        this.activityName = activityName;
+    }
+
+    public RolActivityResponse(Long rolActivityId, Calendar endCalendar, Calendar startCalendar, Long evaluatorId, String status, String place, String activityName){
+        this.rolActivityId = rolActivityId;
+        this.endCalendar = endCalendar;
+        this.startCalendar = startCalendar;
+        this.status = status;
+        this.evaluatorId = evaluatorId;
+        this.place = place;
+        this.activityName = activityName;
     }
 
     public Long getRolActivityId() {
@@ -90,5 +104,30 @@ public class RolActivityResponse {
             return start;
         start = CalendarExt.calendarToString(startCalendar);
         return start;
+    }
+
+    public Long getEvaluatorId() {
+        return evaluatorId;
+    }
+
+    public void setEvaluatorId(Long evaluatorId) {
+        this.evaluatorId = evaluatorId;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+
+    public String getActivityName() {
+        return activityName;
+    }
+
+    public void setActivityName(String activityName) {
+        this.activityName = activityName;
     }
 }

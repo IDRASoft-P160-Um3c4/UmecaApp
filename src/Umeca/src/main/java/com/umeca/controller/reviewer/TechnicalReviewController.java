@@ -234,8 +234,6 @@ public class TechnicalReviewController {
         model.addObject("data", dataFile);
         response.setContentType("application/force-download");
         response.setHeader("Content-Disposition", "attachment; filename=\"formato_de_opinion.doc\"");
-
-
         return model;
     }
 

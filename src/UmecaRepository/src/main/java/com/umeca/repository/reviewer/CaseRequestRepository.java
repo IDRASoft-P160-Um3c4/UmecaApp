@@ -16,8 +16,8 @@ public interface CaseRequestRepository extends JpaRepository<CaseRequest,Long> {
     @Query("select new com.umeca.model.entities.director.view.CaseRequestDto(" +
             "status.description," +
             "cr.requestType.description," +
-            "rm.text," +
-            "respm.text," +
+            "rm.body," +
+            "respm.body," +
             "rm.creationDate," +
             "respm.creationDate," +
             "rms.fullname," +

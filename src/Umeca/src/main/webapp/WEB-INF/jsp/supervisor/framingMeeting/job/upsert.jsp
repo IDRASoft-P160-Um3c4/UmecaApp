@@ -215,14 +215,14 @@
                     <div class="col-xs-12">
                         <div class="col-xs-6">
                             <label>Inicio</label>
-                            <br/>
+                            <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
 
                             <div class="input-group">
                                 <input class="form-control date-picker"
                                        id="start" name="start"
                                        type="text"
                                        data-date-format="yyyy/mm/dd"
-                                       readonly ng-model="job.start"
+                                       ng-model="job.start"
                                        data-val="true"
                                        data-val-required="Inicio es un campo requerido"/>
                                                 <span class="input-group-addon">
@@ -336,14 +336,14 @@
                     <div class="col-xs-12">
                         <div class="col-xs-6">
                             <label>Inicio</label>
-                            <br/>
+                            <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
 
                             <div class="input-group">
                                 <input class="form-control date-picker"
                                        id="startPrev" name="startPrev"
                                        type="text"
                                        data-date-format="yyyy/mm/dd"
-                                       readonly ng-model="job.startPrev"
+                                       ng-model="job.startPrev"
                                        data-val="true"
                                        data-val-required="Inicio es un campo requerido"/>
                                                 <span class="input-group-addon">
@@ -356,14 +356,14 @@
 
                         <div class="col-xs-6">
                             <label>Fin</label>
-                            <br/>
+                            <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
 
                             <div class="input-group">
                                 <input class="form-control date-picker"
                                        id="end" name="end"
                                        type="text"
                                        data-date-format="yyyy/mm/dd"
-                                       readonly ng-model="job.end"
+                                       ng-model="job.end"
                                        data-val="true"
                                        data-val-required="Fin es un campo requerido"/>
                                                 <span class="input-group-addon">

@@ -2,10 +2,7 @@ package com.umeca.service.reviewer;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.umeca.model.catalog.Activity;
-import com.umeca.model.catalog.ImmigrationDocument;
-import com.umeca.model.catalog.Location;
-import com.umeca.model.catalog.Relationship;
+import com.umeca.model.catalog.*;
 import com.umeca.model.catalog.dto.AddressDto;
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.catalog.dto.DegreeDto;
@@ -43,6 +40,9 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
 
     @Autowired
     SharedUserService sharedUserService;
+
+    @Autowired
+    InformationAvailabilityRepository informationAvailabilityRepository;
 
     @Override
     public List<FieldMeetingSource> getValueOfMeetingByCode(String code, Meeting m, FieldMeetingSource template) {
@@ -1139,7 +1139,6 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
             Gson gson = new Gson();
             switch (name[0]) {
                 case "imputed":
-                    CatalogDto cdto = new CatalogDto();
                     if (meeting.getImputed() == null) {
                         meeting.setImputed(new Imputed());
                         meeting.getImputed().setMeeting(meeting);
@@ -1189,7 +1188,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             break;
                         case "yearsMaritalStatus":
                             if (fms.getJsonValue() != null && !fms.getJsonValue().equals("")) {
-                                meeting.getImputed().setYearsMaritalStatus(Integer.parseInt(fms.getJsonValue()));
+                                meeting.getImputed().setYearsMaritalStatus(fms.getJsonValue());
                             }
                             break;
                         case "boys":
@@ -1197,6 +1196,12 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             break;
                         case "dependentBoys":
                             meeting.getImputed().setDependentBoys(Integer.parseInt(fms.getJsonValue()));
+                            break;
+                        case "birthInfo":
+                            CatalogDto cInfoAvail = gson.fromJson(fms.getJsonValue(), CatalogDto.class);
+                            if (cInfoAvail != null && cInfoAvail.getId() != null) {
+                                meeting.getImputed().setBirthInfo(informationAvailabilityRepository.findOne(cInfoAvail.getId()));
+                            }
                             break;
                         case "birthCountry":
                             CatalogDto cCountry = gson.fromJson(fms.getJsonValue(), CatalogDto.class);
@@ -1271,7 +1276,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
 
                     }
                     for (ImputedHome ih : meeting.getImputedHomes()) {
-                        CatalogDto cDto = new CatalogDto();
+                        CatalogDto cdto = new CatalogDto();
                         if (ih.getIdAux().equals(fms.getIdFieldList())) {
                             switch (name[1]) {
                                 case "address":
@@ -1394,7 +1399,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                         }
                                         break;
                                     case "age":
-                                        psn.setAge(Integer.parseInt(fms.getJsonValue()));
+                                        psn.setAge(fms.getJsonValue());
                                         break;
                                     case "dependent":
                                         cDto = gson.fromJson(fms.getJsonValue(), CatalogDto.class);
@@ -1479,7 +1484,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                     }
                                     break;
                                 case "age":
-                                    r.setAge(Integer.parseInt(fms.getJsonValue()));
+                                    r.setAge(fms.getJsonValue());
                                     break;
                                 case "address":
                                     r.setAddress(fms.getJsonValue());
@@ -1548,7 +1553,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                                     j.setStart(dateS);
                                     break;
                                 case "salaryWeek":
-                                    j.setSalaryWeek(Float.parseFloat(fms.getJsonValue()));
+                                    j.setSalaryWeek(fms.getJsonValue());
                                     break;
                                 case "startPrev":
                                     Date date = new Date();

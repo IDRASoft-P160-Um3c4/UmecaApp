@@ -15,7 +15,7 @@ import java.util.List;
 public class SourceVerificationDto {
     private Long id;
     private String fullName;
-    private Integer age;
+    private String age;
     private String relationship;
     private String address;
     private String phone;
@@ -54,14 +54,6 @@ public class SourceVerificationDto {
         this.fullName = fullName;
     }
 
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
     public String getRelationship() {
         return relationship;
     }
@@ -92,5 +84,13 @@ public class SourceVerificationDto {
 
     public void setSections(List<Section> sections) {
         this.sections = sections;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
     }
 }

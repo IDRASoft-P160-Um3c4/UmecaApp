@@ -12,13 +12,14 @@ public class FramingMeetingLog {
 
     @Id
     @GeneratedValue
-    @Column(name = "id_framing_meeting_goal")
+    @Column(name = "id_framing_meeting_goal", nullable = false)
     private Long id;
 
     @Column(name = "name")
     private String title;
 
-    @Column(name = "final_value", length = 2500)
+    @Lob
+    @Column(name = "final_value")
     private String finalValue;
 
     @Column(name = "log_type")
@@ -35,7 +36,7 @@ public class FramingMeetingLog {
     private User supervisor;
 
     @ManyToOne
-    @JoinColumn(name = "id_framing_meeting")
+    @JoinColumn(name = "id_framing_meeting", nullable = false)
     private FramingMeeting framingMeeting;
 
     @Transient

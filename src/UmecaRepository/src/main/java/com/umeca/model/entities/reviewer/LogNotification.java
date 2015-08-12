@@ -6,12 +6,12 @@ import javax.persistence.*;
 import java.util.Calendar;
 
 @Entity
-@Table(name = "log_notification_reviewer")
-public class LogNotificationReviewer {
+@Table(name = "log_notification")
+public class LogNotification {
 
     @Id
     @GeneratedValue
-    @Column(name = "id_log_notification_reviewer", nullable = false)
+    @Column(name = "id_log_notification", nullable = false)
     private Long id;
 
     @Column(name = "subject", length = 100)
@@ -44,7 +44,7 @@ public class LogNotificationReviewer {
     private Boolean isObsolete;
 
 
-    public LogNotificationReviewer() {
+    public LogNotification() {
         this.isObsolete = false;
         this.timestamp = Calendar.getInstance();
     }

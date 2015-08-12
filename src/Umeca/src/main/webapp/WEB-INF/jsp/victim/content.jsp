@@ -1,4 +1,3 @@
-
 <%--<div class="row">--%>
 <%--<div class="col-xs-12 element-center" ng-init="blockR=${r.block == null ? true: r.block}">--%>
 <%--<div class="col-xs-6 element-right">--%>
@@ -24,13 +23,14 @@
         <div class="col-xs-2 element-left">
             <input type="hidden" ng-update-hidden name="id" id="id" ng-model="v.id"
                    ng-init='idCase = ${(idCase == null) ? 0 : idCase}; v = ${victim == null ? '{}': victim}'>
-            <input type="hidden" ng-update-hidden name="idCase" id="id" ng-model="idCase"
-                   ng-init='idCase = ${(idCase == null) ? 0 : idCase}; v = ${victim == null ? '{}': victim}'>
+            <input type="hidden" ng-update-hidden name="idCase" id="idCase" ng-model="idCase">
             Nombre:
         </div>
         <div class="col-xs-10">
-            <input class="width-100" data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 150 caracteres"
-                   data-val-length-max="150" data-val-length-min="3" data-val-required="El nombre es un campo requerido" id="fullName"
+            <input class="width-100" data-val="true"
+                   data-val-length="Debe tener al menos 3 y m&aacute;ximo 150 caracteres"
+                   data-val-length-max="150" data-val-length-min="3" data-val-required="El nombre es un campo requerido"
+                   id="fullName"
                    type="text" ng-model="v.fullname" name="fullname">
         </div>
         <div class="row">
@@ -42,6 +42,7 @@
 
 </div>
 <br/>
+
 <div class="row">
     <div class="col-xs-6">
         <div class="col-xs-4 element-left">
@@ -63,8 +64,10 @@
             Tel&eacute;fono(s):
         </div>
         <div class="col-xs-8">
-            <textarea class="form-control" data-val="true" data-val-length="Debe tener al menos 5 y m&aacute;ximo 200 caracteres"
-                      data-val-length-max="200" data-val-length-min="5" data-val-required="El tel&eacute;fono es un campo requerido" id="phone"
+            <textarea class="form-control" data-val="true"
+                      data-val-length="Debe tener al menos 5 y m&aacute;ximo 200 caracteres"
+                      data-val-length-max="200" data-val-length-min="5"
+                      data-val-required="El tel&eacute;fono es un campo requerido" id="phone"
                       type="text" ng-model="v.phone" name="phone"></textarea>
         </div>
         <div class="col-xs-9 col-xs-offset-3">
@@ -73,14 +76,17 @@
     </div>
 </div>
 <br/>
+
 <div class="row" ng-show="v.rel.specification == true">
     <div class="col-xs-6">
         <div class="col-xs-4 element-left">
             Especif&iacute;que<br/>relaci&oacute;n:
         </div>
         <div class="col-xs-8">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y m&aacute;ximo 255 caracteres"
-                   data-val-length-max="255" data-val-length-min="1" data-val-required="La especificaci&oacute;n es un campo requerido"
+            <input class="form-control" data-val="true"
+                   data-val-length="Debe tener al menos 1 y m&aacute;ximo 255 caracteres"
+                   data-val-length-max="255" data-val-length-min="1"
+                   data-val-required="La especificaci&oacute;n es un campo requerido"
                    type="text" ng-model="v.specification" name="specification">
         </div>
         <div class="col-xs-9 col-xs-offset-3">
@@ -89,6 +95,7 @@
     </div>
 </div>
 <br/>
+
 <div class="row">
 
     <div class="col-xs-6">
@@ -96,13 +103,32 @@
             Edad:
         </div>
         <div class="col-xs-8">
-            <input class="form-control" data-val="true" data-val-length="Debe tener al menos 1 y m&aacute;ximo 3 caracteres"
+            <input class="form-control" data-val="true"
+                   data-val-length="Debe tener al menos 1 y m&aacute;ximo 3 caracteres"
                    data-val-length-max="3" data-val-length-min="1" data-val-required="La edad es un campo requerido"
                    data-val-regex-pattern="([0-9]+)" data-val-regex="La edad s&oacute;lo puede contener n&uacute;meros"
-                   type="text"  ng-model="v.age" name="age">
+                   type="text" ng-model="v.age" name="age">
         </div>
         <div class="col-xs-9 col-xs-offset-3">
             <span class="field-validation-valid" data-valmsg-for="age" data-valmsg-replace="true"></span>
+        </div>
+    </div>
+</div>
+<br/>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="col-xs-2 element-left">
+            Seleccione una opci&oacute;n:
+        </div>
+        <div class="col-xs-6">
+            <input type="hidden" ng-update-hidden ng-model="v.infoAddressId" name="infoAddressId" id="infoAddressId">
+            <input type="hidden" ng-update-hidden ng-model="v.hasInfoAddress" name="hasInfoAddress" id="hasInfoAddress">
+
+            <select class="form-control element-center" ng-model="v.infoAddress"
+                    ng-init='lstInfoAvail = ${lstInfoAvail};'
+                    ng-change="v.infoAddressId = v.infoAddress.id; changeInfoAvail();"
+                    ng-options="e.name for e in lstInfoAvail"></select>
         </div>
     </div>
 </div>

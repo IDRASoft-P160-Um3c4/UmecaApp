@@ -57,6 +57,9 @@ public class FramingAddress {
     @JoinColumn(name = "id_belong")
     private HomeType homeType;
 
+    @Column(name = "is_homeless")
+    private Boolean isHomeless;
+
     public Long getId() {
         return id;
     }
@@ -169,8 +172,9 @@ public class FramingAddress {
         if (this.homeType.getName().toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_OTHER) && (this.specification == null || this.specification.trim().equals("")))
             return false;
 
-        if (this.phone == null || this.phone.trim().equals(""))
-            return false;
+        if (this.isHomeless != true)
+            if (this.phone == null || this.phone.trim().equals(""))
+                return false;
 
         if (this.registerType.getName().toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_ACTUAL)) {
 
@@ -180,8 +184,9 @@ public class FramingAddress {
             if (this.addressRef == null || this.addressRef.trim().equals(""))
                 return false;
 
-            if (this.schedule == null || !(this.schedule.size() > 0))
-                return false;
+            if (this.isHomeless != true)
+                if (this.schedule == null || !(this.schedule.size() > 0))
+                    return false;
 
         } else if (this.registerType.getName().toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_PREV)) {
 
@@ -207,6 +212,14 @@ public class FramingAddress {
         }
 
         return true;
+    }
+
+    public Boolean getIsHomeless() {
+        return isHomeless;
+    }
+
+    public void setIsHomeless(Boolean isHomeless) {
+        this.isHomeless = isHomeless;
     }
 }
 

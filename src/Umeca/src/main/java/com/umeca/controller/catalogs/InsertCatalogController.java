@@ -340,6 +340,24 @@ public class InsertCatalogController {
         return "channelingType";
     }
 
+    @RequestMapping(value = "/catalogs/informationAvailability", method = RequestMethod.GET)
+    public String informationAvailability() {
+        service.informationAvailability();
+        return "informationAvailability";
+    }
+
+    @RequestMapping(value = "/catalogs/evaluationActivity", method = RequestMethod.GET)
+    public String evaluationActivity() {
+        service.evaluationActivity();
+        return "evaluationActivity";
+    }
+
+    @RequestMapping(value = "/catalogs/channelingDropType", method = RequestMethod.GET)
+    public String channelingDropType() {
+        service.channelingDropType();
+        return "channelingDropType";
+    }
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll() {
         service.role();
@@ -394,6 +412,9 @@ public class InsertCatalogController {
         service.preventionType();
         service.economicSupport();
         service.channelingType();
+        service.informationAvailability();
+        service.evaluationActivity();
+        service.channelingDropType();
         return "insertCatalog OK!!";
     }
 }

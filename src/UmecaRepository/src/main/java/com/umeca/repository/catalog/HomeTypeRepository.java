@@ -18,4 +18,7 @@ public interface HomeTypeRepository extends JpaRepository<HomeType, Long> {
     @Query("select new com.umeca.model.shared.SelectList(ht.id,ht.name,ht.specification) from HomeType ht where ht.obsolete=false")
     List<SelectList> getAllHomeType();
 
+    @Query("select ht from HomeType ht " +
+            "where ht.obsolete=false and lower(ht.name)=com.umeca.model.entities.supervisor.FramingMeetingConstants.LOW_CASE_HOME_TYPE_OWN")
+    HomeType getOwnHomeType();
 }

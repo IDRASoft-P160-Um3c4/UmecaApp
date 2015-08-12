@@ -142,6 +142,8 @@ public class CommentMonitoringPlanNotice {
                 return "FORMATO DE AUDIENCIA";
             case Constants.TYPE_COMMENT_OBSOLETE_CASE_SUPERVISION:
                 return "ELIMINAR CASO";
+            case ConstantsLogCase.ASSIGNMENT_SUPERVISOR_CASE:
+                return "ASIGNACIÓN DE CASO";
             default:
                 return "NA";
         }

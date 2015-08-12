@@ -1,9 +1,11 @@
 package com.umeca.model.entities.reviewer;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.umeca.model.catalog.Location;
 import com.umeca.model.entities.shared.Victim;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,6 +49,12 @@ public class CurrentCriminalProceeding {
 
     @OneToMany(mappedBy = "criminalProceeding", cascade = {CascadeType.ALL})
     private List<Victim> victims;
+
+    @Column(name = "is_folder_access")
+    private Boolean isFolderAccess;
+
+    @Column(name = "handing_over_date")
+    private Date handingOverDate;
 
     public Long getId() {
         return id;
@@ -121,4 +129,19 @@ public class CurrentCriminalProceeding {
         this.locationDetention = locationDetention;
     }
 
+    public Boolean getIsFolderAccess() {
+        return isFolderAccess;
+    }
+
+    public void setIsFolderAccess(Boolean isFolderAccess) {
+        this.isFolderAccess = isFolderAccess;
+    }
+
+    public Date getHandingOverDate() {
+        return handingOverDate;
+    }
+
+    public void setHandingOverDate(Date handingOverDate) {
+        this.handingOverDate = handingOverDate;
+    }
 }

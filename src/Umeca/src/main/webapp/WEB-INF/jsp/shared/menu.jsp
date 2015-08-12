@@ -42,7 +42,19 @@
 
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_REVIEWER')">
-
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-list"></i>
+                                &nbsp;&nbsp;Tablero
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a
+                                        href="<c:url value='/reviewer/handingOver/index.html'/>"><i
+                                        class="glyphicon icon-bell"></i>&nbsp;&nbsp;Puesta a disposici&oacute;n</a>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
                                     class="glyphicon glyphicon-folder-close"></i>
@@ -84,10 +96,16 @@
                                         href="<c:url value='/shared/messageHistory/index.html' />"><i
                                         class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
                                 </li>
+                                <li><a
+                                        href="<c:url value='/reviewer/meeting/declined.html' />"><i
+                                        class="glyphicon icon-comments-alt"></i>&nbsp;&nbsp;Entrevistas con negaci&oacute;n</a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-li-blue"><a href="<c:url value='/reviewer/caseRequest/index.html' />"><i
                                 class="icon icon-envelope"></i>&nbsp;&nbsp;Solicitudes a coordinador</a></li>
+                        <li class="nav-li-blue"><a href="<c:url value='/detentionRecord/detainedSheet.html' />"><i
+                                class="icon icon-envelope"></i>&nbsp;&nbsp;S&aacute;bana de detenidos</a></li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_SUPERVISOR')">
 
@@ -135,7 +153,8 @@
                                         class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Entrevista de encuadre&nbsp;&nbsp;
                                 </a></li>
                                 <li><a href="<c:url value='/supervisor/channeling/index.html' />"><i
-                                        class="glyphicon glyphicon-screenshot"></i>&nbsp;&nbsp;Registro de canalizaciones&nbsp;&nbsp;
+                                        class="glyphicon glyphicon-screenshot"></i>&nbsp;&nbsp;Registro de
+                                    canalizaciones&nbsp;&nbsp;
                                 </a></li>
                                 <li><a href="<c:url value='/supervisor/requestCloseCase/index.html'/>"><i
                                         class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Cerrar casos</a></li>
@@ -153,25 +172,27 @@
                                 <li><a href="<c:url value='/supervisor/log/index.html'/>"><i
                                         class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Historial de
                                     supervisi&oacute;n y cumplimiento</a></li>
-                                <li><a
-                                        href="<c:url value='/shared/messageHistory/index.html' />"><i
+                                <li><a href="<c:url value='/shared/messageHistory/index.html' />"><i
                                         class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
                                 </li>
-                                <li><a
-                                        href="<c:url value='/supervisor/showCaseSupervision/index.html'/>">
+                                <li><a href="<c:url value='/supervisor/showCaseSupervision/index.html'/>">
                                     <i class="glyphicon glyphicon-bullhorn"></i>&nbsp;&nbsp;Consultar casos en
                                     supervisi&oacute;n</a>
                                 </li>
-                                <li><a
-                                        href="<c:url value='/supervisor/caseNotProsecute/index.html'/>">
+                                <li><a href="<c:url value='/supervisor/caseNotProsecute/index.html'/>">
                                     <i class="icon icon-folder-close"></i>&nbsp;&nbsp;Casos no judicializados</a>
+                                </li>
+                                <li><a href="<c:url value='/supervisor/channelingTrack/index.html'/>">
+                                    <i class="glyphicon glyphicon-hand-right"></i>&nbsp;&nbsp;Seguimiento canalizaci&oacute;n</a>
                                 </li>
                             </ul>
                         </li>
-
-
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
+
+                        <li class="nav-li-blue"><a href="<c:url value='/managereval/formulationDate/index.html' />"><i
+                                class="icon icon-calendar"></i>&nbsp;&nbsp;Cita formulaci&oacute;n</a></li>
+
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
                                     class="glyphicon glyphicon-folder-close"></i>
@@ -203,6 +224,9 @@
                                 <li><a href="<c:url value='/shared/messageHistory/index.html' />"><i
                                         class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
                                 </li>
+                                <li><a href="<c:url value='/managereval/rolEvaluation/index.html'/>"><i
+                                        class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Rol evaluaci&oacute;n</a>
+                                </li>
                             </ul>
                         </li>
                         <li class="dropdown nav-li-blue">
@@ -210,7 +234,7 @@
                                     class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Reportes
                                 <i class="icon-caret-down"></i></a>
                             <ul class="dropdown-menu">
-                                <li class="nav-li-blue"><a href="<c:url value='/director/excelReport/index.html'/>"><i
+                                <li><a href="<c:url value='/director/excelReport/index.html'/>"><i
                                         class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Reporte excel</a></li>
                                 <li><a href="<c:url value='/shared/activityReport/index.html' />"><i
                                         class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Informe de actividades para
@@ -231,6 +255,9 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-li-blue"><a href="<c:url value='/detentionRecord/detainedSheet.html' />"><i
+                                class="icon icon-envelope"></i>&nbsp;&nbsp;S&aacute;bana de detenidos</a></li>
+
                     </sec:authorize>
 
                     <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
@@ -249,6 +276,9 @@
                                 </li>
                                 <li><a href="<c:url value='/supervisorManager/caseObsolete.html' />"><i
                                         class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;Casos eliminados</a></li>
+                                <li><a href="<c:url value='/supervisorManager/channelingInfo/index.html' />"><i
+                                        class="glyphicon glyphicon-check"></i>&nbsp;&nbsp;Autorizar/Rechazar solicitud
+                                    baja</a></li>
                             </ul>
                         </li>
                         <li class="dropdown nav-li-blue">
@@ -313,6 +343,22 @@
                                 </li>
                                 <li><a href="<c:url value='/shared/minute/finishedIndex.html' />"><i
                                         class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas cerradas</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </sec:authorize>
+                    <sec:authorize access="hasRole('ROLE_CHANNELING_MANAGER')">
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-copyright-mark"></i>&nbsp;&nbsp;Canalizaciones
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/channelingManager/documentRepository/index.html' />">
+                                    <i class="glyphicon glyphicon-cloud-upload"></i>&nbsp;&nbsp;Repositorio de
+                                    documentos</a></li>
+                                <li><a href="<c:url value='/channelingManager/queryChanneling/index.html' />">
+                                    <i class="glyphicon glyphicon-search"></i>&nbsp;&nbsp;Canalizaciones por caso</a>
                                 </li>
                             </ul>
                         </li>
@@ -443,10 +489,20 @@
                                         class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Minutas para
                                     direcci&oacute;n</a>
                                 </li>
+                                <li><a href="<c:url value='/humanResources/document/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Oficios</a>
+                                </li>
                             </ul>
                         </li>
                     </sec:authorize>
 
+                    <sec:authorize access="hasRole('ROLE_DETENTION_RECORD')">
+
+                        <li class="nav-li-blue"><a href="<c:url value='/detentionRecord/detainedSheet.html'/>"><i
+                                class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;S&aacute;bana de detenidos</a>
+                        </li>
+
+                    </sec:authorize>
                     <li class="light-blue">
                         <sec:authorize access="isAnonymous()">
                             <a href="#" ng-click="linkLogin()" ng-init="hasUser = false"><span

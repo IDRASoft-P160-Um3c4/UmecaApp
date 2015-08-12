@@ -15,7 +15,7 @@ public class ReferenceDto {
     Long docId;
     String fullName;
     String phone;
-    Integer age;
+    String age;
     String specification;
     String address;
     String specificationRelationship;
@@ -75,13 +75,6 @@ public class ReferenceDto {
         this.phone = phone;
     }
 
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
 
     public String getSpecification() {
         return specification;
@@ -105,5 +98,13 @@ public class ReferenceDto {
 
     public void setSpecificationRelationship(String specificationRelationship) {
         this.specificationRelationship = specificationRelationship;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
     }
 }

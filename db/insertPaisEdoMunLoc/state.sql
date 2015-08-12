@@ -1,4 +1,5 @@
-INSERT INTO cat_state(id_state,id_country,name,abbreviation,description) VALUES(09,1,'Distrito Federal','Distrito Federal','Distrito Federal')
+﻿INSERT INTO cat_state(id_state,id_country,name,abbreviation,description) VALUES 
+(09,1,'Distrito Federal','Distrito Federal','Distrito Federal')
 ,(01,1,'Aguascalientes','Aguascalientes','Aguascalientes')
 ,(02,1,'Baja California','Baja California','Baja California')
 ,(03,1,'Baja California Sur','Baja California Sur','Baja California Sur')
@@ -30,4 +31,5 @@ INSERT INTO cat_state(id_state,id_country,name,abbreviation,description) VALUES(
 ,(30,1,'Veracruz de Ignacio de la Llave','Veracruz de Ignacio de la Llave','Veracruz de Ignacio de la Llave')
 ,(31,1,'Yucatán','Yucatán','Yucatán')
 ,(32,1,'Zacatecas','Zacatecas','Zacatecas')
+,(33,1,'No proporcionado','No proporcionado','No proporcionado')
 ;

@@ -32,6 +32,7 @@ import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -98,6 +99,8 @@ public class HearingFormatController {
                 final javax.persistence.criteria.Join<Meeting, Imputed> joinIm = r.join("meeting").join("imputed");
                 final javax.persistence.criteria.Join<Meeting, Imputed> joinFrMe = r.join("framingMeeting", JoinType.LEFT);
                 final javax.persistence.criteria.Join<Meeting, Imputed> joinTR = r.join("technicalReview", JoinType.LEFT);
+                final javax.persistence.criteria.Join<Case, User> joinUmecaSup = r.join("umecaSupervisor", JoinType.LEFT);
+
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
                     add(r.join("status").get("name"));
@@ -109,6 +112,8 @@ public class HearingFormatController {
                     add(joinIm.get("lastNameM"));
                     add(joinFrMe.get("id"));
                     add(joinTR.get("id").alias("idTR"));
+                    add(r.get("hasHearingFormat"));
+                    add(joinUmecaSup.get("fullname"));
                 }};
             }
 
@@ -215,12 +220,7 @@ public class HearingFormatController {
 
         ModelAndView model = new ModelAndView();
 
-        if (caseRepository.findOne(idCase).getStatus().getName().equals(Constants.CASE_STATUS_PRE_CLOSED)) {
-            model.setViewName("/supervisor/hearingFormat/indexFormats");
-            model.addObject("idCase", idCase);
-            model.addObject("showErr", true);
-            model.addObject("msgError", "No es posible agregar mas formatos, el caso se encuentra pre-cerrado.");
-        } else if (hearingFormatRepository.findHearingFormatIncomplete(idCase) != null && hearingFormatRepository.findHearingFormatIncomplete(idCase) > 0) {
+        if (hearingFormatRepository.findHearingFormatIncomplete(idCase) != null && hearingFormatRepository.findHearingFormatIncomplete(idCase) > 0) {
             model.setViewName("/supervisor/hearingFormat/indexFormats");
             model.addObject("idCase", idCase);
             model.addObject("showErr", true);
@@ -252,7 +252,7 @@ public class HearingFormatController {
             List<SelectList> lstSuper = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
             List<SelectList> lstDistrict = districtRepository.findNoObsolete();
 
-            model.addObject("lstSupervisor", conv.toJson(lstSuper));
+//            model.addObject("lstSupervisor", conv.toJson(lstSuper));
             model.addObject("lstDistrict", conv.toJson(lstDistrict));
 
             if (hfView.getIdAddres() != null)
@@ -277,7 +277,7 @@ public class HearingFormatController {
         model.addObject("hfView", conv.toJson(hfView));
         model.addObject("returnId", conv.toJson(returnId));
         List<SelectList> lstSuper = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
-        model.addObject("lstSupervisor", conv.toJson(lstSuper));
+//        model.addObject("lstSupervisor", conv.toJson(lstSuper));
         crimeService.fillCatalogModel(model);
         model.addObject("readonlyBand", true);
         model.addObject("listCrime", crimeService.getListCrimeHearingformatByIdFormat(idFormat));
@@ -307,7 +307,7 @@ public class HearingFormatController {
         Gson conv = new Gson();
         model.addObject("hfView", conv.toJson(hfView));
         List<SelectList> lstSuper = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
-        model.addObject("lstSupervisor", conv.toJson(lstSuper));
+//        model.addObject("lstSupervisor", conv.toJson(lstSuper));
         model.addObject("listCrime", crimeService.getListCrimeHearingformatByIdFormat(idFormat));
         model.addObject("hasPrevHF", hfView.getHasPrevHF());
 
@@ -356,10 +356,6 @@ public class HearingFormatController {
                     caseDet.getMeeting().getImputed().getFoneticString(),
                     caseDet.getMeeting().getImputed().getBirthDate(), new ArrayList<String>() {{
                         add(Constants.CASE_STATUS_CLOSED);
-                        add(Constants.CASE_STATUS_OBSOLETE_EVALUATION);
-                        add(Constants.CASE_STATUS_OBSOLETE_SUPERVISION);
-                        add(Constants.CASE_STATUS_PRE_CLOSED);
-                        add(Constants.CASE_STATUS_PRISON_CLOSED);
                     }});
 
             if (existCase != null) {
@@ -427,13 +423,37 @@ public class HearingFormatController {
                 }
             }
 
-            HearingFormat hearingFormat = hearingFormatService.fillHearingFormat(result);
-            hearingFormat.setCaseDetention(caseRepository.findOne(result.getIdCase()));
-
-            return hearingFormatService.save(hearingFormat, request);
+            return hearingFormatService.save(result, request);
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "doUpsert_hearing_format", sharedUserService);
             return new ResponseMessage(true, "Ha ocurrido un error, intente nuevamente");
+        }
+    }
+
+    @RequestMapping(value = "/supervisor/hearingFormat/assignSupervisor", method = RequestMethod.POST)
+    public ModelAndView assignSupervisor(@RequestParam(required = true) Long id) {
+        ModelAndView model = new ModelAndView("/supervisor/hearingFormat/assignSupervisor");
+        Gson gson = new Gson();
+        model.addObject("lstSupervisor", gson.toJson(userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR)));
+        model.addObject("idCase", id);
+        return model;
+    }
+
+    @RequestMapping(value = "/supervisor/hearingFormat/doAssignSupervisor", method = RequestMethod.POST)
+    public ResponseMessage doAssignSupervisor(@RequestParam(required = true) Long idCase, @RequestParam(required = true) Long idUser) {
+
+        ResponseMessage response = new ResponseMessage();
+
+        try {
+            response = hearingFormatService.doAssignSupervisor(idCase, idUser);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doAssignSupervisor", sharedUserService);
+            response.setHasError(true);
+            response.setTitle("Formato de audiencia");
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+
+        } finally {
+            return response;
         }
     }
 

@@ -24,4 +24,10 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
             "INNER JOIN  L.municipality M where M.id =:idMun " +
             "group by L.name order by L.name asc")
     List<SelectList> findLocByMunId(@Param("idMun") Long idMun);
+
+    @Query("select l from Location as l where l.zipCode =:zipCode order by l.name")
+    Location findByName(@Param("zipCode") String zipCode);
+
+    @Query("select l from Location as l where l.name =:name order by l.name")
+    Location findByLocName(@Param("name") String name);
 }
