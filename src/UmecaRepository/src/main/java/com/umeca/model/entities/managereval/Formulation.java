@@ -1,5 +1,6 @@
 package com.umeca.model.entities.managereval;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 import com.umeca.model.entities.account.User;
 import org.apache.taglibs.standard.lang.jstl.Evaluator;
@@ -72,8 +73,16 @@ public class Formulation implements EntityGrid {
     @JoinColumn(name = "id_reviewer")
     private User reviewer;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_managereval")
+    private User managereval;
+
     @Column(name = "comments", length = 300, nullable = true)
     private String comments;
+
+
+    @Column(name = "presence", nullable = true)
+    private Boolean presence;
 
     @Transient
     private String registrationFormulationDateStr;
@@ -185,6 +194,15 @@ public class Formulation implements EntityGrid {
         this.reviewer = reviewer;
     }
 
+
+    public Boolean getPresence() {
+        return presence;
+    }
+
+    public void setPresence(Boolean presence) {
+        this.presence = presence;
+    }
+
     public String getRegistrationFormulationDateStr() {
         return registrationFormulationDateStr;
     }
@@ -232,4 +250,13 @@ public class Formulation implements EntityGrid {
     public void setReviewerId(Long reviewerId) {
         this.reviewerId = reviewerId;
     }
+
+    public User getManagereval() {
+        return managereval;
+    }
+
+    public void setManagereval(User managereval) {
+        this.managereval = managereval;
+    }
 }
+

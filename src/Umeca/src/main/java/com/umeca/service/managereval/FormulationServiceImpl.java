@@ -7,7 +7,6 @@ import com.umeca.model.shared.ConsMessage;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
-import com.umeca.repository.managereval.EvaluationActivityRepository;
 import com.umeca.repository.managereval.FormulationRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.MessageService;
@@ -15,7 +14,6 @@ import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -41,7 +39,6 @@ public class FormulationServiceImpl implements FormulationService {
     @Override
     public ModelAndView upsert(Long id) {
 
-
         Gson gson = new Gson();
         List<SelectList> lstReviewers = userRepository.getLstValidUsersByRole(Constants.ROLE_REVIEWER);
 
@@ -63,7 +60,7 @@ public class FormulationServiceImpl implements FormulationService {
         ResponseMessage result = new ResponseMessage();
         try {
 
-
+            formulation.setManagereval(userRepository.findOne(userService.GetLoggedUserId()));
             formulation.setReviewer(userRepository.findOne(formulation.getReviewerId()));
             formulation.setIsObsolete(false);
 
@@ -106,8 +103,6 @@ public class FormulationServiceImpl implements FormulationService {
     public ResponseMessage confirmInformation(Long id) {
         ResponseMessage result = new ResponseMessage();
         try {
-
-
             Formulation formulation;
 
             formulation = formulationRepository.findOne(id);
@@ -129,11 +124,7 @@ public class FormulationServiceImpl implements FormulationService {
                             formulation.getUmecaInterviewDate() == null ? "" : sdf.format(formulation.getUmecaInterviewDate()),
                             formulation.getHearingDate() == null ? "" : sdf.format(formulation.getHearingDate()))
                     , userRepository.findOne(userService.GetLoggedUserId()),
-                    userRepository.findOne(formulation.getReviewer().getId()), "Notificación REGISTRO ENTREGA INFORMACI&Oacute;N FORMULACI&Oacute;N", "");
-
-
-
-
+                    userRepository.findOne(formulation.getManagereval().getId()), "Notificación REGISTRO ENTREGA INFORMACI&Oacute;N FORMULACI&Oacute;N", "");
             result.setHasError(false);
             result.setMessage("Se ha envíado la notificación de información");
 
