@@ -117,4 +117,6 @@ public interface InsertCatalogService {
     void evaluationActivity();
 
     void channelingDropType();
+
+    void eventType();
 }

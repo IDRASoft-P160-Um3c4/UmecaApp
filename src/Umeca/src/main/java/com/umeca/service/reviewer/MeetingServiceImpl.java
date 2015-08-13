@@ -158,8 +158,11 @@ public class MeetingServiceImpl implements MeetingService {
             else
                 caseDetention.setRecidivist(false);
 
+            if (!imputed.getMeeting().getDeclineReason().isEmpty())
+                caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
+            else
+                caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
 
-            caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
             caseDetention.setIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
             caseDetention.setDateCreate(new Date());
             caseDetention = caseRepository.save(caseDetention);

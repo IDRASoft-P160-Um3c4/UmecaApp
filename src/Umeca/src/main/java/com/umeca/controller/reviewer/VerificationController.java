@@ -369,4 +369,10 @@ public class VerificationController {
     }
 
 
+    @RequestMapping(value = "/reviewer/verification/newReport", method = RequestMethod.POST)
+    public String newMeeting() {
+        return "/reviewer/verification/newReport";
+    }
+
+
 }

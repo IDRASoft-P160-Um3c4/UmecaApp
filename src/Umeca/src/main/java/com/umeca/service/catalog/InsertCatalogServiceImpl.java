@@ -150,6 +150,8 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     ChannelingDropTypeRepository channelingDropTypeRepository;
     @Autowired
     EvaluationActivityRepository evaluationActivityRepository;
+    @Autowired
+    EventRepository eventRepository;
 
 
     private String PATH = "C:\\Projects\\Umeca\\UmecaApp\\db\\";
@@ -1054,6 +1056,20 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             channelingDropTypeRepository.save(model);
         }
         channelingDropTypeRepository.flush();
+    }
+
+    @Override
+    public void eventType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "event.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            EventType model = new EventType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            eventRepository.save(model);
+        }
+        eventRepository.flush();
     }
 }
 
