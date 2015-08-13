@@ -31,7 +31,7 @@
         };
 
         window.newReport = function(){
-            window.showUpsert(null, "#angJsjqGridId", "<c:url value='/reviewer/verification/newReport.html'/>");
+            window.showUpsert(null, "#angJsjqGridId", "<c:url value='/reviewer/verification/newReport.html?id=${idCase}'/>");
         };
 
         window.meetingSource = function(id) {
