@@ -133,12 +133,11 @@ public class MeetingController {
         JqGridRulesModel extraFilter2 = new JqGridRulesModel("statusCode",
                 new ArrayList<String>() {{
                     add(Constants.S_MEETING_DECLINE);
-                    add(Constants.S_MEETING_INCOMPLETE_LEGAL);
                 }}
                 , JqGridFilterModel.COMPARE_IN
         );
         opts.extraFilters.add(extraFilter2);
-        JqGridRulesModel extraFilter3 =new JqGridRulesModel("statusCase", Constants.CASE_STATUS_MEETING, JqGridFilterModel.COMPARE_EQUAL);
+        JqGridRulesModel extraFilter3 =new JqGridRulesModel("statusCase", Constants.CASE_STATUS_NOT_PROSECUTE, JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter3);
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
