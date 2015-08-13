@@ -358,6 +358,13 @@ public class InsertCatalogController {
         return "channelingDropType";
     }
 
+
+    @RequestMapping(value = "/catalogs/eventType", method = RequestMethod.GET)
+    public String eventType() {
+        service.eventType();
+        return "event";
+    }
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll() {
         service.role();
@@ -415,6 +422,7 @@ public class InsertCatalogController {
         service.informationAvailability();
         service.evaluationActivity();
         service.channelingDropType();
+        service.eventType();
         return "insertCatalog OK!!";
     }
 }

@@ -198,7 +198,7 @@ public class MeetingController {
             if (sheetInfo == null) {
                 model = new ModelAndView("/reviewer/declined/notSheet");
                 response.setContentType("application/force-download");
-                response.setHeader("Content-Disposition", "attachment; filename=\"sin-oficio-canalización.doc\"");
+                response.setHeader("Content-Disposition", "attachment; filename=\"sin-informe-negacion.doc\"");
                 return model;
             }
 
