@@ -1,8 +1,12 @@
 package com.umeca.model.entities.managereval;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.umeca.infrastructure.jqgrid.model.EntityGrid;
+import com.umeca.model.entities.account.User;
 import org.apache.taglibs.standard.lang.jstl.Evaluator;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -11,12 +15,28 @@ import java.util.Date;
 
 @Entity
 @Table(name="formulation")
-public class Formulation {
+public class Formulation implements EntityGrid {
+
+    public Formulation(){
+
+    }
+
+    public Formulation(Long id, Date registrationFormulationDate, String document, String certificateNotification, String firstname, String lastNameP, String lastNameM, Date umecaInterviewDate, Date hearingDate, String fullname) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        this.id=id;
+        this.document = document;
+        this.certificateNotification = certificateNotification;
+        this.imputedFullname = firstname +" "+lastNameP+" "+lastNameM;
+        this.umecaInterviewDateStr = umecaInterviewDate==null?"":sdf.format(umecaInterviewDate);
+        this.hearingDateStr = hearingDate==null?"":sdf.format(hearingDate);
+        this.registrationFormulationDateStr = registrationFormulationDate==null?"":sdf.format(umecaInterviewDate);
+        this.reviewerFullname = fullname;
+    }
 
     @Id
     @GeneratedValue
     @Column(name = "id_formulation")
-    private long id;
+    private Long id;
 
 
     @Column(name = "registration_formulation_date", nullable = false)
@@ -29,13 +49,13 @@ public class Formulation {
     private String certificateNotification;
 
 
-    @Column(name = "name", length = 50, nullable = false)
-    private String name;
+    @Column(name = "imputed_firstname", length = 50, nullable = false)
+    private String firstName;
 
-    @Column(name = "lastname_p", length = 50, nullable = false)
+    @Column(name = "imputed_lastname_p", length = 50, nullable = false)
     private String lastNameP;
 
-    @Column(name = "lastname_m", length = 50, nullable = false)
+    @Column(name = "imputed_lastname_m", length = 50, nullable = false)
     private String lastNameM;
 
 
@@ -46,12 +66,43 @@ public class Formulation {
     @Column(name = "hearing_date", nullable = false)
     private Date hearingDate;
 
+    @Column(name = "is_obsolete", nullable = false)
+    private Boolean isObsolete;
 
-    public long getId() {
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_reviewer")
+    private User reviewer;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_managereval")
+    private User managereval;
+
+    @Column(name = "comments", length = 300, nullable = true)
+    private String comments;
+
+
+    @Column(name = "presence", nullable = true)
+    private Boolean presence;
+
+    @Transient
+    private String registrationFormulationDateStr;
+    @Transient
+    private String umecaInterviewDateStr;
+    @Transient
+    private String hearingDateStr;
+    @Transient
+    private String imputedFullname;
+    @Transient
+    private String reviewerFullname;
+
+    @Transient
+    private Long reviewerId;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -79,12 +130,12 @@ public class Formulation {
         this.certificateNotification = certificateNotification;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastNameP() {
@@ -118,4 +169,94 @@ public class Formulation {
     public void setHearingDate(Date hearingDate) {
         this.hearingDate = hearingDate;
     }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public Boolean getIsObsolete() {
+        return isObsolete;
+    }
+
+    public void setIsObsolete(Boolean isObsolete) {
+        this.isObsolete = isObsolete;
+    }
+
+    public User getReviewer() {
+        return reviewer;
+    }
+
+    public void setReviewer(User reviewer) {
+        this.reviewer = reviewer;
+    }
+
+
+    public Boolean getPresence() {
+        return presence;
+    }
+
+    public void setPresence(Boolean presence) {
+        this.presence = presence;
+    }
+
+    public String getRegistrationFormulationDateStr() {
+        return registrationFormulationDateStr;
+    }
+
+    public void setRegistrationFormulationDateStr(String registrationFormulationDateStr) {
+        this.registrationFormulationDateStr = registrationFormulationDateStr;
+    }
+
+    public String getUmecaInterviewDateStr() {
+        return umecaInterviewDateStr;
+    }
+
+    public void setUmecaInterviewDateStr(String umecaInterviewDateStr) {
+        this.umecaInterviewDateStr = umecaInterviewDateStr;
+    }
+
+    public String getHearingDateStr() {
+        return hearingDateStr;
+    }
+
+    public void setHearingDateStr(String hearingDateStr) {
+        this.hearingDateStr = hearingDateStr;
+    }
+
+    public String getImputedFullname() {
+        return imputedFullname;
+    }
+
+    public void setImputedFullname(String imputedFullname) {
+        this.imputedFullname = imputedFullname;
+    }
+
+    public String getReviewerFullname() {
+        return reviewerFullname;
+    }
+
+    public void setReviewerFullname(String reviewerFullname) {
+        this.reviewerFullname = reviewerFullname;
+    }
+
+    public Long getReviewerId() {
+        return reviewerId;
+    }
+
+    public void setReviewerId(Long reviewerId) {
+        this.reviewerId = reviewerId;
+    }
+
+    public User getManagereval() {
+        return managereval;
+    }
+
+    public void setManagereval(User managereval) {
+        this.managereval = managereval;
+    }
 }
+

@@ -74,6 +74,10 @@
                                         href="<c:url value='/reviewer/technicalReview/index.html' />"><i
                                         class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Instrumento de evaluaci&oacute;n</a>
                                 </li>
+                                <li><a
+                                        href="<c:url value='/reviewer/formulationDate/index.html' />"><i
+                                        class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Cita de formulaci&oacute;n</a>
+                                </li>
                             </ul>
                         </li>
                         <li class="dropdown nav-li-blue">
@@ -437,6 +441,17 @@
                         </li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_HUMAN_RESOURCES')">
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Dispositivos
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/timeAttendance/device/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Configuraci&oacute;n de Biom&eacute;tricos</a>
+                                </li>
+                            </ul>
+                        </li>
 
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i

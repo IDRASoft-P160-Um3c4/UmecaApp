@@ -1,10 +1,43 @@
 app.controller('formulationDateCtrl', function($scope, $timeout) {
     $scope.m = {};
-
+    $scope.lstReviewers = [];
+    $scope.m.idReviewer = 0;
 
 
     $scope.init = function(){
 
+
+
+        var registrationFormulationDate=$("#registrationFormulationDate").val();
+        registrationFormulationDate= registrationFormulationDate.replace(/-/g,"/");
+        $("#registrationFormulationDate").val(registrationFormulationDate.replace("00:00:00.0",""));
+
+
+        var umecaInterviewDate=$("#umecaInterviewDate").val();
+        umecaInterviewDate= umecaInterviewDate.replace(/-/g,"/");
+        $("#umecaInterviewDate").val(umecaInterviewDate.replace("00:00:00.0",""));
+
+        var hearingDate=$("#hearingDate").val();
+        hearingDate= hearingDate.replace(/-/g,"/");
+        $("#hearingDate").val(hearingDate.replace("00:00:00.0",""));
+
+
+
+        if($scope.lstReviewers === undefined || $scope.lstReviewers.length <= 0)
+            return;
+        if($scope.m.reviewerId === undefined || $scope.m.reviewerId === 0){
+            $scope.m.reviewer = $scope.lstReviewers[0];
+            $scope.m.reviewerId = $scope.m.reviewer.id;
+        }
+        else{
+            for(var i=0; i < $scope.lstReviewers.length; i++){
+                var reviewer = $scope.lstReviewers[i];
+                if(reviewer.id === $scope.m.reviewerId){
+                    $scope.m.reviewer = reviewer;
+                    break;
+                }
+            }
+        }
     };
 
     $timeout(function() {
@@ -106,6 +139,7 @@ app.controller('formulationDateCtrl', function($scope, $timeout) {
             dlg.replaceWith("");
         });
     };
+
 
 
 
