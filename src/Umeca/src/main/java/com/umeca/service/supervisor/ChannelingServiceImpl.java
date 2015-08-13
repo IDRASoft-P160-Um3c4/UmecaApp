@@ -466,4 +466,47 @@ public class ChannelingServiceImpl implements ChannelingService {
     public List<ActivityChannelingModel> getLstActivitiesChanneling(Long id) {
         return channelingRepository.getLstActivitiesChanneling(id);
     }
+
+    @Override
+    public Boolean isFulfilledByChannelingId(Long id) {
+        return channelingRepository.isFulfilledByChannelingId(id);
+    }
+
+    @Override
+    public void doIsFulfilled(ChannelingFulfilledModel model, User user, ResponseMessage response, SharedUserService userService) {
+        Channeling channeling = channelingRepository.findOne(model.getChannelingId());
+
+        if (channeling == null) {
+            response.setHasError(true);
+            response.setMessage("No existe la canalización para guardar la imposición");
+            return;
+        }
+
+        Boolean isFulfilled = model.getIsFulfilled();
+        channeling.setIsFulfilled(isFulfilled);
+        channeling.setFulfilledUser(user);
+        channelingRepository.save(channeling);
+        response.setHasError(false);
+
+        Case caseDetention = channeling.getCaseDetention();
+        Imputed imputed = caseDetention.getMeeting().getImputed();
+        String imputedFullName = imputed.getName() + " " + imputed.getLastNameP() + " " + imputed.getLastNameM();
+
+        messageService.sendNotificationToRole(caseDetention.getId(),
+                String.format("<strong>IMPOSICIÓN %sCUMPLIDA</strong><br/>" +
+                                "<strong>Descripción:</strong> Canalización de tipo <strong>\"%s\"</strong><br/>" +
+                                "Para el imputado: <strong>%s</strong>. Causa penal <strong>%s</strong><br/>" +
+                                "Registrado por: <strong>%s</strong><br/>" +
+                                "Se cumplió con la imposición: <strong>%s</strong><br/>" +
+                                "Fecha: <b>%s</b>",
+                        (isFulfilled == null || !isFulfilled ? "NO " : ""),
+                        channeling.getChannelingType().getName(), imputedFullName, caseDetention.getIdMP(),
+                        userService.getFullNameById(user.getId()), (isFulfilled == null || !isFulfilled ? "NO " : "SI")
+                        , CalendarExt.calendarToFormatString(Calendar.getInstance(), Constants.FORMAT_CALENDAR_I)), user,
+                new ArrayList<String>() {{
+                    add(Constants.ROLE_SUPERVISOR_MANAGER);
+                    add(Constants.ROLE_CHANNELING_MANAGER);
+                }}, Constants.CHANNELING_FULFILL_TITLE, "");
+
+    }
 }

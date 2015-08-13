@@ -2,10 +2,7 @@ package com.umeca.service.supervisor;
 
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
-import com.umeca.model.entities.supervisor.ActivityChannelingModel;
-import com.umeca.model.entities.supervisor.ChannelingDropModel;
-import com.umeca.model.entities.supervisor.ChannelingModel;
-import com.umeca.model.entities.supervisor.ChannelingModelSheet;
+import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.entities.supervisorManager.ChannelingInfoDropModel;
 import com.umeca.service.account.SharedUserService;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,4 +21,6 @@ public interface ChannelingService {
     ChannelingInfoDropModel getAuthRejChannelingDropInfoById(Long id);
     void doAuthRejChannelingDrop(ChannelingInfoDropModel model, User user, SharedUserService userService, ResponseMessage response);
     List<ActivityChannelingModel> getLstActivitiesChanneling(Long id);
+    Boolean isFulfilledByChannelingId(Long id);
+    void doIsFulfilled(ChannelingFulfilledModel model, User user, ResponseMessage response, SharedUserService userService);
 }

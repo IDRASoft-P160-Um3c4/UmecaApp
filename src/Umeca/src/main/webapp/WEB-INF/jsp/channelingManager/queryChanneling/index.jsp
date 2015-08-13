@@ -31,7 +31,7 @@
                     { name: 'idMP', index: 'idMP', width: 240, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'imputed', index: 'imputed', width: 330, align: "center", sorttype: 'string', search: false },
                     { name: 'district', index: 'district', width: 240, align: "center", sorttype: 'string', search: false },
-                    { name: 'supervisor', index: 'supervisor', width: 210, align: "center", sorttype: 'string', search: false }
+                    { name: 'supervisor', index: 'supervisor', width: 220, align: "center", sorttype: 'string', search: false }
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],
@@ -68,16 +68,17 @@
                         autoencode:true,
                         datatype: "json",
                         mtype: 'POST',
-                        colNames: ['ID','Puede dar baja', '#', 'Tipo de canalizaci&oacute;n', 'Nombre de canalizaci&oacute;n', 'Tipo de instituci&oacute;n', 'Nombre de instituci&oacute;n', 'Acci&oacute;n'],
+                        colNames: ['ID','Puede dar baja', '#', 'Tipo de canalizaci&oacute;n', 'Nombre de canalizaci&oacute;n', 'Tipo de instituci&oacute;n', 'Nombre de instituci&oacute;n', 'Imposici&oacute;n cumplida', 'Acci&oacute;n'],
                         colModel: [
                             { name: 'id', index: 'id', hidden: true },
                             { name: 'canDrop', index: 'canDrop', hidden: true },
-                            { name: 'consecutiveTx', index: 'consecutiveTx', width: 100, align: "center", sorttype: 'string', search: false },
-                            { name: 'channelingType', index: 'channelingType', width: 200, align: "center", sorttype: 'string', search: false },
-                            { name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                            { name: 'institutionType', index: 'institutionType', width: 200, align: "center", sorttype: 'string', search: false },
-                            { name: 'institutionName', index: 'institutionName', width: 200, align: "center", sorttype: 'string', search: false },
-                            { name: 'Action', width: 95, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
+                            { name: 'consecutiveTx', index: 'consecutiveTx', width: 90, align: "center", sorttype: 'string', search: false },
+                            { name: 'channelingType', index: 'channelingType', width: 170, align: "center", sorttype: 'string', search: false },
+                            { name: 'name', index: 'name', width: 180, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                            { name: 'institutionType', index: 'institutionType', width: 165, align: "center", sorttype: 'string', search: false },
+                            { name: 'institutionName', index: 'institutionName', width: 165, align: "center", sorttype: 'string', search: false },
+                            { name: 'isFulfilledTx', index: 'isFulfilledTx', width: 150, align: "center", sorttype: 'string', search: false },
+                            { name: 'Action', width: 100, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                         ],
                         rowNum: 20,
                         pager: pager_id,

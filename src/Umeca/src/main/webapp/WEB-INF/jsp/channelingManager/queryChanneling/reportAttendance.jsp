@@ -80,6 +80,10 @@
             <td style="font-weight: bolder; min-width: 250px; text-align: left;">Nombre de la instituci&oacute;n:</td>
             <td style="min-width: 250px; text-align: left;">${data.institutionName}</td>
         </tr>
+        <tr>
+            <td style="font-weight: bolder; min-width: 250px; text-align: left;">Imposici&oacute;n cumplida:</td>
+            <td style="min-width: 250px; text-align: left;">${data.isFulFilledTx}</td>
+        </tr>
         </tbody>
     </table>
 

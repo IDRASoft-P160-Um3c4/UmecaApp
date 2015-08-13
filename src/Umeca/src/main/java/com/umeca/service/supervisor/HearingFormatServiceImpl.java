@@ -426,6 +426,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             //evaluo el origen del meeting
             hearingFormatView.setInitTime(new Time(new Date().getTime()));
             hearingFormatView.setAppointmentDate(new Date());
+            hearingFormatView.setIsHomeless(false);
 
             if (meetType.equals(HearingFormatConstants.MEETING_CONDITIONAL_REPRIEVE)) { //si el meeting fue creado como suspension condicional
 
@@ -647,6 +648,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         hearingFormatView.setImputedPresence(existHF.getImputedPresence());
         hearingFormatView.setHearingResult(existHF.getHearingResult());
+        hearingFormatView.setIsHomeless(existHF.getIsHomeless());
 
         if (existHF.getHearingImputed().getAddress() != null) {
             hearingFormatView.setIdAddres(existHF.getHearingImputed().getAddress().getId());

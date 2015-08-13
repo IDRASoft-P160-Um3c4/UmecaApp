@@ -74,6 +74,9 @@ public class Meeting {
     @JoinColumn(name="id_status", nullable = false)
     private StatusMeeting status;
 
+    @Column(name="decline_reason", nullable = true, length = 500)
+    private String declineReason;
+
     @Column(name="meeting_type")
     private Integer meetingType;
 
@@ -354,5 +357,13 @@ public class Meeting {
 
     public void setImputedInitial(ImputedInitial imputedInitial) {
         this.imputedInitial = imputedInitial;
+    }
+
+    public String getDeclineReason() {
+        return declineReason;
+    }
+
+    public void setDeclineReason(String declineReason) {
+        this.declineReason = declineReason;
     }
 }

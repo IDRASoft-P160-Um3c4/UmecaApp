@@ -8,6 +8,7 @@ import com.umeca.model.entities.reviewer.Crime;
 import com.umeca.model.entities.reviewer.Meeting;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -66,6 +67,10 @@ public class CriminalProceedingView {
 
     private String afis;
 
+    private Date handingOverDt;
+    private String handingOverDate;
+    private String handingOverTime;
+    private Boolean hasHandingOverInfo;
 
     public Long getIdCase() {
 
@@ -250,5 +255,37 @@ public class CriminalProceedingView {
 
     public void setAfis(String afis) {
         this.afis = afis;
+    }
+
+    public Date getHandingOverDt() {
+        return handingOverDt;
+    }
+
+    public void setHandingOverDt(Date handingOverDt) {
+        this.handingOverDt = handingOverDt;
+    }
+
+    public String getHandingOverDate() {
+        return handingOverDate;
+    }
+
+    public void setHandingOverDate(String handingOverDate) {
+        this.handingOverDate = handingOverDate;
+    }
+
+    public String getHandingOverTime() {
+        return handingOverTime;
+    }
+
+    public void setHandingOverTime(String handingOverTime) {
+        this.handingOverTime = handingOverTime;
+    }
+
+    public Boolean getHasHandingOverInfo() {
+        return hasHandingOverInfo;
+    }
+
+    public void setHasHandingOverInfo(Boolean hasHandingOverInfo) {
+        this.hasHandingOverInfo = hasHandingOverInfo;
     }
 }

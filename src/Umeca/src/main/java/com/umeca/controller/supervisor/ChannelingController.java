@@ -130,6 +130,7 @@ public class ChannelingController {
                     add(r.get("name"));
                     add(joinInTy.get("name"));
                     add(r.get("institutionName"));
+                    add(r.get("isFulfilled"));
                 }};
             }
 
@@ -141,6 +142,9 @@ public class ChannelingController {
                     return r.join("channelingType").get("name");
                 if (field.equals("institutionType"))
                     return r.join("institutionType").get("name");
+                if (field.equals("isFulfilledTx"))
+                    return r.get("isFulfilled");
+
                 return null;
             }
         }, Channeling.class, ChannelingView.class);
@@ -355,5 +359,42 @@ public class ChannelingController {
         }
         return model;
     }
+
+    @RequestMapping(value = "/supervisor/channeling/isFulfilled", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ModelAndView isFulfilled(@RequestParam(required = true) Long id) {
+        ModelAndView model = new ModelAndView("/supervisor/channeling/isFulfilled");
+        Boolean isFulfilled = channelingService.isFulfilledByChannelingId(id);
+        model.addObject("channelingId", id);
+        model.addObject("isFulfilled", (isFulfilled == null ? false : isFulfilled));
+
+        return model;
+    }
+
+    @RequestMapping(value = "/supervisor/channeling/doIsFulfilled", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doIsFulfilled(@ModelAttribute final ChannelingFulfilledModel model) {
+
+        ResponseMessage response = new ResponseMessage();
+        try {
+
+            User user = new User();
+            if (userService.isValidUser(user, response) == false)
+                return response;
+
+            channelingService.doIsFulfilled(model, user, response, userService);
+
+            return response;
+
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doIsFulfilled", userService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+            return response;
+        }
+    }
+
 
 }
