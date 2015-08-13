@@ -62,6 +62,10 @@
                                         href="<c:url value='/reviewer/technicalReview/index.html' />"><i
                                         class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Instrumento de evaluaci&oacute;n</a>
                                 </li>
+                                <li><a
+                                        href="<c:url value='/reviewer/formulationDate/index.html' />"><i
+                                        class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Cita de formulaci&oacute;n</a>
+                                </li>
                             </ul>
                         </li>
                         <li class="dropdown nav-li-blue">

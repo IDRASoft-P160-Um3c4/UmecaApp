@@ -3,6 +3,9 @@
 <script>
     $(document).ready(function () {
         window.showModalFormDlg("#dlgUpModalId", "#FormForumulationDateId");
+        $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
+            $(this).prev().focus();
+        });
     });
 </script>
 
@@ -14,7 +17,7 @@
                 <div class="modal-header">
                     <div class="alert alert-info ">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="element-center"><i class="glyphicon glyphicon-calendar "></i>&nbsp;&nbsp;Cita formulaci&oacute;n</h4>
+                        <h4 class="element-center"><i class="glyphicon glyphicon-calendar "></i>&nbsp;&nbsp;Cita de formulaci&oacute;n</h4>
                     </div>
                 </div>
                 <div class="modal-body">

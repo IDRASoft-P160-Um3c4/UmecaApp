@@ -9,5 +9,6 @@ public interface FormulationService {
 
     ModelAndView upsert(Long id);
     ResponseMessage doUpsert(Formulation formulation);
+    ResponseMessage confirmInformation(Long id);
 
 }
