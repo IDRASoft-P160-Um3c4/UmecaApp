@@ -58,10 +58,8 @@ public class Formulation implements EntityGrid {
     @Column(name = "imputed_lastname_m", length = 50, nullable = false)
     private String lastNameM;
 
-
     @Column(name = "umeca_interview_date", nullable = false)
     private Date umecaInterviewDate;
-
 
     @Column(name = "hearing_date", nullable = false)
     private Date hearingDate;
@@ -79,7 +77,6 @@ public class Formulation implements EntityGrid {
 
     @Column(name = "comments", length = 300, nullable = true)
     private String comments;
-
 
     @Column(name = "presence", nullable = true)
     private Boolean presence;
