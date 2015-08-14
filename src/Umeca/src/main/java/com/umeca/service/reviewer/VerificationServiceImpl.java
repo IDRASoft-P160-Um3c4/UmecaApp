@@ -11,6 +11,7 @@ import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.ChoiceView;
 import com.umeca.model.entities.reviewer.View.SearchToChoiceIds;
 import com.umeca.model.entities.reviewer.dto.*;
+import com.umeca.model.entities.shared.Event;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
@@ -31,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -159,6 +161,7 @@ public class VerificationServiceImpl implements VerificationService {
     AcademicLevelRepository academicLevelRepository;
     @Autowired
     CountryRepository countryRepository;
+
 
     private void userConfigToView(ModelAndView model) {
 
@@ -297,6 +300,30 @@ public class VerificationServiceImpl implements VerificationService {
         } finally {
             return response;
         }
+    }
+
+    @Override
+    public void upsertCaseReport(Long idCase, String reason) {
+
+
+        Case c  = caseRepository.findOne(idCase);
+        Event event = new Event();
+        event.setCaseDetention(c);
+        event.setComments(reason);
+        User user = new User();
+        user.setId(sharedUserService.GetLoggedUserId());
+        event.setUser(user);
+        Date date = new Date();
+        DateFormat df = new SimpleDateFormat("yyyyMMdd");
+        Integer dateId =Integer.parseInt(df.format(date));
+        event.setDate(date);
+        event.setDateId(dateId);
+        c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
+
+        caseRepository.save(c);
+
+
+
     }
 
     @Override

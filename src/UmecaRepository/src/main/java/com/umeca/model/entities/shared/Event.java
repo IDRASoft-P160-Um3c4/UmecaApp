@@ -6,6 +6,7 @@ import com.umeca.model.entities.reviewer.Case;
 
 import javax.persistence.*;
 import java.util.Calendar;
+import java.util.Date;
 
 @Entity
 @Table(name="event")
@@ -25,7 +26,7 @@ public class Event {
     private User user;
 
     @Column(name="date", nullable = false)
-    private Calendar date;
+    private Date date;
 
     @Column(name="date_id", nullable = false)
     private Integer dateId;
@@ -61,11 +62,11 @@ public class Event {
         this.user = user;
     }
 
-    public Calendar getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(Calendar date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

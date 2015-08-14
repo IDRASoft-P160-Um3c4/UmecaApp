@@ -10,10 +10,12 @@ import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.Activity;
 import com.umeca.model.catalog.StatusVerification;
 import com.umeca.model.catalog.dto.CatalogDto;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.VerificationView;
 import com.umeca.model.entities.reviewer.dto.FieldVerified;
 import com.umeca.model.entities.reviewer.dto.RelActivityObjectDto;
+import com.umeca.model.entities.shared.Event;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.catalog.ActivityRepository;
@@ -30,8 +32,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -318,7 +321,6 @@ public class VerificationController {
              return verificationService.searchInformationByeSourceCode(idCase,idSource,code,idList);
     }
 
-
     @RequestMapping(value = "reviewer/verification/source/upsert", method = RequestMethod.POST)
     public ModelAndView upsertSource(@RequestParam(required = true) Long idCase, @RequestParam(required = false) Long id){
      return verificationService.upsertSource(idCase, id);
@@ -370,9 +372,23 @@ public class VerificationController {
 
 
     @RequestMapping(value = "/reviewer/verification/newReport", method = RequestMethod.POST)
-    public String newMeeting() {
-        return "/reviewer/verification/newReport";
+    public ModelAndView newReport(@RequestParam(required = true) Long id) {
+        ModelAndView model = new ModelAndView("/reviewer/verification/newReport");
+        model.addObject("id", id);
+        return model;
     }
 
+    @Autowired
+    SharedUserService sharedUserService;
+
+    @RequestMapping(value = "/reviewer/verification/makeReport", method = RequestMethod.POST)
+    public void makeReport(@RequestParam(required = true) Long idCase,@RequestParam(required = true)String reason) {
+
+        verificationService.upsertCaseReport(idCase,reason);
+
+
+
+
+    }
 
 }

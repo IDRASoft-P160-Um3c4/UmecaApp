@@ -182,9 +182,16 @@
                                         <p>&iquest;Est&aacute; seguro que desea terminar la entrevista de riesgos procesales?</p>
                                         <br/>
                                         <p>Raz&oacute;n de negaci&oacute;n</p>
-                                        <textarea rows="4" cols="50" name="meeting.declineReason" ng-model="m.reason">
+                                        <textarea rows="4" cols="50" data-val="true"
+                                                  data-val-length="Debe tener al menos 3 y m&aacute;ximo 500 caracteres"
+                                                  data-val-required="Es necesario escribir la raz&oacute;n"
+                                                  data-val-length-max="500" data-val-length-min="3"ng-init="reason=''"
+                                                  id="reason" name="meeting.declineReason" ng-model="reason">
 
                                         </textarea>
+                                    </div>
+                                    <div class="col-xs-11 col-xs-offset-1">
+                                        <span class="field-validation-valid" data-valmsg-for="meeting.declineReason" data-valmsg-replace="true"></span>
                                     </div>
 
                                 </div>
