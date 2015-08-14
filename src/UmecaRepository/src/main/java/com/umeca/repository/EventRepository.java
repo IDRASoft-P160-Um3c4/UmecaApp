@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
  * Date: 5/2/14
  * Time: 8:10 PM
  */
-@Repository("qCaseRepository")
+@Repository("EventRepository")
 public interface EventRepository extends JpaRepository<Event, Long> {
 
 }
