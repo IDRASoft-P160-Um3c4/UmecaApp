@@ -121,24 +121,29 @@ public class FormulationController {
         return result;
     }
 
-    @RequestMapping(value = {"/managereval/formulationDate/index", "/reviewer/formulationDate/index"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/managereval/formulation/index", "/reviewer/formulation/index"}, method = RequestMethod.GET)
     public ModelAndView formulationDate() {
-        ModelAndView mv = new ModelAndView("/managereval/formulationDate/index");
+        ModelAndView mv = new ModelAndView("/managereval/formulation/index");
         return mv;
     }
 
-    @RequestMapping(value = {"/managereval/formulationDate/upsert"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/managereval/formulation/upsert"}, method = RequestMethod.POST)
     public ModelAndView upsert(Long id){
         return formulationService.upsert(id);
     }
 
-    @RequestMapping(value = {"/managereval/formulationDate/doupsert"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/managereval/formulation/absenceReport","/reviewer/reviewer/absenceReport"}, method = RequestMethod.POST)
+    public ModelAndView absenceReport(Long id){
+        return formulationService.absenceReport(id);
+    }
+
+    @RequestMapping(value = {"/managereval/formulation/doupsert"}, method = RequestMethod.POST)
     @ResponseBody
     public ResponseMessage doupsert(Formulation formulation){
         return formulationService.doUpsert(formulation);
     }
 
-    @RequestMapping(value = {"/reviewer/formulationDate/confirmInformation"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/reviewer/formulation/confirmInformation"}, method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage confirmInformation(Long id){

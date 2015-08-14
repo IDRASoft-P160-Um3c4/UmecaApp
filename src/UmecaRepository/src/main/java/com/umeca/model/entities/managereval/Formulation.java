@@ -68,11 +68,11 @@ public class Formulation implements EntityGrid {
     private Boolean isObsolete;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_reviewer")
+    @JoinColumn(name = "id_reviewer", nullable = false)
     private User reviewer;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_managereval")
+    @JoinColumn(name = "id_managereval",nullable = false)
     private User managereval;
 
     @Column(name = "comments", length = 300, nullable = true)

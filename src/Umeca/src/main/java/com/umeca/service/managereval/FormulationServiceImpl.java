@@ -42,7 +42,7 @@ public class FormulationServiceImpl implements FormulationService {
         Gson gson = new Gson();
         List<SelectList> lstReviewers = userRepository.getLstValidUsersByRole(Constants.ROLE_REVIEWER);
 
-        ModelAndView model = new ModelAndView("/managereval/formulationDate/upsert");
+        ModelAndView model = new ModelAndView("/managereval/formulation/upsert");
 
         model.addObject("lstReviewers", gson.toJson(lstReviewers));
         if (id != null && id > 0) {
@@ -134,5 +134,11 @@ public class FormulationServiceImpl implements FormulationService {
             result.setMessage(ConsMessage.MSG_ERROR_UPSERT);
         }
         return result;
+    }
+
+    @Override
+    public ModelAndView absenceReport(Long id) {
+        ModelAndView model = new ModelAndView("/managereval/formulation/absenceReport");
+        return model;
     }
 }

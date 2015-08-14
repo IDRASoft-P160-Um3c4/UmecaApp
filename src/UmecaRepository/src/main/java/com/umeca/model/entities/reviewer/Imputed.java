@@ -90,6 +90,9 @@ public class Imputed {
     @JoinColumn(name = "id_meeting", nullable = false)
     protected Meeting meeting;
 
+    @Column(name = "isFromFomulation", nullable = true)
+    protected Boolean isFromFormulation;
+
     public Long getId() {
         return id;
     }
@@ -224,6 +227,14 @@ public class Imputed {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public Boolean getIsFromFormulation() {
+        return isFromFormulation;
+    }
+
+    public void setIsFromFormulation(Boolean isFromFormulation) {
+        this.isFromFormulation = isFromFormulation;
     }
 
     public void validateMeeting(TerminateMeetingMessageDto t) {

@@ -1,5 +1,7 @@
 package com.umeca.controller.reviewer;
 
+import com.google.gson.Gson;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
@@ -8,12 +10,14 @@ import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.model.managerEval.ManagerevalView;
 import com.umeca.model.catalog.StatusMeeting;
+import com.umeca.model.entities.managereval.Formulation;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
 import com.umeca.model.entities.reviewer.View.MeetingView;
 import com.umeca.model.entities.reviewer.View.PersonSocialNetworkView;
 import com.umeca.model.shared.ConsMessage;
 import com.umeca.model.shared.Constants;
+import com.umeca.repository.managereval.FormulationRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.MeetingService;
 import com.umeca.service.reviewer.ScheduleService;
@@ -54,6 +58,9 @@ public class MeetingController {
 
     @Autowired
     SharedUserService sharedUserService;
+
+    @Autowired
+    FormulationRepository formulationRepository;
 
     @RequestMapping(value = "/reviewer/meeting/list", method = RequestMethod.POST)
     public
@@ -412,7 +419,24 @@ public class MeetingController {
         return "/reviewer/meeting/newMeeting";
     }
 
-    @RequestMapping(value = "/reviewer/meeting/doNewMeeting", method = RequestMethod.POST)
+
+    @RequestMapping(value="/reviewer/meeting/newMeetingForFormulation", method = RequestMethod.POST )
+    public ModelAndView newMeetingForFormulation(Long id){
+        Gson gson = new Gson();
+        ModelAndView model = new ModelAndView("/reviewer/meeting/newMeeting");
+        try {
+
+            Formulation formulation = formulationRepository.findOne(id);
+            model.addObject("f", formulation);
+            model.addObject("isFromFormulation",true);
+        }
+        catch(Exception e){
+            logException.Write(e, this.getClass(), "newMeetingForFormulation", sharedUserService);
+        }
+        return model;
+    }
+
+    @RequestMapping(value = {"/reviewer/meeting/doNewMeeting","/reviewer/formulation/doNewMeeting"}, method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doNewMeeting(@ModelAttribute Imputed imputed) {
@@ -430,7 +454,7 @@ public class MeetingController {
         return result;
     }
 
-    @RequestMapping(value = "/reviewer/meeting/meeting", method = RequestMethod.GET)
+    @RequestMapping(value = {"/reviewer/meeting/meeting","/reviewer/formulation/meeting"}, method = RequestMethod.GET)
     public
     @ResponseBody
     ModelAndView meeting(@RequestParam(required = true) Long id) {

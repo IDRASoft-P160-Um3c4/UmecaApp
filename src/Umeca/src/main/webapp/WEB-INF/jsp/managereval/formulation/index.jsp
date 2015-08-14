@@ -13,7 +13,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-timepicker.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/moment.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/daterangepicker.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/managereval/formulationDate/formulationDateCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/managereval/formulation/formulationCtrl.js"></script>
     <title>Entrevistas</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
@@ -25,7 +25,7 @@
 
     <script>
         window.upsert = function (id) {
-            window.showUpsert(id, "#angJsjqGridId", '<c:url value='/managereval/formulationDate/upsert.html' />', "#GridId");
+            window.showUpsert(id, "#angJsjqGridId", '<c:url value='/managereval/formulation/upsert.html' />', "#GridId");
         };
 
         $(document).ready(function () {
@@ -160,16 +160,16 @@
 
             window.showConfirmPresence = function(id){
 
-                window.showUpsert(id, "#angJsjqGridId", '<c:url value='/reviewer/meeting/newMeeting.html'/>', "#GridId");
+                window.showUpsert(id, "#angJsjqGridId", '<c:url value='/reviewer/meeting/newMeetingForFormulation.html'/>', "#GridId");
              //   window.showAction(id, "#angJsjqGridId", '', "#GridId","Registrar Asistencia/inasistencia","&iquest;El imputado asisti&oacute; a la cita de entrevista de riesgo?","warning");
             };
 
             window.showReportAbsence = function(id){
-                window.showAction(id, "#angJsjqGridId", '', "#GridId","Registrar Asistencia/inasistencia","&iquest;El imputado asisti&oacute; a la cita de entrevista de riesgo?","warning");
+                window.showUpsert(id, "#angJsjqGridId", '<c:url value='/reviewer/reviewer/absenceReport.html'/>', "#GridId","Registrar Asistencia/inasistencia","&iquest;El imputado asisti&oacute; a la cita de entrevista de riesgo?","warning");
             };
 
             window.showConfirmInformationDelivery = function(id){
-                window.showAction(id, "#angJsjqGridId", '<c:url value='/reviewer/formulationDate/confirmInformation.json'/>', "#GridId","Registrar entrega de informaci&oacute;n","&iquest;Realiz&oacute; la entrega de la informaci&oacute;n de la entrevista de formulaci&oacute;n?","warning");
+                window.showAction(id, "#angJsjqGridId", '<c:url value='/reviewer/formulation/confirmInformation.json'/>', "#GridId","Registrar entrega de informaci&oacute;n","&iquest;Realiz&oacute; la entrega de la informaci&oacute;n de la entrevista de formulaci&oacute;n?","warning");
             };
             $(document).ready(function () {
                 jQuery("#GridId").jqGrid({
@@ -276,8 +276,6 @@
                         }, 0);
                     }
                 });
-
-
 
                 jQuery("#GridId").jqGrid('navGrid', '#GridPager', {
                     edit: false, editicon: 'icon-pencil blue',

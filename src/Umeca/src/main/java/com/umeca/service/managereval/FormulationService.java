@@ -6,9 +6,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 public interface FormulationService {
-
     ModelAndView upsert(Long id);
     ResponseMessage doUpsert(Formulation formulation);
     ResponseMessage confirmInformation(Long id);
-
+    ModelAndView absenceReport(Long id);
 }
