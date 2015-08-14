@@ -32,10 +32,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -385,16 +384,8 @@ public class VerificationController {
     @RequestMapping(value = "/reviewer/verification/makeReport", method = RequestMethod.POST)
     public void makeReport(@RequestParam(required = true) Long idCase,@RequestParam(required = true)String reason) {
 
-        Case c  = caseRepository.findOne(idCase);
-        Event event = new Event();
-        event.setCaseDetention(c);
-        event.setComments(reason);
-        User user = new User();
-        user.setId(sharedUserService.GetLoggedUserId());
-        event.setUser(user);
+        verificationService.upsertCaseReport(idCase,reason);
 
-        Date date = new Date();
-        event.setDate(date);
 
 
 

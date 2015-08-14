@@ -8,8 +8,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 
-@Repository("eventRepository")
-public interface EventRepository extends JpaRepository<EventType,Long> {
+@Repository("eventTypeRepository")
+public interface EventTypeRepository extends JpaRepository<EventType,Long> {
+
     @Query("SELECT s from EventType s where s.name=:code")
     public StatusCase findByCode(@Param("code") String code);
 }

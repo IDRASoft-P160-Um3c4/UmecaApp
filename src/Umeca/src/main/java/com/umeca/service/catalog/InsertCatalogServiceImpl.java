@@ -151,7 +151,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     @Autowired
     EvaluationActivityRepository evaluationActivityRepository;
     @Autowired
-    EventRepository eventRepository;
+    EventTypeRepository eventTypeRepository;
 
 
     private String PATH = "C:\\Projects\\Umeca\\UmecaApp\\db\\";
@@ -1067,9 +1067,9 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             model.setName(data[1]);
             model.setDescription(data[2]);
             model.setIsObsolete(data[3].equals("1"));
-            eventRepository.save(model);
+            eventTypeRepository.save(model);
         }
-        eventRepository.flush();
+        eventTypeRepository.flush();
     }
 }
 
