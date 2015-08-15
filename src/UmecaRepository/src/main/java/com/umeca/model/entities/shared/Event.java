@@ -1,4 +1,4 @@
-package com.umeca.model.entities.shared;
+    package com.umeca.model.entities.shared;
 
 import com.umeca.model.catalog.EventType;
 import com.umeca.model.entities.account.User;

@@ -193,7 +193,7 @@ public class MeetingController {
     }
 
 
-    @RequestMapping(value = "/reviewer/meeting/declined/printSheet", method = RequestMethod.GET)
+        @RequestMapping(value = "/reviewer/meeting/declined/printSheet", method = RequestMethod.GET)
     public ModelAndView printSheet(@RequestParam(required = true) Long id, HttpServletResponse response) {
 
         ModelAndView model = null;
@@ -427,6 +427,9 @@ public class MeetingController {
         try {
 
             Formulation formulation = formulationRepository.findOne(id);
+            formulation.setPresence(true);
+            formulationRepository.save(formulation);
+
             model.addObject("f", formulation);
             model.addObject("isFromFormulation",true);
         }

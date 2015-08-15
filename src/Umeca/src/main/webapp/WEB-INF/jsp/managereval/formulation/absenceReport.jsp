@@ -1,63 +1,27 @@
-
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<script>
-  $(document).ready(function () {
-    window.showModalFormDlg("#dlgUpModalId", "#FormForumulationDateId");
-    $('.date-picker').datepicker({autoclose: true}).next().on(ace.click_event, function () {
-      $(this).prev().focus();
-    });
-  });
-</script>
-
-
-<div>
-  <div id="dlgUpModalId" class="modal fade" ng-controller="formulationDateCtrl" ng-cloak>
-    <div class="modal-dialog" style="width:800px">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div class="alert alert-info ">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="element-center"><i class="glyphicon glyphicon-file "></i>&nbsp;&nbsp;Documento de informe de inasistencia&oacute;n</h4>
-          </div>
-        </div>
-        <div class="modal-body">
-          <form id="FormForumulationDateId" name="FormForumulationDateId" class="form-horizontal" role="form">
-            <br />
-            <div class="row">
-              <div class="col-xs-12 element-center">
-                  <textarea rows="15" cols="100"
-                          name = "comments"
-                          ng-model="m.comments"
-                          ng-init='m.comments = "${(m.comments == null) ? '' : m.comments}"' ></textarea>
-              </div>
-            </div>
-          </form>
-          <br />
-          <div class="row">
-            <div class="col-xs-12">
-              <div ng-show="MsgError" class="alert alert-danger element-center">
-                {{MsgError}}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-                    <span class="btn btn-default btn-sm" ng-click="cancel()">
-                        Cancelar
-                    </span>
-                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormForumulationDateId', '<c:url value="/managereval/formulation/doupsert.json"/>');">
-                          Generar reporte
-                    </span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-  $('.date-picker').datepicker({autoclose:true, endDate:new Date()}).next().on(ace.click_event, function(){
-    $(this).prev().focus();
-  });
-</script>
-<script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>DOCUMENTO DE INFORME DE INASISTENCIA</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <style type="text/css">
+        ol{margin:0;padding:0}.c0{orphans:2;widows:2;text-align:center;direction:ltr}.c1{orphans:2;widows:2;text-align:justify;direction:ltr}.c3{background-color:#ffffff;max-width:451.4pt;padding:72pt 72pt 72pt 72pt}.c4{font-size:24pt}.c5{font-size:12pt}.c2{height:11pt}.title{padding-top:0pt;color:#000000;font-size:21pt;padding-bottom:0pt;font-family:"Trebuchet MS";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}.subtitle{padding-top:0pt;color:#666666;font-size:13pt;padding-bottom:10pt;font-family:"Trebuchet MS";line-height:1.15;page-break-after:avoid;font-style:italic;orphans:2;widows:2;text-align:left}li{color:#000000;font-size:11pt;font-family:"Arial"}p{margin:0;color:#000000;font-size:11pt;font-family:"Arial"}h1{padding-top:10pt;color:#000000;font-size:16pt;padding-bottom:0pt;font-family:"Trebuchet MS";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h2{padding-top:10pt;color:#000000;font-weight:bold;font-size:13pt;padding-bottom:0pt;font-family:"Trebuchet MS";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h3{padding-top:8pt;color:#666666;font-weight:bold;font-size:12pt;padding-bottom:0pt;font-family:"Trebuchet MS";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h4{padding-top:8pt;color:#666666;text-decoration:underline;font-size:11pt;padding-bottom:0pt;font-family:"Trebuchet MS";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h5{padding-top:8pt;color:#666666;font-size:11pt;padding-bottom:0pt;font-family:"Trebuchet MS";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h6{padding-top:8pt;color:#666666;font-size:11pt;padding-bottom:0pt;font-family:"Trebuchet MS";line-height:1.15;page-break-after:avoid;font-style:italic;orphans:2;widows:2;text-align:left}
+    </style>
+</head>
+<body class="c3">
+<p class="c0">
+    <span class="c4">INFORME DE INASISTENCIA</span>
+</p>
+<br/>
+<br/>
+<br/>
+<p class="c1">
+    <span class="c5">ASUNTO: SE REMITE INFORME DE INASISTENCIA</span>
+</p>
+<br/>
+<p class="c1">
+        <span class="c5">
+            El dia ${data.registrationFormulationDate} para el imputado ${data.firstName} ${data.lastNameP} ${data.lastNameM}, no asisti&oacute; a la entrevista UMECA.
+        </span>
+</p>
+</body>
+</html>
