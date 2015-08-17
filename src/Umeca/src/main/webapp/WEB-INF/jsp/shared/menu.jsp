@@ -71,6 +71,7 @@
                                         class="icon-check"></i>&nbsp;&nbsp;Verificaci&oacute;n</a>
                                 </li>
                                 <li><a
+
                                         href="<c:url value='/reviewer/technicalReview/index.html' />"><i
                                         class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Instrumento de evaluaci&oacute;n</a>
                                 </li>
@@ -95,6 +96,10 @@
                                 <li><a
                                         href="<c:url value='/managereval/showCaseEvaluation/obsoleteCase.html' />"><i
                                         class="icon icon-trash"></i>&nbsp;&nbsp;Casos eliminados</a>
+                                </li>
+                                <li><a
+                                        href="<c:url value='/reviewer/caseReport/index.html' />"><i
+                                        class="icon icon-file"></i>&nbsp;&nbsp;Casos con informe</a>
                                 </li>
                                 <li><a
                                         href="<c:url value='/shared/messageHistory/index.html' />"><i

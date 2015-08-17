@@ -15,6 +15,7 @@ import com.umeca.model.entities.shared.Event;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
+import com.umeca.repository.EventRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
@@ -161,6 +162,10 @@ public class VerificationServiceImpl implements VerificationService {
     AcademicLevelRepository academicLevelRepository;
     @Autowired
     CountryRepository countryRepository;
+    @Autowired
+    EventRepository eventRepository;
+    @Autowired
+    EventTypeRepository eventTypeRepository;
 
 
     private void userConfigToView(ModelAndView model) {
@@ -305,7 +310,6 @@ public class VerificationServiceImpl implements VerificationService {
     @Override
     public void upsertCaseReport(Long idCase, String reason) {
 
-
         Case c  = caseRepository.findOne(idCase);
         Event event = new Event();
         event.setCaseDetention(c);
@@ -319,10 +323,9 @@ public class VerificationServiceImpl implements VerificationService {
         event.setDate(date);
         event.setDateId(dateId);
         c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
-
+        event.setEventType(eventTypeRepository.findByCode(Constants.EVENT_CASE_REPORT));
+        eventRepository.save(event);
         caseRepository.save(c);
-
-
 
     }
 

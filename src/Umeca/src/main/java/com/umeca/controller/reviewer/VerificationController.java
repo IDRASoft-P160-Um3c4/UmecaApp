@@ -382,13 +382,11 @@ public class VerificationController {
     SharedUserService sharedUserService;
 
     @RequestMapping(value = "/reviewer/verification/makeReport", method = RequestMethod.POST)
-    public void makeReport(@RequestParam(required = true) Long idCase,@RequestParam(required = true)String reason) {
-
+    public ResponseMessage makeReport(@RequestParam(required = true) Long idCase,@RequestParam(required = true)String reason) {
         verificationService.upsertCaseReport(idCase,reason);
-
-
-
-
+        ResponseMessage result = new ResponseMessage(false, "Se ha guardado exitosamente");
+        result.setUrlToGo("../../reviewer/caseReport/index.html");
+        return result;
     }
 
 }
