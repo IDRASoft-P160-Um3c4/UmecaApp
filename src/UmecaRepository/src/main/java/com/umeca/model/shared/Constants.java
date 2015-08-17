@@ -299,5 +299,13 @@ public class Constants {
 
     public static final String COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW = "No proporcionado";
 
+
+
+    /** códigos para los eventos **/
+
+
+    public static final String EVENT_INTERVIEW_DECLINED = "DECLINED";
+    public static final String EVENT_CASE_REPORT = "REPORT";
+
 }
 

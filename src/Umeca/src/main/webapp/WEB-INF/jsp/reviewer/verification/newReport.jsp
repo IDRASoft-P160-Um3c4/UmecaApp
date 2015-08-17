@@ -41,7 +41,7 @@
                                 <span class="btn btn-default btn-sm" ng-click="cancel()">
                                     Cancelar
                                 </span>
-                                <span class="btn btn-primary btn-sm" >
+                                <span class="btn btn-primary btn-sm" ng-click="submitRedirect('#FormCatId','<c:url value="/reviewer/verification/makeReport.json"/>');">
                                     Terminar
                                 </span>
                             </div>
