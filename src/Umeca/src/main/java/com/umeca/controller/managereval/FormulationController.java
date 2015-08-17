@@ -60,6 +60,7 @@ public class FormulationController {
                     add(r.get("lastNameM"));
                     add(r.get("umecaInterviewDate"));
                     add(r.get("hearingDate"));
+                    add(r.get("presence"));
                     add(r.join("reviewer").get("fullname"));
                 }};
             }
