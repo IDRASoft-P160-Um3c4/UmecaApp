@@ -13,7 +13,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-timepicker.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/moment.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/daterangepicker.min.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/managereval/formulationDate/formulationDateCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/managereval/formulation/formulationCtrl.js"></script>
     <title>Entrevistas</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
@@ -25,7 +25,7 @@
 
     <script>
         window.upsert = function (id) {
-            window.showUpsert(id, "#angJsjqGridId", '<c:url value='/managereval/formulationDate/upsert.html' />', "#GridId");
+            window.showUpsert(id, "#angJsjqGridId", '<c:url value='/managereval/formulation/upsert.html' />', "#GridId");
         };
 
         $(document).ready(function () {
@@ -160,16 +160,22 @@
 
             window.showConfirmPresence = function(id){
 
-                window.showUpsert(id, "#angJsjqGridId", '<c:url value='/reviewer/meeting/newMeeting.html'/>', "#GridId");
+                window.showUpsert(id, "#angJsjqGridId", '<c:url value='/reviewer/meeting/newMeetingForFormulation.html'/>', "#GridId");
              //   window.showAction(id, "#angJsjqGridId", '', "#GridId","Registrar Asistencia/inasistencia","&iquest;El imputado asisti&oacute; a la cita de entrevista de riesgo?","warning");
             };
 
             window.showReportAbsence = function(id){
-                window.showAction(id, "#angJsjqGridId", '', "#GridId","Registrar Asistencia/inasistencia","&iquest;El imputado asisti&oacute; a la cita de entrevista de riesgo?","warning");
+                window.showUpsert(id, "#angJsjqGridId", '<c:url value='/reviewer/reviewer/absenceReport.html'/>', "#GridId","Registrar Asistencia/inasistencia","&iquest;El imputado asisti&oacute; a la cita de entrevista de riesgo?","warning");
+            };
+
+            window.printDocument = function(id){
+                var goTo = "<c:url value='/reviewer/formulation/printAbsenceReport.html'/>" + "?id=" + id;
+                window.goToUrlMvcUrl(goTo);
+                $("#GridId").trigger("reloadGrid");
             };
 
             window.showConfirmInformationDelivery = function(id){
-                window.showAction(id, "#angJsjqGridId", '<c:url value='/reviewer/formulationDate/confirmInformation.json'/>', "#GridId","Registrar entrega de informaci&oacute;n","&iquest;Realiz&oacute; la entrega de la informaci&oacute;n de la entrevista de formulaci&oacute;n?","warning");
+                window.showAction(id, "#angJsjqGridId", '<c:url value='/reviewer/formulation/confirmInformation.json'/>', "#GridId","Registrar entrega de informaci&oacute;n","&iquest;Realiz&oacute; la entrega de la informaci&oacute;n de la entrevista de formulaci&oacute;n?","warning");
             };
             $(document).ready(function () {
                 jQuery("#GridId").jqGrid({
@@ -177,7 +183,7 @@
                     datatype: "json",
                     autoencode: true,
                     mtype: 'POST',
-                    colNames: ['ID', 'Fecha registro formulaci&oacute;n', 'Oficio', 'C&eacute;dula de notificaci&oacute;n', 'Datos imputado', 'Datos evaluador', 'Fecha audiencia', 'Fecha entrevista Umeca', 'Acci&oacute;n'],
+                    colNames: ['ID', 'Fecha registro formulaci&oacute;n', 'Oficio', 'C&eacute;dula de notificaci&oacute;n', 'Datos imputado', 'Datos evaluador', 'Fecha audiencia', 'Fecha entrevista Umeca',/*'Asistencia',*/ 'Acci&oacute;n'],
                     colModel: [
                         {name: 'id', index: 'id', hidden: true},
                         {
@@ -236,6 +242,14 @@
                             sorttype: 'string',
                             search: false
                         },
+                     /*   {
+                            name: 'presenceStr',
+                            index: 'presenceStr',
+                            width: 200,
+                            align: "center",
+                            sorttype: 'string',
+                            search: false
+                        },*/
                         {
                             name: 'Action',
                             width: 70,
@@ -263,7 +277,7 @@
                             var status = row.status + "";
                             var be = "";
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Registrar asistencia/inasistencia\" onclick=\"window.showConfirmPresence('" + cl + "');\"><i class=\" icon-ok\"></i></a>";
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar reporte de inasistencia\" onclick=\"window.showReportAbsence('" + cl + "');\"><i class=\" icon-file\"></i></a>";
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar reporte de inasistencia\" onclick=\"window.printDocument('" + cl + "');\"><i class=\" icon-file\"></i></a>";
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Entrega de informaci&oacute;n\" onclick=\"window.showConfirmInformationDelivery('" + cl + "');\"><i class=\" icon-list-alt\"></i></a>";
                             $(this).jqGrid('setRowData', ids[i], {Action: be});
                         }
@@ -276,8 +290,6 @@
                         }, 0);
                     }
                 });
-
-
 
                 jQuery("#GridId").jqGrid('navGrid', '#GridPager', {
                     edit: false, editicon: 'icon-pencil blue',

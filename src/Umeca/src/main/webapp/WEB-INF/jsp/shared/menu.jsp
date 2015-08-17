@@ -76,7 +76,7 @@
                                         class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Instrumento de evaluaci&oacute;n</a>
                                 </li>
                                 <li><a
-                                        href="<c:url value='/reviewer/formulationDate/index.html' />"><i
+                                        href="<c:url value='/reviewer/formulation/index.html' />"><i
                                         class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Cita de formulaci&oacute;n</a>
                                 </li>
                             </ul>
@@ -199,7 +199,7 @@
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
 
-                        <li class="nav-li-blue"><a href="<c:url value='/managereval/formulationDate/index.html' />"><i
+                        <li class="nav-li-blue"><a href="<c:url value='/managereval/formulation/index.html' />"><i
                                 class="icon icon-calendar"></i>&nbsp;&nbsp;Cita formulaci&oacute;n</a></li>
 
                         <li class="dropdown nav-li-blue">

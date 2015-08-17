@@ -21,7 +21,7 @@ public class Formulation implements EntityGrid {
 
     }
 
-    public Formulation(Long id, Date registrationFormulationDate, String document, String certificateNotification, String firstname, String lastNameP, String lastNameM, Date umecaInterviewDate, Date hearingDate, String fullname) {
+    public Formulation(Long id, Date registrationFormulationDate, String document, String certificateNotification, String firstname, String lastNameP, String lastNameM, Date umecaInterviewDate, Date hearingDate,Boolean presence, String fullname) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         this.id=id;
         this.document = document;
@@ -30,6 +30,7 @@ public class Formulation implements EntityGrid {
         this.umecaInterviewDateStr = umecaInterviewDate==null?"":sdf.format(umecaInterviewDate);
         this.hearingDateStr = hearingDate==null?"":sdf.format(hearingDate);
         this.registrationFormulationDateStr = registrationFormulationDate==null?"":sdf.format(umecaInterviewDate);
+        this.presenceStr = presence==null?"Pendiente":presence==true ? "Sí" : "No";
         this.reviewerFullname = fullname;
     }
 
@@ -68,11 +69,11 @@ public class Formulation implements EntityGrid {
     private Boolean isObsolete;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_reviewer")
+    @JoinColumn(name = "id_reviewer", nullable = false)
     private User reviewer;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_managereval")
+    @JoinColumn(name = "id_managereval",nullable = false)
     private User managereval;
 
     @Column(name = "comments", length = 300, nullable = true)
@@ -94,6 +95,9 @@ public class Formulation implements EntityGrid {
 
     @Transient
     private Long reviewerId;
+
+    @Transient
+    private String presenceStr;
 
     public Long getId() {
         return id;
@@ -206,6 +210,14 @@ public class Formulation implements EntityGrid {
 
     public void setRegistrationFormulationDateStr(String registrationFormulationDateStr) {
         this.registrationFormulationDateStr = registrationFormulationDateStr;
+    }
+
+    public String getPresenceStr() {
+        return presenceStr;
+    }
+
+    public void setPresenceStr(String presenceStr) {
+        this.presenceStr = presenceStr;
     }
 
     public String getUmecaInterviewDateStr() {

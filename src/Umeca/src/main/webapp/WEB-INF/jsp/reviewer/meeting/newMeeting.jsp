@@ -34,7 +34,7 @@
                                     <input class="form-control" data-val="true"
                                            data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres"
                                            data-val-required="El nombre es un campo requerido"
-                                           data-val-length-max="50" data-val-length-min="3" ng-init="name=''"
+                                           data-val-length-max="50" data-val-length-min="3" ng-init='name="${(f.firstName == null) ? '' : f.firstName}"'
                                            id="name" name="name" ng-model="name"
                                            type="text"/>
                                 </div>
@@ -49,7 +49,7 @@
                                 </div>
                                 <div class="col-xs-7">
                                     <input class="form-control" data-val="true"
-                                           data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres" ng-init="lastNameP=''"
+                                           data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres" ng-init='lastNameP="${(f.lastNameP == null) ? '' : f.lastNameP}"'
                                            data-val-length-max="50" data-val-length-min="3"
                                            data-val-required="El apellido paterno es un campo requerido"
                                            id="lastNameP" name="lastNameP"
@@ -69,7 +69,7 @@
                                     <input class="form-control" data-val="true"
                                            data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres"
                                            data-val-length-max="50" data-val-length-min="3"
-                                           data-val-required="El apellido materno es un campo requerido" ng-init="lastNameM=''"
+                                           data-val-required="El apellido materno es un campo requerido" ng-init='lastNameM="${(f.lastNameM == null) ? '' : f.lastNameM }"'
                                            id="lastNameM" name="lastNameM"
                                            type="text" ng-model="lastNameM"/>
                                 </div>
@@ -157,16 +157,18 @@
                                     <label class="info-note" for="isAccepted">&iquest;El imputado acepta que se realice la entrevista de riesgos procesales?</label>
                                 </div>
                             </div>
+                            <input type="hidden" ng-update-hidden ng-model="isFromFormulation" name="isFromFormulation" ng-init='isFromFormulation = "${(isFromFormulation == null) ? false : isFromFormulation}"'>
                             <div class="row">
                                 <div class="col-xs-12 element-center">
-                                    <input type="checkbox" ng-model="m.isFormulation" id="isFormulation"
-                                           ng-init="m.isFormulation= false">
+                                    <input type="checkbox" ng-model="m.isFromFormulation" id="isFormulation" ng-disabled="!blockR"
+                                           ng-init="m.isFromFormulation= ${isFromFormulation ==null ? false: isFromFormulation}">
                                     <label class="info-note" for="isFormulation">&iquest;Se trata de una entrevista de formulaci&oacute;n?</label>
                                 </div>
                             </div>
                             <br/>
                             <br/>
                         </div>
+
 
 
 
@@ -223,7 +225,13 @@
                         Cancelar
                     </span>
                     <span class="btn btn-primary btn-sm" ng-disabled="WaitFor==true || m.isAccepted == false"
+                          ng-show = "m.isFromFormulation == false"
                           ng-click="submitRedirect('#FormCatId','<c:url value="/reviewer/meeting/doNewMeeting.json"/>');">
+                          Continuar
+                    </span>
+                     <span class="btn btn-primary btn-sm" ng-disabled="WaitFor==true || m.isAccepted == false"
+                           ng-show = "m.isFromFormulation == true"
+                           ng-click="submitRedirect('#FormCatId','<c:url value="/reviewer/formulation/doNewMeeting.json"/>');">
                           Continuar
                     </span>
                 </div>

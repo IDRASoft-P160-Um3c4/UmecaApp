@@ -32,7 +32,7 @@ app.controller('referenceController', function($scope, $timeout,$rootScope) {
             return;
 
         if($scope.r.docId === undefined){
-            $scope.r.doc = $scope.lstDoc[0];
+            $scope.r.doc = $scope.lstDoc[9];
             $scope.r.docId = $scope.r.doc.id;
         }
         else{

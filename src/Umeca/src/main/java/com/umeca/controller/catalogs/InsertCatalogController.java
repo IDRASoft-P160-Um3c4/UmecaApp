@@ -150,7 +150,7 @@ public class InsertCatalogController {
     }
 
 
-    @RequestMapping(value = "/catalogs/insertStatusCase", method = RequestMethod.GET)
+        @RequestMapping(value = "/catalogs/insertStatusCase", method = RequestMethod.GET)
     public String insertStatusCase() {
         service.statusCase();
         return "Status Case OK!";

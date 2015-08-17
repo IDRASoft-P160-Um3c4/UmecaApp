@@ -23,7 +23,7 @@
                 <div class="modal-body">
                     <form id="FormForumulationDateId" name="FormForumulationDateId" class="form-horizontal" role="form">
                         <br />
-                        <%@ include file="/WEB-INF/jsp/managereval/formulationDate/content.jsp"%>
+                        <%@ include file="/WEB-INF/jsp/managereval/formulation/content.jsp"%>
                     </form>
                     <br />
                     <div class="row">
@@ -39,7 +39,7 @@
                         Cancelar
                     </span>
                     <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                          ng-click="submit('#FormForumulationDateId', '<c:url value="/managereval/formulationDate/doupsert.json"/>');">
+                          ng-click="submit('#FormForumulationDateId', '<c:url value="/managereval/formulation/doupsert.json"/>');">
                           Guardar
                     </span>
                 </div>
