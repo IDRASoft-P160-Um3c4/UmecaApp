@@ -27,6 +27,7 @@ public class FormulationController {
 
     @Autowired
     FormulationService formulationService;
+
     @Autowired
     private GenericJqGridPageSortFilter gridFilter;
 
@@ -154,4 +155,23 @@ public class FormulationController {
     }
 
 
+    @RequestMapping(value = "/reviewer/formulation/showAttendaneRecord", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ModelAndView showAttendanceRecord(Long id){
+        return formulationService.showAttendanceRecord(id);
+    }
+
+    @RequestMapping(value = "/reviewer/formulation/doAttendanceRecord")
+    public
+    @ResponseBody
+    ResponseMessage doAttendanceRecord(Long id, boolean attendance){
+        return formulationService.doAttendanceRecord(id,attendance);
+
+    }
+
+
+    public void setFormulationService(FormulationService formulationService) {
+        this.formulationService = formulationService;
+    }
 }

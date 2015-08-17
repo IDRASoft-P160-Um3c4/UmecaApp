@@ -109,24 +109,24 @@ public class FormulationServiceImpl implements FormulationService {
 
             formulation = formulationRepository.findOne(id);
 
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-                messageService.sendNotificationToUser(null,
-                        String.format("<strong>Registrada por evaluador: %s </strong><br/>" +
-                                        "Fecha de registro: <b>%s</b><br/>" +
-                                        "Oficio: <b>%s</b><br/>" +
-                                        "Cedula de notificación: <b>%s</b> <br/>" +
-                                        "Imputado: <b>%s</b> <br/>" +
-                                        "Fecha de la cita de entrevista: <b>%s</b> <br/>" +
-                                        "Fecha de audiencia: <b>%s</b> <br/>",
-                                userService.getFullNameById(userService.GetLoggedUserId()),
-                                formulation.getRegistrationFormulationDate() == null ? "" : sdf.format(formulation.getRegistrationFormulationDate()),
-                                formulation.getDocument(),
-                                formulation.getCertificateNotification(),
-                                formulation.getLastNameP() + " " + formulation.getLastNameM() + " " + formulation.getFirstName(),
-                                formulation.getUmecaInterviewDate() == null ? "" : sdf.format(formulation.getUmecaInterviewDate()),
-                                formulation.getHearingDate() == null ? "" : sdf.format(formulation.getHearingDate()))
-                        , userRepository.findOne(userService.GetLoggedUserId()),
-                        userRepository.findOne(formulation.getManagereval().getId()), "Notificación REGISTRO ENTREGA INFORMACI&Oacute;N FORMULACI&Oacute;N", "");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            messageService.sendNotificationToUser(null,
+                    String.format("<strong>Registrada por evaluador: %s </strong><br/>" +
+                                    "Fecha de registro: <b>%s</b><br/>" +
+                                    "Oficio: <b>%s</b><br/>" +
+                                    "Cedula de notificación: <b>%s</b> <br/>" +
+                                    "Imputado: <b>%s</b> <br/>" +
+                                    "Fecha de la cita de entrevista: <b>%s</b> <br/>" +
+                                    "Fecha de audiencia: <b>%s</b> <br/>",
+                            userService.getFullNameById(userService.GetLoggedUserId()),
+                            formulation.getRegistrationFormulationDate() == null ? "" : sdf.format(formulation.getRegistrationFormulationDate()),
+                            formulation.getDocument(),
+                            formulation.getCertificateNotification(),
+                            formulation.getLastNameP() + " " + formulation.getLastNameM() + " " + formulation.getFirstName(),
+                            formulation.getUmecaInterviewDate() == null ? "" : sdf.format(formulation.getUmecaInterviewDate()),
+                            formulation.getHearingDate() == null ? "" : sdf.format(formulation.getHearingDate()))
+                    , userRepository.findOne(userService.GetLoggedUserId()),
+                    userRepository.findOne(formulation.getManagereval().getId()), "Notificación REGISTRO ENTREGA INFORMACI&Oacute;N FORMULACI&Oacute;N", "");
             result.setHasError(false);
             result.setMessage("Se ha envíado la notificación de información");
 
@@ -186,5 +186,37 @@ public class FormulationServiceImpl implements FormulationService {
         }
         return model;
 
+    }
+
+    @Override
+    public ModelAndView showAttendanceRecord(Long id) {
+        ModelAndView model;
+        try{
+
+            model = new ModelAndView("/managereval/formulation/attendanceRecord");
+            Formulation formulation = formulationRepository.findOne(id);
+            model.addObject("m",formulation);
+        }catch (Exception e){
+            logException.Write(e, this.getClass(), "showAttendanceRecord  ", userService);
+            model = null;
+        }
+        return model;
+    }
+
+    @Override
+    public ResponseMessage doAttendanceRecord(Long id, boolean attendance) {
+        ResponseMessage result = new ResponseMessage();
+        try {
+            Formulation formulation = formulationRepository.findOne(id);
+            formulation.setPresence(attendance);
+            formulationRepository.save(formulation);
+            result.setHasError(false);
+            result.setMessage("Se ha registrado la asistencia/inasistencia");
+        } catch (Exception e){
+            logException.Write(e, this.getClass(), "attendanceRecord  ", userService);
+            result.setHasError(true);
+            result.setMessage(ConsMessage.MSG_ERROR_UPSERT);
+        }
+        return result;
     }
 }

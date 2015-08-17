@@ -419,32 +419,20 @@ public class MeetingController {
         return "/reviewer/meeting/newMeeting";
     }
 
-
-    @RequestMapping(value="/reviewer/meeting/newMeetingForFormulation", method = RequestMethod.POST )
-    public ModelAndView newMeetingForFormulation(Long id){
-        Gson gson = new Gson();
-        ModelAndView model = new ModelAndView("/reviewer/meeting/newMeeting");
-        try {
-
-            Formulation formulation = formulationRepository.findOne(id);
-            formulation.setPresence(true);
-            formulationRepository.save(formulation);
-
-            model.addObject("f", formulation);
-            model.addObject("isFromFormulation",true);
-        }
-        catch(Exception e){
-            logException.Write(e, this.getClass(), "newMeetingForFormulation", sharedUserService);
-        }
-        return model;
-    }
-
     @RequestMapping(value = {"/reviewer/meeting/doNewMeeting","/reviewer/formulation/doNewMeeting"}, method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doNewMeeting(@ModelAttribute Imputed imputed) {
         imputed.setFoneticString(sharedUserService.getFoneticByName(imputed.getName(),imputed.getLastNameP(),imputed.getLastNameM()));
         ResponseMessage validateCreate = meetingService.validateCreateMeeting(imputed);
+
+        if(imputed.getFormulationId() != null){
+
+            Formulation formulation = formulationRepository.findOne(imputed.getFormulationId());
+            formulation.setPresence(true);
+            formulationRepository.save(formulation);
+        }
+
         if (validateCreate != null)
             return validateCreate;
         Long idCase = meetingService.createMeeting(imputed);

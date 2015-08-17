@@ -7,9 +7,54 @@
 </script>
 <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 <div>
-    <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak>
+    <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak ng-init ="showAddInterview = false" >
         <div class="modal-dialog" style="width:500px">
-            <div class="modal-content">
+            <div class="modal-content"  ng-show = "showAddInterview == false" >
+                <div class="modal-header" ng-hide="m.isNegation">
+                    <div class="alert alert-info ">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="element-center"><i class="glyphicon glyphicon-ok "></i>&nbsp;&nbsp; Registrar asistencia/inasistencia</h4>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form id="FormForumulationDateId" name="FormForumulationDateId" class="form-horizontal" role="form">
+
+                        <input type="hidden" ng-update-hidden ng-model="m.id" name="id" id="id"
+                               ng-init='m.id = "${(m.id == null) ? 0 : m.id}"'>
+                        <input type="hidden" ng-update-hidden ng-model="m.attendance" name="attendance" id="attendance"
+                               ng-init='m.attendance = "false"'>
+                        <div class="row element-center">
+                            &iquest;El imputado asisti&oacute; a la cita de entrevista de riesgos?
+                        </div>
+                        <br>
+                        <div class="element-center">
+                          <div class="btn btn-success" ng-click = "showAddInterview = true" >
+                              S&iacute;
+                          </div>
+                            <div class="btn btn-danger" ng-click="submit('#FormForumulationDateId', '<c:url value="/reviewer/formulation/doAttendanceRecord.json"/>');">
+                                No
+                            </div>
+                        </div>
+
+                    </form>
+                    <br ng-show="MsgError" />
+                    <div class="row" ng-show="MsgError">
+                        <div class="col-xs-12">
+                            <div class="alert alert-danger element-center"  ng-bind-html="MsgError">
+                                <%--{{MsgError}}--%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" ng-hide="m.isNegation">
+
+                    <span class="btn btn-default btn-sm" ng-click="cancel()">
+                        Cancelar
+                    </span>
+                </div>
+            </div>
+
+            <div class="modal-content" ng-show = "showAddInterview == true">
                 <div class="modal-header" ng-hide="m.isNegation">
                     <div class="alert alert-info ">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -18,6 +63,9 @@
                 </div>
                 <div class="modal-body">
                     <form id="FormCatId" name="FormCatId" class="form-horizontal" role="form">
+
+                        <input type="hidden" ng-update-hidden ng-model="m.id" name="formulationId" id="formulationId"
+                               ng-init='m.formulationId = "${(m.id == null) ? 0 : m.id}"'>
 
                         <div ng-hide="m.isNegation">
                             <div class="row">
@@ -34,7 +82,7 @@
                                     <input class="form-control" data-val="true"
                                            data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres"
                                            data-val-required="El nombre es un campo requerido"
-                                           data-val-length-max="50" data-val-length-min="3" ng-init='name="${(f.firstName == null) ? '' : f.firstName}"'
+                                           data-val-length-max="50" data-val-length-min="3" ng-init='name="${(m.firstName == null) ? '' : m.firstName}"'
                                            id="name" name="name" ng-model="name"
                                            type="text"/>
                                 </div>
@@ -49,7 +97,7 @@
                                 </div>
                                 <div class="col-xs-7">
                                     <input class="form-control" data-val="true"
-                                           data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres" ng-init='lastNameP="${(f.lastNameP == null) ? '' : f.lastNameP}"'
+                                           data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres" ng-init='lastNameP="${(m.lastNameP == null) ? '' : m.lastNameP}"'
                                            data-val-length-max="50" data-val-length-min="3"
                                            data-val-required="El apellido paterno es un campo requerido"
                                            id="lastNameP" name="lastNameP"
@@ -69,7 +117,7 @@
                                     <input class="form-control" data-val="true"
                                            data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres"
                                            data-val-length-max="50" data-val-length-min="3"
-                                           data-val-required="El apellido materno es un campo requerido" ng-init='lastNameM="${(f.lastNameM == null) ? '' : f.lastNameM }"'
+                                           data-val-required="El apellido materno es un campo requerido" ng-init='lastNameM="${(m.lastNameM == null) ? '' : m.lastNameM }"'
                                            id="lastNameM" name="lastNameM"
                                            type="text" ng-model="lastNameM"/>
                                 </div>
@@ -157,22 +205,18 @@
                                     <label class="info-note" for="isAccepted">&iquest;El imputado acepta que se realice la entrevista de riesgos procesales?</label>
                                 </div>
                             </div>
-                            <input type="hidden" ng-update-hidden ng-model="isFromFormulation" name="isFromFormulation" ng-init='isFromFormulation = "${(isFromFormulation == null) ? false : isFromFormulation}"'>
+                            <input type="hidden" ng-update-hidden ng-model="isFromFormulation" name="isFromFormulation" ng-init='isFromFormulation = "${(isFromFormulation == null) ? true : isFromFormulation}"'>
                             <div class="row">
                                 <div class="col-xs-12 element-center">
                                     <input type="checkbox" ng-model="m.isFromFormulation" id="isFormulation"
                                            ng-change = "isFromFormulation = m.isFromFormulation"
-                                           ng-init="m.isFromFormulation= ${isFromFormulation ==null ? false: isFromFormulation}">
+                                           ng-init="m.isFromFormulation= ${isFromFormulation ==null ? true: isFromFormulation}">
                                     <label class="info-note" for="isFormulation">&iquest;Se trata de una entrevista de formulaci&oacute;n?</label>
                                 </div>
                             </div>
                             <br/>
                             <br/>
                         </div>
-
-
-
-
                         <div class="panel panel-info" ng-show="m.isNegation" style="margin-bottom: auto;">
                             <div class="panel-heading element-center">
                                 <div class="panel-title">Negaci&oacute;n de entrevista</div>

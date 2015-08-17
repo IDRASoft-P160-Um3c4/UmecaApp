@@ -13,4 +13,7 @@ public interface FormulationService {
     ResponseMessage confirmInformation(Long id);
     ModelAndView absenceReport(Long id);
     ModelAndView printAbsenceReport(Long id,HttpServletResponse response);
+    ModelAndView showAttendanceRecord(Long id);
+    ResponseMessage doAttendanceRecord(Long id, boolean attendance);
+
 }

@@ -1,38 +1,44 @@
-app.controller('formulationDateCtrl', function($scope, $timeout) {
+app.controller('formulationDateCtrl', function ($scope, $timeout) {
     $scope.m = {};
     $scope.lstReviewers = [];
     $scope.m.idReviewer = 0;
 
 
-    $scope.init = function(){
+    $scope.init = function () {
 
 
 
-        var registrationFormulationDate=$("#registrationFormulationDate").val();
-        registrationFormulationDate= registrationFormulationDate.replace(/-/g,"/");
-        $("#registrationFormulationDate").val(registrationFormulationDate.replace("00:00:00.0",""));
+
+        var registrationFormulationDate = $("#registrationFormulationDate").val();
+        if (registrationFormulationDate !== '') {
+            registrationFormulationDate = registrationFormulationDate.replace(/-/g, "/");
+            $("#registrationFormulationDate").val(registrationFormulationDate.replace("00:00:00.0", ""));
+        }
 
 
-        var umecaInterviewDate=$("#umecaInterviewDate").val();
-        umecaInterviewDate= umecaInterviewDate.replace(/-/g,"/");
-        $("#umecaInterviewDate").val(umecaInterviewDate.replace("00:00:00.0",""));
+        var umecaInterviewDate = $("#umecaInterviewDate").val();
+        if (umecaInterviewDate !== '') {
+            umecaInterviewDate = umecaInterviewDate.replace(/-/g, "/");
+            $("#umecaInterviewDate").val(umecaInterviewDate.replace("00:00:00.0", ""));
+        }
 
-        var hearingDate=$("#hearingDate").val();
-        hearingDate= hearingDate.replace(/-/g,"/");
-        $("#hearingDate").val(hearingDate.replace("00:00:00.0",""));
+        var hearingDate = $("#hearingDate").val();
+        if (hearingDate !== '') {
+            hearingDate = hearingDate.replace(/-/g, "/");
+            $("#hearingDate").val(hearingDate.replace("00:00:00.0", ""));
+        }
 
 
-
-        if($scope.lstReviewers === undefined || $scope.lstReviewers.length <= 0)
+        if ($scope.lstReviewers === undefined || $scope.lstReviewers.length <= 0)
             return;
-        if($scope.m.reviewerId === undefined || $scope.m.reviewerId === 0){
+        if ($scope.m.reviewerId === undefined || $scope.m.reviewerId === 0) {
             $scope.m.reviewer = $scope.lstReviewers[0];
             $scope.m.reviewerId = $scope.m.reviewer.id;
         }
-        else{
-            for(var i=0; i < $scope.lstReviewers.length; i++){
+        else {
+            for (var i = 0; i < $scope.lstReviewers.length; i++) {
                 var reviewer = $scope.lstReviewers[i];
-                if(reviewer.id === $scope.m.reviewerId){
+                if (reviewer.id === $scope.m.reviewerId) {
                     $scope.m.reviewer = reviewer;
                     break;
                 }
@@ -40,13 +46,12 @@ app.controller('formulationDateCtrl', function($scope, $timeout) {
         }
     };
 
-    $timeout(function() {
+    $timeout(function () {
         $scope.init();
     }, 0);
 
 
-
-    $timeout(function() {
+    $timeout(function () {
         $scope.init();
     }, 0);
     $scope.WaitFor = false;
@@ -80,13 +85,13 @@ app.controller('formulationDateCtrl', function($scope, $timeout) {
         $scope.WaitFor = false;
 
         try {
-            if(resp.hasError===undefined){
-                resp=resp.responseMessage;
+            if (resp.hasError === undefined) {
+                resp = resp.responseMessage;
             }
             if (resp.hasError === false) {
                 $rootScope.$broadcast("onLastId", resp.Id);
                 $scope.Model.dlg.modal('hide');
-                $scope.Model.def.resolve({ isCancel: false });
+                $scope.Model.def.resolve({isCancel: false});
                 return;
             }
 
@@ -103,11 +108,12 @@ app.controller('formulationDateCtrl', function($scope, $timeout) {
         $scope.WaitFor = false;
 
         try {
-            if(resp.hasError===undefined){
-                resp=resp.responseMessage;}
+            if (resp.hasError === undefined) {
+                resp = resp.responseMessage;
+            }
             if (resp.hasError === false) {
                 $scope.Model.dlg.modal('hide');
-                $scope.Model.def.resolve({ isCancel: false });
+                $scope.Model.def.resolve({isCancel: false});
                 return;
             }
 
@@ -127,7 +133,7 @@ app.controller('formulationDateCtrl', function($scope, $timeout) {
 
     $scope.cancel = function () {
         $scope.Model.dlg.modal('hide');
-        $scope.Model.def.reject({ isCancel: true });
+        $scope.Model.def.reject({isCancel: true});
     };
 
     $scope.setDlg = function (dlg, urlToSubmit) {
@@ -139,9 +145,6 @@ app.controller('formulationDateCtrl', function($scope, $timeout) {
             dlg.replaceWith("");
         });
     };
-
-
-
 
 
 });

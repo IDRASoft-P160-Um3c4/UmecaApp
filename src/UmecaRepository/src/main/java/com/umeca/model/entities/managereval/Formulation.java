@@ -30,7 +30,7 @@ public class Formulation implements EntityGrid {
         this.umecaInterviewDateStr = umecaInterviewDate==null?"":sdf.format(umecaInterviewDate);
         this.hearingDateStr = hearingDate==null?"":sdf.format(hearingDate);
         this.registrationFormulationDateStr = registrationFormulationDate==null?"":sdf.format(umecaInterviewDate);
-        this.presenceStr = presence==null?"Pendiente":presence==true ? "Sí" : "No";
+        this.presenceStr = presence==null?"Pendiente":presence==true ? "Si" : "No";
         this.reviewerFullname = fullname;
     }
 
