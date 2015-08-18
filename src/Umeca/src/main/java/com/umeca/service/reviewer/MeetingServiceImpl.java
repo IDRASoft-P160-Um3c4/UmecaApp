@@ -1176,6 +1176,7 @@ public class MeetingServiceImpl implements MeetingService {
                 c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
                 c.setDateNotProsecute(new Date());
                 m.setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_DECLINE));
+                m.setDeclineReason(meeting.getDeclineReason());
                 meetingRepository.save(m);
             }
 
