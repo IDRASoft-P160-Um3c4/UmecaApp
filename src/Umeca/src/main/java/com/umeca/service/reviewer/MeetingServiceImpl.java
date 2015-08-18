@@ -36,17 +36,16 @@ import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.catalog.CatalogService;
 import com.umeca.service.shared.CrimeService;
+import com.umeca.service.shared.MessageServiceImpl;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -142,6 +141,9 @@ public class MeetingServiceImpl implements MeetingService {
     @Autowired
     InformationAvailabilityRepository informationAvailabilityRepository;
 
+    @Autowired
+    MessageServiceImpl messageService;
+
 
     @Transactional
     @Override
@@ -189,6 +191,20 @@ public class MeetingServiceImpl implements MeetingService {
             imputedRepository.save(imputed);
             imputedInitialRepository.save(imputedInitial);
             result = caseDetention.getId();
+
+            if(imputed.getIsFromFormulation() == true){
+                Date date = imputed.getMeeting().getDateCreate();
+                DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                String strDate = formatter.format(date);
+
+                String title = "REGISTRO DE UNA FORMULACIÓN";
+                String body = "<strong>Registrador por evaluador: " + meeting.getReviewer().getFullname() + "</strong><br/>" +
+                        "Fecha registro: " + strDate + "<br/>" +
+                        "Imputado: " + imputed.getName() + " " + imputed.getLastNameP() + " " + imputed.getLastNameM() +"<br/>" +
+                        "Carpeta de investigación: " + caseDetention.getIdFolder() + "<br/>";
+                messageService.sendNotificationToRole(caseDetention.getId(), body, Constants.ROLE_EVALUATION_MANAGER, title);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             logException.Write(e, this.getClass(), "createMeeting", userService);
