@@ -54,8 +54,6 @@
                     <span class="btn btn-default btn-sm" ng-click="cancel()">
                         Cancelar
                     </span>
-
-
                     <span ng-if="cancelMeeting!=true" class="btn btn-default btn-primary btn-sm"
                           ng-disabled="WaitFor==true || m.isAccepted == false"
                           ng-click="submit('#FormCatId, #FormSchool , #FormPersonalData, #FormLeaveCountry, #FormCommentHomeId, #FormCommentReferenceId, #FormCommentJobId, #FormSocialNetworkIndexId, #FormCommentDrugId','<c:url value="/reviewer/meeting/terminateMeeting.json"/>');">
@@ -67,7 +65,6 @@
                           ng-click="submit('#FormCatId, #FormSchool , #FormPersonalData, #FormLeaveCountry, #FormCommentHomeId, #FormCommentReferenceId, #FormCommentJobId, #FormSocialNetworkIndexId, #FormCommentDrugId','<c:url value="/reviewer/meeting/terminateMeeting.json"/>');">
                           Terminar entrevista incompleta
                     </span>
-
                 </div>
             </div>
         </div>

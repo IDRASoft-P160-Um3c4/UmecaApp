@@ -1157,6 +1157,8 @@ public class MeetingServiceImpl implements MeetingService {
             } else {
                 c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
                 c.setDateNotProsecute(new Date());
+                m.setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_DECLINE));
+                meetingRepository.save(m);
             }
 
             m.setDateTerminate(new Date());
