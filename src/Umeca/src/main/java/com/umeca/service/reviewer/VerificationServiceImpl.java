@@ -6,6 +6,7 @@ import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.*;
 import com.umeca.model.catalog.dto.*;
+import com.umeca.model.dto.FieldValueBySource;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.ChoiceView;
@@ -63,6 +64,10 @@ public class VerificationServiceImpl implements VerificationService {
     SharedLogExceptionService logException;
     @Autowired
     InformationAvailabilityRepository informationAvailabilityRepository;
+    @Autowired
+    EventTypeRepository eventTypeRepository;
+    @Autowired
+    EventRepository eventRepository;
 
     @Override
     public void createVerification(Case c) {
@@ -162,11 +167,6 @@ public class VerificationServiceImpl implements VerificationService {
     AcademicLevelRepository academicLevelRepository;
     @Autowired
     CountryRepository countryRepository;
-    @Autowired
-    EventRepository eventRepository;
-    @Autowired
-    EventTypeRepository eventTypeRepository;
-
 
     private void userConfigToView(ModelAndView model) {
 
@@ -195,7 +195,6 @@ public class VerificationServiceImpl implements VerificationService {
             model.addObject("source", gson.toJson(new SourceVerificationDto().dtoSourceVerification(new SourceVerification())));
             model.addObject("managereval", true);
         }
-
 
         return model;
     }
@@ -252,7 +251,7 @@ public class VerificationServiceImpl implements VerificationService {
                 }
             }
             fieldMeetingSourceRepository.save(fmsList);
-            return new ResponseMessage(false, "Se ha guardado la i nformacion con &eacute;xito");
+            return new ResponseMessage(false, "Se ha guardado la informaci&oacute;n con &eacute;xito");
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "showChoicesBySection", userService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci&oacute;n");
@@ -308,33 +307,12 @@ public class VerificationServiceImpl implements VerificationService {
     }
 
     @Override
-    public void upsertCaseReport(Long idCase, String reason) {
-
-        Case c  = caseRepository.findOne(idCase);
-        Event event = new Event();
-        event.setCaseDetention(c);
-        event.setComments(reason);
-        User user = new User();
-        user.setId(sharedUserService.GetLoggedUserId());
-        event.setUser(user);
-        Date date = new Date();
-        DateFormat df = new SimpleDateFormat("yyyyMMdd");
-        Integer dateId =Integer.parseInt(df.format(date));
-        event.setDate(date);
-        event.setDateId(dateId);
-        c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
-        event.setEventType(eventTypeRepository.findByCode(Constants.EVENT_CASE_REPORT));
-        eventRepository.save(event);
-        caseRepository.save(c);
-
-    }
-
-    @Override
     public ModelAndView showChoices(Long idCase, String code, Long idList) {
         ModelAndView model = new ModelAndView("/reviewer/verification/showChoices");
         model.addObject("idCase", idCase);
         model.addObject("idList", idList);
         model.addObject("code", code);
+        model.addObject("reloadFinalInfo", true);
         List<Long> idAllSources = sourceVerificationRepository.getAllSourcesByCase(idCase);
         List<SearchToChoiceIds> idSources;
 
@@ -629,7 +607,7 @@ public class VerificationServiceImpl implements VerificationService {
                 i.setLastNameP(verification.getMeetingVerified().getImputed().getLastNameP());
                 i.setLastNameM(verification.getMeetingVerified().getImputed().getLastNameM());
                 i.setBirthDate(verification.getMeetingVerified().getImputed().getBirthDate());
-                i.setFoneticString(sharedUserService.getFoneticByName(i.getName(),i.getLastNameP(),i.getLastNameM()));
+                i.setFoneticString(sharedUserService.getFoneticByName(i.getName(), i.getLastNameP(), i.getLastNameM()));
 
                 imputedRepository.save(i);
 
@@ -744,8 +722,8 @@ public class VerificationServiceImpl implements VerificationService {
 
         Meeting m = c.getMeeting();
 
-        String[] arrProp = new String[]{"commentHome", "commentReference", "commentSchool","commentJob" ,"commentDrug","commentCountry"};
-        m = (Meeting)StringEscape.escapeAttrs(m, arrProp);
+        String[] arrProp = new String[]{"commentHome", "commentReference", "commentSchool", "commentJob", "commentDrug", "commentCountry"};
+        m = (Meeting) StringEscape.escapeAttrs(m, arrProp);
 
         model.addObject("m", m);
         model.addObject("age", userService.calculateAge(c.getMeeting().getImputed().getBirthDate()));
@@ -1166,7 +1144,6 @@ public class VerificationServiceImpl implements VerificationService {
         try {
             List<FieldMeetingSource> listFieldVerficiation = new ArrayList<>();
 
-
             for (FieldVerified field : list) {
                 if (!field.getValue().equals("")) {
                     FieldMeetingSource fms = new FieldMeetingSource();
@@ -1381,6 +1358,26 @@ public class VerificationServiceImpl implements VerificationService {
 
     }
 
+    @Override
+    public void upsertCaseReport(Long idCase, String reason) {
+
+        Case c  = caseRepository.findOne(idCase);
+        Event event = new Event();
+        event.setCaseDetention(c);
+        event.setComments(reason);
+        User user = new User();
+        user.setId(sharedUserService.GetLoggedUserId());
+        event.setUser(user);
+        Date date = new Date();
+        DateFormat df = new SimpleDateFormat("yyyyMMdd");
+        Integer dateId =Integer.parseInt(df.format(date));
+        event.setDate(date);
+        event.setDateId(dateId);
+        c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
+        event.setEventType(eventTypeRepository.findByCode(Constants.EVENT_CASE_REPORT));
+        eventRepository.save(event);
+        caseRepository.save(c);
+    }
 
 }
 

@@ -237,4 +237,33 @@ app.controller('socialNetworkController', function($scope, $timeout,$rootScope) 
             $scope.address="";
         }
     };
+
+    $scope.lstSourceInfoSocial = {};
+
+    $rootScope.$on('showAnswered', function (event, lstFieldInfo) {
+        for (var a = 0; a < lstFieldInfo.length; a++) {
+            if (lstFieldInfo[a].sectionCode == 3) {
+                if(lstFieldInfo[a].code=='socialNetwork.comment')
+                    $scope.lstSourceInfoSocial[lstFieldInfo[a].code] = true;
+                else
+                    $scope.lstSourceInfoSocial[lstFieldInfo[a].code + "." + lstFieldInfo[a].idFieldList] = true;
+            }
+        }
+        $scope.$apply();
+    });
+
+    $scope.lstFinalInfoSocial = {};
+
+    $rootScope.$on('showFinalAnswered', function (event, lstFieldInfo) {
+        for (var a = 0; a < lstFieldInfo.length; a++) {
+            if (lstFieldInfo[a].sectionCode == 3) {
+                if(lstFieldInfo[a].code=='socialNetwork.comment')
+                    $scope.lstFinalInfoSocial[lstFieldInfo[a].code] = true;
+                else
+                    $scope.lstFinalInfoSocial[lstFieldInfo[a].code + "." + lstFieldInfo[a].idFieldList] = true;
+            }
+        }
+        $scope.$apply();
+    });
+
 });

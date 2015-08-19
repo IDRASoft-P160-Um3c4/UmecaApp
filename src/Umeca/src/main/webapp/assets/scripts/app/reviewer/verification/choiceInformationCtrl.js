@@ -40,6 +40,7 @@ app.controller('choiceInformationController', function ($scope, $timeout, $q, sh
 
     $timeout(function () {
         $scope.init();
+        $scope.doFinalInfoLst();
     }, 0);
 
     $scope.showChoices = function (code, id) {
@@ -66,7 +67,7 @@ app.controller('choiceInformationController', function ($scope, $timeout, $q, sh
 
 
     $scope.sendVerifSection = function (urlToPost, idCase) {
-        $scope.WaitForChoice=true;
+        $scope.WaitForChoice = true;
         var data = {};
         data.idCase = idCase;
         data.id = $scope.idSection;
@@ -93,7 +94,8 @@ app.controller('choiceInformationController', function ($scope, $timeout, $q, sh
                             type: "danger"
                         });
                 }
-                $scope.WaitForChoice=false;
+                $scope.WaitForChoice = false;
+                $rootScope.$broadcast('reloadFinalVerifiedInfo');
             },
             error: function () {
                 $("#VerifBySectionDialog").modal("hide");
@@ -103,7 +105,7 @@ app.controller('choiceInformationController', function ($scope, $timeout, $q, sh
                         message: "<strong>No fue posible conectarse al servidor</strong> <br/><br/>Por favor intente más tarde",
                         type: "danger"
                     });
-                $scope.WaitForChoice=false;
+                $scope.WaitForChoice = false;
             }
         };
 
@@ -183,6 +185,40 @@ app.controller('choiceInformationController', function ($scope, $timeout, $q, sh
             dlg.replaceWith("");
         });
     };
+
+    $rootScope.$on('reloadFinalVerifiedInfo', function (event) {
+        $scope.doFinalInfoLst();
+    });
+
+    $scope.lstFinalFieldInfo = {};
+
+    $scope.doFinalInfoLst = function () {
+        var data = {idCase: $scope.idCase};
+        var settings = {
+            dataType: "json",
+            type: "POST",
+            url: $scope.getFinalInfoSourceUrl,
+            data: data,
+            success: function (resp) {
+                if (resp.hasError === undefined) {
+                    resp = resp.responseMessage;
+                }
+                if (resp.hasError === true) {
+                    alert("errrrooooorA");
+                }
+                else {
+                    $scope.lstFinalFieldInfo = JSON.parse(resp.returnData);
+                    $rootScope.$broadcast('showFinalAnswered', $scope.lstFinalFieldInfo);
+                }
+            },
+            error: function () {
+                alert("errrrooooorB");
+            }
+        };
+
+        $.ajax(settings);
+    };
+
 
 });
 

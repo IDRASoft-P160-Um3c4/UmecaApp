@@ -59,4 +59,25 @@ app.controller('schoolController', function($scope, $timeout,$q,$rootScope) {
            $scope.school.address = "";
        }
    }
+
+    $scope.lstSourceInfoSchool = {};
+    $rootScope.$on('showAnswered', function (event, lstFieldInfo) {
+        for (var a = 0; a < lstFieldInfo.length; a++) {
+            if (lstFieldInfo[a].sectionCode == 6) {
+                $scope.lstSourceInfoSchool[lstFieldInfo[a].code] = true;
+            }
+        }
+        $scope.$apply();
+    });
+
+    $scope.lstFinalInfoSchool = {};
+    $rootScope.$on('showFinalAnswered', function (event, lstFieldInfo) {
+        for (var a = 0; a < lstFieldInfo.length; a++) {
+            if (lstFieldInfo[a].sectionCode == 6) {
+                $scope.lstFinalInfoSchool [lstFieldInfo[a].code] = true;
+            }
+        }
+        $scope.$apply();
+    });
+
 });

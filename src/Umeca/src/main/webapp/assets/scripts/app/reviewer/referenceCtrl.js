@@ -1,45 +1,45 @@
-app.controller('referenceController', function($scope, $timeout,$rootScope) {
+app.controller('referenceController', function ($scope, $timeout, $rootScope) {
     $scope.r = {};
     $scope.lstRel = [];
     $scope.lstDoc = [];
     $scope.r.rel = 0;
     $scope.r.doc = 0;
 
-    $scope.showChoicesSection = function(idSection, idList, idSource, sectionName, listView){
+    $scope.showChoicesSection = function (idSection, idList, idSource, sectionName, listView) {
         var arg = [idSection, idList, idSource, sectionName, listView]
-        $rootScope.$broadcast('ShowChoicesBySection',arg);
+        $rootScope.$broadcast('ShowChoicesBySection', arg);
     };
 
-    $scope.init = function(){
-        if($scope.lstRel === undefined || $scope.lstRel.length <= 0)
+    $scope.init = function () {
+        if ($scope.lstRel === undefined || $scope.lstRel.length <= 0)
             return;
 
-        if($scope.r.relId === undefined){
+        if ($scope.r.relId === undefined) {
             $scope.r.rel = $scope.lstRel[0];
             $scope.r.relId = $scope.r.rel.id;
         }
-        else{
-            for(var i=0; i < $scope.lstRel.length; i++){
+        else {
+            for (var i = 0; i < $scope.lstRel.length; i++) {
                 var rel = $scope.lstRel[i];
 
-                if(rel.id === $scope.r.relId){
+                if (rel.id === $scope.r.relId) {
                     $scope.r.rel = rel;
                     break;
                 }
             }
         }
-        if($scope.lstDoc === undefined || $scope.lstDoc.length <= 0)
+        if ($scope.lstDoc === undefined || $scope.lstDoc.length <= 0)
             return;
 
-        if($scope.r.docId === undefined){
-            $scope.r.doc = $scope.lstDoc[9];
+        if ($scope.r.docId === undefined) {
+            $scope.r.doc = $scope.lstDoc[0];
             $scope.r.docId = $scope.r.doc.id;
         }
-        else{
-            for(var i=0; i < $scope.lstDoc.length; i++){
+        else {
+            for (var i = 0; i < $scope.lstDoc.length; i++) {
                 var doc = $scope.lstDoc[i];
 
-                if(doc.id === $scope.r.docId){
+                if (doc.id === $scope.r.docId) {
                     $scope.r.doc = doc;
                     break;
                 }
@@ -50,7 +50,7 @@ app.controller('referenceController', function($scope, $timeout,$rootScope) {
     };
 
 
-    $timeout(function() {
+    $timeout(function () {
         $scope.init();
     }, 0);
     $scope.WaitFor = false;
@@ -82,13 +82,13 @@ app.controller('referenceController', function($scope, $timeout,$rootScope) {
         $scope.WaitFor = false;
 
         try {
-            if(resp.hasError===undefined){
-                resp=resp.responseMessage;
+            if (resp.hasError === undefined) {
+                resp = resp.responseMessage;
             }
             if (resp.hasError === false) {
                 $rootScope.$broadcast("onLastId", resp.Id);
                 $scope.Model.dlg.modal('hide');
-                $scope.Model.def.resolve({ isCancel: false });
+                $scope.Model.def.resolve({isCancel: false});
                 return;
             }
 
@@ -105,11 +105,12 @@ app.controller('referenceController', function($scope, $timeout,$rootScope) {
         $scope.WaitFor = false;
 
         try {
-            if(resp.hasError===undefined){
-                resp=resp.responseMessage;}
+            if (resp.hasError === undefined) {
+                resp = resp.responseMessage;
+            }
             if (resp.hasError === false) {
                 $scope.Model.dlg.modal('hide');
-                $scope.Model.def.resolve({ isCancel: false });
+                $scope.Model.def.resolve({isCancel: false});
                 return;
             }
 
@@ -129,7 +130,7 @@ app.controller('referenceController', function($scope, $timeout,$rootScope) {
 
     $scope.cancel = function () {
         $scope.Model.dlg.modal('hide');
-        $scope.Model.def.reject({ isCancel: true });
+        $scope.Model.def.reject({isCancel: true});
     };
 
     $scope.setDlg = function (dlg, urlToSubmit) {
@@ -142,22 +143,22 @@ app.controller('referenceController', function($scope, $timeout,$rootScope) {
         });
     };
 
-    $scope.fillModel = function(){
-        var template= "NO TIENE";
+    $scope.fillModel = function () {
+        var template = "NO TIENE";
         var template2 = "Ninguno";
         //alert("en fill model con blcok "+$scope.block);
-        if($scope.blockR === false){
+        if ($scope.blockR === false) {
             $scope.r.fullName = template;
-            for(var i= 0; i < $scope.lstRel.length ; i++){
-                if($scope.lstRel[i].name == template2){
+            for (var i = 0; i < $scope.lstRel.length; i++) {
+                if ($scope.lstRel[i].name == template2) {
                     $scope.r.rel = $scope.lstRel[i];
                     $scope.r.relId = $scope.lstRel[i].id;
                     break;
                 }
             }
             $scope.r.phone = template;
-            for(var i= 0; i < $scope.lstDoc.length ; i++){
-                if($scope.lstDoc[i].name == template2){
+            for (var i = 0; i < $scope.lstDoc.length; i++) {
+                if ($scope.lstDoc[i].name == template2) {
                     $scope.r.doc = $scope.lstDoc[i];
                     $scope.r.docId = $scope.lstDoc[i].id;
                     break;
@@ -167,7 +168,7 @@ app.controller('referenceController', function($scope, $timeout,$rootScope) {
             $scope.r.age = 0;
             $scope.r.address = template;
             $scope.r.isAccompaniment = false;
-        }else{
+        } else {
             $scope.r.fullName = "";
             $scope.r.rel = $scope.lstRel[0];
             $scope.r.relId = $scope.lstRel[0].id;
@@ -179,4 +180,25 @@ app.controller('referenceController', function($scope, $timeout,$rootScope) {
             $scope.r.isAccompaniment = false;
         }
     };
+
+    $scope.lstSourceInfoRefe = {};
+    $rootScope.$on('showAnswered', function (event, lstFieldInfo) {
+        for (var a = 0; a < lstFieldInfo.length; a++) {
+            if (lstFieldInfo[a].sectionCode == 4) {
+                $scope.lstSourceInfoRefe[lstFieldInfo[a].code + "." + lstFieldInfo[a].idFieldList] = true;
+            }
+        }
+        $scope.$apply();
+    })
+
+    $scope.lstFinalInfoRefe = {};
+    $rootScope.$on('showFinalAnswered', function (event, lstFieldInfo) {
+        for (var a = 0; a < lstFieldInfo.length; a++) {
+            if (lstFieldInfo[a].sectionCode == 4) {
+                $scope.lstFinalInfoRefe[lstFieldInfo[a].code + "." + lstFieldInfo[a].idFieldList] = true;
+            }
+        }
+        $scope.$apply();
+    });
+
 });

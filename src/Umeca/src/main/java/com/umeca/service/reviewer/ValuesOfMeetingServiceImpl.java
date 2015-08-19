@@ -227,7 +227,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                         switch (name[1]) {
                             case "block":
                                 Boolean block = psn.getBlock();
-                                listFMS.add(new FieldMeetingSource(block?"Si":"No",block?"1":"0",true, psn.getId()));
+                                listFMS.add(new FieldMeetingSource(block ? "Si" : "No", block ? "1" : "0", true, psn.getId()));
                                 break;
                             case "name":
                                 listFMS.add(new FieldMeetingSource(psn.getName(), psn.getName(), psn.getId()));
@@ -288,7 +288,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                     switch (name[1]) {
                         case "block":
                             Boolean block = r.getBlock();
-                            listFMS.add(new FieldMeetingSource(block?"Si":"No",block?"1":"0",true,r.getId()));
+                            listFMS.add(new FieldMeetingSource(block ? "Si" : "No", block ? "1" : "0", true, r.getId()));
                             break;
                         case "fullName":
                             listFMS.add(new FieldMeetingSource(r.getFullName(), r.getFullName(), r.getId()));
@@ -339,7 +339,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                     switch (name[1]) {
                         case "block":
                             Boolean block = j.getBlock();
-                            listFMS.add(new FieldMeetingSource(block?"Si":"No",block?"1":"0",true,j.getId()));
+                            listFMS.add(new FieldMeetingSource(block ? "Si" : "No", block ? "1" : "0", true, j.getId()));
                             break;
                         case "company":
                             listFMS.add(new FieldMeetingSource(j.getCompany(), j.getCompany(), j.getId()));
@@ -395,7 +395,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                 switch (name[1]) {
                     case "block":
                         Boolean block = s.getBlock();
-                        listFMS.add(new FieldMeetingSource(block?"Si":"No",block?"1":"0",true));
+                        listFMS.add(new FieldMeetingSource(block ? "Si" : "No", block ? "1" : "0", true));
                         break;
                     case "name":
                         listFMS.add(new FieldMeetingSource(s.getName(), s.getName()));
@@ -430,7 +430,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                     switch (name[1]) {
                         case "block":
                             Boolean block = d.getBlock();
-                            listFMS.add(new FieldMeetingSource(block?"Si":"No",block?"1":"0",true,d.getId()));
+                            listFMS.add(new FieldMeetingSource(block ? "Si" : "No", block ? "1" : "0", true, d.getId()));
                             break;
                         case "drugType":
                             cdtod.setName(d.getDrugType().getName());
@@ -523,32 +523,32 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                         break;
                     case "immigrationDocument":
                         ImmigrationDocument im = l.getImmigrationDocument();
-                        if(im!=null){
+                        if (im != null) {
                             cdtol.setName(im.getName());
                             cdtol.setId(im.getId());
                             listFMS.add(new FieldMeetingSource(im.getName(), gson.toJson(cdtol)));
                         }
                         break;
                     case "specficationImmigranDoc":
-                        if(l.getSpecficationImmigranDoc()!=null && !l.getSpecficationImmigranDoc().trim().equals("")){
+                        if (l.getSpecficationImmigranDoc() != null && !l.getSpecficationImmigranDoc().trim().equals("")) {
                             listFMS.add(new FieldMeetingSource(l.getSpecficationImmigranDoc(), l.getSpecficationImmigranDoc()));
                         }
                         break;
                     case "realtionship":
                         Relationship r = l.getRelationship();
-                        if(r!=null &&r.getId()!=null){
+                        if (r != null && r.getId() != null) {
                             cdtol.setName(r.getName());
                             cdtol.setId(r.getId());
-                            listFMS.add(new FieldMeetingSource(r.getName(),gson.toJson(cdtol)));
+                            listFMS.add(new FieldMeetingSource(r.getName(), gson.toJson(cdtol)));
                         }
                         break;
                     case "specificationRelationship":
-                         if(l.getSpecificationRelationship()!=null&& !l.getSpecificationRelationship().trim().equals("")){
-                             listFMS.add(new FieldMeetingSource(l.getSpecificationRelationship(), l.getSpecificationRelationship()));
-                         }
+                        if (l.getSpecificationRelationship() != null && !l.getSpecificationRelationship().trim().equals("")) {
+                            listFMS.add(new FieldMeetingSource(l.getSpecificationRelationship(), l.getSpecificationRelationship()));
+                        }
                         break;
                     case "timeResidence":
-                        if(l.getTimeResidence()!=null&& !l.getTimeResidence().trim().equals("")){
+                        if (l.getTimeResidence() != null && !l.getTimeResidence().trim().equals("")) {
                             listFMS.add(new FieldMeetingSource(l.getTimeResidence(), l.getTimeResidence()));
                         }
                         break;
@@ -751,7 +751,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             switch (name[1]) {
                                 case "block":
                                     Boolean block = psn.getBlock();
-                                    listFMS.add(new FieldMeetingSource(block?"Si":"No",block?"1":"0",true,psn.getId()));
+                                    listFMS.add(new FieldMeetingSource(block ? "Si" : "No", block ? "1" : "0", true, psn.getId()));
                                     break;
                                 case "name":
                                     listFMS.add(new FieldMeetingSource(psn.getName(), psn.getName(), psn.getId()));
@@ -814,7 +814,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                         switch (name[1]) {
                             case "block":
                                 Boolean block = r.getBlock();
-                                listFMS.add(new FieldMeetingSource(block?"Si":"No",block?"1":"0",true,r.getId()));
+                                listFMS.add(new FieldMeetingSource(block ? "Si" : "No", block ? "1" : "0", true, r.getId()));
                                 break;
                             case "fullName":
                                 listFMS.add(new FieldMeetingSource(r.getFullName(), r.getFullName(), r.getId()));
@@ -866,7 +866,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                         switch (name[1]) {
                             case "block":
                                 Boolean block = j.getBlock();
-                                listFMS.add(new FieldMeetingSource(block?"Si":"No",block?"1":"0",true,j.getId()));
+                                listFMS.add(new FieldMeetingSource(block ? "Si" : "No", block ? "1" : "0", true, j.getId()));
                                 break;
                             case "company":
                                 listFMS.add(new FieldMeetingSource(j.getCompany(), j.getCompany(), j.getId()));
@@ -924,7 +924,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                 switch (name[1]) {
                     case "block":
                         Boolean block = s.getBlock();
-                        listFMS.add(new FieldMeetingSource(block?"Si":"No",block?"1":"0",true));
+                        listFMS.add(new FieldMeetingSource(block ? "Si" : "No", block ? "1" : "0", true));
                         break;
                     case "name":
                         listFMS.add(new FieldMeetingSource(s.getName(), s.getName()));
@@ -960,7 +960,7 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                         switch (name[1]) {
                             case "block":
                                 Boolean block = d.getBlock();
-                                listFMS.add(new FieldMeetingSource(block?"Si":"No",block?"1":"0",true,d.getId()));
+                                listFMS.add(new FieldMeetingSource(block ? "Si" : "No", block ? "1" : "0", true, d.getId()));
                                 break;
                             case "drugType":
                                 cdtod.setName(d.getDrugType().getName());
@@ -1055,32 +1055,32 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                         break;
                     case "immigrationDocument":
                         ImmigrationDocument im = l.getImmigrationDocument();
-                        if(im!=null){
+                        if (im != null) {
                             cdtol.setName(im.getName());
                             cdtol.setId(im.getId());
                             listFMS.add(new FieldMeetingSource(im.getName(), gson.toJson(cdtol)));
                         }
                         break;
                     case "specficationImmigranDoc":
-                        if(l.getSpecficationImmigranDoc()!=null && !l.getSpecficationImmigranDoc().trim().equals("")){
+                        if (l.getSpecficationImmigranDoc() != null && !l.getSpecficationImmigranDoc().trim().equals("")) {
                             listFMS.add(new FieldMeetingSource(l.getSpecficationImmigranDoc(), l.getSpecficationImmigranDoc()));
                         }
                         break;
                     case "realtionship":
                         Relationship r = l.getRelationship();
-                        if(r!=null &&r.getId()!=null){
+                        if (r != null && r.getId() != null) {
                             cdtol.setName(r.getName());
                             cdtol.setId(r.getId());
-                            listFMS.add(new FieldMeetingSource(r.getName(),gson.toJson(cdtol)));
+                            listFMS.add(new FieldMeetingSource(r.getName(), gson.toJson(cdtol)));
                         }
                         break;
                     case "specificationRelationship":
-                        if(l.getSpecificationRelationship()!=null&& !l.getSpecificationRelationship().trim().equals("")){
+                        if (l.getSpecificationRelationship() != null && !l.getSpecificationRelationship().trim().equals("")) {
                             listFMS.add(new FieldMeetingSource(l.getSpecificationRelationship(), l.getSpecificationRelationship()));
                         }
                         break;
                     case "timeResidence":
-                        if(l.getTimeResidence()!=null&& !l.getTimeResidence().trim().equals("")){
+                        if (l.getTimeResidence() != null && !l.getTimeResidence().trim().equals("")) {
                             listFMS.add(new FieldMeetingSource(l.getTimeResidence(), l.getTimeResidence()));
                         }
                         break;
@@ -1281,12 +1281,18 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             switch (name[1]) {
                                 case "address":
                                     AddressDto address = gson.fromJson(fms.getJsonValue(), AddressDto.class);
-                                    if (address != null && address.getZipCode() != null) {
+                                    if (address != null) {
+
                                         ih.setAddress(new Address());
                                         ih.getAddress().setStreet(address.getStreet());
                                         ih.getAddress().setOutNum(address.getOutNum());
                                         ih.getAddress().setInnNum(address.getInnNum());
-                                        ih.getAddress().setLocation(locationRepository.findLocationByZipCode(address.getZipCode()).get(0));
+
+                                        if (address.getZipCode() != null)
+                                            ih.getAddress().setLocation(locationRepository.findLocationByZipCode(address.getZipCode()).get(0));
+                                        else
+                                            ih.getAddress().setLocation(locationRepository.findByLocName(Constants.COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW));
+
                                         ih.getAddress().setAddressString(ih.getAddress().toString());
                                     }
 
@@ -1746,8 +1752,8 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             meeting.getLeaveCountry().setMedia(fms.getJsonValue());
                             break;
                         case "immigrationDocument":
-                            cdtol = gson.fromJson(fms.getJsonValue(),CatalogDto.class);
-                            if(cdtol != null){
+                            cdtol = gson.fromJson(fms.getJsonValue(), CatalogDto.class);
+                            if (cdtol != null) {
                                 meeting.getLeaveCountry().setImmigrationDocument(immigrationDocumentRepository.findOne(cdtol.getId()));
                             }
                             break;
@@ -1755,8 +1761,8 @@ public class ValuesOfMeetingServiceImpl implements ValuesOfMeetingService {
                             meeting.getLeaveCountry().setSpecficationImmigranDoc(fms.getJsonValue());
                             break;
                         case "realtionship":
-                            cdtol= gson.fromJson(fms.getJsonValue(), CatalogDto.class);
-                            if(cdtol!=null){
+                            cdtol = gson.fromJson(fms.getJsonValue(), CatalogDto.class);
+                            if (cdtol != null) {
                                 meeting.getLeaveCountry().setRelationship(relationshipRepository.findOne(cdtol.getId()));
                             }
                             break;
