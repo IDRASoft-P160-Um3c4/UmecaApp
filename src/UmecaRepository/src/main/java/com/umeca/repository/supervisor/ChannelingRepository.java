@@ -31,8 +31,9 @@ public interface ChannelingRepository extends JpaRepository<Channeling, Long> {
 
     @Query("SELECT new com.umeca.model.entities.supervisor.ChannelingModel(c.id, cd.id, cd.idMP, i.name, i.lastNameP, i.lastNameM, d.id, s.fullname" +
             ", c.name, c.channelingType.id, c.institutionType.id, c.economicSupport.id, c.preventionType.id, c.educationLevel.id" +
-            ", c.specOther, c.institutionName, c.consecutive, c.isVolunteer) " +
+            ", c.specOther, inm.id, inm.name, c.consecutive, c.isVolunteer) " +
             "FROM Channeling AS c " +
+            "INNER JOIN c.institutionName inm " +
             "INNER JOIN c.caseDetention cd " +
             "INNER JOIN cd.meeting.imputed i " +
             "INNER JOIN c.district d " +
@@ -64,11 +65,12 @@ public interface ChannelingRepository extends JpaRepository<Channeling, Long> {
     List<SelectList> findValidByCaseId(@Param("caseId") Long caseId);
 
     @Query("SELECT NEW com.umeca.model.entities.supervisor.ChannelingModelSheet(cd.idMP, i.name, i.lastNameP, i.lastNameM, " +
-            "i.birthDate, i.gender, i.celPhone, ct.name, c.name, it.name, c.institutionName, c.consecutive, cd.id, c.isVolunteer, c.isFulfilled) " +
+            "i.birthDate, i.gender, i.celPhone, ct.name, c.name, it.name, inm.name, c.consecutive, cd.id, c.isVolunteer, c.isFulfilled) " +
             "FROM Channeling c " +
             "INNER JOIN c.caseDetention cd " +
             "INNER JOIN cd.meeting.imputed i " +
             "INNER JOIN c.channelingType ct " +
+            "INNER JOIN c.institutionName inm " +
             "INNER JOIN c.institutionType it " +
             "WHERE c.id = :id AND c.isObsolete = false")
     ChannelingModelSheet getChannelingSheetById(@Param("id")Long id);

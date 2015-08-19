@@ -5,6 +5,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
+import com.umeca.model.catalog.CatChannelingInstitutionName;
 import com.umeca.model.catalog.CatChannelingType;
 import com.umeca.model.catalog.CatInstitutionType;
 import com.umeca.model.catalog.District;
@@ -117,6 +118,7 @@ public class QueryChannelingController {
             public <T> List<Selection<?>> getFields(final Root<T> r) {
                 final Join<Channeling, CatChannelingType> joinChTy = r.join("channelingType");
                 final Join<Channeling, CatInstitutionType> joinInTy = r.join("institutionType");
+                final Join<Channeling, CatChannelingInstitutionName> joinChIn = r.join("institutionName");
 
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
@@ -125,7 +127,7 @@ public class QueryChannelingController {
                     add(joinChTy.get("name"));
                     add(r.get("name"));
                     add(joinInTy.get("name"));
-                    add(r.get("institutionName"));
+                    add(joinChIn.get("name"));
                     add(r.get("isFulfilled"));
                 }};
             }
@@ -138,6 +140,8 @@ public class QueryChannelingController {
                     return r.join("channelingType").get("name");
                 if (field.equals("institutionType"))
                     return r.join("institutionType").get("name");
+                if (field.equals("institutionName"))
+                    return r.join("institutionName").get("name");
                 if (field.equals("isFulfilledTx"))
                     return r.get("isFulfilled");
                 return null;

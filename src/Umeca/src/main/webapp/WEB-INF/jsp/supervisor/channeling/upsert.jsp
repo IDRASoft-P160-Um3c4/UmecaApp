@@ -20,7 +20,8 @@
                 </div>
                 <div class="modal-body"
                      ng-init='m = ${channeling}; lstDistrict = ${lstDistrict}; lstEducationLevel = ${lstEducationLevel}; lstPreventionType = ${lstPreventionType};
-                     lstEconomicSupport = ${lstEconomicSupport}; lstInstitutionType = ${lstInstitutionType}; lstChannelingType = ${lstChannelingType}; initCatalogs();'>
+                     lstEconomicSupport = ${lstEconomicSupport}; lstInstitutionType = ${lstInstitutionType}; lstChannelingType = ${lstChannelingType};
+                     lstInstitutionName = ${lstChannelingInstitutionName}; initCatalogs();'>
                     <form id="FormUpId" name="FormUpId" ng-submit="submit('#FormUpId')" class="form-horizontal"
                           role="form">
                         <br/>
@@ -30,6 +31,7 @@
                         <input type="hidden" ng-update-hidden ng-model="m.economicSupportId" name="economicSupportId" id="economicSupportId">
                         <input type="hidden" ng-update-hidden ng-model="m.institutionTypeId" name="institutionTypeId" id="institutionTypeId">
                         <input type="hidden" ng-update-hidden ng-model="m.districtId" name="districtId" id="districtId">
+                        <input type="hidden" ng-update-hidden ng-model="m.institutionNameId" name="institutionNameId" id="institutionNameId">
 
                         <div class="row">
                             <div class="col-xs-12">
@@ -136,9 +138,10 @@
                                                 <label class="form-control-static">Nombre de la instituci&oacute;n:</label>
                                             </div>
                                             <div class="col-xs-8">
-                                                <input class="form-control" name="institutionName" ng-required="true" ng-maxlength="100" ng-model="m.institutionName"/>
-                                                <span class="error" ng-show="FormUpId.institutionName.$error.required">Campo requerido</span>
-                                                <span class="error" ng-show="FormUpId.institutionName.$error.maxlength">Longitud m&aacute;xima de 100 caracteres</span>
+                                                <select class="form-control element-center"
+                                                        ng-model="institutionName"
+                                                        ng-options="e.name for e in lstInstitutionNameNew"
+                                                        ng-change = "m.institutionNameId = institutionName.id"/>
                                             </div>
                                         </div>
                                         <div class="row" ng-show="lstEconomicSupportNew.length > 0">

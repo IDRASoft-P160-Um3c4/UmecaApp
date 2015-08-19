@@ -15,6 +15,12 @@ public class SelectOptsList {
         this.optionB = optionB;
     }
 
+    public SelectOptsList(Long id, String name, Long idSec) {
+        this.id = id;
+        this.name = name;
+        this.optionA = idSec.toString();
+    }
+
     public SelectOptsList(Long id, String name, Boolean hasSpec) {
         this.id = id;
         this.name = name;
