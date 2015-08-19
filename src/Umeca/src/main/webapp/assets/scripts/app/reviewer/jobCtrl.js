@@ -182,4 +182,25 @@ app.controller('jobController', function($scope, $timeout,$rootScope) {
        }
         $scope.$apply();
     };
+
+    $scope.lstSourceInfoJob = {};
+    $rootScope.$on('showAnswered', function (event, lstFieldInfo) {
+        for (var a = 0; a < lstFieldInfo.length; a++) {
+            if (lstFieldInfo[a].sectionCode == 5) {
+                $scope.lstSourceInfoJob[lstFieldInfo[a].code + "." + lstFieldInfo[a].idFieldList] = true;
+            }
+        }
+        $scope.$apply();
+    });
+
+    $scope.lstFinalInfoJob = {};
+    $rootScope.$on('showFinalAnswered', function (event, lstFieldInfo) {
+        for (var a = 0; a < lstFieldInfo.length; a++) {
+            if (lstFieldInfo[a].sectionCode == 5) {
+                $scope.lstFinalInfoJob[lstFieldInfo[a].code + "." + lstFieldInfo[a].idFieldList] = true;
+            }
+        }
+        $scope.$apply();
+    });
+
 });

@@ -32,6 +32,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/verificationCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/AddressVerificationDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/ScheduleVerificationDrct.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/ShowInforVerifiedImputeHomesCtrl.js"></script>
 
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/zipSearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/municipalitySearchDrct.js"></script>
@@ -84,7 +85,9 @@
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 <div class="container body-content" ng-cloak>
-    <div ng-controller="verificationController">
+    <div ng-controller="verificationController"
+         ng-init="getInfoSourceUrl= '<c:url value="/reviewer/verification/getInfoSource.json"/>'">
+
         <input type="hidden" ng-init="urlVerifTrue= '<c:url value="/reviewer/verification/verifBySourceEqual.json"/>'"
                ng-model="urlVerifTrue"
                ng-update-hidden>

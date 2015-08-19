@@ -1,4 +1,4 @@
-app.controller('upsertScheduleVerifController', function($scope, $timeout, $q,$rootScope, $sce) {
+app.controller('upsertScheduleVerifController', function ($scope, $timeout, $q, $rootScope, $sce) {
     $scope.WaitFor = false;
     $scope.MsgError = "";
     $scope.Model = {};
@@ -33,12 +33,12 @@ app.controller('upsertScheduleVerifController', function($scope, $timeout, $q,$r
     };
 
 
-    $scope.init = function(){
+    $scope.init = function () {
 
     };
 
 
-    $timeout(function() {
+    $timeout(function () {
         $scope.init();
     }, 0);
 
@@ -80,11 +80,11 @@ app.controller('upsertScheduleVerifController', function($scope, $timeout, $q,$r
         }
 
         $scope.WaitFor = true;
-        if($scope.idList==undefined){
+        if ($scope.idList == undefined) {
             $scope.idList = "";
         }
         var formSerialize = $(formId).serialize();
-        var content = formSerialize + "&&idCase=" + $scope.idCase + "&&idSource=" + $scope.idSource+"&&schedule="+$scope.schString+"&&code="+$scope.code+"&&idList="+$scope.idList;
+        var content = formSerialize + "&&idCase=" + $scope.idCase + "&&idSource=" + $scope.idSource + "&&schedule=" + $scope.schString + "&&code=" + $scope.code + "&&idList=" + $scope.idList;
         $scope.WaitFor = true;
         $.post($scope.urlToGoSaveSchedule, content)
             .success($scope.handleSuccess)
@@ -93,14 +93,14 @@ app.controller('upsertScheduleVerifController', function($scope, $timeout, $q,$r
     };
 
 
-    $rootScope.$on('SetIdListSchedule', function (event,idList) {
-        $scope.idList=idList;
+    $rootScope.$on('SetIdListSchedule', function (event, idList) {
+        $scope.idList = idList;
         $scope.countAuxSch++;
         $scope.findSourceBefore();
     });
 
-    $rootScope.$on('SetCodeSchedule', function (event,code) {
-        $scope.code=code;
+    $rootScope.$on('SetCodeSchedule', function (event, code) {
+        $scope.code = code;
         $scope.countAuxSch++;
         $scope.findSourceBefore();
     });
@@ -115,9 +115,10 @@ app.controller('upsertScheduleVerifController', function($scope, $timeout, $q,$r
             }
 
             if (resp.hasError === false) {
+                $rootScope.$broadcast('reloadVerifiedInfo');
                 $scope.disableProperties();
                 $scope.Model.dlg.modal('hide');
-                $scope.Model.def.resolve({ isCancel: false });
+                $scope.Model.def.resolve({isCancel: false});
                 return;
             }
 
@@ -135,8 +136,8 @@ app.controller('upsertScheduleVerifController', function($scope, $timeout, $q,$r
         $scope.$apply();
     };
 
-    $rootScope.$on('MatchScheduleList', function (event,list) {
-        $scope.schString=list;
+    $rootScope.$on('MatchScheduleList', function (event, list) {
+        $scope.schString = list;
     });
 
     $scope.cancel = function () {
@@ -147,7 +148,7 @@ app.controller('upsertScheduleVerifController', function($scope, $timeout, $q,$r
             $scope.Model.dlg.modal('hide');
         }
         if ($scope.Model.def != undefined) {
-            $scope.Model.def.reject({ isCancel: true });
+            $scope.Model.def.reject({isCancel: true});
         }
     };
 
@@ -159,22 +160,22 @@ app.controller('upsertScheduleVerifController', function($scope, $timeout, $q,$r
     };
 });
 
-app.controller('innerScheduleController', function($scope, $rootScope, $timeout, $q) {
+app.controller('innerScheduleController', function ($scope, $rootScope, $timeout, $q) {
 
-    $scope.init = function(){
-        $('.tp').each(function(){
+    $scope.init = function () {
+        $('.tp').each(function () {
             $(this).timepicker({
                 minuteStep: 1,
                 showSeconds: false,
                 showMeridian: false
-            }).next().on(ace.click_event, function(){
-                    $(this).prev().focus();
-                });
+            }).next().on(ace.click_event, function () {
+                $(this).prev().focus();
+            });
         });
         $rootScope.$broadcast('CleanScheduleList');
     };
 
-    $timeout(function() {
+    $timeout(function () {
         $scope.init();
     }, 0);
 

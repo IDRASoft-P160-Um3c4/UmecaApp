@@ -181,6 +181,7 @@
     };
 
     $scope.submit = function (formId) {
+        //debugger;
         var formSerialize = $(formId).serialize();
         var result = $scope.validateVerif(formSerialize);
         if (result == null) {
@@ -213,6 +214,7 @@
 
 
     $scope.handleSuccess = function (resp) {
+        //debugger;
         $scope.WaitFor = false;
         $scope.MsgError = "";
 
@@ -223,6 +225,7 @@
             }
 
             if (resp.hasError === false) {
+                $scope.reloadVerifiedInfo();
                 $scope.disableProperties();
                 $scope.Model.dlg.modal('hide');
                 $scope.Model.def.resolve({isCancel: false});
@@ -238,9 +241,14 @@
     };
 
     $scope.handleError = function () {
+        //debugger;
         $scope.WaitFor = false;
         $scope.MsgError = "Error de red. Por favor intente más tarde.";
         $scope.$apply();
+    };
+
+    $scope.reloadVerifiedInfo = function () {
+        $rootScope.$broadcast('reloadVerifiedInfo');
     };
 
     $scope.cancel = function () {

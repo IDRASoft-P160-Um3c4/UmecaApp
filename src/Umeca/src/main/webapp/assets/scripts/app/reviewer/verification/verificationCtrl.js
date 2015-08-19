@@ -1,4 +1,4 @@
-app.controller('verificationController', function ($scope, $timeout, $q, sharedSvc) {
+app.controller('verificationController', function ($scope, $timeout, $q, sharedSvc, $rootScope) {
     $scope.def = $q.defer();
     $scope.verification = true;
     $scope.init = function () {
@@ -40,6 +40,7 @@ app.controller('verificationController', function ($scope, $timeout, $q, sharedS
 
     $timeout(function () {
         $scope.init();
+        $scope.doInfoSourceLst();
     }, 0);
 
 
@@ -54,7 +55,11 @@ app.controller('verificationController', function ($scope, $timeout, $q, sharedS
         }
         var urlToGo = $scope.urlVerifTrue;
         var def = $q.defer();
-        sharedSvc.showConf({ title: "Confirmación de verificación", message: "Establecer que la respuesta de la fuente es igual a lo proporcionado por el imputado", type: "success" }).
+        sharedSvc.showConf({
+            title: "Confirmación de verificación",
+            message: "Establecer que la respuesta de la fuente es igual a lo proporcionado por el imputado",
+            type: "success"
+        }).
             then(function () {
                 $scope.doPost(data, urlToGo, def);
             }, def.reject);
@@ -72,7 +77,11 @@ app.controller('verificationController', function ($scope, $timeout, $q, sharedS
         }
         var urlToGo = $scope.urlVerifNotKnow;
         var def = $q.defer();
-        sharedSvc.showConf({ title: "Confirmación de verificación", message: "Establecer que la fuente no conoce la información proporcionada por el imputado", type: "inverse" }).
+        sharedSvc.showConf({
+            title: "Confirmación de verificación",
+            message: "Establecer que la fuente no conoce la información proporcionada por el imputado",
+            type: "inverse"
+        }).
             then(function () {
                 $scope.doPost(data, urlToGo, def);
             }, def.reject);
@@ -86,7 +95,11 @@ app.controller('verificationController', function ($scope, $timeout, $q, sharedS
         };
         var urlToGo = urlTerminate;
         var def = $q.defer();
-        sharedSvc.showConf({ title: "Confirmación para terminar entrevista", message: "Esta seguro que desea terminar la entrevista con la fuente.<br/><b> Una vez terminada la entrevista no podrá modificar la información proporcionada.</b>", type: "primary" }).
+        sharedSvc.showConf({
+            title: "Confirmación para terminar entrevista",
+            message: "Esta seguro que desea terminar la entrevista con la fuente.<br/><b> Una vez terminada la entrevista no podrá modificar la información proporcionada.</b>",
+            type: "primary"
+        }).
             then(function () {
                 $scope.doPost(data, urlToGo, def, true);
             }, def.reject);
@@ -110,10 +123,11 @@ app.controller('verificationController', function ($scope, $timeout, $q, sharedS
                             message: resp.message,
                             type: "danger"
                         }).then(function () {
-                            def.reject({ isError: true });
+                            def.reject({isError: true});
                         });
                 }
                 else {
+                    $scope.doInfoSourceLst();
                     def.resolve();
                     if (redirect != undefined && redirect == true) {
                         window.cancelMeetingSource();
@@ -127,7 +141,7 @@ app.controller('verificationController', function ($scope, $timeout, $q, sharedS
                         message: "<strong>No fue posible conectarse al servidor</strong> <br/><br/>Por favor intente más tarde",
                         type: "danger"
                     }).then(function () {
-                        def.reject({ isError: true });
+                        def.reject({isError: true});
                     });
             }
         };
@@ -138,14 +152,48 @@ app.controller('verificationController', function ($scope, $timeout, $q, sharedS
     $scope.pastToJson = function (string) {
         var result = jQuery.parseJSON(string);
         if (result == "") {
-            return  "[]";
+            return "[]";
         } else {
             return result;
         }
     };
 
+    $rootScope.$on('reloadVerifiedInfo',function(event){
+        $scope.doInfoSourceLst();
+    });
+
+    $scope.doInfoSourceLst = function () {
+        var data = {idCase: $scope.idCase, idSource: $scope.idSource};
+        var settings = {
+            dataType: "json",
+            type: "POST",
+            url: $scope.getInfoSourceUrl,
+            data: data,
+            success: function (resp) {
+                if (resp.hasError === undefined) {
+                    resp = resp.responseMessage;
+                }
+                if (resp.hasError === true) {
+                    alert("errrrooooorA");
+                }
+                else {
+                    $scope.lstFieldInfo = JSON.parse(resp.returnData);
+                    //debugger;
+                    $rootScope.$broadcast('showAnswered', $scope.lstFieldInfo);
+                }
+            },
+            error: function () {
+                alert("errrrooooorB");
+            }
+        };
+
+        $.ajax(settings);
+    };
+
 });
 
+
+/********************************************/
 app.controller('innerVerificationController', function ($scope, $timeout, $http) {
     $scope.init = function () {
 
@@ -163,10 +211,10 @@ app.controller('innerVerificationController', function ($scope, $timeout, $http)
                 var toUpperName = nameModelLast.charAt(0).toUpperCase() + nameModelLast.substring(1);
 
                 if (toUpperName == "Degree") {
-                    for(var j=0; j<$scope.lstLevel.length; j++){
+                    for (var j = 0; j < $scope.lstLevel.length; j++) {
                         $scope.lstDegree = $scope.lstLevel[j].degrees;
-                        for(var i= 0; i< $scope.lstDegree.length; i++){
-                            if($(this).attr("value")==$scope.lstDegree[i].id){
+                        for (var i = 0; i < $scope.lstDegree.length; i++) {
+                            if ($(this).attr("value") == $scope.lstDegree[i].id) {
                                 $scope.school.level = $scope.lstLevel[j];
                                 $scope.school.levelId = $scope.school.level.id;
                                 $scope.school.degree = $scope.lstDegree[i];
@@ -186,14 +234,14 @@ app.controller('innerVerificationController', function ($scope, $timeout, $http)
                         $scope[nameModelComplete[0]] = {};
                     }
                     if ($scope[nameList] != undefined && $scope[nameList][0] != undefined) {
-                        if($(this).attr("value")!= undefined){
-                        for(var i = 0; i<$scope[nameList].length; i++){
-                            if($(this).attr("value") == $scope[nameList][i].id){
-                                $scope[nameModelComplete[0]][nameModelComplete[1]] = $scope[nameList][i];
-                                $scope[nameModelComplete[0]][nameModelComplete[1] + "Id"] = $scope[nameList][i].id;
+                        if ($(this).attr("value") != undefined) {
+                            for (var i = 0; i < $scope[nameList].length; i++) {
+                                if ($(this).attr("value") == $scope[nameList][i].id) {
+                                    $scope[nameModelComplete[0]][nameModelComplete[1]] = $scope[nameList][i];
+                                    $scope[nameModelComplete[0]][nameModelComplete[1] + "Id"] = $scope[nameList][i].id;
+                                }
                             }
-                        }
-                        }else{
+                        } else {
                             $scope[nameModelComplete[0]][nameModelComplete[1]] = $scope[nameList][0];
                             $scope[nameModelComplete[0]][nameModelComplete[1] + "Id"] = $scope[nameList][0].id;
                         }
@@ -208,36 +256,40 @@ app.controller('innerVerificationController', function ($scope, $timeout, $http)
         var allInput = $("input:text");
         var allTextArea = $("textarea");
         $("#divElementVerif").find(allInput).each(function () {
-            if( $(this).val() == ""){
-                var nameModel = $(this).attr("ng-model");
-                var sections = nameModel.split(".");
-                var actual = $scope;
-                for(var i=0; i<sections.length; i++){
-                    if(i < (sections.length -1) && actual[sections[i]] == undefined){
-                        actual[sections[i]] = {};
-                    }else if(i == (sections.length -1)){
-                        actual[sections[i]]=$(this).attr("value");
+                if ($(this).val() == "") {
+                    var nameModel = $(this).attr("ng-model");
+                    if (nameModel != undefined) {
+                        var sections = nameModel.split(".");
+                        var actual = $scope;
+                        for (var i = 0; i < sections.length; i++) {
+                            if (i < (sections.length - 1) && actual[sections[i]] == undefined) {
+                                actual[sections[i]] = {};
+                            } else if (i == (sections.length - 1)) {
+                                actual[sections[i]] = $(this).attr("value");
+                            }
+                            actual = actual[sections[i]];
+                        }
                     }
-                    actual = actual[sections[i]];
                 }
             }
-        });
+        )
+        ;
         $("#divElementVerif").find(allTextArea).each(function () {
-            if( $(this).val() == ""){
+            if ($(this).val() == "") {
                 var nameModel = $(this).attr("ng-model");
                 var sections = nameModel.split(".");
                 var actual = $scope;
-                for(var i=0; i<sections.length; i++){
-                    if(i < (sections.length -1) && actual[sections[i]] == undefined){
+                for (var i = 0; i < sections.length; i++) {
+                    if (i < (sections.length - 1) && actual[sections[i]] == undefined) {
                         actual[sections[i]] = {};
-                    }else if(i == (sections.length -1)){
-                        actual[sections[i]]=$(this).attr("value");
+                    } else if (i == (sections.length - 1)) {
+                        actual[sections[i]] = $(this).attr("value");
                     }
                     actual = actual[sections[i]];
                 }
             }
         });
-        if($scope.locationId != undefined){
+        if ($scope.locationId != undefined) {
             $scope.setState();
         }
     };
@@ -291,11 +343,14 @@ app.controller('innerVerificationController', function ($scope, $timeout, $http)
                 });
         }
     };
+
+
     $timeout(function () {
         $scope.init();
     }, 0);
 
 
-});
+})
+;
 
 

@@ -20,6 +20,7 @@ import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.catalog.ActivityRepository;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
+import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.reviewer.CaseService;
@@ -388,5 +389,25 @@ public class VerificationController {
         result.setUrlToGo("../../reviewer/caseReport/index.html");
         return result;
     }
+
+    @Autowired
+    FieldMeetingSourceRepository fieldMeetingSourceRepository;
+
+    @RequestMapping(value = "/reviewer/verification/getInfoSource", method = RequestMethod.POST)
+    public ResponseMessage getInfoSource(@RequestParam Long idCase, @RequestParam Long idSource) {
+        ResponseMessage resp = new ResponseMessage();
+        resp.setHasError(false);
+        resp.setReturnData(new Gson().toJson(fieldMeetingSourceRepository.getInfoBySource(idCase, idSource)));
+        return resp;
+    }
+
+    @RequestMapping(value = "/reviewer/verification/getFinalInfo", method = RequestMethod.POST)
+    public ResponseMessage getFinalInfoByCase(@RequestParam Long idCase) {
+        ResponseMessage resp = new ResponseMessage();
+        resp.setHasError(false);
+        resp.setReturnData(new Gson().toJson(fieldMeetingSourceRepository.getFinalInfoByCase(idCase)));
+        return resp;
+    }
+
 
 }

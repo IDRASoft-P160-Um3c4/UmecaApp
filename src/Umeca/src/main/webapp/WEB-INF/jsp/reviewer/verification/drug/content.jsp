@@ -2,10 +2,14 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 <div class="row">
     <div class="col-xs-2">
+        <span ng-class="lstSourceInfoDrug['drugs.drugType.id'+'.'+d.id]==true?'verified':'';">
         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('drugs.drugType.id',d.id);"></i>
-        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="drugs.drugType.id" id-element="{{d.id}}"></i>
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification" code="drugs.drugType.id" id-element="{{d.id}}"></i>
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('drugs.drugType.id',d.id);"></i>
+        </span>
+        <span ng-class="lstFinalInfoDrug['drugs.drugType.id'+'.'+d.id]==true?'verified':'';">
         <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('drugs.drugType.id',d.id)"></i>
+        </span>
         Sustancia:
     </div>
     <div class="col-xs-4">
@@ -32,10 +36,14 @@
 
 <div class="row">
     <div class="col-xs-2">
+        <span ng-class="lstSourceInfoDrug['drugs.periodicity.id'+'.'+d.id]==true?'verified':'';">
         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('drugs.periodicity.id',d.id);"></i>
-        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="drugs.periodicity.id" id-element="{{d.id}}"></i>
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification" code="drugs.periodicity.id" id-element="{{d.id}}"></i>
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('drugs.periodicity.id',d.id);"></i>
+            </span>
+        <span ng-class="lstFinalInfoDrug['drugs.periodicity.id'+'.'+d.id]==true?'verified':'';">
         <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('drugs.periodicity.id',d.id)"></i>
+            </span>
         Periodicidad:
     </div>
     <div class="col-xs-4">
@@ -64,10 +72,14 @@
 <div class="row">
     <div>
         <div class="col-xs-2">
+            <span ng-class="lstSourceInfoDrug['drugs.quantity'+'.'+d.id]==true?'verified':'';">
             <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('drugs.quantity',d.id);"></i>
-            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="drugs.quantity" id-element="{{d.id}}"></i>
+            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification" code="drugs.quantity" id-element="{{d.id}}"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('drugs.quantity',d.id);"></i>
+                </span>
+            <span ng-class="lstFinalInfoDrug['drugs.quantity'+'.'+d.id]==true?'verified':'';">
             <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('drugs.quantity',d.id)"></i>
+            </span>
             Cantidad:
         </div>
         <div class="col-xs-4">
@@ -80,10 +92,14 @@
     </div>
     <div>
         <div class="col-xs-2">
+            <span ng-class="lstSourceInfoDrug['drugs.lastUse'+'.'+d.id]==true?'verified':'';">
             <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('drugs.lastUse',d.id);"></i>
-            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="drugs.lastUse" id-element="{{d.id}}"></i>
+            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification" code="drugs.lastUse" id-element="{{d.id}}"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('drugs.lastUse',d.id);"></i>
+                </span>
+            <span ng-class="lstFinalInfoDrug['drugs.lastUse'+'.'+d.id]==true?'verified':'';">
             <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('drugs.lastUse',d.id)"></i>
+            </span>
             &Uacute;ltimo consumo:
             <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
         </div>
@@ -102,11 +118,14 @@
 <br/>
 <div class="row">
     <div class="col-xs-2">
+        <span ng-class="lstSourceInfoDrug['drugs.onsetAge'+'.'+d.id]==true?'verified':'';">
         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('drugs.onsetAge',d.id);"></i>
-        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="drugs.onsetAge" id-element="{{d.id}}"></i>
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification" code="drugs.onsetAge" id-element="{{d.id}}"></i>
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('drugs.onsetAge',d.id);"></i>
+            </span>
+        <span ng-class="lstFinalInfoDrug['drugs.onsetAge'+'.'+d.id]==true?'verified':'';">
         <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('drugs.onsetAge',d.id)"></i>
-
+        </span>
         Edad de inicio:
     </div>
     <div class="col-xs-4">

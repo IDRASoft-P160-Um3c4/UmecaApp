@@ -300,7 +300,6 @@ app.controller("supervisionLogController", function($scope, $timeout,$sce, share
     };
 
     $scope.onSuccessDel = function(resp){
-        debugger;
         sharedSvc.showMsg(
             {
                 title: "Eliminar actividades",

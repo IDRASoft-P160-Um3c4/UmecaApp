@@ -12,6 +12,7 @@ app.controller('personalDataController', function ($scope, $timeout, $q, $http, 
     $scope.relActivities = [];
     $scope.def = $q.defer();
 
+    $scope.lstSourceInfo = {};
 
     $scope.setLocation = function () {
         var ajaxConf = {
@@ -253,5 +254,26 @@ app.controller('personalDataController', function ($scope, $timeout, $q, $http, 
         }
         $scope.m.birthInfoId = $scope.m.birthInfo.id;
     };
+
+
+    $rootScope.$on('showAnswered', function (event, lstFieldInfo) {
+        for (var a = 0; a < lstFieldInfo.length; a++) {
+            if (lstFieldInfo[a].sectionCode == 1) {
+                $scope.lstSourceInfo[lstFieldInfo[a].code] = true;
+            }
+        }
+        $scope.$apply();
+    });
+
+
+    $scope.lstFinalInfo = {};
+    $rootScope.$on('showFinalAnswered', function (event, lstFieldInfo) {
+        for (var a = 0; a < lstFieldInfo.length; a++) {
+            if (lstFieldInfo[a].sectionCode == 1) {
+                $scope.lstFinalInfo[lstFieldInfo[a].code] = true;
+            }
+        }
+        $scope.$apply();
+    });
 
 });
