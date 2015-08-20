@@ -1,5 +1,7 @@
 package com.umeca.model.entities.reviewer.View;
 
+import com.umeca.model.entities.reviewer.PreviousCriminalProceeding;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,8 @@ public class TechnicalReviewInfoFileView {
     private String comment;
     private String result;
     private List<Section> sections;
+
+    private PreviousCriminalProceeding previousCriminalProceeding;
 
     public TechnicalReviewInfoFileView() {
         sections = new ArrayList<>();
@@ -155,5 +159,13 @@ public class TechnicalReviewInfoFileView {
 
     public void setAddressV(String addressV) {
         this.addressV = addressV;
+    }
+
+    public PreviousCriminalProceeding getPreviousCriminalProceeding() {
+        return previousCriminalProceeding;
+    }
+
+    public void setPreviousCriminalProceeding(PreviousCriminalProceeding previousCriminalProceeding) {
+        this.previousCriminalProceeding = previousCriminalProceeding;
     }
 }

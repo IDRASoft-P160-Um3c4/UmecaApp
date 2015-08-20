@@ -457,6 +457,9 @@ public class MeetingServiceImpl implements MeetingService {
             model.addObject("firstProceeding", "Ninguno");
             model.addObject("openProcessNumber", "0");
             model.addObject("numberConvictions", "0");
+            model.addObject("warrant", "Sin informaci&oacute;n");
+            model.addObject("platformMexico", "Sin informaci&oacute;n");
+            model.addObject("afis", "Sin informaci&oacute;n");
         }
         if (showCase != null && showCase.equals(1)) {
             model.addObject("readonlyBand", true);
