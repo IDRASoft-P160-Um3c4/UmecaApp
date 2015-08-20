@@ -267,6 +267,8 @@ public class Constants {
     public static final String CHANNELING_DROP_REJ_TITLE = "RECHAZÓ SOLICITUD DE BAJA DE CANALIZACIÓN";
     public static final String CHANNELING_DROP_AUTH_TITLE = "AUTORIZÓ SOLICITUD DE BAJA DE CANALIZACIÓN";
     public static final String CHANNELING_END_RECORD_TITLE = "CONCLUSIÓN DEL SERVICIO DE LA CANALIZACIÓN";
+    public static final String CHANNELING_END_CODE = "CHANNELING_END";
+
     public static final String CHANNELING_SUPERVISION_ACTIVITY_CODE = "ACCA";
     public static final long CHANNELING_NOTIFICATION_GOAL_FIRST_DATE = 9l; //Identificador del catálogo activity_goals.txt
     public static final long CHANNELING_NOTIFICATION_GOAL_TRACK = 10l; //Identificador del catálogo activity_goals.txt

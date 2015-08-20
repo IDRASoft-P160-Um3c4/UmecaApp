@@ -4,15 +4,8 @@
 <html>
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp"%>
-    <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet" type="text/css">
 
-
-    <script src="${pageContext.request.contextPath}/assets/scripts/upload/vendor/jquery.ui.widget.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.iframe-transport.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.fileupload.js"></script>
-    <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/upload/uploadFileCtrl.js"></script>
-
-    <title>Subir / Descargar archivos</title>
+    <title>Consultar archivos de canalizaci&ocute;n</title>
 </head>
 <body scroll="no" ng-app="ptlUmc">
     <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
@@ -21,10 +14,6 @@
     <div class="container body-content">
 
         <script>
-            window.uploadFile = function() {
-                id = ${caseId};
-                window.showUpsert(id, "#angJsjqGridId", '<c:url value='/shared/uploadFile/uploadFile.html' />', "#GridId");
-            };
 
             window.download = function(id) {
                 var params= [];
@@ -32,21 +21,9 @@
                 window.goToUrlMvcUrl("<c:url value='/shared/uploadFile/downloadFile.html?id=idParam' />",params);
             };
 
-            window.downloadAll = function() {
-                id = ${caseId};
-                var params= [];
-                params["idParam"]=id;
-                window.goToNewUrl("<c:url value='/shared/uploadFile/downloadFileByCase.html?id=idParam' />", params, {opts:"fullscreen=no, top=0, left=0, width=500, height=300"});
-            };
-
-            window.delete = function(id) {
-                id = ${caseId} + "|" + id;
-                window.showAction(id, "#angJsjqGridId", '<c:url value='/shared/uploadFile/deleteFile.json' />', "#GridId", "Eliminar archivo", "&iquest;Desea eliminar el archivo elegido?", "danger");
-            };
-
             $(document).ready(function() {
                 jQuery("#GridId").jqGrid({
-                    url: '<c:url value='/shared/uploadFile/list.json?caseId=' />' + ${caseId},
+                    url: '<c:url value='/channelingManager/queryChanneling/queryChannelingFilesList.json?caseId=' />' + ${caseId},
                     autoencode:true,
                     datatype: "json",
                     mtype: 'POST',
@@ -65,7 +42,7 @@
                     rowNum: 10,
                     rowList: [10, 20, 30],
                     pager: '#GridPager',
-                    sortname: 'creationTime',
+                    sortname: 'id',
                     height: 450,
                     viewrecords: true,
                     shrinkToFit: false,
@@ -79,11 +56,7 @@
                             var row = $(this).getRowData(cl);
                             var status = row.status;
                             var be = "";
-
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar\" onclick=\"window.download('" + cl + "');\"><span class=\"glyphicon glyphicon-cloud-download\"></span></a>";
-
-                            if("${readOnly}" !== "1" )
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar\" onclick=\"window.delete('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar archivo\" onclick=\"window.download('" + cl + "');\"><span class=\"glyphicon glyphicon-cloud-download\"></span></a>";
                             $(this).jqGrid('setRowData', ids[i], { Action: be });
                         }
                     },
@@ -97,8 +70,8 @@
                 });
 
                 jQuery("#GridId").jqGrid('navGrid', '#GridPager', {
-                    edit: false, editicon : 'icon-pencil blue',
-                    add: ("${readOnly}" !== "1") ? true : false, addfunc: window.uploadFile, addicon: 'icon-plus-sign purple',
+                    edit: false,
+                    add: false,
                     refresh: true, refreshicon : 'icon-refresh green',
                     del: false,
                     search: false});
@@ -117,16 +90,7 @@
         <div class="page-header">
             <div class="row">
                 <div class="col-xs-12">
-                    <h3 class="element-center"><i class="glyphicon glyphicon-upload"></i>&nbsp;Subir / <i class="glyphicon glyphicon-upload"></i>&nbsp;Descargar archivos del caso
-                        <br/>Imputado: ${fullname}</h3>
-                </div>
-                <div class="row" ng-controller="uploadFileController">
-                    <div class="col-xs-12 element-center">
-                    <br/>
-                        <span class="btn btn-primary element-center" ng-click="downloadAll()">
-                            <i class="glyphicon glyphicon-save"></i> &nbsp; Descargar expediente
-                        </span>
-                    </div>
+                    <h3 class="element-center"><i class="glyphicon glyphicon-download"></i>&nbsp; Consulta de archivos de canalizaci&oacute;n
                 </div>
             </div>
         </div>
