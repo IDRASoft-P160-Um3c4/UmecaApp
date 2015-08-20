@@ -19,19 +19,25 @@
             window.goToUrlMvcUrl(goTo);
         };
 
+        window.queryChannelingFiles = function (caseId) {
+            var goTo = "<c:url value='/channelingManager/queryChanneling/queryChannelingFiles.html'/>" + "?id=" + caseId;
+            window.goToUrlMvcUrl(goTo);
+        };
+
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/channelingManager/queryChanneling/list.json' />',
                 autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Causa penal / Carpeta Judicial', 'Imputado', 'Distrito', 'Supervisor'],
+                colNames: ['ID', 'Causa penal / Carpeta Judicial', 'Imputado', 'Distrito', 'Supervisor', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idMP', index: 'idMP', width: 240, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'imputed', index: 'imputed', width: 330, align: "center", sorttype: 'string', search: false },
                     { name: 'district', index: 'district', width: 240, align: "center", sorttype: 'string', search: false },
-                    { name: 'supervisor', index: 'supervisor', width: 220, align: "center", sorttype: 'string', search: false }
+                    { name: 'supervisor', index: 'supervisor', width: 220, align: "center", sorttype: 'string', search: false },
+                    { name: 'Action', width: 100, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],
@@ -43,6 +49,15 @@
                 sortorder: "desc",
                 caption: "&nbsp;",
                 altRows: true,
+                gridComplete: function () {
+                    var ids = $(this).jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var cl = ids[i];
+                        var row = $(this).getRowData(cl);
+                        var be = "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Consultar archivos del caso\" onclick=\"window.queryChannelingFiles('" + cl + "');\"><span class=\"glyphicon glyphicon-cloud-download\"></span></a>";
+                        $(this).jqGrid('setRowData', ids[i], { Action: be });
+                    }
+                },
                 loadComplete: function () {
                     var table = this;
                     setTimeout(function () {

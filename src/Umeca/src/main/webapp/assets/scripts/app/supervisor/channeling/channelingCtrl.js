@@ -20,6 +20,7 @@ app.controller('channelingController', function($scope) {
     $scope.onChangeChannelingType = function () {
         $scope.clearAllCatalog();
 
+        $scope.institutionName = $scope.selectCatalogInv($scope.lstInstitutionName, $scope.lstInstitutionNameNew, $scope.m.institutionNameId, $scope.m, 'institutionNameId', $scope.channelingType.id);
         $scope.institutionType = $scope.selectCatalog($scope.lstInstitutionType, $scope.lstInstitutionTypeNew, $scope.m.institutionTypeId, $scope.m, 'institutionTypeId', $scope.channelingType.optionA);
 
         switch($scope.channelingType.optionB){
@@ -37,6 +38,32 @@ app.controller('channelingController', function($scope) {
                 $scope.educationLevel = $scope.selectCatalog($scope.lstEducationLevel, $scope.lstEducationLevelNew, $scope.m.educationLevelId, $scope.m, 'educationLevelId');
                 break;
         }
+    };
+
+    $scope.selectCatalogInv = function(lstCatalog, lstCatalogNew, catalogId, jsonData, catalogKey, catalogSelId) {
+        var catalog;
+        for(var j=0, len = lstCatalog.length; j<len; j++){
+            var item = lstCatalog[j];
+            if(item.optionA == catalogSelId){
+                lstCatalogNew.push(item);
+            }
+        }
+
+        if(catalogId === undefined){
+            catalog = lstCatalogNew[0];
+        }
+        else{
+            for(var i=lstCatalogNew.length-1; i>=0; i--){
+                catalog = lstCatalogNew[i];
+                if(catalog.id === catalogId)
+                    break;
+            }
+        }
+
+        if(jsonData !== undefined && catalogKey !== undefined)
+            jsonData[catalogKey] = catalog.id;
+
+        return catalog;
     };
 
     $scope.selectCatalog = function(lstCatalog, lstCatalogNew, catalogId, jsonData, catalogKey, slstCatalogIds){
@@ -83,7 +110,7 @@ app.controller('channelingController', function($scope) {
         $scope.lstPreventionTypeNew = [];
         $scope.lstEconomicSupportNew = [];
         $scope.lstInstitutionTypeNew = [];
-        $scope.lstInstitutionTypeNew = [];
+        $scope.lstInstitutionNameNew = [];
     };
 
 });

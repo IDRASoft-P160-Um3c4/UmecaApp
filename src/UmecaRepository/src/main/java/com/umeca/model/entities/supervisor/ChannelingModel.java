@@ -19,6 +19,7 @@ public class ChannelingModel {
     private Long institutionTypeId;
     private String name;
     private String institutionName;
+    private Long institutionNameId;
     private String consecutiveTx;
     private String specOther;
 
@@ -38,7 +39,7 @@ public class ChannelingModel {
 
     public ChannelingModel(Long channelingId, Long caseId, String idMP, String firstName, String lastNameA, String lastNameB, Long districtId, String supervisor,
                            String name, Long channelingTypeId, Long institutionTypeId, Long economicSupportId, Long preventionTypeId, Long educationLevelId,
-                           String specOther, String institutionName,
+                           String specOther, Long institutionNameId, String institutionName,
                            Long consecutive, Boolean isVolunteer) {
         this.channelingId = channelingId;
         this.caseId = caseId;
@@ -50,6 +51,7 @@ public class ChannelingModel {
         this.preventionTypeId = preventionTypeId;
         this.educationLevelId = educationLevelId;
         this.specOther = specOther;
+        this.institutionNameId = institutionNameId;
         this.institutionName = institutionName;
         this.isVolunteer = isVolunteer;
         this.consecutiveTx = LongExt.paddingLeft("0", "4", consecutive);
@@ -184,6 +186,14 @@ public class ChannelingModel {
 
     public void setIsVolunteer(Boolean isVolunteer) {
         this.isVolunteer = isVolunteer;
+    }
+
+    public Long getInstitutionNameId() {
+        return institutionNameId;
+    }
+
+    public void setInstitutionNameId(Long institutionNameId) {
+        this.institutionNameId = institutionNameId;
     }
 }
 
