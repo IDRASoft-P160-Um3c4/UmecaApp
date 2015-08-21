@@ -119,4 +119,6 @@ public interface InsertCatalogService {
     void channelingDropType();
 
     void eventType();
+
+    void statisticReportType();
 }
