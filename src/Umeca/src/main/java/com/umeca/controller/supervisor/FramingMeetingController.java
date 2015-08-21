@@ -1113,14 +1113,14 @@ public class FramingMeetingController {
     JqGridResultModel datesList(@ModelAttribute JqGridFilterModel opts) {
 
         opts.extraFilters = new ArrayList<>();
-        JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
+        /*JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
                 new ArrayList<String>() {{
                     add(Constants.CASE_STATUS_HEARING_FORMAT_END);
                     add(Constants.CASE_STATUS_FRAMING_COMPLETE);
                     add(Constants.CASE_STATUS_FRAMING_INCOMPLETE);
                 }}, JqGridFilterModel.COMPARE_IN
         );
-        opts.extraFilters.add(extraFilter);
+        opts.extraFilters.add(extraFilter);*/
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
 
@@ -1131,7 +1131,6 @@ public class FramingMeetingController {
                 final javax.persistence.criteria.Join<Case, StatusCase> joinM = r.join("meeting").join("imputed");
                 final javax.persistence.criteria.Join<Case, StatusCase> joinUS = r.join("umecaSupervisor");
                 final javax.persistence.criteria.Join<Case, StatusCase> joinHF = r.join("hearingFormats");
-
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
                     add(joinSt.get("name"));
@@ -1142,9 +1141,9 @@ public class FramingMeetingController {
                     add(joinM.get("lastNameM"));
                     add(joinHF.get("umecaDate"));
                     add(joinHF.get("umecaTime"));
+                    add(joinUS.get("fullname"));
                 }};
             }
-
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("idMP"))
@@ -1159,9 +1158,4 @@ public class FramingMeetingController {
 
         return result;
     }
-
-//    @InitBinder
-//    public void initBinder(WebDataBinder dataBinder) {
-//        dataBinder.registerCustomEditor(String.class, new StringEscapeEditor(false, false, true));
-//    }
 }
