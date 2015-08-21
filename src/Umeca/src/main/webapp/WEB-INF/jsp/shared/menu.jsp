@@ -266,6 +266,10 @@
                                 <li><a href="<c:url value='/shared/activityReport/index.html' />"><i
                                         class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Informe de actividades para
                                     direcci&oacute;n</a></li>
+                                <li><a href="<c:url value='/managereval/statisticReport/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Estad&iacute;sticos - Reporte estad&iacute;stico</a></li>
+                                <li><a href="<c:url value='/managereval/statisticReport/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Reportes por operador - Estad&iacute;sticos operador</a></li>
                             </ul>
                         </li>
                         <li class="dropdown nav-li-blue">
