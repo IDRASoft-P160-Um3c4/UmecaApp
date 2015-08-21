@@ -121,4 +121,6 @@ public interface InsertCatalogService {
     void eventType();
 
     void statisticReportType();
+
+    void statisticOperatorReportType();
 }

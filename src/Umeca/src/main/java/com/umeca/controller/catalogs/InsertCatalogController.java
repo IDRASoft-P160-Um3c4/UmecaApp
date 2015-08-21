@@ -371,6 +371,12 @@ public class InsertCatalogController {
         return "statisticReportType";
     }
 
+    @RequestMapping(value = "/catalogs/statisticOperatorReportType", method = RequestMethod.GET)
+    public String statisticOperatorReportType() {
+        service.statisticOperatorReportType();
+        return "statisticOperatorReportType";
+    }
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll() {
         service.role();
@@ -430,6 +436,7 @@ public class InsertCatalogController {
         service.channelingDropType();
         service.eventType();
         service.statisticReportType();
+        service.statisticOperatorReportType();
         return "insertCatalog OK!!";
     }
 }
