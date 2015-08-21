@@ -50,8 +50,11 @@ public class Channeling {
     @Column(name = "spec_other", length = 100, nullable = true)
     private String specOther;
 
-    @Column(name = "institution_name", length = 100, nullable = false)
-    private String institutionName;
+//    @Column(name = "institution_name", length = 100, nullable = false)
+//    private String institutionName;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_cat_institution_name", nullable = true)
+    private CatChannelingInstitutionName institutionName;
 
     @Column(name="creation_date", nullable = false)
     private Calendar creationDate;
@@ -123,14 +126,6 @@ public class Channeling {
 
     public void setChannelingType(CatChannelingType channelingType) {
         this.channelingType = channelingType;
-    }
-
-    public String getInstitutionName() {
-        return institutionName;
-    }
-
-    public void setInstitutionName(String institutionName) {
-        this.institutionName = institutionName;
     }
 
     public Calendar getCreationDate() {
@@ -283,6 +278,14 @@ public class Channeling {
 
     public void setFulfilledUser(User fulfilledUser) {
         this.fulfilledUser = fulfilledUser;
+    }
+
+    public CatChannelingInstitutionName getInstitutionName() {
+        return institutionName;
+    }
+
+    public void setInstitutionName(CatChannelingInstitutionName institutionName) {
+        this.institutionName = institutionName;
     }
 }
 

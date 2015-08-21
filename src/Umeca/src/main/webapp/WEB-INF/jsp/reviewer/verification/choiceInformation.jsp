@@ -32,6 +32,7 @@
 
 
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/choiceInformationCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/ShowInforVerifiedImputeHomesCtrl.js"></script>
 
     <style>
         body {
@@ -91,9 +92,11 @@
 </head>
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
-<div class="container body-content">
+<div class="container body-content" ng-cloak>
     <div ng-controller="modalDlgController" id="divChoiceInformation">
-        <div ng-controller="choiceInformationController">
+        <div ng-controller="choiceInformationController"
+             ng-init="getFinalInfoSourceUrl= '<c:url value="/reviewer/verification/getFinalInfo.json"/>'; idCase=${idCase};">
+
             <div id="divErrorMessage" class="alert alert-danger" style="display: none;">
                 <button type="button" class="close" ng-click="hideMessageError();">
                     <i class="icon-remove"></i>

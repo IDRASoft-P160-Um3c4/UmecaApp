@@ -182,4 +182,25 @@ app.controller('drugController', function($scope, $timeout,$rootScope) {
             $scope.d.onsetAge ="";
         }
     }
+
+    $scope.lstSourceInfoDrug= {};
+    $rootScope.$on('showAnswered', function (event, lstFieldInfo) {
+        for (var a = 0; a < lstFieldInfo.length; a++) {
+            if (lstFieldInfo[a].sectionCode == 7) {
+                $scope.lstSourceInfoDrug[lstFieldInfo[a].code + "." + lstFieldInfo[a].idFieldList] = true;
+            }
+        }
+        $scope.$apply();
+    });
+
+    $scope.lstFinalInfoDrug= {};
+    $rootScope.$on('showFinalAnswered', function (event, lstFieldInfo) {
+        for (var a = 0; a < lstFieldInfo.length; a++) {
+            if (lstFieldInfo[a].sectionCode == 7) {
+                $scope.lstFinalInfoDrug[lstFieldInfo[a].code + "." + lstFieldInfo[a].idFieldList] = true;
+            }
+        }
+        $scope.$apply();
+    });
+
 });

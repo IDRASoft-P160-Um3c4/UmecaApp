@@ -41,14 +41,18 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="col-xs-4 element-left">
+                        <span ng-class="lstSourceInfoLeavingCountry['leaveCountry.officialDocumentation.id']==true?'verified':'';">
                         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                            ng-click="doConfirmVerifEqual('leaveCountry.officialDocumentation.id')"></i>
-                        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4"
+                        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="5"
                            ng-show="verification" code="leaveCountry.officialDocumentation.id"></i>
                         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                            ng-click="doConfirmVerifNotKnow('leaveCountry.officialDocumentation.id')"></i>
+                            </span>
+                        <span ng-class="lstFinalInfoLeavingCountry['leaveCountry.officialDocumentation.id']==true?'verified':'';">
                         <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
                            ng-click="showChoices('leaveCountry.officialDocumentation.id')"></i>
+                            </span>
                         &iquest;El imputado cuenta con documentaci&oacute;n oficial que facilite que abandone el pa&iacute;s?:
                     </div>
                     <div class="col-xs-2">
@@ -103,14 +107,18 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="col-xs-4 element-left">
+                        <span ng-class="lstSourceInfoLeavingCountry['leaveCountry.livedCountry.id']==true?'verified':'';">
                         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                            ng-click="doConfirmVerifEqual('leaveCountry.livedCountry.id')"></i>
-                        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4"
+                        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="5"
                            ng-show="verification" code="leaveCountry.livedCountry.id"></i>
                         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                            ng-click="doConfirmVerifNotKnow('leaveCountry.livedCountry.id')"></i>
+                            </span>
+                        <span ng-class="lstFinalInfoLeavingCountry['leaveCountry.livedCountry.id']==true?'verified':'';">
                         <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
                            ng-click="showChoices('leaveCountry.livedCountry.id')"></i>
+                            </span>
                         &iquest;El detenido ha vivido en otro pa&iacute;s?:
                     </div>
                     <div class="col-xs-2">
@@ -237,14 +245,18 @@
                 <div class="col-xs-12">
 
                     <div class="col-xs-3 element-left">
+                        <span ng-class="lstSourceInfoLeavingCountry['leaveCountry.familyAnotherCountry.id']==true?'verified':'';">
                         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                            ng-click="doConfirmVerifEqual('leaveCountry.familyAnotherCountry.id')"></i>
-                        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4"
+                        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="5"
                            ng-show="verification" code="leaveCountry.familyAnotherCountry.id"></i>
                         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                            ng-click="doConfirmVerifNotKnow('leaveCountry.familyAnotherCountry.id')"></i>
+                            </span>
+                        <span ng-class="lstFinalInfoLeavingCountry['leaveCountry.familyAnotherCountry.id']==true?'verified':'';">
                         <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
                            ng-click="showChoices('leaveCountry.familyAnotherCountry.id')"></i>
+                        </span>
                         &iquest;El detenido cuenta con familiares y/o amigos cercanos en otro pa&iacute;s?:
                     </div>
                     <div class="col-xs-3">
@@ -362,15 +374,19 @@
         <div class="row" ng-show="verification || selectSource">
             <div class="col-xs-12">
                 <div class="col-xs-3 element-left">
+                    <span ng-class="lstSourceInfoLeavingCountry['socialEnvironment.comment']==true?'verified':'';">
                     <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                        ng-click="doConfirmVerifEqual('socialEnvironment.comment')"></i>
-                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3"
+                    <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4"
                        ng-show="verification"
                        code="socialEnvironment.comment"></i>
                     <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                        ng-click="doConfirmVerifNotKnow('socialEnvironment.comment')"></i>
+                        </span>
+                    <span ng-class="lstFinalInfoLeavingCountry['socialEnvironment.comment']==true?'verified':'';">
                     <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
                        ng-click="showChoices('socialEnvironment.comment')"></i>
+                        </span>
                     Comentarios: <br/>
                     <label class="info-example">(cooperaci&oacute;n, atenci&oacute;n, ansioso, etc.)</label>
                 </div>

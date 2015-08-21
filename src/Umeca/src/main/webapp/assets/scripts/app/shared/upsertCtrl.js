@@ -3,10 +3,9 @@
     $scope.MsgError = "";
     $scope.Model = {};
 
-
     $scope.submit = function (formId, urlToPost, hasReturnId, isValid) {
 
-        if(isValid !== undefined){
+        if (isValid !== undefined) {
             if (isValid !== true) {
                 $scope.MsgError = $sce.trustAsHtml("Existe uno o m&aacute;s campos que no son v&aacute;lidos, son requeridos o su longitud est&aacute; fuera de lo permitido");
                 $scope.Invalid = true;
@@ -134,6 +133,8 @@
             }
 
             if (resp.hasError === false) {
+                if ($scope.reloadFinalInfo == true)
+                    $rootScope.$broadcast('reloadFinalVerifiedInfo');
                 $scope.Model.dlg.modal('hide');
                 $scope.Model.def.resolve({isCancel: false, resp: resp});
                 return;
@@ -182,7 +183,7 @@
         return $sce.trustAsHtml(sHtml);
     };
 
-    $scope.submitNegation = function(formId){
+    $scope.submitNegation = function (formId) {
         var stVal = true;
         if ($(formId).valid() == false) {
             $scope.Invalid = true;

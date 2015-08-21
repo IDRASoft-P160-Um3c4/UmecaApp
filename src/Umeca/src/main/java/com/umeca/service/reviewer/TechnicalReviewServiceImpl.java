@@ -146,6 +146,15 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         Verification ver = verificationRepository.findOne(idVerification);
 
         Meeting meeting = ver.getCaseDetention().getMeeting();
+
+        PreviousCriminalProceeding pcp = meeting.getPreviousCriminalProceeding();
+        pcp.setWarrant(StringEscape.escapeText(pcp.getWarrant()));
+        pcp.setPlatformMexico(StringEscape.escapeText(pcp.getPlatformMexico()));
+        pcp.setAfis(StringEscape.escapeText(pcp.getAfis()));
+
+
+        file.setPreviousCriminalProceeding(pcp);
+
         Imputed im = meeting.getImputed();
         Imputed iV = ver.getMeetingVerified().getImputed();
 

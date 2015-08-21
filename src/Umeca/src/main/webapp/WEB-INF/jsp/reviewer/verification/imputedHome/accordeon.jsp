@@ -44,7 +44,9 @@
                                 <div class="hr hr-8"></div>
                             </div>
                         </div>
-                        <%@ include file="/WEB-INF/jsp/reviewer/verification/imputedHome/content.jsp" %>
+                        <div ng-controller="showInfoVerifiedImputedHomesController">
+                        <%@ include file="/WEB-INF/jsp/reviewer/verification/imputedHome/content.jsp"%>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -3,10 +3,15 @@
     <div class="row" >
         <div class="col-xs-12">
             <div class="col-xs-2 element-left">
+
+                <span ng-class="lstSourceInfoSocial['socialNetwork.name'+'.'+p.id]==true?'verified':'';">
                 <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('socialNetwork.name',p.id);"></i>
-                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification" code="socialNetwork.name" id-element="{{p.id}}"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4" ng-show="verification" code="socialNetwork.name" id-element="{{p.id}}"></i>
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialNetwork.name',p.id);"></i>
+                    </span>
+                <span ng-class="lstFinalInfoSocial['socialNetwork.name'+'.'+p.id]==true?'verified':'';">
                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialNetwork.name',p.id);"></i>
+                    </span>
                 Nombre:
             </div>
             <div class="col-xs-10">
@@ -23,10 +28,14 @@
     <div class="row">
         <div class="col-xs-6">
             <div class="col-xs-4 element-left">
+                <span ng-class="lstSourceInfoSocial['socialNetwork.relationship.id'+'.'+p.id]==true?'verified':'';">
                 <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('socialNetwork.relationship.id',p.id);"></i>
-                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification" code="socialNetwork.relationship.id" id-element="{{p.id}}"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4" ng-show="verification" code="socialNetwork.relationship.id" id-element="{{p.id}}"></i>
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialNetwork.relationship.id',p.id);"></i>
+                    </span>
+                <span ng-class="lstFinalInfoSocial['socialNetwork.relationship.id'+'.'+p.id]==true?'verified':'';">
                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialNetwork.relationship.id',p.id)"></i>
+                    </span>
                 Relaci&oacute;n:
             </div>
             <div class="col-xs-8">
@@ -60,10 +69,14 @@
     <div class="row" >
         <div class="col-xs-12">
             <div class="col-xs-2 element-left">
+                <span ng-class="lstSourceInfoSocial['socialNetwork.phone'+'.'+p.id]==true?'verified':'';">
                 <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('socialNetwork.phone',p.id);"></i>
-                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="socialNetwork.phone" id-element="{{p.id}}"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification" code="socialNetwork.phone" id-element="{{p.id}}"></i>
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialNetwork.phone',p.id);"></i>
+                    </span>
+                <span ng-class="lstFinalInfoSocial['socialNetwork.phone'+'.'+p.id]==true?'verified':'';">
                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialNetwork.phone',p.id)"></i>
+                    </span>
                 Tel&eacute;fono:
             </div>
             <div class="col-xs-10">
@@ -80,10 +93,14 @@
     <div class="row">
         <div class="col-xs-6">
             <div class="col-xs-4 element-left">
+                <span ng-class="lstSourceInfoSocial['socialNetwork.documentType.id'+'.'+p.id]==true?'verified':'';">
                 <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('socialNetwork.documentType.id',p.id);"></i>
-                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="socialNetwork.documentType.id" id-element="{{p.id}}"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification" code="socialNetwork.documentType.id" id-element="{{p.id}}"></i>
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialNetwork.documentType.id',p.id);"></i>
+                    </span>
+                <span ng-class="lstFinalInfoSocial['socialNetwork.documentType.id'+'.'+p.id]==true?'verified':'';">
                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialNetwork.documentType.id',p.id)"></i>
+                    </span>
                 Identificaci&oacute;n prensentada:
             </div>
             <div class="col-xs-8">
@@ -109,10 +126,14 @@
         </div>
         <div class="col-xs-6">
             <div class="col-xs-4 element-left">
+                <span ng-class="lstSourceInfoSocial['socialNetwork.age'+'.'+p.id]==true?'verified':'';">
                 <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('socialNetwork.age',p.id);"></i>
-                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="socialNetwork.age" id-element="{{p.id}}"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification" code="socialNetwork.age" id-element="{{p.id}}"></i>
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialNetwork.age',p.id);"></i>
+                    </span>
+                <span ng-class="lstFinalInfoSocial['socialNetwork.age'+'.'+p.id]==true?'verified':'';">
                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialNetwork.age',p.id)"></i>
+                    </span>
                 Edad:
             </div>
             <div class="col-xs-8">
@@ -129,10 +150,14 @@
     <div class="row">
         <div class="col-xs-6">
             <div class="col-xs-4 element-left">
+                <span ng-class="lstSourceInfoSocial['socialNetwork.livingWith.id'+'.'+p.id]==true?'verified':'';">
                 <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('socialNetwork.livingWith.id',p.id);"></i>
-                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="socialNetwork.livingWith.id" id-element="{{p.id}}"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification" code="socialNetwork.livingWith.id" id-element="{{p.id}}"></i>
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialNetwork.livingWith.id',p.id);"></i>
+                    </span>
+                <span ng-class="lstFinalInfoSocial['socialNetwork.livingWith.id'+'.'+p.id]==true?'verified':'';">
                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialNetwork.livingWith.id',p.id)"></i>
+                </span>
                 Vive con el:
             </div>
             <div class="col-xs-8">
@@ -156,10 +181,14 @@
         </div>
         <div class="col-xs-6">
             <div class="col-xs-4 element-left">
+                <span ng-class="lstSourceInfoSocial['socialNetwork.dependent.id'+'.'+p.id]==true?'verified':'';">
                 <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('socialNetwork.dependent.id',p.id);"></i>
-                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="socialNetwork.dependent.id" id-element="{{p.id}}"></i>
+                <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification" code="socialNetwork.dependent.id" id-element="{{p.id}}"></i>
                 <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('socialNetwork.dependent.id',p.id);"></i>
+                    </span>
+                <span ng-class="lstFinalInfoSocial['socialNetwork.dependent.id'+'.'+p.id]==true?'verified':'';">
                 <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('socialNetwork.dependent.id',p.id)"></i>
+                    </span>
                 Dependiente econ&oacute;mico:
             </div>
             <div class="col-xs-8">

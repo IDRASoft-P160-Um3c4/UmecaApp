@@ -5,14 +5,18 @@
 
 <div class="row">
     <div class="col-xs-2 col-xs-offset-1 element-right">
+        <span ng-class="lstSourceInfoHomes['imputedHomes.address'+'.'+a.id]==true?'verified':'';">
         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifEqual('imputedHomes.address',a.id);"></i>
-        <i class="icon-remove-circle red  icon-only bigger-120" verif-address level-child="6" ng-show="verification"
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-address level-child="7" ng-show="verification"
            id-code="imputedHomes.address" id-element="{{a.id}}" address-id="{{a.addressId}}"></i>
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifNotKnow('imputedHomes.address',a.id);"></i>
+            </span>
+        <span ng-class="lstFinalInfoHomes['imputedHomes.address'+'.'+a.id]==true?'verified':'';">
         <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
            ng-click="showChoices('imputedHomes.address',a.id)"></i>
+            </span>
         Direcci&oacute;n
     </div>
     <div class="col-xs-9">
@@ -20,25 +24,30 @@
     </div>
 </div>
 <br/>
-<div class="row" >
+
+<div class="row">
     <div class="col-xs-3 element-right">
+    <span ng-class="lstSourceInfoHomes['imputedHomes.phone'+'.'+a.id]==true?'verified':'';">
         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifEqual('imputedHomes.phone',a.id);"></i>
-        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2"  ng-show="verification"
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification"
            code="imputedHomes.phone" id-element="{{a.id}}"></i>
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifNotKnow('imputedHomes.phone',a.id);"></i>
+        </span>
+        <span ng-class="lstFinalInfoHomes['imputedHomes.phone'+'.'+a.id]==true?'verified':'';">
         <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
            ng-click="showChoices('imputedHomes.phone',a.id)"></i>
+    </span>
         Tel&eacute;fono:
     </div>
     <div class="col-xs-8">
         <textarea type="text" class="form-control width-100" ng-model="a.phone" name="imputedHomes.phone"
-               id="phone" value="{{a.phone}}"
-               data-val="true"
-               data-val-length="Debe tener al menos 5 y m&aacute;ximo 200 caracteres"
-               data-val-length-max="200" data-val-length-min="5"
-               data-val-required="El tel&eacute;efono es un campo requerido"></textarea>
+                  id="phone" value="{{a.phone}}"
+                  data-val="true"
+                  data-val-length="Debe tener al menos 5 y m&aacute;ximo 200 caracteres"
+                  data-val-length-max="200" data-val-length-min="5"
+                  data-val-required="El tel&eacute;efono es un campo requerido"></textarea>
          <span class="field-validation-valid" data-valmsg-for="phone"
                data-valmsg-replace="true"></span>
     </div>
@@ -48,30 +57,35 @@
 <div>
     <div class="row">
         <div class="col-xs-3 element-right">
+            <span ng-class="lstSourceInfoHomes['imputedHomes.homeType.id'+'.'+a.id]==true?'verified':'';">
             <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                ng-click="doConfirmVerifEqual('imputedHomes.homeType.id',a.id);"></i>
             <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification"
                code="imputedHomes.homeType.id" id-element="{{a.id}}"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                ng-click="doConfirmVerifNotKnow('imputedHomes.homeType.id',a.id);"></i>
+                </span>
+            <span ng-class="lstFinalInfoHomes['imputedHomes.homeType.id'+'.'+a.id]==true?'verified':'';">
             <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
                ng-click="showChoices('imputedHomes.homeType.id',a.id)"></i>
+                </span>
             Tipo de propiedad:
         </div>
         <div class="col-xs-3">
             <input type="hidden" ng-model="a.homeTypeId" ng-update-hidden name="imputedHomes.homeType.id">
-            <select  class="form-control element-center" ng-model="a.homeType"
-                     ng-options="e.name for e in lstHomeType" value="{{a.homeTypeId}}"
-                     ng-change="a.homeTypeId = a.homeType.id;" ng-init='lstHomeType = ${lstHomeType};'></select>
+            <select class="form-control element-center" ng-model="a.homeType"
+                    ng-options="e.name for e in lstHomeType" value="{{a.homeTypeId}}"
+                    ng-change="a.homeTypeId = a.homeType.id;" ng-init='lstHomeType = ${lstHomeType};'></select>
         </div>
     </div>
     <br/>
+
     <div class="row" ng-show="a.homeType.specification == true">
         <div class="col-xs-3 element-right">
             Especif&iacute;que tipo de propiedad:
         </div>
         <div class="col-xs-8">
-            <input type="text" class="form-control"ng-model="a.specification" name="imputedHomes.specification"
+            <input type="text" class="form-control" ng-model="a.specification" name="imputedHomes.specification"
                    id="specification"
                    data-val="true" value="{{a.specification}}"
                    data-val-length="Debe tener al menos 1 y m&aacute;ximo 50 caracteres"
@@ -87,14 +101,18 @@
 <div>
     <div class="row removeClassHide">
         <div class="col-xs-3 element-right">
+            <span ng-class="lstSourceInfoHomes['imputedHomes.registerType.id'+'.'+a.id]==true?'verified':'';">
             <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                ng-click="doConfirmVerifEqual('imputedHomes.registerType.id',a.id);"></i>
             <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification"
                code="imputedHomes.registerType.id" id-element="{{a.id}}"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                ng-click="doConfirmVerifNotKnow('imputedHomes.registerType.id',a.id);"></i>
+                </span>
+            <span ng-class="lstFinalInfoHomes['imputedHomes.registerType.id'+'.'+a.id]==true?'verified':'';">
             <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
                ng-click="showChoices('imputedHomes.registerType.id',a.id)"></i>
+                </span>
             Tipo de domiclio:
         </div>
         <div class="col-xs-3">
@@ -155,6 +173,7 @@
                             </div>
                         </div>
                         <br/>
+
                         <div class="row" ng-show="a.typeId==2">
                             <div class="col-xs-3">
                                 Raz&oacute;n por la que tiene <br/>un domicilio secundario:
@@ -172,12 +191,14 @@
                             </div>
                         </div>
                         <br/>
+
                         <div class="row">
                             <div class="col-xs-12" ng-init='schListIH = pastToJson(listImputedHome[$index].schedule);'
                                  ng-show="verification || selectSource || showSchedule">
                                 <div class="widget-header header-color-blue">
                                     <h5 class="bigger lighter">
                                         <h6> &nbsp;
+                                            <span ng-class="lstSourceInfoHomes['imputedHomes.schedule'+'.'+a.id]==true?'verified':'';">
                                             <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                                                ng-click="doConfirmVerifEqual('imputedHomes.schedule',a.id)"></i>
                                             <i class="icon-remove-circle red  icon-only bigger-120" verif-schedule
@@ -185,9 +206,15 @@
                                                id-element="{{a.id}}"></i>
                                             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                                                ng-click="doConfirmVerifNotKnow('imputedHomes.schedule', a.id)"></i>
+                                                </span>
+                                            <span ng-class="lstFinalInfoHomes['imputedHomes.schedule'+'.'+a.id]==true?'verified':'';">
                                             <i class="red icon-list icon-only bigger-120" ng-show="selectSource"
                                                ng-click="showChoices('imputedHomes.schedule',a.id)"></i>
-                                            <i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h6>
+                                                </span>
+                                            <i class="glyphicon glyphicon-calendar "></i>
+
+                                            Disponibilidad</h6>
+
                                     </h5>
                                 </div>
 

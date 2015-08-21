@@ -1,19 +1,26 @@
 <input type="hidden" ng-init="j = listJob[$index]">
 <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 <input type="hidden" ng-update-hidden ng-model="j.id" name="id" id="id">
+
 <div class="row">
     <div class="col-xs-2 element-left">
+        <span ng-class="lstSourceInfoJob['jobs.company'+'.'+j.id]==true?'verified':'';">
         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifEqual('jobs.company',j.id);"></i>
-        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification"
            code="jobs.company" id-element="{{j.id}}"></i>
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifNotKnow('jobs.company',j.id);"></i>
-        <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('jobs.company',j.id)"></i>
+            </span>
+        <span ng-class="lstFinalInfoJob['jobs.company'+'.'+j.id]==true?'verified':'';">
+        <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
+           ng-click="showChoices('jobs.company',j.id)"></i>
+        </span>
         Empresa:
     </div>
     <div class="col-xs-10">
-        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 150 caracteres"
+        <input class="form-control" data-val="true"
+               data-val-length="Debe tener al menos 3 y m&aacute;ximo 150 caracteres"
                data-val-length-max="150" data-val-length-min="3" value="{{j.company}}"
                data-val-required="La empresa es un campo requerido"
                type="text" ng-model="j.company" id="company" name="jobs.company">
@@ -24,17 +31,23 @@
 
 <div class="row">
     <div class="col-xs-2 element-left">
+        <span ng-class="lstSourceInfoJob['jobs.post'+'.'+j.id]==true?'verified':'';">
         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifEqual('jobs.post',j.id);"></i>
-        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification"
            code="jobs.post" id-element="{{j.id}}"></i>
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifNotKnow('jobs.post',j.id);"></i>
-        <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('jobs.post',j.id)"></i>
+            </span>
+        <span ng-class="lstFinalInfoJob['jobs.post'+'.'+j.id]==true?'verified':'';">
+        <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
+           ng-click="showChoices('jobs.post',j.id)"></i>
+        </span>
         Puesto:
     </div>
     <div class="col-xs-10">
-        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres"
+        <input class="form-control" data-val="true"
+               data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres"
                data-val-length-max="50" data-val-length-min="3" data-val-required="El puesto es un campo requerido"
                type="text" value="{{j.post}}" name="jobs.post" id="post">
         <span class="field-validation-valid" data-valmsg-for="post" data-valmsg-replace="true"></span>
@@ -44,17 +57,23 @@
 
 <div class="row">
     <div class="col-xs-2 element-left">
+        <span ng-class="lstSourceInfoJob['jobs.phone'+'.'+j.id]==true?'verified':'';">
         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifEqual('jobs.phone',j.id);"></i>
-        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification"
            code="jobs.phone" id-element="{{j.id}}"></i>
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifNotKnow('jobs.phone',j.id);"></i>
-        <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('jobs.phone',j.id)"></i>
+            </span>
+        <span ng-class="lstFinalInfoJob['jobs.phone'+'.'+j.id]==true?'verified':'';">
+        <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
+           ng-click="showChoices('jobs.phone',j.id)"></i>
+        </span>
         Tel&eacute;fono:
     </div>
     <div class="col-xs-10">
-        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 8 y m&aacute;ximo 20 caracteres"
+        <input class="form-control" data-val="true"
+               data-val-length="Debe tener al menos 8 y m&aacute;ximo 20 caracteres"
                data-val-length-max="20" data-val-length-min="8"
                data-val-required="El tel&eacute;fono es un campo requerido"
                type="text" value="{{j.phone}}" name="jobs.phone" id="phone">
@@ -65,17 +84,23 @@
 
 <div class="row">
     <div class="col-xs-2 element-left">
+        <span ng-class="lstSourceInfoJob['jobs.nameHead'+'.'+j.id]==true?'verified':'';">
         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifEqual('jobs.nameHead',j.id);"></i>
-        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification"
            code="jobs.nameHead" id-element="{{j.id}}"></i>
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifNotKnow('jobs.nameHead',j.id);"></i>
-        <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('jobs.nameHead',j.id)"></i>
+            </span>
+        <span ng-class="lstFinalInfoJob['jobs.nameHead'+'.'+j.id]==true?'verified':'';">
+        <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
+           ng-click="showChoices('jobs.nameHead',j.id)"></i>
+        </span>
         Nombre del patr&oacute;n:
     </div>
     <div class="col-xs-10">
-        <input class="form-control" data-val="true" data-val-length="Debe tener al menos 6 y m&aacute;ximo 150 caracteres"
+        <input class="form-control" data-val="true"
+               data-val-length="Debe tener al menos 6 y m&aacute;ximo 150 caracteres"
                data-val-length-max="150" data-val-length-min="6"
                data-val-required="El nombre del patr&oacute;n es un campo requerido"
                type="text" value="{{j.nameHead}}" name="jobs.nameHead" id="nameHead">
@@ -86,13 +111,18 @@
 
 <div class="row">
     <div class="col-xs-2 element-left">
+        <span ng-class="lstSourceInfoJob['jobs.address'+'.'+j.id]==true?'verified':'';">
         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifEqual('jobs.address',j.id);"></i>
-        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification"
+        <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification"
            code="jobs.address" id-element="{{j.id}}"></i>
         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
            ng-click="doConfirmVerifNotKnow('jobs.address',j.id);"></i>
-        <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('jobs.address',j.id)"></i>
+            </span>
+        <span ng-class="lstFinalInfoJob['jobs.address'+'.'+j.id]==true?'verified':'';">
+        <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
+           ng-click="showChoices('jobs.address',j.id)"></i>
+        </span>
         Direcci&oacute;n:
     </div>
     <div class="col-xs-10">
@@ -109,13 +139,18 @@
 <div>
     <div class="row">
         <div class="col-xs-2 element-left">
+            <span ng-class="lstSourceInfoJob['jobs.registerType.id'+'.'+j.id]==true?'verified':'';">
             <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                ng-click="doConfirmVerifEqual('jobs.registerType.id',j.id);"></i>
-            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification"
+            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4" ng-show="verification"
                code="jobs.registerType.id" id-element="{{j.id}}"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
                ng-click="doConfirmVerifNotKnow('jobs.registerType.id',j.id);"></i>
-            <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('jobs.registerType.id',j.id)"></i>
+                </span>
+                <span ng-class="lstFinalInfoJob['jobs.registerType.id'+'.'+j.id]==true?'verified':'';">
+            <i class="purple icon-list icon-only bigger-120" ng-show="selectSource"
+               ng-click="showChoices('jobs.registerType.id',j.id)"></i>
+            </span>
             Tipo de empleo:
         </div>
         <div class="col-xs-10">
@@ -148,7 +183,8 @@
                         <div class="row widget-main">
                             <div class="col-xs-3">
                                 Fecha Inicio:
-                                <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
+                                <br/>
+                                <small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
                             </div>
                             <div class="col-xs-3">
                                 <div class="input-group">
@@ -163,7 +199,8 @@
                             </div>
                             <div class="col-xs-3">
                                 Fecha Fin:
-                                <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
+                                <br/>
+                                <small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
                             </div>
                             <div class="col-xs-3">
                                 <div class="input-group">
@@ -215,7 +252,8 @@
                         <div class="row">
                             <div class="col-xs-3">
                                 Fecha Inicio:
-                                <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
+                                <br/>
+                                <small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
                             </div>
                             <div class="col-xs-3">
                                 <div class="input-group">
@@ -253,16 +291,25 @@
                             <div class="col-xs-12" ng-init='schList = pastToJson(listJob[$index].schedule);'
                                  ng-show="verification || selectSource || showSchedule">
                                 <div class="widget-header header-color-blue">
+
                                     <h6> &nbsp;
+                                        <span ng-class="lstSourceInfoJob['jobs.schedule'+'.'+j.id]==true?'verified':'';">
                                         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"
                                            ng-click="doConfirmVerifEqual('jobs.schedule', j.id)"></i>
                                         <i class="icon-remove-circle red  icon-only bigger-120" verif-schedule
-                                           level-child="5"
-                                           ng-show="verification"  id-code ="jobs.schedule"  id-element="{{j.id}}"></i>
+                                           level-child="6"
+                                           ng-show="verification" id-code="jobs.schedule" id-element="{{j.id}}"></i>
                                         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
-                                           ng-click="doConfirmVerifNotKnow('jobs.schedule', j.id)"></i>
-                                        <i class="red icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('jobs.schedule',j.id)"></i>
-                                        <i class="glyphicon glyphicon-calendar "></i>Disponibilidad</h6>
+                                           ng-click="doConfirmVerifNotKnow('jobs.schedule', j.id)"></i>7
+                                            </span>
+                                        <span ng-class="lstFinalInfoJob['jobs.schedule'+'.'+j.id]==true?'verified':'';">
+                                        <i class="red icon-list icon-only bigger-120" ng-show="selectSource"
+                                           ng-click="showChoices('jobs.schedule',j.id)"></i>
+                                            </span>
+                                        <i class="glyphicon glyphicon-calendar "></i>
+
+                                        Disponibilidad</h6>
+
                                 </div>
 
                                 <div class="widget-body">

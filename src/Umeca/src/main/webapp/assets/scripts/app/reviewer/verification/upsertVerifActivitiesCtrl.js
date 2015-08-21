@@ -74,6 +74,7 @@ app.controller('verificationActivitiesController', function($scope, $timeout, $q
             }
 
             if (resp.hasError === false) {
+                $rootScope.$broadcast('reloadVerifiedInfo');
                 $scope.Model.dlg.modal('hide');
                 $scope.Model.def.resolve({ isCancel: false });
                 return;

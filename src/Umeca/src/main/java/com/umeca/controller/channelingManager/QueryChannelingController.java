@@ -5,6 +5,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
+import com.umeca.model.catalog.CatChannelingInstitutionName;
 import com.umeca.model.catalog.CatChannelingType;
 import com.umeca.model.catalog.CatInstitutionType;
 import com.umeca.model.catalog.District;
@@ -12,6 +13,8 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
+import com.umeca.model.entities.shared.UploadFile;
+import com.umeca.model.entities.shared.UploadFileView;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.service.account.SharedUserService;
@@ -117,6 +120,7 @@ public class QueryChannelingController {
             public <T> List<Selection<?>> getFields(final Root<T> r) {
                 final Join<Channeling, CatChannelingType> joinChTy = r.join("channelingType");
                 final Join<Channeling, CatInstitutionType> joinInTy = r.join("institutionType");
+                final Join<Channeling, CatChannelingInstitutionName> joinChIn = r.join("institutionName");
 
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
@@ -125,7 +129,7 @@ public class QueryChannelingController {
                     add(joinChTy.get("name"));
                     add(r.get("name"));
                     add(joinInTy.get("name"));
-                    add(r.get("institutionName"));
+                    add(joinChIn.get("name"));
                     add(r.get("isFulfilled"));
                 }};
             }
@@ -138,6 +142,8 @@ public class QueryChannelingController {
                     return r.join("channelingType").get("name");
                 if (field.equals("institutionType"))
                     return r.join("institutionType").get("name");
+                if (field.equals("institutionName"))
+                    return r.join("institutionName").get("name");
                 if (field.equals("isFulfilledTx"))
                     return r.get("isFulfilled");
                 return null;
@@ -191,5 +197,60 @@ public class QueryChannelingController {
         return model;
     }
 
+    @RequestMapping(value = "/channelingManager/queryChanneling/queryChannelingFiles", method = RequestMethod.GET)
+    public ModelAndView queryChannelingFiles(@RequestParam Long id) {
+        ModelAndView model = new ModelAndView("/channelingManager/queryChanneling/queryChannelingFiles");
+        model.addObject("caseId", id);
+        return model;
+    }
+
+    @RequestMapping(value = {"/channelingManager/queryChanneling/queryChannelingFilesList"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel queryChannelingFilesList(@ModelAttribute JqGridFilterModel opts, @RequestParam(required = true) Long caseId) {
+        Long userId = userService.GetLoggedUserId();
+
+        if (userId == null)
+            return null;
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("caseId", caseId.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+        extraFilter = new JqGridRulesModel("typeNameCode", new ArrayList<String>(){{add(Constants.CHANNELING_END_CODE);}}, JqGridFilterModel.COMPARE_IN);
+        opts.extraFilters.add(extraFilter);
+        extraFilter = new JqGridRulesModel("isObsolete", "0", JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(r.get("fileName"));
+                    add(r.get("description"));
+                    add(r.get("size"));
+                    add(r.join("creationUser").get("fullname"));
+                    add(r.get("creationTime"));
+                    add(r.join("caseDetention").get("id"));
+                    add(r.join("typeNameFile").get("name").alias("typeName"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("fullname"))
+                    return r.join("creationUser").get("fullname");
+                if (field.equals("caseId"))
+                    return r.join("caseDetention").get("id");
+                if (field.equals("typeName"))
+                    return r.join("typeNameFile").get("name");
+                if (field.equals("typeNameCode"))
+                    return r.join("typeNameFile").get("code");
+                return null;
+            }
+        }, UploadFile.class, UploadFileView.class);
+        return result;
+    }
 
 }
