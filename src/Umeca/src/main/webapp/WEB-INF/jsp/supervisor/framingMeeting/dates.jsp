@@ -40,7 +40,7 @@
           {name: 'idMP',index: 'idMP',width: 200,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
           {name: 'fullName',index: 'fullName',width: 300,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
           {name: 'umecaDateStr',index: 'umecaDateStr',width: 160,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
-          {name: 'descStatus',index: 'descStatus',width: 250,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
+          {name: 'umecaTime',index: 'umecaTime',width: 250,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
           {name: 'descStatus',index: 'descStatus',width: 250,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
         ],
         rowNum: 10,

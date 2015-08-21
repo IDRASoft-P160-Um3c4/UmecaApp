@@ -17,3 +17,4 @@
 16|ST_CASE_NOT_PROSECUTE_OPEN|No judicializado abierto.
 17|ST_CASE_REQUEST_SUPERVISION|En solicitud pendiente
 18|ST_CASE_CLOSE_REQUEST|En solicitud de cierre pendiente
+19|ST_CASE_ONLY_MEETING|Sólo entrevista
