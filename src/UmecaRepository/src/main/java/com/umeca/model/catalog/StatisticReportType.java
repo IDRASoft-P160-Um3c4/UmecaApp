@@ -9,6 +9,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "cat_statistic_report")
 public class StatisticReportType {
+
     @Id
     @Column(name="id_statistic_report")
     private Long id;
