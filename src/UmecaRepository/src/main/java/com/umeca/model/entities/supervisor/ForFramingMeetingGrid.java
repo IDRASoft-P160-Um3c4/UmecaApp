@@ -20,6 +20,9 @@ public class ForFramingMeetingGrid implements EntityGrid {
     private String brthDateTxt;
     private Long idTR;
     private Long framingMeetingId;
+    private String umecaDateStr;
+    private String umecaTimeStr;
+    private Date umecaTime;
     //    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
@@ -34,6 +37,7 @@ public class ForFramingMeetingGrid implements EntityGrid {
         this.brthDate = brthDate;
         this.idTR = idTR;
         this.framingMeetingId = framingMeetingId;
+
 
         StringBuilder strBld = new StringBuilder();
 
@@ -117,6 +121,29 @@ public class ForFramingMeetingGrid implements EntityGrid {
         }
     }
 
+
+    public ForFramingMeetingGrid(Long id, String codeStatus,String descStatus, String idMP,String name, String lastNameP, String lastNameM, Date umecaDate, Date umecaTime){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        this.id = id;
+        this.codeStatus = codeStatus;
+        this.descStatus = descStatus;
+        this.idMP = idMP;
+        this.name = name;
+        this.lastNameP = lastNameP;
+        this.lastNameM = lastNameM;
+        this.umecaDateStr = umecaDate == null ? "" : sdf.format(umecaDate);
+        this.umecaTime = umecaTime;
+
+        StringBuilder strBld = new StringBuilder();
+
+        strBld.append(this.name);
+        strBld.append(" ");
+        strBld.append(this.lastNameP);
+        strBld.append(" ");
+        strBld.append(this.lastNameM);
+        this.fullName = strBld.toString();
+
+    }
     public Long getId() {
         return id;
     }
@@ -211,5 +238,29 @@ public class ForFramingMeetingGrid implements EntityGrid {
 
     public void setIdTR(Long idTR) {
         this.idTR = idTR;
+    }
+
+    public String getUmecaDateStr() {
+        return umecaDateStr;
+    }
+
+    public void setUmecaDateStr(String umecaDateStr) {
+        this.umecaDateStr = umecaDateStr;
+    }
+
+    public String getUmecaTimeStr() {
+        return umecaTimeStr;
+    }
+
+    public void setUmecaTimeStr(String umecaTimeStr) {
+        this.umecaTimeStr = umecaTimeStr;
+    }
+
+    public Date getUmecaTime() {
+        return umecaTime;
+    }
+
+    public void setUmecaTime(Date umecaTime) {
+        this.umecaTime = umecaTime;
     }
 }

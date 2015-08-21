@@ -410,7 +410,7 @@ public class HearingFormatController {
     ResponseMessage doUpsert(@ModelAttribute HearingFormatView result, HttpServletRequest request) {
 
         try {
-            Long incompleteHFId = hearingFormatRepository.findHearingFormatIncomplete(result.getIdCase());
+                Long incompleteHFId = hearingFormatRepository.findHearingFormatIncomplete(result.getIdCase());
 
             if (incompleteHFId != null && incompleteHFId > 0 && incompleteHFId != result.getIdFormat())
                 return new ResponseMessage(true, "Tiene un formato de audiencia anterior incompleto, debe terminarlo para poder agregar un nuevo formato de audiencia.");

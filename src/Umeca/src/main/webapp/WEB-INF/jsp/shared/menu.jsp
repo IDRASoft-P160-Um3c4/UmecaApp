@@ -125,6 +125,19 @@
 
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-list-alt"></i>
+                                &nbsp;&nbsp;Tablero
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/supervisor/framingMeeting/dates.html'/>">
+                                    <i class="icon icon-calendar"></i>&nbsp;&nbsp;Cita entrevistas de encuadre</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
                                     class="glyphicon glyphicon-volume-up"></i>
                                 &nbsp;&nbsp;Audiencias
                                 <i class="icon-caret-down"></i>

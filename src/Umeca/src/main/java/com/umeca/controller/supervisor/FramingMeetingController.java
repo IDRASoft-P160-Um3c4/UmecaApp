@@ -38,6 +38,7 @@ import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -1098,6 +1099,66 @@ public class FramingMeetingController {
         return model;
     }
 
+
+    @RequestMapping(value = {"/supervisor/framingMeeting/dates"}, method = RequestMethod.GET)
+    public ModelAndView FramingMeetingDate(){
+        ModelAndView model = new ModelAndView("/supervisor/framingMeeting/dates");
+        return model;
+    }
+
+
+    @RequestMapping(value = "/supervisor/framingMeeting/datesList", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel datesList(@ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
+                new ArrayList<String>() {{
+                    add(Constants.CASE_STATUS_HEARING_FORMAT_END);
+                    add(Constants.CASE_STATUS_FRAMING_COMPLETE);
+                    add(Constants.CASE_STATUS_FRAMING_INCOMPLETE);
+                }}, JqGridFilterModel.COMPARE_IN
+        );
+        opts.extraFilters.add(extraFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                final javax.persistence.criteria.Join<Case, StatusCase> joinSt = r.join("status");
+                final javax.persistence.criteria.Join<Case, StatusCase> joinM = r.join("meeting").join("imputed");
+                final javax.persistence.criteria.Join<Case, StatusCase> joinUS = r.join("umecaSupervisor");
+                final javax.persistence.criteria.Join<Case, StatusCase> joinHF = r.join("hearingFormats");
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(joinSt.get("name"));
+                    add(joinSt.get("description"));
+                    add(r.get("idMP"));
+                    add(joinM.get("name"));
+                    add(joinM.get("lastNameP"));
+                    add(joinM.get("lastNameM"));
+                    add(joinHF.get("umecaDate"));
+                    add(joinHF.get("umecaTime"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("idMP"))
+                    return r.get("idMP");
+
+                if (field.equals("statusName"))
+                    return r.join("status").get("name");
+
+                return null;
+            }
+        }, Case.class, ForFramingMeetingGrid.class);
+
+        return result;
+    }
 
 //    @InitBinder
 //    public void initBinder(WebDataBinder dataBinder) {
