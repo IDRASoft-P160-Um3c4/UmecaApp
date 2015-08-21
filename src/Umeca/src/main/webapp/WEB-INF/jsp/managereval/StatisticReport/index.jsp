@@ -23,7 +23,7 @@
 
     <script src="${pageContext.request.contextPath}/assets/scripts/app/managereval/statisticReportCtrl.js"></script>
 
-    <title>Reporte estadistico</title>
+    <title>Reporte estad&iacute;stico</title>
 </head>
 
 <body scroll="no" ng-app="ptlUmc">
@@ -37,7 +37,7 @@
     </script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 
-    <h2 class="element-center"><i class="icon icon-file"></i>&nbsp;&nbsp;Reporte Estadistico
+    <h2 class="element-center"><i class="icon icon-file"></i>&nbsp;&nbsp;Reporte Estad&iacute;stico
     </h2>
 
     <form id="FormStatisRep" name="FormStatisRep" class="form-horizontal"

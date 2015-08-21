@@ -8,7 +8,7 @@ app.controller('statisticReportController', function ($scope, $timeout, $http) {
             $scope.msgError = "";
 
             if($scope.m.filterSelected === null || $scope.m.filterSelected === '' || $scope.m.filterSelected === undefined){
-                $scope.msgError = "Debe seleccionar un filtro de busqueda";
+                $scope.msgError = "Debes seleccionar un filtro de busqueda";
             }
 
             if ($(formId).valid() == false)
