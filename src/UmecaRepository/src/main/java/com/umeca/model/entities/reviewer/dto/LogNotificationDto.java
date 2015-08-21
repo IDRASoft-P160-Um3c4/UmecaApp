@@ -55,7 +55,7 @@ public class LogNotificationDto {
             message = "Debe completar la entrevista de riesgos procesales del caso con carpeta de investigaci&oacute;n " + StringEscape.escapeText(this.idFolder) + " para el imputado " + StringEscape.escapeText(this.imputedName) + ".";
         } else if (status.equals(Constants.S_MEETING_INCOMPLETE_LEGAL)) {
             title = "Informaci&oacute;n legal incompleta.";
-            message = "Debe completar la informaci&oacute;n legal de la entrevista de riesgos procesales del caso con carpeta de investigaci&oacute;n " + StringEscape.escapeText(this.idFolder) + " para el imputado " + StringEscape.escapeText(this.imputedName) + ".";
+            message = "Debe completar la información legal de la entrevista de riesgos procesales del caso con carpeta de investigación " + StringEscape.escapeText(this.idFolder) + " para el imputado " + StringEscape.escapeText(this.imputedName) + ".";
         } else if (status.equals(Constants.VERIFICATION_STATUS_AUTHORIZED)) {
             title = "Autorizaci&oacute;n de fuentes terminada.";
             message = "Ha finalizado autorizaci&oacute;n de fuentes para el caso con carpeta de investigaci&oacute;n " + StringEscape.escapeText(this.idFolder) + " para el imputado " + StringEscape.escapeText(this.imputedName) + ".";

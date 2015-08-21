@@ -75,7 +75,7 @@
                                 <input class="form-control" data-val="true"
                                        data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres"
                                        data-val-length-max="50" data-val-length-min="3"
-                                       data-val-required="El apellido parterno es un campo requerido"
+                                       data-val-required="El apellido materno es un campo requerido"
                                        id="lastNameM" name="lastNameM"
                                        type="text" ng-model="lastNameM"/>
                             </div>
