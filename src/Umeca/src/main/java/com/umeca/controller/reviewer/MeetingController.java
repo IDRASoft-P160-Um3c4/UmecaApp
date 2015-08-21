@@ -10,6 +10,7 @@ import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.model.managerEval.ManagerevalView;
 import com.umeca.model.catalog.StatusMeeting;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.managereval.Formulation;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
@@ -729,4 +730,65 @@ public class MeetingController {
         return result;
     }
 
+    @RequestMapping(value = {"/reviewer/meeting/onlyMeeting"},method = RequestMethod.GET)
+    public ModelAndView onlyMeeting(){
+        ModelAndView model = new ModelAndView("/reviewer/meeting/onlyMeeting");
+        return model;
+    }
+
+    @RequestMapping(value = {"/reviewer/onlyMeeting/list"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel onlyMeetingList(@ModelAttribute JqGridFilterModel opts) {
+
+        Long userId = userService.GetLoggedUserId();
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("reviewerId", userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+        JqGridRulesModel extraFilter3 =new JqGridRulesModel("statusCase", Constants.CASE_STATUS_ONLY_MEETING, JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter3);
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                final javax.persistence.criteria.Join<Case, Meeting> joinM = r.join("meeting");
+                final javax.persistence.criteria.Join<Meeting, StatusMeeting> joinSM = joinM.join("status");
+                final javax.persistence.criteria.Join<Meeting, Imputed> joinImp = joinM.join("imputed");
+                final javax.persistence.criteria.Join<Meeting, Imputed> joinUsr = joinM.join("reviewer");
+
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(joinSM.get("name").alias("statusCode"));
+                    add(r.get("idFolder"));
+                    add(joinImp.get("name"));
+                    add(joinImp.get("lastNameP"));
+                    add(joinImp.get("lastNameM"));
+                    add(joinImp.get("birthDate"));
+                    add(joinImp.get("gender"));
+                    add(joinSM.get("description"));
+                    add(joinUsr.get("id").alias("reviewerId"));
+                    add(joinUsr.get("fullname").alias("fullname"));
+                    add(r.join("status").get("name").alias("statusCase"));
+                }};
+            }
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("statusCode"))
+                    return r.join("meeting").join("status").get("name");
+                else if (field.equals("reviewerId"))
+                    return r.join("meeting").join("reviewer").get("id");
+                if (field.equals("idFolder"))
+                    return r.get("idFolder");
+                else if (field.equals("fullname"))
+                    return r.join("meeting").join("imputed").get("name");
+                else if (field.equals("statusCase")){
+                    return r.join("status").get("name");
+                }else
+                    return null;
+            }
+        }, Case.class, MeetingView.class);
+        return result;
+    }
 }

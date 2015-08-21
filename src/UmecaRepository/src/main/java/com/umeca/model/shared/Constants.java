@@ -30,6 +30,7 @@ public class Constants {
     public static final String ST_REQUEST_EDIT_MEETING = "EDIT_MEETING";
     public static final String ST_REQUEST_EDIT_LEGAL_INFORMATION = "EDIT_LEGAL_INFORMATION";
     public static final String ST_REQUEST_EDIT_TECHNICAL_REVIEW = "EDIT_TECHNICAL_REVIEW";
+    public static final String ST_REQUEST_GET_FREEDOM = "GET_FREEDOM";
     public static final String RESPONSE_TYPE_DRESSED = "DRESSED";
     public static final String ST_REQUEST_CASE_OBSOLETE_SUPERVISION = "CASE_OBSOLETE_SUPERVISION";
     public static final String CASE_STATUS_REQUEST_SUPERVISION = "ST_CASE_REQUEST_SUPERVISION";
@@ -81,6 +82,7 @@ public class Constants {
     public static final String CASE_STATUS_EDIT_TEC_REV = "ST_CASE_EDIT_TEC_REV";
     public static final String CASE_STATUS_NOT_PROSECUTE = "ST_CASE_NOT_PROSECUTE";
     public static final String CASE_STATUS_NOT_PROSECUTE_OPEN = "ST_CASE_NOT_PROSECUTE_OPEN";
+    public static final String CASE_STATUS_ONLY_MEETING = "ST_CASE_ONLY_MEETING";
 //    public static final String CASE_STATUS_CLOSE_FORGIVENESS = "ST_CASE_CLOSE_FORGIVENESS";
 //    public static final String CASE_STATUS_CLOSE_AGREEMENT = "ST_CASE_CLOSE_AGREEMENT";
 //    public static final String CASE_STATUS_CLOSE_DESIST = "ST_CASE_CLOSE_DESIST";
@@ -194,6 +196,7 @@ public class Constants {
     public static final String ST_REQUEST_MONPLAN_AUTH = "MONPLAN_AUTH";
     public static final String ST_REQUEST_CLOSE_CASE = "CLOSE_CASE_SUPERVISION";
     public static final String ST_REQUEST_UPDATE_MONPLAN_AUTH = "UPDATE_MONPLAN_AUTH";
+
 
     public static final String NAME_RELATIONSHIP_IMPUTED = "Imputado";
     public static final String NAME_RELATIONSHIP_OTHER = "Otro";

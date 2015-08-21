@@ -109,6 +109,11 @@
                                         href="<c:url value='/reviewer/meeting/declined.html' />"><i
                                         class="glyphicon icon-comments-alt"></i>&nbsp;&nbsp;Entrevistas con negaci&oacute;n</a>
                                 </li>
+
+                                <li><a
+                                        href="<c:url value='/reviewer/meeting/onlyMeeting.html'/>"><i
+                                        class="glyphicon icon-list-alt"></i>&nbsp;&nbsp;Casos s&oacute;lo entrevista</a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-li-blue"><a href="<c:url value='/reviewer/caseRequest/index.html' />"><i

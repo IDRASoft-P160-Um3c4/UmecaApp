@@ -7,6 +7,7 @@ import org.apache.taglibs.standard.lang.jstl.Evaluator;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -14,23 +15,24 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name="formulation")
+@Table(name = "formulation")
 public class Formulation implements EntityGrid {
 
     public Formulation(){
 
     }
 
-    public Formulation(Long id, Date registrationFormulationDate, String document, String certificateNotification, String firstname, String lastNameP, String lastNameM, Date umecaInterviewDate, Date hearingDate,Boolean presence, String fullname) {
+    public Formulation(Long id, Date registrationFormulationDate, String document, String certificateNotification, String firstname, String lastNameP, String lastNameM, Date umecaInterviewDate, Date hearingDate, Boolean presence, String fullname) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        this.id=id;
+        this.id = id;
         this.document = document;
         this.certificateNotification = certificateNotification;
-        this.imputedFullname = firstname +" "+lastNameP+" "+lastNameM;
-        this.umecaInterviewDateStr = umecaInterviewDate==null?"":sdf.format(umecaInterviewDate);
-        this.hearingDateStr = hearingDate==null?"":sdf.format(hearingDate);
-        this.registrationFormulationDateStr = registrationFormulationDate==null?"":sdf.format(umecaInterviewDate);
-        this.presenceStr = presence==null?"Pendiente":presence==true ? "Si" : "No";
+        this.imputedFullname = firstname + " " + lastNameP + " " + lastNameM;
+        this.umecaInterviewDateStr = umecaInterviewDate == null ? "" : sdf.format(umecaInterviewDate);
+        this.hearingDateStr = hearingDate == null ? "" : sdf.format(hearingDate);
+        this.registrationFormulationDateStr = registrationFormulationDate == null ? "" : sdf.format(umecaInterviewDate);
+        this.presenceStr = presence == null ? "Pendiente" : presence == true ? "Si" : "No";
+        this.attended = umecaInterviewDate.after(new Date());
         this.reviewerFullname = fullname;
     }
 
@@ -73,7 +75,7 @@ public class Formulation implements EntityGrid {
     private User reviewer;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_managereval",nullable = false)
+    @JoinColumn(name = "id_managereval", nullable = false)
     private User managereval;
 
     @Column(name = "comments", length = 300, nullable = true)
@@ -98,6 +100,9 @@ public class Formulation implements EntityGrid {
 
     @Transient
     private String presenceStr;
+
+    @Transient
+    private Boolean attended;
 
     public Long getId() {
         return id;
@@ -266,6 +271,14 @@ public class Formulation implements EntityGrid {
 
     public void setManagereval(User managereval) {
         this.managereval = managereval;
+    }
+
+    public Boolean getAttended() {
+        return attended;
+    }
+
+    public void setAttended(Boolean attended) {
+        this.attended = attended;
     }
 }
 
