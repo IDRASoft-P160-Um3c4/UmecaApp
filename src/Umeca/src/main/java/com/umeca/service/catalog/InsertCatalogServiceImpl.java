@@ -154,13 +154,17 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     EventTypeRepository eventTypeRepository;
     @Autowired
     StatisticReportTypeRepository statisticReportTypeRepository;
+    @Autowired
+    StatisticOperatorReportTypeRepository statisticOperatorReportTypeRepository;
 
 
-    private String PATH = "C:\\Users\\DeveloperII\\Source\\UmecaApp\\db\\";
+    //private String PATH = "C:\\Users\\DeveloperII\\Source\\UmecaApp\\db\\";
 
 //    private String PATH = "C:\\Users\\Rata\\Desktop\\branchSandra\\UmecaApp\\db\\";
 
 //    private String PATH = "C:\\Projects\\IDRASoft\\UmecaAppBranchMorelos\\UmecaApp\\db\\";
+
+    private String PATH = "C:\\Projects\\Umeca\\UmecaApp\\db\\";
 
     //para la maquina virtual donde se montara el war
 //    private String PATH = "C:\\Users\\idrasoft\\Desktop\\umeca_catalog\\db\\";
@@ -1086,6 +1090,20 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             statisticReportTypeRepository.save(model);
         }
         statisticReportTypeRepository.flush();
+    }
+
+    @Override
+    public void statisticOperatorReportType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "statisticOperatorReport.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            StatisticOperatorReportType model = new StatisticOperatorReportType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            statisticOperatorReportTypeRepository.save(model);
+        }
+        statisticOperatorReportTypeRepository.flush();
     }
 }
 

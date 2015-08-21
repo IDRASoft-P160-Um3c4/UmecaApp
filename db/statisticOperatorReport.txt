@@ -1,0 +1,5 @@
+﻿id|name|description|obsolete
+1|STOPR_1|Número de entrevistas por operador.|0
+2|STOPR_2|Número de entrevistas por operador agrupadas por: opiniones, informes, negaciones y solo entrevistas|0
+3|STOPR_3|Número de fuentes de verificación utilizadas por operador.|0
+4|STOPR_4|Tipo de documento elaborado, tipo de delito.|0

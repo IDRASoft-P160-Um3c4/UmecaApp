@@ -3,6 +3,7 @@ package com.umeca.controller.managereval;
 import com.google.gson.Gson;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.shared.SelectList;
+import com.umeca.repository.catalog.StatisticOperatorReportTypeRepository;
 import com.umeca.repository.catalog.StatisticReportTypeRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
@@ -25,7 +26,7 @@ public class StatisticOperatorReportController {
     @Autowired
     SharedUserService sharedUserService;
     @Autowired
-    StatisticReportTypeRepository statisticReportTypeRepository;
+    StatisticOperatorReportTypeRepository statisticOperatorReportTypeRepository;
 
 
 
@@ -33,8 +34,8 @@ public class StatisticOperatorReportController {
     public ModelAndView index() {
         ModelAndView model = new ModelAndView("/managereval/statisticOperatorReport/index");
         Gson gson = new Gson();
-        List<SelectList> lstEvaAct = statisticReportTypeRepository.getAllNoObsolete();
-        model.addObject("lstFilter", gson.toJson(lstEvaAct));
+        List<SelectList> lstFilter = statisticOperatorReportTypeRepository.getAllNoObsolete();
+        model.addObject("lstFilter", gson.toJson(lstFilter));
         return model;
     }
 
