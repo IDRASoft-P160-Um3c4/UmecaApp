@@ -490,6 +490,12 @@ public class ManagerevalController {
                             c.setDateNotProsecute(new Date());
 
                             break;
+                        case Constants.ST_REQUEST_GET_FREEDOM:
+                            c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_ONLY_MEETING));
+                            c.setDateNotProsecute(new Date());
+
+                            break;
+
                     }
                     break;
                 case Constants.RESPONSE_TYPE_REJECTED:

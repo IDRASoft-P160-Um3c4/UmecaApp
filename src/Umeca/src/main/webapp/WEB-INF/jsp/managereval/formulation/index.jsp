@@ -188,7 +188,7 @@
                     datatype: "json",
                     autoencode: true,
                     mtype: 'POST',
-                    colNames: ['ID', 'Fecha registro formulaci&oacute;n', 'Oficio', 'C&eacute;dula de notificaci&oacute;n', 'Datos imputado', 'Datos evaluador', 'Fecha audiencia', 'Fecha entrevista Umeca','Asistencia', 'Acci&oacute;n'],
+                    colNames: ['ID', 'Fecha registro formulaci&oacute;n', 'Oficio', 'C&eacute;dula de notificaci&oacute;n', 'Datos imputado', 'Datos evaluador', 'Fecha audiencia', 'Fecha entrevista Umeca','Asistencia','Attended','Acci&oacute;n'],
                     colModel: [
                         {name: 'id', index: 'id', hidden: true},
                         {
@@ -256,6 +256,12 @@
                             search: false
                         },
                         {
+                            name: 'attended',
+                            index: 'attended',
+                            hidden: true
+
+                        },
+                        {
                             name: 'Action',
                             width: 70,
                             align: "center",
@@ -295,6 +301,9 @@
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar reporte de inasistencia\" onclick=\"window.printDocument('" + cl + "');\"><i class=\" icon-file\"></i></a>";
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Entrega de informaci&oacute;n\" onclick=\"window.showConfirmInformationDelivery('" + cl + "');\"><i class=\" icon-list-alt\"></i></a>";*/
                             $(this).jqGrid('setRowData', ids[i], {Action: be});
+                            if(row.attended === "false" && row.presenceStr === "Pendiente"){
+                                $("#" + cl).css("background-color", "#FF3617");
+                            }
                         }
                     },
                     loadComplete: function () {

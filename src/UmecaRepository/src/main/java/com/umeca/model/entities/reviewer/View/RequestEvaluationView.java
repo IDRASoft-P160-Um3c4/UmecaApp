@@ -39,6 +39,7 @@ public class RequestEvaluationView implements EntityGrid {
              D= edit technical review
              E = delete meeting(obsolete)
              G = case not prosecute
+             I = only meeting
             */
     public RequestEvaluationView(Long id, String idFolder, String name, String lastNameP, String lastNameM, String statusMeeting, String statusVerification, String statusCase) {
         this.id = id;
@@ -82,6 +83,11 @@ public class RequestEvaluationView implements EntityGrid {
         if (this.statusCase.equals(Constants.CASE_STATUS_REQUEST)) {
             description = "Pendiente por autorizaci&oacute;n";
             status += ".F.";
+        }
+
+        if(this.statusCase.equals(Constants.CASE_STATUS_NOT_PROSECUTE)){
+            description = "Entrevista Negada";
+            status += ".I.";
         }
 
         if (description == null)
