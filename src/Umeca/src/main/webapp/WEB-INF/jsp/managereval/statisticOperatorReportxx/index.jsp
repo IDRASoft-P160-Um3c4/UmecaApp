@@ -40,7 +40,7 @@
     <h2 class="element-center"><i class="icon icon-file"></i>&nbsp;&nbsp;Estad&iacute;sticos Operador
     </h2>
 
-    <form id="FormStatisRep" name="FormStatisRep" class="form-horizontal"
+    <form id="FormStatisOpRep" name="FormStatisOpRep" class="form-horizontal"
           role="form" ng-controller="statisticReportController" method="post" ng-init='entities=${lstFilter}' ng-cloak>
 
 
@@ -149,7 +149,7 @@
                         <div class="row">
                             <div class="col-xs-11 element-right">
                                 <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                                      ng-click="submitFindCases('#FormStatisRep','<c:url value='/managereval/statisticReport/showReport.json'/>');">
+                                      ng-click="submitFindCases('#FormStatisOpRep','<c:url value='/managereval/statisticOperatorReport/showReport.json'/>');">
                                     Realizar b&uacute;squeda
                                 </span>
                             </div>
