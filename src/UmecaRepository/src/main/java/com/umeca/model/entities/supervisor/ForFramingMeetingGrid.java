@@ -23,6 +23,7 @@ public class ForFramingMeetingGrid implements EntityGrid {
     private String umecaDateStr;
     private String umecaTimeStr;
     private Date umecaTime;
+    private String fullNameSupervisor;
     //    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
@@ -122,7 +123,7 @@ public class ForFramingMeetingGrid implements EntityGrid {
     }
 
 
-    public ForFramingMeetingGrid(Long id, String codeStatus,String descStatus, String idMP,String name, String lastNameP, String lastNameM, Date umecaDate, Date umecaTime){
+    public ForFramingMeetingGrid(Long id, String codeStatus,String descStatus, String idMP,String name, String lastNameP, String lastNameM, Date umecaDate, Date umecaTime,String fullname){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         this.id = id;
         this.codeStatus = codeStatus;
@@ -133,9 +134,8 @@ public class ForFramingMeetingGrid implements EntityGrid {
         this.lastNameM = lastNameM;
         this.umecaDateStr = umecaDate == null ? "" : sdf.format(umecaDate);
         this.umecaTime = umecaTime;
-
+        this.fullNameSupervisor = fullname;
         StringBuilder strBld = new StringBuilder();
-
         strBld.append(this.name);
         strBld.append(" ");
         strBld.append(this.lastNameP);
@@ -262,5 +262,13 @@ public class ForFramingMeetingGrid implements EntityGrid {
 
     public void setUmecaTime(Date umecaTime) {
         this.umecaTime = umecaTime;
+    }
+
+    public String getFullNameSupervisor() {
+        return fullNameSupervisor;
+    }
+
+    public void setFullNameSupervisor(String fullNameSupervisor) {
+        this.fullNameSupervisor = fullNameSupervisor;
     }
 }
