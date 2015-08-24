@@ -61,8 +61,8 @@
         </div>
         <div class="col-xs-8">
             <input class="form-control" data-val="true"
-                   data-val-length="Debe tener al menos 3 y m&aacute;ximo 150 caracteres"
-                   data-val-length-max="150" data-val-length-min="3"
+                   data-val-length="Debe tener al menos 2 y m&aacute;ximo 150 caracteres"
+                   data-val-length-max="150" data-val-length-min="2"
                    data-val-required="El oficio es un campo requerido"
                    type="text" value="" ng-model="m.certificateNotification"
                    ng-init='m.certificateNotification = "${(m.certificateNotification == null) ? '' : m.certificateNotification}"'
@@ -73,7 +73,7 @@
 </div>
 <div class="row">
     <div class="col-xs-offset-4 element-center">
-        <span class="field-validation-valid" data-valmsg-for="document" data-valmsg-replace="true"></span>
+        <span class="field-validation-valid" data-valmsg-for="certificateNotification" data-valmsg-replace="true"></span>
     </div>
 </div>
 
@@ -244,7 +244,7 @@
         </div>
         <div class="col-xs-8">
             <div class="input-group">
-                <textarea rows="4" cols="64"
+                <textarea rows="4" cols="50"
                           name = "comments"
                           ng-model="m.comments"
                           ng-init='m.comments = "${(m.comments == null) ? '' : m.comments}"' ></textarea>
