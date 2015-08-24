@@ -123,4 +123,6 @@ public interface InsertCatalogService {
     void statisticReportType();
 
     void statisticOperatorReportType();
+
+    void framingSafetyFactor();
 }

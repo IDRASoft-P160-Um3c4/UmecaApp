@@ -49,6 +49,9 @@ public class FramingMeeting {
     @OneToMany(mappedBy = "framingMeeting", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FramingSelectedThreatRel> selectedThreatsRel;
 
+    @OneToMany(mappedBy = "framingMeeting", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<FramingSelectedSafetyFactorRel> selectedSafetyFactorsRel;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_process_accompaniment")
     private ProcessAccompaniment processAccompaniment;
@@ -347,5 +350,13 @@ public class FramingMeeting {
 
     public void setFramingMeetingLogs(List<FramingMeetingLog> framingMeetingLogs) {
         this.framingMeetingLogs = framingMeetingLogs;
+    }
+
+    public List<FramingSelectedSafetyFactorRel> getSelectedSafetyFactorsRel() {
+        return selectedSafetyFactorsRel;
+    }
+
+    public void setSelectedSafetyFactorsRel(List<FramingSelectedSafetyFactorRel> selectedSafetyFactorsRel) {
+        this.selectedSafetyFactorsRel = selectedSafetyFactorsRel;
     }
 }

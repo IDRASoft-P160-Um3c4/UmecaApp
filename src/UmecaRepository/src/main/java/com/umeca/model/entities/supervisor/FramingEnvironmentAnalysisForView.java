@@ -6,11 +6,14 @@ public class FramingEnvironmentAnalysisForView {
     private String lstSelectedArrangement;
     private String lstSelectedRisk;
     private String lstSelectedThreat;
+    private String lstSelectedSafetyFactor;
 
     private String lstSources;
     private String lstArrangement;
     private String lstRisk;
     private String lstThreat;
+    private String lstSafetyFactor;
+
 
     private String environmentComments;
     private String lstDependentSources;
@@ -93,5 +96,21 @@ public class FramingEnvironmentAnalysisForView {
 
     public void setLstDependentSources(String lstDependentSources) {
         this.lstDependentSources = lstDependentSources;
+    }
+
+    public String getLstSelectedSafetyFactor() {
+        return lstSelectedSafetyFactor;
+    }
+
+    public void setLstSelectedSafetyFactor(String lstSelectedSafetyFactor) {
+        this.lstSelectedSafetyFactor = lstSelectedSafetyFactor;
+    }
+
+    public String getLstSafetyFactor() {
+        return lstSafetyFactor;
+    }
+
+    public void setLstSafetyFactor(String lstSafetyFactor) {
+        this.lstSafetyFactor = lstSafetyFactor;
     }
 }

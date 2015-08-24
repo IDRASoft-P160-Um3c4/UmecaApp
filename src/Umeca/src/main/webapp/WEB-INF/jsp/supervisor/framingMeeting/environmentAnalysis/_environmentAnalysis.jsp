@@ -37,6 +37,7 @@
                 <input type="hidden" name="lstSelectedArrangement" value="{{lstSelectedArrangement}}">
                 <input type="hidden" name="lstSelectedRisk" value="{{lstSelectedRisk}}">
                 <input type="hidden" name="lstSelectedThreat" value="{{lstSelectedThreat}}">
+                <input type="hidden" name="lstSelectedSafetyFactor" value="{{lstSelectedSafetyFactor}}">
 
                 <div class="row" ng-show="${hasTR==true}" ng-init='lstCL = ${lstCL}; lstPR = ${lstPR};'>
                     <br/>
@@ -230,16 +231,55 @@
                 </div>
                 <br/>
 
+                <div class="row">
+                    <div class="col-xs-6 col-xs-offset-3">
+
+                        <div class="widget-box">
+                            <div class="widget-header">Factores estabilidad</div>
+                            <div class="widget-body">
+                                <div class="row">
+                                    <br/>
+
+                                    <div ng-show="errorSafetyFactors&&errorSafetyFactors!=''"
+                                         class="field-validation-error col-xs-10 col-xs-offset-1">
+                                        <span>{{errorSafetyFactors}}</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-10 col-xs-offset-1">
+                                        <br/>
+
+                                        <div class="row" ng-repeat="safetyFactor in lstSafetyFactor">
+                                            <label>
+                                                <input id="chkSafetyFactor_{{safetyFactor.id}}"
+                                                       ng-click="selectSafetyFactor(safetyFactor.id);"
+                                                       ng-checked='lstSelectedSafetyFactor.indexOf(safetyFactor.id)>=0'
+                                                       class="ace"
+                                                       type="checkbox">
+
+                                                <span class="lbl">&nbsp;&nbsp;{{safetyFactor.description}}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+
                 <div class="col-xs-8">
                     <label for="environmentComments">Observaciones</label>
                     <br/>
-    <textarea ng-model="environmentComments"
-              id="environmentComments"
-              name="environmentComments"
-              type="text" class="input-xxlarge"
-              data-val="true"
-              data-val-required="Observaciones es un campo requerido">
-    </textarea>
+                    <textarea ng-model="environmentComments"
+                              id="environmentComments"
+                              name="environmentComments"
+                              type="text" class="input-xxlarge"
+                              data-val="true"
+                              data-val-required="Observaciones es un campo requerido">
+
+                    </textarea>
                     <br/>
 
                     <div ng-show="errorComments&&errorComments!=''"
