@@ -62,7 +62,7 @@
         <div class="col-xs-8">
             <input class="form-control" data-val="true"
                    data-val-length="Debe tener al menos 3 y m&aacute;ximo 150 caracteres"
-                   data-val-length-max="150" data-val-length-min="3"
+                   data-val-length-max="150" data-val-length-min="2"
                    data-val-required="El oficio es un campo requerido"
                    type="text" value="" ng-model="m.certificateNotification"
                    ng-init='m.certificateNotification = "${(m.certificateNotification == null) ? '' : m.certificateNotification}"'

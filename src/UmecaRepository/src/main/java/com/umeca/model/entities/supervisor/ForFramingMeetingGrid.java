@@ -4,7 +4,9 @@ import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class ForFramingMeetingGrid implements EntityGrid {
 
@@ -24,6 +26,7 @@ public class ForFramingMeetingGrid implements EntityGrid {
     private String umecaTimeStr;
     private Date umecaTime;
     private String fullNameSupervisor;
+    private Boolean umecaDateExpired;
     //    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
@@ -125,6 +128,22 @@ public class ForFramingMeetingGrid implements EntityGrid {
 
     public ForFramingMeetingGrid(Long id, String codeStatus,String descStatus, String idMP,String name, String lastNameP, String lastNameM, Date umecaDate, Date umecaTime,String fullname){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+
+        Date currentDate = new Date();
+
+        Calendar calendarUmeca = new GregorianCalendar();
+        calendarUmeca.setTime(umecaDate);
+        Calendar calendarTime = new GregorianCalendar();
+        calendarTime.setTime(umecaTime);
+
+        long hour = calendarTime.get(Calendar.HOUR_OF_DAY);
+        calendarUmeca.add(Calendar.HOUR, calendarTime.get(Calendar.HOUR_OF_DAY));
+        calendarUmeca.add(Calendar.MINUTE, calendarTime.get(Calendar.MINUTE));
+        calendarUmeca.add(Calendar.SECOND, calendarTime.get(Calendar.SECOND));
+
+        Date umecaT = calendarUmeca.getTime();
+
+
         this.id = id;
         this.codeStatus = codeStatus;
         this.descStatus = descStatus;
@@ -142,6 +161,7 @@ public class ForFramingMeetingGrid implements EntityGrid {
         strBld.append(" ");
         strBld.append(this.lastNameM);
         this.fullName = strBld.toString();
+        this.umecaDateExpired = calendarUmeca.getTime().before(Calendar.getInstance().getTime());
 
     }
     public Long getId() {
@@ -270,5 +290,13 @@ public class ForFramingMeetingGrid implements EntityGrid {
 
     public void setFullNameSupervisor(String fullNameSupervisor) {
         this.fullNameSupervisor = fullNameSupervisor;
+    }
+
+    public Boolean getUmecaDateExpired() {
+        return umecaDateExpired;
+    }
+
+    public void setUmecaDateExpired(Boolean umecaDateExpired) {
+        this.umecaDateExpired = umecaDateExpired;
     }
 }

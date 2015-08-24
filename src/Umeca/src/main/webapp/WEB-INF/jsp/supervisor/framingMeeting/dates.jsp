@@ -7,8 +7,7 @@
   <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
   <script src="${pageContext.request.contextPath}/assets/scripts/app/management/userCtrl.js"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css"/>
-  <link rel="stylesheet"
-        href="${pageContext.request.contextPath}/assets/content/themes/umeca/bootstrap-timepicker.css"/>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/bootstrap-timepicker.css"/>
   <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-datepicker.min.js"></script>
   <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/bootstrap-timepicker.min.js"></script>
   <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/moment.min.js"></script>
@@ -33,7 +32,7 @@
         autoencode: true,
         datatype: "json",
         mtype: 'POST',
-        colNames: ['ID', 'idStatus', 'Carpeta Judicial', 'Nombre completo', 'Fecha de cita UMECA', 'Hora cita UMECA', 'Supervisor'],
+        colNames: ['ID', 'idStatus', 'Carpeta Judicial', 'Nombre completo', 'Fecha de cita UMECA', 'Hora cita UMECA', 'Supervisor','ExpiredDate'],
         colModel: [
           {name: 'id', index: 'id', hidden: true},
           {name: 'codeStatus', index: 'codeStatus', hidden: true},
@@ -42,6 +41,7 @@
           {name: 'umecaDateStr',index: 'umecaDateStr',width: 160,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
           {name: 'umecaTime',index: 'umecaTime',width: 250,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
           {name: 'fullNameSupervisor',index: 'fullNameSupervisor',width: 250,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
+          {name: 'umecaDateExpired', index: 'umecaDateExpired', hidden: true, width: 250,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
         ],
         rowNum: 10,
         rowList: [10, 20, 30],
@@ -55,13 +55,10 @@
         altRows: true,
         gridComplete: function () {
           var ids = $(this).jqGrid('getDataIDs');
-          var status = $(this).jqGrid('getCol', 'codeStatus', false);
-
           for (var i = 0; i < ids.length; i++) {
-
             var cl = ids[i];
+            var row = $(this).getRowData(cl);
             var be = "";
-
             switch (status[i]) {
 
               case 'ST_CASE_HEARING_FORMAT_END':
@@ -77,6 +74,12 @@
                 be = "<a style=\"display:inline-block;\" title=\"No cuenta con el formato de audiencia\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
                 break;
             }
+
+
+            if(row.umecaDateExpired === "true"){
+              $("#" + cl).css("background-color", "#FF3617");
+            }
+
 
             $(this).jqGrid('setRowData', ids[i], {Action: be});
           }
