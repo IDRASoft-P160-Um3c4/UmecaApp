@@ -126,7 +126,7 @@ public class ForFramingMeetingGrid implements EntityGrid {
     }
 
 
-    public ForFramingMeetingGrid(Long id, String codeStatus,String descStatus, String idMP,String name, String lastNameP, String lastNameM, Date umecaDate, Date umecaTime,String fullname){
+    public ForFramingMeetingGrid(Long id, String codeStatus,String descStatus, String idMP,String name, String lastNameP, String lastNameM, Date birthDate, Date umecaDate, Date umecaTime,String fullname){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
         Date currentDate = new Date();
@@ -152,6 +152,7 @@ public class ForFramingMeetingGrid implements EntityGrid {
         this.lastNameP = lastNameP;
         this.lastNameM = lastNameM;
         this.umecaDateStr = umecaDate == null ? "" : sdf.format(umecaDate);
+        this.brthDateTxt = sdf.format(birthDate);
         this.umecaTime = umecaTime;
         this.fullNameSupervisor = fullname;
         StringBuilder strBld = new StringBuilder();
@@ -162,7 +163,6 @@ public class ForFramingMeetingGrid implements EntityGrid {
         strBld.append(this.lastNameM);
         this.fullName = strBld.toString();
         this.umecaDateExpired = calendarUmeca.getTime().before(Calendar.getInstance().getTime());
-
     }
     public Long getId() {
         return id;
