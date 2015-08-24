@@ -232,7 +232,7 @@
                 <br/>
 
                 <div class="row">
-                    <div class="col-xs-6 col-xs-offset-3">
+                    <div class="col-xs-6">
 
                         <div class="widget-box">
                             <div class="widget-header">Factores estabilidad</div>
