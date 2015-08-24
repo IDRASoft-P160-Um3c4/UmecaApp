@@ -5,20 +5,22 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
     $scope.errorSources = "";
     $scope.errorRisks = "";
     $scope.errorThreats = "";
+    $scope.errorSafetyFactors = "";
 
     $scope.lstSources = {};
-
     $scope.lstSelectedSources = [];
 
     $scope.lstDependentSources = [];
 
     $scope.lstRisk = {};
-
     $scope.lstSelectedRisk = [];
 
     $scope.lstThreat = {};
-
     $scope.lstSelectedThreat = [];
+
+
+    $scope.lstSafetyFactor = {};
+    $scope.lstSelectedSafetyFactor = [];
 
     $scope.errorMsgEnv = "";
 
@@ -62,6 +64,18 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
 
     };
 
+    $scope.selectSafetyFactor = function (id) {
+
+        var idx = $scope.findSafetyFactor(id);
+
+        if (idx != null) {
+            $scope.lstSelectedSafetyFactor.splice(idx, 1);
+        } else {
+            $scope.lstSelectedSafetyFactor.push(id);
+        }
+
+    };
+
     $scope.findSource = function (id) {
         for (var i = 0; i < $scope.lstSelectedSources.length; i++) {
             if ($scope.lstSelectedSources[i] == id)
@@ -94,6 +108,14 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
         return null;
     }
 
+    $scope.findSafetyFactor = function (id) {
+        for (var i = 0; i < $scope.lstSelectedSafetyFactor.length; i++) {
+            if ($scope.lstSelectedSafetyFactor[i] == id)
+                return i;
+        }
+        return null;
+    }
+
     $rootScope.$on('reloadEnvironment', function () {
         $scope.loadEnvironmentAnalysis();
     });
@@ -103,12 +125,14 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
         $scope.lstSources = $.parseJSON(data.lstSources);
         $scope.lstRisk = $.parseJSON(data.lstRisk);
         $scope.lstThreat = $.parseJSON(data.lstThreat);
+        $scope.lstSafetyFactor = $.parseJSON(data.lstSafetyFactor);
 
         $scope.lstSelectedSources = $.parseJSON(data.lstSelectedSources);
         $scope.lstDependentSources = $.parseJSON(data.lstDependentSources);
         $scope.lstSelectedArrangement = $.parseJSON(data.lstSelectedArrangement);
         $scope.lstSelectedRisk = $.parseJSON(data.lstSelectedRisk);
         $scope.lstSelectedThreat = $.parseJSON(data.lstSelectedThreat);
+        $scope.lstSelectedSafetyFactor = $.parseJSON(data.lstSelectedSafetyFactor);
         $scope.environmentComments = data.environmentComments;
     };
 
@@ -155,6 +179,7 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
 
     $scope.validateSel = function () {
 
+        $scope.errorSafetyFactors = "";
         $scope.errorThreats = "";
         $scope.errorSources = "";
         $scope.errorRisks = "";
@@ -169,10 +194,13 @@ app.controller('environmentAnalysisController', function ($scope, $timeout, $htt
         if ($scope.lstSelectedThreat == undefined || $scope.lstSelectedThreat.length <= 0)
             $scope.errorThreats = "Debe seleccionar al menos una amenaza";
 
+        if ($scope.lstSelectedSafetyFactor == undefined || $scope.lstSelectedSafetyFactor.length <= 0)
+            $scope.errorSafetyFactors = "Debe seleccionar al menos un factor de estabilidad";
+
         if ($scope.environmentComments == undefined || $scope.environmentComments == "")
             $scope.errorComments = "Observaciones es un campo requerido";
 
-        if ($scope.errorSources != "" || $scope.errorRisks != "" || $scope.errorThreats != "" || $scope.errorComments != "")
+        if ($scope.errorSources != "" || $scope.errorRisks != "" || $scope.errorThreats != "" || $scope.errorSafetyFactors != "" || $scope.errorComments != "")
             return false;
 
         return true;

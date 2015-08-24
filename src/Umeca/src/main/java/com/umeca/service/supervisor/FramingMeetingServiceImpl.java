@@ -80,6 +80,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
     private FramingThreatRepository framingThreatRepository;
 
     @Autowired
+    private FramingSafetyFactorRepository framingSafetyFactorRepository;
+
+    @Autowired
     private MaritalStatusRepository maritalStatusRepository;
 
     @Autowired
@@ -87,6 +90,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
     @Autowired
     private FramingSelectedThreatRelRepository framingSelectedThreatRelRepository;
+
+    @Autowired
+    private FramingSelectedSafetyFactorRelRepository framingSelectedSafetyFactorRelRepository;
 
     @Autowired
     private FramingSelectedRiskRelRepository framingSelectedRiskRelRepository;
@@ -516,6 +522,31 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         return threatRel;
     }
 
+    public List<FramingSelectedSafetyFactorRel> generateSafetyFactorRel(Long idCase, String lstJson) {
+
+        Type listType = new TypeToken<List<Long>>() {
+        }.getType();
+
+        List<Long> ids = new Gson().fromJson(lstJson, listType);
+
+        FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
+
+
+        List<FramingSelectedSafetyFactorRel> safetyFactorRel = new ArrayList<>();
+
+        for (Long currId : ids) {
+            FramingSelectedSafetyFactorRel rel = new FramingSelectedSafetyFactorRel();
+            rel.setFramingMeeting(existFraming);
+            rel.setFramingSafetyFactor(framingSafetyFactorRepository.findOne(currId));
+            safetyFactorRel.add(rel);
+        }
+
+        return safetyFactorRel;
+    }
+
+
+
+
     @Transactional
     public ResponseMessage saveSelectedItems(Long idCase, FramingEnvironmentAnalysisForView view) {
 
@@ -558,8 +589,21 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                     framingSelectedThreatRelRepository.delete(sel);
                 }
             }
-
             existFraming.setSelectedThreatsRel((this.generateThreatRel(idCase, view.getLstSelectedThreat())));
+
+
+            List<FramingSelectedSafetyFactorRel> lstExistSafetyFactor = existFraming.getSelectedSafetyFactorsRel();
+
+            if (lstExistSafetyFactor != null && lstExistSafetyFactor.size() > 0) {
+                for (FramingSelectedSafetyFactorRel sel : lstExistSafetyFactor) {
+                    framingSelectedSafetyFactorRelRepository.delete(sel);
+                }
+            }
+
+            existFraming.setSelectedSafetyFactorsRel(this.generateSafetyFactorRel(idCase, view.getLstSelectedSafetyFactor()));
+
+
+
 
             existFraming.setEnvironmentComments(view.getEnvironmentComments());
 
@@ -774,6 +818,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         List<FramingThreat> lstThreat = framingThreatRepository.findAll();
         view.setLstThreat(conv.toJson(lstThreat));
 
+        List<FramingSafetyFactor> lstSafetyFactor = framingSafetyFactorRepository.findAll();
+        view.setLstSafetyFactor(conv.toJson(lstSafetyFactor));
+
         FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
 
         view.setEnvironmentComments(existFraming.getEnvironmentComments());
@@ -792,6 +839,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         List<Long> lstSelectedThreat = framingThreatRepository.findSelectedThreat(idCase);
         view.setLstSelectedThreat(conv.toJson(lstSelectedThreat));
+
+        List<Long> lstSelectedSafetyFactor = framingSafetyFactorRepository.findSelectedSafetyFactor(idCase);
+        view.setLstSelectedSafetyFactor(conv.toJson(lstSelectedSafetyFactor));
 
         List<HearingFormat> lstFormats = caseRepository.findOne(idCase).getHearingFormats();
         Collections.sort(lstFormats, HearingFormat.hearingFormatComparator);

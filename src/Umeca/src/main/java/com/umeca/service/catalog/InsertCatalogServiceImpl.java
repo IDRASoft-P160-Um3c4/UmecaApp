@@ -156,6 +156,8 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     StatisticReportTypeRepository statisticReportTypeRepository;
     @Autowired
     StatisticOperatorReportTypeRepository statisticOperatorReportTypeRepository;
+    @Autowired
+    FramingSafetyFactorRepository framingSafetyFactorRepository;
 
 
     //private String PATH = "C:\\Users\\DeveloperII\\Source\\UmecaApp\\db\\";
@@ -1104,6 +1106,22 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             statisticOperatorReportTypeRepository.save(model);
         }
         statisticOperatorReportTypeRepository.flush();
+    }
+
+    @Override
+    public void framingSafetyFactor() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "framing_safety_factor.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            FramingSafetyFactor model = new FramingSafetyFactor();
+
+            model.setId(Long.parseLong(data[0]));
+            model.setDescription(data[1]);
+            model.setIndex(Long.parseLong(data[2]));
+            model.setIsObsolete(data[3].equals("1"));
+
+            framingSafetyFactorRepository.save(model);
+        }
+        framingSafetyFactorRepository.flush();
     }
 }
 
