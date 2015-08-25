@@ -62,29 +62,29 @@ public class LogCaseServiceImpl implements LogCaseService {
     CaseRepository caseRepository;
 
     @Override
-    public void fillgeneralDataLog(Long caseId, ModelAndView model){
-        fillInfoCase(caseId,model,false);
+    public void fillgeneralDataLog(Long caseId, ModelAndView model) {
+        fillInfoCase(caseId, model, false);
     }
 
     public void fillInfoCase(Long caseId, ModelAndView model, Boolean isFile) {
-        if(isFile== null){
-            isFile =false;
+        if (isFile == null) {
+            isFile = false;
         }
         Long lHearingFormatId = hearingFormatRepository.lastHearingFormatIdsByIdCase(caseId);
         SupervisionLogReport slr = hearingFormatRepository.findSupervisionLogReportById(lHearingFormatId);
         Long id = monitoringPlanRepository.getMonPlanIdByCaseId(caseId);
         List<Crime> listCrime = crimeRepository.findListCrimeHearingFormatByIdHF(lHearingFormatId);
         List<String> listCrimeDtos = new ArrayList<>();
-        for(Crime c: listCrime){
+        for (Crime c : listCrime) {
             listCrimeDtos.add(new CrimeDto().toStringCrime(c));
         }
         Gson gson = new Gson();
-        if(slr!=null){
+        if (slr != null) {
             model.addObject("imputedName", StringEscape.escapeText(slr.getImputedName()));
             model.addObject("mpId", id);
-            if(isFile){
+            if (isFile) {
                 model.addObject("crime", listCrimeDtos);
-            }else{
+            } else {
                 model.addObject("crime", gson.toJson(listCrimeDtos));
             }
             model.addObject("judge", StringEscape.escapeText(slr.getJudge()));
@@ -92,7 +92,7 @@ public class LogCaseServiceImpl implements LogCaseService {
             model.addObject("mp", StringEscape.escapeText(slr.getMp()));
             model.addObject("imputedTel", StringEscape.escapeText(slr.getImputedTel()));
             model.addObject("imputedAddr", StringEscape.escapeText(slr.getImputedAddr()));
-        }else{
+        } else {
             CaseInfo caseInfo = caseRepository.getInfoById(caseId);
             model.addObject("imputedName", StringEscape.escapeText(caseInfo.getPersonName()));
         }
@@ -143,20 +143,20 @@ public class LogCaseServiceImpl implements LogCaseService {
         model.addObject("closeComment", StringEscape.escapeText(closeComment));
 
         List<SelectList> lstGeneric = arrangementRepository.findLstArrangementByCaseId(caseId);
-        model.addObject("lstHfAssignedArrangement", isFile?lstGeneric:gson.toJson(lstGeneric));
+        model.addObject("lstHfAssignedArrangement", isFile ? lstGeneric : gson.toJson(lstGeneric));
         lstGeneric = supervisionActivityRepository.findByMonPlanId(id);
-        model.addObject("lstActivities", isFile?lstGeneric:gson.toJson(lstGeneric));
+        model.addObject("lstActivities", isFile ? lstGeneric : gson.toJson(lstGeneric));
         lstGeneric = activityGoalRepository.findByMonPlanId(id);
-        model.addObject("lstGoals", isFile?lstGeneric:gson.toJson(lstGeneric));
-        model.addObject("schedules",isFile?scheduleService.getFramingScheduleByIdCase(caseId):gson.toJson(scheduleService.getFramingScheduleByIdCase(caseId)));
-        model.addObject("lstRisk", isFile?framingMeetingRepository.getSelectedTRiskByIdCase(caseId):gson.toJson(framingMeetingRepository.getSelectedTRiskByIdCase(caseId)));
-        model.addObject("lstThreat", isFile?framingMeetingRepository.getSelectedThreatByIdCase(caseId):gson.toJson(framingMeetingRepository.getSelectedThreatByIdCase(caseId)));
-        Long idFilePhoto = upDwFileService.getIdFileByCodeType(Constants.CODE_FILE_IMPUTED_PHOTO,id);
-        model.addObject("fileIdPhoto",idFilePhoto);
-        if(idFilePhoto!=null){
-            UploadFile file= upDwFileService.getPathAndFilename(idFilePhoto);
+        model.addObject("lstGoals", isFile ? lstGeneric : gson.toJson(lstGeneric));
+        model.addObject("schedules", isFile ? scheduleService.getFramingScheduleByIdCase(caseId) : gson.toJson(scheduleService.getFramingScheduleByIdCase(caseId)));
+        model.addObject("lstRisk", isFile ? framingMeetingRepository.getSelectedTRiskByIdCase(caseId) : gson.toJson(framingMeetingRepository.getSelectedTRiskByIdCase(caseId)));
+        model.addObject("lstThreat", isFile ? framingMeetingRepository.getSelectedThreatByIdCase(caseId) : gson.toJson(framingMeetingRepository.getSelectedThreatByIdCase(caseId)));
+        Long idFilePhoto = upDwFileService.getIdFileByCodeType(Constants.CODE_FILE_IMPUTED_PHOTO, id);
+        model.addObject("fileIdPhoto", idFilePhoto);
+        if (idFilePhoto != null) {
+            UploadFile file = upDwFileService.getPathAndFilename(idFilePhoto);
             String path = new File(file.getPath(), file.getRealFileName()).toString();
-            model.addObject("pathPhoto",path);
+            model.addObject("pathPhoto", path);
         }
     }
 
@@ -164,14 +164,14 @@ public class LogCaseServiceImpl implements LogCaseService {
     public void fillLogCase(Long id, ModelAndView model) {
         List<LogCase> logs = logCaseRepository.findAllByCase(id);
         Gson gson = new Gson();
-        model.addObject("listLog",gson.toJson(logs));
+        model.addObject("listLog", gson.toJson(logs));
     }
 
 
     @Override
     public void fillModelLogCaseFile(Long id, ModelAndView model) {
-       fillInfoCase(id, model,true);
-       model.addObject("activities",logCaseRepository.findAllByCase(id));
+        fillInfoCase(id, model, true);
+        model.addObject("activities", logCaseRepository.findAllByCase(id));
     }
 
     @Override
@@ -180,7 +180,7 @@ public class LogCaseServiceImpl implements LogCaseService {
         Gson gson = new Gson();
         List<SelectList> lstSources = framingReferenceRepository.findAllValidByCaseId(caseId);
         model.addObject("lstSources", lstSources);
-        fillDtoOfActivities(lstSources,model, caseId);
+        fillDtoOfActivities(lstSources, model, caseId);
     }
 
     private void fillDtoOfActivities(List<SelectList> lstSources, ModelAndView model, Long caseId) {
@@ -190,44 +190,44 @@ public class LogCaseServiceImpl implements LogCaseService {
         List<ActivityMonitoringPlanLog> lstActMonPlan = activityMonitoringPlanRepository.getListAccomplishmentByMonPlanIdToFile(idMon);
         List<SelectList> assigmentArringment = arrangementRepository.findLstArrangementByCaseId(caseId);
         List<ActMonPlanDto> lstActivityOk = new ArrayList<>(), lstActivityFailed = new ArrayList<>();
-        List<String> lstArrangement=new ArrayList<>();
+        List<String> lstArrangement = new ArrayList<>();
 
-        for(ActivityMonitoringPlanLog ampl: lstActMonPlan){
-           String sourceName = findElement(lstSources, ampl.getAidSourceId(), true);
-           String supActivity = findElement(lstActivities, ampl.getActSupervisionId(),false);
+        for (ActivityMonitoringPlanLog ampl : lstActMonPlan) {
+            String sourceName = findElement(lstSources, ampl.getAidSourceId(), true);
+            String supActivity = findElement(lstActivities, ampl.getActSupervisionId(), false);
             lstArrangement = new ArrayList<>();
-            fillInfoActivity(ampl.getId(),lstArrangement, lstActMonPlanArrangement,assigmentArringment,ampl.getLaaStatus());
-            if(ampl.getLaaStatus() == MonitoringConstants.ACTIVITY_ARRANGEMENT_DONE){
-                if(lstArrangement.size()>0){
-                    lstActivityOk.add(new ActMonPlanDto(ampl.getStart(), ampl.getEnd(),supActivity,sourceName,lstArrangement,ampl.getStatus(), ampl.getComments()));
+            fillInfoActivity(ampl.getId(), lstArrangement, lstActMonPlanArrangement, assigmentArringment, ampl.getLaaStatus());
+            if (ampl.getLaaStatus() == MonitoringConstants.ACTIVITY_ARRANGEMENT_DONE) {
+                if (lstArrangement.size() > 0) {
+                    lstActivityOk.add(new ActMonPlanDto(ampl.getStart(), ampl.getEnd(), supActivity, sourceName, lstArrangement, ampl.getStatus(), ampl.getComments()));
                 }
-            }else if(ampl.getLaaStatus() == MonitoringConstants.ACTIVITY_ARRANGEMENT_FAILED){
-                if(lstArrangement.size()>0){
+            } else if (ampl.getLaaStatus() == MonitoringConstants.ACTIVITY_ARRANGEMENT_FAILED) {
+                if (lstArrangement.size() > 0) {
                     lstActivityFailed.add(new ActMonPlanDto(ampl.getStart(), ampl.getEnd(), supActivity, sourceName, lstArrangement, ampl.getStatus(), ampl.getComments()));
                 }
             }
         }
-        model.addObject("lstActivityFailed",lstActivityFailed);
-        model.addObject("lstActivityOk",lstActivityOk);
+        model.addObject("lstActivityFailed", lstActivityFailed);
+        model.addObject("lstActivityOk", lstActivityOk);
     }
 
-    private void fillInfoActivity(Long idActivity, List<String> lstArrangement, List<ActivityMonitoringPlanArrangementLog> lstActMonPlanArrangement, List<SelectList> assigmentArringment, int status){
-            for (ActivityMonitoringPlanArrangementLog ampal:lstActMonPlanArrangement){
-                if(ampal.getActMonPlanId().equals(idActivity)){
-                    ampal.setStatusString();
-                    String assArr=findElement(assigmentArringment,ampal.getAssignedArrangementId(),true);
-                    if(ampal.getStatus() == (status)){
-                        lstArrangement.add(assArr +" - "+ ampal.getStatusSt());
-                    }
+    private void fillInfoActivity(Long idActivity, List<String> lstArrangement, List<ActivityMonitoringPlanArrangementLog> lstActMonPlanArrangement, List<SelectList> assigmentArringment, int status) {
+        for (ActivityMonitoringPlanArrangementLog ampal : lstActMonPlanArrangement) {
+            if (ampal.getActMonPlanId().equals(idActivity)) {
+                ampal.setStatusString();
+                String assArr = findElement(assigmentArringment, ampal.getAssignedArrangementId(), true);
+                if (ampal.getStatus() == (status)) {
+                    lstArrangement.add(assArr + " - " + ampal.getStatusSt());
                 }
             }
+        }
     }
 
-    private String findElement(List<SelectList> lst, Long id, Boolean addDescription){
-        for(SelectList sl: lst){
-            if(sl.getId().equals(id)){
-                if(addDescription)
-                    return sl.getName()+" / "+sl.getDescription();
+    private String findElement(List<SelectList> lst, Long id, Boolean addDescription) {
+        for (SelectList sl : lst) {
+            if (sl.getId().equals(id)) {
+                if (addDescription)
+                    return sl.getName() + " / " + sl.getDescription();
                 return sl.getName();
             }
         }
@@ -246,217 +246,217 @@ public class LogCaseServiceImpl implements LogCaseService {
     ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
 
     @Override
-    public String generateResumeOfHearingFormat(Long idHearingFormat){
-        HearingFormatDto hfdto =hearingFormatRepository.getInfoToLogCase(idHearingFormat);
+    public String generateResumeOfHearingFormat(Long idHearingFormat) {
+        HearingFormatDto hfdto = hearingFormatRepository.getInfoToLogCase(idHearingFormat);
         List<String> listCrime = crimeService.getListStringCrimeHFByHF(idHearingFormat);
         String crimes = crimeService.convertListCaseToCaseLog(listCrime);
         List<SelectList> aa = arrangementRepository.findLstArrangementByHearingFormatId(idHearingFormat);
         User umecaSupervisor = hearingFormatRepository.getAssignedSupervisor(idHearingFormat);
-        return hfdto.toString(crimes,aa,umecaSupervisor);
+        return hfdto.toString(crimes, aa, umecaSupervisor);
     }
 
 
-    public List<LogCase> addLog(String activityCode, Long idCase, Object detail){
+    public List<LogCase> addLog(String activityCode, Long idCase, Object detail) {
         List<LogCase> newLogs = new ArrayList<>();
-        try{
-        Long rCount = logCaseRepository.countLogByIdCase(idCase);
-        Long idUser = sharedUserService.GetLoggedUserId();
-        User user = userRepository.findOne(idUser);
-        Case cd = new Case();
-        String resume="";
-        cd.setId(idCase);
+        try {
+            Long rCount = logCaseRepository.countLogByIdCase(idCase);
+            Long idUser = sharedUserService.GetLoggedUserId();
+            User user = userRepository.findOne(idUser);
+            Case cd = new Case();
+            String resume = "";
+            cd.setId(idCase);
 
-        if(rCount.equals(0L)){
-            LogCase firstLog = new LogCase();
-            firstLog.setDate(Calendar.getInstance());
-            firstLog.setCompletionDate(Calendar.getInstance());
-            firstLog.setActivity(ConstantsLogCase.CREATE_LOG_CASE);
-            firstLog.setTitle(ConstantsLogCase.CREATE_LOG_CASE);
-            firstLog.setUser(user);
-            firstLog.setCaseDetention(cd);
-            newLogs.add(firstLog);
-        }
-        LogCase logCase = new LogCase();
+            if (rCount.equals(0L)) {
+                LogCase firstLog = new LogCase();
+                firstLog.setDate(Calendar.getInstance());
+                firstLog.setCompletionDate(Calendar.getInstance());
+                firstLog.setActivity(ConstantsLogCase.CREATE_LOG_CASE);
+                firstLog.setTitle(ConstantsLogCase.CREATE_LOG_CASE);
+                firstLog.setUser(user);
+                firstLog.setCaseDetention(cd);
+                newLogs.add(firstLog);
+            }
+            LogCase logCase = new LogCase();
 
-        switch (activityCode){
-            case ConstantsLogCase.NEW_HEARING_FORMAT:
-                Long idObject = (Long) detail;
-                resume = generateResumeOfHearingFormat(idObject);
-                logCase.setResume(resume);
-                logCase.setDate(Calendar.getInstance());
-                logCase.setCompletionDate(Calendar.getInstance());
-                logCase.setActivity(ConstantsLogCase.ACT_ADD_HEARING_FORMAT);
-                logCase.setTitle(ConstantsLogCase.TT_ADD_HEARING_FORMAT);
-                logCase.setUser(user);
-                logCase.setCaseDetention(cd);
-                newLogs.add(logCase);
-                break;
-            case ConstantsLogCase.OPEN_CASE_NOT_PROSECUTE:
-                logCase.setResume(ConstantsLogCase.RESUME_OPEN_NOT_PROSECUTE);
-                logCase.setDate(Calendar.getInstance());
-                logCase.setCompletionDate(Calendar.getInstance());
-                logCase.setActivity(ConstantsLogCase.ACT_OPEN_CASE_NOT_PROSECUTE);
-                logCase.setTitle(ConstantsLogCase.TT_OPEN_NOT_PROSECUTE);
-                logCase.setUser(user);
-                logCase.setCaseDetention(cd);
-                newLogs.add(logCase);
-                break;
-            case ConstantsLogCase.SPONTANEOUS_ACTIVITY:
-                LogCase plogCase =(LogCase)detail;
-                logCase.setResume(plogCase.getResume());
-                logCase.setTitle(plogCase.getTitle());
-                logCase.setDate(Calendar.getInstance());
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-                Date d = sdf.parse(plogCase.getDateString() +" "+ plogCase.getTimeString());
-                Calendar c = Calendar.getInstance();
-                c.setTime(d);
-                logCase.setCompletionDate(c);
-                logCase.setActivity(ConstantsLogCase.ACT_SPONTANEOUS_ACTIVITY);
-                logCase.setUser(user);
-                logCase.setCaseDetention(cd);
-                newLogs.add(logCase);
-                break;
-            case ConstantsLogCase.CLOSE_CASE:
-                //agregar razón de cerre de caso
-                logCase.setResume((String) detail);
-                logCase.setTitle(ConstantsLogCase.TT_CLOSE_CASE);
-                logCase.setDate(Calendar.getInstance());
-                logCase.setCompletionDate(Calendar.getInstance());
-                logCase.setActivity(ConstantsLogCase.ACT_CLOSE_CASE);
-                logCase.setUser(user);
-                logCase.setCaseDetention(cd);
-                newLogs.add(logCase);
-                break;
-            case ConstantsLogCase.LOG_SUPERVISION_ACTIVITY:
-                ActivityMonitoringPlanInfo amp = activityMonitoringPlanRepository.getActivityInfoFull((Long) detail);
-                List<ActivityMonitoringPlanArrangementLog> amplList = activityMonitoringPlanRepository.getListActMonPlanArrangementByActivityIdToShow((Long)detail);
-                String aux = new ActivityMonitoringPlanArrangementLog().stringToLogCase(amplList);
-                resume = amp.stringToLogCase(aux);
-                logCase.setResume(resume);
-                logCase.setTitle(ConstantsLogCase.TT_LOG_SUPERVISION_ACTIVITY);
-                logCase.setDate(Calendar.getInstance());
-                logCase.setCompletionDate(Calendar.getInstance());
-                logCase.setActivity(ConstantsLogCase.ACT_LOG_SUPERVISION_ACTIVITY);
-                logCase.setUser(user);
-                logCase.setCaseDetention(cd);
-                newLogs.add(logCase);
-                break;
-            case ConstantsLogCase.CREATE_MONITORING_PLAN:
-                if(detail!=null)
+            switch (activityCode) {
+                case ConstantsLogCase.NEW_HEARING_FORMAT:
+                    Long idObject = (Long) detail;
+                    resume = generateResumeOfHearingFormat(idObject);
+                    logCase.setResume(resume);
+                    logCase.setDate(Calendar.getInstance());
+                    logCase.setCompletionDate(Calendar.getInstance());
+                    logCase.setActivity(ConstantsLogCase.ACT_ADD_HEARING_FORMAT);
+                    logCase.setTitle(ConstantsLogCase.TT_ADD_HEARING_FORMAT);
+                    logCase.setUser(user);
+                    logCase.setCaseDetention(cd);
+                    newLogs.add(logCase);
+                    break;
+                case ConstantsLogCase.OPEN_CASE_NOT_PROSECUTE:
+                    logCase.setResume(ConstantsLogCase.RESUME_OPEN_NOT_PROSECUTE);
+                    logCase.setDate(Calendar.getInstance());
+                    logCase.setCompletionDate(Calendar.getInstance());
+                    logCase.setActivity(ConstantsLogCase.ACT_OPEN_CASE_NOT_PROSECUTE);
+                    logCase.setTitle(ConstantsLogCase.TT_OPEN_NOT_PROSECUTE);
+                    logCase.setUser(user);
+                    logCase.setCaseDetention(cd);
+                    newLogs.add(logCase);
+                    break;
+                case ConstantsLogCase.SPONTANEOUS_ACTIVITY:
+                    LogCase plogCase = (LogCase) detail;
+                    logCase.setResume(plogCase.getResume());
+                    logCase.setTitle(plogCase.getTitle());
+                    logCase.setDate(Calendar.getInstance());
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+                    Date d = sdf.parse(plogCase.getDateString() + " " + plogCase.getTimeString());
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(d);
+                    logCase.setCompletionDate(c);
+                    logCase.setActivity(ConstantsLogCase.ACT_SPONTANEOUS_ACTIVITY);
+                    logCase.setUser(user);
+                    logCase.setCaseDetention(cd);
+                    newLogs.add(logCase);
+                    break;
+                case ConstantsLogCase.CLOSE_CASE:
+                    //agregar razón de cerre de caso
                     logCase.setResume((String) detail);
-                logCase.setTitle(ConstantsLogCase.TT_CREATE_MONITORING_PLAN);
-                logCase.setDate(Calendar.getInstance());
-                logCase.setCompletionDate(Calendar.getInstance());
-                logCase.setActivity(ConstantsLogCase.ACT_CREATE_MONITORING_PLAN);
-                logCase.setUser(user);
-                logCase.setCaseDetention(cd);
-                newLogs.add(logCase);
-                break;
-            case ConstantsLogCase.EDIT_MONITORING_PLAN:
-                if(detail!=null)
-                    logCase.setResume((String) detail);
-                logCase.setTitle(ConstantsLogCase.TT_EDIT_MONITORING_PLAN);
-                logCase.setDate(Calendar.getInstance());
-                logCase.setCompletionDate(Calendar.getInstance());
-                logCase.setActivity(ConstantsLogCase.ACT_EDIT_MONITORING_PLAN);
-                logCase.setUser(user);
-                logCase.setCaseDetention(cd);
-                newLogs.add(logCase);
-                break;
-            case ConstantsLogCase.CREATE_FRAMING_MEETING:
-                if(detail!=null)
-                    logCase.setResume((String) detail);
-                logCase.setTitle(ConstantsLogCase.T_CREATE_FRAMING_MEETING);
-                logCase.setDate(Calendar.getInstance());
-                logCase.setCompletionDate(Calendar.getInstance());
-                logCase.setActivity(ConstantsLogCase.ACT_FRAMING_MEETING);
-                logCase.setUser(user);
-                logCase.setCaseDetention(cd);
-                newLogs.add(logCase);
-                break;
-            case ConstantsLogCase.EDIT_FRAMING_MEETING:
-                if(detail!=null)
-                    logCase.setResume((String) detail);
-                logCase.setTitle(ConstantsLogCase.TT_EDIT_FRAMING_MEETING);
-                logCase.setDate(Calendar.getInstance());
-                logCase.setCompletionDate(Calendar.getInstance());
-                logCase.setActivity(ConstantsLogCase.ACT_EDIT_FRAMING_MEETING);
-                logCase.setUser(user);
-                logCase.setCaseDetention(cd);
-                newLogs.add(logCase);
-                break;
-            case ConstantsLogCase.TERMINATE_FRAMING_MEETING:
-                if(detail!=null)
-                    logCase.setResume((String) detail);
-                logCase.setTitle(ConstantsLogCase.TT_FRAMING_MEETING);
-                logCase.setDate(Calendar.getInstance());
-                logCase.setCompletionDate(Calendar.getInstance());
-                logCase.setActivity(ConstantsLogCase.ACT_FRAMING_MEETING);
-                logCase.setUser(user);
-                logCase.setCaseDetention(cd);
-                newLogs.add(logCase);
-                break;
-            case ConstantsLogCase.CODE_ASSIGN_FRAMING_MEETING:
-                if(detail!=null)
-                    logCase.setResume((String) detail);
-                logCase.setTitle(ConstantsLogCase.T_ASSIGN_FRAMING_MEETING);
-                logCase.setDate(Calendar.getInstance());
-                logCase.setCompletionDate(Calendar.getInstance());
-                logCase.setActivity(ConstantsLogCase.ACT_ASSIGN_FRAMING_MEETING);
-                logCase.setUser(user);
-                logCase.setCaseDetention(cd);
-                newLogs.add(logCase);
-                break;
-            case ConstantsLogCase.CODE_CHANNELING:
-                if(detail!=null)
-                    logCase.setResume((String) detail);
-                logCase.setTitle(ConstantsLogCase.T_CHANNELING);
-                logCase.setDate(Calendar.getInstance());
-                logCase.setCompletionDate(Calendar.getInstance());
-                logCase.setActivity(ConstantsLogCase.ACT_CHANNELING);
-                logCase.setUser(user);
-                logCase.setCaseDetention(cd);
-                newLogs.add(logCase);
-                break;
-            case ConstantsLogCase.CODE_SHEET_CHANNELING:
-                if(detail!=null)
-                    logCase.setResume((String) detail);
-                logCase.setTitle(ConstantsLogCase.T_SHEET_CHANNELING);
-                logCase.setDate(Calendar.getInstance());
-                logCase.setCompletionDate(Calendar.getInstance());
-                logCase.setActivity(ConstantsLogCase.ACT_SHEET_CHANNELING);
-                logCase.setUser(user);
-                logCase.setCaseDetention(cd);
-                newLogs.add(logCase);
-                break;
-            case ConstantsLogCase.AUTHORIZE_MONITORING_PLAN:
-                if(detail!=null)
-                    logCase.setResume((String) detail);
-                logCase.setTitle(ConstantsLogCase.TT_AUTHORIZE_PLAN);
-                logCase.setDate(Calendar.getInstance());
-                logCase.setCompletionDate(Calendar.getInstance());
-                logCase.setActivity(ConstantsLogCase.ACT_AUTHORIZE_MONITORING_PLAN);
-                logCase.setUser(user);
-                logCase.setCaseDetention(cd);
-                newLogs.add(logCase);
-                break;
-            case ConstantsLogCase.REJECT_MONITORING_PLAN:
-                if(detail!=null)
-                    logCase.setResume((String) detail);
-                logCase.setTitle(ConstantsLogCase.TT_REJECT_PLAN);
-                logCase.setDate(Calendar.getInstance());
-                logCase.setCompletionDate(Calendar.getInstance());
-                logCase.setActivity(ConstantsLogCase.ACT_REJECT_MONITORING_PLAN);
-                logCase.setUser(user);
-                logCase.setCaseDetention(cd);
-                newLogs.add(logCase);
-                break;
-        }
+                    logCase.setTitle(ConstantsLogCase.TT_CLOSE_CASE);
+                    logCase.setDate(Calendar.getInstance());
+                    logCase.setCompletionDate(Calendar.getInstance());
+                    logCase.setActivity(ConstantsLogCase.ACT_CLOSE_CASE);
+                    logCase.setUser(user);
+                    logCase.setCaseDetention(cd);
+                    newLogs.add(logCase);
+                    break;
+                case ConstantsLogCase.LOG_SUPERVISION_ACTIVITY:
+                    ActivityMonitoringPlanInfo amp = activityMonitoringPlanRepository.getActivityInfoFull((Long) detail);
+                    List<ActivityMonitoringPlanArrangementLog> amplList = activityMonitoringPlanRepository.getListActMonPlanArrangementByActivityIdToShow((Long) detail);
+                    String aux = new ActivityMonitoringPlanArrangementLog().stringToLogCase(amplList);
+                    resume = amp.stringToLogCase(aux);
+                    logCase.setResume(resume);
+                    logCase.setTitle(ConstantsLogCase.TT_LOG_SUPERVISION_ACTIVITY);
+                    logCase.setDate(Calendar.getInstance());
+                    logCase.setCompletionDate(Calendar.getInstance());
+                    logCase.setActivity(ConstantsLogCase.ACT_LOG_SUPERVISION_ACTIVITY);
+                    logCase.setUser(user);
+                    logCase.setCaseDetention(cd);
+                    newLogs.add(logCase);
+                    break;
+                case ConstantsLogCase.CREATE_MONITORING_PLAN:
+                    if (detail != null)
+                        logCase.setResume((String) detail);
+                    logCase.setTitle(ConstantsLogCase.TT_CREATE_MONITORING_PLAN);
+                    logCase.setDate(Calendar.getInstance());
+                    logCase.setCompletionDate(Calendar.getInstance());
+                    logCase.setActivity(ConstantsLogCase.ACT_CREATE_MONITORING_PLAN);
+                    logCase.setUser(user);
+                    logCase.setCaseDetention(cd);
+                    newLogs.add(logCase);
+                    break;
+                case ConstantsLogCase.EDIT_MONITORING_PLAN:
+                    if (detail != null)
+                        logCase.setResume((String) detail);
+                    logCase.setTitle(ConstantsLogCase.TT_EDIT_MONITORING_PLAN);
+                    logCase.setDate(Calendar.getInstance());
+                    logCase.setCompletionDate(Calendar.getInstance());
+                    logCase.setActivity(ConstantsLogCase.ACT_EDIT_MONITORING_PLAN);
+                    logCase.setUser(user);
+                    logCase.setCaseDetention(cd);
+                    newLogs.add(logCase);
+                    break;
+                case ConstantsLogCase.CREATE_FRAMING_MEETING:
+                    if (detail != null)
+                        logCase.setResume((String) detail);
+                    logCase.setTitle(ConstantsLogCase.T_CREATE_FRAMING_MEETING);
+                    logCase.setDate(Calendar.getInstance());
+                    logCase.setCompletionDate(Calendar.getInstance());
+                    logCase.setActivity(ConstantsLogCase.ACT_FRAMING_MEETING);
+                    logCase.setUser(user);
+                    logCase.setCaseDetention(cd);
+                    newLogs.add(logCase);
+                    break;
+                case ConstantsLogCase.EDIT_FRAMING_MEETING:
+                    if (detail != null)
+                        logCase.setResume((String) detail);
+                    logCase.setTitle(ConstantsLogCase.TT_EDIT_FRAMING_MEETING);
+                    logCase.setDate(Calendar.getInstance());
+                    logCase.setCompletionDate(Calendar.getInstance());
+                    logCase.setActivity(ConstantsLogCase.ACT_EDIT_FRAMING_MEETING);
+                    logCase.setUser(user);
+                    logCase.setCaseDetention(cd);
+                    newLogs.add(logCase);
+                    break;
+                case ConstantsLogCase.TERMINATE_FRAMING_MEETING:
+                    if (detail != null)
+                        logCase.setResume((String) detail);
+                    logCase.setTitle(ConstantsLogCase.TT_FRAMING_MEETING);
+                    logCase.setDate(Calendar.getInstance());
+                    logCase.setCompletionDate(Calendar.getInstance());
+                    logCase.setActivity(ConstantsLogCase.ACT_FRAMING_MEETING);
+                    logCase.setUser(user);
+                    logCase.setCaseDetention(cd);
+                    newLogs.add(logCase);
+                    break;
+                case ConstantsLogCase.CODE_ASSIGN_FRAMING_MEETING:
+                    if (detail != null)
+                        logCase.setResume((String) detail);
+                    logCase.setTitle(ConstantsLogCase.T_ASSIGN_FRAMING_MEETING);
+                    logCase.setDate(Calendar.getInstance());
+                    logCase.setCompletionDate(Calendar.getInstance());
+                    logCase.setActivity(ConstantsLogCase.ACT_ASSIGN_FRAMING_MEETING);
+                    logCase.setUser(user);
+                    logCase.setCaseDetention(cd);
+                    newLogs.add(logCase);
+                    break;
+                case ConstantsLogCase.CODE_CHANNELING:
+                    if (detail != null)
+                        logCase.setResume((String) detail);
+                    logCase.setTitle(ConstantsLogCase.T_CHANNELING);
+                    logCase.setDate(Calendar.getInstance());
+                    logCase.setCompletionDate(Calendar.getInstance());
+                    logCase.setActivity(ConstantsLogCase.ACT_CHANNELING);
+                    logCase.setUser(user);
+                    logCase.setCaseDetention(cd);
+                    newLogs.add(logCase);
+                    break;
+                case ConstantsLogCase.CODE_SHEET_CHANNELING:
+                    if (detail != null)
+                        logCase.setResume((String) detail);
+                    logCase.setTitle(ConstantsLogCase.T_SHEET_CHANNELING);
+                    logCase.setDate(Calendar.getInstance());
+                    logCase.setCompletionDate(Calendar.getInstance());
+                    logCase.setActivity(ConstantsLogCase.ACT_SHEET_CHANNELING);
+                    logCase.setUser(user);
+                    logCase.setCaseDetention(cd);
+                    newLogs.add(logCase);
+                    break;
+                case ConstantsLogCase.AUTHORIZE_MONITORING_PLAN:
+                    if (detail != null)
+                        logCase.setResume((String) detail);
+                    logCase.setTitle(ConstantsLogCase.TT_AUTHORIZE_PLAN);
+                    logCase.setDate(Calendar.getInstance());
+                    logCase.setCompletionDate(Calendar.getInstance());
+                    logCase.setActivity(ConstantsLogCase.ACT_AUTHORIZE_MONITORING_PLAN);
+                    logCase.setUser(user);
+                    logCase.setCaseDetention(cd);
+                    newLogs.add(logCase);
+                    break;
+                case ConstantsLogCase.REJECT_MONITORING_PLAN:
+                    if (detail != null)
+                        logCase.setResume((String) detail);
+                    logCase.setTitle(ConstantsLogCase.TT_REJECT_PLAN);
+                    logCase.setDate(Calendar.getInstance());
+                    logCase.setCompletionDate(Calendar.getInstance());
+                    logCase.setActivity(ConstantsLogCase.ACT_REJECT_MONITORING_PLAN);
+                    logCase.setUser(user);
+                    logCase.setCaseDetention(cd);
+                    newLogs.add(logCase);
+                    break;
+            }
             logCaseRepository.save(newLogs);
-        }catch (Exception e){
+        } catch (Exception e) {
             logException.Write(e, this.getClass(), "addLog", sharedUserService);
             e.printStackTrace();
-        }finally {
+        } finally {
             return newLogs;
         }
     }

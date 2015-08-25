@@ -25,6 +25,7 @@ import com.umeca.repository.shared.MessageRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.shared.CaseRequestService;
+import com.umeca.service.shared.EventService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,10 +65,10 @@ public class VerificationServiceImpl implements VerificationService {
     SharedLogExceptionService logException;
     @Autowired
     InformationAvailabilityRepository informationAvailabilityRepository;
+
+
     @Autowired
-    EventTypeRepository eventTypeRepository;
-    @Autowired
-    EventRepository eventRepository;
+    EventService eventService;
 
     @Override
     public void createVerification(Case c) {
@@ -1360,23 +1361,14 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Override
     public void upsertCaseReport(Long idCase, String reason) {
-
-        Case c  = caseRepository.findOne(idCase);
-        Event event = new Event();
-        event.setCaseDetention(c);
-        event.setComments(reason);
-        User user = new User();
-        user.setId(sharedUserService.GetLoggedUserId());
-        event.setUser(user);
-        Date date = new Date();
-        DateFormat df = new SimpleDateFormat("yyyyMMdd");
-        Integer dateId =Integer.parseInt(df.format(date));
-        event.setDate(date);
-        event.setDateId(dateId);
-        c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
-        event.setEventType(eventTypeRepository.findByCode(Constants.EVENT_CASE_REPORT));
-        eventRepository.save(event);
-        caseRepository.save(c);
+        try {
+            Case c  = caseRepository.findOne(idCase);
+            c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
+            caseRepository.save(c);
+            eventService.addEvent(Constants.EVENT_CASE_REPORT, idCase, reason);
+        }catch (Exception e){
+            return;
+        }
     }
 
 }
