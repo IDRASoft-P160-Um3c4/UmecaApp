@@ -311,6 +311,8 @@ public class Constants {
 
     public static final String EVENT_INTERVIEW_DECLINED = "DECLINED";
     public static final String EVENT_CASE_REPORT = "REPORT";
+    public static final String EVENT_CASE_OPINION = "OPINION";
+    public static final String EVENT_ONLY_INTERVIEW = "INTERVIEW";
 
 }
 

@@ -21,6 +21,7 @@ import com.umeca.repository.reviewer.SourceVerificationRepository;
 import com.umeca.repository.reviewer.TechnicalReviewRepository;
 import com.umeca.repository.reviewer.VerificationRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.EventService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,9 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
 
     @Autowired
     CaseRepository caseRepository;
+
+    @Autowired
+    EventService eventService;
 
     @Override
     public QuestionarySectionView getSections(QuestionarySection obj) {
@@ -383,6 +387,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         technicalReviewRepository.save(result);
 
         if (result.getIsFinished() != null && result.getIsFinished() == true) {
+            eventService.addEvent(Constants.EVENT_CASE_OPINION, caseDetention.getId(), result.getComments());
             response.setHasError(false);
             response.setUrlToGo("index.html");
         } else {

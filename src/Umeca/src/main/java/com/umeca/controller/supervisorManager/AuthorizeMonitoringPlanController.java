@@ -15,10 +15,13 @@ import com.umeca.model.entities.supervisor.RequestActivities;
 import com.umeca.model.entities.supervisor.ResponseActivities;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.ConstantsLogCase;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
+import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.LogCaseService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.TrackMonPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +41,10 @@ public class AuthorizeMonitoringPlanController {
     SharedLogExceptionService logException;
     @Autowired
     SharedUserService sharedUserService;
-
+    @Autowired
+    LogCaseService logCaseService;
+    @Autowired
+    UserRepository userRepository;
 
     @RequestMapping(value = "/supervisorManager/authorizeMonitoringPlan/index", method = RequestMethod.GET)
     public String index(){
@@ -262,6 +268,19 @@ public class AuthorizeMonitoringPlanController {
 
             trackMonPlanService.saveAuthRejectMonPlan(sharedUserService, logException, model, user, monPlan, MonitoringConstants.STATUS_AUTHORIZED,
                     MonitoringConstants.STATUS_REJECTED_AUTHORIZED, MonitoringConstants.TYPE_COMMENT_AUTHORIZED);
+
+
+            Long idUser = sharedUserService.GetLoggedUserId();
+            User userS = userRepository.findOne(idUser);
+
+            if(model.getAuthorized() == 0){
+                String cad = "Se rechazo el plan de seguimiento por el coordinador de supervisión " + userS.getFullname() + ".";
+                logCaseService.addLog(ConstantsLogCase.REJECT_MONITORING_PLAN, monPlan.getCaseDetention().getId(), cad);
+            }
+            else{
+                String cad = "Se autorizo el plan de seguimiento por el coordinador de supervisión " + userS.getFullname() + ".";
+                logCaseService.addLog(ConstantsLogCase.AUTHORIZE_MONITORING_PLAN, monPlan.getCaseDetention().getId(), cad);
+            }
 
             response.setHasError(false);
         }catch (Exception ex){

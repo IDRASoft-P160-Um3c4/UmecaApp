@@ -35,6 +35,7 @@ import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.catalog.CatalogService;
 import com.umeca.service.shared.CrimeService;
+import com.umeca.service.shared.EventService;
 import com.umeca.service.shared.MessageServiceImpl;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,9 +143,10 @@ public class MeetingServiceImpl implements MeetingService {
     SharedLogExceptionService logException;
     @Autowired
     InformationAvailabilityRepository informationAvailabilityRepository;
-
     @Autowired
     MessageServiceImpl messageService;
+    @Autowired
+    EventService eventService;
 
 
     @Transactional
@@ -162,11 +164,13 @@ public class MeetingServiceImpl implements MeetingService {
             else
                 caseDetention.setRecidivist(false);
 
-            if (!imputed.getMeeting().getDeclineReason().isEmpty())
+            if (!imputed.getMeeting().getDeclineReason().isEmpty()){
+                caseDetention.setHasNegation(true);
                 caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
-            else
+            }
+            else{
                 caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
-
+            }
             caseDetention.setIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
             caseDetention.setDateCreate(new Date());
             caseDetention = caseRepository.save(caseDetention);
@@ -177,6 +181,7 @@ public class MeetingServiceImpl implements MeetingService {
             if (!imputed.getMeeting().getDeclineReason().isEmpty()) {
                 statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_DECLINE);
                 meeting.setDeclineReason(imputed.getMeeting().getDeclineReason());
+                eventService.addEvent(Constants.EVENT_INTERVIEW_DECLINED, caseDetention.getId(), imputed.getMeeting().getDeclineReason());
             } else {
                 statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE);
             }
@@ -1181,6 +1186,7 @@ public class MeetingServiceImpl implements MeetingService {
                 m.setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_DECLINE));
                 m.setDeclineReason(meeting.getDeclineReason());
                 meetingRepository.save(m);
+                eventService.addEvent(Constants.EVENT_INTERVIEW_DECLINED, c.getId(), meeting.getDeclineReason());
             }
 
             m.setDateTerminate(new Date());
