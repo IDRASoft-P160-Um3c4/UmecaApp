@@ -58,7 +58,7 @@ public class EventServiceImpl implements EventService {
             event.setDate(date);
             event.setDateId(dateId);
 
-            event.setEventType(eventTypeRepository.findByCode(Constants.EVENT_CASE_REPORT));
+            event.setEventType(eventTypeRepository.findByCode(eventCode));
             eventRepository.save(event);
 
         } catch (Exception e) {

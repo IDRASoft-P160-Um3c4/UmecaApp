@@ -66,7 +66,6 @@ public class VerificationServiceImpl implements VerificationService {
     @Autowired
     InformationAvailabilityRepository informationAvailabilityRepository;
 
-
     @Autowired
     EventService eventService;
 
