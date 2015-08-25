@@ -1,3 +1,5 @@
 ﻿id|name|description|obsolete
 1|DECLINED|Entrevista negada|0
 2|REPORT|Caso con informe|0
+3|OPINION|Caso con opinión técnica|0
+4|INTERVIEW|Caso con solo entrevista|0
