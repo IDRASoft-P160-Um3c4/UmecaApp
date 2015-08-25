@@ -140,7 +140,10 @@
       </div>
     </div>
   </div>
-
+  <div class="col-xs-12 element-center">
+    Fecha y hora vencidas:
+    <span class="glyphicon glyphicon-stop" style="color:#FF3617; font-size: 15px;"  aria-hidden="true"></span>
+  </div>
   <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
   <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
 </div>
