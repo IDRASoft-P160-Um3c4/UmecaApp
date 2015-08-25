@@ -1139,6 +1139,7 @@ public class FramingMeetingController {
                     add(joinM.get("name"));
                     add(joinM.get("lastNameP"));
                     add(joinM.get("lastNameM"));
+                    add(joinM.get("birthDate"));
                     add(joinHF.get("umecaDate"));
                     add(joinHF.get("umecaTime"));
                     add(joinUS.get("fullname"));

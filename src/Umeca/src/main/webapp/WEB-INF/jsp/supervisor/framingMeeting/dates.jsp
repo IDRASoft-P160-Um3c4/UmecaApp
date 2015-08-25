@@ -32,12 +32,13 @@
         autoencode: true,
         datatype: "json",
         mtype: 'POST',
-        colNames: ['ID', 'idStatus', 'Carpeta Judicial', 'Nombre completo', 'Fecha de cita UMECA', 'Hora cita UMECA', 'Supervisor','ExpiredDate'],
+        colNames: ['ID', 'idStatus', 'Carpeta Judicial', 'Nombre completo','Fecha de nacimiento', 'Fecha de cita UMECA', 'Hora cita UMECA', 'Supervisor','ExpiredDate'],
         colModel: [
           {name: 'id', index: 'id', hidden: true},
           {name: 'codeStatus', index: 'codeStatus', hidden: true},
           {name: 'idMP',index: 'idMP',width: 200,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
           {name: 'fullName',index: 'fullName',width: 300,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
+          {name: 'brthDateTxt',index: 'brthDateTxt',width: 300,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
           {name: 'umecaDateStr',index: 'umecaDateStr',width: 160,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
           {name: 'umecaTime',index: 'umecaTime',width: 250,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
           {name: 'fullNameSupervisor',index: 'fullNameSupervisor',width: 250,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
@@ -139,7 +140,10 @@
       </div>
     </div>
   </div>
-
+  <div class="col-xs-12 element-center">
+    Fecha y hora vencidas:
+    <span class="glyphicon glyphicon-stop" style="color:#FF3617; font-size: 15px;"  aria-hidden="true"></span>
+  </div>
   <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
   <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>
 </div>
