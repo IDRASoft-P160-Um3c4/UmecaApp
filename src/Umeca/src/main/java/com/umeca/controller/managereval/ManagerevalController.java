@@ -491,7 +491,7 @@ public class ManagerevalController {
 
                             break;
                         case Constants.ST_REQUEST_GET_FREEDOM:
-                            c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_ONLY_MEETING));
+                            c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_GOT_FREEDOM));
                             c.setDateNotProsecute(new Date());
 
                             break;

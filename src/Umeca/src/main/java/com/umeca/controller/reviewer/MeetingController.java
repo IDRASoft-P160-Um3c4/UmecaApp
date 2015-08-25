@@ -746,7 +746,7 @@ public class MeetingController {
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("reviewerId", userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
-        JqGridRulesModel extraFilter3 =new JqGridRulesModel("statusCase", Constants.CASE_STATUS_ONLY_MEETING, JqGridFilterModel.COMPARE_EQUAL);
+        JqGridRulesModel extraFilter3 =new JqGridRulesModel("statusCase", Constants.CASE_STATUS_GOT_FREEDOM, JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter3);
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
