@@ -59,4 +59,13 @@ public class ConstantsLogCase {
     public static final String ACT_SHEET_CHANNELING = "Se ha generado un oficio de canalizaci&oacute;.";
 
 
+    public static final String AUTHORIZE_MONITORING_PLAN ="AUTHORIZE_MONITORING_PLAN";
+    public static final String TT_AUTHORIZE_PLAN="Autorizar plan de seguimiento";
+    public static final String ACT_AUTHORIZE_MONITORING_PLAN = "Se autorizo el plan de seguimiento";
+
+
+    public static final String REJECT_MONITORING_PLAN ="REJECT_MONITORING_PLAN";
+    public static final String TT_REJECT_PLAN="Rechazar plan de seguimiento";
+    public static final String ACT_REJECT_MONITORING_PLAN = "Se rechazo plan de seguimiento";
+
 }

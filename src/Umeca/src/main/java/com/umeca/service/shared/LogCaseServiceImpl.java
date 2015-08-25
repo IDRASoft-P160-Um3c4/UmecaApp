@@ -429,6 +429,28 @@ public class LogCaseServiceImpl implements LogCaseService {
                 logCase.setCaseDetention(cd);
                 newLogs.add(logCase);
                 break;
+            case ConstantsLogCase.AUTHORIZE_MONITORING_PLAN:
+                if(detail!=null)
+                    logCase.setResume((String) detail);
+                logCase.setTitle(ConstantsLogCase.TT_AUTHORIZE_PLAN);
+                logCase.setDate(Calendar.getInstance());
+                logCase.setCompletionDate(Calendar.getInstance());
+                logCase.setActivity(ConstantsLogCase.ACT_AUTHORIZE_MONITORING_PLAN);
+                logCase.setUser(user);
+                logCase.setCaseDetention(cd);
+                newLogs.add(logCase);
+                break;
+            case ConstantsLogCase.REJECT_MONITORING_PLAN:
+                if(detail!=null)
+                    logCase.setResume((String) detail);
+                logCase.setTitle(ConstantsLogCase.TT_REJECT_PLAN);
+                logCase.setDate(Calendar.getInstance());
+                logCase.setCompletionDate(Calendar.getInstance());
+                logCase.setActivity(ConstantsLogCase.ACT_REJECT_MONITORING_PLAN);
+                logCase.setUser(user);
+                logCase.setCaseDetention(cd);
+                newLogs.add(logCase);
+                break;
         }
             logCaseRepository.save(newLogs);
         }catch (Exception e){
