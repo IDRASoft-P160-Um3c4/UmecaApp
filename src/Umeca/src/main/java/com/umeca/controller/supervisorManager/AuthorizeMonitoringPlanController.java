@@ -273,7 +273,7 @@ public class AuthorizeMonitoringPlanController {
             Long idUser = sharedUserService.GetLoggedUserId();
             User userS = userRepository.findOne(idUser);
 
-            if(model.getAuthorized().equals(false)){
+            if(model.getAuthorized() == 0){
                 String cad = "Se rechazo el plan de seguimiento por el coordinador de supervisión " + userS.getFullname() + ".";
                 logCaseService.addLog(ConstantsLogCase.REJECT_MONITORING_PLAN, monPlan.getCaseDetention().getId(), cad);
             }
