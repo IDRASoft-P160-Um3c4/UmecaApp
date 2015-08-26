@@ -12,6 +12,19 @@ import java.util.Date;
 @Table(name="event")
 public class Event {
 
+
+    public Event(){
+
+    }
+
+    public Event(Long id, Integer dateId,String name,Case caseDetention){
+        this.eventType = new EventType();
+        this.id = id;
+        this.dateId = dateId;
+        this.eventType.setName(name);
+        this.caseDetention = caseDetention;
+    }
+
     @Id
     @GeneratedValue
     @Column(name="id_event", nullable = false)
