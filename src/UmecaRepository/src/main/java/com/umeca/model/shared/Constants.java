@@ -83,7 +83,7 @@ public class Constants {
     public static final String CASE_STATUS_EDIT_TEC_REV = "ST_CASE_EDIT_TEC_REV";
     public static final String CASE_STATUS_NOT_PROSECUTE = "ST_CASE_NOT_PROSECUTE";
     public static final String CASE_STATUS_NOT_PROSECUTE_OPEN = "ST_CASE_NOT_PROSECUTE_OPEN";
-    public static final String CASE_STATUS_ONLY_MEETING = "ST_CASE_ONLY_MEETING";
+    public static final String CASE_STATUS_GOT_FREEDOM = "ST_CASE_GOT_FREEDOM";
 //    public static final String CASE_STATUS_CLOSE_FORGIVENESS = "ST_CASE_CLOSE_FORGIVENESS";
 //    public static final String CASE_STATUS_CLOSE_AGREEMENT = "ST_CASE_CLOSE_AGREEMENT";
 //    public static final String CASE_STATUS_CLOSE_DESIST = "ST_CASE_CLOSE_DESIST";
@@ -312,6 +312,9 @@ public class Constants {
 
     public static final String EVENT_INTERVIEW_DECLINED = "DECLINED";
     public static final String EVENT_CASE_REPORT = "REPORT";
+    public static final String EVENT_CASE_OPINION = "OPINION";
+    public static final String EVENT_ONLY_INTERVIEW = "INTERVIEW";
+    public static final String EVENT_FROM_FORMULATION = "FORMULATION";
 
 }
 

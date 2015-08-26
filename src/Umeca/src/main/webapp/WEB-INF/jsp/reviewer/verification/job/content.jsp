@@ -300,7 +300,7 @@
                                            level-child="6"
                                            ng-show="verification" id-code="jobs.schedule" id-element="{{j.id}}"></i>
                                         <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"
-                                           ng-click="doConfirmVerifNotKnow('jobs.schedule', j.id)"></i>7
+                                           ng-click="doConfirmVerifNotKnow('jobs.schedule', j.id)"></i>
                                             </span>
                                         <span ng-class="lstFinalInfoJob['jobs.schedule'+'.'+j.id]==true?'verified':'';">
                                         <i class="red icon-list icon-only bigger-120" ng-show="selectSource"

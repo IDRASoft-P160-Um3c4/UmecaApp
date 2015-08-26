@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 @Repository("EventRepository")
 public interface EventRepository extends JpaRepository<Event, Long> {
@@ -18,4 +20,12 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "INNER JOIN me.imputed im " +
             "WHERE ev.id = :id")
     CaseReportView getCaseReportById(@Param("id")Long id);
+
+
+@Query("SELECT new com.umeca.model.entities.shared.Event(ev.id, ev.dateId, evT.name, ev.caseDetention)" +
+        "FROM Event ev " +
+        "INNER JOIN ev.eventType evT " +
+        "WHERE ev.caseDetention.id = :id")
+List<Event> getEventsFromCase(@Param("id")Long id);
+
 }

@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 
-@Repository("eventTypeRepository")
+
 public interface EventTypeRepository extends JpaRepository<EventType,Long> {
 
     @Query("SELECT e from EventType e where e.name=:code")

@@ -42,6 +42,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import com.umeca.service.shared.EventService;
+
 
 import javax.persistence.criteria.*;
 import java.text.SimpleDateFormat;
@@ -68,6 +70,9 @@ public class ManagerevalController {
     private CaseRepository _case;
     @Autowired
     private StatusCaseRepository statusCase;
+
+    @Autowired
+    EventService eventService;
 
 
     @RequestMapping(value = {"/managereval/index"}, method = RequestMethod.GET)
@@ -491,9 +496,9 @@ public class ManagerevalController {
 
                             break;
                         case Constants.ST_REQUEST_GET_FREEDOM:
-                            c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_ONLY_MEETING));
+                            c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_GOT_FREEDOM));
                             c.setDateNotProsecute(new Date());
-
+                            eventService.addEvent(Constants.EVENT_ONLY_INTERVIEW,c.getId(),null);
                             break;
 
                     }

@@ -117,7 +117,7 @@
                         be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Reporte de incumplimiento\" onclick=\"window.accomplishmentLog('" + cl + "');\"><span class=\"glyphicon glyphicon-saved\"></span></a>";
 
                         if (statusLog !== undefined && statusLog.action === "SOLICITUD AUTORIZAR REPORTE INCUMPLIMIENTO") {
-                            be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Rechazar reporte de incumplimiento\" onclick=\"window.rejectAccomplishment('" + cl + "');\"><span class=\"glyphicon glyphicon-remove-circle\"></span></a>";
+                            be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"  Rechazar reporte de incumplimiento\" onclick=\"window.rejectAccomplishment('" + cl + "');\"><span class=\"glyphicon glyphicon-remove-circle\"></span></a>";
                             be += "&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Autorizar reporte de incumplimiento\" onclick=\"window.authorizeAccomplishment('" + cl + "');\"><span class=\"glyphicon glyphicon-ok-circle\"></span></a>";
                         }
 

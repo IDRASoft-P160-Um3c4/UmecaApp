@@ -78,7 +78,7 @@
                                                                         <input class="ace"
                                                                                type="checkbox"
                                                                                ng-model="lstArrangements[$index].lock">
-                                                                        <span class="lbl col-xs-10">&nbsp;&nbsp;{{arrangment.name}}</span>
+                                                                        <span class="lbl col-xs-10">&nbsp;&nbsp;{{arrangment.name}} {{arrangment.description}}</span>
                                                                     </label>
                                                                 </div>
                                                             </div>
