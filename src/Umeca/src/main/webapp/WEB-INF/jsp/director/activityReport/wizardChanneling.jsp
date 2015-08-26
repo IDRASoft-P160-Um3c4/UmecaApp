@@ -1,7 +1,7 @@
 <script>
     $(document).ready(function () {
-        jQuery("#GridSupervisionId").jqGrid({
-            url: '<c:url value='/director/activityReport/listSupervision.json' />',
+        jQuery("#GridChannelingId").jqGrid({
+            url: "<c:url value='/director/activityReport/listChanneling.json' />",
             autoencode: true,
             datatype: "json",
             mtype: 'POST',
@@ -46,7 +46,7 @@
             ],
             rowNum: 100,
             rowList: [100, 200, 500, 1000],
-            pager: '#GridPagerSupervision',
+            pager: '#GridPagerChanneling',
             sortname: 'id',
             height: 350,
             viewrecords: true,
@@ -74,15 +74,15 @@
                     enableTooltips(table);
                 }, 0);
 
-                $("#idWizardSupervision").injector().invoke(function ($compile, $rootScope) {
-                    $compile($("#idWizardSupervision"))($rootScope);
+                $("#idWizardChanneling").injector().invoke(function ($compile, $rootScope) {
+                    $compile($("#idWizardChanneling"))($rootScope);
                     $rootScope.$apply();
                 });
 
             }
         });
 
-        jQuery("#GridSupervisionId").jqGrid('navGrid', '#GridPagerSupervision', {
+        jQuery("#GridChannelingId").jqGrid('navGrid', '#GridPagerChanneling', {
             edit: false,
             add: false,
             refresh: false,
@@ -90,7 +90,7 @@
             search: false
         });
 
-        jQuery("#GridSupervisionId").jqGrid('filterToolbar', {
+        jQuery("#GridChannelingId").jqGrid('filterToolbar', {
             stringResult: true,
             searchOperators: true,
             searchOnEnter: true,
@@ -101,23 +101,23 @@
 
 </script>
 
-<div class="row" ng-controller="wizardSupervisionController">
+<div class="row" ng-controller="wizardChannelingController">
     <div class="col-xs-12">
         <div class="widget-box transparent">
             <div class="widget-header">
-                <h4 class="widget-title">Actividades del coordinador de supervisi&oacute;n para agregar al informe</h4>
+                <h4 class="widget-title">Actividades del personal de canalizaciones para agregar al informe</h4>
             </div>
 
             <div class="widget-body">
                 <div class="widget-main padding-6 no-padding-left no-padding-right">
                     <div class="row">
                         <div class="col-xs-4 col-xs-offset-2">
-                            <button type="button" class="btn btn-success" ng-click="next('activity')">
+                            <button type="button" class="btn btn-success" ng-click="next('evaluation')">
                                 <i class="glyphicon glyphicon-backward"></i>&nbsp;&nbsp;Regresar
                             </button>
                         </div>
                         <div class="col-xs-4 element-right">
-                            <button type="button" class="btn btn-success" ng-click="next('evaluation')">
+                            <button type="button" class="btn btn-success" ng-click="next('project')">
                                 Siguiente&nbsp;&nbsp;<i class="glyphicon glyphicon-forward"></i></button>
                         </div>
                     </div>
@@ -168,14 +168,15 @@
                                 </div>
                             </div>
                             <div class="col-xs-3 element-center">
-                                <button type="button" class="btn btn-primary" ng-click="search('#GridSupervisionId')">
+                                <button type="button" class="btn btn-primary" ng-click="search('#GridChannelingId')">
                                     <i class="glyphicon glyphicon-search"></i>&nbsp;Buscar
                                 </button>
                             </div>
                         </div>
                     </div>
                     <div class="space-10"></div>
-                    <div ng-controller="wizardSupervisionController" id="idWizardSupervision">
+                    <div ng-controller="wizardChannelingController" id="idWizardChanneling">
+
                         <div class="row">
                             <div class="col-xs-4 col-xs-offset-2">
                                 <div class="checkbox i-checks col-xs-8">
@@ -186,9 +187,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="angJsjqGridSupervisionId" ng-controller="modalDlgController">
-                            <table id="GridSupervisionId" class="element-center" style="margin: auto"></table>
-                            <div id="GridPagerSupervision"></div>
+                        <div id="angJsjqGridChannelingId" ng-controller="modalDlgController">
+                            <table id="GridChannelingId" class="element-center" style="margin: auto"></table>
+                            <div id="GridPagerChanneling"></div>
                             <div class="blocker" ng-show="working">
                                 <div>
                                     Procesando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />"
@@ -200,12 +201,12 @@
                     <div class="space-10"></div>
                     <div class="row">
                         <div class="col-xs-4 col-xs-offset-2">
-                            <button type="button" class="btn btn-success" ng-click="next('activity')">
+                            <button type="button" class="btn btn-success" ng-click="next('evaluation')">
                                 <i class="glyphicon glyphicon-backward"></i>&nbsp;&nbsp;Regresar
                             </button>
                         </div>
                         <div class="col-xs-4 element-right">
-                            <button type="button" class="btn btn-success" ng-click="next('evaluation')">
+                            <button type="button" class="btn btn-success" ng-click="next('project')">
                                 Siguiente&nbsp;&nbsp;<i class="glyphicon glyphicon-forward"></i></button>
                         </div>
                     </div>

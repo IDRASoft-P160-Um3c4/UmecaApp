@@ -16,6 +16,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardEvaluation.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardDirector.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardProject.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardChanneling.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardHumanRes.js"></script>
 
     <script>
@@ -81,10 +82,10 @@
                                             Proyectos
                                         </a>
                                     </li>
-                                    <li ng-class="tabItem === 'organizations' ? 'active' : ''">
-                                        <a data-toggle="tab" ng-click="tabItem = 'organizations'" href="#organizations">
+                                    <li ng-class="tabItem === 'channeling' ? 'active' : ''">
+                                        <a data-toggle="tab" ng-click="tabItem = 'channeling'" href="#channeling">
                                             <i class="orange glyphicon glyphicon-user" style="margin-bottom: 7px !important;"></i>
-                                            Organizaciones civiles
+                                            Canalizaciones
                                         </a>
                                     </li>
                                     <li ng-class="tabItem === 'minute' ? 'active' : ''">
@@ -118,8 +119,8 @@
                                             <%@ include file="/WEB-INF/jsp/director/activityReport/wizardProject.jsp" %>
                                         </div>
 
-                                        <div id="organizations" ng-class="tabItem === 'organizations' ? 'tab-pane fade in active' : 'tab-pane fade'">
-                                            <p>oo</p>
+                                        <div id="channeling" ng-class="tabItem === 'channeling' ? 'tab-pane fade in active' : 'tab-pane fade'">
+                                            <%@ include file="/WEB-INF/jsp/director/activityReport/wizardChanneling.jsp" %>
                                         </div>
 
                                         <div id="minute" ng-class="tabItem === 'minute' ? 'tab-pane fade in active' : 'tab-pane fade'">

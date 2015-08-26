@@ -11,6 +11,7 @@ import com.umeca.model.entities.director.agenda.ActivityAgendaEndRequest;
 import com.umeca.model.entities.shared.activityReport.ActivityReport;
 import com.umeca.model.entities.shared.activityReport.ActivityReportRequest;
 import com.umeca.model.entities.shared.activityReport.ActivityReportView;
+import com.umeca.model.shared.Constants;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.ActivityReportService;
@@ -58,6 +59,8 @@ public class ActivityReportController {
 
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("userId", userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+        extraFilter = new JqGridRulesModel("reportFor", Integer.toString(Constants.ACT_REPORT_FOR_CHANNELING), JqGridFilterModel.COMPARE_NOT_EQUAL);
         opts.extraFilters.add(extraFilter);
         extraFilter = new JqGridRulesModel("isObsolete", "0", JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
