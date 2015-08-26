@@ -22,7 +22,7 @@
             var _1hourMil = 60 * (_1minMil);
             var _48hrsMil = 48 * (_1hourMil);
 
-            window.calcLeftTime = function (dateMil) {
+            window.calcLeftTime = function (dateMil,cl) {
                 var now = new Date();
                 var leftTime = "";
                 var diff = now.getTime() - dateMil;
@@ -42,9 +42,15 @@
                         sec = "0" + sec;
 
                     leftTime = hrs + ":" + mins + ":" + sec;
+
+                    if(hrs < 3 ){
+                        console.log("Faltan menos de 3 horas")
+                        $("#" + cl).css("background-color", "#FF9313");
+                    }
                 }
                 else {
                     leftTime = "El plazo ha vencido.";
+                    $("#" + cl).css("background-color", "#FF3617");
                 }
                 return leftTime;
             };
@@ -82,7 +88,7 @@
                         var cl = ids[i];
                         var row = $(this).getRowData(cl);
                         var mil = row.detentionDateMil;
-                        var result = window.calcLeftTime(mil);
+                        var result = window.calcLeftTime(mil,cl);
                         $(this).jqGrid('setRowData', ids[i], {leftTime: result});
                     }
                 },
@@ -128,6 +134,12 @@
                 Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
             </div>
         </div>
+    </div>
+    <div class="col-xs-12 element-center">
+        Plazo vencido:
+        <span class="glyphicon glyphicon-stop" style="color:#FF3617; font-size: 15px;"  aria-hidden="true"></span>
+        Menos de 3 horas:
+        <span class="glyphicon glyphicon-stop" style="color:#FF9313; font-size: 15px;"  aria-hidden="true"></span>
     </div>
 
     <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
