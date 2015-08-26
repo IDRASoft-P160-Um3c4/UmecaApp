@@ -216,7 +216,19 @@
                         </li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
-
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-list"></i>
+                                &nbsp;&nbsp;Tablero
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a
+                                        href="<c:url value='/managereval/handingOver/index.html'/>"><i
+                                        class="glyphicon icon-bell"></i>&nbsp;&nbsp;Puesta a disposici&oacute;n</a>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="nav-li-blue"><a href="<c:url value='/managereval/formulation/index.html' />"><i
                                 class="icon icon-calendar"></i>&nbsp;&nbsp;Cita formulaci&oacute;n</a></li>
 

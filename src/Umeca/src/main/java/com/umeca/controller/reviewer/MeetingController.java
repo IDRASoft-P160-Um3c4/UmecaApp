@@ -668,7 +668,7 @@ public class MeetingController {
     }
 
 
-    @RequestMapping(value = "/reviewer/handingOver/index", method = RequestMethod.GET)
+    @RequestMapping(value = {"/reviewer/handingOver/index","/reviewer/handingOver/index"}, method = RequestMethod.GET)
     public
     @ResponseBody
     ModelAndView handingOverIndex() {
