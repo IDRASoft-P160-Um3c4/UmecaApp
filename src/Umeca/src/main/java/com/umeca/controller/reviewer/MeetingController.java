@@ -18,7 +18,9 @@ import com.umeca.model.entities.reviewer.View.MeetingView;
 import com.umeca.model.entities.reviewer.View.PersonSocialNetworkView;
 import com.umeca.model.shared.ConsMessage;
 import com.umeca.model.shared.Constants;
+import com.umeca.repository.CaseRepository;
 import com.umeca.repository.managereval.FormulationRepository;
+import com.umeca.repository.reviewer.MeetingRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.MeetingService;
 import com.umeca.service.reviewer.ScheduleService;
@@ -31,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.persistence.criteria.*;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -44,7 +47,7 @@ public class MeetingController {
         return "/reviewer/meeting/index";
     }
 
-    @RequestMapping(value = "/reviewer/meeting/declined", method = RequestMethod.GET)
+    @RequestMapping(value = {"/reviewer/meeting/declined","/reviewer/formulation/declined"}, method = RequestMethod.GET)
     public String decline() {
         return "/reviewer/declined/index";
     }
@@ -62,6 +65,9 @@ public class MeetingController {
 
     @Autowired
     FormulationRepository formulationRepository;
+
+    @Autowired
+    CaseRepository caseRepository;
 
     @RequestMapping(value = "/reviewer/meeting/list", method = RequestMethod.POST)
     public
@@ -445,6 +451,9 @@ public class MeetingController {
         Long idCase = meetingService.createMeeting(imputed);
         ResponseMessage result = new ResponseMessage(false, "Se ha guardado exitosamente");
         if(imputed.getMeeting().getDeclineReason() != null){
+            Case c = caseRepository.findOne(idCase);
+            c.setDateNotProsecute(new Date());
+            caseRepository.save(c);
             result.setUrlToGo("declined.html");
         }else {
             result.setUrlToGo("meeting.html?id=" + idCase);
@@ -668,7 +677,7 @@ public class MeetingController {
     }
 
 
-    @RequestMapping(value = {"/reviewer/handingOver/index","/reviewer/handingOver/index"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/reviewer/handingOver/index","/managereval/handingOver/index"}, method = RequestMethod.GET)
     public
     @ResponseBody
     ModelAndView handingOverIndex() {
