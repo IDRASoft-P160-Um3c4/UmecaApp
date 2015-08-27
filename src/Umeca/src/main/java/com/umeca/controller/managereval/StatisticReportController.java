@@ -3,6 +3,7 @@ package com.umeca.controller.managereval;
 import com.google.gson.Gson;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.shared.SelectList;
+import com.umeca.repository.EventRepository;
 import com.umeca.repository.catalog.StatisticReportTypeRepository;
 import com.umeca.repository.managereval.EvaluationActivityRepository;
 import com.umeca.service.account.SharedUserService;
@@ -27,6 +28,8 @@ public class StatisticReportController {
     SharedUserService sharedUserService;
     @Autowired
     StatisticReportTypeRepository statisticReportTypeRepository;
+    @Autowired
+    EventRepository eventRepository;
 
 
 
@@ -64,6 +67,14 @@ public class StatisticReportController {
 
         return responseMessage;
     }
+
+
+    @RequestMapping(value = "/managereval/statisticReport/testd3", method = RequestMethod.GET)
+    public ModelAndView testd3() {
+        ModelAndView model = new ModelAndView("/managereval/statisticReport/testd3");
+        return model;
+    }
+
 
 
 
