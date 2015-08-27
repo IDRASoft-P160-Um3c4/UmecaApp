@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -66,5 +67,25 @@ public class EventServiceImpl implements EventService {
             e.printStackTrace();
 
         }
+    }
+
+    @Override
+    public Boolean caseHasEvent(String eventCode, Long idCase) {
+        List<Event> events;
+        try{
+            events = eventRepository.getEventsFromCase(idCase);
+            for(Event event : events){
+                if(event.getEventType().getName().equals(eventCode))
+                {
+                    return true;
+                }
+            }
+        }
+        catch (Exception e){
+            logException.Write(e, this.getClass(), "addEvent", sharedUserService);
+            e.printStackTrace();
+
+        }
+        return false;
     }
 }

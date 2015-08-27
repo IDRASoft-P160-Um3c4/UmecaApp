@@ -64,11 +64,11 @@ public class CaseReportController {
         JqGridRulesModel extraFilter = new JqGridRulesModel("reviewerId", userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
 
-        JqGridRulesModel extraFilter2 =new JqGridRulesModel("statusCode", Constants.S_MEETING_COMPLETE, JqGridFilterModel.COMPARE_EQUAL);
-        opts.extraFilters.add(extraFilter2);
+     //   JqGridRulesModel extraFilter2 =new JqGridRulesModel("statusCode", Constants.S_MEETING_COMPLETE, JqGridFilterModel.COMPARE_EQUAL);
+     //   opts.extraFilters.add(extraFilter2);
 
-        JqGridRulesModel extraFilter3 =new JqGridRulesModel("statusCase", Constants.CASE_STATUS_NOT_PROSECUTE, JqGridFilterModel.COMPARE_EQUAL);
-        opts.extraFilters.add(extraFilter3);
+      //  JqGridRulesModel extraFilter3 =new JqGridRulesModel("statusCase", Constants.CASE_STATUS_NOT_PROSECUTE, JqGridFilterModel.COMPARE_EQUAL);
+      //  opts.extraFilters.add(extraFilter3);
 
         JqGridRulesModel extraFilter4 =new JqGridRulesModel("eventCode", Constants.EVENT_CASE_REPORT, JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter4);

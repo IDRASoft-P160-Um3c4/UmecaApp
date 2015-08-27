@@ -102,7 +102,8 @@
                                                 <div class="row">
                                                     <div class="col-xs-8 col-xs-offset-3">
                                                         <div class="checkbox">
-                                                            <input type="checkbox" ng-model="m.reportFor" ng-init="m.reportFor = true;" />
+                                                            <input type="checkbox" ng-model="reportForChk" ng-init="reportForChk = true;" ng-change="m.reportFor = (reportForChk ? 1 : 0)"/>
+                                                            <input type="hidden" ng-model="m.reportFor" ng-init="m.reportFor = 1;" />
                                                             <span class="lbl"> &iquest;Disponible para direcci&oacute;n?</span>
                                                         </div>
                                                     </div>

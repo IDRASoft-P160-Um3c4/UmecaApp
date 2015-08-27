@@ -31,6 +31,7 @@ import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.shared.CrimeService;
+import com.umeca.service.shared.EventService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.shared.UpDwFileService;
 import com.umeca.service.supervisor.FramingMeetingService;
@@ -116,6 +117,9 @@ public class FramingMeetingController {
 
     @Autowired
     private InformationAvailabilityRepository informationAvailabilityRepository;
+
+    @Autowired
+    private EventService eventService;
 
     @RequestMapping(value = "/supervisor/framingMeeting/index", method = RequestMethod.GET)
     public String index() {
@@ -287,7 +291,9 @@ public class FramingMeetingController {
 
             model.addObject("hasTR", caseDet.getTechnicalReview() != null);
             model.addObject("listCrime", crimeService.getListCrimeHearingformatByCase(id));
-
+            model.addObject("isFromFormulation",eventService.caseHasEvent(Constants.EVENT_FROM_FORMULATION, caseDet.getId()));
+            model.addObject("interviewDeclined",eventService.caseHasEvent(Constants.EVENT_INTERVIEW_DECLINED, caseDet.getId()));
+            model.addObject("caseReport",eventService.caseHasEvent(Constants.EVENT_CASE_REPORT, caseDet.getId()));
             model.addObject("lstCL", new Gson().toJson(technicalReviewRepository.getCommunityLinksByCaseId(id)));
             model.addObject("lstPR", new Gson().toJson(technicalReviewRepository.getProceduralRiskByCaseId(id)));
             model.addObject("lstInfoAvail", new Gson().toJson(informationAvailabilityRepository.findNoObsolete()));

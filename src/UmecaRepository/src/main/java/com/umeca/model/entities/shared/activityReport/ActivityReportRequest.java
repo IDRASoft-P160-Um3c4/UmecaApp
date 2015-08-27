@@ -4,7 +4,7 @@ public class ActivityReportRequest {
 
     private String reportName;
     private String description;
-    private Boolean reportFor;
+    private Integer reportFor;
     private Long fileUploadGenericId;
 
     public String getReportName() {
@@ -23,11 +23,11 @@ public class ActivityReportRequest {
         this.description = description;
     }
 
-    public Boolean getReportFor() {
+    public Integer getReportFor() {
         return reportFor;
     }
 
-    public void setReportFor(Boolean reportFor) {
+    public void setReportFor(Integer reportFor) {
         this.reportFor = reportFor;
     }
 
