@@ -11,12 +11,12 @@
             },            colNames: ['ID', 'Agregar', 'Proyecto','Actividad','Descripci&oacute;n', 'Fecha', 'Estatus'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
-                { name: 'Action', width: 110, align: "center", sortable: false, search: false,formatter:window.actionFormatter},
-                { name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', search: false },
-                { name: 'activityName', index: 'activityName', width: 250, align: "center", sorttype: 'string', search: false },
-                { name: 'activityDescription', index: 'activityDescription', width: 400, align: "center", sorttype: 'string', search: false },
+                { name: 'Action', width: 90, align: "center", sortable: false, search: false,formatter:window.actionFormatter},
+                { name: 'name', index: 'name', width: 180, align: "center", sorttype: 'string', search: false },
+                { name: 'activityName', index: 'activityName', width: 240, align: "center", sorttype: 'string', search: false },
+                { name: 'activityDescription', index: 'activityDescription', width: 370, align: "center", sorttype: 'string', search: false },
                 { name: 'stCreationDate', index: 'stCreationDate', width: 150, align: "center", sorttype: 'string', search: false },
-                { name: 'status', index: 'status', width: 120, align: "center", sorttype: 'string', search: false }
+                { name: 'status', index: 'status', width: 110, align: "center", sorttype: 'string', search: false }
             ],
             rowNum: 100,
             rowList: [100, 200, 500, 1000],
@@ -74,7 +74,7 @@
 
 </script>
 
-<div class="row" ng-controller="wizardProjectController" id="idWizardProject" >
+<div class="row" ng-controller="wizardProjectController" >
     <div class="col-xs-12">
         <div class="widget-box transparent">
             <div class="widget-header">
@@ -89,7 +89,7 @@
                                 <i class="glyphicon glyphicon-backward"></i>&nbsp;&nbsp;Regresar</button>
                         </div>
                         <div class="col-xs-4 element-right">
-                            <button type="button" class="btn btn-success" ng-click="next('organizations')">
+                            <button type="button" class="btn btn-success" ng-click="next('channeling')">
                                 Siguiente&nbsp;&nbsp;<i class="glyphicon glyphicon-forward"></i></button>
                         </div>
                     </div>
@@ -142,21 +142,23 @@
                         </div>
                     </div>
                     <div class="space-10"></div>
-                    <div class="row">
-                        <div class="col-xs-4 col-xs-offset-2">
-                            <div class="checkbox i-checks col-xs-8">
-                                <label>
-                                    <input type="checkbox" ng-model="m.selectAll" ng-change="selectAll()" > Agregar todos
-                                </label>
+                    <div ng-controller="wizardProjectController" id="idWizardProject">
+                        <div class="row">
+                            <div class="col-xs-4 col-xs-offset-2">
+                                <div class="checkbox i-checks col-xs-8">
+                                    <label class="col-xs-11 col-xs-offset-1">
+                                        <input type="checkbox" ng-model="m.selectAll" ng-change="selectAll()" > Agregar todos
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="angJsjqGridProjectId" ng-controller="modalDlgController">
-                        <table id="GridProjectId" class="element-center" style="margin: auto"></table>
-                        <div id="GridPagerProject"></div>
-                        <div class="blocker" ng-show="working">
-                            <div>
-                                Procesando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
+                        <div id="angJsjqGridProjectId" ng-controller="modalDlgController">
+                            <table id="GridProjectId" class="element-center" style="margin: auto"></table>
+                            <div id="GridPagerProject"></div>
+                            <div class="blocker" ng-show="working">
+                                <div>
+                                    Procesando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -167,7 +169,7 @@
                                 <i class="glyphicon glyphicon-backward"></i>&nbsp;&nbsp;Regresar</button>
                         </div>
                         <div class="col-xs-4 element-right">
-                            <button type="button" class="btn btn-success" ng-click="next('organizations')">
+                            <button type="button" class="btn btn-success" ng-click="next('channeling')">
                                 Siguiente&nbsp;&nbsp;<i class="glyphicon glyphicon-forward"></i></button>
                         </div>
                     </div>

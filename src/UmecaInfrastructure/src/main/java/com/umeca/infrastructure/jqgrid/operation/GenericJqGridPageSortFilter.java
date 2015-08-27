@@ -13,12 +13,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Project: Umeca
- * User: Israel
- * Date: 5/2/14
- * Time: 4:59 PM
- */
 
 @Repository("genericJqGridPageSortFilter")
 public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
@@ -26,134 +20,137 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
     @PersistenceContext(unitName = "punit")
     private javax.persistence.EntityManager entityManager;
 
-    public JqGridResultModel find(JqGridFilterModel opts, SelectFilterFields selFil, Class<T> tClass, Class<V> vClass){
-        JqGridResultModel result = new JqGridResultModel();
+    public JqGridResultModel find(JqGridFilterModel opts, SelectFilterFields selFil, Class<T> tClass, Class<V> vClass) {
+        try {
 
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<V> cq = cb.createQuery(vClass);
+            JqGridResultModel result = new JqGridResultModel();
 
-        Root<T> r = cq.from(tClass);
-        cq.multiselect(selFil.getFields(r));
+            CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+            CriteriaQuery<V> cq = cb.createQuery(vClass);
 
-        if(StringExt.isNullOrWhiteSpace(opts.getSord()) == false && StringExt.isNullOrWhiteSpace(opts.getSidx())== false){
-            if(opts.getSord().trim().toLowerCase().equals(EntitySpecification.JQGRID_ASC)){
-                cq.orderBy(cb.asc(selectExpression(r, opts.getSidx(), selFil)));
-            }
-            else{
-                cq.orderBy(cb.desc(selectExpression(r, opts.getSidx(), selFil)));
-            }
-        }
+            Root<T> r = cq.from(tClass);
+            cq.multiselect(selFil.getFields(r));
 
-        Long totalRecords = criteriaCount(cb, opts, tClass, selFil);
-
-        buildQuery(cb, cq, r, opts, selFil);
-
-        Long numRows = opts.getRows() > 0 ? opts.getRows() : 1l;
-        TypedQuery<V> tqData = entityManager.createQuery(cq);
-        tqData.setFirstResult((opts.getPage()-1) * opts.getRows());
-        tqData.setMaxResults(opts.getRows());
-
-        List<V> lstEnt = tqData.getResultList();
-
-        List<JqGridRowsModel> rows = new ArrayList<>();
-
-        for(EntityGrid entity : lstEnt){
-            boolean cn = false;
-            JqGridRowsModel row = new JqGridRowsModel();
-            row.setId(entity.getId());
-            row.setCell(entity);
-            for (JqGridRowsModel rs : rows){
-                if (rs.getId() == row.getId()){
-                    cn = true;
-                    if (vClass.getName() == ManagerevalView.class.getName()){
-                        ManagerevalView mev = (ManagerevalView)entity;
-                        ManagerevalView rsv = (ManagerevalView)rs.getCell();
-                        rsv.setCrime(rsv.getCrime() + ", " + mev.getCrime());
-                    }
-                    break;
+            if (StringExt.isNullOrWhiteSpace(opts.getSord()) == false && StringExt.isNullOrWhiteSpace(opts.getSidx()) == false) {
+                if (opts.getSord().trim().toLowerCase().equals(EntitySpecification.JQGRID_ASC)) {
+                    cq.orderBy(cb.asc(selectExpression(r, opts.getSidx(), selFil)));
+                } else {
+                    cq.orderBy(cb.desc(selectExpression(r, opts.getSidx(), selFil)));
                 }
             }
 
-            if (!cn)
-                rows.add(row);
+            Long totalRecords = criteriaCount(cb, opts, tClass, selFil);
+
+            buildQuery(cb, cq, r, opts, selFil);
+
+            Long numRows = opts.getRows() > 0 ? opts.getRows() : 1l;
+            TypedQuery<V> tqData = entityManager.createQuery(cq);
+            tqData.setFirstResult((opts.getPage() - 1) * opts.getRows());
+            tqData.setMaxResults(opts.getRows());
+
+            List<V> lstEnt = tqData.getResultList();
+
+            List<JqGridRowsModel> rows = new ArrayList<>();
+
+            for (EntityGrid entity : lstEnt) {
+                boolean cn = false;
+                JqGridRowsModel row = new JqGridRowsModel();
+                row.setId(entity.getId());
+                row.setCell(entity);
+                for (JqGridRowsModel rs : rows) {
+                    if (rs.getId() == row.getId()) {
+                        cn = true;
+                        if (vClass.getName() == ManagerevalView.class.getName()) {
+                            ManagerevalView mev = (ManagerevalView) entity;
+                            ManagerevalView rsv = (ManagerevalView) rs.getCell();
+                            rsv.setCrime(rsv.getCrime() + ", " + mev.getCrime());
+                        }
+                        break;
+                    }
+                }
+
+                if (!cn)
+                    rows.add(row);
+            }
+
+            result.setTotal((int) (totalRecords / numRows) + 1);
+            result.setPage(opts.getPage());
+            result.setRecords(totalRecords);
+            result.setRows(rows);
+
+            return result;
+        } catch (Exception e) {
+            return null;
         }
-
-        result.setTotal((int)(totalRecords / numRows) + 1);
-        result.setPage(opts.getPage());
-        result.setRecords(totalRecords);
-        result.setRows(rows);
-
-        return result;
     }
 
-    public JqGridResultModel find(JqGridFilterModel opts, SelectFilterFields selFil, boolean distinct,  Class<T> tClass, Class<V> vClass){
-        try{
-        JqGridResultModel result = new JqGridResultModel();
+    public JqGridResultModel find(JqGridFilterModel opts, SelectFilterFields selFil, boolean distinct, Class<T> tClass, Class<V> vClass) {
+        try {
+            JqGridResultModel result = new JqGridResultModel();
 
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<V> cq = cb.createQuery(vClass);
+            CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+            CriteriaQuery<V> cq = cb.createQuery(vClass);
 
-        Root<T> r = cq.from(tClass);
-        cq.multiselect(selFil.getFields(r));
-        cq.distinct(distinct);
+            Root<T> r = cq.from(tClass);
+            cq.multiselect(selFil.getFields(r));
+            cq.distinct(distinct);
 
-        if(StringExt.isNullOrWhiteSpace(opts.getSord()) == false && StringExt.isNullOrWhiteSpace(opts.getSidx())== false){
-            if(opts.getSord().trim().toLowerCase().equals(EntitySpecification.JQGRID_ASC)){
-                cq.orderBy(cb.asc(selectExpression(r, opts.getSidx(), selFil)));
-            }
-            else{
-                cq.orderBy(cb.desc(selectExpression(r, opts.getSidx(), selFil)));
-            }
-        }
-
-        Long totalRecords = criteriaCount(cb, opts, tClass, selFil);
-
-        buildQuery(cb, cq, r, opts, selFil);
-
-        Long numRows = opts.getRows() > 0 ? opts.getRows() : 1l;
-        TypedQuery<V> tqData = entityManager.createQuery(cq);
-        tqData.setFirstResult((opts.getPage()-1) * opts.getRows());
-        tqData.setMaxResults(opts.getRows());
-
-        List<V> lstEnt = tqData.getResultList();
-
-        List<JqGridRowsModel> rows = new ArrayList<>();
-
-        for(EntityGrid entity : lstEnt){
-            boolean cn = false;
-            JqGridRowsModel row = new JqGridRowsModel();
-            row.setId(entity.getId());
-            row.setCell(entity);
-            for (JqGridRowsModel rs : rows){
-                if (rs.getId() == row.getId()){
-                    cn = true;
-                    if (vClass.getName() == ManagerevalView.class.getName()){
-                        ManagerevalView mev = (ManagerevalView)entity;
-                        ManagerevalView rsv = (ManagerevalView)rs.getCell();
-                        rsv.setCrime(rsv.getCrime() + ", " + mev.getCrime());
-                    }
-                    break;
+            if (StringExt.isNullOrWhiteSpace(opts.getSord()) == false && StringExt.isNullOrWhiteSpace(opts.getSidx()) == false) {
+                if (opts.getSord().trim().toLowerCase().equals(EntitySpecification.JQGRID_ASC)) {
+                    cq.orderBy(cb.asc(selectExpression(r, opts.getSidx(), selFil)));
+                } else {
+                    cq.orderBy(cb.desc(selectExpression(r, opts.getSidx(), selFil)));
                 }
             }
 
-            if (!cn)
-                rows.add(row);
-        }
+            Long totalRecords = criteriaCount(cb, opts, tClass, selFil);
 
-        result.setTotal((int)(totalRecords / numRows) + 1);
-        result.setPage(opts.getPage());
-        result.setRecords(totalRecords);
-        result.setRows(rows);
+            buildQuery(cb, cq, r, opts, selFil);
 
-        return result;
-        }catch (Exception e){
-            return  null;
+            Long numRows = opts.getRows() > 0 ? opts.getRows() : 1l;
+            TypedQuery<V> tqData = entityManager.createQuery(cq);
+            tqData.setFirstResult((opts.getPage() - 1) * opts.getRows());
+            tqData.setMaxResults(opts.getRows());
+
+            List<V> lstEnt = tqData.getResultList();
+
+            List<JqGridRowsModel> rows = new ArrayList<>();
+
+            for (EntityGrid entity : lstEnt) {
+                boolean cn = false;
+                JqGridRowsModel row = new JqGridRowsModel();
+                row.setId(entity.getId());
+                row.setCell(entity);
+                for (JqGridRowsModel rs : rows) {
+                    if (rs.getId() == row.getId()) {
+                        cn = true;
+                        if (vClass.getName() == ManagerevalView.class.getName()) {
+                            ManagerevalView mev = (ManagerevalView) entity;
+                            ManagerevalView rsv = (ManagerevalView) rs.getCell();
+                            rsv.setCrime(rsv.getCrime() + ", " + mev.getCrime());
+                        }
+                        break;
+                    }
+                }
+
+                if (!cn)
+                    rows.add(row);
+            }
+
+            result.setTotal((int) (totalRecords / numRows) + 1);
+            result.setPage(opts.getPage());
+            result.setRecords(totalRecords);
+            result.setRows(rows);
+
+            return result;
+        } catch (Exception e) {
+            return null;
         }
     }
 
     private Expression<?> selectExpression(Root<T> r, String field, SelectFilterFields selFil) {
         Expression<String> exp = selFil.setFilterField(r, field);
-        if(exp == null)
+        if (exp == null)
             exp = r.get(field);
         return exp;
     }
@@ -172,40 +169,40 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
     private void buildQuery(CriteriaBuilder cb, CriteriaQuery<?> cq, Root<T> r, JqGridFilterModel opts, SelectFilterFields selFil) {
         JqGridMultipleFilterModel filter = null;
 
-        if(opts == null || (StringExt.isNullOrWhiteSpace(opts.filters) && opts.extraFilters == null))
+        if (opts == null || (StringExt.isNullOrWhiteSpace(opts.filters) && opts.extraFilters == null))
             return;
 
-        try{
+        try {
             Predicate p = cb.conjunction();
 
-            if(StringExt.isNullOrWhiteSpace(opts.filters) == false){
+            if (StringExt.isNullOrWhiteSpace(opts.filters) == false) {
                 filter = JqgridObjectMapper.map(opts.filters);
             }
 
-            if(opts.extraFilters != null){
-                if(filter == null){
+            if (opts.extraFilters != null) {
+                if (filter == null) {
                     filter = new JqGridMultipleFilterModel();
                     filter.setRules(new ArrayList<JqGridRulesModel>());
                 }
                 filter.getRules().addAll(opts.extraFilters);
             }
 
-            for(JqGridRulesModel rule : filter.getRules()){
+            for (JqGridRulesModel rule : filter.getRules()) {
                 //Por ahora sólo se aplican AND (conjuntion) entre las reglas y el operador LIKE (Búsqueda de comienza con...)
                 Expression<String> exp = selFil.setFilterField(r, rule.field);
 
-                if(exp == null)
+                if (exp == null)
                     exp = r.get(rule.field).as(String.class);
 
-                switch (rule.op){
+                switch (rule.op) {
                     case JqGridFilterModel.COMPARE_EQUAL:
-                        if(rule.bData!=null)//se agrega para comparar valores booleanos
+                        if (rule.bData != null)//se agrega para comparar valores booleanos
                             p.getExpressions().add(cb.equal(exp, rule.bData));
                         else
                             p.getExpressions().add(cb.equal(exp, rule.data));
                         break;
                     case JqGridFilterModel.COMPARE_NOT_EQUAL:
-                            p.getExpressions().add(cb.notEqual(exp, rule.data));
+                        p.getExpressions().add(cb.notEqual(exp, rule.data));
                         break;
                     case JqGridFilterModel.COMPARE_IN:
                         Predicate pIn = exp.in(rule.lstInOp);
@@ -216,7 +213,7 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
                         p.getExpressions().add(pNotIn);
                         break;
                     case JqGridFilterModel.COMPARE_LEFT_JOIN_EQUAL:
-                        Predicate pOr = cb.or(cb.equal(exp,rule.data),exp.isNull());
+                        Predicate pOr = cb.or(cb.equal(exp, rule.data), exp.isNull());
                         p.getExpressions().add(pOr);
                         break;
                     case JqGridFilterModel.BETWEEN:
@@ -236,7 +233,7 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
             }
 
             cq.where(p);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             return;
         }
     }
