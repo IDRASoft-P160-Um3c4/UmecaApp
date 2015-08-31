@@ -9,6 +9,11 @@ app.controller('wizardDirectorController', function ($scope, $rootScope) {
     };
 
     $scope.change = function(check, val){
+        $scope.send();
+    };
+
+    $scope.send = function(){
+        $rootScope.$broadcast("onChange", {key: "management", value: $scope.m.lstAct});
     };
 
     $scope.selectAll = function(){
@@ -19,9 +24,6 @@ app.controller('wizardDirectorController', function ($scope, $rootScope) {
         $scope.$emit("onNextTab", tabName);
     };
 
-    $scope.prev = function (tabName) {
-        $scope.$emit("onPrevTab", tabName);
-    };
 
     $scope.$on("selectAllDirectorAct", function(ev, data){
         var obj = $scope.m.lstAct;
@@ -29,5 +31,6 @@ app.controller('wizardDirectorController', function ($scope, $rootScope) {
             var attrName = key;
             obj[key] = $scope.m.selectAll;
         }
+        $scope.send();
     });
 });

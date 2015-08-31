@@ -24,18 +24,30 @@
             window.goToUrlMvcUrl("<c:url value='/director/activityReport/wizardUpsert.html?id=idParam'/>",params);
         };
 
+        window.downloadFiles = function(id) {
+            var params= [];
+            params["idParam"]=id;
+            window.goToNewUrl("<c:url value='/director/activityReport/downloadFiles.html?id=idParam'/>",params);
+        };
+
+        window.delete = function (id) {
+            window.showObsolete(id, "#angJsjqGridId", '<c:url value='/director/activityReport/doObsolete.json' />', "#GridId");
+        };
+
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
                 url: '<c:url value='/director/activityReport/list.json' />',
                 autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'Nombre', 'Descripci&oacute;n', 'Fecha de subida', 'Acci&oacute;n'],
+                colNames: ['ID', 'Fecha del reporte', 'Nombre', 'Descripci&oacute;n', 'Fecha de creaci&oacute;n', 'Usuario', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
-                    { name: 'reportName', index: 'reportName', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'description', index: 'description', width: 450, align: "center", sorttype: 'string', search: false },
+                    { name: 'stReportDate', index: 'stReportDate', width: 150, align: "center", sorttype: 'string', search: false },
+                    { name: 'reportName', index: 'reportName', width: 250, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'reportDescription', index: 'reportDescription', width: 400, align: "center", sorttype: 'string', search: false },
                     { name: 'stCreationDate', index: 'stCreationDate', width: 150, align: "center", sorttype: 'string', search: false },
+                    { name: 'creatorUserName', index: 'creatorUserName', width: 150, align: "center", sorttype: 'string', search: false },
                     { name: 'Action', width: 110, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                 ],
                 rowNum: 10,
@@ -56,8 +68,8 @@
                         var status = parseInt(row.status);
                         var be = "";
 
-                        be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar archivo del informe de actividades\" onclick=\"window.upsert('" + cl + "');\"><i class=\"glyphicon glyphicon-cloud-download\"></i></a>  ";
-                        be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar informe de actividades\" onclick=\"window.delete('" + cl + "');\"><i class=\"icon icon-trash\"></i></a>  ";
+                        be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar el informe de actividades\" onclick=\"window.downloadFiles('" + cl + "');\"><i class=\"glyphicon glyphicon-cloud-download\"></i></a>  ";
+                        be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar el informe de actividades\" onclick=\"window.delete('" + cl + "');\"><i class=\"icon icon-trash\"></i></a>  ";
 
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }

@@ -61,7 +61,7 @@
                         dataToSend = data;
                     }
                 }
-                $scope.doPost(dataToSend, urlToGo, def);
+                $scope.doPost(dataToSend, urlToGo, def, choiceA);
             }, def.reject);
         return def.promise;
     };
@@ -97,7 +97,7 @@
         return def.promise;
     };
 
-    $scope.doPost = function (data, urlToGo, def) {
+    $scope.doPost = function (data, urlToGo, def, setts) {
         var settings = {
             dataType: "json",
             type: "POST",
@@ -125,6 +125,9 @@
                     }).then(function () { def.reject({ isError: true }); });
             }
         };
+
+        if(setts && setts.contentType)
+            settings.contentType = setts.contentType;
 
         $.ajax(settings);
     };

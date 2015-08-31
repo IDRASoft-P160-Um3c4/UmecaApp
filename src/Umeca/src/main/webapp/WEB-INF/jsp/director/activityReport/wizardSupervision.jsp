@@ -62,7 +62,7 @@
                     var status = parseInt(row.status);
                     var be = "";
 
-                    be += "<input type='checkbox' ng-model='m.lstAct.c" + cl + "' ng-init='m.lstAct.c" + cl + " = false;' ng-change='change(m.lstAct.c" + cl + ", " + cl + ")' value='" + cl + "'/>  ";
+                    be += "<input type='checkbox' ng-model='m.lstAct.c" + cl + "' ng-init='m.lstAct.c" + cl + " = false;' ng-change='change(m.lstAct.c" + cl + ", " + JSON.stringify(row) + ")' value='" + cl + "'/>  ";
 
                     $(this).jqGrid('setRowData', ids[i], {Action: be});
                 }

@@ -9,6 +9,15 @@ app.controller('wizardHumanResController', function ($scope, $rootScope) {
     };
 
     $scope.change = function(check, val){
+        $scope.send();
+    };
+
+    $scope.send = function(){
+        $rootScope.$broadcast("onChange", {key: "minute", value: $scope.m.lstAct});
+    };
+
+    $scope.end = function(){
+        $scope.$emit("onFinish");
     };
 
     $scope.selectAll = function(){
@@ -19,15 +28,12 @@ app.controller('wizardHumanResController', function ($scope, $rootScope) {
         $scope.$emit("onNextTab", tabName);
     }
 
-    $scope.prev = function (tabName) {
-        $scope.$emit("onPrevTab", tabName);
-    }
-
     $scope.$on("selectAllHumanResAct", function(ev, data){
         var obj = $scope.m.lstAct;
         for(var key in obj){
             var attrName = key;
             obj[key] = $scope.m.selectAll;
         }
+        $scope.send();
     });
 });

@@ -104,7 +104,12 @@
             <div class="widget-body">
                 <div class="widget-main padding-6 no-padding-left no-padding-right">
                     <div class="row">
-                        <div class="col-xs-4 col-xs-offset-6 element-right">
+                        <div class="col-xs-4 col-xs-offset-2">
+                            <button type="button" class="btn btn-success" ng-click="next('report')">
+                                <i class="glyphicon glyphicon-backward"></i>&nbsp;&nbsp;Regresar
+                            </button>
+                        </div>
+                        <div class="col-xs-4 element-right">
                             <button type="button" class="btn btn-success" ng-click="next('supervision')">
                                 Siguiente&nbsp;&nbsp;<i class="glyphicon glyphicon-forward"></i></button>
                         </div>
@@ -178,8 +183,7 @@
                             <div id="GridPagerActivity"></div>
                             <div class="blocker" ng-show="working">
                                 <div>
-                                    Procesando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />"
-                                                      alt=""/>
+                                    Procesando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
                                 </div>
                             </div>
                         </div>
@@ -187,6 +191,9 @@
                     <div class="space-10"></div>
                     <div class="row">
                         <div class="col-xs-4 col-xs-offset-2">
+                            <button type="button" class="btn btn-success" ng-click="next('report')">
+                                <i class="glyphicon glyphicon-backward"></i>&nbsp;&nbsp;Regresar
+                            </button>
                         </div>
                         <div class="col-xs-4 element-right">
                             <button type="button" class="btn btn-success" ng-click="next('supervision')">

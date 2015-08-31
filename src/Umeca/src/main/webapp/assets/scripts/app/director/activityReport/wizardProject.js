@@ -9,6 +9,11 @@ app.controller('wizardProjectController', function ($scope, $rootScope) {
     };
 
     $scope.change = function(check, val){
+        $scope.send();
+    };
+
+    $scope.send = function(){
+        $rootScope.$broadcast("onChange", {key: "project", value: $scope.m.lstAct});
     };
 
     $scope.selectAll = function(){
@@ -19,15 +24,12 @@ app.controller('wizardProjectController', function ($scope, $rootScope) {
         $scope.$emit("onNextTab", tabName);
     }
 
-    $scope.prev = function (tabName) {
-        $scope.$emit("onPrevTab", tabName);
-    }
-
     $scope.$on("selectAllProjectAct", function(ev, data){
         var obj = $scope.m.lstAct;
         for(var key in obj){
             var attrName = key;
             obj[key] = $scope.m.selectAll;
         }
+        $scope.send();
     });
 });
