@@ -47,6 +47,7 @@ public class StatisticReportController {
     public ModelAndView showReport(String initDate, String endDate, String filterSelected) {
         ModelAndView model = new ModelAndView("/managereval/statisticReport/showReport");
 
+        Long total = Long.valueOf(0);
         Date initDateF = null;
         Date endDateF = null;
         int initId = 0;
@@ -63,13 +64,20 @@ public class StatisticReportController {
 
 
             List<SelectList> data = statisticReportService.getData(initId, endId, filterSelected);
+            for ( SelectList temp : data ) {
+                total += temp.getValue();
+            }
 
             Gson gson = new Gson();
+            model.addObject("initDate", initDate.toString());
+            model.addObject("endDate", endDate.toString());
+            model.addObject("total", total);
             model.addObject("data", gson.toJson(data));
 
         } catch (Exception e) {
             e.printStackTrace();
             logException.Write(e, this.getClass(), "save", sharedUserService);
+            model.addObject("total", total);
             model.addObject("data", null);
 
         }
