@@ -146,6 +146,16 @@
                     .text("Personas");
 
 
+
+//            svg.append("text")
+//                    .attr("x", (width / 2))
+//                    .attr("y", 0 - (margin.top / 2))
+//                    .attr("text-anchor", "middle")
+//                    .style("font-size", "16px")
+//                    .style("text-decoration", "underline")
+//                    .text("Reporte");
+
+
 //            var legend = svg.selectAll(".legend")
 //                    .data(color.domain().slice())
 //                    .enter().append("g")
@@ -186,10 +196,6 @@
                     .style("stroke", "#000")
                     .style("shape-rendering", "crispEdges")
             ;
-
-
-
-
 //            var sortTimeout = setTimeout(function() {
 //                d3.select("input").property("checked", true).each(change);
 //            }, 2000);
@@ -235,6 +241,52 @@
                         .delay(delay);
 
             }
+
+            d3.select("#reset").on("click", reset);
+
+            d3.select("#data1")
+                    .on("click", function(d,i) {
+                        bars(data1)
+                    })
+
+            function reset() {
+                svg.selectAll("rect")
+                        .sort(function(a, b){
+                            return a.name - b.name;
+                        })
+                        .transition()
+                        .delay(function (d, i) {
+                            return i * 50;
+                        })
+                        .duration(1000)
+                        .attr("x", function (d, i) {
+                            return xScale(i);
+                        });
+
+                svg.selectAll('text')
+                        .sort(function(a, b){
+                            return a.name - b.name;
+                        })
+                        .transition()
+                        .delay(function (d, i) {
+                            return i * 50;
+                        })
+                        .duration(1000)
+                        .text(function (d) {
+                            return d.value;
+                        })
+                        .attr("text-anchor", "middle")
+                        .attr("x", function (d, i) {
+                            return xScale(i) + xScale.rangeBand() / 2;
+                        })
+                        .attr("y", function (d) {
+                            return h - yScale(d.value) + 14;
+                        });
+            };
+
+
+
+
 
 
             d3.select("#save").on("click", function(){
@@ -306,7 +358,7 @@
 
     <label><input type="checkbox"> Ordenar valores</label>
     <%--<button id="sort" onclick="sortBars()">Sort</button>--%>
-    <%--<button id="reset" onclick="reset()">Reset</button>--%>
+    <button id="reset">Reset</button>
     <br/>
     <br/>
     <br/>
