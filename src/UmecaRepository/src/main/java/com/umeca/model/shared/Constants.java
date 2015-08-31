@@ -316,5 +316,19 @@ public class Constants {
     public static final String EVENT_ONLY_INTERVIEW = "INTERVIEW";
     public static final String EVENT_FROM_FORMULATION = "FORMULATION";
 
+
+
+
+    /** códigos para los reportes **/
+    public static final String REPORT_STATISTIC_A = "STR_1";
+    public static final String REPORT_STATISTIC_B = "STR_2";
+    public static final String REPORT_STATISTIC_C = "STR_3";
+    public static final String REPORT_STATISTIC_D = "STR_4";
+    public static final String REPORT_STATISTIC_E = "STR_5";
+    public static final String REPORT_STATISTIC_F = "STR_6";
+    public static final String REPORT_STATISTIC_G = "STR_7";
+    public static final String REPORT_STATISTIC_H = "STR_8";
+    public static final String REPORT_STATISTIC_I = "STR_9";
+
 }
 

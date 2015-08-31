@@ -1,13 +1,12 @@
 app.controller('statisticReportController', function ($scope, $timeout, $http) {
 
         $scope.m = {};
-        $scope.m.filtersModel = {};
         $scope.entities = []
 
-        $scope.submitFindCases = function (formId, urlToPost) {
+        $scope.findReport = function (formId, urlToPost) {
             $scope.msgError = "";
 
-            if($scope.m.filterSelected === null || $scope.m.filterSelected === '' || $scope.m.filterSelected === undefined){
+            if ($scope.m.filterSelected === null || $scope.m.filterSelected === '' || $scope.m.filterSelected === undefined) {
                 $scope.msgError = "Debes seleccionar un filtro de busqueda";
             }
 
@@ -16,33 +15,12 @@ app.controller('statisticReportController', function ($scope, $timeout, $http) {
 
             $scope.WaitFor = true;
 
-            $.post(urlToPost, $(formId).serialize())
-                .success(function (resp) {
 
-                    $scope.WaitFor = false;
-                    $scope.$apply();
-
-                    if (resp.hasError == true) {
-                        $scope.MsgError = resp.message;
-                        $scope.$apply();
-                    } else {
-                        resp = resp.responseMessage;
-
-
-                    }
-
-                }
-            )
-                .
-                error(function () {
-                    $scope.WaitFor = false;
-                    $scope.MsgError = "Error de red. Por favor intente más tarde.";
-                    $scope.$apply();
-                });
+            var url = urlToPost + "?initDate=" + $scope.initDate + "&endDate=" + $scope.endDate + "&filterSelected=" + $scope.m.filterSelected;
+            window.goToUrlMvcUrl(url);
 
             return true;
         };
-
 
     }
 )
