@@ -186,9 +186,9 @@
 
                                 &nbsp;
                                 <i class="icon-check" ng-show="interviewDeclined"></i><i class="icon-unchecked"
-                                                                                  ng-show="!interviewDeclined"></i>&nbsp;<label>Documento negaci&oacute;n</label>&nbsp;&nbsp;
+                                                                                  ng-show="!interviewDeclined"></i>&nbsp;<label>Negaci&oacute;n</label>&nbsp;&nbsp;
                                 <i class="icon-check" ng-show="caseReport"></i><i class="icon-unchecked"
-                                                                             ng-show="!caseReport"></i>&nbsp;<label>Documento informe</label>
+                                                                             ng-show="!caseReport"></i>&nbsp;<label>Informe</label>
 
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a ng-show="hasMeeting && hasTR" href="javascript:;"
                                                                  style="display:inline-block;"

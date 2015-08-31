@@ -1363,6 +1363,7 @@ public class VerificationServiceImpl implements VerificationService {
         try {
             Case c  = caseRepository.findOne(idCase);
             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
+            c.setDateNotProsecute(new Date());
             caseRepository.save(c);
             eventService.addEvent(Constants.EVENT_CASE_REPORT, idCase, reason);
         }catch (Exception e){

@@ -63,6 +63,7 @@ public class FormulationController {
                     add(r.get("hearingDate"));
                     add(r.get("presence"));
                     add(r.join("reviewer").get("fullname"));
+                    add(r.get("informationDelivered"));
                 }};
             }
             @Override
@@ -105,6 +106,7 @@ public class FormulationController {
                     add(r.get("hearingDate"));
                     add(r.get("presence"));
                     add(r.join("reviewer").get("fullname"));
+                    add(r.get("informationDelivered"));
                 }};
             }
             @Override
