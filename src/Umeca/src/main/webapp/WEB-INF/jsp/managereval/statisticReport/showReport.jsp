@@ -36,6 +36,7 @@
         }
 
     </style>
+
     <script>
         window.onload = function(){
 
@@ -145,6 +146,16 @@
                     .text("Personas");
 
 
+
+//            svg.append("text")
+//                    .attr("x", (width / 2))
+//                    .attr("y", 0 - (margin.top / 2))
+//                    .attr("text-anchor", "middle")
+//                    .style("font-size", "16px")
+//                    .style("text-decoration", "underline")
+//                    .text("Reporte");
+
+
 //            var legend = svg.selectAll(".legend")
 //                    .data(color.domain().slice())
 //                    .enter().append("g")
@@ -185,10 +196,6 @@
                     .style("stroke", "#000")
                     .style("shape-rendering", "crispEdges")
             ;
-
-
-
-
 //            var sortTimeout = setTimeout(function() {
 //                d3.select("input").property("checked", true).each(change);
 //            }, 2000);
@@ -200,7 +207,7 @@
 
                 //clearTimeout(sortTimeout);
 
-
+                // Copy-on-write since tweens are evaluated after a delay.
                 var x0 = x.domain(dataSet.sort(this.checked
                         ? function(a, b) { return b.value - a.value; }
                         : function(a, b) { return d3.ascending(a.name, b.name); })
@@ -235,6 +242,52 @@
 
             }
 
+            d3.select("#reset").on("click", reset);
+
+            d3.select("#data1")
+                    .on("click", function(d,i) {
+                        bars(data1)
+                    })
+
+            function reset() {
+                svg.selectAll("rect")
+                        .sort(function(a, b){
+                            return a.name - b.name;
+                        })
+                        .transition()
+                        .delay(function (d, i) {
+                            return i * 50;
+                        })
+                        .duration(1000)
+                        .attr("x", function (d, i) {
+                            return xScale(i);
+                        });
+
+                svg.selectAll('text')
+                        .sort(function(a, b){
+                            return a.name - b.name;
+                        })
+                        .transition()
+                        .delay(function (d, i) {
+                            return i * 50;
+                        })
+                        .duration(1000)
+                        .text(function (d) {
+                            return d.value;
+                        })
+                        .attr("text-anchor", "middle")
+                        .attr("x", function (d, i) {
+                            return xScale(i) + xScale.rangeBand() / 2;
+                        })
+                        .attr("y", function (d) {
+                            return h - yScale(d.value) + 14;
+                        });
+            };
+
+
+
+
+
 
             d3.select("#save").on("click", function(){
                 var html = d3.select("svg")
@@ -243,11 +296,12 @@
                         .node().parentNode.innerHTML;
 
                 //console.log(html);
-                var imgSrc = 'data:image/svg+xml;base64,'+ btoa(html);
+                var imgSrc = 'data:image/svg+xml;base64,'+ btoa(unescape(encodeURIComponent(html)));;
+                //var img = '<img src="'+imgSrc+'">';
+                //d3.select("#svgdataurl").html(img);
 
 
-                var canvas = document.querySelector("canvas"),
-                        context = canvas.getContext("2d");
+                var canvas = document.querySelector("canvas"),context = canvas.getContext("2d");
 
                 var image = new Image;
                 image.src = imgSrc;
@@ -258,6 +312,11 @@
                     var a = document.createElement("a");
                     a.download = "sample.png";
                     a.href = canvas.toDataURL("image/png");
+
+                    //var pngimg = '<img src="'+a.href+'">';
+                    //d3.select("#pngdataurl").html(pngimg);
+
+
                     a.click();
                 };
 
@@ -275,6 +334,9 @@
                 var blob = new Blob([dataView], {type: "image/png"});
                 var DOMURL = self.URL || self.webkitURL || self;
                 var newurl = DOMURL.createObjectURL(blob);
+
+                //var img = '<img src="'+newurl+'">';
+                //d3.select("#img").html(img);
             }
 
         }
@@ -294,9 +356,9 @@
         <i class="icon icon-file"></i>&nbsp;&nbsp;Reporte Estad&iacute;stico
     </h2>
 
-    <label><input type="checkbox"> Ordenar valores</label>
+    <%--<label><input type="checkbox"> Ordenar valores</label>--%>
     <%--<button id="sort" onclick="sortBars()">Sort</button>--%>
-    <%--<button id="reset" onclick="reset()">Reset</button>--%>
+    <%--<button id="reset">Reset</button>--%>
     <br/>
     <br/>
     <br/>
@@ -306,6 +368,8 @@
     <br/>
     <div class="row-fluid center">
         <div class="chartBar"></div>
+        <%--<div id="svgdataurl"></div>--%>
+        <%--<div id="pngdataurl"></div>--%>
         <canvas width="960" height="500" style="display:none"></canvas>
 
         <br/>

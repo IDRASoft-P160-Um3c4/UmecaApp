@@ -38,6 +38,27 @@ public class StatisticReportServiceImpl implements StatisticReportService {
         else if(filter.equals(Constants.REPORT_STATISTIC_B)){
 
         }
+        else if(filter.equals(Constants.REPORT_STATISTIC_C)){
+
+        }
+        else if(filter.equals(Constants.REPORT_STATISTIC_D)){
+
+        }
+        else if(filter.equals(Constants.REPORT_STATISTIC_E)){
+
+        }
+        else if(filter.equals(Constants.REPORT_STATISTIC_F)){
+
+        }
+        else if(filter.equals(Constants.REPORT_STATISTIC_G)){
+
+        }
+        else if(filter.equals(Constants.REPORT_STATISTIC_H)){
+
+        }
+        else if(filter.equals(Constants.REPORT_STATISTIC_I)){
+
+        }
 
         return data;
     }
