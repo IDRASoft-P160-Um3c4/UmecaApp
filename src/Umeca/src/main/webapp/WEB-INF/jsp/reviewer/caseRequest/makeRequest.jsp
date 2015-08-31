@@ -77,7 +77,7 @@
 
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
-                                <div ng-init='requestType = ${requestType}; listSources = ${sources};'
+                                <div ng-init='requestType = "${requestType}"; listSources = ${sources};'
                                      ng-show=" requestType == 'CHANGE_STATUS_SOURCE' ">
 
                                     <div class="widget-box" ng-show="listSources.length > 0">
