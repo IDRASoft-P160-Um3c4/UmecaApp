@@ -12,6 +12,8 @@ public class ProjectActivityModel {
 
     private Long projectId;
 
+    private Long fileUploadGenericId;
+
     public Long getId() {
         return id;
     }
@@ -50,5 +52,13 @@ public class ProjectActivityModel {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public Long getFileUploadGenericId() {
+        return fileUploadGenericId;
+    }
+
+    public void setFileUploadGenericId(Long fileUploadGenericId) {
+        this.fileUploadGenericId = fileUploadGenericId;
     }
 }

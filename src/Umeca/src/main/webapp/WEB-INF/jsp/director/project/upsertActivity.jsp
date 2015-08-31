@@ -6,6 +6,49 @@
         window.showModalFormDlg("#dlgUpModalId", "#FormUpId");
     });
 
+    $(function () {
+        'use strict';
+        var url = '<c:url value='/shared/uploadFileGeneric/doUploadFileGeneric.json' />';
+
+        $('#fileupload').fileupload({
+            url: url,
+            dataType: 'json',
+            done: function (e, data) {
+                try{
+                    var scope =  angular.element($("#FormUpId")).scope();
+                    if(data.result === undefined || data.result.hasError === undefined){
+                        scope.setOutError("No hubo respuesta del servidor. Por favor intente de nuevo");
+                        return;
+                    }
+                    if(data.result.hasError === true){
+                        scope.setOutError(data.result.message);
+                        return;
+                    }
+
+                    scope.setSuccess(data.result);
+
+                }catch(e){
+                    scope.setOutError("Hubo un error al momento de procesar la respuesta: " + e);
+                    return;
+                }finally{
+                    window.setTimeout(function(){
+                        $('#progress .progress-bar').css('width', 0 + '%');
+                    },2000);
+                }
+
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#progress .progress-bar').css(
+                        'width',
+                        progress + '%'
+                );
+            }
+        }).prop('disabled', !$.support.fileInput)
+                .parent().addClass($.support.fileInput ? undefined : 'disabled');
+
+    });
+
 </script>
 
 <div>
@@ -22,10 +65,9 @@
                     <form id="FormUpId" name="FormUpId" class="form-horizontal"
                           role="form">
                         <br/>
-                        <input type="hidden" ng-update-hidden ng-model="m.id" name="id" id="id"
-                               ng-init="m.id = ${id};">
-                        <input type="hidden" ng-update-hidden ng-model="m.projectId" name="projectId" id="projectId"
-                               ng-init="m.projectId = ${projectId};">
+                        <input type="hidden" ng-update-hidden ng-model="m.id" name="id" id="id" ng-init="m.id = ${id};">
+                        <input type="hidden" ng-update-hidden ng-model="m.projectId" name="projectId" id="projectId" ng-init="m.projectId = ${projectId};">
+                        <input type="hidden" ng-update-hidden ng-model="m.fileUploadGenericId" ng-init="m.fileUploadGenericId = undefined;" name="fileUploadGenericId" id="fileUploadGenericId" />
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
                                 <div class="panel panel-default panel-primary">
@@ -61,11 +103,50 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row" ng-show="MsgError">
+                                            <div class="row" ng-show="m.description && m.name">
+                                                <div class="col-xs-8 col-xs-offset-3">
+                                                    <div class="checkbox">
+                                                        <input type="checkbox" ng-model="reportForChk" ng-init="reportForChk = false;"/>
+                                                        <span class="lbl"> &iquest;Adjuntar archivo?</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr/>
+                                            <div ng-show="m.description && m.name && reportForChk">
+                                                <div class="row">
+                                                    <div class="col-xs-12 element-center">
+                                                             <span class="btn btn-success fileinput-button element-center">
+                                                                <i class="glyphicon glyphicon-upload"></i>
+                                                                <span>Elige el archivo...</span>
+                                                                <input id="fileupload" type="file" name="files[]" />
+                                                            </span>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <div id="progress" class="progress">
+                                                            <div class="progress-bar progress-bar-success"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <br/>
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <div id="files" class="files"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
                                             <div class="col-xs-12">
-                                                <div class="alert alert-danger element-center"  ng-bind-html="MsgError">
+                                                <div ng-show="MsgError" class="alert alert-danger element-center"  ng-bind-html="MsgError">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div ng-show="MsgSuccess" class="alert alert-success element-center"  ng-bind-html="MsgSuccess">
                                                 </div>
                                             </div>
                                         </div>

@@ -1,6 +1,7 @@
 package com.umeca.model.entities.director.project;
 
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.shared.UploadFileGeneric;
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -30,6 +31,10 @@ public class ProjectActivity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_project", nullable = false)
     private Project project;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_upload_file_generic", nullable = true)
+    UploadFileGeneric uploadFileGeneric;
 
     @Column(name="is_obsolete", nullable = false)
     private Boolean isObsolete;
@@ -88,5 +93,13 @@ public class ProjectActivity {
 
     public void setIsObsolete(Boolean isObsolete) {
         this.isObsolete = isObsolete;
+    }
+
+    public UploadFileGeneric getUploadFileGeneric() {
+        return uploadFileGeneric;
+    }
+
+    public void setUploadFileGeneric(UploadFileGeneric uploadFileGeneric) {
+        this.uploadFileGeneric = uploadFileGeneric;
     }
 }
