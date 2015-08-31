@@ -20,6 +20,7 @@ public class SelectList implements EntityGrid{
     private String strDate;
     private String logType;
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+    private Long value;
 
     public SelectList() {
     }
@@ -168,6 +169,20 @@ public class SelectList implements EntityGrid{
             this.strDate = sdf.format(calendar.getTime());
     }
 
+    public SelectList(Long id, Long value, String code){
+        this.id = id;
+        this.value = value;
+        this.description= code;
+        if (description.equals(Constants.EVENT_INTERVIEW_DECLINED))
+            this.name = "Negación";
+        else if (description.equals(Constants.EVENT_CASE_REPORT))
+            this.name = "Informe";
+        else if (description.equals(Constants.EVENT_CASE_OPINION))
+            this.name = "Opinión";
+        else if (description.equals(Constants.EVENT_ONLY_INTERVIEW))
+            this.name = "Solo entrevista";
+    }
+
 
     public Long getId() {
         return id;
@@ -283,5 +298,13 @@ public class SelectList implements EntityGrid{
 
     public void setIsSelected(Boolean isSelected) {
         this.isSelected = isSelected;
+    }
+
+    public Long getValue() {
+        return value;
+    }
+
+    public void setValue(Long value) {
+        this.value = value;
     }
 }

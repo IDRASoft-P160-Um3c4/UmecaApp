@@ -135,7 +135,7 @@
                                     <br/>
 
                                 </div>
-
+                                <br/>
                                 <div class="row" ng-show="msgError">
                                     <div class="col-xs-8 col-xs-offset-2 alert alert-danger element-center">
                                         <span class="control-label element-center">{{msgError}}</span>
@@ -149,12 +149,25 @@
                         <div class="row">
                             <div class="col-xs-11 element-right">
                                 <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                                      ng-click="submitFindCases('#FormStatisRep','<c:url value='/managereval/statisticReport/showReport.json'/>');">
+                                      ng-click="findReport('#FormStatisRep','<c:url value='/managereval/statisticReport/showReport.html'/>');">
                                     Realizar b&uacute;squeda
                                 </span>
                             </div>
 
                         </div>
+
+                        <br/>
+                        <%--<div class="row">--%>
+                            <%--<div class="col-xs-11 element-right">--%>
+                                <%--<a href="<c:url value='/managereval/statisticReport/testd3.html' />">--%>
+                                <%--<span class="btn btn-default btn-primary btn-sm">--%>
+                                    <%--D3--%>
+                                <%--</span>--%>
+                                <%--</a>--%>
+                            <%--</div>--%>
+
+                        <%--</div>--%>
+                        <br/>
                         <br/>
                     </div>
                 </div>

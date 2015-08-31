@@ -22,7 +22,7 @@ public class Formulation implements EntityGrid {
 
     }
 
-    public Formulation(Long id, Date registrationFormulationDate, String document, String certificateNotification, String firstname, String lastNameP, String lastNameM, Date umecaInterviewDate, Date hearingDate, Boolean presence, String fullname) {
+    public Formulation(Long id, Date registrationFormulationDate, String document, String certificateNotification, String firstname, String lastNameP, String lastNameM, Date umecaInterviewDate, Date hearingDate, Boolean presence, String fullname, Boolean informationDelivered) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         this.id = id;
         this.document = document;
@@ -34,6 +34,8 @@ public class Formulation implements EntityGrid {
         this.presenceStr = presence == null ? "Pendiente" : presence == true ? "Si" : "No";
         this.attended = umecaInterviewDate.after(new Date());
         this.reviewerFullname = fullname;
+        this.informationDelivered = informationDelivered;
+        this.informationDeliveredStr = informationDelivered == null ? "" : informationDelivered == true ? "Si" : "";
     }
 
     @Id
@@ -84,6 +86,9 @@ public class Formulation implements EntityGrid {
     @Column(name = "presence", nullable = true)
     private Boolean presence;
 
+    @Column(name = "information_delivered",nullable = true)
+    private Boolean informationDelivered;
+
     @Transient
     private String registrationFormulationDateStr;
     @Transient
@@ -103,6 +108,9 @@ public class Formulation implements EntityGrid {
 
     @Transient
     private Boolean attended;
+
+    @Transient
+    private String informationDeliveredStr;
 
     public Long getId() {
         return id;
@@ -279,6 +287,22 @@ public class Formulation implements EntityGrid {
 
     public void setAttended(Boolean attended) {
         this.attended = attended;
+    }
+
+    public Boolean getInformationDelivered() {
+        return informationDelivered;
+    }
+
+    public void setInformationDelivered(Boolean informationDelivered) {
+        this.informationDelivered = informationDelivered;
+    }
+
+    public String getInformationDeliveredStr() {
+        return informationDeliveredStr;
+    }
+
+    public void setInformationDeliveredStr(String informationDeliveredStr) {
+        this.informationDeliveredStr = informationDeliveredStr;
     }
 }
 

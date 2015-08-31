@@ -47,10 +47,8 @@ public class CaseReportController {
     CaseReportService caseReportService;
 
 
-
-
     @RequestMapping(value = "/reviewer/caseReport/index", method = RequestMethod.GET)
-    public String index(){
+    public String index() {
         return "/reviewer/caseReport/index";
     }
 
@@ -64,14 +62,14 @@ public class CaseReportController {
         JqGridRulesModel extraFilter = new JqGridRulesModel("reviewerId", userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
 
-        JqGridRulesModel extraFilter2 =new JqGridRulesModel("statusCode", Constants.S_MEETING_COMPLETE, JqGridFilterModel.COMPARE_EQUAL);
-        opts.extraFilters.add(extraFilter2);
+        extraFilter = new JqGridRulesModel("statusCode", Constants.S_MEETING_COMPLETE, JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
 
-        JqGridRulesModel extraFilter3 =new JqGridRulesModel("statusCase", Constants.CASE_STATUS_NOT_PROSECUTE, JqGridFilterModel.COMPARE_EQUAL);
-        opts.extraFilters.add(extraFilter3);
+        extraFilter = new JqGridRulesModel("statusCase", Constants.CASE_STATUS_NOT_PROSECUTE, JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
 
-        JqGridRulesModel extraFilter4 =new JqGridRulesModel("eventCode", Constants.EVENT_CASE_REPORT, JqGridFilterModel.COMPARE_EQUAL);
-        opts.extraFilters.add(extraFilter4);
+        extraFilter = new JqGridRulesModel("eventCode", Constants.EVENT_CASE_REPORT, JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
@@ -106,16 +104,16 @@ public class CaseReportController {
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("statusCode"))
-                    return r.join("meeting").join("status").get("name");
+                    return r.join("caseDetention").join("meeting").join("status").get("name");
                 else if (field.equals("reviewerId"))
-                    return r.join("meeting").join("reviewer").get("id");
-                if (field.equals("idFolder"))
-                    return r.get("idFolder");
-                else if (field.equals("fullname"))
-                    return r.join("meeting").join("imputed").get("name");
-                else if (field.equals("statusCase")){
-                    return r.join("status").get("name");
-                }else
+                    return r.join("caseDetention").join("meeting").join("reviewer").get("id");
+                else if (field.equals("statusCase"))
+                    return r.join("caseDetention").join("status").get("name");
+                else if (field.equals("statusCase"))
+                    return r.join("caseDetention").join("status").get("name");
+                else if (field.equals("eventCode"))
+                    return r.join("eventType").get("name");
+                else
                     return null;
             }
         }, Event.class, CaseReportView.class);
@@ -123,7 +121,6 @@ public class CaseReportController {
         return result;
 
     }
-
 
 
     @RequestMapping(value = "/reviewer/caseReport/printSheet", method = RequestMethod.GET)
@@ -146,12 +143,11 @@ public class CaseReportController {
             TechnicalReviewInfoFileAllSourcesView dataFile = caseReportService.fillInfoFileAllSourcesFromEvent(id);
 
 
-
             model = new ModelAndView("/reviewer/caseReport/printSheet");
             model.addObject("data", dataFile);
             model.addObject("dataEvent", sheetInfo);
             response.setContentType("application/force-download");
-            response.setHeader("Content-Disposition", "attachment; filename=\"informe-" +sheetInfo.getName() + sheetInfo.getLastNameP() +sheetInfo.getLastNameM() + ".doc\"");
+            response.setHeader("Content-Disposition", "attachment; filename=\"informe-" + sheetInfo.getName() + sheetInfo.getLastNameP() + sheetInfo.getLastNameM() + ".doc\"");
 
             //channelingService.addLogChannelingDoc(sheetInfo.getIdCase(),sheetInfo.getChannelingType());
         } catch (Exception ex) {

@@ -210,7 +210,7 @@ public class MeetingServiceImpl implements MeetingService {
                         "Imputado: " + imputed.getName() + " " + imputed.getLastNameP() + " " + imputed.getLastNameM() +"<br/>" +
                         "Carpeta de investigación: " + caseDetention.getIdFolder() + "<br/>";
                 messageService.sendNotificationToRole(caseDetention.getId(), body, Constants.ROLE_EVALUATION_MANAGER, title);
-                eventService.addEvent(Constants.EVENT_FROM_FORMULATION,meeting.getCaseDetention().getId(),null);
+                eventService.addEvent(Constants.EVENT_FROM_FORMULATION, caseDetention.getId(),null);
             }
 
         } catch (Exception e) {
@@ -1250,8 +1250,6 @@ public class MeetingServiceImpl implements MeetingService {
         pcpc.setWarrant(cpv.getWarrant());
         pcpc.setPlatformMexico(cpv.getPlatformMexico());
         pcpc.setAfis(cpv.getAfis());
-
-
     }
 
     @Autowired

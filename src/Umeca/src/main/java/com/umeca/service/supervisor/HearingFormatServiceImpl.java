@@ -36,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Type;
+import java.rmi.server.ExportException;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -405,96 +406,101 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
     @Override
     public HearingFormatView fillNewHearingFormatForView(Long idCase) {
-
         HearingFormatView hearingFormatView = new HearingFormatView();
+        try {
 
-        Case existCase = caseRepository.findOne(idCase);
-        Integer meetType = existCase.getMeeting().getMeetingType();
 
-        List<HearingFormat> existFormats = hearingFormatRepository.findLastHearingFormatByCaseId(idCase, new PageRequest(0, 1));
+            Case existCase = caseRepository.findOne(idCase);
+            Integer meetType = existCase.getMeeting().getMeetingType();
 
-        if (existFormats != null && existFormats.size() > 0) {//busco si ya existe algun formato completo
+            List<HearingFormat> existFormats = hearingFormatRepository.findLastHearingFormatByCaseId(idCase, new PageRequest(0, 1));
 
-            hearingFormatView = this.fillExistHearingFormatForView(existFormats.get(0).getId(), true);
+            if (existFormats != null && existFormats.size() > 0) {//busco si ya existe algun formato completo
 
-            hearingFormatView.setCanSave(true);
-            hearingFormatView.setCanEdit(true);
-            hearingFormatView.setDisableAll(false);
-            hearingFormatView.setHasPrevHF(true);
-
-        } else {//si no existe un formato de audiencia anterior
-            //evaluo el origen del meeting
-            hearingFormatView.setInitTime(new Time(new Date().getTime()));
-            hearingFormatView.setAppointmentDate(new Date());
-            hearingFormatView.setIsHomeless(false);
-
-            if (meetType.equals(HearingFormatConstants.MEETING_CONDITIONAL_REPRIEVE)) { //si el meeting fue creado como suspension condicional
-
-                //obtengo los datos de meeting
-                hearingFormatView.setIdCase(existCase.getId());
-                hearingFormatView.setIdFolder(existCase.getIdFolder());
-                hearingFormatView.setIdJudicial(existCase.getIdMP());
-                hearingFormatView.setImputedName(existCase.getMeeting().getImputed().getName());
-                hearingFormatView.setImputedFLastName(existCase.getMeeting().getImputed().getLastNameP());
-                hearingFormatView.setImputedSLastName(existCase.getMeeting().getImputed().getLastNameM());
-                hearingFormatView.setImputedBirthDate(existCase.getMeeting().getImputed().getBirthDate());
-
-                User us = userRepository.findOne(sharedUserService.GetLoggedUserId());
-                hearingFormatView.setUserName(us.getFullname());
+                hearingFormatView = this.fillExistHearingFormatForView(existFormats.get(0).getId(), true);
 
                 hearingFormatView.setCanSave(true);
                 hearingFormatView.setCanEdit(true);
                 hearingFormatView.setDisableAll(false);
-                hearingFormatView.setHasPrevHF(false);
+                hearingFormatView.setHasPrevHF(true);
 
-            } else if (meetType.equals(HearingFormatConstants.MEETING_PROCEDURAL_RISK)) {//si el meeting fue creado normalmente y ya esta completo
+            } else {//si no existe un formato de audiencia anterior
+                //evaluo el origen del meeting
+                hearingFormatView.setInitTime(new Time(new Date().getTime()));
+                hearingFormatView.setAppointmentDate(new Date());
+                hearingFormatView.setIsHomeless(false);
 
+                if (meetType.equals(HearingFormatConstants.MEETING_CONDITIONAL_REPRIEVE)) { //si el meeting fue creado como suspension condicional
 
-                hearingFormatView.setIdCase(existCase.getId());
-                hearingFormatView.setIdFolder(existCase.getIdFolder());
-                hearingFormatView.setIdJudicial(existCase.getIdMP());
-                Meeting verif = new Meeting();
-                if (existCase.getVerification() != null && existCase.getVerification().getMeetingVerified() != null) {
-                    verif = existCase.getVerification().getMeetingVerified();
-                } else {
-                    verif = existCase.getMeeting();
-                }
-
-
-                if (verif.getImputed() != null) {
+                    //obtengo los datos de meeting
+                    hearingFormatView.setIdCase(existCase.getId());
+                    hearingFormatView.setIdFolder(existCase.getIdFolder());
+                    hearingFormatView.setIdJudicial(existCase.getIdMP());
                     hearingFormatView.setImputedName(existCase.getMeeting().getImputed().getName());
                     hearingFormatView.setImputedFLastName(existCase.getMeeting().getImputed().getLastNameP());
                     hearingFormatView.setImputedSLastName(existCase.getMeeting().getImputed().getLastNameM());
                     hearingFormatView.setImputedBirthDate(existCase.getMeeting().getImputed().getBirthDate());
+
+                    User us = userRepository.findOne(sharedUserService.GetLoggedUserId());
+                    hearingFormatView.setUserName(us.getFullname());
+
+                    hearingFormatView.setCanSave(true);
+                    hearingFormatView.setCanEdit(true);
+                    hearingFormatView.setDisableAll(false);
+                    hearingFormatView.setHasPrevHF(false);
+
+                } else if (meetType.equals(HearingFormatConstants.MEETING_PROCEDURAL_RISK)) {//si el meeting fue creado normalmente y ya esta completo
+
+
+                    hearingFormatView.setIdCase(existCase.getId());
+                    hearingFormatView.setIdFolder(existCase.getIdFolder());
+                    hearingFormatView.setIdJudicial(existCase.getIdMP());
+                    Meeting verif = new Meeting();
+                    if (existCase.getVerification() != null && existCase.getVerification().getMeetingVerified() != null) {
+                        verif = existCase.getVerification().getMeetingVerified();
+                    } else {
+                        verif = existCase.getMeeting();
+                    }
+
+
+                    if (verif.getImputed() != null) {
+                        hearingFormatView.setImputedName(existCase.getMeeting().getImputed().getName());
+                        hearingFormatView.setImputedFLastName(existCase.getMeeting().getImputed().getLastNameP());
+                        hearingFormatView.setImputedSLastName(existCase.getMeeting().getImputed().getLastNameM());
+                        hearingFormatView.setImputedBirthDate(existCase.getMeeting().getImputed().getBirthDate());
+                    }
+
+                    List<ImputedHome> homes = verif.getImputedHomes();
+
+                    if (homes != null && homes.size() > 0) {
+                        Collections.sort(homes, ImputedHome.imputedHomeComparator);
+                        hearingFormatView.setIdAddres(homes.get(0).getAddress().getId());
+                        hearingFormatView.setIsHomeless(homes.get(0).getIsHomeless());
+                        hearingFormatView.setTimeAgo(homes.get(0).getTimeLive());
+                        hearingFormatView.setLocationPlace(homes.get(0).getDescription());
+                    } else {
+                        hearingFormatView.setIsHomeless(false);
+                    }
+
+                    User us = userRepository.findOne(sharedUserService.GetLoggedUserId());
+                    hearingFormatView.setUserName(us.getFullname());
+
+                    if(existCase.getMeeting().getCurrentCriminalProceeding() != null) {
+                        List<Crime> lstCrime = existCase.getMeeting().getCurrentCriminalProceeding().getCrimeList();
+                        hearingFormatView.setListCrime(new Gson().toJson(crimeService.fromListToStringCrime(lstCrime)));
+                    }
+                    hearingFormatView.setCanSave(true);
+                    hearingFormatView.setCanEdit(true);
+                    hearingFormatView.setDisableAll(false);
+                    hearingFormatView.setHasPrevHF(false);
                 }
 
-                List<ImputedHome> homes = verif.getImputedHomes();
-
-                if (homes != null && homes.size() > 0) {
-                    Collections.sort(homes, ImputedHome.imputedHomeComparator);
-                    hearingFormatView.setIdAddres(homes.get(0).getAddress().getId());
-                    hearingFormatView.setIsHomeless(homes.get(0).getIsHomeless());
-                    hearingFormatView.setTimeAgo(homes.get(0).getTimeLive());
-                    hearingFormatView.setLocationPlace(homes.get(0).getDescription());
-                } else {
-                    hearingFormatView.setIsHomeless(false);
-                }
-
-                User us = userRepository.findOne(sharedUserService.GetLoggedUserId());
-                hearingFormatView.setUserName(us.getFullname());
-
-                List<Crime> lstCrime = existCase.getMeeting().getCurrentCriminalProceeding().getCrimeList();
-                hearingFormatView.setListCrime(new Gson().toJson(crimeService.fromListToStringCrime(lstCrime)));
-
-                hearingFormatView.setCanSave(true);
-                hearingFormatView.setCanEdit(true);
-                hearingFormatView.setDisableAll(false);
-                hearingFormatView.setHasPrevHF(false);
             }
 
+            hearingFormatView.setIsFinished(false);
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "fillNewHearingFormatForView", sharedUserService);
         }
-
-        hearingFormatView.setIsFinished(false);
 
         return hearingFormatView;
 
@@ -928,13 +934,13 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                     FramingMeeting existFraming = hearingFormat.getCaseDetention().getFramingMeeting();
 
                     if (existFraming != null) {
-                        Long lastId= framingAddressRepository.getLastIdAddressByIdCase(idCase);
+                        Long lastId = framingAddressRepository.getLastIdAddressByIdCase(idCase);
 
                         Address fAddress = null;
-                        if(lastId!=null)
-                            fAddress=addressRepository.findOne(lastId);
+                        if (lastId != null)
+                            fAddress = addressRepository.findOne(lastId);
 
-                        if (fAddress==null||(fAddress != null && !newFormatAddress.equals(fAddress))) {
+                        if (fAddress == null || (fAddress != null && !newFormatAddress.equals(fAddress))) {
                             FramingAddress newFramAddr = new FramingAddress();
 
                             newFramAddr.setFramingMeeting(existFraming);
@@ -949,7 +955,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                             newFramAddr.setTimeAgo(hearingFormatView.getTimeAgo());
                             newFramAddr.setAddressRef(hearingFormat.getLocationPlace());
 
-                            if(hearingFormatView.getIsHomeless()==true) {
+                            if (hearingFormatView.getIsHomeless() == true) {
                                 newFramAddr.setRegisterType(registerTypeRepository.getRegisterTypeActual());
                                 newFramAddr.setHomeType(homeTypeRepository.getOwnHomeType());
                             }
