@@ -25,11 +25,14 @@ public class ProjectActivityView implements EntityGrid {
 
     private String status;
 
-    public ProjectActivityView(Long id, Calendar creationDate, String name, String description) {
+    private Long fileId;
+
+    public ProjectActivityView(Long id, Calendar creationDate, String name, String description, Long fileId) {
         this.id = id;
         this.creationDate = creationDate;
         this.name = name;
         this.description = description;
+        this.fileId = fileId == null ? Constants.ENTITY_ID_NULL : fileId;
     }
 
     public ProjectActivityView(Long id, String name, String activityName, String activityDescription, Calendar creationDate, String status) {
@@ -107,5 +110,13 @@ public class ProjectActivityView implements EntityGrid {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Long getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(Long fileId) {
+        this.fileId = fileId;
     }
 }

@@ -3,7 +3,11 @@
 <html>
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
+
+    <link href="${pageContext.request.contextPath}/assets/content/upload/jquery.fileupload.css" rel="stylesheet" type="text/css">
     <script src="${pageContext.request.contextPath}/assets/scripts/upload/vendor/jquery.ui.widget.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.iframe-transport.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/upload/jquery.fileupload.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/director/project/projectCtrl.js"></script>
     <title>Proyectos</title>
 </head>
@@ -32,6 +36,12 @@
         window.obsoleteActivity = function (id, gridId) {
             window.showObsolete(id, "#angJsjqGridId", '<c:url value='/director/project/doObsoleteActivity.json' />', gridId);
         };
+
+        window.download = function (id) {
+            var goTo = "<c:url value='/shared/uploadFileGeneric/downloadFile.html'/>" + "?id=" + id;
+            window.goToUrlMvcUrl(goTo);
+        };
+
 
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
@@ -98,12 +108,13 @@
                         autoencode:true,
                         datatype: "json",
                         mtype: 'POST',
-                        colNames: ['ID', 'Actividad', 'Descripci&oacute;n', 'Fecha de creaci&oacute;n', 'Acci&oacute;n'],
+                        colNames: ['ID', 'Actividad', 'Descripci&oacute;n', 'Fecha de creaci&oacute;n', 'ID Archivo', 'Acci&oacute;n'],
                         colModel: [
                             { name: 'id', index: 'id', hidden: true },
                             { name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                             { name: 'description', index: 'description', width: 300, align: "center", sorttype: 'string', search: false },
                             { name: 'stCreationDate', index: 'stCreationDate', width: 150, align: "center", sorttype: 'string', search: false },
+                            { name: 'fileId', index: 'fileId', hidden: true },
                             { name: 'Action', width: 110, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                         ],
                         rowNum: 20,
@@ -115,7 +126,14 @@
                             var ids = $(this).jqGrid('getDataIDs');
                             for (var i = 0; i < ids.length; i++) {
                                 var cl = ids[i];
-                                var be = "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar actividad del proyecto\" onclick=\"window.obsoleteActivity('" + cl + "', '#" + subgrid_table_id + "');\"><span class=\"glyphicon glyphicon-remove\"></span></a>";
+                                var row = $(this).getRowData(cl);
+
+                                var be = "";
+
+                                if(row.fileId > 0)
+                                    be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar archivo de la actividad\" onclick=\"window.download('" + row.fileId + "');\"><i class=\"glyphicon glyphicon-cloud-download\"></i></a>  ";
+
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar actividad del proyecto\" onclick=\"window.obsoleteActivity('" + cl + "', '#" + subgrid_table_id + "');\"><span class=\"glyphicon glyphicon-remove\"></span></a>";
                                 $(this).jqGrid('setRowData', ids[i], { Action: be });
                             }
                         },

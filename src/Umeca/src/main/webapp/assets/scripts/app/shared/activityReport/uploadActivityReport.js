@@ -32,34 +32,4 @@ app.controller('uploadActivityReportController', function($scope, $timeout, $sce
         });
     };
 
-    $scope.handleEndActSuccess = function (resp) {
-        try {
-            $scope.waitFor = false;
-            if (resp.hasError === undefined || resp.hasError === true) {
-                $scope.msgError = resp.message;
-                $scope.$apply();
-                return;
-            }
-            else if (resp.hasError === false) {
-                $scope.actIsDone = true;
-                $scope.isReadOnly = true;
-                $scope.actProcessIsDone = true;
-                $scope.eventSel.className = window.changeByStatus('REALIZADA', $scope.m.priority.id);
-                $scope.eventSel.actIsDone = true;
-                $scope.option = "UPDATE";
-            }
-            $scope.$apply();
-        } catch (e) {
-            $scope.msgError = "Error inesperado de datos. Por favor intente más tarde.";
-            $scope.$apply();
-        }
-    };
-
-    $scope.handleEndActError = function () {
-        $scope.waitFor = false;
-        $scope.msgError = "Error de red. Por favor intente más tarde.";
-        $scope.$apply();
-
-    };
-
 });

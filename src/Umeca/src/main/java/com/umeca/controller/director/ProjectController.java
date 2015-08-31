@@ -8,9 +8,11 @@ import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.director.project.*;
+import com.umeca.model.entities.shared.UploadFileGeneric;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.director.ProjectActivityRepository;
 import com.umeca.repository.director.ProjectRepository;
+import com.umeca.repository.shared.UploadFileGenericRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import java.util.ArrayList;
@@ -176,6 +179,7 @@ public class ProjectController {
                     add(r.get("creationDate"));
                     add(r.get("name"));
                     add(r.get("description"));
+                    add(r.join("uploadFileGeneric", JoinType.LEFT).get("id"));
                 }};
             }
 
@@ -206,6 +210,9 @@ public class ProjectController {
         return modelView;
     }
 
+    @Autowired
+    UploadFileGenericRepository uploadFileGenericRepository;
+
     @RequestMapping(value = "/director/project/doUpsertActivity", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -226,6 +233,15 @@ public class ProjectController {
             model.setIsObsolete(false);
             model.setCreationDate(Calendar.getInstance());
             model.setCreatorUser(user);
+
+            Long fileId = modelNew.getFileUploadGenericId();
+
+            if(fileId != null){
+                UploadFileGeneric uploadFileGeneric = uploadFileGenericRepository.findOne(fileId);
+                model.setUploadFileGeneric(uploadFileGeneric);
+                uploadFileGeneric.setObsolete(false);
+                uploadFileGenericRepository.save(uploadFileGeneric);
+            }
 
             repositoryProjectActivity.save(model);
             response.setHasError(false);
@@ -253,6 +269,13 @@ public class ProjectController {
 
             ProjectActivity model = repositoryProjectActivity.findOne(id);
             model.setIsObsolete(true);
+
+            UploadFileGeneric uploadFileGeneric = model.getUploadFileGeneric();
+            if(uploadFileGeneric != null && uploadFileGeneric.getId() != null){
+                uploadFileGeneric.setObsolete(true);
+                uploadFileGenericRepository.save(uploadFileGeneric);
+            }
+
             repositoryProjectActivity.save(model);
             return response;
 
