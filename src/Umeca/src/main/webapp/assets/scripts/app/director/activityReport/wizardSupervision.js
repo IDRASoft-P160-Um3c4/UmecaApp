@@ -9,6 +9,11 @@ app.controller('wizardSupervisionController', function ($scope, $rootScope) {
     };
 
     $scope.change = function(check, val){
+        $scope.send();
+    };
+
+    $scope.send = function(){
+        $rootScope.$broadcast("onChange", {key: "supervision", value: $scope.m.lstAct});
     };
 
     $scope.selectAll = function(){
@@ -17,11 +22,7 @@ app.controller('wizardSupervisionController', function ($scope, $rootScope) {
 
     $scope.next = function (tabName) {
         $scope.$emit("onNextTab", tabName);
-    }
-
-    $scope.prev = function (tabName) {
-        $scope.$emit("onPrevTab", tabName);
-    }
+    };
 
     $scope.$on("selectAllSupervisionAct", function(ev, data){
         var obj = $scope.m.lstAct;
@@ -29,5 +30,6 @@ app.controller('wizardSupervisionController', function ($scope, $rootScope) {
             var attrName = key;
             obj[key] = $scope.m.selectAll;
         }
+        $scope.send();
     });
 });

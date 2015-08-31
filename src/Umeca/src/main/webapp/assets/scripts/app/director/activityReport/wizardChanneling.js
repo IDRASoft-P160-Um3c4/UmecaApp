@@ -9,6 +9,11 @@ app.controller('wizardChannelingController', function ($scope, $rootScope) {
     };
 
     $scope.change = function(check, val){
+        $scope.send();
+    };
+
+    $scope.send = function(){
+        $rootScope.$broadcast("onChange", {key: "channeling", value: $scope.m.lstAct});
     };
 
     $scope.selectAll = function(){
@@ -19,15 +24,12 @@ app.controller('wizardChannelingController', function ($scope, $rootScope) {
         $scope.$emit("onNextTab", tabName);
     };
 
-    $scope.prev = function (tabName) {
-        $scope.$emit("onPrevTab", tabName);
-    };
-
     $scope.$on("selectAllChannelingAct", function(ev, data){
         var obj = $scope.m.lstAct;
         for(var key in obj){
             var attrName = key;
             obj[key] = $scope.m.selectAll;
         }
+        $scope.send();
     });
 });

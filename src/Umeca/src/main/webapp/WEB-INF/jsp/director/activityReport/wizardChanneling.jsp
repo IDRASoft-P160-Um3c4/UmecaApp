@@ -112,12 +112,12 @@
                 <div class="widget-main padding-6 no-padding-left no-padding-right">
                     <div class="row">
                         <div class="col-xs-4 col-xs-offset-2">
-                            <button type="button" class="btn btn-success" ng-click="next('evaluation')">
+                            <button type="button" class="btn btn-success" ng-click="next('project')">
                                 <i class="glyphicon glyphicon-backward"></i>&nbsp;&nbsp;Regresar
                             </button>
                         </div>
                         <div class="col-xs-4 element-right">
-                            <button type="button" class="btn btn-success" ng-click="next('project')">
+                            <button type="button" class="btn btn-success" ng-click="next('minute')">
                                 Siguiente&nbsp;&nbsp;<i class="glyphicon glyphicon-forward"></i></button>
                         </div>
                     </div>
@@ -201,12 +201,12 @@
                     <div class="space-10"></div>
                     <div class="row">
                         <div class="col-xs-4 col-xs-offset-2">
-                            <button type="button" class="btn btn-success" ng-click="next('evaluation')">
+                            <button type="button" class="btn btn-success" ng-click="next('project')">
                                 <i class="glyphicon glyphicon-backward"></i>&nbsp;&nbsp;Regresar
                             </button>
                         </div>
                         <div class="col-xs-4 element-right">
-                            <button type="button" class="btn btn-success" ng-click="next('project')">
+                            <button type="button" class="btn btn-success" ng-click="next('minute')">
                                 Siguiente&nbsp;&nbsp;<i class="glyphicon glyphicon-forward"></i></button>
                         </div>
                     </div>

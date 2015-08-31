@@ -105,7 +105,7 @@
     <div class="col-xs-12">
         <div class="widget-box transparent">
             <div class="widget-header">
-                <h4 class="widget-title">Actividades del coordinador de evaluaci&oacute;n para agregar al informe</h4>
+                <h4 class="widget-title">Minutas para agregar al informe</h4>
             </div>
 
             <div class="widget-body">
