@@ -36,6 +36,7 @@
         }
 
     </style>
+
     <script>
         window.onload = function(){
 
@@ -200,7 +201,7 @@
 
                 //clearTimeout(sortTimeout);
 
-
+                // Copy-on-write since tweens are evaluated after a delay.
                 var x0 = x.domain(dataSet.sort(this.checked
                         ? function(a, b) { return b.value - a.value; }
                         : function(a, b) { return d3.ascending(a.name, b.name); })
@@ -243,11 +244,12 @@
                         .node().parentNode.innerHTML;
 
                 //console.log(html);
-                var imgSrc = 'data:image/svg+xml;base64,'+ btoa(html);
+                var imgSrc = 'data:image/svg+xml;base64,'+ btoa(unescape(encodeURIComponent(html)));;
+                //var img = '<img src="'+imgSrc+'">';
+                //d3.select("#svgdataurl").html(img);
 
 
-                var canvas = document.querySelector("canvas"),
-                        context = canvas.getContext("2d");
+                var canvas = document.querySelector("canvas"),context = canvas.getContext("2d");
 
                 var image = new Image;
                 image.src = imgSrc;
@@ -258,6 +260,11 @@
                     var a = document.createElement("a");
                     a.download = "sample.png";
                     a.href = canvas.toDataURL("image/png");
+
+                    //var pngimg = '<img src="'+a.href+'">';
+                    //d3.select("#pngdataurl").html(pngimg);
+
+
                     a.click();
                 };
 
@@ -275,6 +282,9 @@
                 var blob = new Blob([dataView], {type: "image/png"});
                 var DOMURL = self.URL || self.webkitURL || self;
                 var newurl = DOMURL.createObjectURL(blob);
+
+                //var img = '<img src="'+newurl+'">';
+                //d3.select("#img").html(img);
             }
 
         }
@@ -306,6 +316,8 @@
     <br/>
     <div class="row-fluid center">
         <div class="chartBar"></div>
+        <%--<div id="svgdataurl"></div>--%>
+        <%--<div id="pngdataurl"></div>--%>
         <canvas width="960" height="500" style="display:none"></canvas>
 
         <br/>
