@@ -34,7 +34,7 @@
                 datatype: "json",
                 autoencode: true,
                 mtype: 'POST',
-                colNames: ['ID', 'Fecha registro formulaci&oacute;n', 'Oficio', 'C&eacute;dula de notificaci&oacute;n', 'Datos imputado', 'Datos evaluador', 'Fecha audiencia', 'Fecha entrevista Umeca', 'Acci&oacute;n'],
+                colNames: ['ID', 'Fecha registro formulaci&oacute;n', 'Oficio', 'C&eacute;dula de notificaci&oacute;n', 'Datos imputado', 'Datos evaluador', 'Fecha de audiencia', 'Fecha entrevista Umeca', 'Acci&oacute;n'],
                 colModel: [
                     {name: 'id', index: 'id', hidden: true},
                     {
@@ -188,7 +188,7 @@
                     datatype: "json",
                     autoencode: true,
                     mtype: 'POST',
-                    colNames: ['ID', 'Fecha registro formulaci&oacute;n', 'Oficio', 'C&eacute;dula de notificaci&oacute;n', 'Datos imputado', 'Datos evaluador', 'Fecha audiencia', 'Fecha entrevista Umeca', 'Asistencia', 'Attended', 'Acci&oacute;n'],
+                    colNames: ['ID', 'Fecha registro formulaci&oacute;n', 'Oficio', 'C&eacute;dula de notificaci&oacute;n', 'Datos imputado', 'Datos evaluador', 'Fecha de audiencia', 'Fecha entrevista Umeca', 'Asistencia', 'Attended','Entreg&oacute; informaci&oacute;n', 'Acci&oacute;n'],
                     colModel: [
                         {name: 'id', index: 'id', hidden: true},
                         {
@@ -202,7 +202,7 @@
                         {
                             name: 'document',
                             index: 'document',
-                            width: 200,
+                            width: 170,
                             align: "center",
                             sorttype: 'string',
                             searchoptions: {sopt: ['bw']}
@@ -234,7 +234,7 @@
                         {
                             name: 'hearingDateStr',
                             index: 'registrationFormulationDateStr',
-                            width: 200,
+                            width: 140,
                             align: "center",
                             sorttype: 'string',
                             search: false
@@ -242,7 +242,7 @@
                         {
                             name: 'umecaInterviewDateStr',
                             index: 'registrationFormulationDateStr',
-                            width: 200,
+                            width: 175,
                             align: "center",
                             sorttype: 'string',
                             search: false
@@ -250,7 +250,7 @@
                         {
                             name: 'presenceStr',
                             index: 'presenceStr',
-                            width: 200,
+                            width: 75,
                             align: "center",
                             sorttype: 'string',
                             search: false
@@ -259,6 +259,13 @@
                             name: 'attended',
                             index: 'attended',
                             hidden: true
+
+                        },
+                        {
+                            name: 'informationDeliveredStr',
+                            index: 'informationDeliveredStr',
+                            align: "center",
+                            width: 140
 
                         },
                         {
@@ -286,6 +293,7 @@
                             var cl = ids[i];
                             var row = $(this).getRowData(cl);
                             var presenceStr = row.presenceStr + "";
+                            var informationDeliveredStr = row.informationDeliveredStr;
                             var be = "";
                             if (presenceStr === "Pendiente") {
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Registrar asistencia/inasistencia\" onclick=\"window.showConfirmPresence('" + cl + "');\"><i class=\" icon-ok\"></i></a>";
@@ -296,6 +304,10 @@
                             if (presenceStr === "Si") {
 //                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Entrevistas de riesgos\" onclick=\"window.showInterview('" + cl + "');\"><i class=\" icon-comments-alt\"></i></a>";
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Entrega de informaci&oacute;n\" onclick=\"window.showConfirmInformationDelivery('" + cl + "');\"><i class=\" icon-list-alt\"></i></a>";
+                            }
+                            if(informationDeliveredStr === "Si"){
+                                be = "";
+
                             }
                             /* be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Registrar asistencia/inasistencia\" onclick=\"window.showConfirmPresence('" + cl + "');\"><i class=\" icon-ok\"></i></a>";
                              be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar reporte de inasistencia\" onclick=\"window.printDocument('" + cl + "');\"><i class=\" icon-file\"></i></a>";

@@ -108,8 +108,9 @@ public class FormulationServiceImpl implements FormulationService {
             Formulation formulation;
 
             formulation = formulationRepository.findOne(id);
-
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            formulation.setInformationDelivered(true);
+            formulationRepository.save(formulation);
             messageService.sendNotificationToUser(null,
                     String.format("<strong>Registrada por evaluador: %s </strong><br/>" +
                                     "Fecha de registro: <b>%s</b><br/>" +
