@@ -36,7 +36,7 @@ public class StatisticReportServiceImpl implements StatisticReportService {
             data = completeData(data);
         }
         else if(filter.equals(Constants.REPORT_STATISTIC_B)){
-
+            data = eventRepository.countMeetingByGender(initDate, endDate);
         }
         else if(filter.equals(Constants.REPORT_STATISTIC_C)){
 

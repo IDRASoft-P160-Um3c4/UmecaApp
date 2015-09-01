@@ -43,13 +43,12 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     List<SelectList> countCasesByEventOnDate(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
 
-
-
-
-
-
-
-
-
-
+    @Query("select  new com.umeca.model.shared.SelectList(i.gender, count(i.gender))" +
+            "from Event ev " +
+            "inner join ev.caseDetention c " +
+            "inner join c.meeting m " +
+            "inner  join m.imputed i " +
+            "where (ev.dateId between :initDate and :endDate) " +
+            "group by i.gender")
+    List<SelectList> countMeetingByGender(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 }
