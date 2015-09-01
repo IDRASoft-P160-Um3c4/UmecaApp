@@ -3,8 +3,8 @@
 2|STR_2|Número de mujeres, número de hombres entrevistados.|0
 3|STR_3|Número de personas entrevistadas que consumen sustancias.|0
 4|STR_4|Número de personas entrevistadas que consumen sustancias, cuantas son mujeres y cuantas son hombres.|0
-5|STR_5|Número de personas entrevistadas a las que se les generó opinión técnica.|0
-6|STR_6|Número de personas entrevistadas a las que se les genero informe.|0
-7|STR_7|Número de personas que negaron la entrevista.|0
-8|STR_8|Número de personas con opinión técnica, el número de fuentes de verificación.|0
-9|STR_9|Número de casos judicializados, a cuantos se les emitió opinión, a cuantos se les emitió informe y cuantos negaron la entrevista.|0
+5|STR_5|Número de personas entrevistadas que consumen sustancias agrupadas por tipo de sustancia.|0
+6|STR_6|Número de personas entrevistadas a las que se les generó opinión técnica.|0
+7|STR_7|Número de personas entrevistadas a las que se les genero informe.|0
+8|STR_8|Número de personas que negaron la entrevista.|0
+9|STR_9|Número de personas con opinión técnica, el número de fuentes de verificación.|0
