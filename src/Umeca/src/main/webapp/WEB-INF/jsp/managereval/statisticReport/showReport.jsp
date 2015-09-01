@@ -60,8 +60,11 @@
                 { name: "Solo entrevista", value: 0} ];
 
 
+            var m1 = [0,.3,0,.2];
+            var m2 = [0,.8,0,.3];
+
             var x = d3.scale.ordinal()
-                    .rangeRoundBands([0, width], .1, .2);
+                    .rangeRoundBands([0, width], m1[dataSet.length - 1], m2[dataSet.length - 1]);
 
             var y = d3.scale.linear()
                     .range([height, 0]);
@@ -76,7 +79,7 @@
 
             var xScale = d3.scale.ordinal()
                     .domain(d3.range(dataSet.length))
-                    .rangeRoundBands([0, width], .1, .2);
+                    .rangeRoundBands([0, width], m1[dataSet.length - 1], m2[dataSet.length - 1]);
 
             var yScale = d3.scale.linear()
                     .domain([0, d3.max(dataSet, function(d) {return d.value;})])
