@@ -49,7 +49,7 @@
             var color = d3.scale.ordinal()
                     .range(["#00BCD4", "#E91E63", "#009688", "#3F51B5"]);
 
-            var margin = {top: 50, right: 100, bottom: 50, left: 100},
+            var margin = {top: 50, right: 90, bottom: 50, left: 90},
                     width = 960 - margin.left - margin.right,
                     height = 500 - margin.top - margin.bottom;
 
@@ -196,7 +196,7 @@
                     .attr("x", (width - 26))
                     .data(dataSet)
                     .attr("y", -10)
-                    .style("font-size", "14px")
+                    .style("font-size", "13px")
                     .text("Total: " + total + " personas");
 
 

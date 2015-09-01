@@ -182,6 +182,8 @@ public class SelectList implements EntityGrid{
             this.name = "Opinión";
         else if (description.equals(Constants.EVENT_ONLY_INTERVIEW))
             this.name = "Solo entrevista";
+        else
+            this.name = description;
     }
 
     public SelectList(Boolean gender, long numberGender){

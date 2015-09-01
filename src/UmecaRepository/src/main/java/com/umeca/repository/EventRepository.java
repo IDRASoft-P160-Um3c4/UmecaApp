@@ -43,6 +43,67 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     List<SelectList> countCasesByEventOnDate(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
 
+
+
+
+    //mias
+
+    @Query("select count( distinct eca) from Event as e " +
+            "inner join e.eventType et " +
+            "inner join e.caseDetention eca " +
+            "inner join eca.meeting ecame " +
+            "inner join ecame.drugs ecamed " +
+            "inner join ecamed.drugType ecamedt " +
+            "where (e.dateId between :initDate and :endDate) " +
+            "and (et.name = com.umeca.model.shared.Constants.EVENT_CASE_REPORT or " +
+            "et.name = com.umeca.model.shared.Constants.EVENT_ONLY_INTERVIEW) " +
+            "and (ecamedt.id <> 15)")
+    Long countCasesWithDrugsOnDate(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
+
+    @Query("select count( distinct eca) from Event as e " +
+            "inner join e.eventType et " +
+            "inner join e.caseDetention eca " +
+            "inner join eca.verification ecaver " +
+            "inner join ecaver.status ecaversta " +
+            "inner join ecaver.meetingVerified ecaverme " +
+            "inner join ecaverme.drugs ecavermed " +
+            "inner join ecavermed.drugType ecamedt " +
+            "where (e.dateId between :initDate and :endDate) " +
+            "and (et.name = com.umeca.model.shared.Constants.EVENT_CASE_OPINION) " +
+            "and (ecamedt.id <> 15 ) " +
+            "and (ecaversta.name = com.umeca.model.shared.Constants.VERIFICATION_STATUS_COMPLETE)")
+    Long countCasesWithDrugsByOpinionOnDate(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
+
+
+
+    @Query("select count( distinct eca) from Event as e " +
+            "inner join e.eventType et " +
+            "inner join e.caseDetention eca " +
+            "inner join eca.meeting ecame " +
+            "inner join ecame.drugs ecamed " +
+            "inner join ecamed.drugType ecamedt " +
+            "where (e.dateId between :initDate and :endDate) " +
+            "and (et.name = com.umeca.model.shared.Constants.EVENT_CASE_REPORT or " +
+            "et.name = com.umeca.model.shared.Constants.EVENT_ONLY_INTERVIEW)")
+    Long countAllCasesForDrugsOnDate(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
+
+
+
+    @Query("select count( distinct eca) from Event as e " +
+            "inner join e.eventType et " +
+            "inner join e.caseDetention eca " +
+            "inner join eca.verification ecaver " +
+            "inner join ecaver.status ecaversta " +
+            "inner join ecaver.meetingVerified ecaverme " +
+            "inner join ecaverme.drugs ecavermed " +
+            "inner join ecavermed.drugType ecamedt " +
+            "where (e.dateId between :initDate and :endDate) " +
+            "and (et.name = com.umeca.model.shared.Constants.EVENT_CASE_OPINION) " +
+            "and (ecaversta.name = com.umeca.model.shared.Constants.VERIFICATION_STATUS_COMPLETE)")
+    Long countAllCasesWithDrugsByOpinionOnDate(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
+
+
+    
     @Query("select  new com.umeca.model.shared.SelectList(i.gender, count(i.gender))" +
             "from Event ev " +
             "inner join ev.caseDetention c " +
