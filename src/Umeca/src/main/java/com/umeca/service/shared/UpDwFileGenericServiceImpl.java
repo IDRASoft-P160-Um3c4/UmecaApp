@@ -3,6 +3,7 @@ package com.umeca.service.shared;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.CatFileType;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.director.agenda.ActivityAgendaNotice;
 import com.umeca.model.entities.humanReources.Employee;
 import com.umeca.model.entities.shared.SystemSetting;
 import com.umeca.model.entities.shared.UploadFile;

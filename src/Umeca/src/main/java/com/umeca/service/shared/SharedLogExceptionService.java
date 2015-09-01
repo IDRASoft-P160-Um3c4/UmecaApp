@@ -23,16 +23,28 @@ public class SharedLogExceptionService {
     public void Write(Exception ex, Class<?> cClass, String sMethod, SharedUserService sharedUserService) {
         try {
             String username = sharedUserService.GetLoggedUsername();
-            logExceptionRepository.save(new LogException(cClass.getName(), sMethod, ex.getMessage() + " | " + ex.getStackTrace(), username));
+            logExceptionRepository.save(new LogException(cClass.getName(), sMethod, ex.getMessage() + " | " + extractStackTrace(ex.getStackTrace()), username));
         }catch (Exception exIn){
             WriteToFile(ex, cClass, sMethod, exIn);
         }
     }
 
+    private String extractStackTrace(StackTraceElement[] stackTrace) {
+        if(stackTrace == null)
+            return "NA";
+
+        StringBuilder sb = new StringBuilder();
+        for(StackTraceElement st : stackTrace){
+            sb.append(st.toString());
+        }
+
+        return sb.toString();
+    }
+
 
     public void Write(Exception ex, Class<?> cClass, String sMethod, String username) {
         try {
-            logExceptionRepository.save(new LogException(cClass.getName(), sMethod, ex.getMessage() + " | " + ex.getStackTrace(), username));
+            logExceptionRepository.save(new LogException(cClass.getName(), sMethod, ex.getMessage() + " | " + extractStackTrace(ex.getStackTrace()), username));
         }catch (Exception exIn){
             WriteToFile(ex, cClass, sMethod, exIn);
         }
@@ -41,11 +53,10 @@ public class SharedLogExceptionService {
     private void WriteToFile(Exception ex, Class<?> cClass, String sMethod, Exception exIn) {
         try{
             Logger logger = Logger.getLogger(cClass);
-            logger.error(sMethod + " | " + ex.getMessage() + " | " + ex.getStackTrace() + " | " + exIn.getMessage() + " | " + exIn.getStackTrace());
+            logger.error(sMethod + " | " + ex.getMessage() + " | " + extractStackTrace(ex.getStackTrace()) + " | "
+                    + exIn.getMessage() + " | " + extractStackTrace(exIn.getStackTrace()));
         }catch (Exception exw){
             return;
         }
-
-
     }
 }

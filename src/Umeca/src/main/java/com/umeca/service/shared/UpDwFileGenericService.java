@@ -2,6 +2,7 @@ package com.umeca.service.shared;
 
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.director.agenda.ActivityAgendaNotice;
 import com.umeca.model.entities.shared.UploadFile;
 import com.umeca.model.entities.shared.UploadFileGeneric;
 import com.umeca.model.entities.shared.UploadFileRequest;
@@ -42,5 +43,4 @@ public interface UpDwFileGenericService {
 
     boolean doTemporalPhoto(String temporalPath, String contextPath, UploadFileGeneric originalPhoto,
                             SharedLogExceptionService logException, SharedUserService sharedUserService);
-
 }
