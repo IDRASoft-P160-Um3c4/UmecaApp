@@ -1,5 +1,6 @@
 package com.umeca.model.shared;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 
 import java.text.SimpleDateFormat;
@@ -181,6 +182,16 @@ public class SelectList implements EntityGrid{
             this.name = "Opinión";
         else if (description.equals(Constants.EVENT_ONLY_INTERVIEW))
             this.name = "Solo entrevista";
+        else
+            this.name = description;
+    }
+
+    public SelectList(Boolean gender, long numberGender){
+        this.value = numberGender;
+        if(gender == Constants.GENDER_MALE)
+            this.name = "Hombre";
+        else
+            this.name = "Mujer";
     }
 
 

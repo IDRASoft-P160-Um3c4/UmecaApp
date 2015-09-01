@@ -8,6 +8,7 @@ import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class StatisticReportServiceImpl implements StatisticReportService {
     @Override
     public List<SelectList> getData(int initDate, int endDate, String filter) {
 
-        List<SelectList> data = null;
+        List<SelectList> data = new ArrayList<>();
 
 
         //Reportes!!
@@ -36,12 +37,30 @@ public class StatisticReportServiceImpl implements StatisticReportService {
             data = completeData(data);
         }
         else if(filter.equals(Constants.REPORT_STATISTIC_B)){
-
+            data = eventRepository.countMeetingByGender(initDate, endDate);
         }
         else if(filter.equals(Constants.REPORT_STATISTIC_C)){
+            Long dataA = eventRepository.countCasesWithDrugsOnDate(initDate, endDate);
+            Long dataB = eventRepository.countCasesWithDrugsByOpinionOnDate(initDate, endDate);
+
+            Long dataAC = eventRepository.countAllCasesForDrugsOnDate(initDate, endDate);
+            Long dataBC = eventRepository.countAllCasesWithDrugsByOpinionOnDate(initDate, endDate);
+
+            Long useDrugs = dataA + dataB;
+            Long notUseDrugs = (dataAC + dataBC) - useDrugs;
+
+            SelectList selectListA = new SelectList(new Long(0), notUseDrugs, "No consume");
+            SelectList selectListB = new SelectList(new Long(1), useDrugs, "Consume");
+
+            data.add(selectListA);
+            data.add(selectListB);
 
         }
         else if(filter.equals(Constants.REPORT_STATISTIC_D)){
+            List<SelectList> dataA = eventRepository.countCasesWithDrugsOnDateByGender(initDate, endDate);
+            List<SelectList> dataB = eventRepository.countCasesWithDrugsByOpinionOnDateByGender(initDate, endDate);
+            data.add(new SelectList(Constants.GENDER_MALE, dataA.get(0).getValue()+ dataB.get(0).getValue()));
+            data.add(new SelectList(Constants.GENDER_FEMALE, dataA.get(1).getValue()+ dataB.get(1).getValue()));
 
         }
         else if(filter.equals(Constants.REPORT_STATISTIC_E)){

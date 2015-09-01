@@ -41,11 +41,15 @@
         window.onload = function(){
 
             var dataSet = ${data};
+            var total = ${total};
+            var initDate = "${initDate}";
+            var endDate = "${endDate}";
+
 
             var color = d3.scale.ordinal()
                     .range(["#00BCD4", "#E91E63", "#009688", "#3F51B5"]);
 
-            var margin = {top: 30, right: 40, bottom: 30, left: 40},
+            var margin = {top: 50, right: 90, bottom: 50, left: 90},
                     width = 960 - margin.left - margin.right,
                     height = 500 - margin.top - margin.bottom;
 
@@ -56,8 +60,11 @@
                 { name: "Solo entrevista", value: 0} ];
 
 
+            var m1 = [0,.3,0,.2];
+            var m2 = [0,.8,0,.3];
+
             var x = d3.scale.ordinal()
-                    .rangeRoundBands([0, width], .1, .2);
+                    .rangeRoundBands([0, width], m1[dataSet.length - 1], m2[dataSet.length - 1]);
 
             var y = d3.scale.linear()
                     .range([height, 0]);
@@ -70,10 +77,9 @@
                     .scale(y)
                     .orient("left");
 
-
             var xScale = d3.scale.ordinal()
                     .domain(d3.range(dataSet.length))
-                    .rangeRoundBands([0, width], .1, .2);
+                    .rangeRoundBands([0, width], m1[dataSet.length - 1], m2[dataSet.length - 1]);
 
             var yScale = d3.scale.linear()
                     .domain([0, d3.max(dataSet, function(d) {return d.value;})])
@@ -106,6 +112,8 @@
                     .attr("y", function(d) { return y(d.value); })
                     .attr("height", function(d) { return height - y(d.value); })
                     .style("fill", function(d, i) { return color(i); })
+                    //.attr("stroke", "orange")
+                   // .attr("stroke-width", function(d,i){return d.value/2;})
             ;
 
             //text
@@ -124,7 +132,7 @@
                         return height - yScale(d.value) + 14;
                     })
                     .attr("font-family", "sans-serif")
-                    .attr("font-size", "11px")
+                    .attr("font-size", "12px")
                     .attr("fill", "white")
                     .attr("class", "textbar");
 
@@ -147,13 +155,22 @@
 
 
 
-//            svg.append("text")
-//                    .attr("x", (width / 2))
-//                    .attr("y", 0 - (margin.top / 2))
-//                    .attr("text-anchor", "middle")
-//                    .style("font-size", "16px")
-//                    .style("text-decoration", "underline")
-//                    .text("Reporte");
+            svg.append("text")
+                    .attr("x", (width / 2))
+                    .attr("y", 0 - 35)
+                    .attr("text-anchor", "middle")
+                    .style("font-size", "16px")
+                    .style("text-decoration", "underline")
+                    .text("Reporte");
+
+
+            svg.append("text")
+                    .attr("x", (width / 2))
+                    .attr("y", 0 - 15)
+                    .attr("text-anchor", "middle")
+                    .style("font-size", "12px")
+                    .text(initDate + " - " + endDate);
+
 
 
 //            var legend = svg.selectAll(".legend")
@@ -175,6 +192,54 @@
 //                    .attr("dy", ".35em")
 //                    .style("text-anchor", "end")
 //                    .text(function(d, i) { return d.name; });
+
+
+
+            svg.append("text")
+                    .attr("x", (width - 26))
+                    .data(dataSet)
+                    .attr("y", -10)
+                    .style("font-size", "13px")
+                    .text("Total: " + total + " personas");
+
+
+
+            //legend
+            var legend = svg.append("g")
+                    .attr("class", "legend")
+                //.attr("x", w - 65)
+                //.attr("y", 50)
+                    .attr("height", 100)
+                    .attr("width", 100)
+                    .attr('transform', 'translate(40,5)');
+
+            var legendRect = legend.selectAll('.legend').data(color.domain().slice());
+
+            legendRect.enter()
+                    .append("rect")
+                    .attr("x", width - 65)
+                    .attr("width", 10)
+                    .attr("height", 10)
+                    .style("fill", color);
+
+            legendRect
+                    .attr("y", function(d, i) {
+                        return i * 20;
+                    });
+
+            var legendText = legend.selectAll('text').data(dataSet);
+
+            legendText.enter()
+                    .append("text")
+                    .attr("x", width - 52);
+
+            legendText
+                    .attr("y", function(d, i) {
+                        return i * 20 + 9;
+                    })
+                    .style("font-size", "12px")
+                    .text(function(d, i) { return d.name + " - " + d.value; });
+
 
 
             //style
@@ -201,7 +266,6 @@
 //            }, 2000);
 
             d3.select("input").on("change", change);
-
 
             function change() {
 
@@ -244,11 +308,6 @@
 
             d3.select("#reset").on("click", reset);
 
-            d3.select("#data1")
-                    .on("click", function(d,i) {
-                        bars(data1)
-                    })
-
             function reset() {
                 svg.selectAll("rect")
                         .sort(function(a, b){
@@ -284,11 +343,6 @@
                         });
             };
 
-
-
-
-
-
             d3.select("#save").on("click", function(){
                 var html = d3.select("svg")
                         .attr("version", 1.1)
@@ -321,7 +375,6 @@
                 };
 
             });
-
 
             function binaryBlob(){
                 var byteString = atob(document.querySelector("canvas").toDataURL().replace(/^data:image\/(png|jpg);base64,/, "")); //wtf is atob?? https://developer.mozilla.org/en-US/docs/Web/API/Window.atob
@@ -357,8 +410,9 @@
     </h2>
 
     <%--<label><input type="checkbox"> Ordenar valores</label>--%>
-    <%--<button id="sort" onclick="sortBars()">Sort</button>--%>
     <%--<button id="reset">Reset</button>--%>
+    <%--<button id="sort" onclick="sortBars()">Sort</button>--%>
+
     <br/>
     <br/>
     <br/>
