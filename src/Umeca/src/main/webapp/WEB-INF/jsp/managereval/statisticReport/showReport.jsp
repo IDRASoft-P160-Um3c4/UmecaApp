@@ -406,9 +406,10 @@
         <i class="icon icon-file"></i>&nbsp;&nbsp;Reporte Estad&iacute;stico
     </h2>
 
-    <label><input type="checkbox"> Ordenar valores</label>
+    <%--<label><input type="checkbox"> Ordenar valores</label>--%>
+    <%--<button id="reset">Reset</button>--%>
     <%--<button id="sort" onclick="sortBars()">Sort</button>--%>
-    <button id="reset">Reset</button>
+
     <br/>
     <br/>
     <br/>
