@@ -50,9 +50,23 @@
             var color = d3.scale.ordinal()
                     .range(["#00BCD4", "#E91E63", "#009688", "#3F51B5"]);
 
-            var margin = {top: 50, right: 90, bottom: 50, left: 90},
-                    width = 1024 - margin.left - margin.right,
-                    height = 600 - margin.top - margin.bottom;
+
+            var dataSetx = [{"name":"Alcohol","value":1},{"name":"Marihuana","value":1},
+                {"name":"Cocaína","value":1},{"name":"Heroína","value":1},{"name":"Opiáceos","value":1},
+                {"name":"PBC","value":2},{"name":"Solventes","value":1},
+                {"name":"Cemento","value":2},{"name":"LSD","value":2},{"name":"Anfetaminas","value":1},
+                {"name":"Metanfetaminas","value":1},{"name":"Extasis","value":2},{"name":"Hongos","value":2},
+                {"name":"Otro","value":1},{"name":"Cocaína en piedra","value":2}];
+
+
+            if(dataSet.length > 4){
+                color = d3.scale.ordinal()
+                        .range(["#F44336", "#E91E63", "#9C27B0", "#673AB7","#3F51B5", "#2196F3", "#00BCD4", "#009688", "#4CAF50", "#8BC34A", "#FFEB3B", "#FFC107", "#FF9800", "#795548", "#9E9E9E"]);
+            }
+
+            var margin = {top: 50, right: 110, bottom: 50, left: 110},
+                    width = 1280 - margin.left - margin.right,
+                    height = 720 - margin.top - margin.bottom;
 
             var dataSetDefault = [
                 { name: "Opinion", value: 0},
@@ -61,8 +75,9 @@
                 { name: "Solo entrevista", value: 0} ];
 
 
-            var m1 = [0,.3,0,.2];
-            var m2 = [0,.8,0,.3];
+
+            var m1 = [.8,.5,.4,.3,.1,.1,.1,.1,.1,.1,.1,.1,.1,.1,.1];
+            var m2 = [.3,.4,.4,.4,.4,.4,.4,.6,.6,.6,.6,.6,.6,.6,.6];
 
             var x = d3.scale.ordinal()
                     .rangeRoundBands([0, width], m1[dataSet.length - 1], m2[dataSet.length - 1]);
@@ -422,7 +437,7 @@
         <i class="icon icon-file"></i>&nbsp;&nbsp;Reporte Estad&iacute;stico
     </h2>
 
-    <%--<label><input type="checkbox"> Ordenar valores</label>--%>
+    <label><input type="checkbox"> Ordenar valores</label>
     <%--<button id="reset">Reset</button>--%>
     <%--<button id="sort" onclick="sortBars()">Sort</button>--%>
 
@@ -432,7 +447,7 @@
         <div class="chartBar"></div>
         <%--<div id="svgdataurl"></div>--%>
         <%--<div id="pngdataurl"></div>--%>
-        <canvas width="1024" height="600" style="display:none"></canvas>
+        <canvas width="1280" height="720" style="display:none"></canvas>
 
         <br/>
         <br/>
