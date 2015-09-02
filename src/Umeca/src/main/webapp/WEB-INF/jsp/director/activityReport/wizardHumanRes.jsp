@@ -117,7 +117,7 @@
                             </button>
                         </div>
                         <div class="col-xs-4 element-right">
-                            <button type="button" class="btn btn-success" ng-click="end()">
+                            <button type="button" class="btn btn-warning" ng-click="end()">
                                 Terminar&nbsp;&nbsp;<i class="glyphicon glyphicon-check"></i></button>
                         </div>
                     </div>
@@ -205,7 +205,7 @@
                             </button>
                         </div>
                         <div class="col-xs-4 element-right">
-                            <button type="button" class="btn btn-success" ng-click="next('management')">
+                            <button type="button" class="btn btn-warning" ng-click="end()">
                                 Terminar&nbsp;&nbsp;<i class="glyphicon glyphicon-check"></i></button>
                         </div>
                     </div>
