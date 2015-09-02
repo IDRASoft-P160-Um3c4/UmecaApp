@@ -48,6 +48,7 @@ public class StatisticReportController {
         ModelAndView model = new ModelAndView("/managereval/statisticReport/showReport");
 
         String extraData = null;
+        String title = null;
         Long total = Long.valueOf(0);
         Date initDateF = null;
         Date endDateF = null;
@@ -56,6 +57,7 @@ public class StatisticReportController {
         String initTime = " 00:00:00";
         String endTime = " 23:59:59";
         try {
+            title = statisticReportTypeRepository.findByCode(filterSelected).getDescription();
             initDateF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(initDate + initTime);
             endDateF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(endDate + endTime);
 
@@ -80,6 +82,7 @@ public class StatisticReportController {
             model.addObject("total", total);
             model.addObject("data", gson.toJson(data));
             model.addObject("extraData", extraData);
+            model.addObject("title", title);
 
 
         } catch (Exception e) {
@@ -90,6 +93,7 @@ public class StatisticReportController {
             model.addObject("total", total);
             model.addObject("data", null);
             model.addObject("extraData", extraData);
+            model.addObject("title", title);
 
         }
 

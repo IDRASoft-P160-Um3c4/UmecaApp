@@ -51,17 +51,21 @@
                     .range(["#00BCD4", "#E91E63", "#009688", "#3F51B5"]);
 
 
-            var dataSetx = [{"name":"Alcohol","value":1},{"name":"Marihuana","value":1},
-                {"name":"Cocaína","value":1},{"name":"Heroína","value":1},{"name":"Opiáceos","value":1},
-                {"name":"PBC","value":2},{"name":"Solventes","value":1},
-                {"name":"Cemento","value":2},{"name":"LSD","value":2},{"name":"Anfetaminas","value":1},
-                {"name":"Metanfetaminas","value":1},{"name":"Extasis","value":2},{"name":"Hongos","value":2},
-                {"name":"Otro","value":1},{"name":"Cocaína en piedra","value":2}];
+            var dataSetx = [{"name":"Alcohol","value":2,"subName":"Alcohol"},{"name":"Marihuana","value":2,"subName":"Marihuana"},{"name":"Cocaína","value":2,"subName":"Cocaína"},
+                {"name":"Heroína","value":2,"subName":"Heroína"},{"name":"Opiáceos","value":2,"subName":"Opiáceos"},{"name":"PBC","value":2,"subName":"PBC"},
+                {"name":"Solventes","value":2,"subName":"Solventes"},{"name":"Cemento","value":2,"subName":"Cemento"},{"name":"LSD","value":2,"subName":"LSD"},
+                {"name":"Anfetaminas","value":2,"subName":"Anfetaminas"},{"name":"Metanfetaminas","value":2,"subName":"Meta"},{"name":"Extasis","value":2,"subName":"Extasis"},
+                {"name":"Hongos","value":2,"subName":"Hongos"},{"name":"Otro","value":2,"subName":"Otro"},{"name":"Cocaína en piedra","value":2,"subName":"CocaínaP"}];
 
 
-            if(dataSet.length > 4){
-                color = d3.scale.ordinal()
-                        .range(["#F44336", "#E91E63", "#9C27B0", "#673AB7","#3F51B5", "#2196F3", "#00BCD4", "#009688", "#4CAF50", "#8BC34A", "#FFEB3B", "#FFC107", "#FF9800", "#795548", "#9E9E9E"]);
+            var len = dataSet.length;
+
+            if(len > 4){
+                color = d3.scale.ordinal().range(["#F44336", "#E91E63", "#9C27B0", "#673AB7","#3F51B5", "#2196F3", "#00BCD4", "#009688", "#4CAF50", "#8BC34A", "#FFEB3B", "#FFC107", "#FF9800", "#795548", "#9E9E9E"]);
+            }
+
+            if(len > 8){
+                dataSet.map(function(d) { d.name = d.subName; })
             }
 
             var margin = {top: 50, right: 110, bottom: 50, left: 110},
@@ -76,8 +80,8 @@
 
 
 
-            var m1 = [.8,.5,.4,.3,.1,.1,.1,.1,.1,.1,.1,.1,.1,.1,.1];
-            var m2 = [.3,.4,.4,.4,.4,.4,.4,.6,.6,.6,.6,.6,.6,.6,.6];
+            var m1 = [.8,.3,.4,.3,.1,.1,.1,.1,.1,.1,.1,.1,.1,.1,.1];
+            var m2 = [.3,.9,.4,.4,.4,.4,.4,.6,.6,.6,.6,.6,.6,.6,.6];
 
             var x = d3.scale.ordinal()
                     .rangeRoundBands([0, width], m1[dataSet.length - 1], m2[dataSet.length - 1]);
@@ -170,7 +174,6 @@
                     .text("Personas");
 
 
-
             svg.append("text")
                     .attr("x", (width / 2))
                     .attr("y", 0 - 35)
@@ -186,10 +189,6 @@
                     .attr("text-anchor", "middle")
                     .style("font-size", "12px")
                     .text(initDate + " - " + endDate);
-
-
-
-
 
 
 //            var legend = svg.selectAll(".legend")
@@ -268,8 +267,6 @@
                     .style("font-size", "12px")
                     .text(function(d, i) { return d.name + " - " + d.value; });
 
-
-
             //style
             svg.selectAll(".x.axis path")
                     .style("display", "none");
@@ -299,7 +296,6 @@
 
                 //clearTimeout(sortTimeout);
 
-                // Copy-on-write since tweens are evaluated after a delay.
                 var x0 = x.domain(dataSet.sort(this.checked
                         ? function(a, b) { return b.value - a.value; }
                         : function(a, b) { return d3.ascending(a.name, b.name); })
@@ -377,7 +373,6 @@
                         .attr("xmlns", "http://www.w3.org/2000/svg")
                         .node().parentNode.innerHTML;
 
-                //console.log(html);
                 var imgSrc = 'data:image/svg+xml;base64,'+ btoa(unescape(encodeURIComponent(html)));;
                 //var img = '<img src="'+imgSrc+'">';
                 //d3.select("#svgdataurl").html(img);
