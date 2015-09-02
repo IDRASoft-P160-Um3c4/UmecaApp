@@ -22,6 +22,7 @@ public class SelectList implements EntityGrid{
     private String logType;
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
     private Long value;
+    private String subName;
 
     public SelectList() {
     }
@@ -197,10 +198,19 @@ public class SelectList implements EntityGrid{
     public SelectList(String name, Long value){
         this.value = value;
         this.name = name;
-        if(name.equals("PBC(Pasta básica de cocaína)")){
-            this.name = "PBC";
+        if(this.name.equals("Cocaína en piedra")) {
+            this.subName = "CocaínaP";
         }
-
+        else if(this.name.equals("Metanfetaminas")) {
+            this.subName = "Meta";
+        }
+        else if(name.equals("PBC(Pasta básica de cocaína)")){
+            this.name = "PBC";
+            this.subName = "PBC";
+        }
+        else{
+            this.subName = name;
+        }
     }
 
 
@@ -326,5 +336,13 @@ public class SelectList implements EntityGrid{
 
     public void setValue(Long value) {
         this.value = value;
+    }
+
+    public String getSubName() {
+        return subName;
+    }
+
+    public void setSubName(String subName) {
+        this.subName = subName;
     }
 }
