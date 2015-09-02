@@ -159,7 +159,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
                 "order by et.id")
         Long countCasesByOpinionOnDate(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
-        @Query("select new com.umeca.model.shared.SelectList(dT.name, COUNT(dT.id)) " +
+        @Query("select new com.umeca.model.shared.SelectList(dT.name, COUNT(distinct dT.id)) " +
                 "from Event ev " +
                 "inner join ev.eventType evT " +
                 "inner join ev.caseDetention c " +
