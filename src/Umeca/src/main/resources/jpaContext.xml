@@ -49,7 +49,7 @@
 
         <property name="url" value="jdbc:mysql://localhost:3306/sgumeca?autoReconnect=true"/>
         <property name="username" value="root"/>
-        <property name="password" value="Admin123.."/>
+        <property name="password" value="s@lp@ssw04rD$$"/>
 
         <!--<property name="url" value="jdbc:mysql://localhost:3306/sgumeca?autoReconnect=true"/>-->
         <!--<property name="username" value="root"/>-->

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -158,9 +159,16 @@ public interface EventRepository extends JpaRepository<Event, Long> {
                 "order by et.id")
         Long countCasesByOpinionOnDate(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
-
-
-
-
+        @Query("select new com.umeca.model.shared.SelectList(dT.name, COUNT(dT.id)) " +
+                "from Event ev " +
+                "inner join ev.eventType evT " +
+                "inner join ev.caseDetention c " +
+                "inner join c.meeting m " +
+                "inner join m.drugs d " +
+                "inner join d.drugType dT " +
+                "where dT.id <> 15 and (ev.dateId between :initDate and :endDate)" +
+                "group by dT.id"
+                )
+        List<SelectList>countTypeofDrugs(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
 }

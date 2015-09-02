@@ -35,10 +35,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -496,51 +493,35 @@ public class ActivityReportDirectorController {
 
     @RequestMapping(value = "/director/activityReport/downloadFiles", method = RequestMethod.GET)
     @ResponseBody
-    public FileSystemResource downloadFileByCase(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response) {
+    public FileSystemResource downloadFilesByReportId(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response) {
         try {
-/*
-            List<UploadFile> lstUpFiles = upDwFileService.getUploadFilesByCaseId(id);
-            if (lstUpFiles == null || lstUpFiles.size() == 0) {
-                File file = new File(UUID.randomUUID().toString());
+
+            ResponseMessage responseMsg = new ResponseMessage();
+            User user = new User();
+            if (userService.isValidUser(user, responseMsg) == false)
+                return null;
+
+
+            WizardActivityReport actRep = activityReportWizardService.findOne(id);
+            if (actRep == null) {
+                String fileName = "InformeNoEncontrado" + UUID.randomUUID().toString() + ".doc";
+                File file = new File(fileName);
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                writer.write("<html><body><h3>No existen archivos para generar el expediente.</h3></body></html>");
+                writer.write("<html><body><h3>No existe o ha sido eliminado el informe de actividades que ha seleccionado.</h3></body></html>");
                 writer.flush();
+                file.deleteOnExit();
                 return new FileSystemResource(file);
             }
 
-            CaseInfo caseInfo = caseRepository.getInfoById(id);
-            File fileOut = new File("Expediente - " + caseInfo.getPersonName() + ".zip");
-
-            FileOutputStream fos = new FileOutputStream(fileOut);
-            ZipOutputStream zos = new ZipOutputStream(fos);
-            byte[] buffer = new byte[1024];
-
-            for (UploadFile file : lstUpFiles) {
-
-                ZipEntry ze = new ZipEntry(file.getFileName());
-                zos.putNextEntry(ze);
-
-                String path = request.getSession().getServletContext().getRealPath("");
-                File fileIn = new File(path, file.getPath());
-                FileInputStream in = new FileInputStream(new File(fileIn, file.getRealFileName()));
-
-                int len;
-                while ((len = in.read(buffer)) > 0) {
-                    zos.write(buffer, 0, len);
-                }
-                in.close();
-            }
-            zos.closeEntry();
-            zos.close();
+            File fileOut = activityReportWizardService.downloadFilesByReport(actRep, user.getId(), request);
 
             response.setContentType("application/force-download");
             response.setContentLength((int) fileOut.length());
             response.setHeader("Content-Transfer-Encoding", "binary");
-            response.setHeader("Content-Disposition", "attachment; filename=\"" + fileOut.getName() + "\"");//fileName);
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + fileOut.getName() + "\"");
 
             return new FileSystemResource(fileOut);
-           */
-            return null;
+
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "downloadFiles", userService);
             try {
@@ -548,6 +529,7 @@ public class ActivityReportDirectorController {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
                 writer.write("<html><body><h3>Ocurrió un error al momento de descargar el informe. Por favor intente de nuevo.</h3></body></html>");
                 writer.flush();
+                file.deleteOnExit();
                 return new FileSystemResource(file);
             } catch (IOException ex) {
                 logException.Write(ex, this.getClass(), "downloadFiles", userService);

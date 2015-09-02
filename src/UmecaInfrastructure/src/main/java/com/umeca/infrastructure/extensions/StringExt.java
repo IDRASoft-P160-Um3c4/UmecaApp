@@ -1,5 +1,6 @@
 package com.umeca.infrastructure.extensions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StringExt {
@@ -25,5 +26,26 @@ public class StringExt {
             sRet = sRet + (sRet == "" ? "" : ", ") + data;
         }
         return sRet;
+    }
+
+    public static List<Long> getListIds(String sIds) {
+
+        if(sIds == null)
+            return null;
+
+        String[] strArray = sIds.split(",");
+
+        List<Long> lstIds = new ArrayList<>(strArray.length);
+
+        for(int i = 0; i < strArray.length; i++) {
+            try{
+                String sVal = strArray[i].trim();
+                lstIds.add(Long.parseLong(sVal));
+            }catch (Exception e){
+                continue;
+            }
+        }
+
+        return lstIds;
     }
 }
