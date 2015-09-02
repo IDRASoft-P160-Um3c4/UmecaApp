@@ -197,6 +197,9 @@ public class SelectList implements EntityGrid{
     public SelectList(String name, Long value){
         this.value = value;
         this.name = name;
+        if(name.equals("PBC(Pasta básica de cocaína)")){
+            this.name = "PBC";
+        }
 
     }
 

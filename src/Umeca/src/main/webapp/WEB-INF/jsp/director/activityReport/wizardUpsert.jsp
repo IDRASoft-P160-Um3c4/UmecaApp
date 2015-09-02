@@ -47,7 +47,7 @@
             </div>
         </div>
         <div class="col-xs-2 element-center">
-            <button type="button" class="btn btn-success" ng-click="end()">
+            <button type="button" class="btn btn-warning" ng-click="end()">
                 Terminar&nbsp;&nbsp;<i class="glyphicon glyphicon-check"></i></button>
         </div>
     </div>

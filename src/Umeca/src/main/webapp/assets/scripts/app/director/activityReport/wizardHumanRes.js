@@ -17,7 +17,7 @@ app.controller('wizardHumanResController', function ($scope, $rootScope) {
     };
 
     $scope.end = function(){
-        $scope.$emit("onFinish");
+        $rootScope.$broadcast("onFinish");
     };
 
     $scope.selectAll = function(){

@@ -230,7 +230,7 @@
                             </ul>
                         </li>
                         <li class="nav-li-blue"><a href="<c:url value='/managereval/formulation/index.html' />"><i
-                                class="icon icon-calendar"></i>&nbsp;&nbsp;Cita formulaci&oacute;n</a></li>
+                                class="icon icon-calendar"></i>&nbsp;&nbsp;Cita de formulaci&oacute;n</a></li>
 
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
