@@ -47,6 +47,7 @@ public class StatisticReportController {
     public ModelAndView showReport(String initDate, String endDate, String filterSelected) {
         ModelAndView model = new ModelAndView("/managereval/statisticReport/showReport");
 
+        String extraData = null;
         Long total = Long.valueOf(0);
         Date initDateF = null;
         Date endDateF = null;
@@ -64,21 +65,31 @@ public class StatisticReportController {
 
 
             List<SelectList> data = statisticReportService.getData(initId, endId, filterSelected);
+
+            Gson gson = new Gson();
+
+            if(gson.toJson(data).contains("-1111")) {
+                SelectList extra = data.remove(0);
+                extraData = "Total de entrevistas con opinión: " + extra.getValue();
+            }
             for ( SelectList temp : data ) {
                 total += temp.getValue();
             }
-
-            Gson gson = new Gson();
             model.addObject("initDate", initDate.toString());
             model.addObject("endDate", endDate.toString());
             model.addObject("total", total);
             model.addObject("data", gson.toJson(data));
+            model.addObject("extraData", extraData);
+
 
         } catch (Exception e) {
             e.printStackTrace();
             logException.Write(e, this.getClass(), "save", sharedUserService);
+            model.addObject("initDate", initDate.toString());
+            model.addObject("endDate", endDate.toString());
             model.addObject("total", total);
             model.addObject("data", null);
+            model.addObject("extraData", extraData);
 
         }
 
@@ -91,8 +102,5 @@ public class StatisticReportController {
         ModelAndView model = new ModelAndView("/managereval/statisticReport/testd3");
         return model;
     }
-
-
-
 
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 
@@ -64,7 +65,7 @@ public class StatisticReportServiceImpl implements StatisticReportService {
 
         }
         else if(filter.equals(Constants.REPORT_STATISTIC_E)){
-
+            data = eventRepository.countTypeofDrugs(initDate, endDate);
         }
         else if(filter.equals(Constants.REPORT_STATISTIC_F)){
 
@@ -76,6 +77,13 @@ public class StatisticReportServiceImpl implements StatisticReportService {
 
         }
         else if(filter.equals(Constants.REPORT_STATISTIC_I)){
+            Long extraData = eventRepository.countCasesByOpinionOnDate(initDate, endDate);
+            SelectList selectListExtra = new SelectList(new Long(-1111), extraData, "Total entrevista con Opinión");
+            data.add(selectListExtra);
+
+            Long dataA = eventRepository.countSourcesByOpinionOnDate(initDate, endDate);
+            SelectList selectListA = new SelectList(new Long(0), dataA, "Fuentes de verificación utilizadas");
+            data.add(selectListA);
 
         }
 

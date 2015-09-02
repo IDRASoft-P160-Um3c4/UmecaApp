@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -30,9 +31,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     List<Event> getEventsFromCase(@Param("id") Long id);
 
 
-
     @Query("select new com.umeca.model.shared.SelectList(et.id, count(e), et.name) from Event as e " +
-            "left join e.eventType et " +
+            "inner join e.eventType et " +
             "where (e.dateId between :initDate and :endDate) " +
             "and (et.name = com.umeca.model.shared.Constants.EVENT_INTERVIEW_DECLINED or " +
             "et.name = com.umeca.model.shared.Constants.EVENT_CASE_REPORT or " +
@@ -41,8 +41,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "group by et.name " +
             "order by et.id")
     List<SelectList> countCasesByEventOnDate(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
-
-
 
 
     @Query("select count( distinct eca) from Event as e " +
@@ -72,7 +70,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     Long countCasesWithDrugsByOpinionOnDate(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
 
-
     @Query("select count( distinct eca) from Event as e " +
             "inner join e.eventType et " +
             "inner join e.caseDetention eca " +
@@ -83,7 +80,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "and (et.name = com.umeca.model.shared.Constants.EVENT_CASE_REPORT or " +
             "et.name = com.umeca.model.shared.Constants.EVENT_ONLY_INTERVIEW)")
     Long countAllCasesForDrugsOnDate(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
-
 
 
     @Query("select count( distinct eca) from Event as e " +
@@ -100,7 +96,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     Long countAllCasesWithDrugsByOpinionOnDate(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
 
-    
     @Query("select  new com.umeca.model.shared.SelectList(i.gender, count(i.gender))" +
             "from Event ev " +
             "inner join ev.caseDetention c " +
@@ -141,8 +136,39 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     List<SelectList> countCasesWithDrugsByOpinionOnDateByGender(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
 
+    @Query("select count(ecaversour.id) from Event as e " +
+            "inner join e.eventType et " +
+            "inner join e.caseDetention eca " +
+            "inner join eca.verification ecaver " +
+            "inner join ecaver.sourceVerifications ecaversour " +
+            "where (e.dateId between :initDate and :endDate) " +
+            "and (et.name = com.umeca.model.shared.Constants.EVENT_CASE_OPINION) " +
+            "and (ecaversour.isAuthorized = true ) " +
+            "and (ecaversour.visible = true ) " +
+            "and (ecaversour.relationship <> NULL) " +
+            "order by et.id")
+    Long countSourcesByOpinionOnDate(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
 
 
+
+        @Query("select count(e.id) from Event as e " +
+                "inner join e.eventType et " +
+                "where (e.dateId between :initDate and :endDate) " +
+                "and (et.name = com.umeca.model.shared.Constants.EVENT_CASE_OPINION) " +
+                "order by et.id")
+        Long countCasesByOpinionOnDate(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
+
+        @Query("select new com.umeca.model.shared.SelectList(dT.name, COUNT(dT.id)) " +
+                "from Event ev " +
+                "inner join ev.eventType evT " +
+                "inner join ev.caseDetention c " +
+                "inner join c.meeting m " +
+                "inner join m.drugs d " +
+                "inner join d.drugType dT " +
+                "where dT.id <> 15 and (ev.dateId between :initDate and :endDate)" +
+                "group by dT.id"
+                )
+        List<SelectList>countTypeofDrugs(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
 }

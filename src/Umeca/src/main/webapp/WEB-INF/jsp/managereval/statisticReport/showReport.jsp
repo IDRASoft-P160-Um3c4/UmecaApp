@@ -44,14 +44,15 @@
             var total = ${total};
             var initDate = "${initDate}";
             var endDate = "${endDate}";
+            var extraData = "${extraData}";
 
 
             var color = d3.scale.ordinal()
                     .range(["#00BCD4", "#E91E63", "#009688", "#3F51B5"]);
 
             var margin = {top: 50, right: 90, bottom: 50, left: 90},
-                    width = 960 - margin.left - margin.right,
-                    height = 500 - margin.top - margin.bottom;
+                    width = 1024 - margin.left - margin.right,
+                    height = 600 - margin.top - margin.bottom;
 
             var dataSetDefault = [
                 { name: "Opinion", value: 0},
@@ -173,6 +174,9 @@
 
 
 
+
+
+
 //            var legend = svg.selectAll(".legend")
 //                    .data(color.domain().slice())
 //                    .enter().append("g")
@@ -198,9 +202,18 @@
             svg.append("text")
                     .attr("x", (width - 26))
                     .data(dataSet)
-                    .attr("y", -10)
+                    .attr("y", 20)
                     .style("font-size", "13px")
                     .text("Total: " + total + " personas");
+
+            if(extraData !== ""){
+                svg.append("text")
+                        .attr("x", (width - 26))
+                        .data(dataSet)
+                        .attr("y", -5)
+                        .style("font-size", "13px")
+                        .text(extraData);
+            }
 
 
 
@@ -211,7 +224,7 @@
                 //.attr("y", 50)
                     .attr("height", 100)
                     .attr("width", 100)
-                    .attr('transform', 'translate(40,5)');
+                    .attr('transform', 'translate(40,40)');
 
             var legendRect = legend.selectAll('.legend').data(color.domain().slice());
 
@@ -415,16 +428,11 @@
 
     <br/>
     <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
     <div class="row-fluid center">
         <div class="chartBar"></div>
         <%--<div id="svgdataurl"></div>--%>
         <%--<div id="pngdataurl"></div>--%>
-        <canvas width="960" height="500" style="display:none"></canvas>
+        <canvas width="1024" height="600" style="display:none"></canvas>
 
         <br/>
         <br/>
