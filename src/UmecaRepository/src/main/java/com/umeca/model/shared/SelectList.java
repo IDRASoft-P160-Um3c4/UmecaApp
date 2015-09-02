@@ -194,6 +194,12 @@ public class SelectList implements EntityGrid{
             this.name = "Mujer";
     }
 
+    public SelectList(String name, Long value){
+        this.value = value;
+        this.name = name;
+
+    }
+
 
     public Long getId() {
         return id;
