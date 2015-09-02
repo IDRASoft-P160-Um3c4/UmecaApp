@@ -76,6 +76,13 @@ public class StatisticReportServiceImpl implements StatisticReportService {
 
         }
         else if(filter.equals(Constants.REPORT_STATISTIC_I)){
+            Long extraData = eventRepository.countCasesByOpinionOnDate(initDate, endDate);
+            SelectList selectListExtra = new SelectList(new Long(-1111), extraData, "Total entrevista con Opinión");
+            data.add(selectListExtra);
+
+            Long dataA = eventRepository.countSourcesByOpinionOnDate(initDate, endDate);
+            SelectList selectListA = new SelectList(new Long(0), dataA, "Fuentes de verificación utilizadas");
+            data.add(selectListA);
 
         }
 
