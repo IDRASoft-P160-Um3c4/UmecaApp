@@ -47,6 +47,7 @@ public class StatisticReportController {
     public ModelAndView showReport(String initDate, String endDate, String filterSelected) {
         ModelAndView model = new ModelAndView("/managereval/statisticReport/showReport");
 
+        String extraData = null;
         Long total = Long.valueOf(0);
         Date initDateF = null;
         Date endDateF = null;
