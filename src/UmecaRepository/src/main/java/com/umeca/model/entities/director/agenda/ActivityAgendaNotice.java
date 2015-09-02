@@ -14,6 +14,20 @@ public class ActivityAgendaNotice {
     private String status;
     private String priority;
     private String color;
+    private String creationCalTx;
+    private String doneCalTx;
+    private String isDoneTx;
+    private String comments;
+
+    public ActivityAgendaNotice(Long activityId, Calendar endCalendar, Calendar startCalendar, String place, String description, String status, String priority,
+                                String color, Calendar creationCal, Calendar doneCal, Boolean isDone, String comments) {
+        this(activityId, endCalendar, startCalendar, place, description, status, priority, color);
+
+        this.creationCalTx = CalendarExt.calendarToFormatString(creationCal, Constants.FORMAT_CALENDAR_I);
+        this.doneCalTx = CalendarExt.calendarToFormatString(doneCal, Constants.FORMAT_CALENDAR_I);
+        this.isDoneTx = isDone == null ? "NA" : (isDone ? "SI" : "NO");
+        this.comments = comments == null ? "ND" : comments;
+    }
 
     public ActivityAgendaNotice(Long activityId, Calendar endCalendar, Calendar startCalendar, String place, String description, String status, String priority, String color) {
         this.activityId = activityId;
@@ -89,5 +103,37 @@ public class ActivityAgendaNotice {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public String getCreationCalTx() {
+        return creationCalTx;
+    }
+
+    public void setCreationCalTx(String creationCalTx) {
+        this.creationCalTx = creationCalTx;
+    }
+
+    public String getDoneCalTx() {
+        return doneCalTx;
+    }
+
+    public void setDoneCalTx(String doneCalTx) {
+        this.doneCalTx = doneCalTx;
+    }
+
+    public String getIsDoneTx() {
+        return isDoneTx;
+    }
+
+    public void setIsDoneTx(String isDoneTx) {
+        this.isDoneTx = isDoneTx;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }

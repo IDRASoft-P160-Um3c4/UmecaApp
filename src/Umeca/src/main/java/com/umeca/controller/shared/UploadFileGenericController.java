@@ -117,6 +117,7 @@ public class UploadFileGenericController {
         response.setHeader("Content-Transfer-Encoding", "binary");
         response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getFileName() + "\"");//fileName);
 
+        finalFile.deleteOnExit();
         return new FileSystemResource(finalFile);
     }
 }

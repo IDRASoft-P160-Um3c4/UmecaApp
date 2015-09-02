@@ -631,6 +631,7 @@ public class MinuteController {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
                 writer.write("<html><body><h3>No existen archivos para descargar.</h3></body></html>");
                 writer.flush();
+                file.deleteOnExit();
                 return new FileSystemResource(file);
             }
 
@@ -665,6 +666,7 @@ public class MinuteController {
             response.setHeader("Content-Transfer-Encoding", "binary");
             response.setHeader("Content-Disposition", "attachment; filename=\"" + fileOut.getName() + "\"");//fileName);
 
+            fileOut.deleteOnExit();
             return new FileSystemResource(fileOut);
 
         } catch (IOException e) {
@@ -674,6 +676,7 @@ public class MinuteController {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
                 writer.write("<html><body><h3>Ocurrió un error al momento de generar el expediente. Por favor intente de nuevo o contacte a soporte técnico.</h3></body></html>");
                 writer.flush();
+                file.deleteOnExit();
                 return new FileSystemResource(file);
             } catch (IOException ex) {
                 logException.Write(ex, this.getClass(), "downloadFilesByAgreement", sharedUserService);

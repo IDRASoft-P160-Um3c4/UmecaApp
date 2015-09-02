@@ -47,4 +47,10 @@ public interface ActivityAgendaRepository extends JpaRepository<ActivityAgenda, 
     List<ActivityAgendaNotice> getLstActivitiesByUserIdAndDates(@Param("userId")Long userId, @Param("lstActStatus") ArrayList<String> lstActStatus,
                                                                         @Param("today") Calendar today, @Param("tomorrow") Calendar tomorrow, Pageable pageable);
 
+    @Query("SELECT new com.umeca.model.entities.director.agenda.ActivityAgendaNotice(aa.id, aa.end, aa.start, aa.place, aa.description, aa.status, " +
+            "p.name, p.color, aa.creationTime, aa.doneTime, aa.isDone, aa.comments)" +
+            "FROM ActivityAgenda aa INNER JOIN aa.priority p " +
+            "WHERE aa.userOwner.id =:userId AND aa.id IN :ids " +
+            "ORDER BY aa.start ASC")
+    List<ActivityAgendaNotice> getLstActivitiesByIds(@Param("ids")List<Long> ids, @Param("userId")Long userId);
 }
