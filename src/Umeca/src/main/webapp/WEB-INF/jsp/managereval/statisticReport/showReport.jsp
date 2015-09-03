@@ -45,6 +45,7 @@
             var initDate = "${initDate}";
             var endDate = "${endDate}";
             var extraData = "${extraData}";
+            var title = "${title}"
 
 
             var color = d3.scale.ordinal()
@@ -179,8 +180,8 @@
                     .attr("y", 0 - 35)
                     .attr("text-anchor", "middle")
                     .style("font-size", "16px")
-                    .style("text-decoration", "underline")
-                    .text("Reporte");
+                    //.style("text-decoration", "underline")
+                    .text(title);
 
 
             svg.append("text")
@@ -447,7 +448,7 @@
         <br/>
         <br/>
         <button class="btn btn-info" id="save">
-            <i class="glyphicon glyphicon-picture"></i>&nbsp;Guardar reporte
+            <i class="glyphicon glyphicon-picture"></i>&nbsp;Descargar reporte
         </button>
     </div>
 
