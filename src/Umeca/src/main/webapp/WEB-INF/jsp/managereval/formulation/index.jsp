@@ -327,6 +327,8 @@
                     }
                 });
 
+
+
                 jQuery("#GridId").jqGrid('navGrid', '#GridPager', {
                     edit: false, editicon: 'icon-pencil blue',
                     add: false,
