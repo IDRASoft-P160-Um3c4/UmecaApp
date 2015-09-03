@@ -113,6 +113,10 @@ public class CaseReportController {
                     return r.join("caseDetention").join("status").get("name");
                 else if (field.equals("eventCode"))
                     return r.join("eventType").get("name");
+                else if (field.equals("idFolder"))
+                    return r.join("caseDetention").get("idFolder");
+                else if (field.equals("fullname"))
+                    return r.join("caseDetention").join("meeting").join("imputed").get("name");
                 else
                     return null;
             }
