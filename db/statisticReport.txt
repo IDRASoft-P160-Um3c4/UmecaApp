@@ -6,3 +6,4 @@
 5|STR_5|Número de personas entrevistadas que consumen sustancias agrupadas por tipo de sustancia.|0
 6|STR_6|Número de personas con opinión técnica, el número de fuentes de verificación.|0
 7|STR_7|Comparativo entrevistas por año.|0
+8|STR_8|Comparativo entrevistas por distrito judicial|0
