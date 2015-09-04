@@ -45,18 +45,12 @@
             var initDate = "${initDate}";
             var endDate = "${endDate}";
             var extraData = "${extraData}";
-            var title = "${title}"
+            var title = "${title}";
+            var yAxisStr = "${yAxis}";
 
 
             var color = d3.scale.ordinal()
                     .range(["#00BCD4", "#E91E63", "#009688", "#3F51B5"]);
-
-
-            var dataSetx = [{"name":"Alcohol","value":2,"subName":"Alcohol"},{"name":"Marihuana","value":2,"subName":"Marihuana"},{"name":"Cocaína","value":2,"subName":"Cocaína"},
-                {"name":"Heroína","value":2,"subName":"Heroína"},{"name":"Opiáceos","value":2,"subName":"Opiáceos"},{"name":"PBC","value":2,"subName":"PBC"},
-                {"name":"Solventes","value":2,"subName":"Solventes"},{"name":"Cemento","value":2,"subName":"Cemento"},{"name":"LSD","value":2,"subName":"LSD"},
-                {"name":"Anfetaminas","value":2,"subName":"Anfetaminas"},{"name":"Metanfetaminas","value":2,"subName":"Meta"},{"name":"Extasis","value":2,"subName":"Extasis"},
-                {"name":"Hongos","value":2,"subName":"Hongos"},{"name":"Otro","value":2,"subName":"Otro"},{"name":"Cocaína en piedra","value":2,"subName":"CocaínaP"}];
 
 
             var len = dataSet.length;
@@ -172,7 +166,7 @@
                     .attr("y", 6)
                     .attr("dy", ".71em")
                     .style("text-anchor", "end")
-                    .text("Personas");
+                    .text(yAxisStr);
 
 
             svg.append("text")
@@ -219,11 +213,11 @@
                     .data(dataSet)
                     .attr("y", 20)
                     .style("font-size", "13px")
-                    .text("Total: " + total + " personas");
+                    .text("Total: " + total + " " + yAxisStr);
 
             if(extraData !== ""){
                 svg.append("text")
-                        .attr("x", (width - 26))
+                        .attr("x", (width - 100))
                         .data(dataSet)
                         .attr("y", -5)
                         .style("font-size", "13px")

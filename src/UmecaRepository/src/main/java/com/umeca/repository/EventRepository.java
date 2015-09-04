@@ -171,4 +171,16 @@ public interface EventRepository extends JpaRepository<Event, Long> {
                 )
         List<SelectList>countTypeofDrugs(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
+
+
+        @Query(value = "select year(e.date) as year, count(e.id_event) " +
+                "from Event as e " +
+                "where (e.date_Id between :initDate and :endDate) " +
+                "group by year", nativeQuery = true)
+        List<Object> countCasesByYear(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
+
+
+
+
+
 }
