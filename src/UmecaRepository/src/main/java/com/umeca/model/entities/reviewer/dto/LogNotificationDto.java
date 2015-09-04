@@ -49,6 +49,7 @@ public class LogNotificationDto {
         this.idFolder = idFolder;
         this.imputedName = imputedName;
         this.orderDate = orderDate;
+        //TODO RECOMENDACION: NO ESCAPAR EL NOMBRE DEL IMPUTADO
 
         if (status.equals(Constants.S_MEETING_INCOMPLETE)) {
             title = "Entrevista incompleta.";

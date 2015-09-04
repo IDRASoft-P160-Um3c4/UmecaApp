@@ -187,6 +187,8 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                     String v;
                     if (!fms.getValue().trim().equals("")) {
                         if (fms.getStatusFieldVerification().getName().equals(Constants.ST_FIELD_VERIF_UNABLE)) {
+
+                            //TODO BUSCAR EN FIELDMEETINGSOURCE TODOS LOS VALORES PARA ESE FIELMEETING
                             v = templateUnable;
                             List<ChoiceView> list = new ArrayList<>();
                             List<SearchToChoiceIds> idSources = new ArrayList<>();
@@ -207,7 +209,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                                 list.add(new ChoiceView().choiceDto(result));
                             }
                             for (ChoiceView choice : list) {
-                                sourcessay += StringEscape.escapeText(choice.getNameSource()) + ": ";
+                                sourcessay += "<strong>" +  StringEscape.escapeText(choice.getNameSource()) + "</strong>: ";
                                 for (String s : choice.getValues()) {
                                     sourcessay += StringEscape.escapeText(s) + ",";
                                 }
