@@ -432,7 +432,7 @@
     </div>
 
     <div class="row element-center">
-        <a href="<c:url value='/managereval/statisticReport/index.html' />">
+        <a href="<c:url value='/managereval/statisticOperatorReport/index.html' />">
             <button class="btn">
                 <i class="glyphicon glyphicon-stats"></i>&nbsp;Obtener otro reporte
 

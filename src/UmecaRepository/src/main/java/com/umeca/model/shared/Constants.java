@@ -328,7 +328,12 @@ public class Constants {
     public static final String REPORT_STATISTIC_F = "STR_6";
     public static final String REPORT_STATISTIC_G = "STR_7";
     public static final String REPORT_STATISTIC_H = "STR_8";
-    public static final String REPORT_STATISTIC_I = "STR_9";
+
+
+    public static final String REPORT_OPERATOR_STATISTIC_A = "STOPR_1";
+    public static final String REPORT_OPERATOR_STATISTIC_B = "STOPR_2";
+    public static final String REPORT_OPERATOR_STATISTIC_C = "STOPR_3";
+    public static final String REPORT_OPERATOR_STATISTIC_D = "STOPR_4";
 
 }
 

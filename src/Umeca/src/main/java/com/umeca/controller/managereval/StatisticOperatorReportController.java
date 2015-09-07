@@ -1,11 +1,10 @@
 package com.umeca.controller.managereval;
 
 import com.google.gson.Gson;
-import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.StatisticOperatorReportTypeRepository;
-import com.umeca.repository.catalog.StatisticReportTypeRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.managereval.Stado;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +27,8 @@ public class StatisticOperatorReportController {
     SharedUserService sharedUserService;
     @Autowired
     StatisticOperatorReportTypeRepository statisticOperatorReportTypeRepository;
+    @Autowired
+    Stado stado;
 
 
 
@@ -41,28 +43,59 @@ public class StatisticOperatorReportController {
 
 
 
-    @RequestMapping(value = "/managereval/statisticOperatorReport/showReport", method = RequestMethod.POST)
-    public ResponseMessage showReport(String filterSelected, String initDate, String endDate) {
-        ResponseMessage responseMessage = null;
+    @RequestMapping(value = "/managereval/statisticOperatorReport/showReport", method = RequestMethod.GET)
+    public ModelAndView showReport(String initDate, String endDate, String filterSelected) {
         ModelAndView model = new ModelAndView("/managereval/statisticOperatorReport/showReport");
 
+        String yAxis = "Entrevistas";
+        String extraData = null;
+        String title = null;
+        Long total = Long.valueOf(0);
         Date initDateF = null;
         Date endDateF = null;
+        int initId = 0;
+        int endId = 0;
         String initTime = " 00:00:00";
         String endTime = " 23:59:59";
         try {
-            initDateF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-                    .parse(initDate + initTime);
+            title = statisticOperatorReportTypeRepository.findByCode(filterSelected).getDescription();
+            initDateF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(initDate + initTime);
+            endDateF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(endDate + endTime);
 
-            endDateF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-                    .parse(endDate + endTime);
+            DateFormat df = new SimpleDateFormat("yyyyMMdd");
+            initId = Integer.parseInt(df.format(initDateF));
+            endId = Integer.parseInt(df.format(endDateF));
+
+
+            List<SelectList> data = stado.getData(initId, endId, filterSelected);
+
+            Gson gson = new Gson();
+
+
+            model.addObject("initDate", initDate);
+            model.addObject("endDate", endDate);
+            model.addObject("total", total);
+            model.addObject("data", gson.toJson(data));
+            model.addObject("extraData", extraData);
+            model.addObject("title", title);
+            model.addObject("yAxis", yAxis);
+
+
         } catch (Exception e) {
             e.printStackTrace();
             logException.Write(e, this.getClass(), "save", sharedUserService);
-            return new ResponseMessage(true, "Error de red, intente mas tarde.");
+            model.addObject("initDate", initDate.toString());
+            model.addObject("endDate", endDate.toString());
+            model.addObject("total", total);
+            model.addObject("data", null);
+            model.addObject("extraData", extraData);
+            model.addObject("title", title);
+            model.addObject("yAxis", yAxis);
+
         }
 
-        return responseMessage;
+        return model;
+
     }
 
 
