@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @Service("statisticOperatorReportService")
-public class StadoImpl implements Stado {
+public class StatisticOperatorReportServiceImpl implements StatisticOperatorReportService {
     @Autowired
     SharedUserService userService;
 

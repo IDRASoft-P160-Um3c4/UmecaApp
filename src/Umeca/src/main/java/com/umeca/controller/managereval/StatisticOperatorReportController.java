@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.StatisticOperatorReportTypeRepository;
 import com.umeca.service.account.SharedUserService;
-import com.umeca.service.managereval.Stado;
+import com.umeca.service.managereval.StatisticOperatorReportService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +28,7 @@ public class StatisticOperatorReportController {
     @Autowired
     StatisticOperatorReportTypeRepository statisticOperatorReportTypeRepository;
     @Autowired
-    Stado stado;
+    StatisticOperatorReportService statisticOperatorReportService;
 
 
 
@@ -67,7 +67,7 @@ public class StatisticOperatorReportController {
             endId = Integer.parseInt(df.format(endDateF));
 
 
-            List<SelectList> data = stado.getData(initId, endId, filterSelected);
+            List<SelectList> data = statisticOperatorReportService.getData(initId, endId, filterSelected);
 
             Gson gson = new Gson();
 
