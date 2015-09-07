@@ -86,6 +86,9 @@ public class StatisticReportController {
                 endDate = endDate.substring(0,4);
                 yAxis = "Entrevistas";
             }
+            else if (filterSelected.equals(Constants.REPORT_STATISTIC_H)){
+                yAxis = "Entrevistas";
+            }
 
             model.addObject("initDate", initDate);
             model.addObject("endDate", endDate);

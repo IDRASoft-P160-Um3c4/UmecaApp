@@ -76,7 +76,7 @@ public class Meeting {
     private StatusMeeting status;
 
     @ManyToOne(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
-    @JoinColumn(name="id_district", nullable = false)
+    @JoinColumn(name="id_district", nullable = true)
     private District district;
 
     @Column(name="decline_reason", nullable = true, length = 500)
