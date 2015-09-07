@@ -3,7 +3,7 @@ import com.umeca.model.shared.SelectList;
 import java.util.List;
 
 
-public interface StatisticOperatorReportServicePxxx {
+public interface StatisticOperatorService {
 
     List<SelectList> getData(int initDate, int endDate, String filter);
 }
