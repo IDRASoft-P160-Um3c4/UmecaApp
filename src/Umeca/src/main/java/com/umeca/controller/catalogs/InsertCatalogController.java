@@ -377,8 +377,15 @@ public class InsertCatalogController {
         return "statisticOperatorReportType";
     }
 
+    @RequestMapping(value = "/catalogs/statisticSupervisorManagerReportType", method = RequestMethod.GET)
+    public String statisticSupervisorManagerReportType() {
+        service.statisticSupervisorManagerReportType();
+        return "statisticSupervisorManagerReportType";
+    }
+
+
     @RequestMapping(value = "/catalogs/framingSafetyFactor", method = RequestMethod.GET)
-    public String framingSafetyFactor() {
+     public String framingSafetyFactor() {
         service.framingSafetyFactor();
         return "framingSafetyFactor";
     }
@@ -446,6 +453,7 @@ public class InsertCatalogController {
         service.statisticReportType();
         service.statisticOperatorReportType();
         service.framingSafetyFactor();
+        service.statisticSupervisorManagerReportType();
         return "insertCatalog OK!!";
     }
 }

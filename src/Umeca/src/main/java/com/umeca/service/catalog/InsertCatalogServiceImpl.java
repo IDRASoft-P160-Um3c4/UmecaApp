@@ -23,6 +23,7 @@ import com.umeca.repository.shared.QuestionaryRepository;
 import com.umeca.repository.shared.SystemSettingRepository;
 import com.umeca.repository.shared.WeekDayRepository;
 import com.umeca.repository.supervisor.*;
+import com.umeca.repository.supervisorManager.StatisticSupervisorManagerReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -158,6 +159,8 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     StatisticOperatorReportTypeRepository statisticOperatorReportTypeRepository;
     @Autowired
     FramingSafetyFactorRepository framingSafetyFactorRepository;
+    @Autowired
+    StatisticSupervisorManagerReportRepository statisticSupervisorManagerReportRepository;
 
 
     private String PATH = "C:\\Users\\DeveloperII\\Source\\UmecaApp\\db\\";
@@ -1094,6 +1097,8 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
         statisticReportTypeRepository.flush();
     }
 
+
+
     @Override
     public void statisticOperatorReportType() {
         List<String[]> lstDta = ReaderFile.readFile(PATH + "statisticOperatorReport.txt", "\\|", 4);
@@ -1106,6 +1111,20 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             statisticOperatorReportTypeRepository.save(model);
         }
         statisticOperatorReportTypeRepository.flush();
+    }
+
+    @Override
+    public void statisticSupervisorManagerReportType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "statistic_supervisor_manager_report.txt", "\\|", 4 );
+        for(String[] data : lstDta){
+            StatisticSupervisorManagerReportType model = new StatisticSupervisorManagerReportType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            statisticSupervisorManagerReportRepository.save(model);
+
+        }
     }
 
     @Override

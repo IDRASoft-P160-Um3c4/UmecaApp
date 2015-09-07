@@ -14,6 +14,7 @@ import com.umeca.model.shared.ConstantsLogCase;
 import com.umeca.model.shared.HearingFormatConstants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.CaseRepository;
+import com.umeca.repository.EventRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
@@ -95,6 +96,9 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     private RegisterTypeRepository registerTypeRepository;
     @Autowired
     private HomeTypeRepository homeTypeRepository;
+
+    @Autowired
+    private EventService eventService;
 
     private Gson conv = new Gson();
 
@@ -230,10 +234,13 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             address.setInnNum(viewFormat.getInnNum());
             address.setLat(viewFormat.getLat());
             address.setLng(viewFormat.getLng());
-            if (viewFormat.getIsHomeless() == true)
-                address.setLocation(locationRepository.findByLocName(Constants.COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW));
-            else
-                address.setLocation(locationRepository.findOne(viewFormat.getLocation().getId()));
+            if(viewFormat.getIsHomeless() != null ) {
+                if (viewFormat.getIsHomeless() == true)
+                    address.setLocation(locationRepository.findByLocName(Constants.COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW));
+                else
+                    address.setLocation(locationRepository.findOne(viewFormat.getLocation().getId()));
+            }
+
             address.setAddressString(address.toString());
 
             hearingImputed.setAddress(address);
@@ -1036,6 +1043,9 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             sb.append("/supervisor/hearingFormat/indexFormats.html?id=");
             sb.append(hearingFormat.getCaseDetention().getId());
             response.setUrlToGo(sb.toString());
+
+            if(eventService.caseHasEvent(Constants.EVENT_PROSECUTE,hearingFormat.getCaseDetention().getId()) == false)
+                eventService.addEvent(Constants.EVENT_PROSECUTE,hearingFormat.getCaseDetention().getId(),null);
         } else {
             response.setMessage(hearingFormat.getId() + "|Se ha registrado el formato de audiencia.");
         }

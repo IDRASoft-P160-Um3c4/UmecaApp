@@ -17,6 +17,11 @@ public class Event {
 
     }
 
+    public Event(Long id, Case caseDetention){
+        this.id = id;
+        this.caseDetention = caseDetention;
+    }
+
     public Event(Long id, Integer dateId,String name,Case caseDetention){
         this.eventType = new EventType();
         this.id = id;

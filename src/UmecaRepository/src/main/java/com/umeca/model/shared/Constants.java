@@ -315,7 +315,7 @@ public class Constants {
     public static final String EVENT_CASE_OPINION = "OPINION";
     public static final String EVENT_ONLY_INTERVIEW = "INTERVIEW";
     public static final String EVENT_FROM_FORMULATION = "FORMULATION";
-
+    public static final String EVENT_PROSECUTE = "PROSECUTED";
 
 
 
@@ -329,6 +329,13 @@ public class Constants {
     public static final String REPORT_STATISTIC_G = "STR_7";
     public static final String REPORT_STATISTIC_H = "STR_8";
     public static final String REPORT_STATISTIC_I = "STR_9";
+
+
+    /** códigos reportes coordinador de supervición **/
+
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_A = "STMSR_1";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_B = "STMSR_2";
+
 
 }
 

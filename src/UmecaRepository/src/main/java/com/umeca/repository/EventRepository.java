@@ -98,10 +98,14 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     @Query("select  new com.umeca.model.shared.SelectList(i.gender, count(i.gender))" +
             "from Event ev " +
+            "inner join ev.eventType evT " +
             "inner join ev.caseDetention c " +
             "inner join c.meeting m " +
             "inner  join m.imputed i " +
-            "where (ev.dateId between :initDate and :endDate) " +
+            "where (evT.name = com.umeca.model.shared.Constants.EVENT_CASE_OPINION or " +
+            "evT.name = com.umeca.model.shared.Constants.EVENT_CASE_REPORT or " +
+            "evT.name = com.umeca.model.shared.Constants.EVENT_ONLY_INTERVIEW)" +
+            " and (ev.dateId between :initDate and :endDate) " +
             "group by i.gender")
     List<SelectList> countMeetingByGender(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
@@ -149,9 +153,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "order by et.id")
     Long countSourcesByOpinionOnDate(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
-
-
-
         @Query("select count(e.id) from Event as e " +
                 "inner join e.eventType et " +
                 "where (e.dateId between :initDate and :endDate) " +
@@ -170,5 +171,11 @@ public interface EventRepository extends JpaRepository<Event, Long> {
                 "group by dT.id"
                 )
         List<SelectList>countTypeofDrugs(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
+
+        @Query("select new com.umeca.model.shared.SelectList(count(ev.id))" +
+                "from Event ev " +
+                "inner join ev.eventType evT " +
+                "where evT.name = com.umeca.model.shared.Constants.EVENT_PROSECUTE and (ev.dateId between :initDate and :endDate)")
+        List<SelectList>countCasesProsecuted(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
 }

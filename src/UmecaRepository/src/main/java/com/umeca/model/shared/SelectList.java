@@ -2,6 +2,7 @@ package com.umeca.model.shared;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
+import org.hibernate.sql.Select;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -211,6 +212,12 @@ public class SelectList implements EntityGrid{
         else{
             this.subName = name;
         }
+    }
+
+    public SelectList(Long value){
+        this.value = value;
+        this.name = "Casos judicializados";
+
     }
 
 
