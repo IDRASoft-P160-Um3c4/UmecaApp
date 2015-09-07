@@ -141,13 +141,13 @@ app.controller('proceedingLegalController', function($scope, $timeout, $sce) {
             }
             $scope.$apply();
         } catch (e) {
-            $scope.MsgError = "Error inesperado de datos. Por favor intente m�s tarde.";
+            $scope.MsgError = "Error inesperado de datos. Por favor intente más tarde.";
         }
     };
 
     $scope.handleError = function () {
         $scope.WaitFor = false;
-        $scope.MsgError = "Error de red. Por favor intente m�s tarde.";
+        $scope.MsgError = "Error de red. Por favor intente más tarde.";
         $scope.$apply();
     };
 

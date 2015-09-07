@@ -97,7 +97,7 @@ public class ExcelConv {
                         socialString += ": " + act.getSpecificationRelationship();
                     }
 
-                    socialString += ", Identificaci�n: " + act.getDocumentType().getName();
+                    socialString += ", Identificación: " + act.getDocumentType().getName();
 
                     socialString += ", Edad: " + act.getAge();
 
@@ -108,7 +108,7 @@ public class ExcelConv {
                     socialString += ", Vive con el imputado: " + act.getLivingWith().getName();
 
                     if (act.getLivingWith().getId().equals(Constants.ELECTION_NO))
-                        socialString += ", Direcci�n: " + act.getAddress();
+                        socialString += ", Dirección: " + act.getAddress();
 
                 }
         }
@@ -135,13 +135,13 @@ public class ExcelConv {
                 }
                 referencesString += ", " + relationship;
 
-                referencesString += ", Identificaci�n: " + act.getDocumentType().getName();
+                referencesString += ", Identificación: " + act.getDocumentType().getName();
 
                 referencesString += ", Edad: " + act.getAge();
 
                 referencesString += ", Tel.: " + act.getPhone();
 
-                referencesString += ", Direcci�n: " + act.getAddress();
+                referencesString += ", Dirección: " + act.getAddress();
 
             }
 

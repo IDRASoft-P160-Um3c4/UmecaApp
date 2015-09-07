@@ -22,7 +22,6 @@
 <div class="container body-content">
 
     <script>
-
         var lstReviewer =${lstReviewer};
         var arrSelectedCases = [];
         var prefixId = "id_cmb_";

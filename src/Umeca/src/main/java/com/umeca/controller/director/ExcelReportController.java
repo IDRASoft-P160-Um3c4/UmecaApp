@@ -484,12 +484,12 @@ public class ExcelReportController {
             }.getType());
             ;
 
-            if (casesIds==null || !(casesIds.size() > 0)) {
+            if (casesIds == null || !(casesIds.size() > 0)) {
                 casesIds = new ArrayList<Long>();
                 casesIds.add(-1L);
             }
 
-            List<ExcelCaseInfoDto> listCases = caseRepository.getInfoCases(casesIds);
+
             List<ExcelActivitiesDto> lstActivities = caseRepository.getInfoImputedActivities(casesIds);
             List<ExcelImputedHomeDto> lstHomes = caseRepository.getInfoImputedHomes(casesIds);
             List<ExcelSocialNetworkDto> lstSN = caseRepository.getInfoSocialNetwork(casesIds);
@@ -500,8 +500,14 @@ public class ExcelReportController {
             List<VictimDto> lstVictims = caseRepository.getInfoVictims(casesIds);
             List<ExcelCoDefDto> lstCoDef = caseRepository.getInfoCoDef(casesIds);
             List<ExcelTecRevSelQuestDto> lstSelQuest = caseRepository.getInfoTecRevSelQuest(casesIds);
+
+
+            //de la lista de casos en el rango de fechas se separan los que tienen meeting terminado y verificación finalizada y los que no
+
+            List<ExcelCaseInfoDto> listCases = caseRepository.getInfoCases(casesIds);
             List<ExcelVerificationDto> lstVerif = caseRepository.getInfoVerification(casesIds);
             List<ExcelVerificationDto> lstAllSourcesVerif = caseRepository.getSourcesVerification(casesIds);
+
 
             String template = "{0}: {1} \n";
             for (ExcelVerificationDto evdto : lstVerif) {
@@ -873,12 +879,10 @@ public class ExcelReportController {
             }
             /*supervision*/
 
-
-            /*estadisticas*/
+            /*ESTADISTICAS*/
 
             ReportExcelSummary summ = conv.fromJson(filt, new TypeToken<ReportExcelSummary>() {
             }.getType());
-            ;
 
             Date initDate = null;
             Date endDate = null;
@@ -895,59 +899,75 @@ public class ExcelReportController {
                 logException.Write(e, this.getClass(), "jxlsMethod", sharedUserService);
             }
 
-            List<Long> idsCasesByDate = reportExcelRepository.findIdCasesByDates(initDate, endDate);
+            List<Long> idsCasesBetweenDates = reportExcelRepository.findIdCasesByDates(initDate, endDate);
 
-            summ.setTotCases(new Long(idsCasesByDate.size()));
-            summ.setTotCasesEv(new Long(reportExcelRepository.countCasesEvaluation(initDate, endDate).size()));
-            summ.setTotCasesSup(new Long(reportExcelRepository.countCasesSupervision(initDate, endDate).size()));
+            List<Long> idsEvaluation = reportExcelRepository.getCasesEvaluation(initDate, endDate);
+            List<Long> idsMeeting = reportExcelRepository.getCasesIdsMeeting(initDate, endDate);
+            List<Long> idsVerification = reportExcelRepository.getCasesIdsVerif(initDate, endDate);
 
-            if (!(idsCasesByDate.size() > 0))
-                idsCasesByDate.add(-1L);
+            if(idsEvaluation.size()==0)
+                idsEvaluation.add(-1L);
+            if(idsMeeting.size()==0)
+                idsMeeting.add(-1L);
+            if(idsVerification.size()==0)
+                idsVerification.add(-1L);
+
+            List<Long> idsSupervision = reportExcelRepository.getCasesSupervision(initDate, endDate);
+            if(idsSupervision.size()==0)
+                idsSupervision.add(-1L);
+
+            summ.setTotCases(new Long(idsCasesBetweenDates.size()));
+            summ.setTotCasesEv(new Long(idsEvaluation.size()));
+            summ.setTotCasesSup(new Long(idsSupervision.size()));
 
             //genero
-            List<SelectList> lstAllCasesGenderEval = reportExcelRepository.getAllGenderEval(casesIds);
-            List<SelectList> lstAllCasesGenderSup = reportExcelRepository.getAllGenderSup(casesIds);
+            List<SelectList> lstAllCasesGenderMeeting = reportExcelRepository.getAllGenderMeeting(idsMeeting);
+            List<SelectList> lstAllCasesGenderVerif = reportExcelRepository.getAllGenderVerification(idsVerification);
+            List<SelectList> lstAllCasesGenderSup = reportExcelRepository.getAllGenderSup(idsSupervision);
 
-            summ.setTotFemEv(summ.countGenderEval(lstAllCasesGenderEval, true));
-            summ.setTotMascEv(summ.countGenderEval(lstAllCasesGenderEval, false));
+            summ.setTotFemEv(summ.countGenderEval(lstAllCasesGenderMeeting, true) + summ.countGenderEval(lstAllCasesGenderVerif, true));
+            summ.setTotMascEv(summ.countGenderEval(lstAllCasesGenderMeeting, false) + summ.countGenderEval(lstAllCasesGenderVerif, false));
             summ.setTotFemSup(summ.countGenderSup(lstAllCasesGenderSup, 1));
             summ.setTotMascSup(summ.countGenderSup(lstAllCasesGenderSup, 2));
 
-            List<SelectList> lstAllCasesMarStEval = reportExcelRepository.getAllMaritalStatusEval(casesIds);
-            List<SelectList> lstAllCasesMarStSup = reportExcelRepository.getAllMaritalStatusSup(casesIds);
+            List<SelectList> lstAllCasesMarStMeeting = reportExcelRepository.getAllMaritalStatusMeeting(idsMeeting);
+            List<SelectList> lstAllCasesMarStVerif = reportExcelRepository.getAllMaritalStatusVerif(idsVerification);
+            List<SelectList> lstAllCasesMarStSup = reportExcelRepository.getAllMaritalStatusSup(idsSupervision);
 
             //estado civil
-            summ.setTotSoltEv(summ.countLongId(lstAllCasesMarStEval, Constants.MARITAL_SINGLE));
-            summ.setTotCasEv(summ.countLongId(lstAllCasesMarStEval, Constants.MARITAL_MARRIED));
-            summ.setTotDivEv(summ.countLongId(lstAllCasesMarStEval, Constants.MARITAL_DIVORCED));
-            summ.setTotULEv(summ.countLongId(lstAllCasesMarStEval, Constants.MARITAL_UNION_FREE));
-            summ.setTotViuEv(summ.countLongId(lstAllCasesMarStEval, Constants.MARITAL_WIDOWER));
+            summ.setTotSoltEv(summ.countLongId(lstAllCasesMarStMeeting, Constants.MARITAL_SINGLE) + summ.countLongId(lstAllCasesMarStVerif, Constants.MARITAL_SINGLE));
+            summ.setTotCasEv(summ.countLongId(lstAllCasesMarStMeeting, Constants.MARITAL_MARRIED) + summ.countLongId(lstAllCasesMarStVerif, Constants.MARITAL_MARRIED));
+            summ.setTotDivEv(summ.countLongId(lstAllCasesMarStMeeting, Constants.MARITAL_DIVORCED) + summ.countLongId(lstAllCasesMarStVerif, Constants.MARITAL_DIVORCED));
+            summ.setTotULEv(summ.countLongId(lstAllCasesMarStMeeting, Constants.MARITAL_FREE_UNION) + summ.countLongId(lstAllCasesMarStVerif, Constants.MARITAL_FREE_UNION));
+            summ.setTotViuEv(summ.countLongId(lstAllCasesMarStMeeting, Constants.MARITAL_WIDOWER) + summ.countLongId(lstAllCasesMarStVerif, Constants.MARITAL_WIDOWER));
 
             summ.setTotSoltSup(summ.countLongId(lstAllCasesMarStSup, Constants.MARITAL_SINGLE));
             summ.setTotCasSup(summ.countLongId(lstAllCasesMarStSup, Constants.MARITAL_MARRIED));
             summ.setTotDivSup(summ.countLongId(lstAllCasesMarStSup, Constants.MARITAL_DIVORCED));
-            summ.setTotULSup(summ.countLongId(lstAllCasesMarStSup, Constants.MARITAL_UNION_FREE));
+            summ.setTotULSup(summ.countLongId(lstAllCasesMarStSup, Constants.MARITAL_FREE_UNION));
             summ.setTotViuSup(summ.countLongId(lstAllCasesMarStSup, Constants.MARITAL_WIDOWER));
 
             //empleo
 
-            summ.setTotEmpEv(new Long(reportExcelRepository.getAllCurrentJobEv(idsCasesByDate).size()));
-            summ.setTotDesempEv(new Long(reportExcelRepository.getAllNoJobEv(idsCasesByDate).size()));
-            summ.setTotEmpSup(new Long(reportExcelRepository.getAllCurrentJobSup(idsCasesByDate).size()));
-            summ.setTotDesempSup(new Long(reportExcelRepository.getAllNoJobSup(idsCasesByDate).size()));
+            summ.setTotEmpEv(new Long(reportExcelRepository.getAllCurrentJobMeeting(idsMeeting).size() + reportExcelRepository.getAllCurrentJobVerifi(idsVerification).size()));
+            summ.setTotDesempEv(new Long(reportExcelRepository.getAllNoJobMeeting(idsMeeting).size() + reportExcelRepository.getAllNoJobVerif(idsVerification).size()));
+
+            summ.setTotEmpSup(new Long(reportExcelRepository.getAllCurrentJobSup(idsSupervision).size()));
+            summ.setTotDesempSup(new Long(reportExcelRepository.getAllNoJobSup(idsSupervision).size()));
 
             //nivel academico
 
-            List<SelectList> lstAllCasesAcLvlEv = reportExcelRepository.getAllAcLvlEv(casesIds);
-            List<SelectList> lstAllCasesAcLvlSup = reportExcelRepository.getAllAcLvlSup(casesIds);
+            List<SelectList> lstAllCasesAcLvlMeeting = reportExcelRepository.getAllAcLvlMeeting(idsMeeting);
+            List<SelectList> lstAllCasesAcLvlVerif = reportExcelRepository.getAllAcLvlVerif(idsVerification);
+            List<SelectList> lstAllCasesAcLvlSup = reportExcelRepository.getAllAcLvlSup(idsSupervision);
 
-            summ.setTotSIAEv(summ.countLongId(lstAllCasesAcLvlEv, Constants.AC_LVL_ILLITERATE));
-            summ.setTotPrimEv(summ.countLongId(lstAllCasesAcLvlEv, Constants.AC_LVL_PRIMARY));
-            summ.setTotSecuEv(summ.countLongId(lstAllCasesAcLvlEv, Constants.AC_LVL_HIGH_SCH));
-            summ.setTotBachEv(summ.countLongId(lstAllCasesAcLvlEv, Constants.AC_LVL_BACHELOR));
-            summ.setTotLicEv(summ.countLongId(lstAllCasesAcLvlEv, Constants.AC_LVL_UNIVERSITY));
-            summ.setTotPostgEv(summ.countLongId(lstAllCasesAcLvlEv, Constants.AC_LVL_GRADUATE));
-            summ.setTotAcLvlOtroEv(summ.countLongId(lstAllCasesAcLvlEv, Constants.AC_LVL_OTHER));
+            summ.setTotSIAEv(summ.countLongId(lstAllCasesAcLvlMeeting, Constants.AC_LVL_ILLITERATE) + summ.countLongId(lstAllCasesAcLvlVerif, Constants.AC_LVL_ILLITERATE));
+            summ.setTotPrimEv(summ.countLongId(lstAllCasesAcLvlMeeting, Constants.AC_LVL_PRIMARY) + summ.countLongId(lstAllCasesAcLvlVerif, Constants.AC_LVL_PRIMARY));
+            summ.setTotSecuEv(summ.countLongId(lstAllCasesAcLvlMeeting, Constants.AC_LVL_HIGH_SCH) + summ.countLongId(lstAllCasesAcLvlVerif, Constants.AC_LVL_HIGH_SCH));
+            summ.setTotBachEv(summ.countLongId(lstAllCasesAcLvlMeeting, Constants.AC_LVL_BACHELOR) + summ.countLongId(lstAllCasesAcLvlVerif, Constants.AC_LVL_BACHELOR));
+            summ.setTotLicEv(summ.countLongId(lstAllCasesAcLvlMeeting, Constants.AC_LVL_UNIVERSITY) + summ.countLongId(lstAllCasesAcLvlVerif, Constants.AC_LVL_UNIVERSITY));
+            summ.setTotPostgEv(summ.countLongId(lstAllCasesAcLvlMeeting, Constants.AC_LVL_GRADUATE) + summ.countLongId(lstAllCasesAcLvlVerif, Constants.AC_LVL_GRADUATE));
+            summ.setTotAcLvlOtroEv(summ.countLongId(lstAllCasesAcLvlMeeting, Constants.AC_LVL_OTHER) + summ.countLongId(lstAllCasesAcLvlVerif, Constants.AC_LVL_OTHER));
 
             summ.setTotSIASup(summ.countLongId(lstAllCasesAcLvlSup, Constants.AC_LVL_ILLITERATE));
             summ.setTotPrimSup(summ.countLongId(lstAllCasesAcLvlSup, Constants.AC_LVL_PRIMARY));
@@ -959,23 +979,24 @@ public class ExcelReportController {
 
             //drogas
 
-            List<SelectList> lstAllDrugsEval = reportExcelRepository.getAllDrugsEval(casesIds);
-            List<SelectList> lstAllDrugsSup = reportExcelRepository.getAllDrugsSup(casesIds);
+            List<SelectList> lstAllDrugsMeeting = reportExcelRepository.getAllDrugsMeeting(idsMeeting);
+            List<SelectList> lstAllDrugsVerif = reportExcelRepository.getAllDrugsVerif(idsVerification);
+            List<SelectList> lstAllDrugsSup = reportExcelRepository.getAllDrugsSup(idsSupervision);
 
-            summ.setTotAlcoEv(summ.countLongId(lstAllDrugsEval, Constants.DRUG_ALCOHOL));
-            summ.setTotMariEv(summ.countLongId(lstAllDrugsEval, Constants.DRUG_MARIHUANA));
-            summ.setTotCocaEv(summ.countLongId(lstAllDrugsEval, Constants.DRUG_COCAIN));
-            summ.setTotHeroEv(summ.countLongId(lstAllDrugsEval, Constants.DRUG_HEROIN));
-            summ.setTotOpioEv(summ.countLongId(lstAllDrugsEval, Constants.DRUG_OPIUM));
-            summ.setTotPBCEv(summ.countLongId(lstAllDrugsEval, Constants.DRUG_PBC));
-            summ.setTotSolvenEv(summ.countLongId(lstAllDrugsEval, Constants.DRUG_SOLV));
-            summ.setTotCementEv(summ.countLongId(lstAllDrugsEval, Constants.DRUG_CEME));
-            summ.setTotLSDEv(summ.countLongId(lstAllDrugsEval, Constants.DRUG_LSD));
-            summ.setTotAnfetEv(summ.countLongId(lstAllDrugsEval, Constants.DRUG_AMPH));
-            summ.setTotMetanfEv(summ.countLongId(lstAllDrugsEval, Constants.DRUG_META));
-            summ.setTotExtaEv(summ.countLongId(lstAllDrugsEval, Constants.DRUG_EXTA));
-            summ.setTotHongoEv(summ.countLongId(lstAllDrugsEval, Constants.DRUG_MUSH));
-            summ.setTotDrgOtroEv(summ.countLongId(lstAllDrugsEval, Constants.DRUG_OTHER));
+            summ.setTotAlcoEv(summ.countLongId(lstAllDrugsMeeting, Constants.DRUG_ALCOHOL)+summ.countLongId(lstAllDrugsVerif, Constants.DRUG_ALCOHOL));
+            summ.setTotMariEv(summ.countLongId(lstAllDrugsMeeting, Constants.DRUG_MARIHUANA)+summ.countLongId(lstAllDrugsVerif, Constants.DRUG_MARIHUANA));
+            summ.setTotCocaEv(summ.countLongId(lstAllDrugsMeeting, Constants.DRUG_COCAIN)+summ.countLongId(lstAllDrugsVerif, Constants.DRUG_COCAIN));
+            summ.setTotHeroEv(summ.countLongId(lstAllDrugsMeeting, Constants.DRUG_HEROIN)+summ.countLongId(lstAllDrugsVerif, Constants.DRUG_HEROIN));
+            summ.setTotOpioEv(summ.countLongId(lstAllDrugsMeeting, Constants.DRUG_OPIUM)+summ.countLongId(lstAllDrugsVerif, Constants.DRUG_OPIUM));
+            summ.setTotPBCEv(summ.countLongId(lstAllDrugsMeeting, Constants.DRUG_PBC)+summ.countLongId(lstAllDrugsVerif, Constants.DRUG_PBC));
+            summ.setTotSolvenEv(summ.countLongId(lstAllDrugsMeeting, Constants.DRUG_SOLV)+summ.countLongId(lstAllDrugsVerif, Constants.DRUG_SOLV));
+            summ.setTotCementEv(summ.countLongId(lstAllDrugsMeeting, Constants.DRUG_CEME)+summ.countLongId(lstAllDrugsVerif, Constants.DRUG_CEME));
+            summ.setTotLSDEv(summ.countLongId(lstAllDrugsMeeting, Constants.DRUG_LSD)+summ.countLongId(lstAllDrugsVerif, Constants.DRUG_LSD));
+            summ.setTotAnfetEv(summ.countLongId(lstAllDrugsMeeting, Constants.DRUG_AMPH)+summ.countLongId(lstAllDrugsVerif, Constants.DRUG_AMPH));
+            summ.setTotMetanfEv(summ.countLongId(lstAllDrugsMeeting, Constants.DRUG_META)+summ.countLongId(lstAllDrugsVerif, Constants.DRUG_META));
+            summ.setTotExtaEv(summ.countLongId(lstAllDrugsMeeting, Constants.DRUG_EXTA)+summ.countLongId(lstAllDrugsVerif, Constants.DRUG_EXTA));
+            summ.setTotHongoEv(summ.countLongId(lstAllDrugsMeeting, Constants.DRUG_MUSH)+summ.countLongId(lstAllDrugsVerif, Constants.DRUG_MUSH));
+            summ.setTotDrgOtroEv(summ.countLongId(lstAllDrugsMeeting, Constants.DRUG_OTHER)+summ.countLongId(lstAllDrugsVerif, Constants.DRUG_OTHER));
 
             summ.setTotAlcoSup(summ.countLongId(lstAllDrugsSup, Constants.DRUG_ALCOHOL));
             summ.setTotMariSup(summ.countLongId(lstAllDrugsSup, Constants.DRUG_MARIHUANA));
@@ -1031,7 +1052,7 @@ public class ExcelReportController {
 
             summ.setLstCasesByCrimeSup(lstCasesByCrimeSup);
 
-            //status
+            //no casos por status
             List<ExcelStatusCasesInfo> allStatusCasesInfo = reportExcelRepository.getAllCasesAtEvaluationSupervision(casesIds);
             List<SelectList> allCasesWithHearingFormatFinished = reportExcelRepository.getAllCasesWithFinishedFormat(casesIds);
             summ.setAllCasesIds(allStatusCasesInfo);

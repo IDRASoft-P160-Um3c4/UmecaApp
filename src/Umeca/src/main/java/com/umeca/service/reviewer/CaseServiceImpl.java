@@ -256,7 +256,7 @@ public class CaseServiceImpl implements CaseService {
     public void doClosePrisonCase(Case caseDet, AuthorizeRejectMonPlan model) {
         caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_PRISON_CLOSED));
         StringBuilder sb = new StringBuilder();
-        sb.append("Cierre de caso por prisi�n preventiva / promesa del imputado : ");
+        sb.append("Cierre de caso por prisión preventiva / promesa del imputado : ");
         sb.append(caseDet.getIdFolder());
         sb.append(". Comentario: ");
         sb.append(model.getComments());

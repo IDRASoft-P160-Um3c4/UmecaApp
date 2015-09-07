@@ -85,7 +85,7 @@
                             if("${readOnly}" !== "1" )
                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar\" onclick=\"window.delete('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                             /*if (status === "NUEVO") {
-                                be += "&nbsp;&nb00sp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar plan de supervisi�n\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
+                                be += "&nbsp;&nb00sp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar plan de supervisi&oacute;nn\" onclick=\"window.generate('" + cl + "');\"><span class=\"glyphicon glyphicon-plus-sign\"></span></a>";
                             }*/
                             $(this).jqGrid('setRowData', ids[i], { Action: be });
                         }

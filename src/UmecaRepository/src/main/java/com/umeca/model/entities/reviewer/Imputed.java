@@ -241,7 +241,7 @@ public class Imputed {
         }
         if (maritalStatus == null || (maritalStatus.getId() == null)) {
             result.add(t.template.replace(e, "El estado civil"));
-        } else if ((maritalStatus.getId().equals(Constants.MARITAL_MARRIED) || maritalStatus.getId().equals(Constants.MARITAL_UNION_FREE))
+        } else if ((maritalStatus.getId().equals(Constants.MARITAL_MARRIED) || maritalStatus.getId().equals(Constants.MARITAL_FREE_UNION))
                 && yearsMaritalStatus == null) {
             result.add(t.template.replace(e, "El n&uacute;mero de años en el estado civil"));
         }

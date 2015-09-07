@@ -99,7 +99,7 @@
                                          ng-model="school.address"
                                          ng-init='school.address = "${(m.school.address == null) ? "" : m.school.address}"'
                                          data-val="true" data-val-required="La direcci&oacute;n es un campo requerido"
-                                         data-val-length="Debe tener al menos 6 y m�ximo 500 caracteres"
+                                         data-val-length="Debe tener al menos 6 y m&aacute;ximo 500 caracteres"
                                          data-val-length-max="500"
                                          data-val-length-min="6">${m.school.address}</textarea>
             <span class="field-validation-valid"

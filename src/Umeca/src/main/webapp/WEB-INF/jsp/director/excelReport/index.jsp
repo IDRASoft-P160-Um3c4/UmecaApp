@@ -132,7 +132,7 @@
         jQuery("#GridCasesId").jqGrid('navButtonAdd', "#GridPager",
                 {
                     caption: "",
-                    title: "Descargar informaci�n de casos en excel",
+                    title: "Descargar informaci&oacute;n de casos en excel",
                     buttonicon: 'icon-download-alt red',
 
                     onClickButton: function () {
@@ -332,7 +332,7 @@
                         <div class="checkbox">
                             <label>
                                 <input class="ace" type="checkbox"
-                                       ng-click='addIdToList("lstMaritalSt",4); addIdToList("lstMarStStr","-Uni�n libre");'>
+                                       ng-click='addIdToList("lstMaritalSt",4); addIdToList("lstMarStStr","-Unión libre");'>
                                 <span class="lbl col-xs-10">&nbsp;&nbsp;Uni&oacute;n libre</span>
                             </label>
                         </div>
@@ -375,21 +375,21 @@
                         <div class="checkbox">
                             <label>
                                 <input class="ace" type="checkbox"
-                                       ng-click='addIdToList("lstDrugs",3); addIdToList("lstDrugsStr","-Coca�na");'>
+                                       ng-click='addIdToList("lstDrugs",3); addIdToList("lstDrugsStr","-Cocaína");'>
                                 <span class="lbl col-xs-10">&nbsp;&nbsp;Cocaca&iacute;na</span>
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
                                 <input class="ace" type="checkbox"
-                                       ng-click='addIdToList("lstDrugs",4); addIdToList("lstDrugsStr","-Hero�na");'>
+                                       ng-click='addIdToList("lstDrugs",4); addIdToList("lstDrugsStr","-Heroína");'>
                                 <span class="lbl col-xs-10">&nbsp;&nbsp;Hero&iacute;na</span>
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
                                 <input class="ace" type="checkbox"
-                                       ng-click='addIdToList("lstDrugs",5); addIdToList("lstDrugsStr","-Opi�ceos");'>
+                                       ng-click='addIdToList("lstDrugs",5); addIdToList("lstDrugsStr","-Opiáceos");'>
                                 <span class="lbl col-xs-10">&nbsp;&nbsp;Opi&aacute;ceos</span>
                             </label>
                         </div>
@@ -470,7 +470,7 @@
                         <div class="checkbox">
                             <label>
                                 <input class="ace" type="checkbox"
-                                       ng-click='addIdToList("lstAcademicLvl",1); addIdToList("lstAcLvlStr","-Sin instrucci�n acad�mica");'>
+                                       ng-click='addIdToList("lstAcademicLvl",1); addIdToList("lstAcLvlStr","-Sin instrucción académica");'>
                                 <span class="lbl col-xs-10">&nbsp;&nbsp;Sin instrucci&oacute;n acad&eacute;mica</span>
                             </label>
                         </div>
@@ -612,21 +612,21 @@
                                     <div class="checkbox">
                                         <label>
                                             <input class="ace" type="checkbox"
-                                                   ng-click='addIdToList("lstStatusMeeting",3); addIdToList("lstStCaseStr","-Informaci�n legal completa");'>
+                                                   ng-click='addIdToList("lstStatusMeeting",3); addIdToList("lstStCaseStr","-Información legal completa");'>
                                             <span class="lbl col-xs-10">&nbsp;&nbsp;Informaci&oacute;n legal completa</span>
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
                                             <input class="ace" type="checkbox"
-                                                   ng-click='addIdToList("lstStatusVerification",4); addIdToList("lstStCaseStr","-Verificaci�n completa");'>
+                                                   ng-click='addIdToList("lstStatusVerification",4); addIdToList("lstStCaseStr","-Verificación completa");'>
                                             <span class="lbl col-xs-10">&nbsp;&nbsp;Verificaci&oacute;n completa</span>
                                         </label>
                                     </div>
                                     <div class="checkbox">
                                         <label>
                                             <input class="ace" type="checkbox"
-                                                   ng-click='addIdToList("lstStatusCase",2); addIdToList("lstStCaseStr","-Opini�n t�cnica");'>
+                                                   ng-click='addIdToList("lstStatusCase",2); addIdToList("lstStCaseStr","-Opinión técnica");'>
                                             <span class="lbl col-xs-10">&nbsp;&nbsp;Opini&oacute;n t&eacute;cnica</span>
                                         </label>
                                     </div>
@@ -643,7 +643,7 @@
                                     <div class="checkbox">
                                         <label>
                                             <input class="ace" type="checkbox"
-                                                   ng-click='addIdToList("lstLvlRisk",1); addIdToList("lstLvlRkStr","-M�nimo");'>
+                                                   ng-click='addIdToList("lstLvlRisk",1); addIdToList("lstLvlRkStr","-Mínimo");'>
                                             <span class="lbl col-xs-10">&nbsp;&nbsp;M&iacute;nimo</span>
                                         </label>
                                     </div>

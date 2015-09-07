@@ -343,26 +343,26 @@ public class FramingMeetingInfo {
                             if (actRef.getIsAccompaniment() == true) {
                                 returnStr += "-" + actRef.getName();
                                 returnStr += "," + actRef.getGenderStr();
-                                returnStr += ", " + actRef.getAge() + " años";
+                                returnStr += ", " + actRef.getAge() + " aÃ±os";
                                 String relationship = actRef.getRelationship();
                                 if (actRef.getSpecificationRelationship() != null && !actRef.getSpecificationRelationship().equals("")) {
                                     relationship += ": " + actRef.getSpecificationRelationship();
                                 }
-                                returnStr += ", Relación: " + relationship;
-                                returnStr += ", Ocupación" + actRef.getOccupation();
-                                returnStr += ", Lugar de ocupación: " + actRef.getOccupationPlace();
-                                returnStr += ", Teléfono: " + actRef.getPhone();
+                                returnStr += ", RelaciÃ³n: " + relationship;
+                                returnStr += ", OcupaciÃ³n" + actRef.getOccupation();
+                                returnStr += ", Lugar de ocupaciÃ³n: " + actRef.getOccupationPlace();
+                                returnStr += ", TelÃ©fono: " + actRef.getPhone();
                                 returnStr += ", " + actRef.getAddressStr();
-                                returnStr += ", Esta persona acompañara durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
+                                returnStr += ", Esta persona acompaÃ±arÃ¡ durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
                             } else {
                                 returnStr += "-" + actRef.getName();
-                                returnStr += ", Teléfono: " + actRef.getPhone();
+                                returnStr += ", TelÃ©fono: " + actRef.getPhone();
                                 String relationship = actRef.getRelationship();
                                 if (actRef.getSpecificationRelationship() != null && !actRef.getSpecificationRelationship().equals("")) {
                                     relationship += ": " + actRef.getSpecificationRelationship();
                                 }
-                                returnStr += ", Relación: " + relationship;
-                                returnStr += ", Esta persona acompañara durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
+                                returnStr += ", RelaciÃ³n: " + relationship;
+                                returnStr += ", Esta persona acompaÃ±arÃ¡ durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
                             }
                         }
                     }
@@ -395,29 +395,29 @@ public class FramingMeetingInfo {
                             if (actRef.getIsAccompaniment() == true) {
                                 returnStr += "-" + actRef.getName();
                                 returnStr += "," + actRef.getGenderStr();
-                                returnStr += ", " + actRef.getAge() + " años";
+                                returnStr += ", " + actRef.getAge() + " aÃ±os";
                                 String relationship = actRef.getRelationship();
                                 if (actRef.getSpecificationRelationship() != null && !actRef.getSpecificationRelationship().equals("")) {
                                     relationship += ": " + actRef.getSpecificationRelationship();
                                 }
-                                returnStr += ", Relación: " + relationship;
-                                returnStr += ", Ocupación: " + actRef.getOccupation();
-                                returnStr += ", Lugar de ocupación: " + actRef.getOccupationPlace();
-                                returnStr += ", Teléfono: " + actRef.getPhone();
+                                returnStr += ", RelaciÃ³n: " + relationship;
+                                returnStr += ", OcupaciÃ³n: " + actRef.getOccupation();
+                                returnStr += ", Lugar de ocupaciÃ³n: " + actRef.getOccupationPlace();
+                                returnStr += ", TelÃ©fono: " + actRef.getPhone();
                                 returnStr += ", " + actRef.getAddress();
                                 returnStr += ", Escolaridad: " + actRef.getAcademicLvl() + ".";
-                                returnStr += ", Esta persona acompañará durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
+                                returnStr += ", Esta persona acompaÃ±arÃ¡ durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
                             } else {
                                 returnStr += "-" + actRef.getName();
-                                returnStr += ", " + actRef.getAge() + " años";
+                                returnStr += ", " + actRef.getAge() + " aÃ±os";
                                 String relationship = actRef.getRelationship();
                                 if (actRef.getSpecificationRelationship() != null && !actRef.getSpecificationRelationship().equals("")) {
                                     relationship += ": " + actRef.getSpecificationRelationship();
                                 }
-                                returnStr += ", Relación: " + relationship;
-                                returnStr += ", Ocupación: " + actRef.getOccupation();
+                                returnStr += ", RelaciÃ³n: " + relationship;
+                                returnStr += ", OcupaciÃ³n: " + actRef.getOccupation();
                                 returnStr += ", " + actRef.getAddress();
-                                returnStr += ", Esta persona acompañara durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
+                                returnStr += ", Esta persona acompaÃ±arÃ¡ durante el proceso: " + actRef.getIsAccompanimentStr() + ".";
                             }
                         }
                     }
@@ -452,20 +452,20 @@ public class FramingMeetingInfo {
                             if (actRef.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_WITNESS))
                                 returnStr += ", Testigo";
                             else
-                                returnStr += ", Víctima";
+                                returnStr += ", VÃ­ctima";
                             String relationship = actRef.getRelationship();
                             if (actRef.getSpecificationRelationship() != null && !actRef.getSpecificationRelationship().equals("")) {
                                 relationship += ": " + actRef.getSpecificationRelationship();
                             }
-                            returnStr += ", Relación: " + relationship;
-                            returnStr += ", Teléfono: " + actRef.getPhone();
+                            returnStr += ", RelaciÃ³n: " + relationship;
+                            returnStr += ", TelÃ©fono: " + actRef.getPhone();
                             returnStr += ", " + actRef.getAddressStr();
                         }
                     }
                 }
             }
             if (returnStr == "")
-                returnStr = "No existe información de víctimas o testigos";
+                returnStr = "No existe informaciÃ³n de vÃ­ctimas o testigos";
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -506,13 +506,13 @@ public class FramingMeetingInfo {
                     drugsStr += ", Periocidad: " + act.getPeriodicity();
 
                 if (act.getSpecificationType() != null && !act.getSpecificationType().equals(""))
-                    drugsStr += ", Especificación: " + act.getSpecificationType();
+                    drugsStr += ", EspecificaciÃ³n: " + act.getSpecificationType();
 
                 if (act.getQuantity() != null && !act.getQuantity().equals(""))
                     drugsStr += ", Cantidad: " + act.getQuantity();
 
                 if (act.getLastUse() != null)
-                    drugsStr += ", Útlimo consumo: " + dateFormat.format(act.getLastUse());
+                    drugsStr += ", Ãštlimo consumo: " + dateFormat.format(act.getLastUse());
             }
 
         return drugsStr;
@@ -536,7 +536,7 @@ public class FramingMeetingInfo {
                     else if (actLink.getCode().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE))
                         returnStr += ", referencia personal";
                     else if (actLink.getCode().equals(FramingMeetingConstants.PERSON_TYPE_VICTIM))
-                        returnStr += ", víctima";
+                        returnStr += ", vÃ­ctima";
                     else if (actLink.getCode().equals(FramingMeetingConstants.PERSON_TYPE_WITNESS))
                         returnStr += ", testigo";
                 }
@@ -855,10 +855,10 @@ public class FramingMeetingInfo {
 
         if (this.school.getHasActualSchool() == true) {
             returnStr += "Nombre: " + this.school.getName();
-            returnStr += ", Teléfono: " + this.school.getPhone();
-            returnStr += ", Dirección: " + this.school.getAddress() + ", ";
+            returnStr += ", TelÃ©fono: " + this.school.getPhone();
+            returnStr += ", DirecciÃ³n: " + this.school.getAddress() + ", ";
         } else
-            returnStr += "Sin estudios actuales. Último grado de estudios:\n ";
+            returnStr += "Sin estudios actuales. Ãšltimo grado de estudios:\n ";
 
         returnStr += "Nivel: " + this.school.getAcademicLvlStr() + ", ";
         returnStr += " Grado: " + this.school.getDegreeStr();
@@ -889,8 +889,8 @@ public class FramingMeetingInfo {
                     returnStr += "- " + act.getCompany();
                     returnStr += ", Puesto: " + act.getPost();
                     returnStr += ", Tel. " + act.getPhone();
-                    returnStr += ", Patrón " + act.getNameHead();
-                    returnStr += ", Dirección " + act.getAddress();
+                    returnStr += ", PatrÃ³n " + act.getNameHead();
+                    returnStr += ", DirecciÃ³n " + act.getAddress();
                     returnStr += ", " + act.getRegisterType();
 
                     if (act.getRegisterType().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_PREV)) {
@@ -1013,9 +1013,9 @@ public class FramingMeetingInfo {
         }
 
         if (hasLinks == true)
-            return "El imputado cuenta con vínculos";
+            return "El imputado cuenta con vÃ­nculos";
         else
-            return "El imputado no cuenta con vínculos";
+            return "El imputado no cuenta con vÃ­nculos";
     }
 
     public String summaryFramingRiskThreats() {
@@ -1033,11 +1033,11 @@ public class FramingMeetingInfo {
     public String summaryFramingAdditionalQuestions() {
         String returnStr = "";
         if (this.getAddictionTreatmentStr() != "")
-            returnStr += "-¿Se encuentra en algún tipo de tratamiento de adicciones?: " + this.getAddictionTreatmentStr() + "\n";
+            returnStr += "-Â¿Se encuentra en algÃºn tipo de tratamiento de adicciones?: " + this.getAddictionTreatmentStr() + "\n";
         if (this.getRelativeAbroadStr() != "")
-            returnStr += "-¿Cuenta con familiares en el extranjero?: " + this.getRelativeAbroadStr() + "\n";
+            returnStr += "-Â¿Cuenta con familiares en el extranjero?: " + this.getRelativeAbroadStr() + "\n";
         if (this.getObligationIssueStr() != "")
-            returnStr += "-¿Consideras que alguna de las obligaciones impuestas será difícil de cumplir?: " + this.getObligationIssueStr();
+            returnStr += "-Â¿Consideras que alguna de las obligaciones impuestas serÃ¡ difÃ­cil de cumplir?: " + this.getObligationIssueStr();
         return returnStr;
     }
 

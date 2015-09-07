@@ -23,24 +23,58 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "where (st.name not in " +
             "      (com.umeca.model.shared.Constants.CASE_STATUS_OBSOLETE_EVALUATION," +
             "       com.umeca.model.shared.Constants.CASE_STATUS_OBSOLETE_SUPERVISION," +
-            "       com.umeca.model.shared.Constants.CASE_STATUS_NOT_PROSECUTE) and (c.dateCreate between :initDate and :endDate))")
+            "       com.umeca.model.shared.Constants.CASE_STATUS_NOT_PROSECUTE) " +
+            "and c.dateObsolete is null)" +
+            "and (c.dateCreate between :initDate and :endDate)")
     List<Long> findIdCasesByDates(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
 
+    // SE CUENTAN UNICAMENTE LOS CASOS QUE ESTAN EN ESTATUS
+    //stCase:ST_CASE_MEETING y stMeeting COMPLETE
+    //stCase:ST_CASE_MEETING y stMeeting INCOMPLETE_LEGAL
+    //ST_CASE_VERIFICATION_COMPLETE
+    //ST_CASE_SOURCE_VALIDATION
+    //ST_CASE_TECHNICAL_REVIEW_COMPLETE
+    //ST_CASE_TECHNICAL_REVIEW_INCOMPLETE
     @Query("select distinct (c.id) from Case as c " +
+            "inner join c.status stCase " +
             "inner join c.meeting m " +
-            "inner join c.status st " +
-            "where (st.name not in (com.umeca.model.shared.Constants.CASE_STATUS_OBSOLETE_EVALUATION,com.umeca.model.shared.Constants.CASE_STATUS_OBSOLETE_SUPERVISION,com.umeca.model.shared.Constants.CASE_STATUS_NOT_PROSECUTE)) " +
+            "inner join m.status stMeeting " +
+            "where (stCase.name = com.umeca.model.shared.Constants.CASE_STATUS_MEETING and stMeeting.name = com.umeca.model.shared.Constants.S_MEETING_COMPLETE) " +
+            "or (stCase.name = com.umeca.model.shared.Constants.CASE_STATUS_MEETING and stMeeting.name = com.umeca.model.shared.Constants.S_MEETING_INCOMPLETE_LEGAL) " +
+            "or (stCase.name in (com.umeca.model.shared.Constants.CASE_STATUS_VERIFICATION_COMPLETE,"+
+            "                    " +
+            "com.umeca.model.shared.Constants.CASE_STATUS_SOURCE_VALIDATION,"+
+            "                    com.umeca.model.shared.Constants.CASE_STATUS_TECHNICAL_REVIEW,"+
+            "                    com.umeca.model.shared.Constants.CASE_STATUS_INCOMPLETE_TECHNICAL_REVIEW)) " +
             "and (c.dateCreate between :initDate and :endDate) " +
             "and (m.meetingType=com.umeca.model.shared.HearingFormatConstants.MEETING_PROCEDURAL_RISK)")
-    List<Long> countCasesEvaluation(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
+    List<Long> getCasesEvaluation(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
 
     @Query("select distinct (c.id) from Case as c " +
-            "inner join c.status st " +
-            "left join c.hearingFormats hf " +
-            "where (st.name not in (com.umeca.model.shared.Constants.CASE_STATUS_OBSOLETE_EVALUATION,com.umeca.model.shared.Constants.CASE_STATUS_OBSOLETE_SUPERVISION,com.umeca.model.shared.Constants.CASE_STATUS_NOT_PROSECUTE)) " +
+            "inner join c.status stCase " +
+            "inner join c.meeting m " +
+            "inner join m.status stMeeting " +
+            "where (stCase.name = com.umeca.model.shared.Constants.CASE_STATUS_MEETING and stMeeting.name = com.umeca.model.shared.Constants.S_MEETING_COMPLETE) " +
+            "or (stCase.name = com.umeca.model.shared.Constants.CASE_STATUS_MEETING and stMeeting.name = com.umeca.model.shared.Constants.S_MEETING_INCOMPLETE_LEGAL) " +
             "and (c.dateCreate between :initDate and :endDate) " +
-            "and hf.id is not null")
-    List<Long> countCasesSupervision(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
+            "and (m.meetingType=com.umeca.model.shared.HearingFormatConstants.MEETING_PROCEDURAL_RISK)")
+    List<Long> getCasesIdsMeeting(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
+
+    @Query("select distinct (c.id) from Case as c " +
+            "inner join c.status stCase " +
+            "where (stCase.name in (com.umeca.model.shared.Constants.CASE_STATUS_VERIFICATION_COMPLETE,"+
+            "                    com.umeca.model.shared.Constants.CASE_STATUS_TECHNICAL_REVIEW,"+
+            "                    com.umeca.model.shared.Constants.CASE_STATUS_INCOMPLETE_TECHNICAL_REVIEW)) " +
+            "and (c.dateCreate between :initDate and :endDate) ")
+    List<Long> getCasesIdsVerif(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
+
+
+    //se considera un caso en supervision si tiene al menos un formato de audiencia
+    @Query("select distinct(c.id) from Case as c " +
+            "inner join c.status st " +
+            "inner join c.hearingFormats hf " +
+            "where (c.dateCreate between :initDate and :endDate) ")
+    List<Long> getCasesSupervision(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
 
     @Query("select distinct (c.id) from Case as c " +
             "inner join c.status as sc " +
@@ -79,15 +113,25 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "((impms.id in (:lstMaritalSt)) or (fmpdms.id in (:lstMaritalSt)))")
     List<Long> findIdCasesByMaritalSt(@Param("lstMaritalSt") List<Long> lstMaritalSt, @Param("lstCases") List<Long> lstCases);
 
-    @Query("select new com.umeca.model.shared.SelectList(c.id,md.id) from Case as c " +
+    @Query("select new com.umeca.model.shared.SelectList(c.id,dt.id) from Case as c " +
             "inner join c.meeting as m " +
             "inner join m.drugs as md " +
+            "inner join md.drugType as dt " +
             "where (c.id in (:lstCases) and md.block=true)")
-    List<SelectList> getAllDrugsEval(@Param("lstCases") List<Long> lstCases);
+    List<SelectList> getAllDrugsMeeting(@Param("lstCases") List<Long> lstCases);
 
-    @Query("select new com.umeca.model.shared.SelectList(c.id,fmd.id) from Case as c " +
+    @Query("select new com.umeca.model.shared.SelectList(c.id,dt.id) from Case as c " +
+            "inner join c.verification as v " +
+            "inner join v.meetingVerified as mv " +
+            "inner join mv.drugs as md " +
+            "inner join md.drugType as dt " +
+            "where (c.id in (:lstCases) and md.block=true)")
+    List<SelectList> getAllDrugsVerif(@Param("lstCases") List<Long> lstCases);
+
+    @Query("select new com.umeca.model.shared.SelectList(c.id,dt.id) from Case as c " +
             "inner join c.framingMeeting as fm " +
             "inner join fm.drugs as fmd " +
+            "inner join fmd.drugType as dt " +
             "where (c.id in (:lstCases) and fmd.block=true)")
     List<SelectList> getAllDrugsSup(@Param("lstCases") List<Long> lstCases);
 
@@ -194,9 +238,18 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "inner join c.meeting as m " +
             "inner join m.imputed imp " +
             "where ((c.id in (:lstCases)) " +
-            "and (m.meetingType=com.umeca.model.shared.HearingFormatConstants.MEETING_PROCEDURAL_RISK) " +
             "and imp.gender is not null)")
-    List<SelectList> getAllGenderEval(@Param("lstCases") List<Long> lstCases);
+    List<SelectList> getAllGenderMeeting(@Param("lstCases") List<Long> lstCases);
+
+    @Query("select new com.umeca.model.shared.SelectList(c.id,imp.gender) from Case as c " +
+            "inner join c.verification as v " +
+            "inner join v.meetingVerified as mv " +
+            "inner join mv.imputed imp " +
+            "where ((c.id in (:lstCases)) " +
+            "and imp.gender is not null)")
+    List<SelectList> getAllGenderVerification(@Param("lstCases") List<Long> lstCases);
+
+
 
     @Query("select new com.umeca.model.shared.SelectList(c.id,fmpd.gender) from Case as c " +
             "inner join c.framingMeeting as fm " +
@@ -204,12 +257,22 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "where (c.id in (:lstCases)) and (fmpd.gender is not null)")
     List<SelectList> getAllGenderSup(@Param("lstCases") List<Long> lstCases);
 
+
     @Query("select new com.umeca.model.shared.SelectList(c.id,ms.id) from Case as c " +
             "inner join c.meeting as m " +
             "inner join m.imputed imp " +
             "inner join imp.maritalStatus ms " +
             "where c.id in (:lstCases) ")
-    List<SelectList> getAllMaritalStatusEval(@Param("lstCases") List<Long> lstCases);
+    List<SelectList> getAllMaritalStatusMeeting(@Param("lstCases") List<Long> lstCases);
+
+    @Query("select new com.umeca.model.shared.SelectList(c.id,ms.id) from Case as c " +
+            "inner join c.verification as v " +
+            "inner join v.meetingVerified as mv " +
+            "inner join mv.imputed imp " +
+            "inner join imp.maritalStatus ms " +
+            "where c.id in (:lstCases) ")
+    List<SelectList> getAllMaritalStatusVerif(@Param("lstCases") List<Long> lstCases);
+
 
     @Query("select new com.umeca.model.shared.SelectList(c.id,fmpdms.id) from Case as c " +
             "inner join c.framingMeeting as fm " +
@@ -218,19 +281,34 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "where c.id in (:lstCases)")
     List<SelectList> getAllMaritalStatusSup(@Param("lstCases") List<Long> lstCases);
 
+    //rt.id=1 --> trabajo actual
     @Query("select distinct (c.id) from Case as c " +
             "inner join c.meeting as m " +
             "inner join m.jobs as j " +
             "inner join j.registerType as rt " +
             "where (c.id in (:lstCases)) and rt.id=1 and j.block=true")
-    List<Long> getAllCurrentJobEv(@Param("lstCases") List<Long> lstCases);
+    List<Long> getAllCurrentJobMeeting(@Param("lstCases") List<Long> lstCases);
+
+    @Query("select distinct (c.id) from Case as c " +
+            "inner join c.verification as v " +
+            "inner join v.meetingVerified as mv " +
+            "inner join mv.jobs as j " +
+            "inner join j.registerType as rt " +
+            "where (c.id in (:lstCases)) and rt.id=1 and j.block=true")
+    List<Long> getAllCurrentJobVerifi(@Param("lstCases") List<Long> lstCases);
 
     @Query("select distinct (c.id) from Case as c " +
             "inner join c.meeting as m " +
             "inner join m.jobs as j " +
-            "inner join j.registerType as rt " +
             "where (c.id in (:lstCases) and j.block=false)")
-    List<Long> getAllNoJobEv(@Param("lstCases") List<Long> lstCases);
+    List<Long> getAllNoJobMeeting(@Param("lstCases") List<Long> lstCases);
+
+    @Query("select distinct (c.id) from Case as c " +
+            "inner join c.verification as v " +
+            "inner join v.meetingVerified as mv " +
+            "inner join mv.jobs as j " +
+            "where (c.id in (:lstCases) and j.block=false)")
+    List<Long> getAllNoJobVerif(@Param("lstCases") List<Long> lstCases);
 
     @Query("select distinct (c.id) from Case as c " +
             "inner join c.framingMeeting as fm " +
@@ -252,7 +330,16 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "inner join sch.degree deg " +
             "inner join deg.academicLevel alvl " +
             "where (c.id in (:lstCases))")
-    List<SelectList> getAllAcLvlEv(@Param("lstCases") List<Long> lstCases);
+    List<SelectList> getAllAcLvlMeeting(@Param("lstCases") List<Long> lstCases);
+
+    @Query("select new com.umeca.model.shared.SelectList(c.id, alvl.id) from Case as c " +
+            "inner join c.verification as v " +
+            "inner join v.meetingVerified as mv " +
+            "inner join mv.school sch " +
+            "inner join sch.degree deg " +
+            "inner join deg.academicLevel alvl " +
+            "where (c.id in (:lstCases))")
+    List<SelectList> getAllAcLvlVerif(@Param("lstCases") List<Long> lstCases);
 
     @Query("select new com.umeca.model.shared.SelectList(c.id, alvl.id) from Case as c " +
             "inner join c.framingMeeting as fm " +
@@ -493,5 +580,19 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "where (CD.id_case in (:lstCases) or CD.id_case is null)" +
             "group by GC.description order by CCC desc", nativeQuery = true)
     List<Object> getCountCasesByCrimeEv(@Param("lstCases") List<Long> lstCases);
+
+    /*******************************/
+    @Query(value = "select distinct (c.id) from Case c  " +
+            "inner join c.status stCase " +
+            "inner join c.meeting m " +
+            "inner join m.status stMeeting " +
+            "where (stCase.name = com.umeca.model.shared.Constants.CASE_STATUS_MEETING and stMeeting.name = com.umeca.model.shared.Constants.S_MEETING_COMPLETE) " +
+            "or (stCase.name = com.umeca.model.shared.Constants.CASE_STATUS_MEETING and stMeeting.name = com.umeca.model.shared.Constants.S_MEETING_INCOMPLETE_LEGAL) " +
+            "and (c.id in (:lstCases)) " +
+            "group by GC.description order by CCC desc", nativeQuery = true)
+    List<Long> getCountGenderInMeeting(@Param("lstCases") List<Long> lstCases);
+
+
+
 
 }

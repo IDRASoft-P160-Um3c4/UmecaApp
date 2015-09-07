@@ -179,7 +179,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             if (!$scope.m.vincProcess) {
                 $scope.hasError = true;
-                $scope.m.errLinkProc = "Debe seleccionar una opci�n";
+                $scope.m.errLinkProc = "Debe seleccionar una opción";
             }
             else
                 $scope.m.errLinkProc = "";
@@ -465,7 +465,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 })
                 .error(function () {
                     $scope.WaitFor = false;
-                    $scope.MsgError = "Error de red. Por favor intente m�s tarde.";
+                    $scope.MsgError = "Error de red. Por favor intente más tarde.";
                     $scope.$apply();
                 });
 

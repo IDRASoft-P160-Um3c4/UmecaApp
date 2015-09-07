@@ -85,7 +85,7 @@
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay'
                 },
-                allDayText: 'Todo el d�a',
+                allDayText: 'Todo el día',
                 allDaySlot: false,
                 slotMinutes: 30,
                 axisFormat: 'HH:mm',

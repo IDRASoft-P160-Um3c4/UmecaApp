@@ -337,7 +337,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "INNER JOIN CDET.verification as V " +
             "INNER JOIN V.sourceVerifications as sv " +
             "LEFT JOIN sv.relationship as rel " +
-            "WHERE (sv.isAuthorized = true) and (CDET.id in (:listCaseId)) " +
+            "WHERE (sv.isAuthorized = true and sv.visible = true and rel is not null) and (CDET.id in (:listCaseId)) " +
             "order by CDET.dateCreate")
     List<ExcelVerificationDto> getInfoVerification(@Param("listCaseId") List<Long> listCaseId);
 

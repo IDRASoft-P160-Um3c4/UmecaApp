@@ -138,7 +138,7 @@ public class Constants {
     public static final Long MARITAL_SINGLE = 1L;
     public static final Long MARITAL_MARRIED = 2L;
     public static final Long MARITAL_DIVORCED = 3L;
-    public static final Long MARITAL_UNION_FREE = 4L;
+    public static final Long MARITAL_FREE_UNION = 4L;
     public static final Long MARITAL_WIDOWER = 5L;
 
     public static final Long AC_LVL_ILLITERATE = 1L;
