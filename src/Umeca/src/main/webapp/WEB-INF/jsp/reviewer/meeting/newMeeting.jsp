@@ -5,6 +5,7 @@
     });
 
 </script>
+<script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/meetingCtrl.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 <div>
     <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak>
@@ -141,6 +142,18 @@
                                 <div class="col-xs-9 col-xs-offset-3">
                                     <span class="field-validation-valid" data-valmsg-for="meeting.caseDetention.idFolder" data-valmsg-replace="true"></span>
                                 </div>
+                            </div>
+                            <br/>
+                            <div class="row" ng-controller="newMeetController" ng-init='lstDistrict = ${lstDistrict}; init();'>
+                                <div class="col-xs-5 element-left">
+                                    Distrito judicial
+                                </div>
+                                <div class="col-xs-7">
+                                    <select id="district"
+                                            ng-model="m.district"
+                                            ng-options="e.name for e in lstDistrict"></select>
+                                </div>
+                                <input type="hidden" name="meeting.district.id" value="{{m.district.id}}"/>
                             </div>
                             <br/>
                             <div class="row">

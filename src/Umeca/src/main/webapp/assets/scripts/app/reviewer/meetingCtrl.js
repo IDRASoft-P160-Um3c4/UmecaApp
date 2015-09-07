@@ -152,3 +152,34 @@ app.controller('scController', function($scope, $timeout, $sce) {
         $scope.$apply();
     };
 });
+
+
+app.controller('newMeetController', function ($scope) {
+        $scope.m = {};
+
+
+        $scope.init = function () {
+            $scope.fillSelectD("m", "district", "lstDistrict", "districtId");
+        };
+
+        $scope.fillSelectD = function (obj, prop, list, model) {
+            if ($scope[list] === undefined || $scope[list].length <= 0)
+                return;
+
+            if ($scope[model] === undefined || $scope[model] === -1)
+                $scope[obj][prop] = $scope[list][0];
+            else {
+                for (var i = 0; i < $scope[list].length; i++) {
+                    var rel = $scope[list][i];
+                    if (rel.id === $scope[model]) {
+                        $scope[obj][prop] = rel;
+                        break;
+                    }
+                }
+            }
+        };
+
+
+    }
+)
+;
