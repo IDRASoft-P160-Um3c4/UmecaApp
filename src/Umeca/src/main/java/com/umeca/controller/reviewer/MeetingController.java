@@ -18,9 +18,11 @@ import com.umeca.model.entities.reviewer.View.MeetingView;
 import com.umeca.model.entities.reviewer.View.PersonSocialNetworkView;
 import com.umeca.model.shared.ConsMessage;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.managereval.FormulationRepository;
 import com.umeca.repository.reviewer.MeetingRepository;
+import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.MeetingService;
 import com.umeca.service.reviewer.ScheduleService;
@@ -427,9 +429,16 @@ public class MeetingController {
 
     }
 
+    @Autowired
+    DistrictRepository districtRepository;
+
     @RequestMapping(value = "/reviewer/meeting/newMeeting", method = RequestMethod.POST)
-    public String newMeeting() {
-        return "/reviewer/meeting/newMeeting";
+    public ModelAndView newMeeting() {
+        ModelAndView model = new ModelAndView("/reviewer/meeting/newMeeting");
+        List<SelectList> lstDistrict = districtRepository.findNoObsolete();
+        Gson gson = new Gson();
+        model.addObject("lstDistrict", gson.toJson(lstDistrict));
+        return model;
     }
 
     @RequestMapping(value = {"/reviewer/meeting/doNewMeeting","/reviewer/formulation/doNewMeeting"}, method = RequestMethod.POST)

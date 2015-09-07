@@ -104,8 +104,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "inner  join m.imputed i " +
             "where (evT.name = com.umeca.model.shared.Constants.EVENT_CASE_OPINION or " +
             "evT.name = com.umeca.model.shared.Constants.EVENT_CASE_REPORT or " +
-            "evT.name = com.umeca.model.shared.Constants.EVENT_ONLY_INTERVIEW)" +
-            " and (ev.dateId between :initDate and :endDate) " +
+            "evT.name = com.umeca.model.shared.Constants.EVENT_ONLY_INTERVIEW) " +
+            "and (ev.dateId between :initDate and :endDate) " +
             "group by i.gender")
     List<SelectList> countMeetingByGender(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
@@ -177,5 +177,17 @@ public interface EventRepository extends JpaRepository<Event, Long> {
                 "inner join ev.eventType evT " +
                 "where evT.name = com.umeca.model.shared.Constants.EVENT_PROSECUTE and (ev.dateId between :initDate and :endDate)")
         List<SelectList>countCasesProsecuted(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
+
+
+
+        @Query(value = "select year(e.date) as year, count(e.id_event) " +
+                "from Event as e " +
+                "where (e.date_Id between :initDate and :endDate) " +
+                "group by year", nativeQuery = true)
+        List<Object> countCasesByYear(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
+
+
+
+
 
 }

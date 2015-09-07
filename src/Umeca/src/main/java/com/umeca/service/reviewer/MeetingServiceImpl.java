@@ -31,6 +31,7 @@ import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.*;
 import com.umeca.repository.shared.MessageRepository;
 import com.umeca.repository.shared.VictimRepository;
+import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.catalog.CatalogService;
@@ -149,6 +150,10 @@ public class MeetingServiceImpl implements MeetingService {
     EventService eventService;
 
 
+    @Autowired
+    DistrictRepository districtRepository;
+
+
     @Transactional
     @Override
     public Long createMeeting(Imputed imputed) {
@@ -186,6 +191,7 @@ public class MeetingServiceImpl implements MeetingService {
                 statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE);
             }
             meeting.setStatus(statusMeeting);
+            meeting.setDistrict(districtRepository.findOne(imputed.getMeeting().getDistrict().getId()));
             meeting.setReviewer(userRepository.findOne(userService.GetLoggedUserId()));
             meeting.setDateCreate(new Date());
 

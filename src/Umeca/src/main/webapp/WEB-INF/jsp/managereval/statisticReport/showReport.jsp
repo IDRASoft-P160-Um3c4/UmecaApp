@@ -31,42 +31,39 @@
             -o-transition: all 0.3s;
             transition: all 0.3s;
         }
-        .bar:hover{
+
+        .bar:hover {
             fill: #607D8B !important;
         }
 
     </style>
 
     <script>
-        window.onload = function(){
+        window.onload = function () {
 
             var dataSet = ${data};
             var total = ${total};
             var initDate = "${initDate}";
             var endDate = "${endDate}";
             var extraData = "${extraData}";
-            var title = "${title}"
+            var title = "${title}";
+            var yAxisStr = "${yAxis}";
 
 
             var color = d3.scale.ordinal()
                     .range(["#00BCD4", "#E91E63", "#009688", "#3F51B5"]);
 
 
-            var dataSetx = [{"name":"Alcohol","value":2,"subName":"Alcohol"},{"name":"Marihuana","value":2,"subName":"Marihuana"},{"name":"Cocaína","value":2,"subName":"Cocaína"},
-                {"name":"Heroína","value":2,"subName":"Heroína"},{"name":"Opiáceos","value":2,"subName":"Opiáceos"},{"name":"PBC","value":2,"subName":"PBC"},
-                {"name":"Solventes","value":2,"subName":"Solventes"},{"name":"Cemento","value":2,"subName":"Cemento"},{"name":"LSD","value":2,"subName":"LSD"},
-                {"name":"Anfetaminas","value":2,"subName":"Anfetaminas"},{"name":"Metanfetaminas","value":2,"subName":"Meta"},{"name":"Extasis","value":2,"subName":"Extasis"},
-                {"name":"Hongos","value":2,"subName":"Hongos"},{"name":"Otro","value":2,"subName":"Otro"},{"name":"Cocaína en piedra","value":2,"subName":"CocaínaP"}];
-
-
             var len = dataSet.length;
 
-            if(len > 4){
-                color = d3.scale.ordinal().range(["#F44336", "#E91E63", "#9C27B0", "#673AB7","#3F51B5", "#2196F3", "#00BCD4", "#009688", "#4CAF50", "#8BC34A", "#FFEB3B", "#FFC107", "#FF9800", "#795548", "#9E9E9E"]);
+            if (len > 4) {
+                color = d3.scale.ordinal().range(["#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3", "#00BCD4", "#009688", "#4CAF50", "#8BC34A", "#FFEB3B", "#FFC107", "#FF9800", "#795548", "#9E9E9E"]);
             }
 
-            if(len > 8){
-                dataSet.map(function(d) { d.name = d.subName; })
+            if (len > 8) {
+                dataSet.map(function (d) {
+                    d.name = d.subName;
+                })
             }
 
             var margin = {top: 50, right: 110, bottom: 50, left: 110},
@@ -74,15 +71,14 @@
                     height = 720 - margin.top - margin.bottom;
 
             var dataSetDefault = [
-                { name: "Opinion", value: 0},
-                { name: "Informe", value: 0},
-                { name: "Negacion", value: 0},
-                { name: "Solo entrevista", value: 0} ];
+                {name: "Opinion", value: 0},
+                {name: "Informe", value: 0},
+                {name: "Negacion", value: 0},
+                {name: "Solo entrevista", value: 0}];
 
 
-
-            var m1 = [.8,.3,.4,.3,.1,.1,.1,.1,.1,.1,.1,.1,.1,.1,.1];
-            var m2 = [.3,.9,.4,.4,.4,.4,.4,.6,.6,.6,.6,.6,.6,.6,.6];
+            var m1 = [.8, .3, .4, .3, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1];
+            var m2 = [.3, .9, .4, .4, .4, .4, .4, .6, .6, .6, .6, .6, .6, .6, .6];
 
             var x = d3.scale.ordinal()
                     .rangeRoundBands([0, width], m1[dataSet.length - 1], m2[dataSet.length - 1]);
@@ -103,7 +99,9 @@
                     .rangeRoundBands([0, width], m1[dataSet.length - 1], m2[dataSet.length - 1]);
 
             var yScale = d3.scale.linear()
-                    .domain([0, d3.max(dataSet, function(d) {return d.value;})])
+                    .domain([0, d3.max(dataSet, function (d) {
+                        return d.value;
+                    })])
                     .range([0, height]);
 
 
@@ -115,12 +113,16 @@
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-            dataSet.forEach(function(d) {
+            dataSet.forEach(function (d) {
                 d.value = +d.value;
             });
 
-            x.domain(dataSet.map(function(d) { return d.name; }));
-            y.domain([0, d3.max(dataSet, function(d) { return d.value; })]);
+            x.domain(dataSet.map(function (d) {
+                return d.name;
+            }));
+            y.domain([0, d3.max(dataSet, function (d) {
+                return d.value;
+            })]);
 
 
             //bar
@@ -128,13 +130,21 @@
                     .data(dataSet)
                     .enter().append("rect")
                     .attr("class", "bar")
-                    .attr("x", function(d) { return x(d.name); })
+                    .attr("x", function (d) {
+                        return x(d.name);
+                    })
                     .attr("width", x.rangeBand())
-                    .attr("y", function(d) { return y(d.value); })
-                    .attr("height", function(d) { return height - y(d.value); })
-                    .style("fill", function(d, i) { return color(i); })
-                    //.attr("stroke", "orange")
-                   // .attr("stroke-width", function(d,i){return d.value/2;})
+                    .attr("y", function (d) {
+                        return y(d.value);
+                    })
+                    .attr("height", function (d) {
+                        return height - y(d.value);
+                    })
+                    .style("fill", function (d, i) {
+                        return color(i);
+                    })
+                //.attr("stroke", "orange")
+                // .attr("stroke-width", function(d,i){return d.value/2;})
             ;
 
             //text
@@ -142,14 +152,14 @@
                     .data(dataSet)
                     .enter()
                     .append("text")
-                    .text(function(d) {
+                    .text(function (d) {
                         return d.value;
                     })
                     .attr("text-anchor", "middle")
-                    .attr("x", function(d, i) {
+                    .attr("x", function (d, i) {
                         return xScale(i) + xScale.rangeBand() / 2;
                     })
-                    .attr("y", function(d) {
+                    .attr("y", function (d) {
                         return height - yScale(d.value) + 14;
                     })
                     .attr("font-family", "sans-serif")
@@ -172,7 +182,7 @@
                     .attr("y", 6)
                     .attr("dy", ".71em")
                     .style("text-anchor", "end")
-                    .text("Personas");
+                    .text(yAxisStr);
 
 
             svg.append("text")
@@ -180,7 +190,7 @@
                     .attr("y", 0 - 35)
                     .attr("text-anchor", "middle")
                     .style("font-size", "16px")
-                    //.style("text-decoration", "underline")
+                //.style("text-decoration", "underline")
                     .text(title);
 
 
@@ -213,23 +223,21 @@
 //                    .text(function(d, i) { return d.name; });
 
 
-
             svg.append("text")
                     .attr("x", (width - 26))
                     .data(dataSet)
                     .attr("y", 20)
                     .style("font-size", "13px")
-                    .text("Total: " + total + " personas");
+                    .text("Total: " + total + " " + yAxisStr);
 
-            if(extraData !== ""){
+            if (extraData !== "") {
                 svg.append("text")
-                        .attr("x", (width - 26))
+                        .attr("x", (width - 100))
                         .data(dataSet)
                         .attr("y", -5)
                         .style("font-size", "13px")
                         .text(extraData);
             }
-
 
 
             //legend
@@ -251,7 +259,7 @@
                     .style("fill", color);
 
             legendRect
-                    .attr("y", function(d, i) {
+                    .attr("y", function (d, i) {
                         return i * 20;
                     });
 
@@ -262,11 +270,13 @@
                     .attr("x", width - 52);
 
             legendText
-                    .attr("y", function(d, i) {
+                    .attr("y", function (d, i) {
                         return i * 20 + 9;
                     })
                     .style("font-size", "12px")
-                    .text(function(d, i) { return d.name + " - " + d.value; });
+                    .text(function (d, i) {
+                        return d.name + " - " + d.value;
+                    });
 
             //style
             svg.selectAll(".x.axis path")
@@ -298,30 +308,44 @@
                 //clearTimeout(sortTimeout);
 
                 var x0 = x.domain(dataSet.sort(this.checked
-                        ? function(a, b) { return b.value - a.value; }
-                        : function(a, b) { return d3.ascending(a.name, b.name); })
-                        .map(function(d) { return d.name; }))
+                        ? function (a, b) {
+                    return b.value - a.value;
+                }
+                        : function (a, b) {
+                    return d3.ascending(a.name, b.name);
+                })
+                        .map(function (d) {
+                            return d.name;
+                        }))
                         .copy();
 
                 svg.selectAll(".bar")
-                        .sort(function(a, b) { return x0(a.name) - x0(b.name); });
+                        .sort(function (a, b) {
+                            return x0(a.name) - x0(b.name);
+                        });
 
                 svg.selectAll(".textbar")
-                        .sort(function(a, b) { return x0(a.name) - x0(b.name); });
+                        .sort(function (a, b) {
+                            return x0(a.name) - x0(b.name);
+                        });
 
                 var transition = svg.transition().duration(750),
-                        delay = function(d, i) { return i * 50; };
+                        delay = function (d, i) {
+                            return i * 50;
+                        };
 
 
                 transition.selectAll(".textbar")
                         .delay(delay)
-                        .attr("x", function(d, i) {
+                        .attr("x", function (d, i) {
                             return xScale(i) + xScale.rangeBand() / 2;
                         });
 
                 transition.selectAll(".bar")
                         .delay(delay)
-                        .attr("x", function(d) { return x0(d.name); });
+                        .attr("x", function (d) {
+                            return x0(d.name);
+                        });
 
 
                 transition.select(".x.axis")
@@ -335,7 +359,7 @@
 
             function reset() {
                 svg.selectAll("rect")
-                        .sort(function(a, b){
+                        .sort(function (a, b) {
                             return a.name - b.name;
                         })
                         .transition()
@@ -348,7 +372,7 @@
                         });
 
                 svg.selectAll('text')
-                        .sort(function(a, b){
+                        .sort(function (a, b) {
                             return a.name - b.name;
                         })
                         .transition()
@@ -368,22 +392,23 @@
                         });
             };
 
-            d3.select("#save").on("click", function(){
+            d3.select("#save").on("click", function () {
                 var html = d3.select("svg")
                         .attr("version", 1.1)
                         .attr("xmlns", "http://www.w3.org/2000/svg")
                         .node().parentNode.innerHTML;
 
-                var imgSrc = 'data:image/svg+xml;base64,'+ btoa(unescape(encodeURIComponent(html)));;
+                var imgSrc = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(html)));
+                ;
                 //var img = '<img src="'+imgSrc+'">';
                 //d3.select("#svgdataurl").html(img);
 
 
-                var canvas = document.querySelector("canvas"),context = canvas.getContext("2d");
+                var canvas = document.querySelector("canvas"), context = canvas.getContext("2d");
 
                 var image = new Image;
                 image.src = imgSrc;
-                image.onload = function() {
+                image.onload = function () {
                     context.drawImage(image, 0, 0);
                     binaryBlob();
 
@@ -400,7 +425,7 @@
 
             });
 
-            function binaryBlob(){
+            function binaryBlob() {
                 var byteString = atob(document.querySelector("canvas").toDataURL().replace(/^data:image\/(png|jpg);base64,/, "")); //wtf is atob?? https://developer.mozilla.org/en-US/docs/Web/API/Window.atob
                 var ab = new ArrayBuffer(byteString.length);
                 var ia = new Uint8Array(ab);
@@ -427,26 +452,31 @@
 <div class="container body-content col-xs-12 col-xs-offset-1">
 
 
-
-
     <h2 class="element-center">
         <i class="icon icon-file"></i>&nbsp;&nbsp;Reporte Estad&iacute;stico
     </h2>
 
-    <label><input type="checkbox"> Ordenar valores</label>
+    <%--<label><input type="checkbox"> Ordenar valores</label>--%>
     <%--<button id="reset">Reset</button>--%>
     <%--<button id="sort" onclick="sortBars()">Sort</button>--%>
 
     <br/>
     <br/>
+
     <div class="row-fluid center">
         <div class="chartBar"></div>
         <%--<div id="svgdataurl"></div>--%>
         <%--<div id="pngdataurl"></div>--%>
         <canvas width="1280" height="720" style="display:none"></canvas>
+    </div>
 
-        <br/>
-        <br/>
+    <div class="row element-center">
+        <a href="<c:url value='/managereval/statisticReport/index.html' />">
+            <button class="btn">
+                <i class="glyphicon glyphicon-stats"></i>&nbsp;Obtener otro reporte
+
+            </button>
+        </a>
         <button class="btn btn-info" id="save">
             <i class="glyphicon glyphicon-picture"></i>&nbsp;Descargar reporte
         </button>

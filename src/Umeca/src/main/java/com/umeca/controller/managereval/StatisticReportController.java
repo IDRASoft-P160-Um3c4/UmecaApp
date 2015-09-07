@@ -1,6 +1,7 @@
 package com.umeca.controller.managereval;
 
 import com.google.gson.Gson;
+import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.StatisticReportTypeRepository;
 import com.umeca.service.account.SharedUserService;
@@ -47,6 +48,7 @@ public class StatisticReportController {
     public ModelAndView showReport(String initDate, String endDate, String filterSelected) {
         ModelAndView model = new ModelAndView("/managereval/statisticReport/showReport");
 
+        String yAxis = "Personas";
         String extraData = null;
         String title = null;
         Long total = Long.valueOf(0);
@@ -77,12 +79,21 @@ public class StatisticReportController {
             for ( SelectList temp : data ) {
                 total += temp.getValue();
             }
-            model.addObject("initDate", initDate.toString());
-            model.addObject("endDate", endDate.toString());
+
+
+            if (filterSelected.equals(Constants.REPORT_STATISTIC_G)){
+                initDate = initDate.substring(0,4);
+                endDate = endDate.substring(0,4);
+                yAxis = "Entrevistas";
+            }
+
+            model.addObject("initDate", initDate);
+            model.addObject("endDate", endDate);
             model.addObject("total", total);
             model.addObject("data", gson.toJson(data));
             model.addObject("extraData", extraData);
             model.addObject("title", title);
+            model.addObject("yAxis", yAxis);
 
 
         } catch (Exception e) {
@@ -94,6 +105,7 @@ public class StatisticReportController {
             model.addObject("data", null);
             model.addObject("extraData", extraData);
             model.addObject("title", title);
+            model.addObject("yAxis", yAxis);
 
         }
 

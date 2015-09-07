@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.model.catalog.District;
 import com.umeca.model.catalog.StatusMeeting;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
@@ -73,6 +74,10 @@ public class Meeting {
     @ManyToOne(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name="id_status", nullable = false)
     private StatusMeeting status;
+
+    @ManyToOne(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name="id_district", nullable = false)
+    private District district;
 
     @Column(name="decline_reason", nullable = true, length = 500)
     private String declineReason;
@@ -365,5 +370,13 @@ public class Meeting {
 
     public void setDeclineReason(String declineReason) {
         this.declineReason = declineReason;
+    }
+
+    public District getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(District district) {
+        this.district = district;
     }
 }

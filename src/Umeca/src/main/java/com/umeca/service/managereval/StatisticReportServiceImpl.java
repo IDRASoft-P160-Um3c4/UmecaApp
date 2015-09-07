@@ -5,6 +5,7 @@ import com.umeca.model.shared.SelectList;
 import com.umeca.repository.EventRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
+import org.hibernate.stat.SecondLevelCacheStatistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,23 +69,24 @@ public class StatisticReportServiceImpl implements StatisticReportService {
             data = eventRepository.countTypeofDrugs(initDate, endDate);
         }
         else if(filter.equals(Constants.REPORT_STATISTIC_F)){
-
-        }
-        else if(filter.equals(Constants.REPORT_STATISTIC_G)){
-
-        }
-        else if(filter.equals(Constants.REPORT_STATISTIC_H)){
-
-        }
-        else if(filter.equals(Constants.REPORT_STATISTIC_I)){
             Long extraData = eventRepository.countCasesByOpinionOnDate(initDate, endDate);
             SelectList selectListExtra = new SelectList(new Long(-1111), extraData, "Total entrevista con Opinión");
             data.add(selectListExtra);
 
             Long dataA = eventRepository.countSourcesByOpinionOnDate(initDate, endDate);
-            SelectList selectListA = new SelectList(new Long(0), dataA, "Fuentes de verificación utilizadas");
+            SelectList selectListA = new SelectList(new Long(0), dataA, "Fuentes");
             data.add(selectListA);
+        }
+        else if (filter.equals(Constants.REPORT_STATISTIC_G)){
+            initDate = (initDate / 10000) * 10000;
+            endDate = (endDate / 10000) * 10001;
 
+             List<Object> temp = eventRepository.countCasesByYear(initDate, endDate);
+            for (Object object : temp){
+                Object[] aux = (Object[]) object;
+                data.add(new SelectList(aux[0].toString(), Long.parseLong(aux[1].toString())));
+
+            }
         }
 
         return data;
