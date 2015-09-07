@@ -181,6 +181,22 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
 
 
+    @Query("select  new com.umeca.model.shared.SelectList(ecamed.id, count(e), ecamed.name)" +
+            "from Event e " +
+            "inner join e.eventType et " +
+            "inner join e.caseDetention eca " +
+            "inner join eca.meeting ecame " +
+            "inner  join ecame.district ecamed " +
+            "where (e.dateId between :initDate and :endDate) " +
+            "and (et.name = com.umeca.model.shared.Constants.EVENT_INTERVIEW_DECLINED or " +
+            "et.name = com.umeca.model.shared.Constants.EVENT_CASE_REPORT or " +
+            "et.name = com.umeca.model.shared.Constants.EVENT_CASE_OPINION or " +
+            "et.name = com.umeca.model.shared.Constants.EVENT_ONLY_INTERVIEW) " +
+            "group by ecamed.name")
+    List<SelectList> countMeetingByDistrict(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
+
+
+
 
 
 }
