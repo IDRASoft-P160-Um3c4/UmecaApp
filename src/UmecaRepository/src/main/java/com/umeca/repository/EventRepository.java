@@ -153,10 +153,23 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "inner join c.meeting m " +
             "inner join m.drugs d " +
             "inner join d.drugType dT " +
-            "where dT.id <> 15 and (ev.dateId between :initDate and :endDate)" +
+            "where dT.id <> 15 and (evT.name = com.umeca.model.shared.Constants.EVENT_CASE_REPORT or evT.name = com.umeca.model.shared.Constants.EVENT_ONLY_INTERVIEW) and(ev.dateId between :initDate and :endDate) " +
             "group by dT.id"
     )
     List<SelectList> countTypeofDrugs(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
+
+    //ReporteE5
+    @Query("select new com.umeca.model.shared.SelectList(dT.name, COUNT(dT.id)) " +
+            "from Event ev " +
+            "inner join ev.eventType evT " +
+            "inner join ev.caseDetention c " +
+            "inner join c.verification v " +
+            "inner join v.meetingVerified m " +
+            "inner join m.drugs d " +
+            "inner join d.drugType dT " +
+            "where dT.id <> 15 and (evT.name = com.umeca.model.shared.Constants.EVENT_CASE_OPINION) and (ev.dateId between :initDate and :endDate) " +
+            "group by dT.id")
+    List<SelectList> countTypeOfDrugsOpinion(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
 
     //ReporteE6

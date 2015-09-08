@@ -65,7 +65,27 @@ public class StatisticReportServiceImpl implements StatisticReportService {
             data.add(new SelectList(Constants.GENDER_FEMALE, dataA.get(1).getValue() + dataB.get(1).getValue()));
 
         } else if (filter.equals(Constants.REPORT_STATISTIC_E)) {
-            data = eventRepository.countTypeofDrugs(initDate, endDate);
+            List<SelectList> dataA = eventRepository.countTypeofDrugs(initDate, endDate);
+            List<SelectList> dataB = eventRepository.countTypeOfDrugsOpinion(initDate, endDate);
+
+            for(SelectList selectList : dataA){
+                data.add(selectList);
+            }
+
+            for(SelectList selectList : dataB){
+                for(int i = 0; i < data.size(); i++ ){
+                    if(selectList.getSubName().equals(data.get(i).getSubName())){
+                        data.get(i).setValue(data.get(i).getValue() + selectList.getValue());
+                        break;
+                    }
+                    else{
+                        data.add(selectList);
+                        break;
+                    }
+
+                }
+            }
+
         } else if (filter.equals(Constants.REPORT_STATISTIC_F)) {
             Long extraData = eventRepository.countCasesByOpinionOnDate(initDate, endDate);
             SelectList selectListExtra = new SelectList(new Long(-1111), extraData, "Total entrevista con Opinión");
