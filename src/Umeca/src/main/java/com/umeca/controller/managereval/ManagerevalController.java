@@ -419,6 +419,7 @@ public class ManagerevalController {
             if(requestDto.getReason().equals("")){
                 return new ResponseMessage(true, "Debes ingresar una raz&oacute;n por la cu&aacute;l quieres realizar la solicitud");
             }
+            boolean onlyInterview = false;
             Gson gson = new Gson();
             Long userId = userService.GetLoggedUserId();
             User userSender =userRepository.findOne(userId);
@@ -498,7 +499,7 @@ public class ManagerevalController {
                         case Constants.ST_REQUEST_GET_FREEDOM:
                             c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_GOT_FREEDOM));
                             c.setDateNotProsecute(new Date());
-                            eventService.addEvent(Constants.EVENT_ONLY_INTERVIEW,c.getId(),null);
+                            onlyInterview = true;
                             break;
 
                     }
@@ -516,6 +517,11 @@ public class ManagerevalController {
             }
             caseRequestRepository.save(caseRequest);
             qCaseRepository.save(c);
+
+            if(onlyInterview == true){
+                eventService.addEvent(Constants.EVENT_ONLY_INTERVIEW,c.getId(),null);
+            }
+
             LogNotification notif = new LogNotification();
             notif.setIsObsolete(false);
             User uSender = userRepository.findOne(userService.GetLoggedUserId());
