@@ -184,9 +184,16 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     //ReporteE7
     @Query(value = "select year(e.date) as year, count(e.id_event) " +
-            "from Event as e " +
+            "from event as e " +
+            "inner join cat_event et " +
+            "on e.event_id = et.id_event " +
             "where (e.date_Id between :initDate and :endDate) " +
-            "group by year", nativeQuery = true)
+            "and (et.event = 'DECLINED' or " +
+            "et.event = 'REPORT' or " +
+            "et.event = 'OPINION' or " +
+            "et.event = 'INTERVIEW') " +
+            "group by year " +
+            "order by year", nativeQuery = true)
     List<Object> countCasesByYear(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
 
