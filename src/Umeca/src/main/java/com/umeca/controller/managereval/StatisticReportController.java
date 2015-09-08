@@ -29,7 +29,6 @@ public class StatisticReportController {
     @Autowired
     StatisticReportTypeRepository statisticReportTypeRepository;
     @Autowired
-    private
     StatisticReportService statisticReportService;
 
 
@@ -41,7 +40,6 @@ public class StatisticReportController {
         model.addObject("lstFilter", gson.toJson(lstEvaAct));
         return model;
     }
-
 
 
     @RequestMapping(value = "/managereval/statisticReport/showReport", method = RequestMethod.GET)
