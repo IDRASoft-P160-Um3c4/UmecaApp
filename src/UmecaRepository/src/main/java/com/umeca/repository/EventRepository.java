@@ -179,11 +179,14 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "where (e.date_Id between :initDate and :endDate) " +
             "group by year", nativeQuery = true)
     List<Object> countCasesByYear(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
+       
+
         @Query("select new com.umeca.model.shared.SelectList(count(ev.id))" +
                 "from Event ev " +
                 "inner join ev.eventType evT " +
                 "where evT.name = com.umeca.model.shared.Constants.EVENT_PROSECUTE and (ev.dateId between :initDate and :endDate)")
         List<SelectList>countCasesProsecuted(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
+
 
     @Query("select  new com.umeca.model.shared.SelectList(ecamed.id, count(e), ecamed.name)" +
             "from Event e " +
