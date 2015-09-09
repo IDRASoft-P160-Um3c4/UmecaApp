@@ -7,5 +7,5 @@ id|description|isObsolete|lock|specification
 6|MC|0|0|0
 7|Revisión de SCP|0|0|0
 8|SCP|0|0|0
-9|Acuerdo preparatorio|0|1|0
+9|Acuerdo reparatorio|0|1|0
 10|Otra|0|1|1

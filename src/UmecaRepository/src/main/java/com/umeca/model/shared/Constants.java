@@ -300,6 +300,12 @@ public class Constants {
     public static final String CLOSE_CAUSE_OBSOLETE_SUPERVISION = "CAUSE_OBSOLETE_SUPERVISION";
     public static final String CLOSE_CAUSE_PROMISE_PRISION = "CAUSE_PROMISE_PRISION";
     public static final String CLOSE_CAUSE_DISMISSAL = "CAUSE_DISMISSAL";
+    public static final String CAUSE_NOT_ENTAILMENT = "CAUSE_NOT_ENTAILMENT";
+    public static final String CAUSE_PROTECTION = "CAUSE_PROTECTION";
+    public static final String CAUSE_DEATH = "CAUSE_DEATH";
+    public static final String CAUSE_SUMMARY_PROCEDURE = "CAUSE_SUMMARY_PROCEDURE";
+    public static final String CAUSE_FINAL_JUDGMENT = "CAUSE_FINAL_JUDGMENT";
+    public static final String CAUSE_DEADLINE_OF_CONDITIONAL_SUSPENSION = "CAUSE_DEADLINE_OF_CONDITIONAL_SUSPENSION";
 
     /** códigos para causas de cierre **/
 
