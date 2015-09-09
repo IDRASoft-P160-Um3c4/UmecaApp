@@ -146,6 +146,8 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     @Autowired
     ChannelingTypeRepository channelingTypeRepository;
     @Autowired
+    ChannelingInstitutionNameRepository channelingInstitutionNameRepository;
+    @Autowired
     InformationAvailabilityRepository informationAvailabilityRepository;
     @Autowired
     ChannelingDropTypeRepository channelingDropTypeRepository;
@@ -167,9 +169,9 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
 //    private String PATH = "C:\\Users\\Rata\\Desktop\\branchSandra\\UmecaApp\\db\\";
 
-//    private String PATH = "C:\\Projects\\IDRASoft\\UmecaAppBranchMorelos\\UmecaApp\\db\\";
+    private String PATH = "C:\\Projects\\IDRASoft\\UmecaAppBranchMorelos\\UmecaApp\\db\\";
 
-    private String PATH = "C:\\Projects\\Umeca\\UmecaApp\\db\\";
+ //   private String PATH = "C:\\Projects\\Umeca\\UmecaApp\\db\\";
 
     //para la maquina virtual donde se montara el war
 //    private String PATH = "C:\\Users\\idrasoft\\Desktop\\umeca_catalog\\db\\";
@@ -1025,6 +1027,21 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             channelingTypeRepository.save(model);
         }
         channelingTypeRepository.flush();
+
+
+        lstDta = ReaderFile.readFile(PATH + "channeling_institution_name.txt", "\\|", 5);
+        for (String[] data : lstDta) {
+            CatChannelingInstitutionName model = new CatChannelingInstitutionName();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            final long catChannelingTypeId = Long.parseLong(data[3]);
+            CatChannelingType catChannelingType = channelingTypeRepository.findOne(catChannelingTypeId);
+            model.setChannelingType(catChannelingType);
+            model.setIsObsolete(data[4].equals("1"));
+            channelingInstitutionNameRepository.save(model);
+        }
+        channelingInstitutionNameRepository.flush();
     }
 
     @Override
