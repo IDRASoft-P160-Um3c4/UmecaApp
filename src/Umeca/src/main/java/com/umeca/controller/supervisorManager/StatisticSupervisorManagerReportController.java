@@ -2,7 +2,9 @@ package com.umeca.controller.supervisorManager;
 
 import com.google.gson.Gson;
 import com.umeca.model.shared.SelectList;
+import com.umeca.repository.catalog.ReportTypeRepository;
 import com.umeca.repository.catalog.StatisticOperatorReportTypeRepository;
+import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.repository.supervisorManager.StatisticSupervisorManagerReportRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.managereval.StatisticReportService;
@@ -36,40 +38,34 @@ public class StatisticSupervisorManagerReportController {
     StatisticReportService statisticReportService;
     @Autowired
     StatisticSupervisorManagerReportService statisticSupervisorManagerReportService;
+    @Autowired
+    DistrictRepository districtRepository;
+    @Autowired
+    ReportTypeRepository reportTypeRepository;
 
     @RequestMapping(value = "/supervisorManager/statisticReport/index", method = RequestMethod.GET)
     public ModelAndView index(){
         ModelAndView model = new ModelAndView("/supervisorManager/statisticReport/index");
         Gson gson = new Gson();
         List<SelectList> lstEvaAct = statisticSupervisorManagerReportRepository.getAllNoObsolete();
+        List<SelectList> lstDistrict = districtRepository.findNoObsolete();
+        List<SelectList> lstReportType = reportTypeRepository.getAllNoObsolete();
+        model.addObject("lstDistrict",gson.toJson(lstDistrict));
+        model.addObject("lstReportType",gson.toJson(lstReportType));
         model.addObject("lstFilter", gson.toJson(lstEvaAct));
         return model;
     }
 
     @RequestMapping(value = "/supervisorManager/statisticReport/showReport", method = RequestMethod.GET)
-    public ModelAndView showReport(String initDate, String endDate, String filterSelected){
+    public ModelAndView showReport(String initDate, String endDate, String filterSelected, Long idReportType, Long idDistrict){
         ModelAndView model = new ModelAndView("/supervisorManager/statisticReport/showReport");
 
         String extraData = null;
         String title = null;
         Long total = Long.valueOf(0);
-        Date initDateF = null;
-        Date endDateF = null;
-        int initId = 0;
-        int endId = 0;
-        String initTime = " 00:00:00";
-        String endTime = " 23:59:59";
         try {
             title = statisticSupervisorManagerReportRepository.findByCode(filterSelected).getDescription();
-            initDateF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(initDate + initTime);
-            endDateF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(endDate + endTime);
-
-            DateFormat df = new SimpleDateFormat("yyyyMMdd");
-            initId = Integer.parseInt(df.format(initDateF));
-            endId = Integer.parseInt(df.format(endDateF));
-
-
-            List<SelectList> data = statisticSupervisorManagerReportService.getData(initId, endId, filterSelected);
+            List<SelectList> data = statisticSupervisorManagerReportService.getData(initDate, endDate, filterSelected, idReportType, idDistrict);
 
             Gson gson = new Gson();
 
@@ -87,7 +83,6 @@ public class StatisticSupervisorManagerReportController {
             model.addObject("extraData", extraData);
             model.addObject("title", title);
 
-
         } catch (Exception e) {
             e.printStackTrace();
             logException.Write(e, this.getClass(), "save", sharedUserService);
@@ -97,9 +92,7 @@ public class StatisticSupervisorManagerReportController {
             model.addObject("data", null);
             model.addObject("extraData", extraData);
             model.addObject("title", title);
-
         }
-
         return model;
     }
 }

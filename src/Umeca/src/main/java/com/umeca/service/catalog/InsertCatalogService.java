@@ -127,4 +127,6 @@ public interface InsertCatalogService {
     void statisticSupervisorManagerReportType();
 
     void framingSafetyFactor();
+
+    void reportType();
 }

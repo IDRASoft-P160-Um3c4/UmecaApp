@@ -346,6 +346,16 @@ public class Constants {
 
     public static final String REPORT_STATISTIC_MANAGER_REPORT_A = "STMSR_1";
     public static final String REPORT_STATISTIC_MANAGER_REPORT_B = "STMSR_2";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_C = "STMSR_3";
+
+
+    /** códigos de tipo de reporte**/
+
+    public static final String REPORT_STATISTIC_MANAGER_GENERAL = "GENERAL";
+    public static final String REPORT_STATISTIC_MANAGER_BY_DISTRICT = "DISTRICT";
+    public static final String REPORT_STATISTIC_MANAGER_BY_OPERATOR = "BY_OPERATOR";
+
+
 
 
 }
