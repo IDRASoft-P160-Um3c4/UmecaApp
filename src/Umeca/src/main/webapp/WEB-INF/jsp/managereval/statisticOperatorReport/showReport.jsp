@@ -369,8 +369,6 @@
                 var imgSrc = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(html)));
 
 
-
-
                 var canvas = document.querySelector("canvas"), context = canvas.getContext("2d");
 
                 var image = new Image;
@@ -416,7 +414,7 @@
 
 
     <h2 class="element-center">
-        <i class="icon icon-file"></i>&nbsp;&nbsp;Reporte Estad&iacute;stico
+        <i class="icon icon-file"></i>&nbsp;&nbsp;Reporte estad&iacute;stico por operador
     </h2>
 
     <%--<label><input type="checkbox"> Ordenar valores</label>--%>
