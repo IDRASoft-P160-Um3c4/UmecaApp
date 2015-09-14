@@ -30,14 +30,26 @@
 
         window.onload = function () {
 
-            var names = [{"name": "andres"}, {"name": "adrian"}, {"name": "rolando"}, {"name": "israel"}, {"name": "israel"}];
-            var cases = [{"name": "opinion"}, {"name": "reporte"}, {"name": "negada"}, {"name": "solo entrevista"}];
 
-
+            var initDate = "${initDate}";
+            var endDate = "${endDate}";
+            var extraData = "${extraData}";
+            var title = "${title}";
+            var yAxisStr = "${yAxis}";
             var dataSet = ${data};
+            var names = [];
+            var cases = [];
 
-            console.log(dataSet.length);
-            console.log(names.length);
+            var element = dataSet[0];
+            for (i = 0; i < element.length; i++) {
+                names.push({"name": element[i].user});
+            }
+
+            for (i = 0; i < dataSet.length; i++) {
+                var e = dataSet[i];
+                cases.push({"name": e[0].name});
+            }
+
 
             var n = dataSet.length, // number of layers
                     m = names.length, // number of samples per layer
@@ -54,7 +66,7 @@
                         });
                     });
 
-            var margin = {top: 30, right: 90, bottom: 60, left: 30},
+            var margin = {top: 50, right: 90, bottom: 75, left: 30},
                     width = 1280 - margin.left - margin.right,
                     height = 720 - margin.top - margin.bottom;
 
@@ -101,7 +113,23 @@
                     .attr("y", 6)
                     .attr("dy", ".71em")
                     .style("text-anchor", "end")
-                    .text("Personas");
+                    .text(yAxisStr);
+
+            svg.append("text")
+                    .attr("x", (width / 2))
+                    .attr("y", 0 - 35)
+                    .attr("text-anchor", "middle")
+                    .style("font-size", "16px")
+                //.style("text-decoration", "underline")
+                    .text(title);
+
+
+            svg.append("text")
+                    .attr("x", (width / 2))
+                    .attr("y", 0 - 15)
+                    .attr("text-anchor", "middle")
+                    .style("font-size", "12px")
+                    .text(initDate + " - " + endDate);
 
             var layer = svg.selectAll(".layer")
                     .data(layers)
@@ -390,8 +418,8 @@
 <div class="container body-content col-xs-12 col-xs-offset-1">
 
     <form>
-        <label><input type="radio" name="mode" value="grouped"> Grouped</label>
-        <label><input type="radio" name="mode" value="stacked" checked> Stacked</label>
+        <label><input type="radio" name="mode" value="grouped"> Agrupada</label>
+        <label><input type="radio" name="mode" value="stacked" checked> En pila</label>
     </form>
 
 

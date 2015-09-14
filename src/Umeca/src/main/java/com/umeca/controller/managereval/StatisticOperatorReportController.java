@@ -51,7 +51,6 @@ public class StatisticOperatorReportController {
         }
 
         String yAxis = "Entrevistas";
-        String extraData = null;
         String title = null;
         Long total = Long.valueOf(0);
         Date initDateF = null;
@@ -86,7 +85,6 @@ public class StatisticOperatorReportController {
             model.addObject("initDate", initDate);
             model.addObject("endDate", endDate);
             model.addObject("total", total);
-            model.addObject("extraData", extraData);
             model.addObject("title", title);
             model.addObject("yAxis", yAxis);
 
@@ -98,7 +96,6 @@ public class StatisticOperatorReportController {
             model.addObject("endDate", endDate.toString());
             model.addObject("total", total);
             model.addObject("data", null);
-            model.addObject("extraData", extraData);
             model.addObject("title", title);
             model.addObject("yAxis", yAxis);
 

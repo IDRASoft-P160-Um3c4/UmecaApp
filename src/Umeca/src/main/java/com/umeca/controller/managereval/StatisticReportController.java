@@ -114,10 +114,4 @@ public class StatisticReportController {
     }
 
 
-    @RequestMapping(value = "/managereval/statisticReport/testd3", method = RequestMethod.GET)
-    public ModelAndView testd3() {
-        ModelAndView model = new ModelAndView("/managereval/statisticReport/testd3");
-        return model;
-    }
-
 }
