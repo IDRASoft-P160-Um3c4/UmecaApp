@@ -36,8 +36,11 @@
 
             var dataSet = ${data};
 
-            var n = cases.length, // number of layers
-                    m = dataSet.length, // number of samples per layer
+            console.log(dataSet.length);
+            console.log(names.length);
+
+            var n = dataSet.length, // number of layers
+                    m = names.length, // number of samples per layer
                     stack = d3.layout.stack(),
                     layers = stack(dataSet),
                     yGroupMax = d3.max(layers, function (layer) {
