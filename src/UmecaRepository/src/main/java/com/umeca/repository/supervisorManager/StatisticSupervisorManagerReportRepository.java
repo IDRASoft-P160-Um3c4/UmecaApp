@@ -60,4 +60,23 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
             "group by  cat_arrangement.id_arrangement", nativeQuery = true)
     List<Object> getCountCasesByArrangementAndDistrict(@Param("idDistrict") Long idDistrict);
 
+
+    @Query(value = "select cat_arrangement.description ,count(assigned_arrangement.id_arrangement) from assigned_arrangement " +
+            "inner join cat_arrangement " +
+            "on assigned_arrangement.id_arrangement = cat_arrangement.id_arrangement " +
+            "inner join hearing_format " +
+            "on assigned_arrangement.id_hearing_format = hearing_format.id_hearing_format " +
+            "where hearing_format.id_user = :supervisorId " +
+            "group by assigned_arrangement.id_arrangement", nativeQuery = true)
+    List<Object> getArrangementBySupervisorId(@Param("supervisorId") Long supervisorId);
+
+
+    @Query(value = "select cat_arrangement.description ,count(assigned_arrangement.id_arrangement) from assigned_arrangement " +
+            "inner join cat_arrangement " +
+            "on assigned_arrangement.id_arrangement = cat_arrangement.id_arrangement " +
+            "inner join hearing_format " +
+            "on assigned_arrangement.id_hearing_format = hearing_format.id_hearing_format " +
+            "where hearing_format.id_user = :supervisorId and assigned_arrangement.id_arrangement = :arrangementId " +
+            "group by assigned_arrangement.id_arrangement",  nativeQuery = true)
+    List<Object> getArrangementByIdAndSupervisorId(@Param("supervisorId") Long supervisorId, @Param("arrangementId") Long arrangementId);
 }

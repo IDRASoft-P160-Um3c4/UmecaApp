@@ -235,7 +235,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "group by ecamed.name")
     List<SelectList> countMeetingByDistrict(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
-
     //ReporteSup1
     @Query("select new com.umeca.model.shared.SelectList(count(ev.id))" +
             "from Event ev " +
@@ -255,9 +254,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
                 "group by cat_event.id_event", nativeQuery = true)
         List<Object> countEventsByCase(@Param("idCase") Long idCase, @Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
-
-
-
     //ReporteEOp1
     @Query("select  new com.umeca.model.shared.SelectList(ecame.id, count(e), ecame.reviewer.fullname)" +
             "from Event e " +
@@ -271,7 +267,5 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "et.name = com.umeca.model.shared.Constants.EVENT_ONLY_INTERVIEW) " +
             "group by ecame.reviewer.fullname")
     List<SelectList> countMeetingByReviewer(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
-
-
 
 }
