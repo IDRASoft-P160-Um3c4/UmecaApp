@@ -300,6 +300,12 @@ public class Constants {
     public static final String CLOSE_CAUSE_OBSOLETE_SUPERVISION = "CAUSE_OBSOLETE_SUPERVISION";
     public static final String CLOSE_CAUSE_PROMISE_PRISION = "CAUSE_PROMISE_PRISION";
     public static final String CLOSE_CAUSE_DISMISSAL = "CAUSE_DISMISSAL";
+    public static final String CAUSE_NOT_ENTAILMENT = "CAUSE_NOT_ENTAILMENT";
+    public static final String CAUSE_PROTECTION = "CAUSE_PROTECTION";
+    public static final String CAUSE_DEATH = "CAUSE_DEATH";
+    public static final String CAUSE_SUMMARY_PROCEDURE = "CAUSE_SUMMARY_PROCEDURE";
+    public static final String CAUSE_FINAL_JUDGMENT = "CAUSE_FINAL_JUDGMENT";
+    public static final String CAUSE_DEADLINE_OF_CONDITIONAL_SUSPENSION = "CAUSE_DEADLINE_OF_CONDITIONAL_SUSPENSION";
 
     /** códigos para causas de cierre **/
 
@@ -340,6 +346,16 @@ public class Constants {
 
     public static final String REPORT_STATISTIC_MANAGER_REPORT_A = "STMSR_1";
     public static final String REPORT_STATISTIC_MANAGER_REPORT_B = "STMSR_2";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_C = "STMSR_3";
+
+
+    /** códigos de tipo de reporte**/
+
+    public static final String REPORT_STATISTIC_MANAGER_GENERAL = "GENERAL";
+    public static final String REPORT_STATISTIC_MANAGER_BY_DISTRICT = "DISTRICT";
+    public static final String REPORT_STATISTIC_MANAGER_BY_OPERATOR = "BY_OPERATOR";
+
+
 
 
 }

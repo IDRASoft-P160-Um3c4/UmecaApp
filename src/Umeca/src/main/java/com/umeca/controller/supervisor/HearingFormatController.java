@@ -1,6 +1,7 @@
 package com.umeca.controller.supervisor;
 
 import com.google.gson.Gson;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
@@ -20,6 +21,7 @@ import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.StateRepository;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
+import com.umeca.repository.shared.SystemSettingRepository;
 import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.repository.supervisor.HearingFormatTypeRepository;
@@ -42,6 +44,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -71,10 +74,14 @@ public class HearingFormatController {
     @Autowired
     SharedUserService sharedUserService;
 
+    @Autowired
+    SystemSettingRepository systemSettingRepository;
+
     @RequestMapping(value = "/supervisor/hearingFormat/listCases", method = RequestMethod.POST)
     public
     @ResponseBody
     JqGridResultModel listCases(@ModelAttribute JqGridFilterModel opts) {
+
 
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
@@ -114,6 +121,8 @@ public class HearingFormatController {
                     add(joinTR.get("id").alias("idTR"));
                     add(r.get("hasHearingFormat"));
                     add(joinUmecaSup.get("fullname"));
+                    add(r.get("dateOpinion"));
+
                 }};
             }
 
@@ -186,8 +195,13 @@ public class HearingFormatController {
     }
 
     @RequestMapping(value = "/supervisor/hearingFormat/index", method = RequestMethod.GET)
-    public String index() {
-        return "/supervisor/hearingFormat/index";
+    public ModelAndView index() {
+        ModelAndView model = new ModelAndView("/supervisor/hearingFormat/index");
+        Date currentDate = new Date();
+        int hours = Integer.parseInt(systemSettingRepository.findOneValue(Constants.SYSTEM_SETTINGS_MONPLAN, Constants.SYSTEM_SETTINGS_MONPLAN_HOURS_TO_AUTHORIZE));
+        model.addObject("hours",hours);
+        model.addObject("currentTime", currentDate.getTime());
+        return model;
     }
 
     @RequestMapping(value = "/supervisor/hearingFormat/indexFormats", method = RequestMethod.GET)
@@ -396,6 +410,18 @@ public class HearingFormatController {
         try {
             return hearingFormatService.requestObsoleteCase(id);
         } catch (Exception e) {
+            logException.Write(e, this.getClass(), "obsoleteCase", sharedUserService);
+            return new ResponseMessage(true, "Ha ocurrido un error, intente nuevamente");
+        }
+    }
+
+    @RequestMapping(value = "supervisor/hearingFormat/doNotProsecute", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doNotProsecute(@RequestParam(required = true) Long id){
+        try{
+            return hearingFormatService.requestDoNotProsecute(id);
+        }catch (Exception e){
             logException.Write(e, this.getClass(), "obsoleteCase", sharedUserService);
             return new ResponseMessage(true, "Ha ocurrido un error, intente nuevamente");
         }

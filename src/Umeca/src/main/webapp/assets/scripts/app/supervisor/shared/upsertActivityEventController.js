@@ -312,10 +312,14 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
             dateStepEnd.setHours(d.timeEnd.hours, d.timeEnd.minutes, 0, 0);
 
             var iCount = 0;
-            var hasEvent, stepMonth, itMonth, isNextBusinessDay = false, group = window.generateUuid();
+            var hasEvent, stepMonth, stepWeek = 1, itMonth, countDays,
+                itWeek, isNextBusinessDay = false, group = window.generateUuid();
 
-            if ($scope.m.periodicityId > 2 && !$scope.m.isForToday) {
+            if ($scope.m.periodicityId > 1 && !$scope.m.isForToday) {
                 switch ($scope.m.periodicityId) {
+                    case 2:
+                        stepWeek = 2;
+                        break;
                     case 4:
                         stepMonth = 2;
                         break;
@@ -328,15 +332,12 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
                 }
             }
 
-            itMonth = 0;
-
-            //groupInfo:groupInfo, updateGroupInfo:updateGroupInfo
-
+            itMonth = itWeek = countDays = 0;
 
             while (dateStepInit < d.dateEnd || isNextBusinessDay) {
                 hasEvent = false;
                 if ($scope.m.periodicityId < 3) {
-                    if ($scope.m.daysOfWeek[dateStepInit.getDay()] === true) {
+                    if ((itWeek % stepWeek === 0) && $scope.m.daysOfWeek[dateStepInit.getDay()] === true) {
                         hasEvent = true;
                     }
                 } else {
@@ -410,6 +411,9 @@ app.controller('upsertActivityEventController', function ($scope, $timeout, $q, 
 
                 if (oldMonth !== newMonth)
                     itMonth++;
+
+                if(++countDays % 7 == 0)
+                    itWeek++;
             }
 
             if (iCount === 0) {

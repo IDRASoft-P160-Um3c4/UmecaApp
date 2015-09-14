@@ -118,6 +118,32 @@
                   <br/>
                 </div>
 
+                  <div class="row">
+                      <div class="col-xs-6 element-right">
+                          <input type="hidden"ng-update-hidden ng-model="idReportType" name="idReportType" id="idReportType">
+                          <label for="reportType">Tipo de reporte</label>
+                          <select id="reportType"
+                              ng-model = "reportType"
+                              ng-init = 'lstReportType = ${lstReportType}'
+                              ng-options="e.description for e in lstReportType"
+                              ng-change="idReportType = reportType.id">
+                          </select>
+                      </div>
+
+
+                      <div class="col-xs-6"  ng-disabled = true ng-show = "idReportType == 2 || idReportType == 3" >
+                          <input type="hidden" ng-update-hidden ng-model="idDistrict" name="idDistrict" id="idDistrict" ng-disabled = "idReportType == 1">
+                          <label for="district">Distrito</label>
+                          <select id="district"
+                                  ng-model="district"
+                                  ng-init='lstDistrict = ${lstDistrict}'
+                                  ng-options="e.name for e in lstDistrict"
+                                  ng-change="idDistrict = district.id"
+                                  ng-disabled = "idReportType == 1">
+                          </select>
+                      </div>
+                  </div>
+
 
                 <div class="row">
                   <div ng-repeat="filter in entities">
@@ -147,7 +173,7 @@
             <div class="row">
               <div class="col-xs-11 element-right">
                                 <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                                      ng-click="findReport('#FormStatisRep','<c:url value='/supervisorManager/statisticReport/showReport.html'/>');">
+                                      ng-click="findSupervisorReport('#FormStatisRep','<c:url value='/supervisorManager/statisticReport/showReport.html'/>');">
                                     Realizar b&uacute;squeda
                                 </span>
               </div>

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.Arrangement;
+import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.shared.LogCase;
@@ -1087,6 +1088,14 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         List<LogCase> logs = logCaseService.addLog(ConstantsLogCase.CODE_ASSIGN_FRAMING_MEETING, idCase, cad);
 
         return new ResponseMessage(false, "Se ha asignado al supervisor con éxito.");
+    }
+
+    @Override
+    public ResponseMessage requestDoNotProsecute(Long id) {
+        Case c = caseRepository.findOne(id);
+        c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
+        caseRepository.save(c);
+        return new ResponseMessage(false, "El caso se ha no judicializado");
     }
 
 }

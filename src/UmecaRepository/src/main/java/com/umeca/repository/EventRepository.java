@@ -1,8 +1,8 @@
 package com.umeca.repository;
 
+import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.View.CaseReportView;
 import com.umeca.model.entities.shared.Event;
-import com.umeca.model.shared.ReportList;
 import com.umeca.model.shared.SelectList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,6 +24,13 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "WHERE ev.id = :id")
     CaseReportView getCaseReportById(@Param("id") Long id);
 
+        @Query("select c.id " +
+                "from Event e " +
+                "inner join e.eventType evT " +
+                "inner join e.caseDetention c " +
+                "where evT.name = :event"
+                )
+        List<Long> getIdCasesByEvent(@Param("event") String event);
 
     @Query("SELECT new com.umeca.model.entities.shared.Event(ev.id, ev.dateId, evT.name, ev.caseDetention)" +
             "FROM Event ev " +
@@ -234,6 +241,17 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "where evT.name = com.umeca.model.shared.Constants.EVENT_PROSECUTE and (ev.dateId between :initDate and :endDate)")
     List<SelectList> countCasesProsecuted(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
+
+        @Query(value = "SELECT cat_event.event, count(event.id_event) FROM cat_event " +
+                "left join event " +
+                "on cat_event.id_event = event.event_id " +
+                "WHERE (cat_event.event = 'OPINION' or " +
+                "cat_event.event = 'DECLINED' or " +
+                "cat_event.event = 'REPORT' ) " +
+                "and event.id_case = :idCase " +
+                "and (event.date_id between :initDate and :endDate)" +
+                "group by cat_event.id_event", nativeQuery = true)
+        List<Object> countEventsByCase(@Param("idCase") Long idCase, @Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
     //ReporteEOp1
     @Query("select  new com.umeca.model.shared.SelectList(ecame.id, count(e), ecame.reviewer.fullname)" +

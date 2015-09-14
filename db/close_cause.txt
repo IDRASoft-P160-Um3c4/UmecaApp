@@ -8,3 +8,9 @@
 7|CAUSE_OBSOLETE_SUPERVISION|Eliminado en supervisión|0|0
 8|CAUSE_PROMISE_PRISION|Prisión preventiva / promesa del imputado|0|0
 9|CAUSE_DISMISSAL|Sobreseimiento|0|0
+10|CAUSE_NOT_ENTAILMENT|No se vincula a proceso al imputado|0|0
+11|CAUSE_PROTECTION|Resolución de amparo|0|0
+12|CAUSE_DEATH|Fallecimiento del imputado|0|0
+13|CAUSE_SUMMARY_PROCEDURE|Procedimiento abreviado|0|0
+14|CAUSE_FINAL_JUDGMENT|Sentencia firme|0|0
+15|CAUSE_DEADLINE_OF_CONDITIONAL_SUSPENSION|Conclusión del plazo de suspensión condicional|0|0

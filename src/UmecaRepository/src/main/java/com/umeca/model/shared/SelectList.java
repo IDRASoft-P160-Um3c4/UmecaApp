@@ -31,6 +31,7 @@ public class SelectList implements EntityGrid{
     public SelectList(Long id, String name) {
         this.id = id;
         this.name = name;
+        this.value = 0L;
     }
 
     public SelectList(Long id, Boolean lock) {

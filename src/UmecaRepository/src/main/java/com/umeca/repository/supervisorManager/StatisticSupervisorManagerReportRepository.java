@@ -23,4 +23,60 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
 
     @Query("select new com.umeca.model.shared.SelectList(SSMRT.id, SSMRT.name, SSMRT.description) from StatisticSupervisorManagerReportType SSMRT where SSMRT.isObsolete=false")
     List<SelectList> getAllNoObsolete();
+
+
+    @Query(value = "SELECT count(assigned_arrangement.id_arrangement), cat_arrangement.description FROM cat_arrangement " +
+            "left join assigned_arrangement " +
+            "on assigned_arrangement.id_arrangement = cat_arrangement.id_arrangement " +
+            "left join hearing_format " +
+            "on hearing_format.id_hearing_format = assigned_arrangement.id_hearing_format " +
+            "left join cat_district " +
+            "on hearing_format.id_district = cat_district.id_district " +
+            "where hearing_format.is_finished = true or hearing_format.is_finished is null " +
+            "group by  cat_arrangement.id_arrangement", nativeQuery = true)
+    List<Object> getCountCasesByArrangement();
+
+
+    @Query(value = "SELECT count(assigned_arrangement.id_arrangement), cat_arrangement.description FROM cat_arrangement " +
+            "inner join assigned_arrangement " +
+            "on assigned_arrangement.id_arrangement = cat_arrangement.id_arrangement " +
+            "inner join hearing_format " +
+            "on hearing_format.id_hearing_format = assigned_arrangement.id_hearing_format " +
+            "inner join cat_district " +
+            "on hearing_format.id_district = cat_district.id_district " +
+            "where hearing_format.is_finished = true or hearing_format.is_finished is null " +
+            "group by  cat_arrangement.id_arrangement ", nativeQuery = true)
+    List<Object> getCountCasesByArrangementOnlyAssigned();
+
+
+    @Query(value = "SELECT count(assigned_arrangement.id_arrangement), cat_arrangement.description FROM cat_arrangement " +
+            "inner join assigned_arrangement " +
+            "on assigned_arrangement.id_arrangement = cat_arrangement.id_arrangement " +
+            "inner join hearing_format " +
+            "on hearing_format.id_hearing_format = assigned_arrangement.id_hearing_format " +
+            "inner join cat_district " +
+            "on hearing_format.id_district = cat_district.id_district " +
+            "where (hearing_format.id_district = :idDistrict) and (hearing_format.is_finished = true or hearing_format.is_finished is null) " +
+            "group by  cat_arrangement.id_arrangement", nativeQuery = true)
+    List<Object> getCountCasesByArrangementAndDistrict(@Param("idDistrict") Long idDistrict);
+
+
+    @Query(value = "select cat_arrangement.description ,count(assigned_arrangement.id_arrangement) from assigned_arrangement " +
+            "inner join cat_arrangement " +
+            "on assigned_arrangement.id_arrangement = cat_arrangement.id_arrangement " +
+            "inner join hearing_format " +
+            "on assigned_arrangement.id_hearing_format = hearing_format.id_hearing_format " +
+            "where hearing_format.id_user = :supervisorId " +
+            "group by assigned_arrangement.id_arrangement", nativeQuery = true)
+    List<Object> getArrangementBySupervisorId(@Param("supervisorId") Long supervisorId);
+
+
+    @Query(value = "select cat_arrangement.description ,count(assigned_arrangement.id_arrangement) from assigned_arrangement " +
+            "inner join cat_arrangement " +
+            "on assigned_arrangement.id_arrangement = cat_arrangement.id_arrangement " +
+            "inner join hearing_format " +
+            "on assigned_arrangement.id_hearing_format = hearing_format.id_hearing_format " +
+            "where hearing_format.id_user = :supervisorId and assigned_arrangement.id_arrangement = :arrangementId " +
+            "group by assigned_arrangement.id_arrangement",  nativeQuery = true)
+    List<Object> getArrangementByIdAndSupervisorId(@Param("supervisorId") Long supervisorId, @Param("arrangementId") Long arrangementId);
 }
