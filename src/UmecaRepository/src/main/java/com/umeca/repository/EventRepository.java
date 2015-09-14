@@ -3,6 +3,7 @@ package com.umeca.repository;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.View.CaseReportView;
 import com.umeca.model.entities.shared.Event;
+import com.umeca.model.shared.ReportList;
 import com.umeca.model.shared.SelectList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
