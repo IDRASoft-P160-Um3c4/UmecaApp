@@ -181,7 +181,20 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         return gson.toJson(supTotal);
 
                 }
+            case Constants.REPORT_STATISTIC_MANAGER_REPORT_D:
+                switch (reportTypeRepository.getReportCodeById(idReportType)){
+                case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
 
+                    break;
+
+                case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+
+                    break;
+
+                case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+
+                    break;
+            }
         }
         return null;
     }
