@@ -1,6 +1,7 @@
 package com.umeca.controller.supervisorManager;
 
 import com.google.gson.Gson;
+import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.ReportTypeRepository;
 import com.umeca.repository.catalog.StatisticOperatorReportTypeRepository;
@@ -65,21 +66,19 @@ public class StatisticSupervisorManagerReportController {
         Long total = Long.valueOf(0);
         try {
             title = statisticSupervisorManagerReportRepository.findByCode(filterSelected).getDescription();
-            List<SelectList> data = statisticSupervisorManagerReportService.getData(initDate, endDate, filterSelected, idReportType, idDistrict);
+          //  List<SelectList> data;
+            String data;
+            data = statisticSupervisorManagerReportService.getData(initDate, endDate, filterSelected, idReportType, idDistrict);
 
-            Gson gson = new Gson();
 
-            if(gson.toJson(data).contains("-1111")) {
-                SelectList extra = data.remove(0);
-                extraData = "Total de entrevistas con opinión: " + extra.getValue();
-            }
-            for ( SelectList temp : data ) {
-                total += temp.getValue();
+            if(reportTypeRepository.getReportCodeById(idReportType).equals(Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR))
+            {
+                model = new ModelAndView("/supervisorManager/statisticReport/showComplexReport");
             }
             model.addObject("initDate", initDate.toString());
             model.addObject("endDate", endDate.toString());
             model.addObject("total", total);
-            model.addObject("data", gson.toJson(data));
+            model.addObject("data", data);
             model.addObject("extraData", extraData);
             model.addObject("title", title);
 

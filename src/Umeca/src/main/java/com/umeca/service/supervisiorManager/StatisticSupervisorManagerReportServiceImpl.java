@@ -2,6 +2,7 @@ package com.umeca.service.supervisiorManager;
 
 import com.google.gson.Gson;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.ReportList;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.EventRepository;
 import com.umeca.repository.account.UserRepository;
@@ -52,7 +53,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
 
 
     @Override
-    public List<SelectList> getData(String initDate, String endDate, String filter, Long idReportType, Long idDistrict) {
+    public String getData(String initDate, String endDate, String filter, Long idReportType, Long idDistrict) {
 
         List<SelectList> data = new ArrayList<>();
         List<Object> lstObjects;
@@ -80,7 +81,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
         switch (filter) {
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_A:
 
-                return eventRepository.countCasesProsecuted(initId, endId);
+                return gson.toJson(eventRepository.countCasesProsecuted(initId, endId));
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_B:
                 SelectList opinion = new SelectList();
                 SelectList report = new SelectList();
@@ -123,7 +124,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                 data.add(opinion);
                 data.add(report);
                 data.add(declined);
-                return data;
+                return gson.toJson(data);
 
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_C:
                 switch (reportTypeRepository.getReportCodeById(idReportType)) {
@@ -137,7 +138,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                             selectList.setSubName(obj[1].toString());
                             data.add(selectList);
                         }
-                        return data;
+                        return gson.toJson(data);
 
                     case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
                         lstObjects = statisticSupervisorManagerReportRepository.getCountCasesByArrangementAndDistrict(idDistrict);
@@ -149,33 +150,36 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                             selectList.setSubName(obj[1].toString());
                             data.add(selectList);
                         }
-                        return data;
+                        return gson.toJson(data);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
                         List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
-                        List<List<SelectList>> supTotal = new ArrayList<>();
+                       // List<List<SelectList>> supTotal = new ArrayList<>();
+                        List<List<ReportList>> supTotal = new ArrayList<>();
+
+
                         List<SelectList> arrangements = arrangementRepository.findAllNoObsolete();
                         for (int i = 0; i < arrangements.size(); i++) {
-                            List<SelectList> arrangementList = new ArrayList<>();
-                            for (SelectList user : users) {
+                            List<ReportList> arrangementList = new ArrayList<>();
+                            for(int j = 0; j < users.size(); j ++){
 
-
-                                lstObjects = statisticSupervisorManagerReportRepository.getArrangementByIdAndSupervisorId(user.getId(), arrangements.get(i).getId());
-                                SelectList arrangement = new SelectList();
+                                lstObjects = statisticSupervisorManagerReportRepository.getArrangementByIdAndSupervisorId(users.get(j).getId(), arrangements.get(i).getId(),idDistrict);
+                                ReportList arrangement = new ReportList();
                                 arrangement.setName(arrangements.get(i).getName());
-                                arrangement.setValue(0L);
-                                for (int j = 0; j < lstObjects.size(); j++) {
-                                    Object[] obj = (Object[]) lstObjects.get(j);
+                                arrangement.setY(0L);
+                                arrangement.setX(new Long(j));
+                                arrangement.setUser(users.get(j).getName());
+                                for (int k = 0; k < lstObjects.size(); k++) {
+                                    Object[] obj = (Object[]) lstObjects.get(k);
                                     // arrangement.setName(arrangements.get(i).getName());
-                                    arrangement.setValue(Long.parseLong(obj[1].toString()));
+
+                                    arrangement.setY(Long.parseLong(obj[1].toString()));
                                 }
                                 arrangementList.add(arrangement);
                             }
                             supTotal.add(arrangementList);
                         }
-                        String json = gson.toJson(supTotal);
-                        String json2 = gson.toJson(supTotal);
+                        return gson.toJson(supTotal);
 
-                        break;
                 }
 
         }

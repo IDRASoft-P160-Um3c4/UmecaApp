@@ -76,7 +76,7 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
             "on assigned_arrangement.id_arrangement = cat_arrangement.id_arrangement " +
             "inner join hearing_format " +
             "on assigned_arrangement.id_hearing_format = hearing_format.id_hearing_format " +
-            "where hearing_format.id_user = :supervisorId and assigned_arrangement.id_arrangement = :arrangementId " +
+            "where hearing_format.id_user = :supervisorId and assigned_arrangement.id_arrangement = :arrangementId and hearing_format.id_district = :districtId " +
             "group by assigned_arrangement.id_arrangement",  nativeQuery = true)
-    List<Object> getArrangementByIdAndSupervisorId(@Param("supervisorId") Long supervisorId, @Param("arrangementId") Long arrangementId);
+    List<Object> getArrangementByIdAndSupervisorId(@Param("supervisorId") Long supervisorId, @Param("arrangementId") Long arrangementId, @Param("districtId") Long districtId);
 }
