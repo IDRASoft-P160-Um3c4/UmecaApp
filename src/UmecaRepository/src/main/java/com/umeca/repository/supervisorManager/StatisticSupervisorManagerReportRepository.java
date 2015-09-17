@@ -89,4 +89,29 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
             "where drug.id_drug_type <> 15 and framing_meeting.is_terminated = true and (framing_meeting.end_date between :initDate and :endDate ) " +
             "group by framing_imputed_personal_data.gender", nativeQuery = true)
     List<Object> getNumberOfPeopleByGenderWhoUseDrugsGeneral(@Param("initDate") String initDate, @Param("endDate") String endDate);
+
+    @Query(value = "select  framing_imputed_personal_data.gender, count(distinct(framing_meeting.id_framing_meeting)) from framing_meeting " +
+            "inner join framing_imputed_personal_data " +
+            "on framing_meeting.id_framing_imputed_personal_data = framing_imputed_personal_data.id_framing_imputed_personal_data " +
+            "inner join drug " +
+            "on framing_meeting.id_framing_meeting = drug.id_framing_meeting " +
+            "inner join case_detention " +
+            "on framing_meeting.id_case = case_detention.id_case " +
+            "where drug.id_drug_type <> 15 and framing_meeting.is_terminated = true and (framing_meeting.end_date between :initDate and :endDate ) and case_detention.id_district = :idDistrict " +
+            "group by framing_imputed_personal_data.gender", nativeQuery = true)
+    List<Object> getNumberOfPeopleByGenderWhoUseDrugsByDistrict(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict);
+
+
+    @Query(value = "select  framing_imputed_personal_data.gender, count(distinct(framing_meeting.id_framing_meeting)) from framing_meeting " +
+            "inner join framing_imputed_personal_data " +
+            "on framing_meeting.id_framing_imputed_personal_data = framing_imputed_personal_data.id_framing_imputed_personal_data " +
+            "inner join drug " +
+            "on framing_meeting.id_framing_meeting = drug.id_framing_meeting " +
+            "inner join case_detention " +
+            "on framing_meeting.id_case = case_detention.id_case " +
+            "where drug.id_drug_type <> 15 and framing_meeting.is_terminated = true and (framing_meeting.end_date between :initDate and :endDate ) and case_detention.id_district = :idDistrict and " +
+            "framing_meeting.id_user = :idSupervisor " +
+            "group by framing_imputed_personal_data.gender", nativeQuery = true)
+    List<Object> getNumberOfPeopleByGenderWhoUseDrugsByDistrictAndSupervisor(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("idSupervisor") Long idSupervisor);
+
 }
