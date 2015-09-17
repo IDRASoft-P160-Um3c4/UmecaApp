@@ -15,6 +15,7 @@ import com.umeca.service.shared.SharedLogExceptionService;
 import org.hibernate.sql.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.java2d.pipe.SpanShapeRenderer;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -75,7 +76,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
             initId = Integer.parseInt(df.format(initDateF));
             endId = Integer.parseInt(df.format(endDateF));
         } catch (Exception e) {
-            logException.Write(e, this.getClass(), "save", sharedUserService);
+            logException.Write(e, this.getClass(), "getData", sharedUserService);
         }
 
         switch (filter) {
@@ -184,9 +185,28 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_D:
                 switch (reportTypeRepository.getReportCodeById(idReportType)){
                 case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                    SelectList drugsMale = new SelectList();
+                    SelectList drugsFemale = new SelectList();
+                    drugsMale.setName("Masculino");
+                    drugsFemale.setName("Femenino");
+                    drugsMale.setValue(0L);
+                    drugsFemale.setValue(0L);
 
-                    break;
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+                //    String startDateStr = simpleDateFormat.format();
+
+                    lstObjects = statisticSupervisorManagerReportRepository.getNumberOfPeopleByGenderWhoUseDrugsGeneral(initDate + initTime, endDate + endTime);
+                    for(int i = 0; i < lstObjects.size(); i++) {
+                        Object[] obj = (Object[]) lstObjects.get(i);
+                        if(obj[0].toString().equals("1"))
+                            drugsFemale.setValue(Long.parseLong(obj[1].toString()));
+                        else
+                            drugsMale.setValue(Long.parseLong(obj[1].toString()));
+                    }
+                    data.add(drugsMale);
+                    data.add(drugsFemale);
+                    return gson.toJson(data);
                 case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
 
                     break;

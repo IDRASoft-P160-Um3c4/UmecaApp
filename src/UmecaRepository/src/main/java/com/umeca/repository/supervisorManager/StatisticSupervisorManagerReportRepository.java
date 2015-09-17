@@ -79,4 +79,14 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
             "where hearing_format.id_user = :supervisorId and assigned_arrangement.id_arrangement = :arrangementId and hearing_format.id_district = :districtId " +
             "group by assigned_arrangement.id_arrangement",  nativeQuery = true)
     List<Object> getArrangementByIdAndSupervisorId(@Param("supervisorId") Long supervisorId, @Param("arrangementId") Long arrangementId, @Param("districtId") Long districtId);
+
+
+    @Query(value = "select  framing_imputed_personal_data.gender, count(distinct(framing_meeting.id_framing_meeting)) from framing_meeting " +
+            "inner join framing_imputed_personal_data " +
+            "on framing_meeting.id_framing_imputed_personal_data = framing_imputed_personal_data.id_framing_imputed_personal_data " +
+            "inner join drug " +
+            "on framing_meeting.id_framing_meeting = drug.id_framing_meeting " +
+            "where drug.id_drug_type <> 15 and framing_meeting.is_terminated = true and (framing_meeting.end_date between :initDate and :endDate ) " +
+            "group by framing_imputed_personal_data.gender", nativeQuery = true)
+    List<Object> getNumberOfPeopleByGenderWhoUseDrugsGeneral(@Param("initDate") String initDate, @Param("endDate") String endDate);
 }
