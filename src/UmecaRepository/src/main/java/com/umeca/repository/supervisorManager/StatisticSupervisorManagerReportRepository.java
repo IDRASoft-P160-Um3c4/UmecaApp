@@ -32,9 +32,13 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
             "on hearing_format.id_hearing_format = assigned_arrangement.id_hearing_format " +
             "left join cat_district " +
             "on hearing_format.id_district = cat_district.id_district " +
-            "where hearing_format.is_finished = true or hearing_format.is_finished is null " +
+            "where (hearing_format.id_hearing_format in (select max(hearing_format.id_hearing_format) from hearing_format " +
+            "inner join case_detention " +
+            "on hearing_format.id_case = case_detention.id_case " +
+            "where hearing_format.register_timestamp between :initDate and :endDate " +
+            "group by hearing_format.id_case) or hearing_format.id_hearing_format is null) and (hearing_format.is_finished = true or hearing_format.is_finished is null) " +
             "group by  cat_arrangement.id_arrangement", nativeQuery = true)
-    List<Object> getCountCasesByArrangement();
+    List<Object> getCountCasesByArrangement(@Param("initDate") String initDate, @Param("endDate") String endDate);
 
 
     @Query(value = "SELECT count(assigned_arrangement.id_arrangement), cat_arrangement.description FROM cat_arrangement " +
@@ -50,15 +54,19 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
 
 
     @Query(value = "SELECT count(assigned_arrangement.id_arrangement), cat_arrangement.description FROM cat_arrangement " +
-            "inner join assigned_arrangement " +
+            "left join assigned_arrangement " +
             "on assigned_arrangement.id_arrangement = cat_arrangement.id_arrangement " +
-            "inner join hearing_format " +
+            "left join hearing_format " +
             "on hearing_format.id_hearing_format = assigned_arrangement.id_hearing_format " +
-            "inner join cat_district " +
+            "left join cat_district " +
             "on hearing_format.id_district = cat_district.id_district " +
-            "where (hearing_format.id_district = :idDistrict) and (hearing_format.is_finished = true or hearing_format.is_finished is null) " +
+            "where (hearing_format.id_hearing_format in (select max(hearing_format.id_hearing_format) from hearing_format " +
+            "inner join case_detention " +
+            "on hearing_format.id_case = case_detention.id_case " +
+            "where hearing_format.register_timestamp between :initDate and :endDate and hearing_format.id_district = :idDistrict " +
+            "group by hearing_format.id_case) or hearing_format.id_hearing_format is null) and (hearing_format.is_finished = true or hearing_format.is_finished is null) " +
             "group by  cat_arrangement.id_arrangement", nativeQuery = true)
-    List<Object> getCountCasesByArrangementAndDistrict(@Param("idDistrict") Long idDistrict);
+    List<Object> getCountCasesByArrangementAndDistrict(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict);
 
 
     @Query(value = "select cat_arrangement.description ,count(assigned_arrangement.id_arrangement) from assigned_arrangement " +
@@ -71,14 +79,20 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
     List<Object> getArrangementBySupervisorId(@Param("supervisorId") Long supervisorId);
 
 
-    @Query(value = "select cat_arrangement.description ,count(assigned_arrangement.id_arrangement) from assigned_arrangement " +
-            "inner join cat_arrangement " +
+    @Query(value = "SELECT count(assigned_arrangement.id_arrangement), cat_arrangement.description FROM cat_arrangement " +
+            "left join assigned_arrangement " +
             "on assigned_arrangement.id_arrangement = cat_arrangement.id_arrangement " +
-            "inner join hearing_format " +
-            "on assigned_arrangement.id_hearing_format = hearing_format.id_hearing_format " +
-            "where hearing_format.id_user = :supervisorId and assigned_arrangement.id_arrangement = :arrangementId and hearing_format.id_district = :districtId " +
-            "group by assigned_arrangement.id_arrangement",  nativeQuery = true)
-    List<Object> getArrangementByIdAndSupervisorId(@Param("supervisorId") Long supervisorId, @Param("arrangementId") Long arrangementId, @Param("districtId") Long districtId);
+            "left join hearing_format " +
+            "on hearing_format.id_hearing_format = assigned_arrangement.id_hearing_format " +
+            "left join cat_district " +
+            "on hearing_format.id_district = cat_district.id_district " +
+            "where (hearing_format.id_hearing_format in (select max(hearing_format.id_hearing_format) from hearing_format " +
+            "inner join case_detention " +
+            "on hearing_format.id_case = case_detention.id_case " +
+            "where hearing_format.register_timestamp between :initDate and :endDate and hearing_format.id_district = :districtId and hearing_format.id_user = :supervisorId and assigned_arrangement.id_arrangement = :arrangementId " +
+            "group by hearing_format.id_case) and hearing_format.is_finished = true) " +
+            "group by  cat_arrangement.id_arrangement",  nativeQuery = true)
+    List<Object> getArrangementByIdAndSupervisorId(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("supervisorId") Long supervisorId, @Param("arrangementId") Long arrangementId, @Param("districtId") Long districtId);
 
 
     @Query(value = "select  framing_imputed_personal_data.gender, count(distinct(framing_meeting.id_framing_meeting)) from framing_meeting " +
@@ -113,5 +127,6 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
             "framing_meeting.id_user = :idSupervisor " +
             "group by framing_imputed_personal_data.gender", nativeQuery = true)
     List<Object> getNumberOfPeopleByGenderWhoUseDrugsByDistrictAndSupervisor(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("idSupervisor") Long idSupervisor);
+
 
 }
