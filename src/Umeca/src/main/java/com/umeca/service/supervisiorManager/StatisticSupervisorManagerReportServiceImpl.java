@@ -63,8 +63,8 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
         List<SelectList> data = new ArrayList<>();
         List<Object> lstObjects;
         Gson gson = new Gson();
-        Date initDateF;
-        Date endDateF;
+        Date initDateF = null;
+        Date endDateF = null;
         int initId = 0;
         int endId = 0;
         String initTime = " 00:00:00";
