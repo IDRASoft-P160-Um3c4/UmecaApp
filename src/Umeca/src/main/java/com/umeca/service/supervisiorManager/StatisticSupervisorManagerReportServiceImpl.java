@@ -334,6 +334,19 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         totalReport.add(caseWithoutChannellingList);
                         return gson.toJson(totalReport);
                 }
+            case Constants.REPORT_STATISTIC_MANAGER_REPORT_G:
+                switch(reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        data = statisticSupervisorManagerReportRepository.countInstitutionChannelingGeneral();
+                        return gson.toJson(data);
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        break;
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        break;
+                }
+
+
         }
 
         return null;

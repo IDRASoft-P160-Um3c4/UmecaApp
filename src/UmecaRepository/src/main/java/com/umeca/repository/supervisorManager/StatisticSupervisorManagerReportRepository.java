@@ -225,6 +225,11 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
     List<Object> countTypeofDrugsByDistrictAndSupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
 
 
+        @Query("select new com.umeca.model.shared.SelectList(ins.name, count(ins.name)) " +
+                "from Channeling ch " +
+                "inner join ch.institutionName ins " +
+                "group by ins.id ")
+        List<SelectList> countInstitutionChannelingGeneral();
 
 
 }
