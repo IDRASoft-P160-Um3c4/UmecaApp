@@ -129,4 +129,48 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
     List<Object> getNumberOfPeopleByGenderWhoUseDrugsByDistrictAndSupervisor(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("idSupervisor") Long idSupervisor);
 
 
+    @Query(value = "select " +
+            "SUM(if(hasChanneling = 0, 1, 0)) AS 'NotChanneling', " +
+            "SUM(if(hasChanneling = 1, 1, 0)) AS 'Channeling' " +
+            "FROM( " +
+            "select " +
+            "distinct " +
+            "    case_detention.id_case, " +
+            "    if(channeling.id_channeling IS NULL, 0, 1) AS 'hasChanneling' " +
+            "from hearing_format " +
+            "inner join case_detention on hearing_format.id_case = case_detention.id_case " +
+            "left join channeling on case_detention.id_case = channeling.id_case) ResA", nativeQuery = true)
+    List<Object> getNumberCasesWithChannelingGeneral();
+
+
+    @Query(value = "select " +
+            "SUM(if(hasChanneling = 0, 1, 0)) AS 'NotChanneling'," +
+            "SUM(if(hasChanneling = 1, 1, 0)) AS 'Channeling' " +
+            "FROM( " +
+            "select " +
+            "distinct " +
+            "    case_detention.id_case, " +
+            "    if(channeling.id_channeling IS NULL, 0, 1) AS 'hasChanneling' " +
+            "from hearing_format " +
+            "inner join case_detention on hearing_format.id_case = case_detention.id_case " +
+            "left join channeling on case_detention.id_case = channeling.id_case " +
+            "where hearing_format.id_district = :idDistrict) ResA", nativeQuery = true)
+    List<Object> getNumberCasesWithChannelingByDistrict(@Param("idDistrict") Long idDistrict);
+
+
+    @Query(value = "select \n" +
+            "SUM(if(hasChanneling = 0, 1, 0)) AS 'NotChanneling', " +
+            "SUM(if(hasChanneling = 1, 1, 0)) AS 'Channeling' " +
+            "FROM( " +
+            "select " +
+            "distinct " +
+            "    case_detention.id_case, " +
+            "    if(channeling.id_channeling IS NULL, 0, 1) AS 'hasChanneling' " +
+            "from hearing_format " +
+            "inner join case_detention on hearing_format.id_case = case_detention.id_case " +
+            "left join channeling on case_detention.id_case = channeling.id_case " +
+            "where hearing_format.id_district = :idDistrict and channeling.id_creator_user = :idSupervisor ) ResA", nativeQuery = true)
+    List<Object> getNumberCasesWithChannelingByDistrictAndOperator(@Param("idDistrict") Long idDistrict, @Param("idSupervisor") Long idSupervisor);
+
+
 }

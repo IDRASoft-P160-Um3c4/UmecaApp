@@ -25,6 +25,7 @@ public class SelectList implements EntityGrid{
     private Long value;
     private String subName;
 
+
     public SelectList() {
     }
 

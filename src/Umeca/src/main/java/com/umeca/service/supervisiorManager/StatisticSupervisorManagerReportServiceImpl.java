@@ -58,8 +58,8 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
         List<SelectList> data = new ArrayList<>();
         List<Object> lstObjects;
         Gson gson = new Gson();
-        Date initDateF = null;
-        Date endDateF = null;
+        Date initDateF;
+        Date endDateF;
         int initId = 0;
         int endId = 0;
         String initTime = " 00:00:00";
@@ -211,17 +211,14 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                     for(int i = 0; i < users.size() ; i++){
                         drugMale = new ReportList();
                         drugFemale = new ReportList();
-
                         drugFemale.setName("Femenino");
                         drugFemale.setX(new Long(i));
                         drugFemale.setUser(users.get(i).getName());
                         drugFemale.setY(0L);
-
                         drugMale.setName("Masculino");
                         drugMale.setX(new Long(i));
                         drugMale.setUser(users.get(i).getName());
                         drugMale.setY(0L);
-
                         lstObjects = statisticSupervisorManagerReportRepository.getNumberOfPeopleByGenderWhoUseDrugsByDistrictAndSupervisor(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
                         for(int j = 0; j < lstObjects.size(); j++) {
                             Object[] obj = (Object[]) lstObjects.get(j);
@@ -237,7 +234,71 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                     totalReport.add(drugsFemaleList);
                     return gson.toJson(totalReport);
             }
+            case Constants.REPORT_STATISTIC_MANAGER_REPORT_F:
+                SelectList casesWithChanneling = new SelectList();
+                SelectList casesWithoutChanneling = new SelectList();
+                casesWithChanneling.setName("Canalizado");
+                casesWithoutChanneling.setName("No canalizado");
+                switch(reportTypeRepository.getReportCodeById(idReportType)){
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingGeneral();
+                        for(int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            if(obj[0] != null) {
+                                casesWithoutChanneling.setValue(Long.parseLong(obj[0].toString()));
+                                casesWithChanneling.setValue(Long.parseLong(obj[1].toString()));
+                            }
+                        }
+                        data.add(casesWithoutChanneling);
+                        data.add(casesWithChanneling);
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingByDistrict(idDistrict);
+                        for(int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            if(obj[0] != null) {
+                                casesWithoutChanneling.setValue(Long.parseLong(obj[0].toString()));
+                                casesWithChanneling.setValue(Long.parseLong(obj[1].toString()));
+                            }
+                        }
+                        data.add(casesWithoutChanneling);
+                        data.add(casesWithChanneling);
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                        List<List<ReportList>> totalReport = new ArrayList<>();
+                        List<ReportList> caseWithChannellingList = new ArrayList<>();
+                        List<ReportList> caseWithoutChannellingList = new ArrayList<>();
+                        ReportList caseWithChannelling;
+                        ReportList caseWithoutChannelling;
+                        for(int i = 0; i < users.size() ; i++){
+                            caseWithChannelling = new ReportList();
+                            caseWithoutChannelling = new ReportList();
+                            caseWithChannelling.setName("Canalizado");
+                            caseWithChannelling.setX(new Long(i));
+                            caseWithChannelling.setUser(users.get(i).getName());
+                            caseWithChannelling.setY(0L);
+                            caseWithoutChannelling.setName("No Canalizado");
+                            caseWithoutChannelling.setX(new Long(i));
+                            caseWithoutChannelling.setUser(users.get(i).getName());
+                            caseWithoutChannelling.setY(0L);
+                            lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingByDistrictAndOperator(idDistrict, users.get(i).getId());
+                            for(int j = 0; j < lstObjects.size(); j++) {
+                                Object[] obj = (Object[]) lstObjects.get(j);
+                                if(obj[0] != null) {
+                                    caseWithoutChannelling.setY(Long.parseLong(obj[0].toString()));
+                                    caseWithChannelling.setY(Long.parseLong(obj[1].toString()));
+                                }
+                            }
+                            caseWithChannellingList.add(caseWithChannelling);
+                            caseWithoutChannellingList.add(caseWithoutChannelling);
+                        }
+                        totalReport.add(caseWithChannellingList);
+                        totalReport.add(caseWithoutChannellingList);
+                        return gson.toJson(totalReport);
+                }
         }
+
         return null;
     }
 }
