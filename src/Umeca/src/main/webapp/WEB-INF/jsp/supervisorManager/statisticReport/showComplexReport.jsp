@@ -45,7 +45,7 @@
 
             for (i = 0; i < dataSet.length; i++) {
                 var e = dataSet[i];
-                cases.push({"name": e[0].name});
+                cases.push({"name":(e[0].id + 1)+ ". " +e[0].name});
             }
 
 
@@ -168,11 +168,35 @@
                     .attr("y", function (d) {
                         return y(d.y);
                     })
-                    .attr("dx", -3)
+                    .attr("dx", -4)
                     .attr("dy", "1.2em")
                     .style("fill", "white")
                     .text(function (d) {
                         return d.y;
+                    });
+
+
+            var textN = layer.selectAll("layer")
+                    .data(function (d) {
+                        return d;
+                    })
+                    .enter().append("text")
+                    .attr("x", function (d, i, j) {
+                        return x(d.x) + x.rangeBand() / n * j + ((x.rangeBand() / n) / 2);
+                    })
+                    .attr("width", x.rangeBand() / n)
+                    .transition()
+                    .attr("y", function (d) {
+                        return y(-0.1)
+                    })
+                    .attr("height", function (d) {
+                        return height - y(d.y);
+                    })
+                    .attr("dx", -5)
+                    .attr("dy", "1.2em")
+                    .style("fill", "black")
+                    .text(function (d) {
+                        return d.id + 1;
                     });
 
 
@@ -214,10 +238,9 @@
                     .attr("transform", "translate(0," + height + ")")
                     .call(xAxis)
                     .selectAll("text")
-                    .style("text-anchor", "end")
-                    .attr("dx", "-.8em")
-                    .attr("dy", ".15em")
-                    .attr("transform", "rotate(-60)");
+                    .style("text-anchor", "middle")
+                    .attr("dx", ".-8em")
+                    .attr("dy", "40");
 
 
             d3.selectAll("input").on("change", change);

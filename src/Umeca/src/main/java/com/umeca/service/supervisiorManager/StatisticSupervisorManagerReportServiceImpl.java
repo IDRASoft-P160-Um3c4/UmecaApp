@@ -354,17 +354,17 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                 aux = (List<ReportList>) finalData.get(i);
             }
             if(data.size() == countNum){
-                aux.add(new ReportList(new Long(x), new Long(0), drugs.get(i).getName(), supervisor, (long) x));
+                aux.add(new ReportList(new Long(i), new Long(0), drugs.get(i).getName(), supervisor, (long) x));
 
             }else{
                 for(int j = countNum; j < data.size(); j++){
                     Object[] obj = (Object[]) data.get(j);
 
                     if(drugs.get(i).getId() == Long.parseLong(obj[0].toString())){
-                        aux.add(new ReportList(new Long(x), Long.parseLong(obj[2].toString()), drugs.get(i).getName(), supervisor, (long) x));
+                        aux.add(new ReportList(new Long(i), Long.parseLong(obj[2].toString()), drugs.get(i).getName(), supervisor, (long) x));
                         countNum = j + 1;
                     }else {
-                        aux.add(new ReportList(new Long(x), new Long(0), drugs.get(i).getName(), supervisor, (long) x));
+                        aux.add(new ReportList(new Long(i), new Long(0), drugs.get(i).getName(), supervisor, (long) x));
                     }
                     break;
 
