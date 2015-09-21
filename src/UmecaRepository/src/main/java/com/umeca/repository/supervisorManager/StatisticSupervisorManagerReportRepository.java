@@ -175,7 +175,7 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
 
 
     //Sustancias general
-    @Query(value = "select drug, count(idDrug) " +
+    @Query(value = "select drug, count(idDrug), idDrug " +
             "from (select distinct FM.id_framing_meeting as idFr, DR.id_drug_type as idDrug, DRTY.drug as drug " +
             "from case_detention CA " +
             "inner join framing_meeting FM on CA.id_case=FM.id_case " +
@@ -185,12 +185,12 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
             "and FM.end_date between :initDate and :endDate " +
             "and FM.is_terminated = true) as t1 " +
             "group by drug " +
-            "order by drug ", nativeQuery = true)
+            "order by idDrug ", nativeQuery = true)
     List<Object> countTypeofDrugs(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
 
 
     //Sustancias por distrito
-    @Query(value = "select drug, count(idDrug) " +
+    @Query(value = "select drug, count(idDrug), idDrug " +
             "from (select distinct FM.id_framing_meeting as idFr, DR.id_drug_type as idDrug, DRTY.drug as drug " +
             "from case_detention CA " +
             "inner join framing_meeting FM on CA.id_case=FM.id_case " +
@@ -202,7 +202,7 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
             "and DIST.id_district = :districtId " +
             "and FM.is_terminated = true) as t1 " +
             "group by drug " +
-            "order by drug ", nativeQuery = true)
+            "order by idDrug ", nativeQuery = true)
     List<Object> countTypeofDrugsByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
 
 
