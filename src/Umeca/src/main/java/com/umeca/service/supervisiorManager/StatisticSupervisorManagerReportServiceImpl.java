@@ -15,12 +15,10 @@ import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.java2d.pipe.SpanShapeRenderer;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -240,29 +238,21 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                     return gson.toJson(totalReport);
             }
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_E:
+                List<DrugType> drugs =  drugTypeRepository.findNotObsoleteImportant();
                 switch (reportTypeRepository.getReportCodeById(idReportType)){
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
                         lstObjects = statisticSupervisorManagerReportRepository.countTypeofDrugs(initDateF, endDateF);
-                        for (Object object : lstObjects) {
-                            Object[] aux = (Object[]) object;
-                            data.add(new SelectList(aux[0].toString(), Long.parseLong(aux[1].toString())));
-                        }
-
+                        data = completeDrugsData(data, lstObjects, drugs);
                         return gson.toJson(data);
 
                     case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
                         lstObjects = statisticSupervisorManagerReportRepository.countTypeofDrugsByDistrict(initDateF, endDateF, idDistrict);
-                        for (Object object : lstObjects) {
-                            Object[] aux = (Object[]) object;
-                            data.add(new SelectList(aux[0].toString(), Long.parseLong(aux[1].toString())));
-                        }
-
+                        data = completeDrugsData(data, lstObjects, drugs);
                         return gson.toJson(data);
 
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
                         List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
                         List<Object> dataEnd = new ArrayList<>();
-                        List<DrugType> drugs =  drugTypeRepository.findNotObsoleteImportant();
                         int x = 0;
                         for(SelectList u : users){
                             lstObjects = statisticSupervisorManagerReportRepository.countTypeofDrugsByDistrictAndSupervisor(initDateF, endDateF, idDistrict, u.getId());
@@ -363,7 +353,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
             if(finalData.size() > i){
                 aux = (List<ReportList>) finalData.get(i);
             }
-            if(data.size() == 0){
+            if(data.size() == countNum){
                 aux.add(new ReportList(new Long(x), new Long(0), drugs.get(i).getName(), supervisor, (long) x));
 
             }else{
@@ -372,10 +362,10 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
 
                     if(drugs.get(i).getId() == Long.parseLong(obj[0].toString())){
                         aux.add(new ReportList(new Long(x), Long.parseLong(obj[2].toString()), drugs.get(i).getName(), supervisor, (long) x));
+                        countNum = j + 1;
                     }else {
                         aux.add(new ReportList(new Long(x), new Long(0), drugs.get(i).getName(), supervisor, (long) x));
                     }
-                    countNum = j + 1;
                     break;
 
 
@@ -393,4 +383,39 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
         return finalData;
 
     }
+
+
+    private List<SelectList> completeDrugsData(List<SelectList> finalData, List<Object> data, List<DrugType> drugs) {
+
+        int countNum = 0;
+
+
+        for(int i = 0; i < drugs.size(); i++) {
+
+            if(data.size() == countNum){
+                finalData.add(new SelectList(drugs.get(i).getName(), new Long(0)));
+
+            }else{
+                for(int j = countNum; j < data.size(); j++){
+                    Object[] obj = (Object[]) data.get(j);
+
+                    if(drugs.get(i).getId() == Long.parseLong(obj[2].toString())){
+                        finalData.add(new SelectList(obj[0].toString(), Long.parseLong(obj[1].toString())));
+                        countNum = j + 1;
+                    }else {
+                        finalData.add(new SelectList(drugs.get(i).getName(), new Long(0)));
+                    }
+                    break;
+
+
+                }
+            }
+
+        }
+
+        return finalData;
+
+    }
+
+
 }
