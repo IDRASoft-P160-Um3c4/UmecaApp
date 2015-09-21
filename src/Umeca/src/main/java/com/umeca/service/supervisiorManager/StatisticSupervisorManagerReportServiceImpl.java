@@ -15,6 +15,7 @@ import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.java2d.pipe.SpanShapeRenderer;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -58,17 +59,12 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
 
 
     @Override
-    public String getData(String initDate, String endDate, String filter, Long idReportType, Long idDistrict) {
-
+    public String getData(String initDate, String endDate, String filter, Long idReportType, Long idDistrict){
         List<SelectList> data = new ArrayList<>();
         List<Object> lstObjects;
-
-
         Gson gson = new Gson();
-
-
-        Date initDateF = null;
-        Date endDateF = null;
+        Date initDateF;
+        Date endDateF;
         int initId = 0;
         int endId = 0;
         String initTime = " 00:00:00";
@@ -80,12 +76,11 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
             initId = Integer.parseInt(df.format(initDateF));
             endId = Integer.parseInt(df.format(endDateF));
         } catch (Exception e) {
-            logException.Write(e, this.getClass(), "save", sharedUserService);
+            logException.Write(e, this.getClass(), "getData", sharedUserService);
         }
 
         switch (filter) {
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_A:
-
                 return gson.toJson(eventRepository.countCasesProsecuted(initId, endId));
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_B:
                 SelectList opinion = new SelectList();
@@ -95,11 +90,9 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                 opinion.setName("Opinión");
                 report.setName("Informe");
                 declined.setName("Negación");
-
                 opinion.setValue(0L);
                 report.setValue(0L);
                 declined.setValue(0L);
-
 
                 List<Long> casesId = eventRepository.getIdCasesByEvent(Constants.EVENT_PROSECUTE);
                 for (Long caseId : casesId) {
@@ -124,7 +117,6 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                                 break;
                         }
                     }
-
                 }
                 data.add(opinion);
                 data.add(report);
@@ -134,8 +126,8 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_C:
                 switch (reportTypeRepository.getReportCodeById(idReportType)) {
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
-                        lstObjects = statisticSupervisorManagerReportRepository.getCountCasesByArrangement();
-                        for (int i = 0; i < lstObjects.size(); i++) {
+                        lstObjects = statisticSupervisorManagerReportRepository.getCountCasesByArrangement(initDate + initTime, endDate + endTime);
+                        for(int i = 0; i < lstObjects.size(); i++) {
                             Object[] obj = (Object[]) lstObjects.get(i);
                             SelectList selectList = new SelectList();
                             selectList.setValue(Long.parseLong(obj[0].toString()));
@@ -146,7 +138,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         return gson.toJson(data);
 
                     case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
-                        lstObjects = statisticSupervisorManagerReportRepository.getCountCasesByArrangementAndDistrict(idDistrict);
+                        lstObjects = statisticSupervisorManagerReportRepository.getCountCasesByArrangementAndDistrict(initDate + initTime, endDate + endTime, idDistrict);
                         for (int i = 0; i < lstObjects.size(); i++) {
                             Object[] obj = (Object[]) lstObjects.get(i);
                             SelectList selectList = new SelectList();
@@ -158,16 +150,12 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         return gson.toJson(data);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
                         List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
-                       // List<List<SelectList>> supTotal = new ArrayList<>();
                         List<List<ReportList>> supTotal = new ArrayList<>();
-
-
                         List<SelectList> arrangements = arrangementRepository.findAllNoObsolete();
                         for (int i = 0; i < arrangements.size(); i++) {
                             List<ReportList> arrangementList = new ArrayList<>();
                             for(int j = 0; j < users.size(); j ++){
-
-                                lstObjects = statisticSupervisorManagerReportRepository.getArrangementByIdAndSupervisorId(users.get(j).getId(), arrangements.get(i).getId(),idDistrict);
+                                lstObjects = statisticSupervisorManagerReportRepository.getArrangementByIdAndSupervisorId(initDate + initTime, endDate + endTime, users.get(j).getId(), arrangements.get(i).getId(),idDistrict);
                                 ReportList arrangement = new ReportList();
                                 arrangement.setName(arrangements.get(i).getName());
                                 arrangement.setY(0L);
@@ -175,9 +163,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                                 arrangement.setUser(users.get(j).getName());
                                 for (int k = 0; k < lstObjects.size(); k++) {
                                     Object[] obj = (Object[]) lstObjects.get(k);
-                                    // arrangement.setName(arrangements.get(i).getName());
-
-                                    arrangement.setY(Long.parseLong(obj[1].toString()));
+                                    arrangement.setY(Long.parseLong(obj[0].toString()));
                                 }
                                 arrangementList.add(arrangement);
                             }
@@ -187,18 +173,71 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
 
                 }
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_D:
+                SelectList drugsMale = new SelectList();
+                SelectList drugsFemale = new SelectList();
+                drugsMale.setName("Masculino");
+                drugsFemale.setName("Femenino");
+                drugsMale.setValue(0L);
+                drugsFemale.setValue(0L);
                 switch (reportTypeRepository.getReportCodeById(idReportType)){
                 case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
-
-                    break;
+                    lstObjects = statisticSupervisorManagerReportRepository.getNumberOfPeopleByGenderWhoUseDrugsGeneral(initDate + initTime, endDate + endTime);
+                    for(int i = 0; i < lstObjects.size(); i++) {
+                        Object[] obj = (Object[]) lstObjects.get(i);
+                        if(obj[0].toString().equals("1"))
+                            drugsFemale.setValue(Long.parseLong(obj[1].toString()));
+                        else
+                            drugsMale.setValue(Long.parseLong(obj[1].toString()));
+                    }
+                    data.add(drugsMale);
+                    data.add(drugsFemale);
+                    return gson.toJson(data);
 
                 case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
-
-                    break;
+                    lstObjects = statisticSupervisorManagerReportRepository.getNumberOfPeopleByGenderWhoUseDrugsByDistrict(initDate + initTime, endDate + endTime, idDistrict);
+                    for(int i = 0; i < lstObjects.size(); i++) {
+                        Object[] obj = (Object[]) lstObjects.get(i);
+                        if(obj[0].toString().equals("1"))
+                            drugsFemale.setValue(Long.parseLong(obj[1].toString()));
+                        else
+                            drugsMale.setValue(Long.parseLong(obj[1].toString()));
+                    }
+                    data.add(drugsMale);
+                    data.add(drugsFemale);
+                    return gson.toJson(data);
 
                 case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
-
-                    break;
+                    List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                    List<List<ReportList>> totalReport = new ArrayList<>();
+                    List<ReportList> drugsMaleList = new ArrayList<>();
+                    List<ReportList> drugsFemaleList = new ArrayList<>();
+                    ReportList drugMale;
+                    ReportList drugFemale;
+                    for(int i = 0; i < users.size() ; i++){
+                        drugMale = new ReportList();
+                        drugFemale = new ReportList();
+                        drugFemale.setName("Femenino");
+                        drugFemale.setX(new Long(i));
+                        drugFemale.setUser(users.get(i).getName());
+                        drugFemale.setY(0L);
+                        drugMale.setName("Masculino");
+                        drugMale.setX(new Long(i));
+                        drugMale.setUser(users.get(i).getName());
+                        drugMale.setY(0L);
+                        lstObjects = statisticSupervisorManagerReportRepository.getNumberOfPeopleByGenderWhoUseDrugsByDistrictAndSupervisor(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
+                        for(int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
+                            if(obj[0].toString().equals("1"))
+                                drugFemale.setY(Long.parseLong(obj[1].toString()));
+                            else
+                                drugMale.setY(Long.parseLong(obj[1].toString()));
+                        }
+                        drugsMaleList.add(drugMale);
+                        drugsFemaleList.add(drugFemale);
+                    }
+                    totalReport.add(drugsMaleList);
+                    totalReport.add(drugsFemaleList);
+                    return gson.toJson(totalReport);
             }
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_E:
                 switch (reportTypeRepository.getReportCodeById(idReportType)){
@@ -232,7 +271,71 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         }
                         return gson.toJson(dataEnd);
                 }
+            case Constants.REPORT_STATISTIC_MANAGER_REPORT_F:
+                SelectList casesWithChanneling = new SelectList();
+                SelectList casesWithoutChanneling = new SelectList();
+                casesWithChanneling.setName("Canalizado");
+                casesWithoutChanneling.setName("No canalizado");
+                switch(reportTypeRepository.getReportCodeById(idReportType)){
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingGeneral();
+                        for(int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            if(obj[0] != null) {
+                                casesWithoutChanneling.setValue(Long.parseLong(obj[0].toString()));
+                                casesWithChanneling.setValue(Long.parseLong(obj[1].toString()));
+                            }
+                        }
+                        data.add(casesWithoutChanneling);
+                        data.add(casesWithChanneling);
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingByDistrict(idDistrict);
+                        for(int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            if(obj[0] != null) {
+                                casesWithoutChanneling.setValue(Long.parseLong(obj[0].toString()));
+                                casesWithChanneling.setValue(Long.parseLong(obj[1].toString()));
+                            }
+                        }
+                        data.add(casesWithoutChanneling);
+                        data.add(casesWithChanneling);
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                        List<List<ReportList>> totalReport = new ArrayList<>();
+                        List<ReportList> caseWithChannellingList = new ArrayList<>();
+                        List<ReportList> caseWithoutChannellingList = new ArrayList<>();
+                        ReportList caseWithChannelling;
+                        ReportList caseWithoutChannelling;
+                        for(int i = 0; i < users.size() ; i++){
+                            caseWithChannelling = new ReportList();
+                            caseWithoutChannelling = new ReportList();
+                            caseWithChannelling.setName("Canalizado");
+                            caseWithChannelling.setX(new Long(i));
+                            caseWithChannelling.setUser(users.get(i).getName());
+                            caseWithChannelling.setY(0L);
+                            caseWithoutChannelling.setName("No Canalizado");
+                            caseWithoutChannelling.setX(new Long(i));
+                            caseWithoutChannelling.setUser(users.get(i).getName());
+                            caseWithoutChannelling.setY(0L);
+                            lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingByDistrictAndOperator(idDistrict, users.get(i).getId());
+                            for(int j = 0; j < lstObjects.size(); j++) {
+                                Object[] obj = (Object[]) lstObjects.get(j);
+                                if(obj[0] != null) {
+                                    caseWithoutChannelling.setY(Long.parseLong(obj[0].toString()));
+                                    caseWithChannelling.setY(Long.parseLong(obj[1].toString()));
+                                }
+                            }
+                            caseWithChannellingList.add(caseWithChannelling);
+                            caseWithoutChannellingList.add(caseWithoutChannelling);
+                        }
+                        totalReport.add(caseWithChannellingList);
+                        totalReport.add(caseWithoutChannellingList);
+                        return gson.toJson(totalReport);
+                }
         }
+
         return null;
     }
 
