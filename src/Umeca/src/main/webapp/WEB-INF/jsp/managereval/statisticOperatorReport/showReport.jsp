@@ -378,7 +378,7 @@
                     binaryBlob();
 
                     var a = document.createElement("a");
-                    a.download = "sample.png";
+                    a.download = "reporte.png";
                     a.href = canvas.toDataURL("image/png");
 
 

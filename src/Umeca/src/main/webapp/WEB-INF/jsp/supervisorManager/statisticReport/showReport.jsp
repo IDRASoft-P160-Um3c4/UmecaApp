@@ -433,7 +433,7 @@
     <i class="icon icon-file"></i>&nbsp;&nbsp;Reporte Estad&iacute;stico
   </h2>
 
-  <label><input type="checkbox"> Ordenar valores</label>
+  <%--<label><input type="checkbox"> Ordenar valores</label>--%>
   <%--<button id="reset">Reset</button>--%>
   <%--<button id="sort" onclick="sortBars()">Sort</button>--%>
 
@@ -444,13 +444,19 @@
     <%--<div id="svgdataurl"></div>--%>
     <%--<div id="pngdataurl"></div>--%>
     <canvas width="1280" height="720" style="display:none"></canvas>
-
-    <br/>
-    <br/>
-    <button class="btn btn-info" id="save">
-      <i class="glyphicon glyphicon-picture"></i>&nbsp;Descargar reporte
-    </button>
   </div>
+
+    <div class="row element-center">
+        <a href="<c:url value='/supervisorManager/statisticReport/index.html' />">
+            <button class="btn">
+                <i class="glyphicon glyphicon-stats"></i>&nbsp;Obtener otro reporte
+
+            </button>
+        </a>
+        <button class="btn btn-info" id="save">
+            <i class="glyphicon glyphicon-picture"></i>&nbsp;Descargar reporte
+        </button>
+    </div>
 
 
   <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>

@@ -65,8 +65,8 @@
                     });
 
             var margin = {top: 50, right: 90, bottom: 75, left: 30},
-                    width = 3840 - margin.left - margin.right,
-                    height = 2160 - margin.top - margin.bottom;
+                    width = 1920 - margin.left - margin.right,
+                    height = 1080 - margin.top - margin.bottom;
 
             var x = d3.scale.ordinal()
                     .domain(d3.range(m))
@@ -82,6 +82,13 @@
 
             var color = d3.scale.ordinal()
                     .range(["#00BCD4", "#E91E63", "#009688", "#3F51B5","#B3F324","#E8A922","#FF3619","#A822E8","#2580FF"]);
+
+
+            var len = names.length;
+
+            if (len > 4) {
+                color = d3.scale.ordinal().range(["#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3", "#00BCD4", "#009688", "#4CAF50", "#8BC34A", "#FFEB3B", "#FFC107", "#FF9800", "#795548", "#9E9E9E"]);
+            }
 
 
             var xAxis = d3.svg.axis()
@@ -378,7 +385,7 @@
                     binaryBlob();
 
                     var a = document.createElement("a");
-                    a.download = "sample.png";
+                    a.download = "reporte.png";
                     a.href = canvas.toDataURL("image/png");
 
 
@@ -416,8 +423,8 @@
 <div class="container body-content col-xs-12 col-xs-offset-1">
 
     <form>
-        <label><input type="radio" name="mode" value="grouped"> Agrupada</label>
-        <label><input type="radio" name="mode" value="stacked" checked> En pila</label>
+        <label><input type="hidden" name="mode" value="grouped"></label>
+        <label><input type="hidden" name="mode" value="stacked" checked></label>
     </form>
 
 
@@ -431,11 +438,11 @@
 
     <div class="row-fluid center">
         <div class="chartBar"></div>
-        <canvas width="3840" height="2160" style="display:none"></canvas>
+        <canvas width="1920" height="1080" style="display:none"></canvas>
     </div>
 
     <div class="row element-center">
-        <a href="<c:url value='/managereval/statisticOperatorReport/index.html' />">
+        <a href="<c:url value='/supervisorManager/statisticReport/index.html' />">
             <button class="btn">
                 <i class="glyphicon glyphicon-stats"></i>&nbsp;Obtener otro reporte
 

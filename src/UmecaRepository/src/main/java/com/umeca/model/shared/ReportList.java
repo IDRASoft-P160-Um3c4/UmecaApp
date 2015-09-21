@@ -45,6 +45,12 @@ public class ReportList implements EntityGrid{
             this.name = "Opinión";
         else if (description.equals(Constants.EVENT_ONLY_INTERVIEW))
             this.name = "Solo entrevista";
+        else if(description.equals("Cocaína en piedra"))
+            this.name = "CocaínaP";
+        else if(description.equals("Metanfetaminas"))
+            this.name = "Meta";
+        else if(description.equals("PBC(Pasta básica de cocaína)"))
+            this.name = "PBC";
         else
             this.name = description;
     }

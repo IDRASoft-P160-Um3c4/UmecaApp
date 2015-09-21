@@ -380,7 +380,7 @@
                     binaryBlob();
 
                     var a = document.createElement("a");
-                    a.download = "sample.png";
+                    a.download = "reporte.png";
                     a.href = canvas.toDataURL("image/png");
 
 
@@ -418,8 +418,8 @@
 <div class="container body-content col-xs-12 col-xs-offset-1">
 
     <form>
-        <label><input type="radio" name="mode" value="grouped"> Agrupada</label>
-        <label><input type="radio" name="mode" value="stacked" checked> En pila</label>
+        <label><input type="hidden" name="mode" value="grouped"></label>
+        <label><input type="hidden" name="mode" value="stacked" checked></label>
     </form>
 
 
