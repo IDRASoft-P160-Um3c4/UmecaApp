@@ -1,9 +1,11 @@
 package com.umeca.service.managereval;
 
+import com.umeca.model.catalog.DrugType;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.ReportList;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.EventRepository;
+import com.umeca.repository.account.UserRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class StatisticOperatorServiceImpl implements StatisticOperatorService {
     @Autowired
     EventRepository eventRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
 
 
     @Override
@@ -33,7 +38,9 @@ public class StatisticOperatorServiceImpl implements StatisticOperatorService {
         List<SelectList> data = new ArrayList<>();
 
         if (filter.equals(Constants.REPORT_OPERATOR_STATISTIC_A)) {
-            data = eventRepository.countMeetingByReviewer(initDate, endDate);
+            List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_REVIEWER);
+            List<SelectList> temp = eventRepository.countMeetingByReviewer(initDate, endDate);
+            data = completeEvaluatorsData(data, temp, users);
         }
 
         return data;
@@ -134,6 +141,37 @@ public class StatisticOperatorServiceImpl implements StatisticOperatorService {
         }
 
         return finalData;
+    }
+
+    private List<SelectList> completeEvaluatorsData(List<SelectList> finalData, List<SelectList> data, List<SelectList> users) {
+
+        int countNum = 0;
+
+
+        for(int i = 0; i < users.size(); i++) {
+
+            if(data.size() == countNum){
+                finalData.add(new SelectList(users.get(i).getId(),  new Long(0), users.get(i).getDescription()));
+
+            }else{
+                for(int j = countNum; j < data.size(); j++){
+
+                    if(users.get(i).getId() == data.get(j).getId()){
+                        finalData.add(new SelectList(data.get(j).getId(), data.get(j).getValue(), data.get(j).getName()));
+                        countNum = j + 1;
+                    }else {
+                        finalData.add(new SelectList(users.get(i).getId(),  new Long(0), users.get(i).getDescription()));
+                    }
+                    break;
+
+
+                }
+            }
+
+        }
+
+        return finalData;
+
     }
 
 
