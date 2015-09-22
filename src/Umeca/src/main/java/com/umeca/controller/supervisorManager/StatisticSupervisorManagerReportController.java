@@ -45,40 +45,57 @@ public class StatisticSupervisorManagerReportController {
     ReportTypeRepository reportTypeRepository;
 
     @RequestMapping(value = "/supervisorManager/statisticReport/index", method = RequestMethod.GET)
-    public ModelAndView index(){
+    public ModelAndView index() {
         ModelAndView model = new ModelAndView("/supervisorManager/statisticReport/index");
         Gson gson = new Gson();
         List<SelectList> lstEvaAct = statisticSupervisorManagerReportRepository.getAllNoObsolete();
         List<SelectList> lstDistrict = districtRepository.findNoObsolete();
         List<SelectList> lstReportType = reportTypeRepository.getAllNoObsolete();
-        model.addObject("lstDistrict",gson.toJson(lstDistrict));
-        model.addObject("lstReportType",gson.toJson(lstReportType));
+        model.addObject("lstDistrict", gson.toJson(lstDistrict));
+        model.addObject("lstReportType", gson.toJson(lstReportType));
         model.addObject("lstFilter", gson.toJson(lstEvaAct));
         return model;
     }
 
     @RequestMapping(value = "/supervisorManager/statisticReport/showReport", method = RequestMethod.GET)
-    public ModelAndView showReport(String initDate, String endDate, String filterSelected, Long idReportType, Long idDistrict){
+    public ModelAndView showReport(String initDate, String endDate, String filterSelected, Long idReportType, Long idDistrict) {
         ModelAndView model = new ModelAndView("/supervisorManager/statisticReport/showReport");
 
         String extraData = null;
         String title = null;
         Long total = Long.valueOf(0);
         try {
-                title = statisticSupervisorManagerReportRepository.findByCode(filterSelected).getDescription();
-          //  List<SelectList> data;
+            title = statisticSupervisorManagerReportRepository.findByCode(filterSelected).getDescription();
+            //  List<SelectList> data;
             String data;
             data = statisticSupervisorManagerReportService.getData(initDate, endDate, filterSelected, idReportType, idDistrict);
 
 
-            if(reportTypeRepository.getReportCodeById(idReportType).equals(Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR))
-            {
+            if (reportTypeRepository.getReportCodeById(idReportType).equals(Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR)) {
                 model = new ModelAndView("/supervisorManager/statisticReport/showComplexReport");
             }
 
-       //     if(filterSelected.equals(Constants.REPORT_STATISTIC_MANAGER_REPORT_C)){
-         //       model = new ModelAndView("/supervisorManager/statisticReport/showArrangementReport");
-        //    }
+            //     if(filterSelected.equals(Constants.REPORT_STATISTIC_MANAGER_REPORT_C)){
+            //       model = new ModelAndView("/supervisorManager/statisticReport/showArrangementReport");
+            //    }
+
+            if (idReportType == 1)
+                extraData = "General";
+            else if (idReportType == 2) {
+                if (idDistrict == 1)
+                    extraData = "Por operador - Cuatla";
+                else if (idDistrict == 2)
+                    extraData = "Por operador - Cuernavaca";
+                else
+                    extraData = "Por operador - Jojutla";
+            } else {
+                if (idDistrict == 1)
+                    extraData = "Por distrito - Cuatla";
+                else if (idDistrict == 2)
+                    extraData = "Por distrito - Cuernavaca";
+                else
+                    extraData = "Por distrito - Jojutla";
+            }
 
 
             model.addObject("initDate", initDate.toString());
