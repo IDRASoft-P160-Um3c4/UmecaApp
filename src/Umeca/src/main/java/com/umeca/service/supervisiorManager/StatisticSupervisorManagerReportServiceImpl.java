@@ -5,9 +5,11 @@ import com.umeca.model.catalog.DrugType;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.ReportList;
 import com.umeca.model.shared.SelectList;
+import com.umeca.model.shared.SelectOptsList;
 import com.umeca.repository.EventRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.ArrangementRepository;
+import com.umeca.repository.catalog.ChannelingInstitutionNameRepository;
 import com.umeca.repository.catalog.DrugTypeRepository;
 import com.umeca.repository.catalog.ReportTypeRepository;
 import com.umeca.repository.supervisorManager.StatisticSupervisorManagerReportRepository;
@@ -20,6 +22,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -51,6 +54,8 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    ChannelingInstitutionNameRepository channelingInstitutionNameRepository;
 
     @Autowired
     DrugTypeRepository drugTypeRepository;
@@ -158,6 +163,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                                 arrangement.setName(arrangements.get(i).getName());
                                 arrangement.setY(0L);
                                 arrangement.setX(new Long(j));
+                                arrangement.setId(new Long(i));
                                 arrangement.setUser(users.get(j).getName());
                                 for (int k = 0; k < lstObjects.size(); k++) {
                                     Object[] obj = (Object[]) lstObjects.get(k);
@@ -268,10 +274,10 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                 casesWithoutChanneling.setName("No canalizado");
                 switch(reportTypeRepository.getReportCodeById(idReportType)){
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
-                        lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingGeneral();
-                        for(int i = 0; i < lstObjects.size(); i++) {
+                        lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingGeneral(initDate + initTime, endDate + endTime);
+                        for (int i = 0; i < lstObjects.size(); i++) {
                             Object[] obj = (Object[]) lstObjects.get(i);
-                            if(obj[0] != null) {
+                            if (obj[0] != null) {
                                 casesWithoutChanneling.setValue(Long.parseLong(obj[0].toString()));
                                 casesWithChanneling.setValue(Long.parseLong(obj[1].toString()));
                             }
@@ -280,8 +286,8 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         data.add(casesWithChanneling);
                         return gson.toJson(data);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
-                        lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingByDistrict(idDistrict);
-                        for(int i = 0; i < lstObjects.size(); i++) {
+                        lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingByDistrict(initDate + initTime, endDate + endTime, idDistrict);
+                        for (int i = 0; i < lstObjects.size(); i++) {
                             Object[] obj = (Object[]) lstObjects.get(i);
                             if(obj[0] != null) {
                                 casesWithoutChanneling.setValue(Long.parseLong(obj[0].toString()));
@@ -298,7 +304,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         List<ReportList> caseWithoutChannellingList = new ArrayList<>();
                         ReportList caseWithChannelling;
                         ReportList caseWithoutChannelling;
-                        for(int i = 0; i < users.size() ; i++){
+                        for (int i = 0; i < users.size(); i++) {
                             caseWithChannelling = new ReportList();
                             caseWithoutChannelling = new ReportList();
                             caseWithChannelling.setName("Canalizado");
@@ -309,10 +315,12 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                             caseWithoutChannelling.setX(new Long(i));
                             caseWithoutChannelling.setUser(users.get(i).getName());
                             caseWithoutChannelling.setY(0L);
-                            lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingByDistrictAndOperator(idDistrict, users.get(i).getId());
-                            for(int j = 0; j < lstObjects.size(); j++) {
+                            caseWithChannelling.setId(0L);
+                            caseWithoutChannelling.setId(1l);
+                            lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingByDistrictAndOperator(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
+                            for (int j = 0; j < lstObjects.size(); j++) {
                                 Object[] obj = (Object[]) lstObjects.get(j);
-                                if(obj[0] != null) {
+                                if (obj[0] != null) {
                                     caseWithoutChannelling.setY(Long.parseLong(obj[0].toString()));
                                     caseWithChannelling.setY(Long.parseLong(obj[1].toString()));
                                 }
@@ -325,15 +333,58 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         return gson.toJson(totalReport);
                 }
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_G:
-                switch(reportTypeRepository.getReportCodeById(idReportType)) {
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
-                        data = statisticSupervisorManagerReportRepository.countInstitutionChannelingGeneral();
+                        lstObjects = statisticSupervisorManagerReportRepository.countInstitutionChannelingGeneral(initDate + initTime, endDate + endTime);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            SelectList selectList = new SelectList();
+                            selectList.setValue(Long.parseLong(obj[1].toString()));
+                            selectList.setName(obj[0].toString());
+                            selectList.setSubName(obj[0].toString());
+                            data.add(selectList);
+                        }
                         return gson.toJson(data);
-
                     case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
-                        break;
+                        lstObjects = statisticSupervisorManagerReportRepository.countInstitutionChannelingByDistrict(initDate + initTime, endDate + endTime, idDistrict);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            SelectList selectList = new SelectList();
+                            selectList.setName(obj[0].toString());
+                            selectList.setSubName(obj[0].toString());
+                            selectList.setValue(Long.parseLong(obj[1].toString()));
+
+                            data.add(selectList);
+                        }
+                        return gson.toJson(data);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
-                        break;
+                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                        List<SelectOptsList> institutions = channelingInstitutionNameRepository.findNotObsolete();
+                        List<List<ReportList>> total = new ArrayList<>();
+                        List<ReportList> institutionList;
+
+                        for (int i = 0; i < institutions.size(); i++) {
+                            institutionList = new ArrayList<>();
+                            for (int j = 0; j < users.size(); j++) {
+                                lstObjects = statisticSupervisorManagerReportRepository.countInstitutionChannelingBySupervisor(initDate + initTime, endDate + endTime, idDistrict, users.get(j).getId(), institutions.get(i).getId());
+                                ReportList reportList = new ReportList();
+                                reportList.setId(new Long(i));
+                                reportList.setName(institutions.get(i).getName());
+                                reportList.setUser(users.get(j).getName());
+                                reportList.setX(new Long(j));
+                                reportList.setY(0L);
+                                institutionList.add(reportList);
+
+                                for (int k = 0; k < lstObjects.size(); k++) {
+                                    Object[] obj = (Object[]) lstObjects.get(k);
+                                    reportList.setY(new Long(obj[1].toString()));
+                                }
+
+                            }
+                            total.add(institutionList);
+                        }
+
+                        return gson.toJson(total);
                 }
 
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_H:
@@ -435,58 +486,6 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
 
         return finalData;
 
-    }
-
-
-    private List<SelectList> completeEmployment(List<SelectList> data) {
-
-        if(data.size() > 0){
-            if(!data.get(0).getName().equals("Empleado")){
-                SelectList x = data.get(0);
-                data.set(0, new SelectList("Empleado", new Long(0)));
-                data.add(x);
-            }
-            else if(data.size() < 2)
-                data.add(new SelectList("Sin empleo", new Long(0)));
-        }
-        else{
-            data.add(new SelectList("Empleado", new Long(0)));
-            data.add(new SelectList("Sin empleo", new Long(0)));
-        }
-
-        return data;
-
-    }
-
-
-    private List<Object> completeEmploymentDataBySup(List<Object> finalData, List<SelectList> data, String supervisor, int x) {
-
-
-
-        List<ReportList> aux1 = new ArrayList<>();
-        List<ReportList> aux2 = new ArrayList<>();
-
-        if(finalData.size() > 0){
-            aux1 = (List<ReportList>) finalData.get(0);
-            aux2 = (List<ReportList>) finalData.get(1);
-
-            aux1.add(new ReportList(new Long(0), data.get(0).getValue(), data.get(0).getName(), supervisor, (long) x));
-            aux2.add(new ReportList(new Long(1), data.get(1).getValue(), data.get(1).getName(), supervisor, (long) x));
-
-            finalData.set(0, aux1);
-            finalData.set(1, aux2);
-
-        }else {
-
-            aux1.add(new ReportList(new Long(0), data.get(0).getValue(), data.get(0).getName(), supervisor, (long) x));
-            aux2.add(new ReportList(new Long(1), data.get(1).getValue(), data.get(1).getName(), supervisor, (long) x));
-
-            finalData.add(aux1);
-            finalData.add(aux2);
-        }
-
-
-        return finalData;
     }
 
 
