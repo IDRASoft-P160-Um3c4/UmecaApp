@@ -222,7 +222,6 @@
     </div>
 </div>
 <div class="modal-footer" id="btn-act-footer">
-    {{WaitFor}}
     <button class="btn btn-default btn-sm" ng-show="!isReadOnly" ng-click="cancel()">Cancelar</button>
     <button class="btn btn-success btn-sm" ng-show="isReadOnly" ng-click="cancel()">Regresar</button>
     <button class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
