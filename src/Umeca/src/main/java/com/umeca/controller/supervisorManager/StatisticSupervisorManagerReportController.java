@@ -65,7 +65,7 @@ public class StatisticSupervisorManagerReportController {
         String title = null;
         Long total = Long.valueOf(0);
         try {
-            title = statisticSupervisorManagerReportRepository.findByCode(filterSelected).getDescription();
+                title = statisticSupervisorManagerReportRepository.findByCode(filterSelected).getDescription();
           //  List<SelectList> data;
             String data;
             data = statisticSupervisorManagerReportService.getData(initDate, endDate, filterSelected, idReportType, idDistrict);
@@ -75,6 +75,12 @@ public class StatisticSupervisorManagerReportController {
             {
                 model = new ModelAndView("/supervisorManager/statisticReport/showComplexReport");
             }
+
+       //     if(filterSelected.equals(Constants.REPORT_STATISTIC_MANAGER_REPORT_C)){
+         //       model = new ModelAndView("/supervisorManager/statisticReport/showArrangementReport");
+        //    }
+
+
             model.addObject("initDate", initDate.toString());
             model.addObject("endDate", endDate.toString());
             model.addObject("total", total);
