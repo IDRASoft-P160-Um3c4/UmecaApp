@@ -351,6 +351,7 @@ public class Constants {
     public static final String REPORT_STATISTIC_MANAGER_REPORT_E = "STMSR_5";
     public static final String REPORT_STATISTIC_MANAGER_REPORT_F = "STMSR_6";
     public static final String REPORT_STATISTIC_MANAGER_REPORT_G = "STMSR_7";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_H = "STMSR_8";
 
 
 
