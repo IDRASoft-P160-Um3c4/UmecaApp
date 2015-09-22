@@ -161,7 +161,7 @@
                 </div>
                 <div class="modal-footer" id="btn-act-footer">
                     <button class="btn btn-default btn-sm" ng-click="cancel()">Cancelar</button>
-                    <button id="bntSubmitChangeSup" class="btn btn-default btn-primary btn-sm" ng-disable="WaitFor==true"
+                    <button id="bntSubmitChangeSup" class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
                             ng-show="m.hasPassword"
                             ng-click="submit('#FormCatId', '<c:url value='/supervisorManager/activeMonitoringPlan/doChangeSupervisor.json' />')">
                         Cambiar

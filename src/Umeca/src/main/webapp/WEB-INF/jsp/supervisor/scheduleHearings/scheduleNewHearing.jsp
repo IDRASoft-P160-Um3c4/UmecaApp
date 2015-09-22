@@ -63,8 +63,9 @@
                     <div class="col-xs-6">
                         <div class="profile-user-info profile-user-info-striped">
                             <div class="profile-info-row two-lines">
-                                <div class="profile-info-name"> Fecha</div>
-                                <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
+                                <div class="profile-info-name"> Fecha
+                                    <br/><small>(A&ntilde;o/Mes/D&iacute;a)</small>
+                                </div>
                                 <div class="profile-info-value">
                                     <div class="input-group input-large">
                                         <input class="form-control date-picker"
@@ -161,8 +162,9 @@
                     <div class="col-xs-6">
                         <div class="profile-user-info profile-user-info-striped">
                             <div class="profile-info-row two-lines">
-                                <div class="profile-info-name"> Fecha</div>
-                                <br/><small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
+                                <div class="profile-info-name"> Fecha
+                                    <br/><small>(A&ntilde;o/Mes/D&iacute;a)</small>
+                                </div>
                                 <div class="profile-info-value">
                                     <div class="input-group input-large">
                                         <input class="form-control date-picker"
@@ -220,9 +222,10 @@
     </div>
 </div>
 <div class="modal-footer" id="btn-act-footer">
+    {{WaitFor}}
     <button class="btn btn-default btn-sm" ng-show="!isReadOnly" ng-click="cancel()">Cancelar</button>
     <button class="btn btn-success btn-sm" ng-show="isReadOnly" ng-click="cancel()">Regresar</button>
-    <button class="btn btn-default btn-primary btn-sm" ng-disable="WaitFor==true"
+    <button class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
             ng-click="submitRedirect('#FormCatId', '<c:url value='/supervisor/scheduleHearings/doScheduleNewHearing.json' />', true, validateSave)">
         Agendar
     </button>
