@@ -28,10 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service("technicalReviewService")
 public class TechnicalReviewServiceImpl implements TechnicalReviewService {
@@ -389,6 +386,8 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         technicalReviewRepository.save(result);
 
         if (result.getIsFinished() != null && result.getIsFinished() == true) {
+            caseDetention.setDateOpinion(new Date());
+            caseRepository.save(caseDetention);
             eventService.addEvent(Constants.EVENT_CASE_OPINION, caseDetention.getId(), result.getComments());
             response.setHasError(false);
             response.setUrlToGo("index.html");

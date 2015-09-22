@@ -25,12 +25,14 @@ public class SelectList implements EntityGrid{
     private Long value;
     private String subName;
 
+
     public SelectList() {
     }
 
     public SelectList(Long id, String name) {
         this.id = id;
         this.name = name;
+        this.value = 0L;
     }
 
     public SelectList(Long id, Boolean lock) {
@@ -219,6 +221,7 @@ public class SelectList implements EntityGrid{
         this.name = "Casos judicializados";
 
     }
+
 
 
     public Long getId() {

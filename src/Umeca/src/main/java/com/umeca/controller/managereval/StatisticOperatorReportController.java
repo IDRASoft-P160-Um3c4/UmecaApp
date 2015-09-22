@@ -1,6 +1,7 @@
 package com.umeca.controller.managereval;
 
 import com.google.gson.Gson;
+import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.catalog.StatisticOperatorReportTypeRepository;
 import com.umeca.service.account.SharedUserService;
@@ -31,7 +32,6 @@ public class StatisticOperatorReportController {
     StatisticOperatorService statisticOperatorService;
 
 
-
     @RequestMapping(value = "/managereval/statisticOperatorReport/index", method = RequestMethod.GET)
     public ModelAndView index() {
         ModelAndView model = new ModelAndView("/managereval/statisticOperatorReport/index");
@@ -42,13 +42,15 @@ public class StatisticOperatorReportController {
     }
 
 
-
     @RequestMapping(value = "/managereval/statisticOperatorReport/showReport", method = RequestMethod.GET)
     public ModelAndView showReport(String initDate, String endDate, String filterSelected) {
         ModelAndView model = new ModelAndView("/managereval/statisticOperatorReport/showReport");
 
+        if (filterSelected.equals(Constants.REPORT_OPERATOR_STATISTIC_B)) {
+            model = new ModelAndView("/managereval/statisticOperatorReport/showComplexReport");
+        }
+
         String yAxis = "Entrevistas";
-        String extraData = null;
         String title = null;
         Long total = Long.valueOf(0);
         Date initDateF = null;
@@ -66,17 +68,23 @@ public class StatisticOperatorReportController {
             initId = Integer.parseInt(df.format(initDateF));
             endId = Integer.parseInt(df.format(endDateF));
 
-
-           List<SelectList> data = statisticOperatorService.getData(initId, endId, filterSelected);
+            List<SelectList> data = null;
+            List<Object> dataC = null;
 
             Gson gson = new Gson();
 
+            if(filterSelected.equals(Constants.REPORT_OPERATOR_STATISTIC_B)){
+                dataC = statisticOperatorService.getDataC(initId, endId, filterSelected);
+                model.addObject("data", gson.toJson(dataC));
+            }
+            else {
+                data = statisticOperatorService.getData(initId, endId, filterSelected);
+                model.addObject("data", gson.toJson(data));
+            }
 
             model.addObject("initDate", initDate);
             model.addObject("endDate", endDate);
             model.addObject("total", total);
-            model.addObject("data", gson.toJson(data));
-            model.addObject("extraData", extraData);
             model.addObject("title", title);
             model.addObject("yAxis", yAxis);
 
@@ -88,7 +96,6 @@ public class StatisticOperatorReportController {
             model.addObject("endDate", endDate.toString());
             model.addObject("total", total);
             model.addObject("data", null);
-            model.addObject("extraData", extraData);
             model.addObject("title", title);
             model.addObject("yAxis", yAxis);
 
@@ -97,6 +104,7 @@ public class StatisticOperatorReportController {
         return model;
 
     }
+
 
 
 

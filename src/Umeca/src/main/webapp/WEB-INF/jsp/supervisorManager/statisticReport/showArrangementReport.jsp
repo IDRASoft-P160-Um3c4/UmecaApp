@@ -266,7 +266,7 @@
                 return i * 20 + 9;
               })
               .style("font-size", "12px")
-              .text(function(d, i) { return d.name + " - " + d.value; });
+                .text(function(d, i) { return d.name + " - " + d.value; });
 
       //style
       svg.selectAll(".x.axis path")
@@ -388,7 +388,7 @@
           binaryBlob();
 
           var a = document.createElement("a");
-          a.download = "reporte.png";
+          a.download = "sample.png";
           a.href = canvas.toDataURL("image/png");
 
           //var pngimg = '<img src="'+a.href+'">';
@@ -446,17 +446,17 @@
     <canvas width="1280" height="720" style="display:none"></canvas>
   </div>
 
-    <div class="row element-center">
-        <a href="<c:url value='/supervisorManager/statisticReport/index.html' />">
-            <button class="btn">
-                <i class="glyphicon glyphicon-stats"></i>&nbsp;Obtener otro reporte
+  <div class="row element-center">
+    <a href="<c:url value='/supervisorManager/statisticReport/index.html' />">
+      <button class="btn">
+        <i class="glyphicon glyphicon-stats"></i>&nbsp;Obtener otro reporte
 
-            </button>
-        </a>
-        <button class="btn btn-info" id="save">
-            <i class="glyphicon glyphicon-picture"></i>&nbsp;Descargar reporte
-        </button>
-    </div>
+      </button>
+    </a>
+    <button class="btn btn-info" id="save">
+      <i class="glyphicon glyphicon-picture"></i>&nbsp;Descargar reporte
+    </button>
+  </div>
 
 
   <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
@@ -465,3 +465,4 @@
 
 </body>
 </html>
+

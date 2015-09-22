@@ -6,4 +6,6 @@ import java.util.List;
 public interface StatisticOperatorService {
 
     List<SelectList> getData(int initDate, int endDate, String filter);
+
+    List<Object> getDataC(int initDate, int endDate, String filter);
 }

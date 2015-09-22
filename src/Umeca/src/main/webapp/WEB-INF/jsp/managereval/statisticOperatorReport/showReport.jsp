@@ -43,15 +43,11 @@
             var yAxisStr = "${yAxis}";
 
 
-            var color = d3.scale.ordinal()
-                    .range(["#00BCD4", "#E91E63", "#009688", "#3F51B5"]);
+            var color = d3.scale.ordinal().range(["#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3", "#00BCD4", "#009688", "#4CAF50", "#8BC34A", "#FFEB3B", "#FFC107", "#FF9800", "#795548", "#9E9E9E"]);
 
 
             var len = dataSet.length;
 
-            if (len > 4) {
-                color = d3.scale.ordinal().range(["#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3", "#00BCD4", "#009688", "#4CAF50", "#8BC34A", "#FFEB3B", "#FFC107", "#FF9800", "#795548", "#9E9E9E"]);
-            }
 
             if (len > 8) {
                 dataSet.map(function (d) {
@@ -369,8 +365,6 @@
                 var imgSrc = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(html)));
 
 
-
-
                 var canvas = document.querySelector("canvas"), context = canvas.getContext("2d");
 
                 var image = new Image;
@@ -380,7 +374,7 @@
                     binaryBlob();
 
                     var a = document.createElement("a");
-                    a.download = "sample.png";
+                    a.download = "reporte.png";
                     a.href = canvas.toDataURL("image/png");
 
 
@@ -416,7 +410,7 @@
 
 
     <h2 class="element-center">
-        <i class="icon icon-file"></i>&nbsp;&nbsp;Reporte Estad&iacute;stico
+        <i class="icon icon-file"></i>&nbsp;&nbsp;Reporte estad&iacute;stico por operador
     </h2>
 
     <%--<label><input type="checkbox"> Ordenar valores</label>--%>

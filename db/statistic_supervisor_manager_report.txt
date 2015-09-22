@@ -1,0 +1,9 @@
+id|name|description|obsolete
+1|STMSR_1|Número de entrevistas realizadas el número de casos que se judicializan (que pasan a supervisión)|0
+2|STMSR_2|Número de casos judicializados, a cuantos se les emitió opinión, a cuantos se les omitio informe y cuántos negaron la entrevista|0
+3|STMSR_3|Número de imposiciones por obligación procesal que se impone por excelencia|0
+4|STMSR_4|Número de personas que consumen substancias total general|0
+5|STMSR_5|Número de personas que consumen substancias total por substancias|0
+6|STMSR_6|Número de canalizaciones a organizaciones de la sociedad civil total|0
+7|STMSR_7|Número de canalizaciones a organizaciones de la sociedad civil por tipo de institución|0
+8|STMSR_8|Número de personas con empleo|0

@@ -13,4 +13,11 @@ public interface DrugTypeRepository extends JpaRepository<DrugType,Long> {
     @Query("select d from DrugType as d where d.isObsolete=false order by d.name")
     List<DrugType> findNotObsolete();
 
+
+    @Query("select d from DrugType as d " +
+            "where d.isObsolete=false " +
+            "and d.id <> 15 " +
+            "order by d.id")
+    List<DrugType> findNotObsoleteImportant();
+
 }

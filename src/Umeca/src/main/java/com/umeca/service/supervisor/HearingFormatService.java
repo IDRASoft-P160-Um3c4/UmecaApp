@@ -35,4 +35,6 @@ public interface HearingFormatService {
     ResponseMessage requestObsoleteCase(Long id);
 
     ResponseMessage doAssignSupervisor(Long idCase, Long idUser);
+
+    ResponseMessage requestDoNotProsecute(Long id);
 }

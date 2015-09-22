@@ -1,0 +1,4 @@
+id|name|description|obsolete
+1|GENERAL|General|0
+2|BY_OPERATOR|Por operador|0
+3|DISTRICT|Por distrito|0
