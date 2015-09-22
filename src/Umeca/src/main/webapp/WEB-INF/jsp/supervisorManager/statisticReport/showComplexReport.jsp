@@ -84,7 +84,7 @@
                     .range(["#00BCD4", "#E91E63", "#009688", "#3F51B5","#B3F324","#E8A922","#FF3619","#A822E8","#2580FF"]);
 
 
-            var len = names.length;
+            var len = cases.length;
 
             if (len > 4) {
                 color = d3.scale.ordinal().range(["#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3", "#00BCD4", "#009688", "#4CAF50", "#8BC34A", "#FFEB3B", "#FFC107", "#FF9800", "#795548", "#9E9E9E"]);
@@ -239,7 +239,6 @@
                     .call(xAxis)
                     .selectAll("text")
                     .style("text-anchor", "middle")
-                    .attr("dx", ".-8em")
                     .attr("dy", "40");
 
 

@@ -232,4 +232,49 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
         List<SelectList> countInstitutionChannelingGeneral();
 
 
+
+        //empleos general
+        @Query("select new com.umeca.model.shared.SelectList(" +
+                "case when caframejob.company  <> 'NO TRABAJA' then 'Empleado' " +
+                "else 'Sin empleo' end, count(ca.id)) " +
+                "from Case ca " +
+                "inner join ca.framingMeeting caframe " +
+                "inner join caframe.jobs caframejob " +
+                "where caframe.endDate between :initDate and :endDate " +
+                "group by case when caframejob.company <> 'NO TRABAJA' then 'Empleado' else 'Sin empleo' end")
+        List<SelectList> countJobs(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
+
+
+        @Query("select new com.umeca.model.shared.SelectList(" +
+                "case when caframejob.company  <> 'NO TRABAJA' then 'Empleado' " +
+                "else 'Sin empleo' end, count(ca.id)) " +
+                "from Case ca " +
+                "inner join ca.framingMeeting caframe " +
+                "inner join caframe.jobs caframejob " +
+                "where caframe.endDate between :initDate and :endDate " +
+                "and ca.district.id = :districtId " +
+                "group by case when caframejob.company <> 'NO TRABAJA' then 'Empleado' else 'Sin empleo' end")
+        List<SelectList> countJobsByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
+
+
+
+        @Query("select new com.umeca.model.shared.SelectList(" +
+                "case when caframejob.company  <> 'NO TRABAJA' then 'Empleado' " +
+                "else 'Sin empleo' end, count(ca.id)) " +
+                "from Case ca " +
+                "inner join ca.framingMeeting caframe " +
+                "inner join caframe.jobs caframejob " +
+                "where caframe.endDate between :initDate and :endDate " +
+                "and ca.district.id = :districtId " +
+                "and caframe.supervisor.id = :supervisorId " +
+                "group by case when caframejob.company <> 'NO TRABAJA' then 'Empleado' else 'Sin empleo' end")
+        List<SelectList> countJobsByDistrictAndSupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
+
+
+
+
+
+
+
+
 }
