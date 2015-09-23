@@ -33,6 +33,7 @@
             var endDate = "${endDate}";
             var extraData = "${extraData}";
             var title = "${title}";
+            var extraData = "${extraData}";
             var yAxisStr = "${yAxis}";
             var dataSet = ${data};
             var names = [];
@@ -126,7 +127,7 @@
                     .attr("text-anchor", "middle")
                     .style("font-size", "16px")
                 //.style("text-decoration", "underline")
-                    .text(title);
+                    .text(title + " - " + extraData);
 
 
             svg.append("text")
