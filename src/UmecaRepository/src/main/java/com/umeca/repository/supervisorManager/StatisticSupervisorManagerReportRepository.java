@@ -293,36 +293,57 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
 
         //casos cerrados general
         @Query("select new com.umeca.model.shared.SelectList(" +
-                "case when ca.status.id  = 10 then 'Cerrados' " +
-                "else 'Vigentes' end, count(ca.id)) " +
+                "case when ca.status.name  = 'ST_CASE_CLOSED' then 'Cerrados' " +
+                "else 'Vigentes' end, count(distinct ca.id)) " +
                 "from Case ca " +
-                "inner join ca.framingMeeting caframe " +
+                "inner join ca.hearingFormats cahear " +
                 "where ca.dateCreate between :initDate and :endDate " +
+                "and cahear.isFinished = true " +
+                "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST', 'ST_CASE_CLOSED') " +
                 "group by case when ca.status.id = 10 then 'Cerrados' else 'Vigentes' end")
         List<SelectList> countClosedCases(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
 
         //casos cerrados por distrito
         @Query("select new com.umeca.model.shared.SelectList(" +
-                "case when ca.status.id  = 10 then 'Cerrados' " +
-                "else 'Vigentes' end, count(ca.id)) " +
+                "case when ca.status.name  = 'ST_CASE_CLOSED' then 'Cerrados' " +
+                "else 'Vigentes' end, count(distinct ca.id)) " +
                 "from Case ca " +
+                "inner join ca.hearingFormats cahear " +
                 "where ca.dateCreate between :initDate and :endDate " +
+                "and cahear.isFinished = true " +
+                "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST', 'ST_CASE_CLOSED') " +
                 "and ca.district.id = :districtId " +
-                "group by case when ca.status.id = 10 then 'Cerrados' else 'Vigentes' end")
+                "group by case when ca.status.name  = 'ST_CASE_CLOSED' then 'Cerrados' else 'Vigentes' end")
         List<SelectList> countClosedCasesByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
 
 
         //casos cerrados por distrito y operador
         @Query("select new com.umeca.model.shared.SelectList(" +
-                "case when ca.status.id  = 10 then 'Cerrados' " +
-                "else 'Vigentes' end, count(ca.id)) " +
+                "case when ca.status.name  = 'ST_CASE_CLOSED' then 'Cerrados' " +
+                "else 'Vigentes' end, count(distinct ca.id)) " +
                 "from Case ca " +
-                "inner join ca.framingMeeting caframe " +
-                "where caframe.endDate between :initDate and :endDate " +
+                "inner join ca.hearingFormats cahear " +
+                "where ca.dateCreate between :initDate and :endDate " +
+                "and cahear.isFinished = true " +
+                "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST', 'ST_CASE_CLOSED') " +
                 "and ca.district.id = :districtId " +
-                "and caframe.supervisor.id = :supervisorId " +
-                "group by case when ca.status.id = 10 then 'Cerrados' else 'Vigentes' end")
+                "and ca.umecaSupervisor.id = :supervisorId " +
+                "group by case when ca.status.name  = 'ST_CASE_CLOSED' then 'Cerrados' else 'Vigentes' end")
         List<SelectList> countClosedCasesByDistrictAndSupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
+
+
+        @Query("select new com.umeca.model.shared.SelectList(" +
+                "case when ca.status.name  = 'ST_CASE_CLOSED' then 'Cerrados' " +
+                "else 'Vigentes' end, count(distinct ca.id)) " +
+                "from Case ca " +
+                "inner join ca.hearingFormats cahear " +
+                "where ca.dateCreate between :initDate and :endDate " +
+                "and cahear.isFinished = true " +
+                "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST', 'ST_CASE_CLOSED') " +
+                "and ca.district.id = :districtId " +
+                "and ca.umecaSupervisor = null " +
+                "group by case when ca.status.name  = 'ST_CASE_CLOSED' then 'Cerrados' else 'Vigentes' end")
+        List<SelectList> countClosedCasesByDistrictAndSupervisorNull(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
 
 
 

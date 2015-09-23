@@ -419,6 +419,11 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
                         List<Object> dataEnd = new ArrayList<>();
                         int x = 0;
+                        List<SelectList> nullSupervisor = statisticSupervisorManagerReportRepository.countClosedCasesByDistrictAndSupervisorNull(initDateF, endDateF, idDistrict);
+
+                        dataEnd = completeDataBySup(dataEnd, completeDoubleData(nullSupervisor, "Cerrados", "Vigentes"), "Sin supervisor", x);
+                        x += 1;
+
                         for(SelectList u : users){
                             data = statisticSupervisorManagerReportRepository.countClosedCasesByDistrictAndSupervisor(initDateF, endDateF, idDistrict, u.getId());
                             dataEnd = completeDataBySup(dataEnd, completeDoubleData(data, "Cerrados", "Vigentes"), u.getName(), x);
