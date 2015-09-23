@@ -136,8 +136,11 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
             "distinct " +
             "    case_detention.id_case, " +
             "    if(channeling.id_channeling IS NULL, 0, 1) AS 'hasChanneling' " +
-            "from hearing_format " +
-            "inner join case_detention on hearing_format.id_case = case_detention.id_case " +
+            "from case_detention " +
+            "inner join hearing_format " +
+            "on hearing_format.id_case = case_detention.id_case and hearing_format.is_finished = true " +
+            "inner join cat_status_case " +
+            "on cat_status_case.id_status = case_detention.id_status and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
             "left join channeling on case_detention.id_case = channeling.id_case " +
             "where channeling.creation_date between :initDate and :endDate or channeling.creation_date is null ) ResA", nativeQuery = true)
     List<Object> getNumberCasesWithChannelingGeneral(@Param("initDate") String initDate, @Param("endDate") String endDate);
@@ -151,8 +154,11 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
             "distinct " +
             "    case_detention.id_case, " +
             "    if(channeling.id_channeling IS NULL, 0, 1) AS 'hasChanneling' " +
-            "from hearing_format " +
-            "inner join case_detention on hearing_format.id_case = case_detention.id_case " +
+            "from case_detention  " +
+            "inner join hearing_format " +
+            "on hearing_format.id_case = case_detention.id_case and hearing_format.is_finished = true " +
+            "inner join cat_status_case " +
+            "on cat_status_case.id_status = case_detention.id_status and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
             "left join channeling on case_detention.id_case = channeling.id_case " +
             "where hearing_format.id_district = :idDistrict and (channeling.creation_date between :initDate and :endDate) or channeling.creation_date is null ) ResA", nativeQuery = true)
     List<Object> getNumberCasesWithChannelingByDistrict(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict);
@@ -166,14 +172,15 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
             "distinct " +
             "    case_detention.id_case, " +
             "    if(channeling.id_channeling IS NULL, 0, 1) AS 'hasChanneling' " +
-            "from hearing_format " +
-            "inner join case_detention on hearing_format.id_case = case_detention.id_case " +
+            "from  case_detention " +
+            "inner join hearing_format " +
+            "on hearing_format.id_case = case_detention.id_case and hearing_format.is_finished = true " +
+            "inner join cat_status_case " +
+            "on cat_status_case.id_status = case_detention.id_status and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
             "left join channeling on case_detention.id_case = channeling.id_case " +
             "where hearing_format.id_district = :idDistrict and channeling.id_creator_user = :idSupervisor " +
-            "and (channeling.creation_date between :initDate and :endDate))) ResA", nativeQuery = true)
+            "and (channeling.creation_date between :initDate and :endDate)) ResA", nativeQuery = true)
     List<Object> getNumberCasesWithChannelingByDistrictAndOperator(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("idSupervisor") Long idSupervisor);
-
-
 
 
     //Sustancias general
@@ -241,7 +248,7 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
                 "group by cat_channeling_institution_name.id_cat_channeling_institution_name", nativeQuery = true)
         List<Object> countInstitutionChannelingByDistrict(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict);
 
-        @Query(value = "select cat_channeling_institution_name.name, count(channeling.id_cat_institution_name) from cat_channeling_institution_name " +
+        /*@Query(value = "select cat_channeling_institution_name.name, count(channeling.id_cat_institution_name) from cat_channeling_institution_name " +
                 "left join channeling " +
                 "on channeling.id_cat_institution_name = cat_channeling_institution_name.id_cat_channeling_institution_name " +
                 "where " +
@@ -250,7 +257,15 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
                 "and (channeling.id_district = :idDistrict) " +
                 "and (channeling.id_creator_user = :idSupervisor ) " +
                 "group by cat_channeling_institution_name.id_cat_channeling_institution_name", nativeQuery = true)
-        List<Object> countInstitutionChannelingBySupervisor(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("idSupervisor") Long idSupervisor, @Param("idInstitution") Long idInstitution);
+        List<Object> countInstitutionChannelingBySupervisor(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("idSupervisor") Long idSupervisor, @Param("idInstitution") Long idInstitution);*/
+
+
+
+        @Query(value = "select cat_channeling_institution_name.name, count(channeling.id_cat_institution_name) from cat_channeling_institution_name " +
+                "left join channeling " +
+                "on channeling.id_cat_institution_name = cat_channeling_institution_name.id_cat_channeling_institution_name and channeling.id_creator_user = :idSupervisor and channeling.id_district = :idDistrict and (channeling.creation_date between :initDate and :endDate) " +
+                "group by cat_channeling_institution_name.id_cat_channeling_institution_name",nativeQuery = true)
+        List<Object> countInstitutionChannelingBySupervisor(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("idSupervisor") Long idSupervisor);
 
 
         //empleos general
