@@ -391,17 +391,37 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                 switch(reportTypeRepository.getReportCodeById(idReportType)) {
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
                         data = statisticSupervisorManagerReportRepository.countJobs(initDateF, endDateF);
-                        return gson.toJson(completeEmployment(data));
+                        return gson.toJson(completeDoubleData(data, "Empleados", "Sin empleo"));
                     case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
                         data = statisticSupervisorManagerReportRepository.countJobsByDistrict(initDateF, endDateF, idDistrict);
-                        return gson.toJson(completeEmployment(data));
+                        return gson.toJson(completeDoubleData(data, "Empleados", "Sin empleo"));
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
                         List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
                         List<Object> dataEnd = new ArrayList<>();
                         int x = 0;
                         for(SelectList u : users){
                             data = statisticSupervisorManagerReportRepository.countJobsByDistrictAndSupervisor(initDateF, endDateF, idDistrict, u.getId());
-                            dataEnd = completeEmploymentDataBySup(dataEnd, completeEmployment(data), u.getName(), x);
+                            dataEnd = completeDataBySup(dataEnd, completeDoubleData(data, "Empleados", "Sin empleo"), u.getName(), x);
+                            x += 1;
+                        }
+                        return gson.toJson(dataEnd);
+                }
+
+            case Constants.REPORT_STATISTIC_MANAGER_REPORT_I:
+                switch(reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        data = statisticSupervisorManagerReportRepository.countClosedCases(initDateF, endDateF);
+                        return gson.toJson(completeDoubleData(data, "Cerrados", "Vigentes"));
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        data = statisticSupervisorManagerReportRepository.countClosedCasesByDistrict(initDateF, endDateF, idDistrict);
+                        return gson.toJson(completeDoubleData(data, "Cerrados", "Vigentes"));
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                        List<Object> dataEnd = new ArrayList<>();
+                        int x = 0;
+                        for(SelectList u : users){
+                            data = statisticSupervisorManagerReportRepository.countClosedCasesByDistrictAndSupervisor(initDateF, endDateF, idDistrict, u.getId());
+                            dataEnd = completeDataBySup(dataEnd, completeDoubleData(data, "Cerrados", "Vigentes"), u.getName(), x);
                             x += 1;
                         }
                         return gson.toJson(dataEnd);
@@ -489,20 +509,20 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
     }
 
 
-    private List<SelectList> completeEmployment(List<SelectList> data) {
+    private List<SelectList> completeDoubleData(List<SelectList> data, String firstSrt, String secondSrt) {
 
         if(data.size() > 0){
-            if(!data.get(0).getName().equals("Empleado")){
+            if(!data.get(0).getName().equals(firstSrt)){
                 SelectList x = data.get(0);
-                data.set(0, new SelectList("Empleado", new Long(0)));
+                data.set(0, new SelectList(firstSrt, new Long(0)));
                 data.add(x);
             }
             else if(data.size() < 2)
-                data.add(new SelectList("Sin empleo", new Long(0)));
+                data.add(new SelectList(secondSrt, new Long(0)));
         }
         else{
-            data.add(new SelectList("Empleado", new Long(0)));
-            data.add(new SelectList("Sin empleo", new Long(0)));
+            data.add(new SelectList(firstSrt, new Long(0)));
+            data.add(new SelectList(secondSrt, new Long(0)));
         }
 
         return data;
@@ -510,7 +530,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
     }
 
 
-    private List<Object> completeEmploymentDataBySup(List<Object> finalData, List<SelectList> data, String supervisor, int x) {
+    private List<Object> completeDataBySup(List<Object> finalData, List<SelectList> data, String supervisor, int x) {
 
 
 

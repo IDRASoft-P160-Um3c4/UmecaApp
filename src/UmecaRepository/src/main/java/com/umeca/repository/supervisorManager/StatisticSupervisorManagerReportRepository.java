@@ -255,31 +255,31 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
 
         //empleos general
         @Query("select new com.umeca.model.shared.SelectList(" +
-                "case when caframejob.company  <> 'NO TRABAJA' then 'Empleado' " +
+                "case when caframejob.company  <> 'NO TRABAJA' then 'Empleados' " +
                 "else 'Sin empleo' end, count(ca.id)) " +
                 "from Case ca " +
                 "inner join ca.framingMeeting caframe " +
                 "inner join caframe.jobs caframejob " +
                 "where caframe.endDate between :initDate and :endDate " +
-                "group by case when caframejob.company <> 'NO TRABAJA' then 'Empleado' else 'Sin empleo' end")
+                "group by case when caframejob.company <> 'NO TRABAJA' then 'Empleados' else 'Sin empleo' end")
         List<SelectList> countJobs(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
 
-
+        //empleos por distrito
         @Query("select new com.umeca.model.shared.SelectList(" +
-                "case when caframejob.company  <> 'NO TRABAJA' then 'Empleado' " +
+                "case when caframejob.company  <> 'NO TRABAJA' then 'Empleados' " +
                 "else 'Sin empleo' end, count(ca.id)) " +
                 "from Case ca " +
                 "inner join ca.framingMeeting caframe " +
                 "inner join caframe.jobs caframejob " +
                 "where caframe.endDate between :initDate and :endDate " +
                 "and ca.district.id = :districtId " +
-                "group by case when caframejob.company <> 'NO TRABAJA' then 'Empleado' else 'Sin empleo' end")
+                "group by case when caframejob.company <> 'NO TRABAJA' then 'Empleados' else 'Sin empleo' end")
         List<SelectList> countJobsByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
 
 
-
+        //empleos por distrito y operador
         @Query("select new com.umeca.model.shared.SelectList(" +
-                "case when caframejob.company  <> 'NO TRABAJA' then 'Empleado' " +
+                "case when caframejob.company  <> 'NO TRABAJA' then 'Empleados' " +
                 "else 'Sin empleo' end, count(ca.id)) " +
                 "from Case ca " +
                 "inner join ca.framingMeeting caframe " +
@@ -287,8 +287,42 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
                 "where caframe.endDate between :initDate and :endDate " +
                 "and ca.district.id = :districtId " +
                 "and caframe.supervisor.id = :supervisorId " +
-                "group by case when caframejob.company <> 'NO TRABAJA' then 'Empleado' else 'Sin empleo' end")
+                "group by case when caframejob.company <> 'NO TRABAJA' then 'Empleados' else 'Sin empleo' end")
         List<SelectList> countJobsByDistrictAndSupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
+
+
+        //casos cerrados general
+        @Query("select new com.umeca.model.shared.SelectList(" +
+                "case when ca.status.id  = 10 then 'Cerrados' " +
+                "else 'Vigentes' end, count(ca.id)) " +
+                "from Case ca " +
+                "inner join ca.framingMeeting caframe " +
+                "where ca.dateCreate between :initDate and :endDate " +
+                "group by case when ca.status.id = 10 then 'Cerrados' else 'Vigentes' end")
+        List<SelectList> countClosedCases(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
+
+        //casos cerrados por distrito
+        @Query("select new com.umeca.model.shared.SelectList(" +
+                "case when ca.status.id  = 10 then 'Cerrados' " +
+                "else 'Vigentes' end, count(ca.id)) " +
+                "from Case ca " +
+                "where ca.dateCreate between :initDate and :endDate " +
+                "and ca.district.id = :districtId " +
+                "group by case when ca.status.id = 10 then 'Cerrados' else 'Vigentes' end")
+        List<SelectList> countClosedCasesByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
+
+
+        //casos cerrados por distrito y operador
+        @Query("select new com.umeca.model.shared.SelectList(" +
+                "case when ca.status.id  = 10 then 'Cerrados' " +
+                "else 'Vigentes' end, count(ca.id)) " +
+                "from Case ca " +
+                "inner join ca.framingMeeting caframe " +
+                "where caframe.endDate between :initDate and :endDate " +
+                "and ca.district.id = :districtId " +
+                "and caframe.supervisor.id = :supervisorId " +
+                "group by case when ca.status.id = 10 then 'Cerrados' else 'Vigentes' end")
+        List<SelectList> countClosedCasesByDistrictAndSupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
 
 
 
