@@ -425,6 +425,32 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                 }
 
 
+
+            case Constants.REPORT_STATISTIC_MANAGER_REPORT_K:
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        data = statisticSupervisorManagerReportRepository.countWarningMeasure(initDateF, endDateF);
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        data = statisticSupervisorManagerReportRepository.countWarningMeasureByDistrict(initDateF, endDateF, idDistrict);
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                        List<Object> dataEnd = new ArrayList<>();
+                        int x = 0;
+                        List<SelectList> nullSupervisor = statisticSupervisorManagerReportRepository.countClosedCasesByDistrictAndSupervisorNull(initDateF, endDateF, idDistrict);
+                        dataEnd = completeSingleDataBySup(dataEnd, nullSupervisor, "Sin supervisor", x);
+                        x += 1;
+                        for (SelectList u : users) {
+                            data = statisticSupervisorManagerReportRepository.countWarningMeasureByDistrictAndSupervisor(initDateF, endDateF, idDistrict, u.getId());
+                            dataEnd = completeSingleDataBySup(dataEnd, data, u.getName(), x);
+                            x += 1;
+                        }
+                        return gson.toJson(dataEnd);
+                }
+
+
+
         }
 
         return null;
@@ -548,6 +574,23 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
 
             finalData.add(aux1);
             finalData.add(aux2);
+        }
+
+
+        return finalData;
+    }
+
+    private List<Object> completeSingleDataBySup(List<Object> finalData, List<SelectList> data, String supervisor, int x) {
+
+        List<ReportList> aux1 = new ArrayList<>();
+
+        if (finalData.size() > 0) {
+            aux1 = (List<ReportList>) finalData.get(0);
+            aux1.add(new ReportList(new Long(0), data.get(0).getValue(), data.get(0).getName(), supervisor, (long) x));
+            finalData.set(0, aux1);
+        } else {
+            aux1.add(new ReportList(new Long(0), data.get(0).getValue(), data.get(0).getName(), supervisor, (long) x));
+            finalData.add(aux1);
         }
 
 
