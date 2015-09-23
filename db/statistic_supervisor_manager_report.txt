@@ -8,3 +8,4 @@ id|name|description|obsolete
 7|STMSR_7|Número de canalizaciones a organizaciones de la sociedad civil por tipo de institución|0
 8|STMSR_8|Número de personas con empleo|0
 9|STMSR_9|Número de casos cerrados|0
+10|STMSR_10|Número de casos cerrados por tipo|0
