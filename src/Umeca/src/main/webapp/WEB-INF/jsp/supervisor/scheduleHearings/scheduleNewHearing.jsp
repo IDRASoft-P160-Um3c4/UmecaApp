@@ -30,11 +30,11 @@
             $(this).prev().focus();
         });
 
-
         $('#hearingTimeSt').change(function () {
             var time = $(this).data('timepicker').getTime();
             $('#hearingReminderTimeSt').timepicker('setTime', time);
         });
+
     });
 </script>
 <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
@@ -233,3 +233,4 @@
 </div>
 </div>
 </div>
+<script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>

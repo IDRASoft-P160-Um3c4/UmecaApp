@@ -29,6 +29,8 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/respond.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/jquery.validate.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/jquery-ui-1.8.11.min.js"></script>
+
 
 <script src="${pageContext.request.contextPath}/assets/scripts/umeca/typeahead-bs2.min.js"></script>
 
