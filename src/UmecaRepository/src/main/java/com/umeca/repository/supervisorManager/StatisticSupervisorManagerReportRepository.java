@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import sun.rmi.transport.ObjectTable;
 
 import java.util.Date;
 import java.util.List;
@@ -348,6 +349,33 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
             "and ca.umecaSupervisor = null " +
             "group by case when ca.status.name  = 'ST_CASE_CLOSED' then 'Cerrados' else 'Vigentes' end")
     List<SelectList> countClosedCasesByDistrictAndSupervisorNull(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
+
+
+        @Query("select new com.umeca.model.shared.SelectList(clC.name,count(clC.id)) " +
+                "from Case c " +
+                "inner join c.closeCause clC " +
+                "inner join c.status cStus " +
+                "where (c.closeDate between :initDate and :endDate) and cStus.name = 'ST_CASE_CLOSED' " +
+                "group by clC.name")
+        List<SelectList> countClosedCasesTypeGeneral(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
+
+        @Query("select new com.umeca.model.shared.SelectList(clC.name,count(clC.id)) " +
+                "from Case c " +
+                "inner join c.closeCause clC " +
+                "inner join c.status cStus " +
+                "where (c.closeDate between :initDate and :endDate) and cStus.name = 'ST_CASE_CLOSED' " +
+                "and c.district.id = :districtId " +
+                "group by clC.name")
+        List<SelectList> countClosedCasesTypeByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long idDistrict);
+
+        @Query(value = "select close_cause.name, count(case_detention.id_close_cause) from close_cause " +
+                "left join case_detention " +
+                "on case_detention.id_close_cause = close_cause.id_close_cause and (case_detention.close_date between :initDate and :endDate) and case_detention.closer_user = :supervisorId and  case_detention.id_district = :idDistrict " +
+                "left join cat_status_case " +
+                "on case_detention.id_status = cat_status_case.id_status and cat_status_case.status = 'ST_CASE_CLOSED' " +
+                "group by close_cause.id_close_cause",nativeQuery = true)
+        List<Object> countClosedCasesTypeByOperator(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("supervisorId") Long supervisorId);
+
 
 
 
