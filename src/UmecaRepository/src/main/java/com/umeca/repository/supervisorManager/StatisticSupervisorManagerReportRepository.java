@@ -17,7 +17,7 @@ import java.util.List;
  * Created by DeveloperII on 04/09/2015.
  */
 @Repository("qStatisticSupervisorManagerReportRepository")
-public interface StatisticSupervisorManagerReportRepository  extends JpaRepository<StatisticSupervisorManagerReportType, Long>  {
+public interface StatisticSupervisorManagerReportRepository extends JpaRepository<StatisticSupervisorManagerReportType, Long> {
 
 
     @Query("SELECT e from StatisticSupervisorManagerReportType e where e.name=:code")
@@ -93,7 +93,7 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
             "on hearing_format.id_case = case_detention.id_case " +
             "where hearing_format.register_timestamp between :initDate and :endDate and hearing_format.id_district = :districtId and hearing_format.id_user = :supervisorId and assigned_arrangement.id_arrangement = :arrangementId " +
             "group by hearing_format.id_case) and hearing_format.is_finished = true) " +
-            "group by  cat_arrangement.id_arrangement",  nativeQuery = true)
+            "group by  cat_arrangement.id_arrangement", nativeQuery = true)
     List<Object> getArrangementByIdAndSupervisorId(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("supervisorId") Long supervisorId, @Param("arrangementId") Long arrangementId, @Param("districtId") Long districtId);
 
 
@@ -237,26 +237,26 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
     List<Object> countTypeofDrugsByDistrictAndSupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
 
 
-        @Query(value = "select cat_channeling_institution_name.name , count(cat_channeling_institution_name.id_cat_channeling_institution_name) from channeling " +
-                "inner join cat_channeling_institution_name " +
-                "on channeling.id_cat_institution_name = cat_channeling_institution_name.id_cat_channeling_institution_name " +
-                "where channeling.creation_date  between :initDate and :endDate " +
-                "group by cat_channeling_institution_name.id_cat_channeling_institution_name",  nativeQuery = true)
-        List<Object> countInstitutionChannelingGeneral(@Param("initDate") String initDate, @Param("endDate") String endDate);
+    @Query(value = "select cat_channeling_institution_name.name , count(cat_channeling_institution_name.id_cat_channeling_institution_name) from channeling " +
+            "inner join cat_channeling_institution_name " +
+            "on channeling.id_cat_institution_name = cat_channeling_institution_name.id_cat_channeling_institution_name " +
+            "where channeling.creation_date  between :initDate and :endDate " +
+            "group by cat_channeling_institution_name.id_cat_channeling_institution_name", nativeQuery = true)
+    List<Object> countInstitutionChannelingGeneral(@Param("initDate") String initDate, @Param("endDate") String endDate);
 
-        @Query(value = "select cat_channeling_institution_name.name , count(cat_channeling_institution_name.id_cat_channeling_institution_name) from channeling " +
-                "inner join cat_channeling_institution_name " +
-                "on channeling.id_cat_institution_name = cat_channeling_institution_name.id_cat_channeling_institution_name " +
-                "where channeling.creation_date  between :initDate and :endDate and channeling.id_district = :idDistrict " +
-                "group by cat_channeling_institution_name.id_cat_channeling_institution_name", nativeQuery = true)
-        List<Object> countInstitutionChannelingByDistrict(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict);
+    @Query(value = "select cat_channeling_institution_name.name , count(cat_channeling_institution_name.id_cat_channeling_institution_name) from channeling " +
+            "inner join cat_channeling_institution_name " +
+            "on channeling.id_cat_institution_name = cat_channeling_institution_name.id_cat_channeling_institution_name " +
+            "where channeling.creation_date  between :initDate and :endDate and channeling.id_district = :idDistrict " +
+            "group by cat_channeling_institution_name.id_cat_channeling_institution_name", nativeQuery = true)
+    List<Object> countInstitutionChannelingByDistrict(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict);
 
 
-        @Query(value = "select cat_channeling_institution_name.name, count(channeling.id_cat_institution_name) from cat_channeling_institution_name " +
-                "left join channeling " +
-                "on channeling.id_cat_institution_name = cat_channeling_institution_name.id_cat_channeling_institution_name and channeling.id_creator_user = :idSupervisor and channeling.id_district = :idDistrict and (channeling.creation_date between :initDate and :endDate) " +
-                "group by cat_channeling_institution_name.id_cat_channeling_institution_name",nativeQuery = true)
-        List<Object> countInstitutionChannelingBySupervisor(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("idSupervisor") Long idSupervisor);
+    @Query(value = "select cat_channeling_institution_name.name, count(channeling.id_cat_institution_name) from cat_channeling_institution_name " +
+            "left join channeling " +
+            "on channeling.id_cat_institution_name = cat_channeling_institution_name.id_cat_channeling_institution_name and channeling.id_creator_user = :idSupervisor and channeling.id_district = :idDistrict and (channeling.creation_date between :initDate and :endDate) " +
+            "group by cat_channeling_institution_name.id_cat_channeling_institution_name", nativeQuery = true)
+    List<Object> countInstitutionChannelingBySupervisor(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("idSupervisor") Long idSupervisor);
 
     //empleos general
     @Query("select new com.umeca.model.shared.SelectList(" +
@@ -351,94 +351,86 @@ public interface StatisticSupervisorManagerReportRepository  extends JpaReposito
     List<SelectList> countClosedCasesByDistrictAndSupervisorNull(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
 
 
-        @Query("select new com.umeca.model.shared.SelectList(clC.name,count(clC.id)) " +
-                "from Case c " +
-                "inner join c.closeCause clC " +
-                "inner join c.status cStus " +
-                "where (c.closeDate between :initDate and :endDate) and cStus.name = 'ST_CASE_CLOSED' " +
-                "group by clC.name")
-        List<SelectList> countClosedCasesTypeGeneral(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
+    @Query("select new com.umeca.model.shared.SelectList(clC.name,count(clC.id)) " +
+            "from Case c " +
+            "inner join c.closeCause clC " +
+            "inner join c.status cStus " +
+            "where (c.closeDate between :initDate and :endDate) and cStus.name = 'ST_CASE_CLOSED' " +
+            "group by clC.name")
+    List<SelectList> countClosedCasesTypeGeneral(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
 
-        @Query("select new com.umeca.model.shared.SelectList(clC.name,count(clC.id)) " +
-                "from Case c " +
-                "inner join c.closeCause clC " +
-                "inner join c.status cStus " +
-                "where (c.closeDate between :initDate and :endDate) and cStus.name = 'ST_CASE_CLOSED' " +
-                "and c.district.id = :districtId " +
-                "group by clC.name")
-        List<SelectList> countClosedCasesTypeByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long idDistrict);
+    @Query("select new com.umeca.model.shared.SelectList(clC.name,count(clC.id)) " +
+            "from Case c " +
+            "inner join c.closeCause clC " +
+            "inner join c.status cStus " +
+            "where (c.closeDate between :initDate and :endDate) and cStus.name = 'ST_CASE_CLOSED' " +
+            "and c.district.id = :districtId " +
+            "group by clC.name")
+    List<SelectList> countClosedCasesTypeByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long idDistrict);
 
-        @Query(value = "select close_cause.name, count(case_detention.id_close_cause) from close_cause " +
-                "left join case_detention " +
-                "on case_detention.id_close_cause = close_cause.id_close_cause and (case_detention.close_date between :initDate and :endDate) and case_detention.closer_user = :supervisorId and  case_detention.id_district = :idDistrict " +
-                "left join cat_status_case " +
-                "on case_detention.id_status = cat_status_case.id_status and cat_status_case.status = 'ST_CASE_CLOSED' " +
-                "group by close_cause.id_close_cause",nativeQuery = true)
-        List<Object> countClosedCasesTypeByOperator(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("supervisorId") Long supervisorId);
-
-
+    @Query(value = "select close_cause.name, count(case_detention.id_close_cause) from close_cause " +
+            "left join case_detention " +
+            "on case_detention.id_close_cause = close_cause.id_close_cause and (case_detention.close_date between :initDate and :endDate) and case_detention.closer_user = :supervisorId and  case_detention.id_district = :idDistrict " +
+            "left join cat_status_case " +
+            "on case_detention.id_status = cat_status_case.id_status and cat_status_case.status = 'ST_CASE_CLOSED' " +
+            "group by close_cause.id_close_cause", nativeQuery = true)
+    List<Object> countClosedCasesTypeByOperator(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("supervisorId") Long supervisorId);
 
 
+    //medida cautelar general
+    @Query("select new com.umeca.model.shared.SelectList(" +
+            "case when cahear.hearingFormatSpecs.arrangementType  = 1 then 'Medida cautelar' else 'Medida cautelar' end, count(distinct ca.id)) " +
+            "from Case ca " +
+            "inner join ca.hearingFormats cahear " +
+            "where ca.dateCreate between :initDate and :endDate " +
+            "and cahear.isFinished = true " +
+            "and cahear.hearingFormatSpecs.arrangementType = 1 " +
+            "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+            "order by cahear.id desc")
+    List<SelectList> countWarningMeasure(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
 
 
-        //medida cautelar general
-        @Query("select new com.umeca.model.shared.SelectList(" +
-                "case when cahear.hearingFormatSpecs.arrangementType  = 1 then 'Medida cautelar' else 'Medida cautelar' end, count(distinct ca.id)) " +
-                "from Case ca " +
-                "inner join ca.hearingFormats cahear " +
-                "where ca.dateCreate between :initDate and :endDate " +
-                "and cahear.isFinished = true " +
-                "and cahear.hearingFormatSpecs.arrangementType = 1 " +
-                "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
-                "order by cahear.id desc")
-        List<SelectList> countWarningMeasure(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
+    //medida cautelar por distrito
+    @Query("select new com.umeca.model.shared.SelectList(" +
+            "case when cahear.hearingFormatSpecs.arrangementType  = 1 then 'Medida cautelar' else 'Medida cautelar' end, count(distinct ca.id)) " +
+            "from Case ca " +
+            "inner join ca.hearingFormats cahear " +
+            "where ca.dateCreate between :initDate and :endDate " +
+            "and cahear.isFinished = true " +
+            "and cahear.hearingFormatSpecs.arrangementType = 1 " +
+            "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+            "and ca.district.id = :districtId " +
+            "order by cahear.id desc")
+    List<SelectList> countWarningMeasureByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
+
+    //medida cautelar por distrito y operador
+    @Query("select new com.umeca.model.shared.SelectList(" +
+            "case when cahear.hearingFormatSpecs.arrangementType  = 1 then 'Medida cautelar' else 'Medida cautelar' end, count(distinct ca.id)) " +
+            "from Case ca " +
+            "inner join ca.hearingFormats cahear " +
+            "where ca.dateCreate between :initDate and :endDate " +
+            "and cahear.isFinished = true " +
+            "and cahear.hearingFormatSpecs.arrangementType = 1 " +
+            "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+            "and ca.district.id = :districtId " +
+            "and ca.umecaSupervisor.id = :supervisorId " +
+            "order by cahear.id desc")
+    List<SelectList> countWarningMeasureByDistrictAndSupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
 
 
-        //medida cautelar por distrito
-        @Query("select new com.umeca.model.shared.SelectList(" +
-                "case when cahear.hearingFormatSpecs.arrangementType  = 1 then 'Medida cautelar' else 'Medida cautelar' end, count(distinct ca.id)) " +
-                "from Case ca " +
-                "inner join ca.hearingFormats cahear " +
-                "where ca.dateCreate between :initDate and :endDate " +
-                "and cahear.isFinished = true " +
-                "and cahear.hearingFormatSpecs.arrangementType = 1 " +
-                "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
-                "and ca.district.id = :districtId " +
-                "order by cahear.id desc")
-        List<SelectList> countWarningMeasureByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
-
-        //medida cautelar por distrito y operador
-        @Query("select new com.umeca.model.shared.SelectList(" +
-                "case when cahear.hearingFormatSpecs.arrangementType  = 1 then 'Medida cautelar' else 'Medida cautelar' end, count(distinct ca.id)) " +
-                "from Case ca " +
-                "inner join ca.hearingFormats cahear " +
-                "where ca.dateCreate between :initDate and :endDate " +
-                "and cahear.isFinished = true " +
-                "and cahear.hearingFormatSpecs.arrangementType = 1 " +
-                "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
-                "and ca.district.id = :districtId " +
-                "and ca.umecaSupervisor.id = :supervisorId " +
-                "order by cahear.id desc")
-        List<SelectList> countWarningMeasureByDistrictAndSupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
-
-
-        //medida cautelar sin supervisor
-        @Query("select new com.umeca.model.shared.SelectList(" +
-                "case when cahear.hearingFormatSpecs.arrangementType  = 1 then 'Medida cautelar' else 'Medida cautelar' end, count(distinct ca.id)) " +
-                "from Case ca " +
-                "inner join ca.hearingFormats cahear " +
-                "where ca.dateCreate between :initDate and :endDate " +
-                "and cahear.isFinished = true " +
-                "and cahear.hearingFormatSpecs.arrangementType = 1 " +
-                "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST', 'ST_CASE_CLOSED') " +
-                "and ca.district.id = :districtId " +
-                "and ca.umecaSupervisor = null " +
-                "order by cahear.id desc")
-        List<SelectList> countWarningMeasureByDistrictAndSupervisorNull(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
-
-
-
-
+    //medida cautelar sin supervisor
+    @Query("select new com.umeca.model.shared.SelectList(" +
+            "case when cahear.hearingFormatSpecs.arrangementType  = 1 then 'Medida cautelar' else 'Medida cautelar' end, count(distinct ca.id)) " +
+            "from Case ca " +
+            "inner join ca.hearingFormats cahear " +
+            "where ca.dateCreate between :initDate and :endDate " +
+            "and cahear.isFinished = true " +
+            "and cahear.hearingFormatSpecs.arrangementType = 1 " +
+            "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST', 'ST_CASE_CLOSED') " +
+            "and ca.district.id = :districtId " +
+            "and ca.umecaSupervisor = null " +
+            "order by cahear.id desc")
+    List<SelectList> countWarningMeasureByDistrictAndSupervisorNull(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
 
 
 }

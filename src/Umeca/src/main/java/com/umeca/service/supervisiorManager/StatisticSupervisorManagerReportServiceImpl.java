@@ -62,7 +62,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
 
 
     @Override
-    public String getData(String initDate, String endDate, String filter, Long idReportType, Long idDistrict){
+    public String getData(String initDate, String endDate, String filter, Long idReportType, Long idDistrict) {
         List<SelectList> data = new ArrayList<>();
         List<Object> lstObjects;
         Gson gson = new Gson();
@@ -130,7 +130,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                 switch (reportTypeRepository.getReportCodeById(idReportType)) {
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
                         lstObjects = statisticSupervisorManagerReportRepository.getCountCasesByArrangement(initDate + initTime, endDate + endTime);
-                        for(int i = 0; i < lstObjects.size(); i++) {
+                        for (int i = 0; i < lstObjects.size(); i++) {
                             Object[] obj = (Object[]) lstObjects.get(i);
                             SelectList selectList = new SelectList();
                             selectList.setValue(Long.parseLong(obj[0].toString()));
@@ -157,8 +157,8 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         List<SelectList> arrangements = arrangementRepository.findAllNoObsolete();
                         for (int i = 0; i < arrangements.size(); i++) {
                             List<ReportList> arrangementList = new ArrayList<>();
-                            for(int j = 0; j < users.size(); j ++){
-                                lstObjects = statisticSupervisorManagerReportRepository.getArrangementByIdAndSupervisorId(initDate + initTime, endDate + endTime, users.get(j).getId(), arrangements.get(i).getId(),idDistrict);
+                            for (int j = 0; j < users.size(); j++) {
+                                lstObjects = statisticSupervisorManagerReportRepository.getArrangementByIdAndSupervisorId(initDate + initTime, endDate + endTime, users.get(j).getId(), arrangements.get(i).getId(), idDistrict);
                                 ReportList arrangement = new ReportList();
                                 arrangement.setName(arrangements.get(i).getName());
                                 arrangement.setY(0L);
@@ -183,69 +183,69 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                 drugsFemale.setName("Femenino");
                 drugsMale.setValue(0L);
                 drugsFemale.setValue(0L);
-                switch (reportTypeRepository.getReportCodeById(idReportType)){
-                case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
-                    lstObjects = statisticSupervisorManagerReportRepository.getNumberOfPeopleByGenderWhoUseDrugsGeneral(initDate + initTime, endDate + endTime);
-                    for(int i = 0; i < lstObjects.size(); i++) {
-                        Object[] obj = (Object[]) lstObjects.get(i);
-                        if(obj[0].toString().equals("1"))
-                            drugsFemale.setValue(Long.parseLong(obj[1].toString()));
-                        else
-                            drugsMale.setValue(Long.parseLong(obj[1].toString()));
-                    }
-                    data.add(drugsMale);
-                    data.add(drugsFemale);
-                    return gson.toJson(data);
-
-                case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
-                    lstObjects = statisticSupervisorManagerReportRepository.getNumberOfPeopleByGenderWhoUseDrugsByDistrict(initDate + initTime, endDate + endTime, idDistrict);
-                    for(int i = 0; i < lstObjects.size(); i++) {
-                        Object[] obj = (Object[]) lstObjects.get(i);
-                        if(obj[0].toString().equals("1"))
-                            drugsFemale.setValue(Long.parseLong(obj[1].toString()));
-                        else
-                            drugsMale.setValue(Long.parseLong(obj[1].toString()));
-                    }
-                    data.add(drugsMale);
-                    data.add(drugsFemale);
-                    return gson.toJson(data);
-
-                case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
-                    List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
-                    List<List<ReportList>> totalReport = new ArrayList<>();
-                    List<ReportList> drugsMaleList = new ArrayList<>();
-                    List<ReportList> drugsFemaleList = new ArrayList<>();
-                    ReportList drugMale;
-                    ReportList drugFemale;
-                    for(int i = 0; i < users.size() ; i++){
-                        drugMale = new ReportList();
-                        drugFemale = new ReportList();
-                        drugFemale.setName("Femenino");
-                        drugFemale.setX(new Long(i));
-                        drugFemale.setUser(users.get(i).getName());
-                        drugFemale.setY(0L);
-                        drugMale.setName("Masculino");
-                        drugMale.setX(new Long(i));
-                        drugMale.setUser(users.get(i).getName());
-                        drugMale.setY(0L);
-                        lstObjects = statisticSupervisorManagerReportRepository.getNumberOfPeopleByGenderWhoUseDrugsByDistrictAndSupervisor(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
-                        for(int j = 0; j < lstObjects.size(); j++) {
-                            Object[] obj = (Object[]) lstObjects.get(j);
-                            if(obj[0].toString().equals("1"))
-                                drugFemale.setY(Long.parseLong(obj[1].toString()));
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        lstObjects = statisticSupervisorManagerReportRepository.getNumberOfPeopleByGenderWhoUseDrugsGeneral(initDate + initTime, endDate + endTime);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            if (obj[0].toString().equals("1"))
+                                drugsFemale.setValue(Long.parseLong(obj[1].toString()));
                             else
-                                drugMale.setY(Long.parseLong(obj[1].toString()));
+                                drugsMale.setValue(Long.parseLong(obj[1].toString()));
                         }
-                        drugsMaleList.add(drugMale);
-                        drugsFemaleList.add(drugFemale);
-                    }
-                    totalReport.add(drugsMaleList);
-                    totalReport.add(drugsFemaleList);
-                    return gson.toJson(totalReport);
-            }
+                        data.add(drugsMale);
+                        data.add(drugsFemale);
+                        return gson.toJson(data);
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        lstObjects = statisticSupervisorManagerReportRepository.getNumberOfPeopleByGenderWhoUseDrugsByDistrict(initDate + initTime, endDate + endTime, idDistrict);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            if (obj[0].toString().equals("1"))
+                                drugsFemale.setValue(Long.parseLong(obj[1].toString()));
+                            else
+                                drugsMale.setValue(Long.parseLong(obj[1].toString()));
+                        }
+                        data.add(drugsMale);
+                        data.add(drugsFemale);
+                        return gson.toJson(data);
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                        List<List<ReportList>> totalReport = new ArrayList<>();
+                        List<ReportList> drugsMaleList = new ArrayList<>();
+                        List<ReportList> drugsFemaleList = new ArrayList<>();
+                        ReportList drugMale;
+                        ReportList drugFemale;
+                        for (int i = 0; i < users.size(); i++) {
+                            drugMale = new ReportList();
+                            drugFemale = new ReportList();
+                            drugFemale.setName("Femenino");
+                            drugFemale.setX(new Long(i));
+                            drugFemale.setUser(users.get(i).getName());
+                            drugFemale.setY(0L);
+                            drugMale.setName("Masculino");
+                            drugMale.setX(new Long(i));
+                            drugMale.setUser(users.get(i).getName());
+                            drugMale.setY(0L);
+                            lstObjects = statisticSupervisorManagerReportRepository.getNumberOfPeopleByGenderWhoUseDrugsByDistrictAndSupervisor(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
+                            for (int j = 0; j < lstObjects.size(); j++) {
+                                Object[] obj = (Object[]) lstObjects.get(j);
+                                if (obj[0].toString().equals("1"))
+                                    drugFemale.setY(Long.parseLong(obj[1].toString()));
+                                else
+                                    drugMale.setY(Long.parseLong(obj[1].toString()));
+                            }
+                            drugsMaleList.add(drugMale);
+                            drugsFemaleList.add(drugFemale);
+                        }
+                        totalReport.add(drugsMaleList);
+                        totalReport.add(drugsFemaleList);
+                        return gson.toJson(totalReport);
+                }
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_E:
-                List<DrugType> drugs =  drugTypeRepository.findNotObsoleteImportant();
-                switch (reportTypeRepository.getReportCodeById(idReportType)){
+                List<DrugType> drugs = drugTypeRepository.findNotObsoleteImportant();
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
                         lstObjects = statisticSupervisorManagerReportRepository.countTypeofDrugs(initDateF, endDateF);
                         data = completeDrugsData(data, lstObjects, drugs);
@@ -260,7 +260,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
                         List<Object> dataEnd = new ArrayList<>();
                         int x = 0;
-                        for(SelectList u : users){
+                        for (SelectList u : users) {
                             lstObjects = statisticSupervisorManagerReportRepository.countTypeofDrugsByDistrictAndSupervisor(initDateF, endDateF, idDistrict, u.getId());
                             dataEnd = completeData(dataEnd, lstObjects, u.getName(), x, drugs);
                             x += 1;
@@ -272,7 +272,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                 SelectList casesWithoutChanneling = new SelectList();
                 casesWithChanneling.setName("Canalizado");
                 casesWithoutChanneling.setName("No canalizado");
-                switch(reportTypeRepository.getReportCodeById(idReportType)){
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
                         lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingGeneral(initDate + initTime, endDate + endTime);
                         for (int i = 0; i < lstObjects.size(); i++) {
@@ -289,7 +289,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingByDistrict(initDate + initTime, endDate + endTime, idDistrict);
                         for (int i = 0; i < lstObjects.size(); i++) {
                             Object[] obj = (Object[]) lstObjects.get(i);
-                            if(obj[0] != null) {
+                            if (obj[0] != null) {
                                 casesWithoutChanneling.setValue(Long.parseLong(obj[0].toString()));
                                 casesWithChanneling.setValue(Long.parseLong(obj[1].toString()));
                             }
@@ -361,11 +361,11 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
                         List<List<ReportList>> total = new ArrayList<>();
 
-                        for(int i = 0; i < users.size(); i++){
-                            lstObjects = statisticSupervisorManagerReportRepository.countInstitutionChannelingBySupervisor(initDate + initTime, endDate + endTime, idDistrict,users.get(i).getId());
+                        for (int i = 0; i < users.size(); i++) {
+                            lstObjects = statisticSupervisorManagerReportRepository.countInstitutionChannelingBySupervisor(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
                             for (int j = 0; j < lstObjects.size(); j++) {
                                 Object[] obj = (Object[]) lstObjects.get(j);
-                                if(i == 0){
+                                if (i == 0) {
                                     total.add(new ArrayList<ReportList>());
                                 }
                                 ReportList reportList = new ReportList();
@@ -424,22 +424,22 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         return gson.toJson(dataEnd);
                 }
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_J:
-                switch(reportTypeRepository.getReportCodeById(idReportType)) {
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
                         data = statisticSupervisorManagerReportRepository.countClosedCasesTypeGeneral(initDateF, endDateF);
                         return gson.toJson(data);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
-                        data = statisticSupervisorManagerReportRepository.countClosedCasesTypeByDistrict(initDateF, endDateF,idDistrict);
+                        data = statisticSupervisorManagerReportRepository.countClosedCasesTypeByDistrict(initDateF, endDateF, idDistrict);
                         return gson.toJson(data);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
                         List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
                         List<List<ReportList>> total = new ArrayList<>();
 
-                        for(int i = 0; i < users.size(); i++){
-                            lstObjects = statisticSupervisorManagerReportRepository.countClosedCasesTypeByOperator(initDate + initTime, endDate + endTime, idDistrict,users.get(i).getId());
+                        for (int i = 0; i < users.size(); i++) {
+                            lstObjects = statisticSupervisorManagerReportRepository.countClosedCasesTypeByOperator(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
                             for (int j = 0; j < lstObjects.size(); j++) {
                                 Object[] obj = (Object[]) lstObjects.get(j);
-                                if(i == 0){
+                                if (i == 0) {
                                     total.add(new ArrayList<ReportList>());
                                 }
                                 ReportList reportList = new ReportList();
@@ -453,8 +453,6 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         }
                         return gson.toJson(total);
                 }
-
-
 
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_K:
                 switch (reportTypeRepository.getReportCodeById(idReportType)) {
@@ -478,9 +476,6 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         }
                         return gson.toJson(dataEnd);
                 }
-
-
-
         }
 
         return null;
