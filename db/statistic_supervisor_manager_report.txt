@@ -11,3 +11,4 @@ id|name|description|obsolete
 10|STMSR_10|Número de casos cerrados por tipo|0
 11|STMSR_11|Número de casos en medida cautelar|0
 12|STMSR_12|Número de casos en medida cautelar con incumplimiento|0
+13|STMSR_13|Número de casos en SCPP|0
