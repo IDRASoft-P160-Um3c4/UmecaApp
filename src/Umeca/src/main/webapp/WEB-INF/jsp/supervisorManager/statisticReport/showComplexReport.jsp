@@ -187,9 +187,7 @@
                     })
                     .attr("width", x.rangeBand() / n)
                     .transition()
-                    .attr("y", function (d) {
-                        return y(-0.08)
-                    })
+                    .attr("y", 965)
                     .attr("height", function (d) {
                         return height - y(d.y);
                     })
