@@ -33,7 +33,6 @@
             var endDate = "${endDate}";
             var extraData = "${extraData}";
             var title = "${title}";
-            var extraData = "${extraData}";
             var yAxisStr = "${yAxis}";
             var dataSet = ${data};
             var names = [];
@@ -238,7 +237,7 @@
                     .call(xAxis)
                     .selectAll("text")
                     .style("text-anchor", "middle")
-                    .attr("dy", "40");
+                    .attr("dy", "35");
 
 
             d3.selectAll("input").on("change", change);
