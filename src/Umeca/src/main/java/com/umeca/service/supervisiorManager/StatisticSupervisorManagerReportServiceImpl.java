@@ -505,6 +505,31 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         }
                         return gson.toJson(dataEnd);
                 }
+
+
+
+            case Constants.REPORT_STATISTIC_MANAGER_REPORT_O:
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        data = statisticSupervisorManagerReportRepository.countSCPP(initDateF, endDateF);
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        data = statisticSupervisorManagerReportRepository.countWarningSCPPByDistrict(initDateF, endDateF, idDistrict);
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                        List<Object> dataEnd = new ArrayList<>();
+                        int x = 0;
+                        List<SelectList> nullSupervisor = statisticSupervisorManagerReportRepository.countSCPPByDistrictAndSupervisorNull(initDateF, endDateF, idDistrict);
+                        dataEnd = completeSingleDataBySup(dataEnd, nullSupervisor, "Sin supervisor", x);
+                        x += 1;
+                        for (SelectList u : users) {
+                            data = statisticSupervisorManagerReportRepository.countSCPPByDistrictAndSupervisor(initDateF, endDateF, idDistrict, u.getId());
+                            dataEnd = completeSingleDataBySup(dataEnd, data, u.getName(), x);
+                            x += 1;
+                        }
+                        return gson.toJson(dataEnd);
+                }
         }
 
         return null;
