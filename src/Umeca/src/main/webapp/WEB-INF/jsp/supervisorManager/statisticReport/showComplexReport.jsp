@@ -33,7 +33,6 @@
             var endDate = "${endDate}";
             var extraData = "${extraData}";
             var title = "${title}";
-            var extraData = "${extraData}";
             var yAxisStr = "${yAxis}";
             var dataSet = ${data};
             var names = [];
@@ -187,9 +186,7 @@
                     })
                     .attr("width", x.rangeBand() / n)
                     .transition()
-                    .attr("y", function (d) {
-                        return y(-0.08)
-                    })
+                    .attr("y", 965)
                     .attr("height", function (d) {
                         return height - y(d.y);
                     })
@@ -240,7 +237,7 @@
                     .call(xAxis)
                     .selectAll("text")
                     .style("text-anchor", "middle")
-                    .attr("dy", "40");
+                    .attr("dy", "35");
 
 
             d3.selectAll("input").on("change", change);
