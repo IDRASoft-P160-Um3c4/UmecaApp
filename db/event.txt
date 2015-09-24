@@ -9,3 +9,5 @@ id|name|description|obsolete
 8|MC_PARTIAL_NON_FULFILLMENT|MC con incumplimento parcial|0
 9|SCP_NON_FULFILLMENT|SCP con incumplimiento total|0
 10|SCP_PARTIAL_NON_FULFILLMENT|SCP con incumplimiento parcial|0
+11|SUPERVISOR_ASSIGNMENT|Asignación supervisor|0
+12|SUPERVISOR_REASSIGNMENT|Reasignación supervisor|0
