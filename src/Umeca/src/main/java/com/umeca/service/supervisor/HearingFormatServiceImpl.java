@@ -1072,6 +1072,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         User sender = userRepository.findOne(sharedUserService.GetLoggedUserId());
         c.setUmecaSupervisor(u);
         caseRepository.save(c);
+        eventService.addEvent(Constants.EVENT_SUPERVISOR_PRE_ASSIGNMENT,c.getId(),null);
 
         LogComment logComment = new LogComment();
         logComment.setComments("Debe realizar la entrevista de encuadre para el caso");

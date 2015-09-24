@@ -25,6 +25,7 @@ import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -134,6 +135,8 @@ public class AssignCaseController {
 
     @Autowired
     HearingFormatRepository hearingFormatRepository;
+    @Autowired
+    EventService eventService;
 
     @RequestMapping(value = "/supervisorManager/assignCase/save", method = RequestMethod.POST)
     @Transactional(rollbackFor = {Exception.class})
@@ -154,6 +157,10 @@ public class AssignCaseController {
         monitoringPlan.setResolution(lstFormats.get(0).getHearingFormatSpecs().getArrangementType());
 
         monitoringPlanRepository.save(monitoringPlan);
+
+        case_.setUmecaSupervisor(user);
+        caseRepository.save(case_);
+        eventService.addEvent(Constants.EVENT_SUPERVISOR_ASSIGNMENT,case_.getId(),null);
 
         LogComment logComment = new LogComment();
 
