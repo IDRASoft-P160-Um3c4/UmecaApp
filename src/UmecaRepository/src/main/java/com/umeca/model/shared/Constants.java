@@ -328,6 +328,11 @@ public class Constants {
     public static final String EVENT_SUPERVISOR_REASSIGNMENT = "SUPERVISOR_REASSIGNMENT";
 
 
+    /** Eventos de supervisión **/
+    public static final String EVENT_MC_NON_FULFILLMENT = "MC_NON_FULFILLMENT";
+    public static final String EVENT_MC_PARTIAL_NON_FULFILLMENT = "MC_PARTIAL_NON_FULFILLMENT";
+    public static final String EVENT_SCP_NON_FULFILLMENT = "SCP_NON_FULFILLMENT";
+    public static final String EVENT_SCP_PARTIAL_NON_FULFILLMENT = "SCP_PARTIAL_NON_FULFILLMENT";
 
     /** códigos para los reportes **/
     public static final String REPORT_STATISTIC_A = "STR_1";

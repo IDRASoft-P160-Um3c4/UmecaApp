@@ -17,6 +17,7 @@ import com.umeca.model.entities.supervisorManager.AuthRejMonActivitiesRequest;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
 import com.umeca.model.entities.supervisorManager.ChangeSupervisor;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.HearingFormatConstants;
 import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
@@ -26,6 +27,7 @@ import com.umeca.repository.supervisor.FulfillmentReportRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.EventService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.ManageMonitoringPlanService;
 import com.umeca.service.supervisor.TrackMonPlanService;
@@ -52,6 +54,9 @@ public class ActiveMonitoringPlanController {
     HearingFormatRepository hearingFormatRepository;
     @Autowired
     ArrangementRepository arrangementRepository;
+
+    @Autowired
+    EventService eventService;
 
 
     @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/index", method = RequestMethod.GET)
@@ -274,6 +279,23 @@ public class ActiveMonitoringPlanController {
 
             trackMonPlanService.saveAuthRejectAccomplishment(model, user, monPlan,
                     MonitoringConstants.TYPE_COMMENT_LOG_ACCOMPLISHMENT, fulfillmentReport);
+
+            if(monPlan.getResolution() == HearingFormatConstants.HEARING_TYPE_MC){
+                if(fulfillmentReport.getFulfillmentReportType().getCode().equals(Constants.CODE_TOTAL_FULFILLMENT)) {
+                    eventService.addEvent(Constants.EVENT_MC_NON_FULFILLMENT, monPlan.getCaseDetention().getId(), null);
+                }
+                if(fulfillmentReport.getFulfillmentReportType().getCode().equals(Constants.CODE_PARTIAL_FULFILLMENT)){
+                    eventService.addEvent(Constants.EVENT_MC_PARTIAL_NON_FULFILLMENT, monPlan.getCaseDetention().getId(), null);
+                }
+            }
+            else{
+                if(fulfillmentReport.getFulfillmentReportType().getCode().equals(Constants.CODE_TOTAL_FULFILLMENT)) {
+                    eventService.addEvent(Constants.EVENT_SCP_NON_FULFILLMENT,monPlan.getCaseDetention().getId(),null);
+                }
+                if(fulfillmentReport.getFulfillmentReportType().getCode().equals(Constants.CODE_PARTIAL_FULFILLMENT)){
+                    eventService.addEvent(Constants.EVENT_SCP_PARTIAL_NON_FULFILLMENT, monPlan.getCaseDetention().getId(), null);
+                }
+            }
 
             response.setHasError(false);
 
