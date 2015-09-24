@@ -323,6 +323,10 @@ public class Constants {
     public static final String EVENT_FROM_FORMULATION = "FORMULATION";
     public static final String EVENT_PROSECUTE = "PROSECUTED";
 
+    public static final String EVENT_SUPERVISOR_PRE_ASSIGNMENT = "SUPERVISOR_PRE_ASSIGNMENT";
+    public static final String EVENT_SUPERVISOR_ASSIGNMENT = "SUPERVISOR_ASSIGNMENT";
+    public static final String EVENT_SUPERVISOR_REASSIGNMENT = "SUPERVISOR_REASSIGNMENT";
+
 
 
     /** códigos para los reportes **/
