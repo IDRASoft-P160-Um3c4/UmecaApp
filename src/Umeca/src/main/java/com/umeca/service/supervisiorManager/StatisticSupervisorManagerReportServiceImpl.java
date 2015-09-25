@@ -20,10 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by DeveloperII on 04/09/2015.
@@ -585,18 +582,41 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_P:
                 switch (reportTypeRepository.getReportCodeById(idReportType)) {
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
-                        data = statisticSupervisorManagerReportRepository.countByGender(initDateF, endDateF);
+                        lstObjects = statisticSupervisorManagerReportRepository.countByAge(initDateF, endDateF);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
+                            data.add(new SelectList(obj[0].toString(), Long.parseLong(obj[1].toString())));
+                        }
                         return gson.toJson(data);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
-                        data = statisticSupervisorManagerReportRepository.countByGenderAndDistrict(initDateF, endDateF, idDistrict);
-                        return gson.toJson(completeDoubleData(data, "Masculino", "Femenino"));
+                        lstObjects = statisticSupervisorManagerReportRepository.countByAgeAndDistrict(initDateF, endDateF, idDistrict);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
+                            data.add(new SelectList(obj[0].toString(), Long.parseLong(obj[1].toString())));
+                        }
+                        return gson.toJson(data);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
                         List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
                         List<Object> dataEnd = new ArrayList<>();
                         int x = 0;
+                        List<SelectList> agesList = Arrays.asList(
+                                new SelectList(new Long(0), "18 - 25"),
+                                new SelectList(new Long(1), "26 - 30"),
+                                new SelectList(new Long(2), "31 - 35"),
+                                new SelectList(new Long(3), "36 - 40"),
+                                new SelectList(new Long(4), "41 - 45"),
+                                new SelectList(new Long(5), "46 - 50"),
+                                new SelectList(new Long(6), "51 - 55"),
+                                new SelectList(new Long(7), "56 - 60"),
+                                new SelectList(new Long(8), "61 - 65"),
+                                new SelectList(new Long(9), "66 - 70"),
+                                new SelectList(new Long(10), "71 - 75"),
+                                new SelectList(new Long(11), "76 - 80"),
+                                new SelectList(new Long(12), "Más de 80")
+                                );
                         for (SelectList u : users) {
-                            data = statisticSupervisorManagerReportRepository.countByGenderAndDistrictAndSupervisor(initDateF, endDateF, idDistrict, u.getId());
-                            dataEnd = completeDataBySup(dataEnd, completeDoubleData(data, "Masculino", "Femenino"), u.getName(), x);
+                            lstObjects = statisticSupervisorManagerReportRepository.countByAgeAndDistrictAndSupervisor(initDateF, endDateF, idDistrict, u.getId());
+                            dataEnd = completeAgeData(dataEnd, lstObjects, u.getName(), x, agesList);
                             x += 1;
                         }
                         return gson.toJson(dataEnd);
@@ -746,6 +766,50 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
 
         return finalData;
     }
+
+    private List<Object> completeAgeData(List<Object> finalData, List<Object> data, String supervisor, int x, List<SelectList> ages) {
+
+
+        int countNum = 0;
+
+
+        for (int i = 0; i < ages.size(); i++) {
+            List<ReportList> aux = new ArrayList<>();
+            if (finalData.size() > i) {
+                aux = (List<ReportList>) finalData.get(i);
+            }
+            if (data.size() == countNum) {
+                aux.add(new ReportList(new Long(i), new Long(0), ages.get(i).getName(), supervisor, (long) x));
+
+            } else {
+                for (int j = countNum; j < data.size(); j++) {
+                    Object[] obj = (Object[]) data.get(j);
+
+                    if (ages.get(i).getId() == Long.parseLong(obj[0].toString())) {
+                        aux.add(new ReportList(new Long(i), Long.parseLong(obj[2].toString()), ages.get(i).getName(), supervisor, (long) x));
+                        countNum = j + 1;
+                    } else {
+                        aux.add(new ReportList(new Long(i), new Long(0), ages.get(i).getName(), supervisor, (long) x));
+                    }
+                    break;
+
+
+                }
+            }
+
+            if (finalData.size() <= i) {
+                finalData.add(aux);
+            } else {
+                finalData.set(i, aux);
+            }
+
+        }
+
+        return finalData;
+
+    }
+
+
 
 
 }

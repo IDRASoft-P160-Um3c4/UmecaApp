@@ -595,4 +595,127 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
         List<SelectList> countByGenderAndDistrictAndSupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
 
 
+        //Edad general
+        @Query(value = "select " +
+                "case " +
+                "when age between 18 and 25 then '18 - 25' " +
+                "when age between 26 and 30 then '26 - 30' " +
+                "when age between 31 and 35 then '31 - 35' " +
+                "when age between 36 and 40 then '36 - 40' " +
+                "when age between 41 and 45 then '41 - 45' " +
+                "when age between 46 and 50 then '46 - 50' " +
+                "when age between 51 and 55 then '51 - 55' " +
+                "when age between 56 and 60 then '56 - 60' " +
+                "when age between 61 and 65 then '61 - 65' " +
+                "when age between 66 and 70 then '66 - 70' " +
+                "when age between 71 and 75 then '71 - 75' " +
+                "when age between 76 and 80 then '76 - 80' " +
+                "when age >= 80 then 'Más de 80' end as age_range, count(*) as count " +
+                "from " +
+                "(select TIMESTAMPDIFF(YEAR, frameImputed.birth_date, CURDATE()) AS age " +
+                "from case_detention caseD " +
+                "inner join framing_meeting frame on caseD.id_case = frame.id_case " +
+                "inner join framing_imputed_personal_data frameImputed on frame.id_framing_imputed_personal_data = frameImputed.id_framing_imputed_personal_data " +
+                "inner join cat_status_case statuscase on caseD.id_status = statuscase.id_status " +
+                "where caseD.date_create between :initDate and :endDate " +
+                "and caseD.id_status = statuscase.id_status " +
+                "and (statuscase.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST'))) as derived " +
+                "group by age_range " +
+                "order by age_range", nativeQuery = true)
+        List<Object> countByAge(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
+
+
+
+        //Edad por distrito
+        @Query(value = "select " +
+                "case " +
+                "when age between 18 and 25 then '18 - 25' " +
+                "when age between 26 and 30 then '26 - 30' " +
+                "when age between 31 and 35 then '31 - 35' " +
+                "when age between 36 and 40 then '36 - 40' " +
+                "when age between 41 and 45 then '41 - 45' " +
+                "when age between 46 and 50 then '46 - 50' " +
+                "when age between 51 and 55 then '51 - 55' " +
+                "when age between 56 and 60 then '56 - 60' " +
+                "when age between 61 and 65 then '61 - 65' " +
+                "when age between 66 and 70 then '66 - 70' " +
+                "when age between 71 and 75 then '71 - 75' " +
+                "when age between 76 and 80 then '76 - 80' " +
+                "when age >= 80 then 'Más de 80' end as age_range, count(*) as count " +
+                "from " +
+                "(select TIMESTAMPDIFF(YEAR, frameImputed.birth_date, CURDATE()) AS age " +
+                "from case_detention caseD " +
+                "inner join framing_meeting frame on caseD.id_case = frame.id_case " +
+                "inner join framing_imputed_personal_data frameImputed on frame.id_framing_imputed_personal_data = frameImputed.id_framing_imputed_personal_data " +
+                "inner join cat_status_case statuscase on caseD.id_status = statuscase.id_status " +
+                "inner join cat_district dist on caseD.id_district = dist.id_district " +
+                "where caseD.date_create between :initDate and :endDate " +
+                "and caseD.id_status = statuscase.id_status " +
+                "and dist.id_district = :districtId " +
+                "and (statuscase.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST'))) as derived " +
+                "group by age_range " +
+                "order by age_range", nativeQuery = true)
+        List<Object> countByAgeAndDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
+
+
+
+        //Edad por distrito y supervisor
+        @Query(value = "select " +
+                "case " +
+                "when age between 18 and 25 then 0 " +
+                "when age between 26 and 30 then 1 " +
+                "when age between 31 and 35 then 2 " +
+                "when age between 36 and 40 then 3 " +
+                "when age between 41 and 45 then 4 " +
+                "when age between 46 and 50 then 5 " +
+                "when age between 51 and 55 then 6 " +
+                "when age between 56 and 60 then 7 " +
+                "when age between 61 and 65 then 8 " +
+                "when age between 66 and 70 then 9 " +
+                "when age between 71 and 75 then 10 " +
+                "when age between 76 and 80 then 11 " +
+                "when age >= 80 then 12 else 12 end as id_age, " +
+                "case " +
+                "when age between 18 and 25 then '18 - 25' " +
+                "when age between 26 and 30 then '26 - 30' " +
+                "when age between 31 and 35 then '31 - 35' " +
+                "when age between 36 and 40 then '36 - 40' " +
+                "when age between 41 and 45 then '41 - 45' " +
+                "when age between 46 and 50 then '46 - 50' " +
+                "when age between 51 and 55 then '51 - 55' " +
+                "when age between 56 and 60 then '56 - 60' " +
+                "when age between 61 and 65 then '61 - 65' " +
+                "when age between 66 and 70 then '66 - 70' " +
+                "when age between 71 and 75 then '71 - 75' " +
+                "when age between 76 and 80 then '76 - 80' " +
+                "when age >= 80 then 'Más de 80' else 'xx' end as age_range, count(*) as count " +
+                "from " +
+                "(select TIMESTAMPDIFF(YEAR, frameImputed.birth_date, CURDATE()) AS age " +
+                "from case_detention caseD " +
+                "inner join framing_meeting frame on caseD.id_case = frame.id_case " +
+                "inner join framing_imputed_personal_data frameImputed on frame.id_framing_imputed_personal_data = frameImputed.id_framing_imputed_personal_data " +
+                "inner join cat_status_case statuscase on caseD.id_status = statuscase.id_status " +
+                "inner join cat_district dist on caseD.id_district = dist.id_district " +
+                "where caseD.date_create between :initDate and :endDate " +
+                "and frame.id_user = :supervisorId " +
+                "and caseD.id_status = statuscase.id_status " +
+                "and dist.id_district = :districtId " +
+                "and (statuscase.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST'))) as derived " +
+                "group by age_range " +
+                "order by age_range", nativeQuery = true)
+        List<Object> countByAgeAndDistrictAndSupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
