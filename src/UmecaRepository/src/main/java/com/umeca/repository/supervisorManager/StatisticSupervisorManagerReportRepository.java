@@ -494,8 +494,6 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
 
 
 
-
-
         //Gender general
         @Query("select new com.umeca.model.shared.SelectList(" +
                 "case when caframe.personalData.gender  = 2 then 'Masculino' else 'Femenino' end, count(distinct ca.id)) " +
@@ -504,7 +502,7 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
                 "where ca.dateCreate between :initDate and :endDate " +
                 "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
                 "group by case when caframe.personalData.gender  = 2 then 'Masculino' else 'Femenino' end " +
-                "order by caframe.id desc")
+                "order by caframe.personalData.gender desc")
         List<SelectList> countByGender(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
 
 
@@ -517,7 +515,7 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
                 "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
                 "and ca.district.id = :districtId " +
                 "group by case when caframe.personalData.gender  = 2 then 'Masculino' else 'Femenino' end " +
-                "order by caframe.id desc")
+                "order by caframe.personalData.gender desc")
         List<SelectList> countByGenderAndDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
 
 
