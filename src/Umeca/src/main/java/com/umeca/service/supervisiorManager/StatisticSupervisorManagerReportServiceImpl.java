@@ -15,6 +15,7 @@ import com.umeca.repository.catalog.ReportTypeRepository;
 import com.umeca.repository.supervisorManager.StatisticSupervisorManagerReportRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
+import org.hibernate.sql.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -601,6 +602,76 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         }
                         return gson.toJson(dataEnd);
                 }
+            case Constants.REPORT_STATISTIC_MANAGER_REPORT_R:
+                switch (reportTypeRepository.getReportCodeById(idReportType)){
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        data = statisticSupervisorManagerReportRepository.countImputedStudyingGeneral(initDateF, endDateF);
+                        if(data.size() == 1){
+                            SelectList selectList = new SelectList();
+                            selectList.setValue(0L);
+                            if(data.get(0).getName().equals("Estudia"))
+                                selectList.setName("No estudia");
+                            else
+                                selectList.setName("Estudia");
+                            data.add(selectList);
+                        }
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        data = statisticSupervisorManagerReportRepository.countImputedStudyingByDistrict(initDateF, endDateF,idDistrict);
+                        if(data.size() == 1){
+                            SelectList selectList = new SelectList();
+                            selectList.setValue(0L);
+                            if(data.get(0).getName().equals("Estudia"))
+                                selectList.setName("No estudia");
+                            else
+                                selectList.setName("Estudia");
+                            data.add(selectList);
+                        }
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                        List<List<ReportList>> total = new ArrayList<>();
+                        List<ReportList> studyingList = new ArrayList<>();
+                        List<ReportList> notStudyingList = new ArrayList<>();
+                        ReportList studying;
+                        ReportList notStudying;
+
+
+
+                        for (int i = 0; i < users.size(); i++) {
+                            studying = new ReportList();
+                            notStudying = new ReportList();
+
+                            notStudying.setId(0L);
+                            notStudying.setName("No estudia");
+                            notStudying.setUser(users.get(i).getName());
+                            notStudying.setX(new Long(i));
+                            notStudying.setY(0L);
+
+                            studying.setId(1L);
+                            studying.setName("Estudia");
+                            studying.setUser(users.get(i).getName());
+                            studying.setX(new Long(i));
+                            studying.setY(0L);
+
+                            data = statisticSupervisorManagerReportRepository.countImputedStudyingBySupervisor(initDateF, endDateF, idDistrict, users.get(i).getId());
+                            for (int j = 0; j < data.size(); j++) {
+
+                                if(data.get(0).getName().equals("Estudia"))
+                                    studying.setY(data.get(0).getValue());
+                                else
+                                    notStudying.setY(data.get(0).getValue());
+
+                            }
+                            studyingList.add(studying);
+                            notStudyingList.add(notStudying);
+
+                        }
+                        total.add(notStudyingList);
+                        total.add(studyingList);
+                        return gson.toJson(total);
+                }
+
         }
 
         return null;

@@ -3,6 +3,7 @@ package com.umeca.repository.supervisorManager;
 import com.umeca.model.catalog.StatisticSupervisorManagerReportType;
 import com.umeca.model.entities.supervisor.HearingFormat;
 import com.umeca.model.shared.SelectList;
+import org.hibernate.sql.Select;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -433,65 +434,6 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
     List<SelectList> countWarningMeasureByDistrictAndSupervisorNull(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
 
 
-
-
-
-        //SCPP general
-        @Query("select new com.umeca.model.shared.SelectList(" +
-                "case when cahear.hearingFormatSpecs.arrangementType  = 2 then 'SCPP' else 'SCPP' end, count(distinct ca.id)) " +
-                "from Case ca " +
-                "inner join ca.hearingFormats cahear " +
-                "where ca.dateCreate between :initDate and :endDate " +
-                "and cahear.isFinished = true " +
-                "and cahear.hearingFormatSpecs.arrangementType = 2 " +
-                "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
-                "order by cahear.id desc")
-        List<SelectList> countSCPP(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
-
-
-        //SCPP por distrito
-        @Query("select new com.umeca.model.shared.SelectList(" +
-                "case when cahear.hearingFormatSpecs.arrangementType  = 2 then 'SCPP' else 'SCPP' end, count(distinct ca.id)) " +
-                "from Case ca " +
-                "inner join ca.hearingFormats cahear " +
-                "where ca.dateCreate between :initDate and :endDate " +
-                "and cahear.isFinished = true " +
-                "and cahear.hearingFormatSpecs.arrangementType = 2 " +
-                "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
-                "and ca.district.id = :districtId " +
-                "order by cahear.id desc")
-        List<SelectList> countWarningSCPPByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
-
-        //SCPP por distrito y operador
-        @Query("select new com.umeca.model.shared.SelectList(" +
-                "case when cahear.hearingFormatSpecs.arrangementType  = 2 then 'SCPP' else 'SCPP' end, count(distinct ca.id)) " +
-                "from Case ca " +
-                "inner join ca.hearingFormats cahear " +
-                "where ca.dateCreate between :initDate and :endDate " +
-                "and cahear.isFinished = true " +
-                "and cahear.hearingFormatSpecs.arrangementType = 2 " +
-                "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
-                "and ca.district.id = :districtId " +
-                "and ca.umecaSupervisor.id = :supervisorId " +
-                "order by cahear.id desc")
-        List<SelectList> countSCPPByDistrictAndSupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
-
-
-        //SCPP sin supervisor
-        @Query("select new com.umeca.model.shared.SelectList(" +
-                "case when cahear.hearingFormatSpecs.arrangementType  = 2 then 'SCPP' else 'SCPP' end, count(distinct ca.id)) " +
-                "from Case ca " +
-                "inner join ca.hearingFormats cahear " +
-                "where ca.dateCreate between :initDate and :endDate " +
-                "and cahear.isFinished = true " +
-                "and cahear.hearingFormatSpecs.arrangementType = 2 " +
-                "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
-                "and ca.district.id = :districtId " +
-                "and ca.umecaSupervisor = null " +
-                "order by cahear.id desc")
-        List<SelectList> countSCPPByDistrictAndSupervisorNull(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
-
-
         @Query("select  new com.umeca.model.shared.SelectList(" +
                 "case when evT.name  = 'MC_NON_FULFILLMENT'  then 'Medidas cautelares' when  evT.name  = 'MC_PARTIAL_NON_FULFILLMENT' then  'Medidas cautelares' else 'Medidas cautelares' end, count(distinct ev.caseDetention.id)) " +
                 "from Event ev " +
@@ -556,6 +498,61 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
         List<SelectList> countSCPPWithNonFulfillBySupervisor(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
 
 
+        //SCPP general
+        @Query("select new com.umeca.model.shared.SelectList(" +
+                "case when cahear.hearingFormatSpecs.arrangementType  = 2 then 'SCPP' else 'SCPP' end, count(distinct ca.id)) " +
+                "from Case ca " +
+                "inner join ca.hearingFormats cahear " +
+                "where ca.dateCreate between :initDate and :endDate " +
+                "and cahear.isFinished = true " +
+                "and cahear.hearingFormatSpecs.arrangementType = 2 " +
+                "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "order by cahear.id desc")
+        List<SelectList> countSCPP(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
+
+
+        //SCPP por distrito
+        @Query("select new com.umeca.model.shared.SelectList(" +
+                "case when cahear.hearingFormatSpecs.arrangementType  = 2 then 'SCPP' else 'SCPP' end, count(distinct ca.id)) " +
+                "from Case ca " +
+                "inner join ca.hearingFormats cahear " +
+                "where ca.dateCreate between :initDate and :endDate " +
+                "and cahear.isFinished = true " +
+                "and cahear.hearingFormatSpecs.arrangementType = 2 " +
+                "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "and ca.district.id = :districtId " +
+                "order by cahear.id desc")
+        List<SelectList> countWarningSCPPByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
+
+        //SCPP por distrito y operador
+        @Query("select new com.umeca.model.shared.SelectList(" +
+                "case when cahear.hearingFormatSpecs.arrangementType  = 2 then 'SCPP' else 'SCPP' end, count(distinct ca.id)) " +
+                "from Case ca " +
+                "inner join ca.hearingFormats cahear " +
+                "where ca.dateCreate between :initDate and :endDate " +
+                "and cahear.isFinished = true " +
+                "and cahear.hearingFormatSpecs.arrangementType = 2 " +
+                "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "and ca.district.id = :districtId " +
+                "and ca.umecaSupervisor.id = :supervisorId " +
+                "order by cahear.id desc")
+        List<SelectList> countSCPPByDistrictAndSupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
+
+
+        //SCPP sin supervisor
+        @Query("select new com.umeca.model.shared.SelectList(" +
+                "case when cahear.hearingFormatSpecs.arrangementType  = 2 then 'SCPP' else 'SCPP' end, count(distinct ca.id)) " +
+                "from Case ca " +
+                "inner join ca.hearingFormats cahear " +
+                "where ca.dateCreate between :initDate and :endDate " +
+                "and cahear.isFinished = true " +
+                "and cahear.hearingFormatSpecs.arrangementType = 2 " +
+                "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "and ca.district.id = :districtId " +
+                "and ca.umecaSupervisor = null " +
+                "order by cahear.id desc")
+        List<SelectList> countSCPPByDistrictAndSupervisorNull(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
+
         //Gender general
         @Query("select new com.umeca.model.shared.SelectList(" +
                 "case when caframe.personalData.gender  = 2 then 'Masculino' else 'Femenino' end, count(distinct ca.id)) " +
@@ -594,5 +591,43 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
                 "order by caframe.personalData.gender desc")
         List<SelectList> countByGenderAndDistrictAndSupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
 
+
+
+        @Query("select new com.umeca.model.shared.SelectList(case when sch.block = false then 'No estudia' else 'Estudia' end, count(c.id)) " +
+                "from Case  c " +
+                "inner join c.framingMeeting fm " +
+                "inner join c.status stCase " +
+                "inner join fm.school sch " +
+                "where fm.isTerminated = true " +
+                "and fm.endDate between :initDate and :endDate " +
+                "and stCase.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "group by sch.block")
+        List<SelectList> countImputedStudyingGeneral(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
+
+
+        @Query("select new com.umeca.model.shared.SelectList(case when sch.block = false then 'No estudia' else 'Estudia' end, count(c.id)) " +
+                "from Case  c " +
+                "inner join c.framingMeeting fm " +
+                "inner join c.status stCase " +
+                "inner join fm.school sch " +
+                "where fm.isTerminated = true " +
+                "and fm.endDate between :initDate and :endDate " +
+                "and stCase.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "and c.district.id = :districtId " +
+                "group by sch.block")
+        List<SelectList> countImputedStudyingByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
+
+        @Query("select new com.umeca.model.shared.SelectList(case when sch.block = false then 'No estudia' else 'Estudia' end, count(c.id)) " +
+                "from Case  c " +
+                "inner join c.framingMeeting fm " +
+                "inner join c.status stCase " +
+                "inner join fm.school sch " +
+                "where fm.isTerminated = true " +
+                "and fm.endDate between :initDate and :endDate " +
+                "and stCase.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "and c.district.id = :districtId " +
+                "and fm.supervisor.id = :supervisorId " +
+                "group by sch.block")
+        List<SelectList> countImputedStudyingBySupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
 
 }
