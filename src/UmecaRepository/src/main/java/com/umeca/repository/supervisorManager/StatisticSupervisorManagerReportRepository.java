@@ -593,43 +593,6 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
 
 
 
-        @Query("select new com.umeca.model.shared.SelectList(case when sch.block = false then 'No estudia' else 'Estudia' end, count(c.id)) " +
-                "from Case  c " +
-                "inner join c.framingMeeting fm " +
-                "inner join c.status stCase " +
-                "inner join fm.school sch " +
-                "where fm.isTerminated = true " +
-                "and fm.endDate between :initDate and :endDate " +
-                "and stCase.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
-                "group by sch.block")
-        List<SelectList> countImputedStudyingGeneral(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
-
-
-        @Query("select new com.umeca.model.shared.SelectList(case when sch.block = false then 'No estudia' else 'Estudia' end, count(c.id)) " +
-                "from Case  c " +
-                "inner join c.framingMeeting fm " +
-                "inner join c.status stCase " +
-                "inner join fm.school sch " +
-                "where fm.isTerminated = true " +
-                "and fm.endDate between :initDate and :endDate " +
-                "and stCase.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
-                "and c.district.id = :districtId " +
-                "group by sch.block")
-        List<SelectList> countImputedStudyingByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
-
-        @Query("select new com.umeca.model.shared.SelectList(case when sch.block = false then 'No estudia' else 'Estudia' end, count(c.id)) " +
-                "from Case  c " +
-                "inner join c.framingMeeting fm " +
-                "inner join c.status stCase " +
-                "inner join fm.school sch " +
-                "where fm.isTerminated = true " +
-                "and fm.endDate between :initDate and :endDate " +
-                "and stCase.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
-                "and c.district.id = :districtId " +
-                "and fm.supervisor.id = :supervisorId " +
-                "group by sch.block")
-        List<SelectList> countImputedStudyingBySupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
-
         //Edad general
         @Query(value = "select " +
                 "case " +
@@ -739,6 +702,44 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
                 "group by age_range " +
                 "order by age_range", nativeQuery = true)
         List<Object> countByAgeAndDistrictAndSupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
+
+
+        @Query("select new com.umeca.model.shared.SelectList(case when sch.block = false then 'No estudia' else 'Estudia' end, count(c.id)) " +
+                "from Case  c " +
+                "inner join c.framingMeeting fm " +
+                "inner join c.status stCase " +
+                "inner join fm.school sch " +
+                "where fm.isTerminated = true " +
+                "and fm.endDate between :initDate and :endDate " +
+                "and stCase.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "group by sch.block")
+        List<SelectList> countImputedStudyingGeneral(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
+
+
+        @Query("select new com.umeca.model.shared.SelectList(case when sch.block = false then 'No estudia' else 'Estudia' end, count(c.id)) " +
+                "from Case  c " +
+                "inner join c.framingMeeting fm " +
+                "inner join c.status stCase " +
+                "inner join fm.school sch " +
+                "where fm.isTerminated = true " +
+                "and fm.endDate between :initDate and :endDate " +
+                "and stCase.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "and c.district.id = :districtId " +
+                "group by sch.block")
+        List<SelectList> countImputedStudyingByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
+
+        @Query("select new com.umeca.model.shared.SelectList(case when sch.block = false then 'No estudia' else 'Estudia' end, count(c.id)) " +
+                "from Case  c " +
+                "inner join c.framingMeeting fm " +
+                "inner join c.status stCase " +
+                "inner join fm.school sch " +
+                "where fm.isTerminated = true " +
+                "and fm.endDate between :initDate and :endDate " +
+                "and stCase.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "and c.district.id = :districtId " +
+                "and fm.supervisor.id = :supervisorId " +
+                "group by sch.block")
+        List<SelectList> countImputedStudyingBySupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
 
 
 
