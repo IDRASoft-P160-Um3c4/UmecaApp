@@ -369,6 +369,8 @@ public class Constants {
     public static final String REPORT_STATISTIC_MANAGER_REPORT_N = "STMSR_14";
 
 
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_O = "STMSR_15";
+
 
 
     /** códigos de tipo de reporte**/

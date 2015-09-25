@@ -13,3 +13,4 @@ id|name|description|obsolete
 12|STMSR_12|Número de casos en medida cautelar con incumplimiento|0
 13|STMSR_13|Número de casos en suspención condicional de proceso a prueba|0
 14|STMSR_14|Número de casos en suspención condicional de proceso a prueba con incumplimiento|0
+15|STMSR_15|Reporte estadístico por género|0
