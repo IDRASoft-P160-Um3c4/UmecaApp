@@ -477,11 +477,36 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         return gson.toJson(dataEnd);
                 }
 
+            case Constants.REPORT_STATISTIC_MANAGER_REPORT_L:
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        data = statisticSupervisorManagerReportRepository.countMCWithNonFulfillmentGeneral(initId, endId);
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        data = statisticSupervisorManagerReportRepository.countMCWithNonFulfillByDistrict(initId,endId,idDistrict);
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                        List<List<ReportList>> total = new ArrayList<>();
 
-
-
-
-
+                        for (int i = 0; i < users.size(); i++) {
+                            data = statisticSupervisorManagerReportRepository.countMCWithNonFulfillBySupervisor(initId, endId, idDistrict, users.get(i).getId());
+                            for (int j = 0; j < data.size(); j++) {
+                                SelectList obj = data.get(j);
+                                if (i == 0) {
+                                    total.add(new ArrayList<ReportList>());
+                                }
+                                ReportList reportList = new ReportList();
+                                reportList.setId(new Long(j));
+                                reportList.setName(obj.getName());
+                                reportList.setUser(users.get(i).getName());
+                                reportList.setX(new Long(i));
+                                reportList.setY(obj.getValue());
+                                total.get(j).add(reportList);
+                            }
+                        }
+                        return gson.toJson(total);
+                }
 
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_M:
                 switch (reportTypeRepository.getReportCodeById(idReportType)) {
@@ -505,6 +530,39 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         }
                         return gson.toJson(dataEnd);
                 }
+
+            case Constants.REPORT_STATISTIC_MANAGER_REPORT_N:
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        data = statisticSupervisorManagerReportRepository.countSCPPWithNonFulfillmentGeneral(initId, endId);
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        data = statisticSupervisorManagerReportRepository.countSCPPWithNonFulfillByDistrict(initId,endId,idDistrict);
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                        List<List<ReportList>> total = new ArrayList<>();
+
+                        for (int i = 0; i < users.size(); i++) {
+                            data = statisticSupervisorManagerReportRepository.countSCPPWithNonFulfillBySupervisor(initId, endId, idDistrict, users.get(i).getId());
+                            for (int j = 0; j < data.size(); j++) {
+                                SelectList obj = data.get(j);
+                                if (i == 0) {
+                                    total.add(new ArrayList<ReportList>());
+                                }
+                                ReportList reportList = new ReportList();
+                                reportList.setId(new Long(j));
+                                reportList.setName(obj.getName());
+                                reportList.setUser(users.get(i).getName());
+                                reportList.setX(new Long(i));
+                                reportList.setY(obj.getValue());
+                                total.get(j).add(reportList);
+                            }
+                        }
+                        return gson.toJson(total);
+                }
+
+
         }
 
         return null;

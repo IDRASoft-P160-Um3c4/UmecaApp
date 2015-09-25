@@ -1,6 +1,7 @@
 package com.umeca.model.shared;
 
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
+import com.umeca.repository.shared.ReportExcelRepository;
 
 
 public class ReportList implements EntityGrid{
@@ -54,6 +55,7 @@ public class ReportList implements EntityGrid{
         else
             this.name = description;
     }
+
 
 
     @Override
