@@ -742,16 +742,62 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
         List<SelectList> countImputedStudyingBySupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
 
 
+        @Query(value = "select " +
+                "cat_academic_level.academic_level, " +
+                "count(ResA.sub_id_case) " +
+                "from cat_degree " +
+                "inner join cat_academic_level on cat_degree.id_academic_level = cat_academic_level.id_academic_level " +
+                "left join ( " +
+                "select " +
+                "       case_detention.id_case 'sub_id_case', " +
+                "        school.id_grade as 'sub_id_grade' " +
+                "from case_detention " +
+                "inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
+                "       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true and (framing_meeting.end_date between :initDate and :endDate) " +
+                "inner join school on school.id_framing_meeting = framing_meeting.id_framing_meeting " +
+                ") ResA on cat_degree.id_degree = ResA.sub_id_grade " +
+                "group by cat_academic_level.id_academic_level",nativeQuery = true)
+        List<Object> countCasesBySchoolGradeGeneral(@Param("initDate") String initDate, @Param("endDate") String endDate);
 
 
+        @Query(value = "select " +
+                "cat_academic_level.academic_level, " +
+                "count(ResA.sub_id_case) " +
+                "from cat_degree " +
+                "inner join cat_academic_level on cat_degree.id_academic_level = cat_academic_level.id_academic_level " +
+                "left join ( " +
+                "select " +
+                "       case_detention.id_case 'sub_id_case', " +
+                "        school.id_grade as 'sub_id_grade' " +
+                "from case_detention " +
+                "inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
+                "       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true and (framing_meeting.end_date between :initDate and :endDate) " +
+                "inner join school on school.id_framing_meeting = framing_meeting.id_framing_meeting " +
+                "where case_detention.id_district = :idDistrict " +
+                ") ResA on cat_degree.id_degree = ResA.sub_id_grade " +
+                "group by cat_academic_level.id_academic_level",nativeQuery = true)
+        List<Object> countCasesBySchoolGradeAndDistrict(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict);
 
 
-
-
-
-
-
-
-
+        @Query(value = "select " +
+                "cat_academic_level.academic_level, " +
+                "count(ResA.sub_id_case) " +
+                "from cat_degree " +
+                "inner join cat_academic_level on cat_degree.id_academic_level = cat_academic_level.id_academic_level " +
+                "left join ( " +
+                "select " +
+                "       case_detention.id_case 'sub_id_case', " +
+                "        school.id_grade as 'sub_id_grade' " +
+                "from case_detention " +
+                "inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
+                "       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true and framing_meeting.id_user = :idSupervisor  and (framing_meeting.end_date between :initDate and :endDate) " +
+                "inner join school on school.id_framing_meeting = framing_meeting.id_framing_meeting " +
+                "where case_detention.id_district = :idDistrict " +
+                ") ResA on cat_degree.id_degree = ResA.sub_id_grade " +
+                "group by cat_academic_level.id_academic_level",nativeQuery = true)
+        List<Object> countCasesBySchoolGradeAndSupervisor(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("idSupervisor") Long idSupervisor);
 
 }
