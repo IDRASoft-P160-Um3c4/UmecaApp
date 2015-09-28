@@ -116,8 +116,8 @@ public interface HearingFormatRepository extends JpaRepository<HearingFormat, Lo
     @Query("SELECT HFS.arrangementType FROM Case C " +
             "INNER JOIN C.hearingFormats HF " +
             "INNER JOIN HF.hearingFormatSpecs HFS " +
-            "WHERE C.id=:caseId and HF.isFinished=true order by hf.registerTime asc")
-    List<Integer> getLastArrangementType(@Param("caseId") Long caseId, Pageable pageable);
+            "WHERE C.id=:caseId and HF.isFinished=true order by hf.registerTime desc")
+    List<Integer> getLastArrangementType(@Param("caseId") Long caseId);
 
 //    @Query("SELECT U FROM HearingFormat HF " +
 //            "INNER JOIN HF.umecaSupervisor U " +
