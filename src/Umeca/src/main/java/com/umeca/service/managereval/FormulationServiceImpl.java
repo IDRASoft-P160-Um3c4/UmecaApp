@@ -8,6 +8,7 @@ import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.managereval.FormulationRepository;
+import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.MessageService;
 import com.umeca.service.shared.SharedLogExceptionService;
@@ -36,6 +37,10 @@ public class FormulationServiceImpl implements FormulationService {
 
     @Autowired
     MessageService messageService;
+
+
+    @Autowired
+    DistrictRepository districtRepository;
 
 
     @Override
@@ -196,6 +201,9 @@ public class FormulationServiceImpl implements FormulationService {
 
             model = new ModelAndView("/managereval/formulation/attendanceRecord");
             Formulation formulation = formulationRepository.findOne(id);
+            List<SelectList> lstDistrict = districtRepository.findNoObsolete();
+            Gson gson = new Gson();
+            model.addObject("lstDistrict",gson.toJson(lstDistrict));
             model.addObject("m",formulation);
         }catch (Exception e){
             logException.Write(e, this.getClass(), "showAttendanceRecord  ", userService);

@@ -190,6 +190,17 @@
                                     <span class="field-validation-valid" data-valmsg-for="meeting.caseDetention.idFolder" data-valmsg-replace="true"></span>
                                 </div>
                             </div>
+                            <div class="row" ng-init='lstDistrict = ${lstDistrict}; init(); m.district = lstDistrict[0]; $meeting.district.id = $.m.district.id;'>
+                                <div class="col-xs-5 element-left">
+                                    Distrito judicial
+                                </div>
+                                <div class="col-xs-7">
+                                    <select id="district"
+                                            ng-model="m.district"
+                                            ng-options="e.name for e in lstDistrict"></select>
+                                </div>
+                                <input type="hidden" name="meeting.district.id" value="{{m.district.id}}"/>
+                            </div>
                             <br/>
                             <div class="row">
                                 <div class="col-xs-12 text-danger">
