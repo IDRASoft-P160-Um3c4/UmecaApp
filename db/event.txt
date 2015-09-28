@@ -12,3 +12,5 @@ id|name|description|obsolete
 11|SUPERVISOR_PRE_ASSIGNMENT|Preasignación supervisor|0
 12|SUPERVISOR_ASSIGNMENT|Asignación supervisor|0
 13|SUPERVISOR_REASSIGNMENT|Reasignación supervisor|0
+14|CHANGE_SCPP_TO_MC|Cambio de SCPP a MC|0
+15|CHANGE_MC_TO_SCPP|Cambio de MC a SCCP|0
