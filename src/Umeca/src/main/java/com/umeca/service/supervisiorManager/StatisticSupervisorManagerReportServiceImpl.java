@@ -622,6 +622,29 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         }
                         return gson.toJson(dataEnd);
                 }
+            case Constants.REPORT_STATISTIC_MANAGER_REPORT_Q:
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        data = statisticSupervisorManagerReportRepository.countCrimes(initDateF, endDateF);
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        data = statisticSupervisorManagerReportRepository.countCrimesByDistrict(initDateF, endDateF, idDistrict);
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                        List<SelectList> crimes = statisticSupervisorManagerReportRepository.catalogCrimesByDistrict(initDateF, endDateF, idDistrict);
+                        List<Object> dataEnd = new ArrayList<>();
+                        int x = 0;
+                        List<SelectList> nullSupervisor = statisticSupervisorManagerReportRepository.countCrimesByDistrictAndSupervisorNull(initDateF, endDateF, idDistrict);
+                        dataEnd = completeCrimeData(dataEnd, nullSupervisor, "Sin supervisor", x, crimes);
+                        x += 1;
+                        for (SelectList u : users) {
+                            data = statisticSupervisorManagerReportRepository.countCrimesByDistrictAndSupervisor(initDateF, endDateF, idDistrict, u.getId());
+                            dataEnd = completeCrimeData(dataEnd, data, u.getName(), x, crimes);
+                            x += 1;
+                        }
+                        return gson.toJson(dataEnd);
+                }
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_R:
                 switch (reportTypeRepository.getReportCodeById(idReportType)){
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
@@ -861,6 +884,47 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         countNum = j + 1;
                     } else {
                         aux.add(new ReportList(new Long(i), new Long(0), ages.get(i).getName(), supervisor, (long) x));
+                    }
+                    break;
+
+
+                }
+            }
+
+            if (finalData.size() <= i) {
+                finalData.add(aux);
+            } else {
+                finalData.set(i, aux);
+            }
+
+        }
+
+        return finalData;
+
+    }
+
+    private List<Object> completeCrimeData(List<Object> finalData, List<SelectList> data, String supervisor, int x, List<SelectList> crimes) {
+
+
+        int countNum = 0;
+
+
+        for (int i = 0; i < crimes.size(); i++) {
+            List<ReportList> aux = new ArrayList<>();
+            if (finalData.size() > i) {
+                aux = (List<ReportList>) finalData.get(i);
+            }
+            if (data.size() == countNum) {
+                aux.add(new ReportList(new Long(i), new Long(0), crimes.get(i).getName(), supervisor, (long) x));
+
+            } else {
+                for (int j = countNum; j < data.size(); j++) {
+
+                    if (crimes.get(i).getName().equals(data.get(j).getName())) {
+                        aux.add(new ReportList(new Long(i), data.get(j).getValue(), crimes.get(i).getName(), supervisor, (long) x));
+                        countNum = j + 1;
+                    } else {
+                        aux.add(new ReportList(new Long(i), new Long(0), crimes.get(i).getName(), supervisor, (long) x));
                     }
                     break;
 
