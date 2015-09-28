@@ -678,19 +678,14 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         List<ReportList> notStudyingList = new ArrayList<>();
                         ReportList studying;
                         ReportList notStudying;
-
-
-
                         for (int i = 0; i < users.size(); i++) {
                             studying = new ReportList();
                             notStudying = new ReportList();
-
                             notStudying.setId(0L);
                             notStudying.setName("No estudia");
                             notStudying.setUser(users.get(i).getName());
                             notStudying.setX(new Long(i));
                             notStudying.setY(0L);
-
                             studying.setId(1L);
                             studying.setName("Estudia");
                             studying.setUser(users.get(i).getName());
@@ -712,6 +707,56 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         }
                         total.add(notStudyingList);
                         total.add(studyingList);
+                        return gson.toJson(total);
+
+                }
+
+            case Constants.REPORT_STATISTIC_MANAGER_REPORT_S:
+                switch (reportTypeRepository.getReportCodeById(idReportType)){
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        lstObjects = statisticSupervisorManagerReportRepository.countCasesBySchoolGradeGeneral(initDate + initTime, endDate + endTime);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            SelectList selectList = new SelectList();
+                            selectList.setName(obj[0].toString());
+                            selectList.setSubName(obj[0].toString());
+                            selectList.setValue(Long.parseLong(obj[1].toString()));
+
+                            data.add(selectList);
+                        }
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        lstObjects = statisticSupervisorManagerReportRepository.countCasesBySchoolGradeAndDistrict(initDate + initTime, endDate + endTime, idDistrict);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            SelectList selectList = new SelectList();
+                            selectList.setName(obj[0].toString());
+                            selectList.setSubName(obj[0].toString());
+                            selectList.setValue(Long.parseLong(obj[1].toString()));
+
+                            data.add(selectList);
+                        }
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                        List<List<ReportList>> total = new ArrayList<>();
+
+                        for (int i = 0; i < users.size(); i++) {
+                            lstObjects = statisticSupervisorManagerReportRepository.countCasesBySchoolGradeAndSupervisor(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
+                            for (int j = 0; j < lstObjects.size(); j++) {
+                                Object[] obj = (Object[]) lstObjects.get(j);
+                                if (i == 0) {
+                                    total.add(new ArrayList<ReportList>());
+                                }
+                                ReportList reportList = new ReportList();
+                                reportList.setId(new Long(j));
+                                reportList.setName(obj[0].toString());
+                                reportList.setUser(users.get(i).getName());
+                                reportList.setX(new Long(i));
+                                reportList.setY(new Long(obj[1].toString()));
+                                total.get(j).add(reportList);
+                            }
+                        }
                         return gson.toJson(total);
                 }
 
