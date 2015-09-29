@@ -760,6 +760,48 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         return gson.toJson(total);
                 }
 
+            case Constants.REPORT_STATISTIC_MANAGER_REPORT_T:
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        lstObjects = statisticSupervisorManagerReportRepository.countAnyChangesInArrangementType(initDateF, endDateF);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
+                            data.add(new SelectList(obj[0].toString(), Long.parseLong(obj[1].toString())));
+                        }
+                        return gson.toJson(completeDoubleData(data, "Cambio de MC a SCPP", "Cambio de SCPP a MC"));
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        lstObjects = statisticSupervisorManagerReportRepository.countAnyChangesInArrangementTypeByDistrict(initDateF, endDateF, idDistrict);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
+                            data.add(new SelectList(obj[0].toString(), Long.parseLong(obj[1].toString())));
+                        }
+                        return gson.toJson(completeDoubleData(data, "Cambio de MC a SCPP", "Cambio de SCPP a MC"));
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                        List<Object> dataEnd = new ArrayList<>();
+                        int x = 0;
+                        List<Object> nullSupervisor = statisticSupervisorManagerReportRepository.countAnyChangesInArrangementTypeByDistrictAndSupervisorNull(initDateF, endDateF, idDistrict);
+                        for (int j = 0; j < nullSupervisor.size(); j++) {
+                            Object[] obj = (Object[]) nullSupervisor.get(j);
+                            data.add(new SelectList(obj[0].toString(), Long.parseLong(obj[1].toString())));
+                        }
+                        dataEnd = completeDataBySup(dataEnd, completeDoubleData(data, "Cambio de MC a SCPP", "Cambio de SCPP a MC"), "Sin supervisor", x);
+                        x += 1;
+                        for (SelectList u : users) {
+                            lstObjects = statisticSupervisorManagerReportRepository.countAnyChangesInArrangementTypeByDistrictAndSupervisor(initDateF, endDateF, idDistrict, u.getId());
+                            for (int j = 0; j < lstObjects.size(); j++) {
+                                Object[] obj = (Object[]) lstObjects.get(j);
+                                data.add(new SelectList(obj[0].toString(), Long.parseLong(obj[1].toString())));
+                            }
+                            dataEnd = completeDataBySup(dataEnd, completeDoubleData(data, "Cambio de MC a SCPP", "Cambio de SCPP a MC"), u.getName(), x);
+                            x += 1;
+                            data = new ArrayList<>();
+                        }
+                        return gson.toJson(dataEnd);
+
+
+                }
+
         }
 
         return null;
@@ -807,7 +849,6 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
 
     }
 
-
     private List<SelectList> completeDrugsData(List<SelectList> finalData, List<Object> data, List<DrugType> drugs) {
 
         int countNum = 0;
@@ -840,7 +881,6 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
 
     }
 
-
     private List<SelectList> completeDoubleData(List<SelectList> data, String firstSrt, String secondSrt) {
 
         if (data.size() > 0) {
@@ -858,7 +898,6 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
         return data;
 
     }
-
 
     private List<Object> completeDataBySup(List<Object> finalData, List<SelectList> data, String supervisor, int x) {
 
