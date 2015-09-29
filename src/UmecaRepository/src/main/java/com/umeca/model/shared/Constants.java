@@ -314,8 +314,6 @@ public class Constants {
 
 
     /** códigos para los eventos **/
-
-
     public static final String EVENT_INTERVIEW_DECLINED = "DECLINED";
     public static final String EVENT_CASE_REPORT = "REPORT";
     public static final String EVENT_CASE_OPINION = "OPINION";
@@ -327,12 +325,16 @@ public class Constants {
     public static final String EVENT_SUPERVISOR_ASSIGNMENT = "SUPERVISOR_ASSIGNMENT";
     public static final String EVENT_SUPERVISOR_REASSIGNMENT = "SUPERVISOR_REASSIGNMENT";
 
-
-    /** Eventos de supervisión **/
     public static final String EVENT_MC_NON_FULFILLMENT = "MC_NON_FULFILLMENT";
     public static final String EVENT_MC_PARTIAL_NON_FULFILLMENT = "MC_PARTIAL_NON_FULFILLMENT";
     public static final String EVENT_SCP_NON_FULFILLMENT = "SCP_NON_FULFILLMENT";
     public static final String EVENT_SCP_PARTIAL_NON_FULFILLMENT = "SCP_PARTIAL_NON_FULFILLMENT";
+
+    public static final String EVENT_CHANGE_SCPP_TO_MC = "CHANGE_SCPP_TO_MC";
+    public static final String EVENT_CHANGE_MC_TO_SCPP = "CHANGE_MC_TO_SCPP";
+
+
+
 
     /** códigos para los reportes **/
     public static final String REPORT_STATISTIC_A = "STR_1";
@@ -372,6 +374,9 @@ public class Constants {
     public static final String REPORT_STATISTIC_MANAGER_REPORT_Q = "STMSR_17";
     public static final String REPORT_STATISTIC_MANAGER_REPORT_R = "STMSR_18";
     public static final String REPORT_STATISTIC_MANAGER_REPORT_S = "STMSR_19";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_T = "STMSR_20";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_U = "STMSR_21";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_V = "STMSR_22";
 
 
 

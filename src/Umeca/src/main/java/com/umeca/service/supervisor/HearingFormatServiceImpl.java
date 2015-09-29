@@ -849,7 +849,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             }
 
             //actualizacion de cambio del ultimo arrangementType
-            List<Integer> listHearingTypes = hearingFormatRepository.getLastArrangementType(hearingFormat.getCaseDetention().getId(), new PageRequest(0, 1));
+            List<Integer> listHearingTypes = hearingFormatRepository.getLastArrangementType(hearingFormat.getCaseDetention().getId());
             Integer lastHearingType = -1;
 
             if (listHearingTypes != null && listHearingTypes.size() > 0) {
@@ -858,6 +858,10 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
             if (lastHearingType != null && lastHearingType > 0 && !lastHearingType.equals(hearingFormat.getHearingFormatSpecs().getArrangementType())) {
                 hearingFormat.getCaseDetention().setDateChangeArrangementType(new Date());
+                if(lastHearingType.equals(1))
+                    eventService.addEvent(Constants.EVENT_CHANGE_MC_TO_SCPP,hearingFormat.getCaseDetention().getId(),null);
+                else if(lastHearingType.equals(2))
+                    eventService.addEvent(Constants.EVENT_CHANGE_SCPP_TO_MC,hearingFormat.getCaseDetention().getId(),null);
             }
 
             //si se indica que el imputado ha sido sustraido

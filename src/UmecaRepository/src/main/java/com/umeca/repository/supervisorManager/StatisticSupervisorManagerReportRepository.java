@@ -972,5 +972,116 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
         List<Object> countCasesBySchoolGradeAndSupervisor(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("idSupervisor") Long idSupervisor);
 
 
+        //Changes in Arragenment Type General
+        @Query(value = "select " +
+                "case " +
+                "when eventType.event='CHANGE_MC_TO_SCPP' then 'Cambio de MC a SCPP' " +
+                "else 'Cambio de SCPP a MC' " +
+                "end as evento," +
+                "count(evento.id_case) as count " +
+                "from event evento " +
+                "inner join ( " +
+                "select max(eventsub.id_event) as id_event " +
+                "from event eventsub " +
+                "inner join cat_event eventtype " +
+                "where eventsub.event_id=eventtype.id_event " +
+                "and (eventtype.event='CHANGE_MC_TO_SCPP' or eventtype.event='CHANGE_SCPP_TO_MC')" +
+                "group by eventsub.id_case " +
+                "order by eventsub.id_event desc " +
+                ") table_events on evento.id_event = table_events.id_event " +
+                "inner join case_detention caseD on evento.id_case = caseD.id_case " +
+                "inner join cat_event eventType on evento.event_id = eventType.id_event " +
+                "where caseD.date_create between :initDate and :endDate " +
+                "group by case " +
+                "when eventType.event='CHANGE_MC_TO_SCPP' then 'Cambio de MC a SCPP' " +
+                "else 'Cambio de SCPP a MC' " +
+                "end", nativeQuery = true)
+        List<Object> countAnyChangesInArrangementType(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
+
+        //Changes in Arragenment Type por distrito
+        @Query(value = "select " +
+                "case " +
+                "when eventType.event='CHANGE_MC_TO_SCPP' then 'Cambio de MC a SCPP' " +
+                "else 'Cambio de SCPP a MC' " +
+                "end as evento," +
+                "count(evento.id_case) as count " +
+                "from event evento " +
+                "inner join ( " +
+                "select max(eventsub.id_event) as id_event " +
+                "from event eventsub " +
+                "inner join cat_event eventtype " +
+                "where eventsub.event_id=eventtype.id_event " +
+                "and (eventtype.event='CHANGE_MC_TO_SCPP' or eventtype.event='CHANGE_SCPP_TO_MC')" +
+                "group by eventsub.id_case " +
+                "order by eventsub.id_event desc " +
+                ") table_events on evento.id_event = table_events.id_event " +
+                "inner join case_detention caseD on evento.id_case = caseD.id_case " +
+                "inner join cat_event eventType on evento.event_id = eventType.id_event " +
+                "where caseD.date_create between :initDate and :endDate " +
+                "and caseD.id_district = :districtId " +
+                "group by case " +
+                "when eventType.event='CHANGE_MC_TO_SCPP' then 'Cambio de MC a SCPP' " +
+                "else 'Cambio de SCPP a MC' " +
+                "end", nativeQuery = true)
+        List<Object> countAnyChangesInArrangementTypeByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
+
+        //Changes in Arragenment Type por Supervisor y distrito
+        @Query(value = "select " +
+                "case " +
+                "when eventType.event='CHANGE_MC_TO_SCPP' then 'Cambio de MC a SCPP' " +
+                "else 'Cambio de SCPP a MC' " +
+                "end as evento," +
+                "count(evento.id_case) as count " +
+                "from event evento " +
+                "inner join ( " +
+                "select max(eventsub.id_event) as id_event " +
+                "from event eventsub " +
+                "inner join cat_event eventtype " +
+                "where eventsub.event_id=eventtype.id_event " +
+                "and (eventtype.event='CHANGE_MC_TO_SCPP' or eventtype.event='CHANGE_SCPP_TO_MC')" +
+                "group by eventsub.id_case " +
+                "order by eventsub.id_event desc " +
+                ") table_events on evento.id_event = table_events.id_event " +
+                "inner join case_detention caseD on evento.id_case = caseD.id_case " +
+                "inner join cat_event eventType on evento.event_id = eventType.id_event " +
+                "where caseD.date_create between :initDate and :endDate " +
+                "and caseD.id_district = :districtId " +
+                "and caseD.id_umeca_supervisor = :idSupervisor " +
+                "group by case " +
+                "when eventType.event='CHANGE_MC_TO_SCPP' then 'Cambio de MC a SCPP' " +
+                "else 'Cambio de SCPP a MC' " +
+                "end", nativeQuery = true)
+        List<Object> countAnyChangesInArrangementTypeByDistrictAndSupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("idSupervisor") Long idSupervisor);
+
+        //Changes in Arragenment Type por Supervisor y distrito
+        @Query(value = "select " +
+                "case " +
+                "when eventType.event='CHANGE_MC_TO_SCPP' then 'Cambio de MC a SCPP' " +
+                "else 'Cambio de SCPP a MC' " +
+                "end as evento," +
+                "count(evento.id_case) as count " +
+                "from event evento " +
+                "inner join ( " +
+                "select max(eventsub.id_event) as id_event " +
+                "from event eventsub " +
+                "inner join cat_event eventtype " +
+                "where eventsub.event_id=eventtype.id_event " +
+                "and (eventtype.event='CHANGE_MC_TO_SCPP' or eventtype.event='CHANGE_SCPP_TO_MC')" +
+                "group by eventsub.id_case " +
+                "order by eventsub.id_event desc " +
+                ") table_events on evento.id_event = table_events.id_event " +
+                "inner join case_detention caseD on evento.id_case = caseD.id_case " +
+                "inner join cat_event eventType on evento.event_id = eventType.id_event " +
+                "where caseD.date_create between :initDate and :endDate " +
+                "and caseD.id_district = :districtId " +
+                "and caseD.id_umeca_supervisor = null " +
+                "group by case " +
+                "when eventType.event='CHANGE_MC_TO_SCPP' then 'Cambio de MC a SCPP' " +
+                "else 'Cambio de SCPP a MC' " +
+                "end", nativeQuery = true)
+        List<Object> countAnyChangesInArrangementTypeByDistrictAndSupervisorNull(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
+
+
+
 
 }
