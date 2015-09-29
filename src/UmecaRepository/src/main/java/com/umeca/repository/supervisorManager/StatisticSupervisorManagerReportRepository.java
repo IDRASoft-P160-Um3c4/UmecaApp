@@ -82,20 +82,26 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
     List<Object> getArrangementBySupervisorId(@Param("supervisorId") Long supervisorId);
 
 
-    @Query(value = "SELECT count(assigned_arrangement.id_arrangement), cat_arrangement.description FROM cat_arrangement " +
-            "left join assigned_arrangement " +
+    @Query(value = "select " +
+            "cat_arrangement.description, " +
+            "count(ResA.caseHF) " +
+            "from assigned_arrangement " +
+            "inner join( " +
+            "select " +
+            "case_detention.id_case 'caseHF', " +
+            "max(hearing_format.id_hearing_format) 'lastHF' " +
+            "from case_detention " +
+            "inner join  hearing_format " +
+            "on hearing_format.id_case = case_detention.id_case and hearing_format.is_finished = true and case_detention.id_umeca_supervisor = :supervisorId and case_detention.id_district = :districtId " +
+            "and hearing_format.register_timestamp between :initDate and :endDate " +
+            "inner join cat_status_case " +
+            "on cat_status_case.id_status = case_detention.id_status and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+            "group by case_detention.id_case)ResA " +
+            "on assigned_arrangement.id_hearing_format = ResA.lastHF " +
+            "right join cat_arrangement " +
             "on assigned_arrangement.id_arrangement = cat_arrangement.id_arrangement " +
-            "left join hearing_format " +
-            "on hearing_format.id_hearing_format = assigned_arrangement.id_hearing_format " +
-            "left join cat_district " +
-            "on hearing_format.id_district = cat_district.id_district " +
-            "where (hearing_format.id_hearing_format in (select max(hearing_format.id_hearing_format) from hearing_format " +
-            "inner join case_detention " +
-            "on hearing_format.id_case = case_detention.id_case " +
-            "where hearing_format.register_timestamp between :initDate and :endDate and hearing_format.id_district = :districtId and hearing_format.id_user = :supervisorId and assigned_arrangement.id_arrangement = :arrangementId " +
-            "group by hearing_format.id_case) and hearing_format.is_finished = true) " +
-            "group by  cat_arrangement.id_arrangement", nativeQuery = true)
-    List<Object> getArrangementByIdAndSupervisorId(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("supervisorId") Long supervisorId, @Param("arrangementId") Long arrangementId, @Param("districtId") Long districtId);
+            "group by cat_arrangement.id_arrangement ", nativeQuery = true)
+    List<Object> getArrangementByIdAndSupervisorId(@Param("initDate") String initDate, @Param("endDate") String endDate,  @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
 
 
     @Query(value = "select  framing_imputed_personal_data.gender, count(distinct(framing_meeting.id_framing_meeting)) from framing_meeting " +
@@ -964,5 +970,7 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
                 ") ResA on cat_degree.id_degree = ResA.sub_id_grade " +
                 "group by cat_academic_level.id_academic_level",nativeQuery = true)
         List<Object> countCasesBySchoolGradeAndSupervisor(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("idSupervisor") Long idSupervisor);
+
+
 
 }

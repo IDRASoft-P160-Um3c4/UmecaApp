@@ -3,6 +3,7 @@ package com.umeca.controller.supervisorManager;
 import com.google.gson.Gson;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
+import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.ReportTypeRepository;
 import com.umeca.repository.catalog.StatisticOperatorReportTypeRepository;
 import com.umeca.repository.supervisor.DistrictRepository;
@@ -13,6 +14,7 @@ import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisiorManager.StatisticSupervisorManagerReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -43,6 +45,8 @@ public class StatisticSupervisorManagerReportController {
     DistrictRepository districtRepository;
     @Autowired
     ReportTypeRepository reportTypeRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @RequestMapping(value = "/supervisorManager/statisticReport/index", method = RequestMethod.GET)
     public ModelAndView index() {
@@ -60,7 +64,7 @@ public class StatisticSupervisorManagerReportController {
     @RequestMapping(value = "/supervisorManager/statisticReport/showReport", method = RequestMethod.GET)
     public ModelAndView showReport(String initDate, String endDate, String filterSelected, Long idReportType, Long idDistrict) {
         ModelAndView model = new ModelAndView("/supervisorManager/statisticReport/showReport");
-
+        Gson gson = new Gson();
         String extraData = null;
         String title = null;
         Long total = Long.valueOf(0);
@@ -73,6 +77,16 @@ public class StatisticSupervisorManagerReportController {
 
             if (reportTypeRepository.getReportCodeById(idReportType).equals(Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR)) {
                 model = new ModelAndView("/supervisorManager/statisticReport/showComplexReport");
+            }
+
+            if(filterSelected.equals(Constants.REPORT_STATISTIC_MANAGER_REPORT_C) &&
+                    reportTypeRepository.getReportCodeById(idReportType).equals(Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR)){
+                model = new ModelAndView("/supervisorManager/statisticReport/showLargeReport");
+                List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                model.addObject("lstSupervisors", gson.toJson(users));
+                model.addObject("idDistrict",idDistrict.toString());
+                model.addObject("initDate",initDate.toString());
+                model.addObject("endDate",endDate.toString());
             }
 
             //     if(filterSelected.equals(Constants.REPORT_STATISTIC_MANAGER_REPORT_C)){
@@ -102,7 +116,7 @@ public class StatisticSupervisorManagerReportController {
             model.addObject("endDate", endDate.toString());
             model.addObject("total", total);
             model.addObject("data", data);
-            model.addObject("extraData", extraData);
+                model.addObject("extraData", extraData);
             model.addObject("title", title);
 
         } catch (Exception e) {
@@ -117,4 +131,55 @@ public class StatisticSupervisorManagerReportController {
         }
         return model;
     }
+
+    @RequestMapping(value = "/supervisorManager/statisticReport/showLargeReport", method = RequestMethod.GET)
+    public ModelAndView showLargeReport(String initDate, String endDate, Long idDistrict, Long idSupervisor) {
+
+        Gson gson = new Gson();
+        Long total = Long.valueOf(0);
+        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+        ModelAndView model = new ModelAndView("/supervisorManager/statisticReport/showLargeReport");
+        model.addObject("lstSupervisors", gson.toJson(users));
+        String title = null;
+        String extraData = null;
+        try {
+
+            //  List<SelectList> data;
+            String data;
+            data = statisticSupervisorManagerReportService.getArrangementBySupervisor(initDate,endDate,idDistrict,idSupervisor);
+
+
+
+        if (idDistrict == 1)
+            extraData = "Por operador - Cuatla";
+        else if (idDistrict == 2)
+            extraData = "Por operador - Cuernavaca";
+        else
+            extraData = "Por operador - Jojutla";
+
+        model.addObject("idDistrict",idDistrict);
+        model.addObject("initDate", initDate.toString());
+        model.addObject("endDate", endDate.toString());
+        model.addObject("total", total);
+        model.addObject("data", data);
+        model.addObject("extraData", extraData);
+        model.addObject("title", title);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        logException.Write(e, this.getClass(), "save", sharedUserService);
+        model.addObject("initDate", initDate.toString());
+        model.addObject("endDate", endDate.toString());
+        model.addObject("total", total);
+        model.addObject("data", null);
+        model.addObject("extraData", extraData);
+        model.addObject("title", title);
+    }
+    return model;
+
+    }
+
+
+
+
 }

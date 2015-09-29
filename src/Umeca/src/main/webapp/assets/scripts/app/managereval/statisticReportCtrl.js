@@ -54,6 +54,21 @@ app.controller('statisticReportController', function ($scope, $timeout, $http) {
             return true;
         };
 
+        $scope.findLargeSupervisorReport = function(formId, urlToPost){
+            $scope.msgError = "";
+            if ($(formId).valid() == false)
+                return;
+
+            $scope.WaitFor = true;
+
+            var url = urlToPost + "?initDate=" + $scope.initDate + "&endDate=" + $scope.endDate + "&idDistrict=" + $scope.idDistrict + "&idSupervisor=" + $scope.idSupervisor;
+            window.goToUrlMvcUrl(url);
+
+            return true;
+
+
+        }
+
     }
 )
 ;
