@@ -72,7 +72,7 @@ public class StatisticSupervisorManagerReportController {
             title = statisticSupervisorManagerReportRepository.findByCode(filterSelected).getDescription();
             //  List<SelectList> data;
             String data;
-            data = statisticSupervisorManagerReportService.getData(initDate, endDate, filterSelected, idReportType, idDistrict);
+            data = statisticSupervisorManagerReportService.getData(initDate, endDate, filterSelected, idReportType, idDistrict, null);
 
 
             if (
@@ -186,7 +186,7 @@ public class StatisticSupervisorManagerReportController {
 
             //  List<SelectList> data;
             String data;
-            data = statisticSupervisorManagerReportService.getReportFilteredBySupervisor(filterSelected, initDate, endDate, idDistrict, idSupervisor);
+            data = statisticSupervisorManagerReportService.getData(initDate, endDate, filterSelected, 4L, idDistrict, idSupervisor);
 
 
             if (idDistrict == 1)

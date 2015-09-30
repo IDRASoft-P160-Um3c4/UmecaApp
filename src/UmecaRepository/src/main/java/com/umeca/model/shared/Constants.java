@@ -386,6 +386,7 @@ public class Constants {
     public static final String REPORT_STATISTIC_MANAGER_GENERAL = "GENERAL";
     public static final String REPORT_STATISTIC_MANAGER_BY_DISTRICT = "DISTRICT";
     public static final String REPORT_STATISTIC_MANAGER_BY_OPERATOR = "BY_OPERATOR";
+    public static final String REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR = "SINGLE_OPERATOR";
 
 
 

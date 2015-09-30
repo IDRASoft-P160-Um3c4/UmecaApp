@@ -60,7 +60,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
 
 
     @Override
-    public String getData(String initDate, String endDate, String filter, Long idReportType, Long idDistrict) {
+    public String getData(String initDate, String endDate, String filter, Long idReportType, Long idDistrict, Long idSupervisor) {
         List<SelectList> data = new ArrayList<>();
         List<Object> lstObjects;
         Gson gson = new Gson();
@@ -70,6 +70,9 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
         int endId = 0;
         String initTime = " 00:00:00";
         String endTime = " 23:59:59";
+
+
+
         try {
             initDateF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(initDate + initTime);
             endDateF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(endDate + endTime);
@@ -171,16 +174,25 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         }
                         return gson.toJson(total);
 
-                    /*    lstObjects = statisticSupervisorManagerReportRepository.getCountCasesByArrangementAndDistrict(initDate + initTime, endDate + endTime, idDistrict);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
+                        if(idSupervisor == 0){
+                            lstObjects = statisticSupervisorManagerReportRepository.getArrangementByNotAssignetSupervisor(initDate + initTime, endDate + endTime, idDistrict);
+                        }
+                        else{
+                            lstObjects = statisticSupervisorManagerReportRepository.getArrangementByIdAndSupervisorId(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
+                        }
+
                         for (int i = 0; i < lstObjects.size(); i++) {
                             Object[] obj = (Object[]) lstObjects.get(i);
                             SelectList selectList = new SelectList();
-                            selectList.setValue(Long.parseLong(obj[0].toString()));
-                            selectList.setName(obj[1].toString());
-                            selectList.setSubName(obj[1].toString());
+                            selectList.setName(obj[0].toString());
+                            selectList.setSubName(obj[0].toString());
+                            selectList.setValue(Long.parseLong(obj[1].toString()));
                             data.add(selectList);
                         }
-                        return gson.toJson(data); */
+
+                        return gson.toJson(data);
+
 
                 }
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_D:
@@ -857,41 +869,6 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
         return null;
     }
 
-
-    public String getReportFilteredBySupervisor(String filterSelected, String initDate, String endDate, Long idDistrict, Long idSupervisor) {
-        Gson gson = new Gson();
-        List<SelectList> data = new ArrayList<>();
-        List<Object> lstObjects;
-        String initTime = " 00:00:00";
-        String endTime = " 23:59:59";
-
-
-        switch (filterSelected) {
-            case Constants.REPORT_STATISTIC_MANAGER_REPORT_C:
-
-                if(idSupervisor == 0){
-                    lstObjects = statisticSupervisorManagerReportRepository.getArrangementByNotAssignetSupervisor(initDate + initTime, endDate + endTime, idDistrict);
-                }
-                else{
-                    lstObjects = statisticSupervisorManagerReportRepository.getArrangementByIdAndSupervisorId(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
-                }
-
-
-                for (int i = 0; i < lstObjects.size(); i++) {
-                    Object[] obj = (Object[]) lstObjects.get(i);
-                    SelectList selectList = new SelectList();
-                    selectList.setName(obj[0].toString());
-                    selectList.setSubName(obj[0].toString());
-                    selectList.setValue(Long.parseLong(obj[1].toString()));
-                    data.add(selectList);
-                }
-                break;
-
-
-        }
-        return gson.toJson(data);
-
-    }
 
     private List<Object> completeData(List<Object> finalData, List<Object> data, String supervisor, int x, List<DrugType> drugs) {
 
