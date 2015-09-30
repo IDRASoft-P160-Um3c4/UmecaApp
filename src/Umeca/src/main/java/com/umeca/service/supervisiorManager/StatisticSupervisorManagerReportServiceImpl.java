@@ -852,14 +852,18 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         data = statisticSupervisorManagerReportRepository.countSuspensionOfSupervisionForPreventivePrisonGeneral(initDateF, endDateF);
                         return gson.toJson(data);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
-                        data = statisticSupervisorManagerReportRepository.countSuspensionOfSupervisionForPreventivePrisonByDistrict(initDateF, endDateF, idDistrict);
-                        if (data.size() == 0) {
+                        lstObjects = statisticSupervisorManagerReportRepository.countSuspensionOfSupervisionForPreventivePrisonByDistrict(initDate + initTime, endDate + endTime, idDistrict);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
                             SelectList selectList = new SelectList();
-                            selectList.setName("Supensión preventiva en una carpeta diversa");
-                            selectList.setValue(0L);
+                            selectList.setName(obj[0].toString());
+                            selectList.setSubName(obj[0].toString());
+                            selectList.setValue(Long.parseLong(obj[1].toString()));
+
                             data.add(selectList);
                         }
                         return gson.toJson(data);
+
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
                         break;
                 }
