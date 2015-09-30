@@ -1125,6 +1125,7 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
         List<SelectList> countSuspensionOfSupervisionForPreventivePrisonByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("idDistrict") Long idDistrict);
 
 
+
     //    @Query("")
     //    List<SelectList> countSuspensionOfSupervisionForPreventivePrisonByDistrict(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict);
 
