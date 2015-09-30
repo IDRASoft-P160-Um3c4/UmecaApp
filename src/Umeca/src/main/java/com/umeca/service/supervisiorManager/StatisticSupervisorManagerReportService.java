@@ -9,5 +9,4 @@ import java.util.List;
  */
 public interface StatisticSupervisorManagerReportService {
     String getData(String initDate, String endDate, String filter, Long idReportType, Long idDistrict, Long idSupervisor);
-    //String getReportFilteredBySupervisor(String filterSelected, String initDate, String endDate, Long idDistrict, Long idSupervisor);
 }

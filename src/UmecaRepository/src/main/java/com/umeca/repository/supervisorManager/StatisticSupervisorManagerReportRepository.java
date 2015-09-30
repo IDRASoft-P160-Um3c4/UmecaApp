@@ -214,7 +214,7 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
 
 
     //Sustancias general
-    @Query(value = "select drug, count(idDrug), idDrug " +
+    @Query(value = "select idDrug, drug, count(idDrug) " +
             "from (select distinct FM.id_framing_meeting as idFr, DR.id_drug_type as idDrug, DRTY.drug as drug " +
             "from case_detention CA " +
             "inner join framing_meeting FM on CA.id_case=FM.id_case " +
@@ -229,7 +229,7 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
 
 
     //Sustancias por distrito
-    @Query(value = "select drug, count(idDrug), idDrug " +
+    @Query(value = "select idDrug, drug, count(idDrug) " +
             "from (select distinct FM.id_framing_meeting as idFr, DR.id_drug_type as idDrug, DRTY.drug as drug " +
             "from case_detention CA " +
             "inner join framing_meeting FM on CA.id_case=FM.id_case " +
