@@ -813,39 +813,22 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_U:
                 switch (reportTypeRepository.getReportCodeById(idReportType)) {
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
-                        lstObjects = statisticSupervisorManagerReportRepository.countAnyChangesInArrangementType(initDateF, endDateF);
-                        for (int j = 0; j < lstObjects.size(); j++) {
-                            Object[] obj = (Object[]) lstObjects.get(j);
-                            data.add(new SelectList(obj[0].toString(), Long.parseLong(obj[1].toString())));
-                        }
-                        return gson.toJson(completeDoubleData(data, "Cambio de MC a SCPP", "Cambio de SCPP a MC"));
+                        data = statisticSupervisorManagerReportRepository.countSubstracted(initDateF, endDateF);
+                        return gson.toJson(data);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
-                        lstObjects = statisticSupervisorManagerReportRepository.countAnyChangesInArrangementTypeByDistrict(initDateF, endDateF, idDistrict);
-                        for (int j = 0; j < lstObjects.size(); j++) {
-                            Object[] obj = (Object[]) lstObjects.get(j);
-                            data.add(new SelectList(obj[0].toString(), Long.parseLong(obj[1].toString())));
-                        }
-                        return gson.toJson(completeDoubleData(data, "Cambio de MC a SCPP", "Cambio de SCPP a MC"));
+                        data = statisticSupervisorManagerReportRepository.countSubstractedByDistrict(initDateF, endDateF, idDistrict);
+                        return gson.toJson(data);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
                         List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
                         List<Object> dataEnd = new ArrayList<>();
                         int x = 0;
-                        List<Object> nullSupervisor = statisticSupervisorManagerReportRepository.countAnyChangesInArrangementTypeByDistrictAndSupervisorNull(initDateF, endDateF, idDistrict);
-                        for (int j = 0; j < nullSupervisor.size(); j++) {
-                            Object[] obj = (Object[]) nullSupervisor.get(j);
-                            data.add(new SelectList(obj[0].toString(), Long.parseLong(obj[1].toString())));
-                        }
-                        dataEnd = completeDataBySup(dataEnd, completeDoubleData(data, "Cambio de MC a SCPP", "Cambio de SCPP a MC"), "Sin supervisor", x);
+                        List<SelectList> nullSupervisor = statisticSupervisorManagerReportRepository.countSubstractedByDistrictAndSupervisorNull(initDateF, endDateF, idDistrict);
+                        dataEnd = completeSingleDataBySup(dataEnd, nullSupervisor, "Sin supervisor", x);
                         x += 1;
                         for (SelectList u : users) {
-                            lstObjects = statisticSupervisorManagerReportRepository.countAnyChangesInArrangementTypeByDistrictAndSupervisor(initDateF, endDateF, idDistrict, u.getId());
-                            for (int j = 0; j < lstObjects.size(); j++) {
-                                Object[] obj = (Object[]) lstObjects.get(j);
-                                data.add(new SelectList(obj[0].toString(), Long.parseLong(obj[1].toString())));
-                            }
-                            dataEnd = completeDataBySup(dataEnd, completeDoubleData(data, "Cambio de MC a SCPP", "Cambio de SCPP a MC"), u.getName(), x);
+                            data = statisticSupervisorManagerReportRepository.countSubstractedByDistrictAndSupervisor(initDateF, endDateF, idDistrict, u.getId());
+                            dataEnd = completeSingleDataBySup(dataEnd, data, u.getName(), x);
                             x += 1;
-                            data = new ArrayList<>();
                         }
                         return gson.toJson(dataEnd);
 
