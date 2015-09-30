@@ -4,11 +4,9 @@ app.controller('statisticReportController', function ($scope, $timeout, $http) {
         $scope.entities = []
 
         $scope.init = function () {
-            $scope.district = $scope.lstDistrict[0];
-            $scope.idDistrict = $scope.lstDistrict[0].id;
-            $scope.reportType = $scope.lstReportType[0];
-            $scope.idReportType = $scope.lstReportType[0].id;
-        }
+
+
+        };
 
         $timeout(function () {
             $scope.init();
@@ -61,7 +59,7 @@ app.controller('statisticReportController', function ($scope, $timeout, $http) {
 
             $scope.WaitFor = true;
 
-            var url = urlToPost + "?initDate=" + $scope.initDate + "&endDate=" + $scope.endDate + "&idDistrict=" + $scope.idDistrict + "&idSupervisor=" + $scope.idSupervisor;
+            var url = urlToPost + "?filterSelected=" + $scope.filterSelected + "&initDate=" + $scope.initDate + "&endDate=" + $scope.endDate + "&idDistrict=" + $scope.idDistrict + "&idSupervisor=" + $scope.idSupervisor;
             window.goToUrlMvcUrl(url);
 
             return true;

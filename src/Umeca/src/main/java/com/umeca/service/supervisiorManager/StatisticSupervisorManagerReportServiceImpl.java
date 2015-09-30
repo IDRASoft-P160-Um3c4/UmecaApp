@@ -150,29 +150,28 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         }
                         return gson.toJson(data);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
-                     /*   List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
-                        List<List<ReportList>> supTotal = new ArrayList<>();
-                        List<SelectList> arrangements = arrangementRepository.findAllNoObsolete();
-                        for (int i = 0; i < arrangements.size(); i++) {
-                            List<ReportList> arrangementList = new ArrayList<>();
-                            for (int j = 0; j < users.size(); j++) {
-                                lstObjects = statisticSupervisorManagerReportRepository.getArrangementByIdAndSupervisorId(initDate + initTime, endDate + endTime, users.get(j).getId(), arrangements.get(i).getId(), idDistrict);
-                                ReportList arrangement = new ReportList();
-                                arrangement.setName(arrangements.get(i).getName());
-                                arrangement.setY(0L);
-                                arrangement.setX(new Long(j));
-                                arrangement.setId(new Long(i));
-                                arrangement.setUser(users.get(j).getName());
-                                for (int k = 0; k < lstObjects.size(); k++) {
-                                    Object[] obj = (Object[]) lstObjects.get(k);
-                                    arrangement.setY(Long.parseLong(obj[0].toString()));
+                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                        List<List<ReportList>> total = new ArrayList<>();
+
+                        for (int i = 0; i < users.size(); i++) {
+                            lstObjects = statisticSupervisorManagerReportRepository.getArrangementByIdAndSupervisorId(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
+                            for (int j = 0; j < lstObjects.size(); j++) {
+                                Object[] obj = (Object[]) lstObjects.get(j);
+                                if (i == 0) {
+                                    total.add(new ArrayList<ReportList>());
                                 }
-                                arrangementList.add(arrangement);
+                                ReportList reportList = new ReportList();
+                                reportList.setId(new Long(j));
+                                reportList.setName(obj[0].toString());
+                                reportList.setUser(users.get(i).getName());
+                                reportList.setX(new Long(i));
+                                reportList.setY(new Long(obj[1].toString()));
+                                total.get(j).add(reportList);
                             }
-                            supTotal.add(arrangementList);
                         }
-                        return gson.toJson(supTotal); */
-                        lstObjects = statisticSupervisorManagerReportRepository.getCountCasesByArrangementAndDistrict(initDate + initTime, endDate + endTime, idDistrict);
+                        return gson.toJson(total);
+
+                    /*    lstObjects = statisticSupervisorManagerReportRepository.getCountCasesByArrangementAndDistrict(initDate + initTime, endDate + endTime, idDistrict);
                         for (int i = 0; i < lstObjects.size(); i++) {
                             Object[] obj = (Object[]) lstObjects.get(i);
                             SelectList selectList = new SelectList();
@@ -181,7 +180,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                             selectList.setSubName(obj[1].toString());
                             data.add(selectList);
                         }
-                        return gson.toJson(data);
+                        return gson.toJson(data); */
 
                 }
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_D:
@@ -545,7 +544,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         data = statisticSupervisorManagerReportRepository.countSCPPWithNonFulfillmentGeneral(initId, endId);
                         return gson.toJson(data);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
-                        data = statisticSupervisorManagerReportRepository.countSCPPWithNonFulfillByDistrict(initId,endId,idDistrict);
+                        data = statisticSupervisorManagerReportRepository.countSCPPWithNonFulfillByDistrict(initId, endId, idDistrict);
                         return gson.toJson(data);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
                         List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
@@ -624,7 +623,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                                 new SelectList(new Long(10), "71 - 75"),
                                 new SelectList(new Long(11), "76 - 80"),
                                 new SelectList(new Long(12), "Más de 80")
-                                );
+                        );
                         for (SelectList u : users) {
                             lstObjects = statisticSupervisorManagerReportRepository.countByAgeAndDistrictAndSupervisor(initDateF, endDateF, idDistrict, u.getId());
                             dataEnd = completeAgeData(dataEnd, lstObjects, u.getName(), x, agesList);
@@ -656,13 +655,13 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         return gson.toJson(dataEnd);
                 }
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_R:
-                switch (reportTypeRepository.getReportCodeById(idReportType)){
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
                         data = statisticSupervisorManagerReportRepository.countImputedStudyingGeneral(initDateF, endDateF);
-                        if(data.size() == 1){
+                        if (data.size() == 1) {
                             SelectList selectList = new SelectList();
                             selectList.setValue(0L);
-                            if(data.get(0).getName().equals("Estudia"))
+                            if (data.get(0).getName().equals("Estudia"))
                                 selectList.setName("No estudia");
                             else
                                 selectList.setName("Estudia");
@@ -670,11 +669,11 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         }
                         return gson.toJson(data);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
-                        data = statisticSupervisorManagerReportRepository.countImputedStudyingByDistrict(initDateF, endDateF,idDistrict);
-                        if(data.size() == 1){
+                        data = statisticSupervisorManagerReportRepository.countImputedStudyingByDistrict(initDateF, endDateF, idDistrict);
+                        if (data.size() == 1) {
                             SelectList selectList = new SelectList();
                             selectList.setValue(0L);
-                            if(data.get(0).getName().equals("Estudia"))
+                            if (data.get(0).getName().equals("Estudia"))
                                 selectList.setName("No estudia");
                             else
                                 selectList.setName("Estudia");
@@ -705,7 +704,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                             data = statisticSupervisorManagerReportRepository.countImputedStudyingBySupervisor(initDateF, endDateF, idDistrict, users.get(i).getId());
                             for (int j = 0; j < data.size(); j++) {
 
-                                if(data.get(0).getName().equals("Estudia"))
+                                if (data.get(0).getName().equals("Estudia"))
                                     studying.setY(data.get(0).getValue());
                                 else
                                     notStudying.setY(data.get(0).getValue());
@@ -722,7 +721,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                 }
 
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_S:
-                switch (reportTypeRepository.getReportCodeById(idReportType)){
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
                         lstObjects = statisticSupervisorManagerReportRepository.countCasesBySchoolGradeGeneral(initDate + initTime, endDate + endTime);
                         for (int i = 0; i < lstObjects.size(); i++) {
@@ -852,6 +851,23 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
 
 
                 }
+            case Constants.REPORT_STATISTIC_MANAGER_REPORT_V:
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        data = statisticSupervisorManagerReportRepository.countSuspensionOfSupervisionForPreventivePrisonGeneral(initDateF, endDateF);
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        data = statisticSupervisorManagerReportRepository.countSuspensionOfSupervisionForPreventivePrisonByDistrict(initDateF, endDateF, idDistrict);
+                        if (data.size() == 0) {
+                            SelectList selectList = new SelectList();
+                            selectList.setName("Supensión preventiva en una carpeta diversa");
+                            selectList.setValue(0L);
+                            data.add(selectList);
+                        }
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        break;
+                }
 
         }
 
@@ -859,21 +875,36 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
     }
 
 
-    public String getArrangementBySupervisor(String initDate, String endDate, Long idDistrict, Long idSupervisor ){
+    public String getReportFilteredBySupervisor(String filterSelected, String initDate, String endDate, Long idDistrict, Long idSupervisor) {
         Gson gson = new Gson();
         List<SelectList> data = new ArrayList<>();
         List<Object> lstObjects;
         String initTime = " 00:00:00";
         String endTime = " 23:59:59";
 
-        lstObjects = statisticSupervisorManagerReportRepository.getArrangementByIdAndSupervisorId(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
-        for (int i = 0; i < lstObjects.size(); i++) {
-            Object[] obj = (Object[]) lstObjects.get(i);
-            SelectList selectList = new SelectList();
-            selectList.setName(obj[0].toString());
-            selectList.setSubName(obj[0].toString());
-            selectList.setValue(Long.parseLong(obj[1].toString()));
-            data.add(selectList);
+
+        switch (filterSelected) {
+            case Constants.REPORT_STATISTIC_MANAGER_REPORT_C:
+
+                if(idSupervisor == 0){
+                    lstObjects = statisticSupervisorManagerReportRepository.getArrangementByNotAssignetSupervisor(initDate + initTime, endDate + endTime, idDistrict);
+                }
+                else{
+                    lstObjects = statisticSupervisorManagerReportRepository.getArrangementByIdAndSupervisorId(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
+                }
+
+
+                for (int i = 0; i < lstObjects.size(); i++) {
+                    Object[] obj = (Object[]) lstObjects.get(i);
+                    SelectList selectList = new SelectList();
+                    selectList.setName(obj[0].toString());
+                    selectList.setSubName(obj[0].toString());
+                    selectList.setValue(Long.parseLong(obj[1].toString()));
+                    data.add(selectList);
+                }
+                break;
+
+
         }
         return gson.toJson(data);
 
@@ -1099,8 +1130,6 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
         return finalData;
 
     }
-
-
 
 
 }

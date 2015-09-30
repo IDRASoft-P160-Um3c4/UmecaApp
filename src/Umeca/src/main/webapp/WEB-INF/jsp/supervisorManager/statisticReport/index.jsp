@@ -124,7 +124,7 @@
                           <label for="reportType">Tipo de reporte</label>
                           <select id="reportType"
                               ng-model = "reportType"
-                              ng-init = 'lstReportType = ${lstReportType}'
+                              ng-init = 'lstReportType = ${lstReportType}; reportType = lstReportType[0]; idReportType = reportType.id; '
                               ng-options="e.description for e in lstReportType"
                               ng-change="idReportType = reportType.id">
                           </select>
@@ -136,7 +136,7 @@
                           <label for="district">Distrito</label>
                           <select id="district"
                                   ng-model="district"
-                                  ng-init='lstDistrict = ${lstDistrict}'
+                                  ng-init='lstDistrict = ${lstDistrict}; district = lstDistrict[0]; idDistrict = district.id; '
                                   ng-options="e.name for e in lstDistrict"
                                   ng-change="idDistrict = district.id"
                                   ng-disabled = "idReportType == 1">

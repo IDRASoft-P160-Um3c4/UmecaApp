@@ -79,19 +79,22 @@ public class StatisticSupervisorManagerReportController {
                 model = new ModelAndView("/supervisorManager/statisticReport/showComplexReport");
             }
 
-            if(filterSelected.equals(Constants.REPORT_STATISTIC_MANAGER_REPORT_C) &&
-                    reportTypeRepository.getReportCodeById(idReportType).equals(Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR)){
-                model = new ModelAndView("/supervisorManager/statisticReport/showLargeReport");
+            if (filterSelected.equals(Constants.REPORT_STATISTIC_MANAGER_REPORT_C) &&
+                    reportTypeRepository.getReportCodeById(idReportType).equals(Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR)) {
+                model = new ModelAndView("/supervisorManager/statisticReport/showLComplexLargeReport");
                 List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
-                model.addObject("lstSupervisors", gson.toJson(users));
-                model.addObject("idDistrict",idDistrict.toString());
-                model.addObject("initDate",initDate.toString());
-                model.addObject("endDate",endDate.toString());
-            }
+                SelectList notAssignedSupervisor = new SelectList();
+                notAssignedSupervisor.setName("Sin supervisor");
+                notAssignedSupervisor.setDescription("Sin supervisor");
+                notAssignedSupervisor.setId(0L);
+                users.add(notAssignedSupervisor);
 
-            //     if(filterSelected.equals(Constants.REPORT_STATISTIC_MANAGER_REPORT_C)){
-            //       model = new ModelAndView("/supervisorManager/statisticReport/showArrangementReport");
-            //    }
+                model.addObject("lstSupervisors", gson.toJson(users));
+                model.addObject("idDistrict", idDistrict.toString());
+                model.addObject("initDate", initDate.toString());
+                model.addObject("endDate", endDate.toString());
+                model.addObject("filterSelected", filterSelected);
+            }
 
             if (idReportType == 1)
                 extraData = "General";
@@ -116,7 +119,7 @@ public class StatisticSupervisorManagerReportController {
             model.addObject("endDate", endDate.toString());
             model.addObject("total", total);
             model.addObject("data", data);
-                model.addObject("extraData", extraData);
+            model.addObject("extraData", extraData);
             model.addObject("title", title);
 
         } catch (Exception e) {
@@ -133,11 +136,28 @@ public class StatisticSupervisorManagerReportController {
     }
 
     @RequestMapping(value = "/supervisorManager/statisticReport/showLargeReport", method = RequestMethod.GET)
-    public ModelAndView showLargeReport(String initDate, String endDate, Long idDistrict, Long idSupervisor) {
+    public ModelAndView showLargeReport(String filterSelected, String initDate, String endDate, Long idDistrict, Long idSupervisor) {
 
         Gson gson = new Gson();
         Long total = Long.valueOf(0);
         List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+        SelectList notAssignedSupervisor = new SelectList();
+        notAssignedSupervisor.setName("Sin supervisor");
+        notAssignedSupervisor.setDescription("Sin supervisor");
+        notAssignedSupervisor.setId(0L);
+        users.add(notAssignedSupervisor);
+
+
+        String currentSupervisorFullName;
+
+
+        if (idSupervisor == 0) {
+            currentSupervisorFullName = "Sin supervisor";
+        } else {
+            currentSupervisorFullName = userRepository.getFullNameById(idSupervisor);
+        }
+
+
         ModelAndView model = new ModelAndView("/supervisorManager/statisticReport/showLargeReport");
         model.addObject("lstSupervisors", gson.toJson(users));
         String title = null;
@@ -146,40 +166,39 @@ public class StatisticSupervisorManagerReportController {
 
             //  List<SelectList> data;
             String data;
-            data = statisticSupervisorManagerReportService.getArrangementBySupervisor(initDate,endDate,idDistrict,idSupervisor);
+            data = statisticSupervisorManagerReportService.getReportFilteredBySupervisor(filterSelected, initDate, endDate, idDistrict, idSupervisor);
 
 
+            if (idDistrict == 1)
+                extraData = "Por operador: " + currentSupervisorFullName + " - Cuatla";
+            else if (idDistrict == 2)
+                extraData = "Por operador: " + currentSupervisorFullName + " - Cuernavaca";
+            else
+                extraData = "Por operador: " + currentSupervisorFullName + " - Jojutla";
 
-        if (idDistrict == 1)
-            extraData = "Por operador - Cuatla";
-        else if (idDistrict == 2)
-            extraData = "Por operador - Cuernavaca";
-        else
-            extraData = "Por operador - Jojutla";
+            model.addObject("idDistrict", idDistrict);
+            model.addObject("initDate", initDate);
+            model.addObject("endDate", endDate);
+            model.addObject("filterSelected", filterSelected);
+            model.addObject("total", total);
+            model.addObject("data", data);
+            model.addObject("extraData", extraData);
+            model.addObject("title", title);
+            model.addObject("currentSupervisor", idSupervisor);
 
-        model.addObject("idDistrict",idDistrict);
-        model.addObject("initDate", initDate.toString());
-        model.addObject("endDate", endDate.toString());
-        model.addObject("total", total);
-        model.addObject("data", data);
-        model.addObject("extraData", extraData);
-        model.addObject("title", title);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logException.Write(e, this.getClass(), "save", sharedUserService);
+            model.addObject("initDate", initDate.toString());
+            model.addObject("endDate", endDate.toString());
+            model.addObject("total", total);
+            model.addObject("data", null);
+            model.addObject("extraData", extraData);
+            model.addObject("title", title);
+        }
+        return model;
 
-    } catch (Exception e) {
-        e.printStackTrace();
-        logException.Write(e, this.getClass(), "save", sharedUserService);
-        model.addObject("initDate", initDate.toString());
-        model.addObject("endDate", endDate.toString());
-        model.addObject("total", total);
-        model.addObject("data", null);
-        model.addObject("extraData", extraData);
-        model.addObject("title", title);
     }
-    return model;
-
-    }
-
-
 
 
 }

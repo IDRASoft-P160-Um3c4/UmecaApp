@@ -306,6 +306,7 @@ public class Constants {
     public static final String CAUSE_SUMMARY_PROCEDURE = "CAUSE_SUMMARY_PROCEDURE";
     public static final String CAUSE_FINAL_JUDGMENT = "CAUSE_FINAL_JUDGMENT";
     public static final String CAUSE_DEADLINE_OF_CONDITIONAL_SUSPENSION = "CAUSE_DEADLINE_OF_CONDITIONAL_SUSPENSION";
+    public static final String CAUSE_PRISON_MULTIPLE_FOLDER = "CAUSE_PRISON_MULTIPLE_FOLDER";
 
     /** códigos para causas de cierre **/
 

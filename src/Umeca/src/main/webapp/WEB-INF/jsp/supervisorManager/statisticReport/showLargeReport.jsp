@@ -445,7 +445,7 @@
     </h2>
 
     <form id="FormStatisRep" name="FormStatisRep" class="form-horizontal"
-          role="form" ng-controller="statisticReportController" method="post" ng-init='entities=${lstFilter}' ng-cloak>
+          role="form" ng-controller="statisticReportController" method="post"  ng-cloak>
 
 
         <div class="row">
@@ -456,12 +456,15 @@
                        name="initDate" id="initDate" ng-value = "initDate">
                 <input type="hidden" ng-update-hidden ng-model="endDate" ng-init="endDate = '${endDate}'"
                        name="endDate" id="endDate">
+                <input type="hidden" ng-update-hidden ng-model="filterSelected" ng-init="filterSelected = '${filterSelected}'"
+                       name="filterSelected" id="filterSelected">
 
                 <input type="hidden" ng-update-hidden ng-model="idSupervisor" name="idSupervisor" id="idSupervisor">
+
                 <label for="supervisor">Supervisor</label>
                 <select id="supervisor"
                         ng-model="supervisor"
-                        ng-init='lstSupervisors = ${lstSupervisors}'
+                        ng-init='lstSupervisors = ${lstSupervisors}; supervisor = lstSupervisors[0]; idSupervisor = supervisor.id;'
                         ng-options="e.description for e in lstSupervisors"
                         ng-change="idSupervisor = supervisor.id">
                 </select>
