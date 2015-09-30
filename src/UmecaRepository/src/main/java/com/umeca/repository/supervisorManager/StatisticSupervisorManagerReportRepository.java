@@ -1081,7 +1081,50 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
                 "end", nativeQuery = true)
         List<Object> countAnyChangesInArrangementTypeByDistrictAndSupervisorNull(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
 
+        //sustraidos general
+        @Query("select new com.umeca.model.shared.SelectList(" +
+                "case when ca.isSubstracted  = 1 then 'Sustraidos' else 'Sustraidos' end, count(distinct ca.id)) " +
+                "from Case ca " +
+                "where ca.dateCreate between :initDate and :endDate " +
+                "and ca.isSubstracted = 1 " +
+                "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "")
+        List<SelectList> countSubstracted(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
 
 
+        //sustraidos por distrito
+        @Query("select new com.umeca.model.shared.SelectList(" +
+                "case when ca.isSubstracted  = 1 then 'Sustraidos' else 'Sustraidos' end, count(distinct ca.id)) " +
+                "from Case ca " +
+                "where ca.dateCreate between :initDate and :endDate " +
+                "and ca.isSubstracted = 1 " +
+                "and ca.district.id = :districtId " +
+                "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "")
+        List<SelectList> countSubstractedByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
+
+        //sustraidos por distrito y supervisor
+        @Query("select new com.umeca.model.shared.SelectList(" +
+                "case when ca.isSubstracted  = 1 then 'Sustraidos' else 'Sustraidos' end, count(distinct ca.id)) " +
+                "from Case ca " +
+                "where ca.dateCreate between :initDate and :endDate " +
+                "and ca.isSubstracted = 1 " +
+                "and ca.district.id = :districtId " +
+                "and ca.umecaSupervisor.id = :idSupervisor " +
+                "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "")
+        List<SelectList> countSubstractedByDistrictAndSupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("idSupervisor") Long idSupervisor);
+
+        //sustraidos por distrito sin supervisor
+        @Query("select new com.umeca.model.shared.SelectList(" +
+                "case when ca.isSubstracted  = 1 then 'Sustraidos' else 'Sustraidos' end, count(distinct ca.id)) " +
+                "from Case ca " +
+                "where ca.dateCreate between :initDate and :endDate " +
+                "and ca.isSubstracted = 1 " +
+                "and ca.district.id = :districtId " +
+                "and ca.umecaSupervisor.id = null " +
+                "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "")
+        List<SelectList> countSubstractedByDistrictAndSupervisorNull(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
 
 }
