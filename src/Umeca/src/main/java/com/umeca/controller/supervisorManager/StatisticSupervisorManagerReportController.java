@@ -154,6 +154,9 @@ public class StatisticSupervisorManagerReportController {
         Gson gson = new Gson();
         Long total = Long.valueOf(0);
         List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+
+
+
         SelectList notAssignedSupervisor = new SelectList();
         notAssignedSupervisor.setName("Sin supervisor");
         notAssignedSupervisor.setDescription("Sin supervisor");
