@@ -188,7 +188,6 @@ public class StatisticSupervisorManagerReportController {
             String data;
             data = statisticSupervisorManagerReportService.getData(initDate, endDate, filterSelected, 4L, idDistrict, idSupervisor);
 
-
             if (idDistrict == 1)
                 extraData = "Por operador: " + currentSupervisorFullName + " - Cuatla";
             else if (idDistrict == 2)
