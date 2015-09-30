@@ -52,6 +52,7 @@ app.controller('statisticReportController', function ($scope, $timeout, $http) {
             return true;
         };
 
+
         $scope.findLargeSupervisorReport = function(formId, urlToPost){
             $scope.msgError = "";
             if ($(formId).valid() == false)

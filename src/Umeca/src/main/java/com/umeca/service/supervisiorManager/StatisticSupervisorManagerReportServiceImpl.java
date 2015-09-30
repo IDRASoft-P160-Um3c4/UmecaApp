@@ -1,7 +1,9 @@
 package com.umeca.service.supervisiorManager;
 
 import com.google.gson.Gson;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import com.umeca.model.catalog.DrugType;
+import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.ReportList;
 import com.umeca.model.shared.SelectList;
@@ -71,7 +73,6 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
         int endId = 0;
         String initTime = " 00:00:00";
         String endTime = " 23:59:59";
-
 
 
         try {
@@ -176,10 +177,9 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         return gson.toJson(total);
 
                     case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
-                        if(idSupervisor == 0){
+                        if (idSupervisor == 0) {
                             lstObjects = statisticSupervisorManagerReportRepository.getArrangementByNotAssignetSupervisor(initDate + initTime, endDate + endTime, idDistrict);
-                        }
-                        else{
+                        } else {
                             lstObjects = statisticSupervisorManagerReportRepository.getArrangementByIdAndSupervisorId(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
                         }
 
@@ -244,10 +244,12 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                             drugFemale.setX(new Long(i));
                             drugFemale.setUser(users.get(i).getName());
                             drugFemale.setY(0L);
+                            drugFemale.setId(1L);
                             drugMale.setName("Masculino");
                             drugMale.setX(new Long(i));
                             drugMale.setUser(users.get(i).getName());
                             drugMale.setY(0L);
+                            drugMale.setId(0L);
                             lstObjects = statisticSupervisorManagerReportRepository.getNumberOfPeopleByGenderWhoUseDrugsByDistrictAndSupervisor(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
                             for (int j = 0; j < lstObjects.size(); j++) {
                                 Object[] obj = (Object[]) lstObjects.get(j);
@@ -262,6 +264,19 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         totalReport.add(drugsMaleList);
                         totalReport.add(drugsFemaleList);
                         return gson.toJson(totalReport);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
+                        lstObjects = statisticSupervisorManagerReportRepository.getNumberOfPeopleByGenderWhoUseDrugsByDistrictAndSupervisor(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            if (obj[0].toString().equals("1"))
+                                drugsFemale.setValue(Long.parseLong(obj[1].toString()));
+                            else
+                                drugsMale.setValue(Long.parseLong(obj[1].toString()));
+                        }
+                        data.add(drugsMale);
+                        data.add(drugsFemale);
+                        return gson.toJson(data);
+
                 }
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_E:
                 List<DrugType> drugs = drugTypeRepository.findNotObsoleteImportant();
@@ -287,11 +302,10 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         }
                         return gson.toJson(dataEnd);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
-                        if(idSupervisor == 0){
+                        if (idSupervisor == 0) {
                             lstObjects = statisticSupervisorManagerReportRepository.countTypeofDrugsByDistrictAndSupervisor(initDateF, endDateF, idDistrict, null);
                             data = completeDrugsData(data, lstObjects, drugs);
-                        }
-                        else{
+                        } else {
                             lstObjects = statisticSupervisorManagerReportRepository.countTypeofDrugsByDistrictAndSupervisor(initDateF, endDateF, idDistrict, idSupervisor);
                             data = completeDrugsData(data, lstObjects, drugs);
                         }
@@ -362,6 +376,19 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         totalReport.add(caseWithChannellingList);
                         totalReport.add(caseWithoutChannellingList);
                         return gson.toJson(totalReport);
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
+                        lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingByDistrictAndOperator(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            if (obj[0] != null) {
+                                casesWithoutChanneling.setValue(Long.parseLong(obj[0].toString()));
+                                casesWithChanneling.setValue(Long.parseLong(obj[1].toString()));
+                            }
+                        }
+                        data.add(casesWithoutChanneling);
+                        data.add(casesWithChanneling);
+                        return gson.toJson(data);
                 }
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_G:
                 switch (reportTypeRepository.getReportCodeById(idReportType)) {
@@ -409,6 +436,20 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                             }
                         }
                         return gson.toJson(total);
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
+                        lstObjects = statisticSupervisorManagerReportRepository.countInstitutionChannelingBySupervisor(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            SelectList selectList = new SelectList();
+                            selectList.setName(obj[0].toString());
+                            selectList.setSubName(obj[0].toString());
+                            selectList.setValue(Long.parseLong(obj[1].toString()));
+
+                            data.add(selectList);
+                        }
+                        return gson.toJson(data);
+
                 }
 
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_H:
@@ -430,10 +471,9 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         }
                         return gson.toJson(dataEnd);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
-                        if(idSupervisor == 0){
+                        if (idSupervisor == 0) {
                             data = statisticSupervisorManagerReportRepository.countJobsByDistrictAndSupervisor(initDateF, endDateF, idDistrict, null);
-                        }
-                        else{
+                        } else {
                             data = statisticSupervisorManagerReportRepository.countJobsByDistrictAndSupervisor(initDateF, endDateF, idDistrict, idSupervisor);
                         }
                         return gson.toJson(completeDoubleData(data, "Empleados", "Sin empleo"));
@@ -462,10 +502,9 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         }
                         return gson.toJson(dataEnd);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
-                        if(idSupervisor == 0){
+                        if (idSupervisor == 0) {
                             data = statisticSupervisorManagerReportRepository.countClosedCasesByDistrictAndSupervisorNull(initDateF, endDateF, idDistrict);
-                        }
-                        else{
+                        } else {
                             data = statisticSupervisorManagerReportRepository.countClosedCasesByDistrictAndSupervisor(initDateF, endDateF, idDistrict, idSupervisor);
                         }
                         return gson.toJson(completeDoubleData(data, "Cerrados", "Vigentes"));
@@ -499,6 +538,19 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                             }
                         }
                         return gson.toJson(total);
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
+                        lstObjects = statisticSupervisorManagerReportRepository.countClosedCasesTypeByOperator(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            SelectList selectList = new SelectList();
+                            selectList.setName(obj[0].toString());
+                            selectList.setSubName(obj[0].toString());
+                            selectList.setValue(Long.parseLong(obj[1].toString()));
+
+                            data.add(selectList);
+                        }
+                        return gson.toJson(data);
                 }
 
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_K:
@@ -523,10 +575,9 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         }
                         return gson.toJson(dataEnd);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
-                        if(idSupervisor == 0){
+                        if (idSupervisor == 0) {
                             data = statisticSupervisorManagerReportRepository.countWarningMeasureByDistrictAndSupervisorNull(initDateF, endDateF, idDistrict);
-                        }
-                        else{
+                        } else {
                             data = statisticSupervisorManagerReportRepository.countWarningMeasureByDistrictAndSupervisor(initDateF, endDateF, idDistrict, idSupervisor);
                         }
                         return gson.toJson(data);
@@ -561,6 +612,10 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                             }
                         }
                         return gson.toJson(total);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
+                        data = statisticSupervisorManagerReportRepository.countMCWithNonFulfillBySupervisor(initId, endId, idDistrict, idSupervisor);
+                        return gson.toJson(data);
+
                 }
 
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_M:
@@ -585,10 +640,9 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         }
                         return gson.toJson(dataEnd);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
-                        if(idSupervisor == 0){
+                        if (idSupervisor == 0) {
                             data = statisticSupervisorManagerReportRepository.countSCPPByDistrictAndSupervisorNull(initDateF, endDateF, idDistrict);
-                        }
-                        else{
+                        } else {
                             data = statisticSupervisorManagerReportRepository.countSCPPByDistrictAndSupervisor(initDateF, endDateF, idDistrict, idSupervisor);
                         }
                         return gson.toJson(data);
@@ -623,6 +677,9 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                             }
                         }
                         return gson.toJson(total);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
+                        data = statisticSupervisorManagerReportRepository.countSCPPWithNonFulfillBySupervisor(initId, endId, idDistrict, idSupervisor);
+                        return gson.toJson(data);
                 }
 
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_O:
@@ -644,10 +701,9 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         }
                         return gson.toJson(dataEnd);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
-                        if(idSupervisor == 0){
+                        if (idSupervisor == 0) {
                             data = statisticSupervisorManagerReportRepository.countByGenderAndDistrictAndSupervisor(initDateF, endDateF, idDistrict, null);
-                        }
-                        else{
+                        } else {
                             data = statisticSupervisorManagerReportRepository.countByGenderAndDistrictAndSupervisor(initDateF, endDateF, idDistrict, idSupervisor);
                         }
                         return gson.toJson(completeDoubleData(data, "Masculino", "Femenino"));
@@ -695,10 +751,9 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         }
                         return gson.toJson(dataEnd);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
-                        if(idSupervisor == 0){
+                        if (idSupervisor == 0) {
                             lstObjects = statisticSupervisorManagerReportRepository.countByAgeAndDistrictAndSupervisor(initDateF, endDateF, idDistrict, null);
-                        }
-                        else{
+                        } else {
                             lstObjects = statisticSupervisorManagerReportRepository.countByAgeAndDistrictAndSupervisor(initDateF, endDateF, idDistrict, idSupervisor);
                         }
                         for (int j = 0; j < lstObjects.size(); j++) {
@@ -730,10 +785,9 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         }
                         return gson.toJson(dataEnd);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
-                        if(idSupervisor == 0){
+                        if (idSupervisor == 0) {
                             data = statisticSupervisorManagerReportRepository.countCrimesByDistrictAndSupervisorNull(initDateF, endDateF, idDistrict);
-                        }
-                        else{
+                        } else {
                             data = statisticSupervisorManagerReportRepository.countCrimesByDistrictAndSupervisor(initDateF, endDateF, idDistrict, idSupervisor);
                         }
                         return gson.toJson(data);
@@ -802,6 +856,19 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         total.add(studyingList);
                         return gson.toJson(total);
 
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
+                        data =  statisticSupervisorManagerReportRepository.countImputedStudyingBySupervisor(initDateF, endDateF, idDistrict, idSupervisor);
+                        if (data.size() == 1) {
+                            SelectList selectList = new SelectList();
+                            selectList.setValue(0L);
+                            if (data.get(0).getName().equals("Estudia"))
+                                selectList.setName("No estudia");
+                            else
+                                selectList.setName("Estudia");
+                            data.add(selectList);
+                        }
+                        return gson.toJson(data);
+
                 }
 
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_S:
@@ -851,6 +918,19 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                             }
                         }
                         return gson.toJson(total);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
+                        lstObjects = statisticSupervisorManagerReportRepository.countCasesBySchoolGradeAndSupervisor(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            SelectList selectList = new SelectList();
+                            selectList.setName(obj[0].toString());
+                            selectList.setSubName(obj[0].toString());
+                            selectList.setValue(Long.parseLong(obj[1].toString()));
+
+                            data.add(selectList);
+                        }
+                        return gson.toJson(data);
+
                 }
 
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_T:
@@ -892,10 +972,9 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         }
                         return gson.toJson(dataEnd);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
-                        if(idSupervisor == 0){
+                        if (idSupervisor == 0) {
                             lstObjects = statisticSupervisorManagerReportRepository.countAnyChangesInArrangementTypeByDistrictAndSupervisorNull(initDateF, endDateF, idDistrict);
-                        }
-                        else{
+                        } else {
                             lstObjects = statisticSupervisorManagerReportRepository.countAnyChangesInArrangementTypeByDistrictAndSupervisor(initDateF, endDateF, idDistrict, idSupervisor);
                         }
                         for (int j = 0; j < lstObjects.size(); j++) {
@@ -928,14 +1007,12 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         }
                         return gson.toJson(dataEnd);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
-                        if(idSupervisor == 0){
+                        if (idSupervisor == 0) {
                             data = statisticSupervisorManagerReportRepository.countSubstractedByDistrictAndSupervisorNull(initDateF, endDateF, idDistrict);
-                        }
-                        else{
+                        } else {
                             data = statisticSupervisorManagerReportRepository.countSubstractedByDistrictAndSupervisor(initDateF, endDateF, idDistrict, idSupervisor);
                         }
                         return gson.toJson(data);
-
 
 
                 }
@@ -945,16 +1022,53 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         data = statisticSupervisorManagerReportRepository.countSuspensionOfSupervisionForPreventivePrisonGeneral(initDateF, endDateF);
                         return gson.toJson(data);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
-                        data = statisticSupervisorManagerReportRepository.countSuspensionOfSupervisionForPreventivePrisonByDistrict(initDateF, endDateF, idDistrict);
-                        if (data.size() == 0) {
+                        lstObjects = statisticSupervisorManagerReportRepository.countSuspensionOfSupervisionForPreventivePrisonByDistrict(initDate + initTime, endDate + endTime, idDistrict);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
                             SelectList selectList = new SelectList();
-                            selectList.setName("Supensión preventiva en una carpeta diversa");
-                            selectList.setValue(0L);
+                            selectList.setName(obj[0].toString());
+                            selectList.setSubName(obj[0].toString());
+                            selectList.setValue(Long.parseLong(obj[1].toString()));
+
                             data.add(selectList);
                         }
                         return gson.toJson(data);
+
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
-                        break;
+                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                        List<List<ReportList>> total = new ArrayList<>();
+
+                        for (int i = 0; i < users.size(); i++) {
+                            lstObjects = statisticSupervisorManagerReportRepository.countSuspensionOfSupervisionForPreventivePrisonBySupervision(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
+                            for (int j = 0; j < lstObjects.size(); j++) {
+                                Object[] obj = (Object[]) lstObjects.get(j);
+                                if (i == 0) {
+                                    total.add(new ArrayList<ReportList>());
+                                }
+                                ReportList reportList = new ReportList();
+                                reportList.setId(new Long(j));
+                                reportList.setName(obj[0].toString());
+                                reportList.setUser(users.get(i).getName());
+                                reportList.setX(new Long(i));
+                                reportList.setY(new Long(obj[1].toString()));
+                                total.get(j).add(reportList);
+                            }
+                        }
+                        return gson.toJson(total);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
+                        lstObjects = statisticSupervisorManagerReportRepository.countSuspensionOfSupervisionForPreventivePrisonBySupervision(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            SelectList selectList = new SelectList();
+                            selectList.setName(obj[0].toString());
+                            selectList.setSubName(obj[0].toString());
+                            selectList.setValue(Long.parseLong(obj[1].toString()));
+
+                            data.add(selectList);
+                        }
+                        return gson.toJson(data);
+
+
                 }
 
         }

@@ -1118,19 +1118,17 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
                 "where clC.code = com.umeca.model.shared.Constants.CAUSE_PRISON_MULTIPLE_FOLDER and c.closeDate between :initDate and :endDate ")
         List<SelectList> countSuspensionOfSupervisionForPreventivePrisonGeneral(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
 
-        @Query("select new com.umeca.model.shared.SelectList(clC.name,count(clC.id)) " +
-                "from Case c " +
-                "inner join c.closeCause clC " +
-                "where clC.code = com.umeca.model.shared.Constants.CAUSE_PRISON_MULTIPLE_FOLDER and c.district.id = :idDistrict and c.closeDate between :initDate and :endDate ")
-        List<SelectList> countSuspensionOfSupervisionForPreventivePrisonByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("idDistrict") Long idDistrict);
+        @Query(value = "select close_cause.name, count(case_detention.id_close_cause) from close_cause " +
+                "left join case_detention " +
+                "on close_cause.id_close_cause = case_detention.id_close_cause and case_detention.id_district = :idDistrict and close_cause.code = 'CAUSE_PRISION_MULTIPLE_FOLDER'  " +
+                "and (case_detention.close_date between :initDate and :endDate)  ", nativeQuery = true)
+        List<Object> countSuspensionOfSupervisionForPreventivePrisonByDistrict(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict);
 
-
-
-    //    @Query("")
-    //    List<SelectList> countSuspensionOfSupervisionForPreventivePrisonByDistrict(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict);
-
-    //    @Query("")
-    //    List<SelectList> countSuspensionOfSupervisionForPreventivePrisonBySupervision(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("idSupervisor") Long idSupervisor);
+        @Query(value = "select close_cause.name, count(case_detention.id_close_cause) from close_cause " +
+                "left join case_detention " +
+                "on close_cause.id_close_cause = case_detention.id_close_cause and case_detention.id_district = :idDistrict and close_cause.code = 'CAUSE_PRISION_MULTIPLE_FOLDER'  " +
+                "and (case_detention.close_date between :initDate and :endDate) and case_detention.closer_user = :idSupervisor ", nativeQuery = true)
+        List<Object> countSuspensionOfSupervisionForPreventivePrisonBySupervision(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("idSupervisor") Long idSupervisor);
 
         //sustraidos por distrito
         @Query("select new com.umeca.model.shared.SelectList(" +
