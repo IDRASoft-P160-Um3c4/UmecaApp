@@ -63,7 +63,7 @@ public class StatisticSupervisorManagerReportController {
 
     @RequestMapping(value = "/supervisorManager/statisticReport/showReport", method = RequestMethod.GET)
     public ModelAndView showReport(String initDate, String endDate, String filterSelected, Long idReportType, Long idDistrict) {
-        ModelAndView model = new ModelAndView("/supervisorManager/statisticReport/showReport");
+        ModelAndView model = new ModelAndView("/supervisorManager/statisticReport/showReportHD");
         Gson gson = new Gson();
         String extraData = null;
         String title = null;
@@ -75,13 +75,26 @@ public class StatisticSupervisorManagerReportController {
             data = statisticSupervisorManagerReportService.getData(initDate, endDate, filterSelected, idReportType, idDistrict);
 
 
-            if (reportTypeRepository.getReportCodeById(idReportType).equals(Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR)) {
-                model = new ModelAndView("/supervisorManager/statisticReport/showComplexReport");
+            if (
+                    filterSelected.equals(Constants.REPORT_STATISTIC_MANAGER_REPORT_C) ||
+                    filterSelected.equals(Constants.REPORT_STATISTIC_MANAGER_REPORT_Q)
+                    ){
+                model = new ModelAndView("/supervisorManager/statisticReport/showReportFHD");
             }
 
-            if (filterSelected.equals(Constants.REPORT_STATISTIC_MANAGER_REPORT_C) &&
-                    reportTypeRepository.getReportCodeById(idReportType).equals(Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR)) {
-                model = new ModelAndView("/supervisorManager/statisticReport/showLComplexLargeReport");
+
+
+            if (reportTypeRepository.getReportCodeById(idReportType).equals(Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR)) {
+                model = new ModelAndView("/supervisorManager/statisticReport/showComplexReportFHD");
+
+                if (
+                        filterSelected.equals(Constants.REPORT_STATISTIC_MANAGER_REPORT_C) ||
+                                filterSelected.equals(Constants.REPORT_STATISTIC_MANAGER_REPORT_Q)
+                        ){
+                    model = new ModelAndView("/supervisorManager/statisticReport/showComplexReportUHD");
+                }
+
+
                 List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
                 SelectList notAssignedSupervisor = new SelectList();
                 notAssignedSupervisor.setName("Sin supervisor");
@@ -158,7 +171,14 @@ public class StatisticSupervisorManagerReportController {
         }
 
 
-        ModelAndView model = new ModelAndView("/supervisorManager/statisticReport/showLargeReport");
+        ModelAndView model = new ModelAndView("/supervisorManager/statisticReport/showLargeReportHD");
+        if (
+                filterSelected.equals(Constants.REPORT_STATISTIC_MANAGER_REPORT_C) ||
+                        filterSelected.equals(Constants.REPORT_STATISTIC_MANAGER_REPORT_Q)
+                ){
+            model = new ModelAndView("/supervisorManager/statisticReport/showLargeReportFHD");
+        }
+
         model.addObject("lstSupervisors", gson.toJson(users));
         String title = null;
         String extraData = null;

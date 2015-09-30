@@ -71,8 +71,8 @@
               });
 
       var margin = {top: 50, right: 90, bottom: 75, left: 30},
-              width = 1920 - margin.left - margin.right,
-              height = 1080 - margin.top - margin.bottom;
+              width = 3840 - margin.left - margin.right,
+              height = 2160 - margin.top - margin.bottom;
 
       var x = d3.scale.ordinal()
               .domain(d3.range(m))
@@ -489,7 +489,7 @@
     <div class="chartBar"></div>
     <%--<div id="svgdataurl"></div>--%>
     <%--<div id="pngdataurl"></div>--%>
-    <canvas width="1920" height="1080" style="display:none"></canvas>
+    <canvas width="3840" height="2160" style="display:none"></canvas>
   </div>
 
   <div class="row element-center">
