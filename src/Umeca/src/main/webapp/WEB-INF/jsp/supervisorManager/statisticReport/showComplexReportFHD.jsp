@@ -70,7 +70,7 @@
                 });
               });
 
-      var margin = {top: 50, right: 220, bottom: 75, left: 30},
+      var margin = {top: 50, right: 20, bottom: 200, left: 30},
               width = 1920 - margin.left - margin.right,
               height = 1080 - margin.top - margin.bottom;
 
@@ -130,7 +130,7 @@
               .attr("x", (width / 2))
               .attr("y", 0 - 35)
               .attr("text-anchor", "middle")
-              .style("font-size", "16px")
+              .style("font" ,"16px sans-serif")
         //.style("text-decoration", "underline")
               .text(title + " - " + extraData);
 
@@ -139,7 +139,7 @@
               .attr("x", (width / 2))
               .attr("y", 0 - 15)
               .attr("text-anchor", "middle")
-              .style("font-size", "12px")
+              .style("font" ,"12px sans-serif")
               .text(initDate + " - " + endDate);
 
       var layer = svg.selectAll(".layer")
@@ -177,6 +177,7 @@
               .attr("dx", -4)
               .attr("dy", "1.2em")
               .style("fill", "white")
+              .style("font" ,"11px sans-serif")
               .text(function (d) {
                 return d.y;
               });
@@ -192,13 +193,15 @@
               })
               .attr("width", x.rangeBand() / n)
               .transition()
-              .attr("y", 965)
+              .attr("y", 840)
               .attr("height", function (d) {
                 return height - y(d.y);
               })
               .attr("dx", -5)
               .attr("dy", "1.2em")
               .style("fill", "black")
+              .style("text-anchor", "middle")
+              .style("font" ,"11px sans-serif")
               .text(function (d) {
                 return d.id + 1;
               });
@@ -250,31 +253,38 @@
 
 
 
-      var legend = svg.selectAll(".legend")
-              .data(cases.slice())
-              .enter().append("g")
-              .attr("class", "legend")
-              .attr("transform", function (d, i) {
-                return "translate(0," + i * 20 + ")";
-              });
+        var startp = svg.append("g").attr("class", "legendbox").attr("id", "mylegendbox");
+        var legend_tabs = [
+            0, 325, 650, 975, 1300, 1625,
+            0, 325, 650, 975, 1300, 1625,
+            0, 325, 650, 975, 1300, 1625
+        ];
+        var legend_line = [
+            900, 900, 900, 900, 900, 900,
+            925, 925, 925, 925, 925, 925,
+            950, 950, 950, 950, 950, 950
+        ];
 
-      legend.append("rect")
-              .attr("x", width - 18)
-              .attr("width", 18)
-              .attr("height", 18)
-              .style("fill", function (d, i) {
-                return color(i);
-              });
+        var legend = startp.selectAll(".legend")
+                .data(color.domain().slice())
+                .enter().append("g")
+                .attr("class", "legend")
+                .attr("transform", function(d, i) { return "translate(" + legend_tabs[i] + "," + legend_line[i] + ")"; });
 
-      legend.append("text")
-              .attr("x", width + 5)
-              .attr("y", 9)
-              .attr("dy", ".35em")
-              .style("font-family", "sans-serif")
-              .style("font-size", "11px")
-              .text(function (d) {
-                return d.name;
-              });
+        legend.append("rect")
+                .attr("x", 0)
+                .attr("width", 18)
+                .attr("height", 18)
+                .style("fill", color);
+
+        legend.append("text")
+                .data(cases.slice())
+                .attr("x", 22)
+                .attr("y", 9)
+                .attr("dy", ".35em")
+                .style("text-anchor", "begin")
+                .style("font" ,"11px sans-serif")
+                .text(function(d) { return d.name });
 
 
       //style
