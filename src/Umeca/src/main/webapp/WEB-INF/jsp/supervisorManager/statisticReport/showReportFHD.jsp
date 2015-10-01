@@ -47,7 +47,6 @@
             var endDate = "${endDate}";
             var extraData = "${extraData}";
             var title = "${title}";
-            var extraData = "${extraData}";
 
 
             var color = d3.scale.ordinal()
@@ -75,14 +74,8 @@
                     ]);
 
 
-            var len = dataSet.length;
 
 
-            if (len > 8) {
-                dataSet.map(function (d) {
-                    d.name = d.subName;
-                })
-            }
 
             var margin = {top: 50, right: 20, bottom: 600, left: 30},
                     width = 1920 - margin.left - margin.right,
@@ -127,13 +120,11 @@
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-            dataSet.forEach(function (d) {
-                d.value = +d.value;
-            });
 
             x.domain(dataSet.map(function (d) {
                 return d.name;
             }));
+
             y.domain([0, d3.max(dataSet, function (d) {
                 return d.value;
             })]);
