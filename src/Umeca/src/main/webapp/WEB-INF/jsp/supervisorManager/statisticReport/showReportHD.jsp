@@ -67,15 +67,9 @@
                 })
             }
 
-            var margin = {top: 50, right: 110, bottom: 50, left: 110},
+            var margin = {top: 50, right: 120, bottom: 50, left: 110},
                     width = 1280 - margin.left - margin.right,
                     height = 720 - margin.top - margin.bottom;
-
-            var dataSetDefault = [
-                {name: "Opinion", value: 0},
-                {name: "Informe", value: 0},
-                {name: "Negacion", value: 0},
-                {name: "Solo entrevista", value: 0}];
 
 
             var m1 = [.8, .3, .4, .3, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .8, .3, .4, .3, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .8, .3, .4, .3, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .8, .3, .4, .3, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .8, .3, .4, .3, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1];
@@ -163,8 +157,7 @@
                     .attr("y", function (d) {
                         return height - yScale(d.value) + 14;
                     })
-                    .attr("font-family", "sans-serif")
-                    .attr("font-size", "12px")
+                    .style("font" ,"11px sans-serif")
                     .attr("fill", "white")
                     .attr("class", "textbar");
 
@@ -190,8 +183,7 @@
                     .attr("x", (width / 2))
                     .attr("y", 0 - 35)
                     .attr("text-anchor", "middle")
-                    .style("font-size", "16px")
-                //.style("text-decoration", "underline")
+                    .style("font" ,"16px sans-serif")
                     .text(title + " - " + extraData);
 
 
@@ -199,7 +191,7 @@
                     .attr("x", (width / 2))
                     .attr("y", 0 - 15)
                     .attr("text-anchor", "middle")
-                    .style("font-size", "12px")
+                    .style("font" ,"12px sans-serif")
                     .text(initDate + " - " + endDate);
 
 
@@ -228,24 +220,14 @@
                     .attr("x", (width - 26))
                     .data(dataSet)
                     .attr("y", 20)
-                    .style("font-size", "13px")
+                    .style("font" ,"13px sans-serif")
                     .text("Total: " + total + " personas");
 
-            if (extraData !== "") {
-                svg.append("text")
-                        .attr("x", (width - 26))
-                        .data(dataSet)
-                        .attr("y", -5)
-                        .style("font-size", "13px")
-                        .text(extraData);
-            }
 
 
             //legend
             var legend = svg.append("g")
                     .attr("class", "legend")
-                //.attr("x", w - 65)
-                //.attr("y", 50)
                     .attr("height", 100)
                     .attr("width", 100)
                     .attr('transform', 'translate(40,40)');
@@ -254,7 +236,7 @@
 
             legendRect.enter()
                     .append("rect")
-                    .attr("x", width - 65)
+                    .attr("x", width - 72)
                     .attr("width", 10)
                     .attr("height", 10)
                     .style("fill", color);
@@ -268,13 +250,13 @@
 
             legendText.enter()
                     .append("text")
-                    .attr("x", width - 52);
+                    .attr("x", width - 58);
 
             legendText
                     .attr("y", function (d, i) {
                         return i * 20 + 9;
                     })
-                    .style("font-size", "12px")
+                    .style("font" ,"12px sans-serif")
                     .text(function (d, i) {
                         return d.name + " - " + d.value;
                     });
