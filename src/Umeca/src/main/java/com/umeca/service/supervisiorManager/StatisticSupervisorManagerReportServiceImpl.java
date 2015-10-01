@@ -136,9 +136,9 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         for (int i = 0; i < lstObjects.size(); i++) {
                             Object[] obj = (Object[]) lstObjects.get(i);
                             SelectList selectList = new SelectList();
-                            selectList.setValue(Long.parseLong(obj[0].toString()));
-                            selectList.setName(obj[1].toString());
-                            selectList.setSubName(obj[1].toString());
+                            selectList.setName(obj[0].toString());
+                            selectList.setSubName(obj[0].toString());
+                            selectList.setValue(Long.parseLong(obj[1].toString()));
                             data.add(selectList);
                         }
                         return gson.toJson(data);
@@ -148,9 +148,9 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         for (int i = 0; i < lstObjects.size(); i++) {
                             Object[] obj = (Object[]) lstObjects.get(i);
                             SelectList selectList = new SelectList();
-                            selectList.setValue(Long.parseLong(obj[0].toString()));
-                            selectList.setName(obj[1].toString());
-                            selectList.setSubName(obj[1].toString());
+                            selectList.setName(obj[0].toString());
+                            selectList.setSubName(obj[0].toString());
+                            selectList.setValue(Long.parseLong(obj[1].toString()));
                             data.add(selectList);
                         }
                         return gson.toJson(data);
