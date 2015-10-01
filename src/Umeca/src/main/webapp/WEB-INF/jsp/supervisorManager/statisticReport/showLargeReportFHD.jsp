@@ -83,12 +83,8 @@
                     height = 1080 - margin.top - margin.bottom;
 
 
-
-            var m1 = [.8, .3, .4, .3, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .8, .3, .4, .3, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .8, .3, .4, .3, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .8, .3, .4, .3, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .8, .3, .4, .3, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1];
-            var m2 = [.3, .9, .4, .4, .4, .4, .4, .6, .6, .6, .6, .6, .6, .6, .6, .3, .9, .4, .4, .4, .4, .4, .6, .6, .6, .6, .6, .6, .6, .6, .3, .9, .4, .4, .4, .4, .4, .6, .6, .6, .6, .6, .6, .6, .6, .3, .9, .4, .4, .4, .4, .4, .6, .6, .6, .6, .6, .6, .6, .6, .3, .9, .4, .4, .4, .4, .4, .6, .6, .6, .6, .6, .6, .6, .6];
-
             var x = d3.scale.ordinal()
-                    .rangeRoundBands([0, width], m1[dataSet.length - 1], m2[dataSet.length - 1]);
+                    .rangeRoundBands([0, width]);
 
             var y = d3.scale.linear()
                     .range([height, 0]);
@@ -106,7 +102,7 @@
 
             var xScale = d3.scale.ordinal()
                     .domain(d3.range(dataSet.length))
-                    .rangeRoundBands([0, width], m1[dataSet.length - 1], m2[dataSet.length - 1]);
+                    .rangeRoundBands([0, width]);
 
             var yScale = d3.scale.linear()
                     .domain([0, d3.max(dataSet, function (d) {
