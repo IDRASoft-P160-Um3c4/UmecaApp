@@ -1111,12 +1111,11 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
                 "")
         List<SelectList> countSubstracted(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
 
-
-        @Query("select new com.umeca.model.shared.SelectList(clC.name,count(clC.id)) " +
-                "from Case c " +
-                "inner join c.closeCause clC " +
-                "where clC.code = com.umeca.model.shared.Constants.CAUSE_PRISON_MULTIPLE_FOLDER and c.closeDate between :initDate and :endDate ")
-        List<SelectList> countSuspensionOfSupervisionForPreventivePrisonGeneral(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
+        @Query(value = "select close_cause.name, count(case_detention.id_close_cause) from close_cause " +
+                "left join case_detention " +
+                "on close_cause.id_close_cause = case_detention.id_close_cause and close_cause.code = 'CAUSE_PRISION_MULTIPLE_FOLDER'  " +
+                "and (case_detention.close_date between :initDate and :endDate)  ", nativeQuery = true)
+        List<Object> countSuspensionOfSupervisionForPreventivePrisonGeneral(@Param("initDate") String initDate, @Param("endDate") String endDate);
 
         @Query(value = "select close_cause.name, count(case_detention.id_close_cause) from close_cause " +
                 "left join case_detention " +
