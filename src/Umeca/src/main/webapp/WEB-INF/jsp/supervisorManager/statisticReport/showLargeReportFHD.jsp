@@ -326,7 +326,7 @@
 
             svg.selectAll(".axis text")
                     .style("font-family", "sans-serif")
-                    .style("font-size", "11px")
+                    .style("font-size", "8px")
             ;
             svg.selectAll(".axis path")
                     .style("fill", "none")
