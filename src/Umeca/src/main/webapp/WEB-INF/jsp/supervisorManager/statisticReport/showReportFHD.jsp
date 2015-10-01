@@ -178,8 +178,7 @@
                     .attr("y", function (d) {
                         return height - yScale(d.value) + 14;
                     })
-                    .attr("font-family", "sans-serif")
-                    .attr("font-size", "12px")
+                    .style("font", "12px sans-serif")
                     .attr("fill", "white")
                     .attr("class", "textbar");
 

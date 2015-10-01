@@ -78,7 +78,7 @@
                 })
             }
 
-            var margin = {top: 50, right: 110, bottom: 50, left: 110},
+            var margin = {top: 50, right: 20, bottom: 600, left: 30},
                     width = 1920 - margin.left - margin.right,
                     height = 1080 - margin.top - margin.bottom;
 
@@ -95,7 +95,10 @@
 
             var xAxis = d3.svg.axis()
                     .scale(x)
-                    .orient("bottom");
+                    .orient("bottom")
+                    .tickFormat(function (d, i) {
+                        return i +1;
+                    });
 
             var yAxis = d3.svg.axis()
                     .scale(y)
@@ -169,8 +172,7 @@
                     .attr("y", function (d) {
                         return height - yScale(d.value) + 14;
                     })
-                    .attr("font-family", "sans-serif")
-                    .attr("font-size", "12px")
+                    .style("font", "12px sans-serif")
                     .attr("fill", "white")
                     .attr("class", "textbar");
 
@@ -196,7 +198,7 @@
                     .attr("x", (width / 2))
                     .attr("y", 0 - 35)
                     .attr("text-anchor", "middle")
-                    .style("font-size", "16px")
+                    .style("font", "16px sans-serif")
                 //.style("text-decoration", "underline")
                     .text(title + " - " + extraData);
 
@@ -205,85 +207,118 @@
                     .attr("x", (width / 2))
                     .attr("y", 0 - 15)
                     .attr("text-anchor", "middle")
-                    .style("font-size", "12px")
+                    .style("font", "12px sans-serif")
                     .text(initDate + " - " + endDate);
 
+            var startp = svg.append("g").attr("class", "legendbox").attr("id", "mylegendbox");
+            var legend_tabs = [
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300
+            ];
+            var legend_line = [
+                450, 450, 450,
+                465, 465, 465,
+                480, 480, 480,
+                495, 495, 495,
+                510, 510, 510,
+                525, 525, 525,
+                540, 540, 540,
+                555, 555, 555,
+                570, 570, 570,
+                585, 585, 585,
+                600, 600, 600,
+                615, 615, 615,
+                630, 630, 630,
+                645, 645, 645,
+                660, 660, 660,
+                675, 675, 675,
+                690, 690, 690,
+                705, 705, 705,
+                720, 720, 720,
+                735, 735, 735,
+                750, 750, 750,
+                765, 765, 765,
+                780, 780, 780,
+                795, 795, 795,
+                810, 810, 810,
+                825, 825, 825,
+                840, 840, 840,
+                855, 855, 855,
+                870, 870, 870,
+                885, 885, 885,
+                900, 900, 900,
+                915, 915, 915,
+                930, 930, 930,
+                945, 945, 945,
+                960, 960, 960,
+                975, 975, 975,
+                990, 990, 990,
+                1005, 1005, 1005
+            ];
 
-//            var legend = svg.selectAll(".legend")
-//                    .data(color.domain().slice())
-//                    .enter().append("g")
-//                    .attr("class", "legend")
-//                    .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-//
-//            legend.append("rect")
-//                    .attr("x", width - 18)
-//                    .attr("width", 18)
-//                    .attr("height", 18)
-//                    .style("fill", color);
-//
-//            legend.append("text")
-//                    .data(dataSet)
-//                    .attr("x", width - 24)
-//                    .attr("y", 12)
-//                    .attr("dy", ".35em")
-//                    .style("text-anchor", "end")
-//                    .text(function(d, i) { return d.name; });
-
-
-            svg.append("text")
-                    .attr("x", (width - 26))
-                    .data(dataSet)
-                    .attr("y", 20)
-                    .style("font-size", "13px")
-                    .text("Total: " + total + " personas");
-
-            if (extraData !== "") {
-                svg.append("text")
-                        .attr("x", (width - 26))
-                        .data(dataSet)
-                        .attr("y", -5)
-                        .style("font-size", "13px")
-                        .text(extraData);
-            }
-
-
-            //legend
-            var legend = svg.append("g")
+            var legend = startp.selectAll(".legend")
+                    .data(color.domain().slice())
+                    .enter().append("g")
                     .attr("class", "legend")
-                //.attr("x", w - 65)
-                //.attr("y", 50)
-                    .attr("height", 100)
-                    .attr("width", 100)
-                    .attr('transform', 'translate(40,40)');
+                    .attr("transform", function (d, i) {
+                        return "translate(" + legend_tabs[i] + "," + legend_line[i] + ")";
+                    });
 
-            var legendRect = legend.selectAll('.legend').data(color.domain().slice());
-
-            legendRect.enter()
-                    .append("rect")
-                    .attr("x", width - 65)
+            legend.append("rect")
+                    .attr("x", 0)
                     .attr("width", 10)
                     .attr("height", 10)
                     .style("fill", color);
 
-            legendRect
-                    .attr("y", function (d, i) {
-                        return i * 20;
-                    });
-
-            var legendText = legend.selectAll('text').data(dataSet);
-
-            legendText.enter()
-                    .append("text")
-                    .attr("x", width - 52);
-
-            legendText
-                    .attr("y", function (d, i) {
-                        return i * 20 + 9;
-                    })
-                    .style("font-size", "12px")
+            legend.append("text")
+                    .data(dataSet.slice())
+                    .attr("x", 15)
+                    .attr("y", 5)
+                    .attr("dy", ".35em")
+                    .style("text-anchor", "begin")
+                    .style("font", "11px sans-serif")
                     .text(function (d, i) {
-                        return d.name + " - " + d.value;
+                        return (i+1) + ". " + d.name
                     });
+
+
+
 
             //style
             svg.selectAll(".x.axis path")
