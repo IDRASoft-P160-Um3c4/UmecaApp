@@ -51,15 +51,32 @@
 
 
             var color = d3.scale.ordinal()
-                    .range(["#00BCD4", "#E91E63", "#009688", "#3F51B5"]);
+                    .range([
+                        "#ef5350", "#f44336", "#e53935", "#d32f2f", "#c62828", "#b71c1c",
+                        "#EC407A", "#E91E63", "#D81B60", "#C2185B", "#AD1457", "#880E4F",
+                        "#AB47BC", "#9C27B0", "#8E24AA", "#7B1FA2", "#6A1B9A", "#4A148C",
+                        "#7E57C2", "#673AB7", "#5E35B1", "#512DA8", "#4527A0", "#311B92",
+                        "#5C6BC0", "#3F51B5", "#3949AB", "#303F9F", "#283593", "#1A237E",
+                        "#42A5F5", "#2196F3", "#1E88E5", "#1976D2", "#1565C0", "#0D47A1",
+                        "#29B6F6", "#03A9F4", "#039BE5", "#0288D1", "#0277BD", "#01579B",
+                        "#26C6DA", "#00BCD4", "#00ACC1", "#0097A7", "#00838F", "#006064",
+                        "#26A69A", "#009688", "#00897B", "#00796B", "#00695C", "#004D40",
+                        "#66BB6A", "#4CAF50", "#43A047", "#388E3C", "#2E7D32", "#1B5E20",
+                        "#9CCC65", "#8BC34A", "#7CB342", "#689F38", "#558B2F", "#33691E",
+                        "#D4E157", "#CDDC39", "#C0CA33", "#AFB42B", "#9E9D24", "#827717",
+                        "#FFEE58", "#FFEB3B", "#FDD835", "#FBC02D", "#F9A825", "#F57F17",
+                        "#FFCA28", "#FFC107", "#FFB300", "#FFA000", "#FF8F00", "#FF6F00",
+                        "#FFA726", "#FF9800", "#FB8C00", "#F57C00", "#EF6C00", "#E65100",
+                        "#FF7043", "#FF5722", "#F4511E", "#E64A19", "#D84315", "#BF360C",
+                        "#8D6E63", "#795548", "#6D4C41", "#5D4037", "#4E342E", "#3E2723",
+                        "#BDBDBD", "#9E9E9E", "#757575", "#616161", "#424242", "#212121",
+                        "#78909C", "#607D8B", "#546E7A", "#455A64", "#37474F", "#263238",
 
+                    ]);
 
 
             var len = dataSet.length;
 
-            if (len > 4) {
-                color = d3.scale.ordinal().range(["#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3", "#00BCD4", "#009688", "#4CAF50", "#8BC34A", "#FFEB3B", "#FFC107", "#FF9800", "#795548", "#9E9E9E"]);
-            }
 
             if (len > 8) {
                 dataSet.map(function (d) {
@@ -67,29 +84,25 @@
                 })
             }
 
-            var margin = {top: 50, right: 110, bottom: 50, left: 110},
+            var margin = {top: 50, right: 20, bottom: 600, left: 30},
                     width = 1920 - margin.left - margin.right,
                     height = 1080 - margin.top - margin.bottom;
 
-            var dataSetDefault = [
-                {name: "Opinion", value: 0},
-                {name: "Informe", value: 0},
-                {name: "Negacion", value: 0},
-                {name: "Solo entrevista", value: 0}];
 
 
-            var m1 = [.8, .3, .4, .3, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .8, .3, .4, .3, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .8, .3, .4, .3, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .8, .3, .4, .3, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .8, .3, .4, .3, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1];
-            var m2 = [.3, .9, .4, .4, .4, .4, .4, .6, .6, .6, .6, .6, .6, .6, .6, .3, .9, .4, .4, .4, .4, .4, .6, .6, .6, .6, .6, .6, .6, .6, .3, .9, .4, .4, .4, .4, .4, .6, .6, .6, .6, .6, .6, .6, .6, .3, .9, .4, .4, .4, .4, .4, .6, .6, .6, .6, .6, .6, .6, .6, .3, .9, .4, .4, .4, .4, .4, .6, .6, .6, .6, .6, .6, .6, .6];
 
             var x = d3.scale.ordinal()
-                    .rangeRoundBands([0, width], m1[dataSet.length - 1], m2[dataSet.length - 1]);
+                    .rangeRoundBands([0, width]);
 
             var y = d3.scale.linear()
                     .range([height, 0]);
 
             var xAxis = d3.svg.axis()
                     .scale(x)
-                    .orient("bottom");
+                    .orient("bottom")
+                    .tickFormat(function (d, i) {
+                        return i +1;
+                    });
 
             var yAxis = d3.svg.axis()
                     .scale(y)
@@ -97,7 +110,7 @@
 
             var xScale = d3.scale.ordinal()
                     .domain(d3.range(dataSet.length))
-                    .rangeRoundBands([0, width], m1[dataSet.length - 1], m2[dataSet.length - 1]);
+                    .rangeRoundBands([0, width]);
 
             var yScale = d3.scale.linear()
                     .domain([0, d3.max(dataSet, function (d) {
@@ -163,8 +176,7 @@
                     .attr("y", function (d) {
                         return height - yScale(d.value) + 14;
                     })
-                    .attr("font-family", "sans-serif")
-                    .attr("font-size", "12px")
+                    .style("font", "10px sans-serif")
                     .attr("fill", "white")
                     .attr("class", "textbar");
 
@@ -190,7 +202,7 @@
                     .attr("x", (width / 2))
                     .attr("y", 0 - 35)
                     .attr("text-anchor", "middle")
-                    .style("font-size", "16px")
+                    .style("font", "16px sans-serif")
                 //.style("text-decoration", "underline")
                     .text(title + " - " + extraData);
 
@@ -199,85 +211,118 @@
                     .attr("x", (width / 2))
                     .attr("y", 0 - 15)
                     .attr("text-anchor", "middle")
-                    .style("font-size", "12px")
+                    .style("font", "12px sans-serif")
                     .text(initDate + " - " + endDate);
 
 
-//            var legend = svg.selectAll(".legend")
-//                    .data(color.domain().slice())
-//                    .enter().append("g")
-//                    .attr("class", "legend")
-//                    .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-//
-//            legend.append("rect")
-//                    .attr("x", width - 18)
-//                    .attr("width", 18)
-//                    .attr("height", 18)
-//                    .style("fill", color);
-//
-//            legend.append("text")
-//                    .data(dataSet)
-//                    .attr("x", width - 24)
-//                    .attr("y", 12)
-//                    .attr("dy", ".35em")
-//                    .style("text-anchor", "end")
-//                    .text(function(d, i) { return d.name; });
+            var startp = svg.append("g").attr("class", "legendbox").attr("id", "mylegendbox");
+            var legend_tabs = [
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300,
+                100, 700, 1300
+            ];
+            var legend_line = [
+                450, 450, 450,
+                465, 465, 465,
+                480, 480, 480,
+                495, 495, 495,
+                510, 510, 510,
+                525, 525, 525,
+                540, 540, 540,
+                555, 555, 555,
+                570, 570, 570,
+                585, 585, 585,
+                600, 600, 600,
+                615, 615, 615,
+                630, 630, 630,
+                645, 645, 645,
+                660, 660, 660,
+                675, 675, 675,
+                690, 690, 690,
+                705, 705, 705,
+                720, 720, 720,
+                735, 735, 735,
+                750, 750, 750,
+                765, 765, 765,
+                780, 780, 780,
+                795, 795, 795,
+                810, 810, 810,
+                825, 825, 825,
+                840, 840, 840,
+                855, 855, 855,
+                870, 870, 870,
+                885, 885, 885,
+                900, 900, 900,
+                915, 915, 915,
+                930, 930, 930,
+                945, 945, 945,
+                960, 960, 960,
+                975, 975, 975,
+                990, 990, 990,
+                1005, 1005, 1005
+            ];
 
-
-            svg.append("text")
-                    .attr("x", (width - 26))
-                    .data(dataSet)
-                    .attr("y", 20)
-                    .style("font-size", "13px")
-                    .text("Total: " + total + " personas");
-
-            if (extraData !== "") {
-                svg.append("text")
-                        .attr("x", (width - 26))
-                        .data(dataSet)
-                        .attr("y", -5)
-                        .style("font-size", "13px")
-                        .text(extraData);
-            }
-
-
-            //legend
-            var legend = svg.append("g")
+            var legend = startp.selectAll(".legend")
+                    .data(color.domain().slice())
+                    .enter().append("g")
                     .attr("class", "legend")
-                //.attr("x", w - 65)
-                //.attr("y", 50)
-                    .attr("height", 100)
-                    .attr("width", 100)
-                    .attr('transform', 'translate(40,40)');
+                    .attr("transform", function (d, i) {
+                        return "translate(" + legend_tabs[i] + "," + legend_line[i] + ")";
+                    });
 
-            var legendRect = legend.selectAll('.legend').data(color.domain().slice());
-
-            legendRect.enter()
-                    .append("rect")
-                    .attr("x", width - 65)
+            legend.append("rect")
+                    .attr("x", 0)
                     .attr("width", 10)
                     .attr("height", 10)
                     .style("fill", color);
 
-            legendRect
-                    .attr("y", function (d, i) {
-                        return i * 20;
-                    });
-
-            var legendText = legend.selectAll('text').data(dataSet);
-
-            legendText.enter()
-                    .append("text")
-                    .attr("x", width - 52);
-
-            legendText
-                    .attr("y", function (d, i) {
-                        return i * 20 + 9;
-                    })
-                    .style("font-size", "12px")
+            legend.append("text")
+                    .data(dataSet.slice())
+                    .attr("x", 15)
+                    .attr("y", 5)
+                    .attr("dy", ".35em")
+                    .style("text-anchor", "begin")
+                    .style("font", "11px sans-serif")
                     .text(function (d, i) {
-                        return d.name + " - " + d.value;
+                        return (i+1) + ". " + d.name
                     });
+
+
 
             //style
             svg.selectAll(".x.axis path")
@@ -285,7 +330,7 @@
 
             svg.selectAll(".axis text")
                     .style("font-family", "sans-serif")
-                    .style("font-size", "11px")
+                    .style("font-size", "8px")
             ;
             svg.selectAll(".axis path")
                     .style("fill", "none")

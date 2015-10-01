@@ -196,42 +196,6 @@
                     .text(initDate + " - " + endDate);
 
 
-//            var legend = svg.selectAll(".legend")
-//                    .data(color.domain().slice())
-//                    .enter().append("g")
-//                    .attr("class", "legend")
-//                    .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-//
-//            legend.append("rect")
-//                    .attr("x", width - 18)
-//                    .attr("width", 18)
-//                    .attr("height", 18)
-//                    .style("fill", color);
-//
-//            legend.append("text")
-//                    .data(dataSet)
-//                    .attr("x", width - 24)
-//                    .attr("y", 12)
-//                    .attr("dy", ".35em")
-//                    .style("text-anchor", "end")
-//                    .text(function(d, i) { return d.name; });
-
-
-            svg.append("text")
-                    .attr("x", (width - 26))
-                    .data(dataSet)
-                    .attr("y", 20)
-                    .style("font-size", "13px")
-                    .text("Total: " + total + " personas");
-
-            if (extraData !== "") {
-                svg.append("text")
-                        .attr("x", (width - 26))
-                        .data(dataSet)
-                        .attr("y", -5)
-                        .style("font-size", "13px")
-                        .text(extraData);
-            }
 
 
             //legend
