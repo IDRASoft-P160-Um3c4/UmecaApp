@@ -411,9 +411,9 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                             selectList.setName(obj[0].toString());
                             selectList.setSubName(obj[0].toString());
                             selectList.setValue(Long.parseLong(obj[1].toString()));
-
                             data.add(selectList);
                         }
+
                         return gson.toJson(data);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
                         List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
@@ -510,13 +510,33 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         return gson.toJson(completeDoubleData(data, "Cerrados", "Vigentes"));
                 }
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_J:
+
                 switch (reportTypeRepository.getReportCodeById(idReportType)) {
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
-                        data = statisticSupervisorManagerReportRepository.countClosedCasesTypeGeneral(initDateF, endDateF);
+                        lstObjects = statisticSupervisorManagerReportRepository.countClosedCasesTypeGeneral(initDate + initTime, endDate + endTime);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            SelectList selectList = new SelectList();
+                            selectList.setValue(Long.parseLong(obj[1].toString()));
+                            selectList.setName(obj[0].toString());
+                            selectList.setSubName(obj[0].toString());
+                            data.add(selectList);
+                        }
                         return gson.toJson(data);
+
                     case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
-                        data = statisticSupervisorManagerReportRepository.countClosedCasesTypeByDistrict(initDateF, endDateF, idDistrict);
+                        lstObjects = statisticSupervisorManagerReportRepository.countClosedCasesTypeByDistrict(initDate + initTime, endDate + endTime,idDistrict);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            SelectList selectList = new SelectList();
+                            selectList.setValue(Long.parseLong(obj[1].toString()));
+                            selectList.setName(obj[0].toString());
+                            selectList.setSubName(obj[0].toString());
+                            data.add(selectList);
+                        }
                         return gson.toJson(data);
+
+
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
                         List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
                         List<List<ReportList>> total = new ArrayList<>();
@@ -551,6 +571,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                             data.add(selectList);
                         }
                         return gson.toJson(data);
+
                 }
 
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_K:

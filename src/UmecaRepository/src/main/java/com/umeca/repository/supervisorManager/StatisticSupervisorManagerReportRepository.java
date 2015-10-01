@@ -264,24 +264,69 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
     List<Object> countTypeofDrugsByDistrictAndSupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
 
 
-    @Query(value = "select cat_channeling_institution_name.name , count(cat_channeling_institution_name.id_cat_channeling_institution_name) from channeling " +
-            "inner join cat_channeling_institution_name " +
-            "on channeling.id_cat_institution_name = cat_channeling_institution_name.id_cat_channeling_institution_name " +
-            "where channeling.creation_date  between :initDate and :endDate " +
+    @Query(value = "select " +
+            "cat_channeling_institution_name.name, " +
+            "count(ResA.sub_id_case) " +
+            "from channeling " +
+            "inner join( " +
+            "select " +
+            "distinct " +
+            "    case_detention.id_case 'sub_id_case' " +
+            "from case_detention " +
+            "inner join  hearing_format " +
+            "on hearing_format.id_case = case_detention.id_case and hearing_format.is_finished = true " +
+            "inner join cat_status_case " +
+            "on cat_status_case.id_status = case_detention.id_status " +
+            "and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+            ")ResA " +
+            "on channeling.id_case = ResA.sub_id_case and channeling.creation_date between :initDate and :endDate " +
+            "right join cat_channeling_institution_name " +
+            "on cat_channeling_institution_name.id_cat_channeling_institution_name = channeling.id_cat_institution_name " +
             "group by cat_channeling_institution_name.id_cat_channeling_institution_name", nativeQuery = true)
     List<Object> countInstitutionChannelingGeneral(@Param("initDate") String initDate, @Param("endDate") String endDate);
 
-    @Query(value = "select cat_channeling_institution_name.name , count(cat_channeling_institution_name.id_cat_channeling_institution_name) from channeling " +
-            "inner join cat_channeling_institution_name " +
-            "on channeling.id_cat_institution_name = cat_channeling_institution_name.id_cat_channeling_institution_name " +
-            "where channeling.creation_date  between :initDate and :endDate and channeling.id_district = :idDistrict " +
+    @Query(value = "select " +
+            "cat_channeling_institution_name.name, " +
+            "count(ResA.sub_id_case) " +
+            "from channeling " +
+            "inner join( " +
+            "select " +
+            "distinct " +
+            "    case_detention.id_case 'sub_id_case' " +
+            "from case_detention " +
+            "inner join  hearing_format " +
+            "on hearing_format.id_case = case_detention.id_case and hearing_format.is_finished = true " +
+            "inner join cat_status_case " +
+            "on cat_status_case.id_status = case_detention.id_status " +
+            "and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+            "where case_detention.id_district = :idDistrict " +
+            ")ResA " +
+            "on channeling.id_case = ResA.sub_id_case and channeling.creation_date between :initDate and :endDate " +
+            "right join cat_channeling_institution_name " +
+            "on cat_channeling_institution_name.id_cat_channeling_institution_name = channeling.id_cat_institution_name " +
             "group by cat_channeling_institution_name.id_cat_channeling_institution_name", nativeQuery = true)
     List<Object> countInstitutionChannelingByDistrict(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict);
 
 
-    @Query(value = "select cat_channeling_institution_name.name, count(channeling.id_cat_institution_name) from cat_channeling_institution_name " +
-            "left join channeling " +
-            "on channeling.id_cat_institution_name = cat_channeling_institution_name.id_cat_channeling_institution_name and channeling.id_creator_user = :idSupervisor and channeling.id_district = :idDistrict and (channeling.creation_date between :initDate and :endDate) " +
+    @Query(value = "select " +
+            "cat_channeling_institution_name.name, " +
+            "count(ResA.sub_id_case) " +
+            "from channeling " +
+            "inner join( " +
+            "select " +
+            "distinct " +
+            "    case_detention.id_case 'sub_id_case' " +
+            "from case_detention " +
+            "inner join  hearing_format " +
+            "on hearing_format.id_case = case_detention.id_case and hearing_format.is_finished = true " +
+            "inner join cat_status_case " +
+            "on cat_status_case.id_status = case_detention.id_status " +
+            "and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+            "where case_detention.id_district = :idDistrict and case_detention.id_umeca_supervisor = :idSupervisor " +
+            ")ResA " +
+            "on channeling.id_case = ResA.sub_id_case and channeling.creation_date between :initDate and :endDate " +
+            "right join cat_channeling_institution_name " +
+            "on cat_channeling_institution_name.id_cat_channeling_institution_name = channeling.id_cat_institution_name " +
             "group by cat_channeling_institution_name.id_cat_channeling_institution_name", nativeQuery = true)
     List<Object> countInstitutionChannelingBySupervisor(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("idSupervisor") Long idSupervisor);
 
@@ -378,30 +423,33 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
     List<SelectList> countClosedCasesByDistrictAndSupervisorNull(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
 
 
-    @Query("select new com.umeca.model.shared.SelectList(clC.name,count(clC.id)) " +
-            "from Case c " +
-            "inner join c.closeCause clC " +
-            "inner join c.status cStus " +
-            "where (c.closeDate between :initDate and :endDate) and cStus.name = 'ST_CASE_CLOSED' " +
-            "group by clC.name")
-    List<SelectList> countClosedCasesTypeGeneral(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
+     @Query(value="select close_cause.name ,count(case_detention.id_close_cause) from close_cause " +
+             "left join case_detention " +
+             "on case_detention.id_close_cause = close_cause.id_close_cause and case_detention.close_date  between :initDate and :endDate " +
+             "left join cat_status_case " +
+             "on case_detention.id_status = cat_status_case.id_status and cat_status_case.status = 'ST_CASE_CLOSED' " +
+             "group by close_cause.id_close_cause",nativeQuery = true)
+    List<Object> countClosedCasesTypeGeneral(@Param("initDate") String initDate, @Param("endDate") String endDate);
 
-    @Query("select new com.umeca.model.shared.SelectList(clC.name,count(clC.id)) " +
-            "from Case c " +
-            "inner join c.closeCause clC " +
-            "inner join c.status cStus " +
-            "where (c.closeDate between :initDate and :endDate) and cStus.name = 'ST_CASE_CLOSED' " +
-            "and c.district.id = :districtId " +
-            "group by clC.name")
-    List<SelectList> countClosedCasesTypeByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long idDistrict);
+        @Query(value = "select close_cause.name ,count(case_detention.id_close_cause) from close_cause " +
+                "left join case_detention " +
+                "on case_detention.id_close_cause = close_cause.id_close_cause and case_detention.close_date  between :initDate and :endDate " +
+                "and case_detention.id_district = :idDistrict " +
+                "left join cat_status_case " +
+                "on case_detention.id_status = cat_status_case.id_status and cat_status_case.status = 'ST_CASE_CLOSED' " +
+                "group by close_cause.id_close_cause", nativeQuery = true)
+    List<Object> countClosedCasesTypeByDistrict(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict);
 
-    @Query(value = "select close_cause.name, count(case_detention.id_close_cause) from close_cause " +
-            "left join case_detention " +
-            "on case_detention.id_close_cause = close_cause.id_close_cause and (case_detention.close_date between :initDate and :endDate) and case_detention.closer_user = :supervisorId and  case_detention.id_district = :idDistrict " +
-            "left join cat_status_case " +
-            "on case_detention.id_status = cat_status_case.id_status and cat_status_case.status = 'ST_CASE_CLOSED' " +
-            "group by close_cause.id_close_cause", nativeQuery = true)
-    List<Object> countClosedCasesTypeByOperator(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("supervisorId") Long supervisorId);
+        @Query(value = "select " +
+                "close_cause.name, " +
+                "    count(case_detention.id_close_cause) " +
+                "from close_cause " +
+                "left join case_detention on case_detention.id_close_cause = close_cause.id_close_cause " +
+                "and case_detention.close_date  between :initDate and :endDate and case_detention.id_district = :idDistrict " +
+                "and case_detention.id_umeca_supervisor = :idSupervisor " +
+                "left join cat_status_case on case_detention.id_status = cat_status_case.id_status and cat_status_case.status = 'ST_CASE_CLOSED' " +
+                "group by close_cause.id_close_cause", nativeQuery = true)
+    List<Object> countClosedCasesTypeByOperator(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("idSupervisor") Long idSupervisor);
 
 
     //medida cautelar general
