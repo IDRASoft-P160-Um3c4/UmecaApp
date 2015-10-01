@@ -47,7 +47,6 @@
             var endDate = "${endDate}";
             var extraData = "${extraData}";
             var title = "${title}";
-            var extraData = "${extraData}";
 
 
             var color = d3.scale.ordinal()
