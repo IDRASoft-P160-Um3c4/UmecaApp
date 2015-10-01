@@ -216,12 +216,12 @@
 //                    .text(function(d, i) { return d.name; });
 
 
-            svg.append("text")
-                    .attr("x", (width - 26))
-                    .data(dataSet)
-                    .attr("y", 20)
-                    .style("font" ,"13px sans-serif")
-                    .text("Total: " + total + " personas");
+//            svg.append("text")
+//                    .attr("x", (width - 26))
+//                    .data(dataSet)
+//                    .attr("y", 20)
+//                    .style("font" ,"13px sans-serif")
+//                    .text("Total: " + total + " personas");
 
 
 
