@@ -119,7 +119,7 @@
                     .attr("x", (width / 2))
                     .attr("y", 0 - 35)
                     .attr("text-anchor", "middle")
-                    .style("font-size", "16px")
+                    .style("font", "16px sans-serif")
                 //.style("text-decoration", "underline")
                     .text(title);
 
@@ -128,7 +128,7 @@
                     .attr("x", (width / 2))
                     .attr("y", 0 - 15)
                     .attr("text-anchor", "middle")
-                    .style("font-size", "12px")
+                    .style("font", "12px sans-serif")
                     .text(initDate + " - " + endDate);
 
             var layer = svg.selectAll(".layer")
@@ -166,6 +166,7 @@
                     .attr("dx", -3)
                     .attr("dy", "1.2em")
                     .style("fill", "white")
+                    .style("font", "12px sans-serif")
                     .text(function (d) {
                         return d.y;
                     });
@@ -239,8 +240,7 @@
                     .attr("x", width + 5)
                     .attr("y", 9)
                     .attr("dy", ".35em")
-                    .style("font-family", "sans-serif")
-                    .style("font-size", "11px")
+                    .style("font", "11px sans-serif")
                     .text(function (d) {
                         return d.name;
                     });

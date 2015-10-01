@@ -151,8 +151,7 @@
                     .attr("y", function (d) {
                         return height - yScale(d.value) + 14;
                     })
-                    .attr("font-family", "sans-serif")
-                    .attr("font-size", "12px")
+                    .style("font", "12px sans-serif")
                     .attr("fill", "white")
                     .attr("class", "textbar");
 
@@ -178,7 +177,7 @@
                     .attr("x", (width / 2))
                     .attr("y", 0 - 35)
                     .attr("text-anchor", "middle")
-                    .style("font-size", "16px")
+                    .style("font", "16px sans-serif")
                 //.style("text-decoration", "underline")
                     .text(title);
 
@@ -187,7 +186,7 @@
                     .attr("x", (width / 2))
                     .attr("y", 0 - 15)
                     .attr("text-anchor", "middle")
-                    .style("font-size", "12px")
+                    .style("font", "12px sans-serif")
                     .text(initDate + " - " + endDate);
 
 
@@ -195,7 +194,7 @@
                     .attr("x", (width - 26))
                     .data(dataSet)
                     .attr("y", 20)
-                    .style("font-size", "13px")
+                    .style("font", "13px sans-serif")
                     .text("Total: " + total + " " + yAxisStr);
 
             if (extraData !== "") {
@@ -203,7 +202,7 @@
                         .attr("x", (width - 100))
                         .data(dataSet)
                         .attr("y", -5)
-                        .style("font-size", "13px")
+                        .style("font", "13px sans-serif")
                         .text(extraData);
             }
 
@@ -241,7 +240,7 @@
                     .attr("y", function (d, i) {
                         return i * 20 + 9;
                     })
-                    .style("font-size", "12px")
+                    .style("font", "12px sans-serif")
                     .text(function (d, i) {
                         return d.name + " - " + d.value;
                     });

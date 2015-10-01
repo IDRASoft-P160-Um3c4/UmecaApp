@@ -80,6 +80,9 @@ public class StatisticOperatorReportController {
             else {
                 data = statisticOperatorService.getData(initId, endId, filterSelected);
                 model.addObject("data", gson.toJson(data));
+                for ( SelectList temp : data ) {
+                    total += temp.getValue();
+                }
             }
 
             model.addObject("initDate", initDate);
