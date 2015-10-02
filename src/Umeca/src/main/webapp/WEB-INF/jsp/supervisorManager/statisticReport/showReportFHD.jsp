@@ -75,26 +75,26 @@
 
 
 
-
-
             var margin = {top: 50, right: 20, bottom: 600, left: 30},
                     width = 1920 - margin.left - margin.right,
                     height = 1080 - margin.top - margin.bottom;
 
 
-
-
             var x = d3.scale.ordinal()
+                    .domain(d3.range(dataSet.length))
                     .rangeRoundBands([0, width]);
 
             var y = d3.scale.linear()
+                    .domain([0, d3.max(dataSet, function (d) {
+                        return d.value;
+                    })])
                     .range([height, 0]);
 
             var xAxis = d3.svg.axis()
                     .scale(x)
                     .orient("bottom")
-                    .tickFormat(function (d, i) {
-                        return i +1;
+                    .tickFormat(function (d) {
+                        return d;
                     });
 
             var yAxis = d3.svg.axis()
@@ -112,7 +112,6 @@
                     .range([0, height]);
 
 
-            //Create SVG element
             var svg = d3.select(".chartBar").append("svg")
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", height + margin.top + margin.bottom)
@@ -120,23 +119,12 @@
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-
-            x.domain(dataSet.map(function (d) {
-                return d.name;
-            }));
-
-            y.domain([0, d3.max(dataSet, function (d) {
-                return d.value;
-            })]);
-
-
-            //bar
             svg.selectAll(".bar")
                     .data(dataSet)
                     .enter().append("rect")
                     .attr("class", "bar")
-                    .attr("x", function (d) {
-                        return x(d.name);
+                    .attr("x", function (d, i) {
+                        return x(i);
                     })
                     .attr("width", x.rangeBand())
                     .attr("y", function (d) {
@@ -148,11 +136,8 @@
                     .style("fill", function (d, i) {
                         return color(i);
                     })
-                //.attr("stroke", "orange")
-                // .attr("stroke-width", function(d,i){return d.value/2;})
             ;
 
-            //text
             svg.selectAll("text")
                     .data(dataSet)
                     .enter()
@@ -334,6 +319,7 @@
                     .style("stroke", "#000")
                     .style("shape-rendering", "crispEdges")
             ;
+
 //            var sortTimeout = setTimeout(function() {
 //                d3.select("input").property("checked", true).each(change);
 //            }, 2000);

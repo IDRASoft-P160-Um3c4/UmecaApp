@@ -47,12 +47,10 @@
             var endDate = "${endDate}";
             var extraData = "${extraData}";
             var title = "${title}";
-            var extraData = "${extraData}";
 
 
             var color = d3.scale.ordinal()
                     .range(["#00BCD4", "#E91E63", "#009688", "#3F51B5"]);
-
 
 
             var len = dataSet.length;
@@ -138,8 +136,6 @@
                     .style("fill", function (d, i) {
                         return color(i);
                     })
-                //.attr("stroke", "orange")
-                // .attr("stroke-width", function(d,i){return d.value/2;})
             ;
 
             //text
@@ -193,36 +189,6 @@
                     .attr("text-anchor", "middle")
                     .style("font" ,"12px sans-serif")
                     .text(initDate + " - " + endDate);
-
-
-//            var legend = svg.selectAll(".legend")
-//                    .data(color.domain().slice())
-//                    .enter().append("g")
-//                    .attr("class", "legend")
-//                    .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-//
-//            legend.append("rect")
-//                    .attr("x", width - 18)
-//                    .attr("width", 18)
-//                    .attr("height", 18)
-//                    .style("fill", color);
-//
-//            legend.append("text")
-//                    .data(dataSet)
-//                    .attr("x", width - 24)
-//                    .attr("y", 12)
-//                    .attr("dy", ".35em")
-//                    .style("text-anchor", "end")
-//                    .text(function(d, i) { return d.name; });
-
-
-//            svg.append("text")
-//                    .attr("x", (width - 26))
-//                    .data(dataSet)
-//                    .attr("y", 20)
-//                    .style("font" ,"13px sans-serif")
-//                    .text("Total: " + total + " personas");
-
 
 
             //legend
