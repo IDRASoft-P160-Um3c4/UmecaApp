@@ -77,7 +77,7 @@
                 })
             }
 
-            var margin = {top: 50, right: 20, bottom: 600, left: 20},
+            var margin = {top: 50, right: 20, bottom: 600, left: 30},
                     width = 1920 - margin.left - margin.right,
                     height = 1080 - margin.top - margin.bottom;
 
@@ -177,7 +177,7 @@
                     .append("text")
                     .attr("transform", "rotate(-90)")
                     .attr("y", 6)
-                    .attr("dy", ".71em")
+                    .attr("dy", ".35em")
                     .style("text-anchor", "end")
                     .text("Personas");
 

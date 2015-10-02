@@ -169,7 +169,7 @@
                     .append("text")
                     .attr("transform", "rotate(-90)")
                     .attr("y", 6)
-                    .attr("dy", ".71em")
+                    .attr("dy", ".35em")
                     .style("text-anchor", "end")
                     .text("Personas");
 
