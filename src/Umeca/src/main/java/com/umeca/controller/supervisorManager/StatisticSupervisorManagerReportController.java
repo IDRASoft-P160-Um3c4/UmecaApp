@@ -127,7 +127,7 @@ public class StatisticSupervisorManagerReportController {
                     extraData = "Por distrito - Jojutla";
             }
 
-
+            model.addObject("filterSelected",filterSelected);
             model.addObject("initDate", initDate.toString());
             model.addObject("endDate", endDate.toString());
             model.addObject("total", total);

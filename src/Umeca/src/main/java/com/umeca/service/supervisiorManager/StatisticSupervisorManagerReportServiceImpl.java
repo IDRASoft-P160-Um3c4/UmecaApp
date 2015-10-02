@@ -87,7 +87,16 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
 
         switch (filter) {
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_A:
-                return gson.toJson(eventRepository.countCasesProsecuted(initId, endId));
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        return gson.toJson(statisticSupervisorManagerReportRepository.countCasesProsecuted(initId, endId));
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        return gson.toJson(statisticSupervisorManagerReportRepository.countCasesProsecutedByDistrict(initId, endId,idDistrict));
+                }
+                break;
+
+
+
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_B:
                 SelectList opinion = new SelectList();
                 SelectList report = new SelectList();
@@ -101,33 +110,69 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                 declined.setValue(0L);
 
                 List<Long> casesId = eventRepository.getIdCasesByEvent(Constants.EVENT_PROSECUTE);
-                for (Long caseId : casesId) {
-                    lstObjects = eventRepository.countEventsByCase(caseId, initId, endId);
-                    for (int i = 0; i < lstObjects.size(); i++) {
-                        Object[] obj = (Object[]) lstObjects.get(i);
-                        SelectList selectList = new SelectList();
-                        selectList.setName(obj[0].toString());
-                        selectList.setValue(Long.parseLong(obj[1].toString()));
 
-                        switch (obj[0].toString()) {
-                            case Constants.EVENT_CASE_OPINION:
-                                opinion.setValue(opinion.getValue() + Long.parseLong(obj[1].toString()));
-                                break;
+                switch (reportTypeRepository.getReportCodeById(idReportType)){
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        for (Long caseId : casesId) {
+                            lstObjects = statisticSupervisorManagerReportRepository.countEventsByCase(caseId, initId, endId);
+                            for (int i = 0; i < lstObjects.size(); i++) {
+                                Object[] obj = (Object[]) lstObjects.get(i);
+                                SelectList selectList = new SelectList();
+                                selectList.setName(obj[0].toString());
+                                selectList.setValue(Long.parseLong(obj[1].toString()));
 
-                            case Constants.EVENT_CASE_REPORT:
-                                report.setValue(opinion.getValue() + Long.parseLong(obj[1].toString()));
-                                break;
+                                switch (obj[0].toString()) {
+                                    case Constants.EVENT_CASE_OPINION:
+                                        opinion.setValue(opinion.getValue() + Long.parseLong(obj[1].toString()));
+                                        break;
 
-                            case Constants.EVENT_INTERVIEW_DECLINED:
-                                declined.setValue(opinion.getValue() + Long.parseLong(obj[1].toString()));
-                                break;
+                                    case Constants.EVENT_CASE_REPORT:
+                                        report.setValue(opinion.getValue() + Long.parseLong(obj[1].toString()));
+                                        break;
+
+                                    case Constants.EVENT_INTERVIEW_DECLINED:
+                                        declined.setValue(opinion.getValue() + Long.parseLong(obj[1].toString()));
+                                        break;
+                                }
+                            }
                         }
-                    }
+                        data.add(opinion);
+                        data.add(report);
+                        data.add(declined);
+                        return gson.toJson(data);
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        for (Long caseId : casesId) {
+                            lstObjects = statisticSupervisorManagerReportRepository.countEventsByCaseByDistrict(caseId, initId, endId, idDistrict);
+                            for (int i = 0; i < lstObjects.size(); i++) {
+                                Object[] obj = (Object[]) lstObjects.get(i);
+                                SelectList selectList = new SelectList();
+                                selectList.setName(obj[0].toString());
+                                selectList.setValue(Long.parseLong(obj[1].toString()));
+
+                                switch (obj[0].toString()) {
+                                    case Constants.EVENT_CASE_OPINION:
+                                        opinion.setValue(opinion.getValue() + Long.parseLong(obj[1].toString()));
+                                        break;
+
+                                    case Constants.EVENT_CASE_REPORT:
+                                        report.setValue(opinion.getValue() + Long.parseLong(obj[1].toString()));
+                                        break;
+
+                                    case Constants.EVENT_INTERVIEW_DECLINED:
+                                        declined.setValue(opinion.getValue() + Long.parseLong(obj[1].toString()));
+                                        break;
+                                }
+                            }
+                        }
+                        data.add(opinion);
+                        data.add(report);
+                        data.add(declined);
+                        return gson.toJson(data);
+
+
                 }
-                data.add(opinion);
-                data.add(report);
-                data.add(declined);
-                return gson.toJson(data);
+                break;
 
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_C:
                 switch (reportTypeRepository.getReportCodeById(idReportType)) {
