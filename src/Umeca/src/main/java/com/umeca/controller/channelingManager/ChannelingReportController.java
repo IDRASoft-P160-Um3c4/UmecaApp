@@ -1,10 +1,12 @@
 package com.umeca.controller.channelingManager;
 
 import com.google.gson.Gson;
+import com.umeca.model.catalog.StatisticChannelingReportType;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.ReportTypeRepository;
+import com.umeca.repository.catalog.StatisticChannelingReportTypeRepository;
 import com.umeca.repository.catalog.StatisticOperatorReportTypeRepository;
 import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.repository.supervisorManager.StatisticSupervisorManagerReportRepository;
@@ -30,8 +32,6 @@ public class ChannelingReportController {
     @Autowired
     StatisticOperatorReportTypeRepository statisticOperatorReportTypeRepository;
     @Autowired
-    StatisticSupervisorManagerReportRepository statisticSupervisorManagerReportRepository;
-    @Autowired
     StatisticReportService statisticReportService;
     @Autowired
     StatisticSupervisorManagerReportService statisticSupervisorManagerReportService;
@@ -41,12 +41,14 @@ public class ChannelingReportController {
     ReportTypeRepository reportTypeRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    StatisticChannelingReportTypeRepository statisticChannelingReportTypeRepository;
 
     @RequestMapping(value = "/channelingManager/statisticReport/index", method = RequestMethod.GET)
     public ModelAndView index() {
         ModelAndView model = new ModelAndView("/channelingManager/statisticReport/index");
         Gson gson = new Gson();
-        List<SelectList> lstEvaAct = statisticSupervisorManagerReportRepository.getAllNoObsolete();
+        List<SelectList> lstEvaAct = statisticChannelingReportTypeRepository.getAllNoObsolete();
         List<SelectList> lstDistrict = districtRepository.findNoObsolete();
         List<SelectList> lstReportType = reportTypeRepository.getAllNoObsolete();
         model.addObject("lstDistrict", gson.toJson(lstDistrict));
@@ -63,7 +65,7 @@ public class ChannelingReportController {
         String title = null;
         Long total = Long.valueOf(0);
         try {
-            title = statisticSupervisorManagerReportRepository.findByCode(filterSelected).getDescription();
+            title = statisticChannelingReportTypeRepository.findByCode(filterSelected).getDescription();
             String data;
             data = statisticSupervisorManagerReportService.getData(initDate, endDate, filterSelected, idReportType, idDistrict, null);
 
@@ -181,7 +183,7 @@ public class ChannelingReportController {
         try {
 
             //  List<SelectList> data;
-            title = statisticSupervisorManagerReportRepository.findByCode(filterSelected).getDescription();
+            title = statisticChannelingReportTypeRepository.findByCode(filterSelected).getDescription();
             String data;
             data = statisticSupervisorManagerReportService.getData(initDate, endDate, filterSelected, 4L, idDistrict, idSupervisor);
 
