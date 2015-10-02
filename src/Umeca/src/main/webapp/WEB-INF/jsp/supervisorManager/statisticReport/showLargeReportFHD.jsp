@@ -77,7 +77,7 @@
                 })
             }
 
-            var margin = {top: 50, right: 20, bottom: 600, left: 20},
+            var margin = {top: 50, right: 20, bottom: 600, left: 30},
                     width = 1920 - margin.left - margin.right,
                     height = 1080 - margin.top - margin.bottom;
 
@@ -96,7 +96,7 @@
                     .scale(x)
                     .orient("bottom")
                     .tickFormat(function (d) {
-                        return d;
+                        return d +1;
                     });
 
             var yAxis = d3.svg.axis()
@@ -160,7 +160,7 @@
                     .attr("y", function (d) {
                         return height - yScale(d.value) + 14;
                     })
-                    .style("font", "10px sans-serif")
+                    .style("font", "6px sans-serif")
                     .attr("fill", "white")
                     .attr("class", "textbar");
 
@@ -177,7 +177,7 @@
                     .append("text")
                     .attr("transform", "rotate(-90)")
                     .attr("y", 6)
-                    .attr("dy", ".71em")
+                    .attr("dy", ".35em")
                     .style("text-anchor", "end")
                     .text("Personas");
 
