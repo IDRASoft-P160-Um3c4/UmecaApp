@@ -235,24 +235,9 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     List<SelectList> countMeetingByDistrict(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
 
-    //ReporteSup1
-    @Query("select new com.umeca.model.shared.SelectList(count(ev.id))" +
-            "from Event ev " +
-            "inner join ev.eventType evT " +
-            "where evT.name = com.umeca.model.shared.Constants.EVENT_PROSECUTE and (ev.dateId between :initDate and :endDate)")
-    List<SelectList> countCasesProsecuted(@Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
 
 
-        @Query(value = "SELECT cat_event.event, count(event.id_event) FROM cat_event " +
-                "left join event " +
-                "on cat_event.id_event = event.event_id " +
-                "WHERE (cat_event.event = 'OPINION' or " +
-                "cat_event.event = 'DECLINED' or " +
-                "cat_event.event = 'REPORT' ) " +
-                "and event.id_case = :idCase " +
-                "and (event.date_id between :initDate and :endDate)" +
-                "group by cat_event.id_event", nativeQuery = true)
-        List<Object> countEventsByCase(@Param("idCase") Long idCase, @Param("initDate") Integer initDate, @Param("endDate") Integer endDate);
+
 
     //ReporteEOp1
     @Query("select  new com.umeca.model.shared.SelectList(ecame.reviewer.id, count(e), ecame.reviewer.fullname)" +
