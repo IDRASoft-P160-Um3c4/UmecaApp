@@ -273,8 +273,6 @@
             ];
 
             var filterSelected = '${filterSelected}';
-
-
             if (filterSelected === '<%=Constants.REPORT_STATISTIC_MANAGER_REPORT_C%>') {
                 var legend_tabs = [
                     0, 0, 0,

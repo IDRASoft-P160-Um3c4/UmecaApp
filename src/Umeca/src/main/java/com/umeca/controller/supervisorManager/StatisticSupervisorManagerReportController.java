@@ -188,6 +188,7 @@ public class StatisticSupervisorManagerReportController {
         try {
 
             //  List<SelectList> data;
+            title = statisticSupervisorManagerReportRepository.findByCode(filterSelected).getDescription();
             String data;
             data = statisticSupervisorManagerReportService.getData(initDate, endDate, filterSelected, 4L, idDistrict, idSupervisor);
 
