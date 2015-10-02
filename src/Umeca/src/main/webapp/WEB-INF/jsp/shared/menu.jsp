@@ -413,6 +413,16 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Reportes
+                                <i class="icon-caret-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/channelingManager/statisticReport/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Estad&iacute;sticos - Reporte
+                                    estad&iacute;stico</a></li>
+                            </ul>
+                        </li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_DIRECTOR')">
                         <li class="dropdown nav-li-blue">
