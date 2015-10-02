@@ -96,7 +96,7 @@
                     .scale(x)
                     .orient("bottom")
                     .tickFormat(function (d) {
-                        return d;
+                        return d +1;
                     });
 
             var yAxis = d3.svg.axis()
@@ -160,7 +160,7 @@
                     .attr("y", function (d) {
                         return height - yScale(d.value) + 14;
                     })
-                    .style("font", "10px sans-serif")
+                    .style("font", "6px sans-serif")
                     .attr("fill", "white")
                     .attr("class", "textbar");
 
