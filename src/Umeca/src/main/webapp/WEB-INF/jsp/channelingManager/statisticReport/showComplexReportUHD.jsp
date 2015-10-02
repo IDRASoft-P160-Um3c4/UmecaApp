@@ -616,7 +616,7 @@
     </div>
 
     <div class="row element-center">
-        <a href="<c:url value='/supervisorManager/statisticReport/index.html' />">
+        <a href="<c:url value='/channelingManager/statisticReport/index.html' />">
             <button class="btn">
                 <i class="glyphicon glyphicon-stats"></i>&nbsp;Obtener otro reporte
 

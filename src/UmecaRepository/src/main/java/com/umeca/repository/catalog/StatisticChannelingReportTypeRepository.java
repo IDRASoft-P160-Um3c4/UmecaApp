@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface StatisticChannelingReportTypeRepository extends JpaRepository<StatisticChannelingReportType,Long> {
 
-    @Query("SELECT e from StatisticOperatorReportType e where e.name=:code")
+    @Query("SELECT e from StatisticChannelingReportType e where e.name=:code")
     public StatisticChannelingReportType findByCode(@Param("code") String code);
 
 

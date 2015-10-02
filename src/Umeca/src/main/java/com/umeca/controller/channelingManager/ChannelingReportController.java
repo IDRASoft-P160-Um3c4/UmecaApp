@@ -11,6 +11,7 @@ import com.umeca.repository.catalog.StatisticOperatorReportTypeRepository;
 import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.repository.supervisorManager.StatisticSupervisorManagerReportRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.channelingManager.StatisticChannelingReportService;
 import com.umeca.service.managereval.StatisticReportService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisiorManager.StatisticSupervisorManagerReportService;
@@ -34,7 +35,7 @@ public class ChannelingReportController {
     @Autowired
     StatisticReportService statisticReportService;
     @Autowired
-    StatisticSupervisorManagerReportService statisticSupervisorManagerReportService;
+    StatisticChannelingReportService statisticChannelingReportService;
     @Autowired
     DistrictRepository districtRepository;
     @Autowired
@@ -67,7 +68,7 @@ public class ChannelingReportController {
         try {
             title = statisticChannelingReportTypeRepository.findByCode(filterSelected).getDescription();
             String data;
-            data = statisticSupervisorManagerReportService.getData(initDate, endDate, filterSelected, idReportType, idDistrict, null);
+            data = statisticChannelingReportService.getData(initDate, endDate, filterSelected, idReportType, idDistrict, null);
 
 
             if (
@@ -185,7 +186,7 @@ public class ChannelingReportController {
             //  List<SelectList> data;
             title = statisticChannelingReportTypeRepository.findByCode(filterSelected).getDescription();
             String data;
-            data = statisticSupervisorManagerReportService.getData(initDate, endDate, filterSelected, 4L, idDistrict, idSupervisor);
+            data = statisticChannelingReportService.getData(initDate, endDate, filterSelected, 4L, idDistrict, idSupervisor);
 
             if (idDistrict == 1)
                 extraData = "Por operador: " + currentSupervisorFullName + " - Cuatla";
