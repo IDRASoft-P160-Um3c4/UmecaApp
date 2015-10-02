@@ -51,7 +51,7 @@
 
             for (i = 0; i < dataSet.length; i++) {
                 var e = dataSet[i];
-                cases.push({"name":(e[0].id + 1)+ ". " +e[0].name});
+                cases.push({"name": (e[0].id + 1) + ". " + e[0].name});
             }
 
 
@@ -82,9 +82,6 @@
                     .domain([0, yStackMax])
                     .range([height, 0]);
 
-            var color = d3.scale.linear()
-                    .domain([0, n - 1])
-                    .range(["#aad", "#556"]);
 
             var color = d3.scale.ordinal()
                     .range([
@@ -109,10 +106,6 @@
                         "#78909C", "#607D8B", "#546E7A", "#455A64", "#37474F", "#263238",
 
                     ]);
-
-
-            var len = cases.length;
-
 
 
             var xAxis = d3.svg.axis()
@@ -148,8 +141,7 @@
                     .attr("x", (width / 2))
                     .attr("y", 0 - 35)
                     .attr("text-anchor", "middle")
-                    .style("font" ,"16px sans-serif")
-                //.style("text-decoration", "underline")
+                    .style("font", "16px sans-serif")
                     .text(title + " - " + extraData);
 
 
@@ -157,7 +149,7 @@
                     .attr("x", (width / 2))
                     .attr("y", 0 - 15)
                     .attr("text-anchor", "middle")
-                    .style("font" ,"12px sans-serif")
+                    .style("font", "12px sans-serif")
                     .text(initDate + " - " + endDate);
 
             var layer = svg.selectAll(".layer")
@@ -194,7 +186,7 @@
                     })
                     .attr("dy", "1.2em")
                     .style("fill", "white")
-                    .style("font" ,"6px sans-serif")
+                    .style("font", "6px sans-serif")
                     .text(function (d) {
                         return d.y;
                     });
@@ -217,7 +209,7 @@
                     .attr("dy", "1.2em")
                     .style("fill", "black")
                     .style("text-anchor", "middle")
-                    .style("font" ,"6px sans-serif")
+                    .style("font", "6px sans-serif")
                     .text(function (d) {
                         return d.id + 1;
                     });
@@ -266,7 +258,6 @@
 
 
             d3.selectAll("input").on("change", change);
-
 
 
             var startp = svg.append("g").attr("class", "legendbox").attr("id", "mylegendbox");
@@ -328,7 +319,9 @@
                     .data(color.domain().slice())
                     .enter().append("g")
                     .attr("class", "legend")
-                    .attr("transform", function(d, i) { return "translate(" + legend_tabs[i] + "," + legend_line[i] + ")"; });
+                    .attr("transform", function (d, i) {
+                        return "translate(" + legend_tabs[i] + "," + legend_line[i] + ")";
+                    });
 
             legend.append("rect")
                     .attr("x", 0)
@@ -342,8 +335,10 @@
                     .attr("y", 9)
                     .attr("dy", ".35em")
                     .style("text-anchor", "begin")
-                    .style("font" ,"11px sans-serif")
-                    .text(function(d) { return d.name });
+                    .style("font", "11px sans-serif")
+                    .text(function (d) {
+                        return d.name
+                    });
 
 
             //style
@@ -521,18 +516,19 @@
     </h2>
 
     <form id="FormStatisRep" name="FormStatisRep" class="form-horizontal"
-          role="form" ng-controller="statisticReportController" method="post"  ng-cloak>
+          role="form" ng-controller="statisticReportController" method="post" ng-cloak>
 
 
         <div class="row">
             <div class="col-xs-12 element-center">
                 <input type="hidden" ng-update-hidden ng-model="idDistrict" ng-init="idDistrict = ${idDistrict}"
-                       name="idDistrict" id="idDistrict" ng-value = "idDistrict">
+                       name="idDistrict" id="idDistrict" ng-value="idDistrict">
                 <input type="hidden" ng-model="initDate" ng-init="initDate = '${initDate}'"
-                       name="initDate" id="initDate" ng-value = "initDate">
+                       name="initDate" id="initDate" ng-value="initDate">
                 <input type="hidden" ng-update-hidden ng-model="endDate" ng-init="endDate = '${endDate}'"
                        name="endDate" id="endDate">
-                <input type="hidden" ng-update-hidden ng-model="filterSelected" ng-init="filterSelected = '${filterSelected}'"
+                <input type="hidden" ng-update-hidden ng-model="filterSelected"
+                       ng-init="filterSelected = '${filterSelected}'"
                        name="filterSelected" id="filterSelected">
                 <input type="hidden" ng-update-hidden ng-model="idSupervisor" name="idSupervisor" id="idSupervisor">
 
