@@ -165,6 +165,8 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     StatisticSupervisorManagerReportRepository statisticSupervisorManagerReportRepository;
     @Autowired
     ReportTypeRepository reportTypeRepository;
+    @Autowired
+    StatisticChannelingReportTypeRepository statisticChannelingReportTypeRepository;
 
 
 
@@ -1174,6 +1176,21 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             model.setIsObsolete(data[3].equals("1"));
             reportTypeRepository.save(model);
         }
+    }
+
+    @Override
+    public void statisticChannelingReportType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "statistic_channeling_report.txt", "\\|", 4 );
+        for(String[] data : lstDta){
+            StatisticChannelingReportType model = new StatisticChannelingReportType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            statisticChannelingReportTypeRepository.save(model);
+
+        }
+
     }
 }
 

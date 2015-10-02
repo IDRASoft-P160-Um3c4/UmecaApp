@@ -396,6 +396,12 @@ public class InsertCatalogController {
         return "reportType";
     }
 
+    @RequestMapping(value = "/catalogs/statisticChannelingReportType", method = RequestMethod.GET)
+    public String statisticChannelingReportType() {
+        service.statisticChannelingReportType();
+        return "statisticChannelingReportType";
+    }
+
 
 
 
@@ -463,6 +469,7 @@ public class InsertCatalogController {
         service.framingSafetyFactor();
         service.statisticSupervisorManagerReportType();
         service.reportType();
+        service.statisticChannelingReportType();
         return "insertCatalog OK!!";
     }
 }
