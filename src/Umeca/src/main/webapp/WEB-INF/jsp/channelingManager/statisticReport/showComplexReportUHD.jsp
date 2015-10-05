@@ -598,7 +598,7 @@
                         ng-change="idSupervisor = supervisor.id">
                 </select>
                                   <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                                        ng-click="findLargeSupervisorReport('#FormStatisRep','<c:url value='/supervisorManager/statisticReport/showLargeReport.html'/>');">
+                                        ng-click="findLargeSupervisorReport('#FormStatisRep','<c:url value='/channelingManager/statisticReport/showLargeReport.html'/>');">
                                     Realizar b&uacute;squeda
                                 </span>
             </div>

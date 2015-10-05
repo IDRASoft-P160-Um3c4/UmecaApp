@@ -72,8 +72,7 @@ public class ChannelingReportController {
 
 
             if (
-                    filterSelected.equals(Constants.REPORT_STATISTIC_MANAGER_REPORT_C) ||
-                    filterSelected.equals(Constants.REPORT_STATISTIC_MANAGER_REPORT_Q)
+                    filterSelected.equals(Constants.REPORT_STATISTIC_CHANNELING_B)
                     ){
                 model = new ModelAndView("/channelingManager/statisticReport/showReportFHD");
             }
@@ -84,8 +83,7 @@ public class ChannelingReportController {
                 model = new ModelAndView("/channelingManager/statisticReport/showComplexReportFHD");
 
                 if (
-                        filterSelected.equals(Constants.REPORT_STATISTIC_MANAGER_REPORT_C) ||
-                                filterSelected.equals(Constants.REPORT_STATISTIC_MANAGER_REPORT_Q)
+                        filterSelected.equals(Constants.REPORT_STATISTIC_CHANNELING_B)
                         ){
                     model = new ModelAndView("/channelingManager/statisticReport/showComplexReportUHD");
                 }
@@ -172,8 +170,7 @@ public class ChannelingReportController {
 
         ModelAndView model = new ModelAndView("/channelingManager/statisticReport/showLargeReportHD");
         if (
-                filterSelected.equals(Constants.REPORT_STATISTIC_MANAGER_REPORT_C) ||
-                        filterSelected.equals(Constants.REPORT_STATISTIC_MANAGER_REPORT_Q)
+                filterSelected.equals(Constants.REPORT_STATISTIC_CHANNELING_B)
                 ){
             model = new ModelAndView("/channelingManager/statisticReport/showLargeReportFHD");
         }
