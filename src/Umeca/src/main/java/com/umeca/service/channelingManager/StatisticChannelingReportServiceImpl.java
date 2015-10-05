@@ -300,7 +300,7 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                         List<List<ReportList>> total = new ArrayList<>();
 
                         for (int i = 0; i < users.size(); i++) {
-                            lstObjects = statisticSupervisorManagerReportRepository.countInstitutionChannelingBySupervisor(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
+                            lstObjects = statisticChannelingReportRepository.countChannelingTypeBySupervisor(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
                             for (int j = 0; j < lstObjects.size(); j++) {
                                 Object[] obj = (Object[]) lstObjects.get(j);
                                 if (i == 0) {
@@ -318,7 +318,7 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                         return gson.toJson(total);
 
                     case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
-                        lstObjects = statisticSupervisorManagerReportRepository.countInstitutionChannelingBySupervisor(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
+                        lstObjects = statisticChannelingReportRepository.countChannelingTypeBySupervisor(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
                         for (int i = 0; i < lstObjects.size(); i++) {
                             Object[] obj = (Object[]) lstObjects.get(i);
                             SelectList selectList = new SelectList();
