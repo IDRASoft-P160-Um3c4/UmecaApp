@@ -186,7 +186,7 @@
                     })
                     .attr("dy", "1.2em")
                     .style("fill", "white")
-                    .style("font", "3px sans-serif")
+                    .style("font", "10px sans-serif")
                     .text(function (d) {
                         return d.y;
                     });
@@ -209,7 +209,7 @@
                     .attr("dy", "1.2em")
                     .style("fill", "black")
                     .style("text-anchor", "middle")
-                    .style("font", "2px sans-serif")
+                    .style("font", "10px sans-serif")
                     .text(function (d) {
                         return d.id + 1;
                     });
