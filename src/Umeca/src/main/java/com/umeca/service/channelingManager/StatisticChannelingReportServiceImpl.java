@@ -146,9 +146,8 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                                 caseWithChannelling.setY(Long.parseLong(obj[1].toString()));
                             }
                         }
-                        caseWithChannellingList.add(caseWithChannelling);
                         caseWithoutChannellingList.add(caseWithoutChannelling);
-
+                        caseWithChannellingList.add(caseWithChannelling);
 
                         for (int i = 0; i < users.size(); i++) {
                             caseWithChannelling = new ReportList();
@@ -171,11 +170,11 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                                     caseWithChannelling.setY(Long.parseLong(obj[1].toString()));
                                 }
                             }
-                            caseWithChannellingList.add(caseWithChannelling);
                             caseWithoutChannellingList.add(caseWithoutChannelling);
+                            caseWithChannellingList.add(caseWithChannelling);
                         }
-                        totalReport.add(caseWithChannellingList);
                         totalReport.add(caseWithoutChannellingList);
+                        totalReport.add(caseWithChannellingList);
                         return gson.toJson(totalReport);
 
                     case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
@@ -188,6 +187,10 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                                     casesWithoutChanneling.setValue(Long.parseLong(obj[0].toString()));
                                     casesWithChanneling.setValue(Long.parseLong(obj[1].toString()));
                                 }
+                                else{
+                                    casesWithoutChanneling.setValue(0L);
+                                    casesWithChanneling.setValue(0L);
+                                }
                             }
 
                         }
@@ -199,10 +202,14 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                                     casesWithoutChanneling.setValue(Long.parseLong(obj[0].toString()));
                                     casesWithChanneling.setValue(Long.parseLong(obj[1].toString()));
                                 }
+                                else{
+                                    casesWithoutChanneling.setValue(0L);
+                                    casesWithChanneling.setValue(0L);
+                                }
                             }
                         }
-                        data.add(casesWithChanneling);
                         data.add(casesWithoutChanneling);
+                        data.add(casesWithChanneling);
                         return gson.toJson(data);
                 }
             case Constants.REPORT_STATISTIC_CHANNELING_B:
