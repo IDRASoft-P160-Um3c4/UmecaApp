@@ -1,4 +1,4 @@
 id|name|description|obsolete
 1|STCHR_1|Estadística de canalizados a la totalidad de los servicios|0
 2|STCHR_2|Estadística de canalizados a la totalidad de los servicios por tipo de institución|0
-2|STCHR_3|Estadística de canalizados por c/u de los servicios|0
+3|STCHR_3|Estadística de canalizados por c/u de los servicios|0
