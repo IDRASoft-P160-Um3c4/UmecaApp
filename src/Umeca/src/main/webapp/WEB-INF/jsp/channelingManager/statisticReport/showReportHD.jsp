@@ -65,7 +65,7 @@
                 })
             }
 
-            var margin = {top: 50, right: 120, bottom: 50, left: 110},
+            var margin = {top: 50, right: 230, bottom: 50, left: 40},
                     width = 1280 - margin.left - margin.right,
                     height = 720 - margin.top - margin.bottom;
 

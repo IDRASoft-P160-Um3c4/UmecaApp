@@ -60,7 +60,7 @@
                 })
             }
 
-            var margin = {top: 50, right: 110, bottom: 50, left: 110},
+            var margin = {top: 50, right: 240, bottom: 50, left: 40},
                     width = 1280 - margin.left - margin.right,
                     height = 720 - margin.top - margin.bottom;
 
@@ -156,8 +156,7 @@
                     .attr("y", function (d) {
                         return height - yScale(d.value) + 14;
                     })
-                    .attr("font-family", "sans-serif")
-                    .attr("font-size", "12px")
+                    .style("font" ,"12px sans-serif")
                     .attr("fill", "white")
                     .attr("class", "textbar");
 
@@ -183,8 +182,7 @@
                     .attr("x", (width / 2))
                     .attr("y", 0 - 35)
                     .attr("text-anchor", "middle")
-                    .style("font-size", "16px")
-                //.style("text-decoration", "underline")
+                    .style("font" ,"16px sans-serif")
                     .text(title + " - " + extraData);
 
 
@@ -192,7 +190,7 @@
                     .attr("x", (width / 2))
                     .attr("y", 0 - 15)
                     .attr("text-anchor", "middle")
-                    .style("font-size", "12px")
+                    .style("font" ,"12px sans-serif")
                     .text(initDate + " - " + endDate);
 
 
