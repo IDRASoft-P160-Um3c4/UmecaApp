@@ -107,8 +107,7 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                             if (obj[0] != null) {
                                 casesWithoutChanneling.setValue(Long.parseLong(obj[0].toString()));
                                 casesWithChanneling.setValue(Long.parseLong(obj[1].toString()));
-                            }
-                            else{
+                            } else {
                                 casesWithoutChanneling.setValue(0L);
                                 casesWithChanneling.setValue(0L);
                             }
@@ -135,8 +134,8 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                         caseWithoutChannelling.setX(0L);
                         caseWithoutChannelling.setUser("Sin supervisor");
                         caseWithoutChannelling.setY(0L);
-                        caseWithChannelling.setId(0L);
-                        caseWithoutChannelling.setId(1l);
+                        caseWithChannelling.setId(1L);
+                        caseWithoutChannelling.setId(0l);
 
                         lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingNotSupervisorAssigned(initDate + initTime, endDate + endTime, idDistrict);
                         for (int j = 0; j < lstObjects.size(); j++) {
@@ -160,8 +159,8 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                             caseWithoutChannelling.setX(new Long(i) + 1);
                             caseWithoutChannelling.setUser(users.get(i).getName());
                             caseWithoutChannelling.setY(0L);
-                            caseWithChannelling.setId(0L);
-                            caseWithoutChannelling.setId(1l);
+                            caseWithChannelling.setId(1L);
+                            caseWithoutChannelling.setId(0L);
                             lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingByDistrictAndOperator(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
                             for (int j = 0; j < lstObjects.size(); j++) {
                                 Object[] obj = (Object[]) lstObjects.get(j);
@@ -179,30 +178,27 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
 
                     case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
 
-                        if(idSupervisor == 0 ){
+                        if (idSupervisor == 0) {
                             lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingNotSupervisorAssigned(initDate + initTime, endDate + endTime, idDistrict);
                             for (int i = 0; i < lstObjects.size(); i++) {
                                 Object[] obj = (Object[]) lstObjects.get(i);
                                 if (obj[0] != null) {
                                     casesWithoutChanneling.setValue(Long.parseLong(obj[0].toString()));
                                     casesWithChanneling.setValue(Long.parseLong(obj[1].toString()));
-                                }
-                                else{
+                                } else {
                                     casesWithoutChanneling.setValue(0L);
                                     casesWithChanneling.setValue(0L);
                                 }
                             }
 
-                        }
-                        else {
+                        } else {
                             lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingByDistrictAndOperator(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
                             for (int i = 0; i < lstObjects.size(); i++) {
                                 Object[] obj = (Object[]) lstObjects.get(i);
                                 if (obj[0] != null) {
                                     casesWithoutChanneling.setValue(Long.parseLong(obj[0].toString()));
                                     casesWithChanneling.setValue(Long.parseLong(obj[1].toString()));
-                                }
-                                else{
+                                } else {
                                     casesWithoutChanneling.setValue(0L);
                                     casesWithChanneling.setValue(0L);
                                 }
