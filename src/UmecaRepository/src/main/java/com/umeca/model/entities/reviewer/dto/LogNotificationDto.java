@@ -25,6 +25,14 @@ public class LogNotificationDto {
         this.id = notificationId;
         this.title = title;
         this.message = StringEscape.escapeText(message);
+        this.message = message;
+        this.dateNotif=dateNotif;
+    }
+
+    public LogNotificationDto(Long notificationId, String title, String message, Calendar dateNotif, boolean isManagerEval) {
+        this.id = notificationId;
+        this.title = title;
+        this.message = message;
         this.dateNotif=dateNotif;
     }
 

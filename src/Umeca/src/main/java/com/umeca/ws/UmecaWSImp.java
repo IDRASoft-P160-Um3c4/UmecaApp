@@ -6,9 +6,12 @@ import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.dto.tablet.TabletCaseDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.LogNotificationReviewer;
 import com.umeca.model.entities.shared.TabletAssignmentInfo;
+import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.account.UserRepository;
+import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.tablet.TabletService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,9 @@ public class UmecaWSImp implements UmecaWS {
 
     @Autowired
     TabletService tabletService;
+
+    @Autowired
+    LogNotificationReviewerRepository logNotificationReviewerRepository;
 
     public UmecaWSImp() {
     }
@@ -127,6 +133,28 @@ public class UmecaWSImp implements UmecaWS {
                 Case c = tabletService.synchronizeMeeting(tabletDto, assignmentId);
                 response = new ResponseMessage(false, "El caso se ha sincronizado con éxito.");
 
+
+                User usuariotableta = userRepository.findByUserGuid(user, guid);
+                List<User> coordinadoresEvaluacion = userRepository.getLstValidUserIdsByRole(Constants.ROLE_EVALUATION_MANAGER);
+                User userReceiver = new User();
+                if(coordinadoresEvaluacion != null && coordinadoresEvaluacion.size() >0 ) {
+                    userReceiver = coordinadoresEvaluacion.get(0);
+                }else {
+                    userReceiver = usuariotableta;
+                }
+                LogNotificationReviewer lnr = new LogNotificationReviewer();
+                lnr.setSubject("Entrevista(s) de riesgos procesales sincronizada(s) con &eacute;xito");
+                lnr.setMessage("<strong>Carpeta de investigaci&oacute;n: </strong>" + c.getIdFolder() +
+                        "<br/><strong>Nombre del imputado: </strong>"+
+                        c.getMeeting().getImputed().getName()+
+                        " "+ c.getMeeting().getImputed().getLastNameP()+
+                        " "+ c.getMeeting().getImputed().getLastNameM()+
+                        "<br/><strong>Evaluador: </strong>"+usuariotableta.getFullname()+"<br/>");
+                lnr.setSenderUser(usuariotableta);
+                lnr.setReceiveUser(userReceiver);
+                logNotificationReviewerRepository.save(lnr);
+
+
             } else {
                 response = new ResponseMessage(true, "Debe acceder nuevamente a la aplicación.");
             }
@@ -151,6 +179,27 @@ public class UmecaWSImp implements UmecaWS {
                 Case c = tabletService.synchronizeVerification(tabletDto, assignmentId);
 
                 response = new ResponseMessage(false, "El caso se ha sincronizado con éxito.");
+
+                User usuariotableta = userRepository.findByUserGuid(user, guid);
+                List<User> coordinadoresEvaluacion = userRepository.getLstValidUserIdsByRole(Constants.ROLE_EVALUATION_MANAGER);
+                User userReceiver = new User();
+                if(coordinadoresEvaluacion != null && coordinadoresEvaluacion.size() >0 ) {
+                    userReceiver = coordinadoresEvaluacion.get(0);
+                }else {
+                    userReceiver = usuariotableta;
+                }
+                LogNotificationReviewer lnr = new LogNotificationReviewer();
+                lnr.setSubject("Fuente(s) de Verificaci&oacute;n sincronizada(s) con &eacute;xito");
+                lnr.setMessage("<strong>Carpeta de investigaci&oacute;n: </strong>" + c.getIdFolder() +
+                        "<br/><strong>Nombre del imputado: </strong>"+
+                        c.getMeeting().getImputed().getName()+
+                        " "+ c.getMeeting().getImputed().getLastNameP()+
+                        " "+ c.getMeeting().getImputed().getLastNameM()+
+                        "<br/><strong>Evaluador: </strong>"+usuariotableta.getFullname()+"<br/>");
+                lnr.setSenderUser(usuariotableta);
+                lnr.setReceiveUser(userReceiver);
+                logNotificationReviewerRepository.save(lnr);
+
             } else {
                 response = new ResponseMessage(true, "Debe acceder nuevamente a la aplicación.");
             }
@@ -179,6 +228,27 @@ public class UmecaWSImp implements UmecaWS {
                 Case c = tabletService.synchronizeHearingFormats(tabletDto, assignmentId);
 
                 response = new ResponseMessage(false, "El caso se ha sincronizado con éxito.");
+
+                User usuariotableta = userRepository.findByUserGuid(user, guid);
+                List<User> coordinadoresEvaluacion = userRepository.getLstValidUserIdsByRole(Constants.ROLE_EVALUATION_MANAGER);
+                User userReceiver = new User();
+                if(coordinadoresEvaluacion != null && coordinadoresEvaluacion.size() >0 ) {
+                    userReceiver = coordinadoresEvaluacion.get(0);
+                }else {
+                    userReceiver = usuariotableta;
+                }
+                LogNotificationReviewer lnr = new LogNotificationReviewer();
+                lnr.setSubject("Formatos(s) de Audiencia sincronizada(s) con &eacute;xito");
+                lnr.setMessage("<strong>Carpeta de investigaci&oacute;n: </strong>" + c.getIdFolder() +
+                        "<br/><strong>Nombre del imputado: </strong>"+
+                        c.getMeeting().getImputed().getName()+
+                        " "+ c.getMeeting().getImputed().getLastNameP()+
+                        " "+ c.getMeeting().getImputed().getLastNameM()+
+                        "<br/><strong>Evaluador: </strong>"+usuariotableta.getFullname()+"<br/>");
+                lnr.setSenderUser(usuariotableta);
+                lnr.setReceiveUser(userReceiver);
+                logNotificationReviewerRepository.save(lnr);
+
             } else {
                 response = new ResponseMessage(true, "Debe acceder nuevamente a la aplicación.");
             }

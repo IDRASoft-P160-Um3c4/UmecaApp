@@ -21,6 +21,8 @@ public interface LogCaseService {
      */
     List<LogCase> addLog(String activityCode, Long idCase, Object detail);
 
+    List<LogCase> addLog(String activityCode, Long idCase, Object detail, Long userId);
+
     String getLogCase(Long caseId);
 
     void fillModelLogCaseFile(Long id, ModelAndView model);

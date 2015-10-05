@@ -7,6 +7,7 @@ import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.LogNotificationReviewer;
 import com.umeca.model.entities.reviewer.SourceVerification;
 import com.umeca.model.entities.shared.TabletAssignmentCase;
 import com.umeca.model.entities.shared.TabletRelAssignmentSource;
@@ -14,7 +15,9 @@ import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
+import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.shared.TabletAssignmentCaseRepository;
+import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +40,12 @@ public class MobileServiceImpl implements MobileService {
     @Autowired
     private TabletAssignmentCaseRepository tabletAssignmentCaseRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private LogNotificationReviewerRepository logNotificationReviewerRepository;
+
     @Transactional
     @Override
     public ResponseMessage saveAssignmentCase(Long idCase, Long idUser, String type) {//guarda asignaciones de entrevista de riesgos y de formatos de audiencia
@@ -58,6 +67,31 @@ public class MobileServiceImpl implements MobileService {
         c.setAssignmentType(type);
         c.setStatus(stC);
         caseRepository.save(c);
+
+
+
+        LogNotificationReviewer lnr = new LogNotificationReviewer();
+        if (type.equals(Constants.MEETING_ASSIGNMENT_TYPE)){
+            List<User> coordinadoresEvaluacion = userRepository.getLstValidUserIdsByRole(Constants.ROLE_EVALUATION_MANAGER);
+            User userReceiver = new User();
+            if(coordinadoresEvaluacion != null && coordinadoresEvaluacion.size() >0 ) {
+                userReceiver = coordinadoresEvaluacion.get(0);
+            }else {
+                userReceiver = u;
+            }
+            lnr.setSubject("Entrevista de riesgos procesales asignada a tableta");
+            lnr.setMessage("<strong>Carpeta de investigaci&oacute;n: </strong>" + c.getIdFolder() +
+                    "<br/><strong>Nombre del imputado: </strong>"+
+                    c.getMeeting().getImputed().getName()+
+                    " "+ c.getMeeting().getImputed().getLastNameP()+
+                    " "+ c.getMeeting().getImputed().getLastNameM()+
+                    "<br/><strong>Evaluador: </strong>"+u.getFullname()+"<br/>");
+            lnr.setSenderUser(u);
+            lnr.setReceiveUser(userReceiver);
+            logNotificationReviewerRepository.save(lnr);
+        }
+
+
 
         return new ResponseMessage(false, "Se ha guardado la información correctamente");
     }
@@ -115,6 +149,8 @@ public class MobileServiceImpl implements MobileService {
             tabletAssignmentCase.setListRelAssignedSources(lstRelSources);
             tabletAssignmentCaseRepository.save(tabletAssignmentCase);
         }
+
+
 
         return new ResponseMessage(false, "Se ha guardado la información correctamente");
     }

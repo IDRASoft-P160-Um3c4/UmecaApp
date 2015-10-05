@@ -12,6 +12,7 @@ import com.umeca.model.entities.shared.LogCase;
 import com.umeca.model.entities.shared.TabletAssignmentCase;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
@@ -20,6 +21,9 @@ import com.umeca.repository.reviewer.*;
 import com.umeca.repository.shared.LogCaseRepository;
 import com.umeca.repository.shared.TabletAssignmentCaseRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
+import com.umeca.service.catalog.CatalogService;
+import com.umeca.service.catalog.CatalogServiceImpl;
+import com.umeca.service.shared.SharedLogCommentService;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -125,6 +129,9 @@ public class TabletServiceImpl implements TabletService {
 
     @Autowired
     TabletAssignmentCaseRepository tabletAssignmentCaseRepository;
+
+    @Autowired
+    CatalogService catalogService;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
     private SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
@@ -337,7 +344,7 @@ public class TabletServiceImpl implements TabletService {
             return null;
         }
 
-        webCase.setStatus(statusCaseRepository.findOne(webCase.getStatus().getId()));
+        webCase.setStatus(statusCaseRepository.findOne(tabletCase.getStatus().getId()));
 
         return webCase;
     }
@@ -372,8 +379,9 @@ public class TabletServiceImpl implements TabletService {
         webImputed.setNickname(tabletImputed.getNickname());
 
         MaritalStatus mst = new MaritalStatus();
-        mst.setId(webImputed.getMaritalStatus().getId());
+        mst.setId(tabletImputed.getMaritalStatus().getId());
         webImputed.setMaritalStatus(mst);
+
 
         if (tabletImputed.getBirthCountry() != null) {
             Country bc = new Country();
@@ -487,7 +495,10 @@ public class TabletServiceImpl implements TabletService {
         if (tabletSchool.getWebId() != null) {
             webSchool = schoolRepository.findOne(tabletSchool.getWebId());
         } else {
-            webSchool = new School();
+            webSchool = schoolRepository.getSchoolByIdCase(m.getCaseDetention().getId());
+            if(webSchool==null) {
+                webSchool = new School();
+            }
         }
 
         webSchool.setName(tabletSchool.getName());
@@ -512,13 +523,15 @@ public class TabletServiceImpl implements TabletService {
 
         lstSch = new ArrayList<>();
 
-        for (TabletScheduleDto tabletSchedule : tabletSchool.getSchedule()) {
-            Schedule schedule = new Schedule();
-            schedule.setDay(tabletSchedule.getDay());
-            schedule.setStart(tabletSchedule.getStart());
-            schedule.setEnd(tabletSchedule.getEnd());
-            schedule.setSchool(webSchool);
-            lstSch.add(schedule);
+        if(tabletSchool.getSchedule() != null && tabletSchool.getSchedule().size() > 0) {
+            for (TabletScheduleDto tabletSchedule : tabletSchool.getSchedule()) {
+                Schedule schedule = new Schedule();
+                schedule.setDay(tabletSchedule.getDay());
+                schedule.setStart(tabletSchedule.getStart());
+                schedule.setEnd(tabletSchedule.getEnd());
+                schedule.setSchool(webSchool);
+                lstSch.add(schedule);
+            }
         }
 
         webSchool.setSchedule(lstSch);
@@ -529,6 +542,10 @@ public class TabletServiceImpl implements TabletService {
 
     private SocialEnvironment mergeSocialEnvironment(Meeting m, TabletSocialEnvironmentDto tabletSE) {
         SocialEnvironment webSE;
+
+        if(m.getSocialEnvironment()!=null){
+            tabletSE.setWebId(m.getSocialEnvironment().getId());
+        }
 
         if (tabletSE.getWebId() != null) {
             webSE = socialEnvironmentRepository.findOne(tabletSE.getWebId());
@@ -542,7 +559,7 @@ public class TabletServiceImpl implements TabletService {
         List<RelSocialEnvironmentActivity> lstSEA = webSE.getRelSocialEnvironmentActivities();
         webSE.setRelSocialEnvironmentActivities(null);
 
-        if (lstSEA != null & lstSEA.size() > 0) {
+        if (lstSEA != null && lstSEA.size() > 0) {
             for (RelSocialEnvironmentActivity rSEA : lstSEA) {
                 rSEA.setSocialEnvironment(null);
                 relSocialEnvironmentActivityRepository.delete(rSEA);
@@ -732,15 +749,16 @@ public class TabletServiceImpl implements TabletService {
 
             lstSchedule = new ArrayList<>();
 
-            for (TabletScheduleDto tabletSchedule : tabletHome.getSchedule()) {
-                Schedule schedule = new Schedule();
-                schedule.setDay(tabletSchedule.getDay());
-                schedule.setStart(tabletSchedule.getStart());
-                schedule.setEnd(tabletSchedule.getEnd());
-                schedule.setImputedHome(webHome);
-                lstSchedule.add(schedule);
+            if(tabletHome.getSchedule()!= null && tabletHome.getSchedule().size() > 0 ) {
+                for (TabletScheduleDto tabletSchedule : tabletHome.getSchedule()) {
+                    Schedule schedule = new Schedule();
+                    schedule.setDay(tabletSchedule.getDay());
+                    schedule.setStart(tabletSchedule.getStart());
+                    schedule.setEnd(tabletSchedule.getEnd());
+                    schedule.setImputedHome(webHome);
+                    lstSchedule.add(schedule);
+                }
             }
-
             webHome.setSchedule(lstSchedule);
             webHome.setMeeting(m);
             webLst.add(webHome);
@@ -782,6 +800,8 @@ public class TabletServiceImpl implements TabletService {
 
             RegisterType rt = new RegisterType();
             rt.setId(tabletJob.getRegisterType().getId());
+            webJob.setRegisterType(rt);
+            webJob.setRegisterTypeId(tabletJob.getRegisterType().getId());
 
             List<Schedule> lstSchedule = webJob.getSchedule();
             webJob.setSchedule(null);
@@ -795,17 +815,19 @@ public class TabletServiceImpl implements TabletService {
 
             lstSchedule = new ArrayList<>();
 
-            for (TabletScheduleDto tabletSchedule : tabletJob.getSchedule()) {
-                Schedule schedule = new Schedule();
-                schedule.setDay(tabletSchedule.getDay());
-                schedule.setStart(tabletSchedule.getStart());
-                schedule.setEnd(tabletSchedule.getEnd());
-                schedule.setJob(webJob);
-                lstSchedule.add(schedule);
+            if(tabletJob.getSchedule()!= null && tabletJob.getSchedule().size() > 0 ) {
+                for (TabletScheduleDto tabletSchedule : tabletJob.getSchedule()) {
+                    Schedule schedule = new Schedule();
+                    schedule.setDay(tabletSchedule.getDay());
+                    schedule.setStart(tabletSchedule.getStart());
+                    schedule.setEnd(tabletSchedule.getEnd());
+                    schedule.setJob(webJob);
+                    lstSchedule.add(schedule);
+                }
             }
-
             webJob.setSchedule(lstSchedule);
             webJob.setMeeting(m);
+            webLst.add(webJob);
         }
 
         return webLst;
@@ -861,10 +883,12 @@ public class TabletServiceImpl implements TabletService {
         Meeting m = this.mergeMeeting(tabletCase.getMeeting());
         m.setCaseDetention(c);
         c.setMeeting(m);
+        tabletCase.getMeeting().setWebId(m.getId());
 
         Imputed im = this.mergeImputed(tabletCase.getMeeting().getImputed());
         im.setMeeting(c.getMeeting());
         c.getMeeting().setImputed(im);
+        tabletCase.getMeeting().getImputed().setWebId(im.getId());
 
         caseRepository.save(c);//se guarda caso meeting e imputado
 
@@ -959,10 +983,10 @@ public class TabletServiceImpl implements TabletService {
         Case c;
         if (tabletCase.getWebId() != null) {
             c = caseRepository.findOne(tabletCase.getWebId());
+        }else {
+
+            c = this.saveCaseMeetingImputedDetention(tabletCase);
         }
-
-        c = this.saveCaseMeetingImputedDetention(tabletCase);
-
         List<TabletHearingFormatDto> tabletList = tabletCase.getHearingFormats();
         List<HearingFormat> webList = new ArrayList<>();
 
@@ -970,7 +994,6 @@ public class TabletServiceImpl implements TabletService {
 
             HearingFormat webHF = new HearingFormat();
             webHF.setCaseDetention(c);
-
             webHF.setIdFolder(tabletHF.getIdFolder());
             webHF.setIdJudicial(tabletHF.getIdJudicial());
             webHF.setRoom(tabletHF.getRoom());
@@ -1047,9 +1070,11 @@ public class TabletServiceImpl implements TabletService {
             add.setOutNum(tabletHF.getHearingImputed().getAddress().getOutNum());
             add.setInnNum(tabletHF.getHearingImputed().getAddress().getInnNum());
             Location l = new Location();
-            l.setId(tabletHF.getHearingImputed().getAddress().getLocation().getId());
-            add.setLocation(l);
+
+            Location lc = catalogService.findLocationById(tabletHF.getHearingImputed().getAddress().getLocation().getId()) ;
+            add.setLocation(lc);
             add.setAddressString(add.toString());
+
 
             hi.setAddress(add);
             webHF.setHearingImputed(hi);
@@ -1090,8 +1115,8 @@ public class TabletServiceImpl implements TabletService {
 
             for (TabletCrimeDto tabletCrime : tabletHF.getCrimeList()) {
                 Crime webCrime = new Crime();
-                webCrime.setComment(webCrime.getComment());
-                webCrime.setArticle(webCrime.getArticle());
+                webCrime.setComment(tabletCrime.getComment());
+                webCrime.setArticle(tabletCrime.getArticle());
                 webCrime.setFederal(electionRepository.findOne(tabletCrime.getFederal().getId()));
                 webCrime.setCrime(crimeCatalogRepository.findOne(tabletCrime.getCrime().getId()));
                 webCrime.setHearingFormat(webHF);
@@ -1106,7 +1131,7 @@ public class TabletServiceImpl implements TabletService {
                     AssignedArrangement wAA = new AssignedArrangement();
                     wAA.setDescription(tabletAA.getDescription());
                     Arrangement a = new Arrangement();
-                    a.setId(tabletAA.getId());
+                    a.setId(tabletAA.getArrangement().getId());
                     wAA.setArrangement(a);
                     wAA.setHearingFormat(webHF);
                     webAA.add(wAA);
@@ -1138,6 +1163,7 @@ public class TabletServiceImpl implements TabletService {
                 u.setId(tabletHF.getSupervisor().getId());
                 webHF.setSupervisor(u);
             }
+            webList.add(webHF);
         }
 
         return webList;
@@ -1145,11 +1171,14 @@ public class TabletServiceImpl implements TabletService {
 
     @Transactional
     public Case synchronizeHearingFormats(TabletCaseDto tabletCaseDto, Long assignmentId) {
-        Case c = this.saveCaseMeetingImputedDetention(tabletCaseDto);
+        Case c = new Case();
+        c = this.saveCaseMeetingImputedDetention(tabletCaseDto);
+        tabletCaseDto.setWebId(c.getId());
         List<HearingFormat> hearingFormats = this.mergeFormats(tabletCaseDto);
 
         if (hearingFormats != null && hearingFormats.size() > 0) {
             for (HearingFormat hearingFormat : hearingFormats) {
+                hearingFormat.setCaseDetention(c);
                 ResponseMessage rm = hearingFormatService.save(hearingFormat, null);
                 System.out.println("");
             }
@@ -1164,6 +1193,12 @@ public class TabletServiceImpl implements TabletService {
         if (assignmentId != null) {
             this.finishAssignment(assignmentId);
         }
+        c.setStatus(statusCaseRepository.findByCode(c.getPreviousStateCode()));
+        caseRepository.save(c);
+        //TODO FALTAN LAS NOTIFICACIONES
+
+//        SharedLogCommentService.generateLogComment(MonitoringConstants.LOG_MSG_INFO_PENDING_AUTHORIZATION_OBSOLETE, u, c,
+//                Constants.ACTION_AUTHORIZE_LOG_COMMENT, userReceiver, Constants.TYPE_COMMENT_OBSOLETE_CASE_SUPERVISION, logCommentRepository);
 
         return c;
     }
@@ -1223,7 +1258,20 @@ public class TabletServiceImpl implements TabletService {
             this.finishAssignment(assignmentId);
         }
 
+        if (this.hasIncompleteSources(assignmentId) == false) {
+            c.setStatus(statusCaseRepository.findByCode(c.getPreviousStateCode()));
+            caseRepository.save(c);
+        }
+        //TODO FALTAN LAS NOTIFICACIONES
+
         return c;
+    }
+
+    private boolean hasIncompleteSources(Long assignmentId) {
+        if (sourceVerificationRepository.getCountIncompleteSourcesByAssignmentId(assignmentId) > 0L)
+            return true;
+        else
+            return false;
     }
 
     @Transactional
@@ -1265,6 +1313,11 @@ public class TabletServiceImpl implements TabletService {
         if (assignmentId != null) {
             this.finishAssignment(assignmentId);
         }
+        if(c.getPreviousStateCode()!= null && !c.getPreviousStateCode().equalsIgnoreCase("")) {
+            c.setStatus(statusCaseRepository.findByCode(c.getPreviousStateCode()));
+        }
+        caseRepository.save(c);
+        //TODO FALTAN LAS NOTIFICACIONES
 
         return c;
     }

@@ -467,7 +467,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         HearingFormatView hearingFormatView = new HearingFormatView();
 
         HearingFormat existHF = hearingFormatRepository.findOne(idFormat);
-        hearingFormatView.setIdCase(existHF.getCaseDetention().getId());
+        Case caseDet = existHF.getCaseDetention();
+        hearingFormatView.setIdCase(caseDet.getId());
 
         hearingFormatView.setCanSave(false);
         hearingFormatView.setCanEdit(false);
@@ -779,8 +780,59 @@ public class HearingFormatServiceImpl implements HearingFormatService {
     LogCaseService logCaseService;
 
     @Override
-    @Transactional
     public ResponseMessage save(HearingFormat hearingFormat, HttpServletRequest request) {
+        ResponseMessage response = saveFormatCore(hearingFormat);
+        StringBuilder sb;
+        System.out.println("ererererest6666666:  " + hearingFormat.getIsFinished());
+
+        try {
+
+            if (hearingFormat.getIsFinished() == true) {
+                List<LogCase> logs = logCaseService.addLog(ConstantsLogCase.NEW_HEARING_FORMAT, hearingFormat.getCaseDetention().getId(), hearingFormat.getId(),
+                        hearingFormat.getSupervisor().getId());
+                if (logs.size() > 0) {
+                    LogCase l = logs.get(logs.size() - 1);
+                    LogComment logComment = new LogComment();
+                    logComment.setComments(l.getResume());
+                    logComment.setAction(l.getTitle());
+                    Case c = l.getCaseDetention();
+                    logComment.setCaseDetention(c);
+                    logComment.setSenderUser(hearingFormat.getSupervisor());
+                    Long mp = monitoringPlanRepository.getMonPlanIdByCaseId(c.getId());
+                    logComment.setAction(ConstantsLogCase.TT_ADD_HEARING_FORMAT);
+                    if (mp != null) {
+                        Long uid = monitoringPlanRepository.getUserIdByMonPlanId(mp);
+                        User u = new User();
+                        u.setId(uid);
+                        logComment.setReceiveUser(u);
+                    } else {
+                        logComment.setReceiveUser(hearingFormat.getSupervisor());
+                    }
+                    logComment.setTimestamp(Calendar.getInstance());
+                    logComment.setType(ConstantsLogCase.NEW_HEARING_FORMAT);
+                    logComment.setObsolete(false);
+                    logCommentRepository.save(logComment);
+                }
+                sb = new StringBuilder();
+                if (request != null) {
+                    sb.append(request.getContextPath());
+                }
+                sb.append("/supervisor/hearingFormat/indexFormats.html?id=");
+                sb.append(hearingFormat.getCaseDetention().getId());
+                response.setUrlToGo(sb.toString());
+            } else {
+                response.setMessage(hearingFormat.getId() + "|Se ha registrado el formato de audiencia.");
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+        return response;
+    }
+
+    @Transactional
+    private ResponseMessage saveFormatCore(HearingFormat hearingFormat) {
         ResponseMessage response = new ResponseMessage();
         StringBuilder sb = new StringBuilder();
         String idFolder = hearingFormat.getCaseDetention().getIdFolder();
@@ -860,44 +912,6 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         response.setHasError(false);
 
         hearingFormatRepository.save(hearingFormat);
-
-
-        if (hearingFormat.getIsFinished() == true) {
-            List<LogCase> logs = logCaseService.addLog(ConstantsLogCase.NEW_HEARING_FORMAT, hearingFormat.getCaseDetention().getId(), hearingFormat.getId());
-            if (logs.size() > 0) {
-                LogCase l = logs.get(logs.size() - 1);
-                LogComment logComment = new LogComment();
-                logComment.setComments(l.getResume());
-                logComment.setAction(l.getTitle());
-                Case c = l.getCaseDetention();
-                logComment.setCaseDetention(c);
-                logComment.setSenderUser(hearingFormat.getSupervisor());
-                Long mp = monitoringPlanRepository.getMonPlanIdByCaseId(c.getId());
-                logComment.setAction(ConstantsLogCase.TT_ADD_HEARING_FORMAT);
-                if (mp != null) {
-                    Long uid = monitoringPlanRepository.getUserIdByMonPlanId(mp);
-                    User u = new User();
-                    u.setId(uid);
-                    logComment.setReceiveUser(u);
-                } else {
-                    logComment.setReceiveUser(hearingFormat.getSupervisor());
-                }
-                logComment.setTimestamp(Calendar.getInstance());
-                logComment.setType(ConstantsLogCase.NEW_HEARING_FORMAT);
-                logComment.setObsolete(false);
-                logCommentRepository.save(logComment);
-            }
-            sb = new StringBuilder();
-            if(request!=null) {
-                sb.append(request.getContextPath());
-            }
-            sb.append("/supervisor/hearingFormat/indexFormats.html?id=");
-            sb.append(hearingFormat.getCaseDetention().getId());
-            response.setUrlToGo(sb.toString());
-        } else {
-            response.setMessage(hearingFormat.getId() + "|Se ha registrado el formato de audiencia.");
-        }
-
         return response;
     }
 
