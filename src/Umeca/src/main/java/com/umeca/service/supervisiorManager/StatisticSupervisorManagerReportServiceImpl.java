@@ -383,6 +383,10 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                                 casesWithoutChanneling.setValue(Long.parseLong(obj[0].toString()));
                                 casesWithChanneling.setValue(Long.parseLong(obj[1].toString()));
                             }
+                            else{
+                                casesWithoutChanneling.setValue(0L);
+                                casesWithChanneling.setValue(0L);
+                            }
                         }
                         data.add(casesWithoutChanneling);
                         data.add(casesWithChanneling);
@@ -394,15 +398,42 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         List<ReportList> caseWithoutChannellingList = new ArrayList<>();
                         ReportList caseWithChannelling;
                         ReportList caseWithoutChannelling;
+
+
+                        caseWithChannelling = new ReportList();
+                        caseWithoutChannelling = new ReportList();
+                        caseWithChannelling.setName("Canalizado");
+                        caseWithChannelling.setX(0L);
+                        caseWithChannelling.setUser("Sin supervisor");
+                        caseWithChannelling.setY(0L);
+                        caseWithoutChannelling.setName("No Canalizado");
+                        caseWithoutChannelling.setX(0L);
+                        caseWithoutChannelling.setUser("Sin supervisor");
+                        caseWithoutChannelling.setY(0L);
+                        caseWithChannelling.setId(0L);
+                        caseWithoutChannelling.setId(1l);
+
+                        lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingNotSupervisorAssigned(initDate + initTime, endDate + endTime, idDistrict);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
+                            if (obj[0] != null) {
+                                caseWithoutChannelling.setY(Long.parseLong(obj[0].toString()));
+                                caseWithChannelling.setY(Long.parseLong(obj[1].toString()));
+                            }
+                        }
+                        caseWithChannellingList.add(caseWithChannelling);
+                        caseWithoutChannellingList.add(caseWithoutChannelling);
+
+
                         for (int i = 0; i < users.size(); i++) {
                             caseWithChannelling = new ReportList();
                             caseWithoutChannelling = new ReportList();
                             caseWithChannelling.setName("Canalizado");
-                            caseWithChannelling.setX(new Long(i));
+                            caseWithChannelling.setX(new Long(i) + 1);
                             caseWithChannelling.setUser(users.get(i).getName());
                             caseWithChannelling.setY(0L);
                             caseWithoutChannelling.setName("No Canalizado");
-                            caseWithoutChannelling.setX(new Long(i));
+                            caseWithoutChannelling.setX(new Long(i) + 1);
                             caseWithoutChannelling.setUser(users.get(i).getName());
                             caseWithoutChannelling.setY(0L);
                             caseWithChannelling.setId(0L);
@@ -423,16 +454,30 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         return gson.toJson(totalReport);
 
                     case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
-                        lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingByDistrictAndOperator(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
-                        for (int i = 0; i < lstObjects.size(); i++) {
-                            Object[] obj = (Object[]) lstObjects.get(i);
-                            if (obj[0] != null) {
-                                casesWithoutChanneling.setValue(Long.parseLong(obj[0].toString()));
-                                casesWithChanneling.setValue(Long.parseLong(obj[1].toString()));
+
+                        if(idSupervisor == 0 ){
+                            lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingNotSupervisorAssigned(initDate + initTime, endDate + endTime, idDistrict);
+                            for (int i = 0; i < lstObjects.size(); i++) {
+                                Object[] obj = (Object[]) lstObjects.get(i);
+                                if (obj[0] != null) {
+                                    casesWithoutChanneling.setValue(Long.parseLong(obj[0].toString()));
+                                    casesWithChanneling.setValue(Long.parseLong(obj[1].toString()));
+                                }
+                            }
+
+                        }
+                        else {
+                            lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingByDistrictAndOperator(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
+                            for (int i = 0; i < lstObjects.size(); i++) {
+                                Object[] obj = (Object[]) lstObjects.get(i);
+                                if (obj[0] != null) {
+                                    casesWithoutChanneling.setValue(Long.parseLong(obj[0].toString()));
+                                    casesWithChanneling.setValue(Long.parseLong(obj[1].toString()));
+                                }
                             }
                         }
-                        data.add(casesWithoutChanneling);
                         data.add(casesWithChanneling);
+                        data.add(casesWithoutChanneling);
                         return gson.toJson(data);
                 }
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_G:

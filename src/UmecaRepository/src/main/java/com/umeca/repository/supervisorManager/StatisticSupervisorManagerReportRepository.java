@@ -212,58 +212,85 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
 
 
     @Query(value = "select " +
-            "SUM(if(hasChanneling = 0, 1, 0)) AS 'NotChanneling', " +
-            "SUM(if(hasChanneling = 1, 1, 0)) AS 'Channeling' " +
-            "FROM( " +
-            "select " +
-            "distinct " +
-            "    case_detention.id_case, " +
-            "    if(channeling.id_channeling IS NULL, 0, 1) AS 'hasChanneling' " +
-            "from case_detention " +
-            "inner join hearing_format " +
-            "on hearing_format.id_case = case_detention.id_case and hearing_format.is_finished = true " +
-            "inner join cat_status_case " +
-            "on cat_status_case.id_status = case_detention.id_status and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
-            "left join channeling on case_detention.id_case = channeling.id_case " +
-            "where channeling.creation_date between :initDate and :endDate or channeling.creation_date is null ) ResA", nativeQuery = true)
+            "            SUM(if(hasChanneling = 0, 1, 0)) AS 'NotChanneling', " +
+            "            SUM(if(hasChanneling = 1, 1, 0)) AS 'Channeling' " +
+            "            FROM( " +
+            "            select " +
+            "            distinct " +
+            "                case_detention.id_case, " +
+            "                if(channeling.id_channeling IS NULL, 0, 1) AS 'hasChanneling', " +
+            "                case_detention.id_district, " +
+            "                case_detention.id_umeca_supervisor " +
+            "            from case_detention " +
+            "            inner join hearing_format " +
+            "            on hearing_format.id_case = case_detention.id_case and hearing_format.is_finished = true " +
+            "            inner join cat_status_case " +
+            "            on cat_status_case.id_status = case_detention.id_status and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+            "            left join channeling on case_detention.id_case = channeling.id_case and channeling.creation_date between :initDate and :endDate " +
+            "            ) ResA", nativeQuery = true)
     List<Object> getNumberCasesWithChannelingGeneral(@Param("initDate") String initDate, @Param("endDate") String endDate);
 
 
     @Query(value = "select " +
-            "SUM(if(hasChanneling = 0, 1, 0)) AS 'NotChanneling'," +
-            "SUM(if(hasChanneling = 1, 1, 0)) AS 'Channeling' " +
-            "FROM( " +
-            "select " +
-            "distinct " +
-            "    case_detention.id_case, " +
-            "    if(channeling.id_channeling IS NULL, 0, 1) AS 'hasChanneling' " +
-            "from case_detention  " +
-            "inner join hearing_format " +
-            "on hearing_format.id_case = case_detention.id_case and hearing_format.is_finished = true " +
-            "inner join cat_status_case " +
-            "on cat_status_case.id_status = case_detention.id_status and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
-            "left join channeling on case_detention.id_case = channeling.id_case " +
-            "where hearing_format.id_district = :idDistrict and (channeling.creation_date between :initDate and :endDate) or channeling.creation_date is null ) ResA", nativeQuery = true)
+            "            SUM(if(hasChanneling = 0, 1, 0)) AS 'NotChanneling', " +
+            "            SUM(if(hasChanneling = 1, 1, 0)) AS 'Channeling' " +
+            "            FROM( " +
+            "            select " +
+            "            distinct " +
+            "                case_detention.id_case, " +
+            "                if(channeling.id_channeling IS NULL, 0, 1) AS 'hasChanneling', " +
+            "                case_detention.id_district, " +
+            "                case_detention.id_umeca_supervisor " +
+            "            from case_detention " +
+            "            inner join hearing_format " +
+            "            on hearing_format.id_case = case_detention.id_case and hearing_format.is_finished = true " +
+            "            inner join cat_status_case " +
+            "            on cat_status_case.id_status = case_detention.id_status and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+            "            left join channeling on case_detention.id_case = channeling.id_case and channeling.creation_date between :initDate and :endDate " +
+            "            where case_detention.id_district = :idDistrict " +
+            "            ) ResA", nativeQuery = true)
     List<Object> getNumberCasesWithChannelingByDistrict(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict);
 
 
-    @Query(value = "select \n" +
-            "SUM(if(hasChanneling = 0, 1, 0)) AS 'NotChanneling', " +
-            "SUM(if(hasChanneling = 1, 1, 0)) AS 'Channeling' " +
-            "FROM( " +
-            "select " +
-            "distinct " +
-            "    case_detention.id_case, " +
-            "    if(channeling.id_channeling IS NULL, 0, 1) AS 'hasChanneling' " +
-            "from  case_detention " +
-            "inner join hearing_format " +
-            "on hearing_format.id_case = case_detention.id_case and hearing_format.is_finished = true " +
-            "inner join cat_status_case " +
-            "on cat_status_case.id_status = case_detention.id_status and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
-            "left join channeling on case_detention.id_case = channeling.id_case " +
-            "where hearing_format.id_district = :idDistrict and channeling.id_creator_user = :idSupervisor " +
-            "and (channeling.creation_date between :initDate and :endDate)) ResA", nativeQuery = true)
+    @Query(value = "select " +
+            "            SUM(if(hasChanneling = 0, 1, 0)) AS 'NotChanneling', " +
+            "            SUM(if(hasChanneling = 1, 1, 0)) AS 'Channeling' " +
+            "            FROM( " +
+            "            select " +
+            "            distinct " +
+            "                case_detention.id_case, " +
+            "                if(channeling.id_channeling IS NULL, 0, 1) AS 'hasChanneling', " +
+            "                case_detention.id_district, " +
+            "                case_detention.id_umeca_supervisor " +
+            "            from case_detention " +
+            "            inner join hearing_format " +
+            "            on hearing_format.id_case = case_detention.id_case and hearing_format.is_finished = true " +
+            "            inner join cat_status_case " +
+            "            on cat_status_case.id_status = case_detention.id_status and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+            "            left join channeling on case_detention.id_case = channeling.id_case and channeling.creation_date between :initDate and :endDate " +
+            "            where case_detention.id_district = :idDistrict and case_detention.id_umeca_supervisor = :idSupervisor " +
+            "            ) ResA", nativeQuery = true)
     List<Object> getNumberCasesWithChannelingByDistrictAndOperator(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("idSupervisor") Long idSupervisor);
+
+        @Query(value = "select " +
+                "            SUM(if(hasChanneling = 0, 1, 0)) AS 'NotChanneling', " +
+                "            SUM(if(hasChanneling = 1, 1, 0)) AS 'Channeling' " +
+                "            FROM( " +
+                "            select " +
+                "            distinct " +
+                "                case_detention.id_case, " +
+                "                if(channeling.id_channeling IS NULL, 0, 1) AS 'hasChanneling', " +
+                "                case_detention.id_district, " +
+                "                case_detention.id_umeca_supervisor " +
+                "            from case_detention " +
+                "            inner join hearing_format " +
+                "            on hearing_format.id_case = case_detention.id_case and hearing_format.is_finished = true " +
+                "            inner join cat_status_case " +
+                "            on cat_status_case.id_status = case_detention.id_status and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "            left join channeling on case_detention.id_case = channeling.id_case and channeling.creation_date between :initDate and :endDate " +
+                "            where case_detention.id_district = :idDistrict and case_detention.id_umeca_supervisor is null" +
+                "            ) ResA", nativeQuery = true)
+        List<Object> getNumberCasesWithChannelingNotSupervisorAssigned(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict);
 
 
     //Sustancias general
