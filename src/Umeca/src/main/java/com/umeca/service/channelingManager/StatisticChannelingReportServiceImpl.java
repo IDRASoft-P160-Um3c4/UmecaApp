@@ -269,6 +269,67 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                         return gson.toJson(data);
 
                 }
+            case Constants.REPORT_STATISTIC_CHANNELING_C:
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        lstObjects = statisticSupervisorManagerReportRepository.countInstitutionChannelingGeneral(initDate + initTime, endDate + endTime);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            SelectList selectList = new SelectList();
+                            selectList.setValue(Long.parseLong(obj[1].toString()));
+                            selectList.setName(obj[0].toString());
+                            selectList.setSubName(obj[0].toString());
+                            data.add(selectList);
+                        }
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        lstObjects = statisticSupervisorManagerReportRepository.countInstitutionChannelingByDistrict(initDate + initTime, endDate + endTime, idDistrict);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            SelectList selectList = new SelectList();
+                            selectList.setName(obj[0].toString());
+                            selectList.setSubName(obj[0].toString());
+                            selectList.setValue(Long.parseLong(obj[1].toString()));
+                            data.add(selectList);
+                        }
+
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                        List<List<ReportList>> total = new ArrayList<>();
+
+                        for (int i = 0; i < users.size(); i++) {
+                            lstObjects = statisticSupervisorManagerReportRepository.countInstitutionChannelingBySupervisor(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
+                            for (int j = 0; j < lstObjects.size(); j++) {
+                                Object[] obj = (Object[]) lstObjects.get(j);
+                                if (i == 0) {
+                                    total.add(new ArrayList<ReportList>());
+                                }
+                                ReportList reportList = new ReportList();
+                                reportList.setId(new Long(j));
+                                reportList.setName(obj[0].toString());
+                                reportList.setUser(users.get(i).getName());
+                                reportList.setX(new Long(i));
+                                reportList.setY(new Long(obj[1].toString()));
+                                total.get(j).add(reportList);
+                            }
+                        }
+                        return gson.toJson(total);
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
+                        lstObjects = statisticSupervisorManagerReportRepository.countInstitutionChannelingBySupervisor(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            SelectList selectList = new SelectList();
+                            selectList.setName(obj[0].toString());
+                            selectList.setSubName(obj[0].toString());
+                            selectList.setValue(Long.parseLong(obj[1].toString()));
+
+                            data.add(selectList);
+                        }
+                        return gson.toJson(data);
+
+                }
 
 
         }
