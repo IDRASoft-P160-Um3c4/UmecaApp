@@ -7,10 +7,8 @@ import com.umeca.model.shared.ReportList;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.EventRepository;
 import com.umeca.repository.account.UserRepository;
-import com.umeca.repository.catalog.ArrangementRepository;
-import com.umeca.repository.catalog.ChannelingInstitutionNameRepository;
-import com.umeca.repository.catalog.DrugTypeRepository;
-import com.umeca.repository.catalog.ReportTypeRepository;
+import com.umeca.repository.catalog.*;
+import com.umeca.repository.channelingManager.StatisticChannelingReportRepository;
 import com.umeca.repository.supervisorManager.StatisticSupervisorManagerReportRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
@@ -56,6 +54,9 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
 
     @Autowired
     DrugTypeRepository drugTypeRepository;
+
+    @Autowired
+    StatisticChannelingReportRepository statisticChannelingReportRepository;
 
 
     @Override
@@ -272,7 +273,7 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
             case Constants.REPORT_STATISTIC_CHANNELING_C:
                 switch (reportTypeRepository.getReportCodeById(idReportType)) {
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
-                        lstObjects = statisticSupervisorManagerReportRepository.countInstitutionChannelingGeneral(initDate + initTime, endDate + endTime);
+                        lstObjects = statisticChannelingReportRepository.countChannelingTypeGeneral(initDate + initTime, endDate + endTime);
                         for (int i = 0; i < lstObjects.size(); i++) {
                             Object[] obj = (Object[]) lstObjects.get(i);
                             SelectList selectList = new SelectList();
