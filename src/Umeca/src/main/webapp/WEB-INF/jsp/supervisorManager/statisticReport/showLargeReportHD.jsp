@@ -156,8 +156,7 @@
                     .attr("y", function (d) {
                         return height - yScale(d.value) + 14;
                     })
-                    .attr("font-family", "sans-serif")
-                    .attr("font-size", "12px")
+                    .style("font" ,"12px sans-serif")
                     .attr("fill", "white")
                     .attr("class", "textbar");
 
@@ -183,8 +182,7 @@
                     .attr("x", (width / 2))
                     .attr("y", 0 - 35)
                     .attr("text-anchor", "middle")
-                    .style("font-size", "16px")
-                //.style("text-decoration", "underline")
+                    .style("font" ,"16px sans-serif")
                     .text(title + " - " + extraData);
 
 
@@ -192,7 +190,7 @@
                     .attr("x", (width / 2))
                     .attr("y", 0 - 15)
                     .attr("text-anchor", "middle")
-                    .style("font-size", "12px")
+                    .style("font" ,"12px sans-serif")
                     .text(initDate + " - " + endDate);
 
 
@@ -231,7 +229,7 @@
                     .attr("y", function (d, i) {
                         return i * 20 + 9;
                     })
-                    .style("font-size", "12px")
+                    .style("font" ,"12px sans-serif")
                     .text(function (d, i) {
                         return d.name + " - " + d.value;
                     });
@@ -241,8 +239,7 @@
                     .style("display", "none");
 
             svg.selectAll(".axis text")
-                    .style("font-family", "sans-serif")
-                    .style("font-size", "11px")
+                    .style("font" ,"11px sans-serif")
             ;
             svg.selectAll(".axis path")
                     .style("fill", "none")
