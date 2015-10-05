@@ -408,8 +408,8 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         caseWithoutChannelling.setX(0L);
                         caseWithoutChannelling.setUser("Sin supervisor");
                         caseWithoutChannelling.setY(0L);
-                        caseWithChannelling.setId(0L);
-                        caseWithoutChannelling.setId(1l);
+                        caseWithChannelling.setId(1L);
+                        caseWithoutChannelling.setId(0l);
 
                         lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingNotSupervisorAssigned(initDate + initTime, endDate + endTime, idDistrict);
                         for (int j = 0; j < lstObjects.size(); j++) {
@@ -433,8 +433,8 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                             caseWithoutChannelling.setX(new Long(i) + 1);
                             caseWithoutChannelling.setUser(users.get(i).getName());
                             caseWithoutChannelling.setY(0L);
-                            caseWithChannelling.setId(0L);
-                            caseWithoutChannelling.setId(1l);
+                            caseWithChannelling.setId(1L);
+                            caseWithoutChannelling.setId(0L);
                             lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingByDistrictAndOperator(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
                             for (int j = 0; j < lstObjects.size(); j++) {
                                 Object[] obj = (Object[]) lstObjects.get(j);
