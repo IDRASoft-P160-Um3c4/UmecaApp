@@ -21,3 +21,4 @@ id|name|description|obsolete
 20|STMSR_20|Reporte estadístico casos que cambian de medida cautelar a suspensión condicional o viceversa|0
 21|STMSR_21|Reporte estadístico imputados declarados sustraidos|0
 22|STMSR_22|Reporte estadístico suspensión de supervisión por prisión preventiva en una carpeta diversa|0
+23|STMSR_23|Reporte número de visitas a domicilios para la supervisión|0
