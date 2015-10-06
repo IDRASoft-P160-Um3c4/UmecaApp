@@ -85,20 +85,16 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
         switch (filter) {
             case Constants.REPORT_STATISTIC_CHANNELING_A:
                 SelectList casesWithChanneling = new SelectList();
-                SelectList casesWithoutChanneling = new SelectList();
                 casesWithChanneling.setName("Canalizado");
-                casesWithoutChanneling.setName("No canalizado");
                 switch (reportTypeRepository.getReportCodeById(idReportType)) {
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
                         lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingGeneral(initDate + initTime, endDate + endTime);
                         for (int i = 0; i < lstObjects.size(); i++) {
                             Object[] obj = (Object[]) lstObjects.get(i);
                             if (obj[0] != null) {
-                                casesWithoutChanneling.setValue(Long.parseLong(obj[0].toString()));
                                 casesWithChanneling.setValue(Long.parseLong(obj[1].toString()));
                             }
                         }
-                        data.add(casesWithoutChanneling);
                         data.add(casesWithChanneling);
                         return gson.toJson(data);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
@@ -106,74 +102,52 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                         for (int i = 0; i < lstObjects.size(); i++) {
                             Object[] obj = (Object[]) lstObjects.get(i);
                             if (obj[0] != null) {
-                                casesWithoutChanneling.setValue(Long.parseLong(obj[0].toString()));
                                 casesWithChanneling.setValue(Long.parseLong(obj[1].toString()));
                             } else {
-                                casesWithoutChanneling.setValue(0L);
                                 casesWithChanneling.setValue(0L);
                             }
                         }
-                        data.add(casesWithoutChanneling);
                         data.add(casesWithChanneling);
                         return gson.toJson(data);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
                         List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
                         List<List<ReportList>> totalReport = new ArrayList<>();
                         List<ReportList> caseWithChannellingList = new ArrayList<>();
-                        List<ReportList> caseWithoutChannellingList = new ArrayList<>();
                         ReportList caseWithChannelling;
-                        ReportList caseWithoutChannelling;
 
 
                         caseWithChannelling = new ReportList();
-                        caseWithoutChannelling = new ReportList();
                         caseWithChannelling.setName("Canalizado");
                         caseWithChannelling.setX(0L);
                         caseWithChannelling.setUser("Sin supervisor");
                         caseWithChannelling.setY(0L);
-                        caseWithoutChannelling.setName("No Canalizado");
-                        caseWithoutChannelling.setX(0L);
-                        caseWithoutChannelling.setUser("Sin supervisor");
-                        caseWithoutChannelling.setY(0L);
-                        caseWithChannelling.setId(1L);
-                        caseWithoutChannelling.setId(0l);
+                        caseWithChannelling.setId(0L);
 
                         lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingNotSupervisorAssigned(initDate + initTime, endDate + endTime, idDistrict);
                         for (int j = 0; j < lstObjects.size(); j++) {
                             Object[] obj = (Object[]) lstObjects.get(j);
                             if (obj[0] != null) {
-                                caseWithoutChannelling.setY(Long.parseLong(obj[0].toString()));
                                 caseWithChannelling.setY(Long.parseLong(obj[1].toString()));
                             }
                         }
-                        caseWithoutChannellingList.add(caseWithoutChannelling);
                         caseWithChannellingList.add(caseWithChannelling);
 
                         for (int i = 0; i < users.size(); i++) {
                             caseWithChannelling = new ReportList();
-                            caseWithoutChannelling = new ReportList();
                             caseWithChannelling.setName("Canalizado");
                             caseWithChannelling.setX(new Long(i) + 1);
                             caseWithChannelling.setUser(users.get(i).getName());
                             caseWithChannelling.setY(0L);
-                            caseWithoutChannelling.setName("No Canalizado");
-                            caseWithoutChannelling.setX(new Long(i) + 1);
-                            caseWithoutChannelling.setUser(users.get(i).getName());
-                            caseWithoutChannelling.setY(0L);
-                            caseWithChannelling.setId(1L);
-                            caseWithoutChannelling.setId(0L);
+                            caseWithChannelling.setId(0L);
                             lstObjects = statisticSupervisorManagerReportRepository.getNumberCasesWithChannelingByDistrictAndOperator(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
                             for (int j = 0; j < lstObjects.size(); j++) {
                                 Object[] obj = (Object[]) lstObjects.get(j);
                                 if (obj[0] != null) {
-                                    caseWithoutChannelling.setY(Long.parseLong(obj[0].toString()));
                                     caseWithChannelling.setY(Long.parseLong(obj[1].toString()));
                                 }
                             }
-                            caseWithoutChannellingList.add(caseWithoutChannelling);
                             caseWithChannellingList.add(caseWithChannelling);
                         }
-                        totalReport.add(caseWithoutChannellingList);
                         totalReport.add(caseWithChannellingList);
                         return gson.toJson(totalReport);
 
@@ -184,10 +158,8 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                             for (int i = 0; i < lstObjects.size(); i++) {
                                 Object[] obj = (Object[]) lstObjects.get(i);
                                 if (obj[0] != null) {
-                                    casesWithoutChanneling.setValue(Long.parseLong(obj[0].toString()));
                                     casesWithChanneling.setValue(Long.parseLong(obj[1].toString()));
                                 } else {
-                                    casesWithoutChanneling.setValue(0L);
                                     casesWithChanneling.setValue(0L);
                                 }
                             }
@@ -197,15 +169,12 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                             for (int i = 0; i < lstObjects.size(); i++) {
                                 Object[] obj = (Object[]) lstObjects.get(i);
                                 if (obj[0] != null) {
-                                    casesWithoutChanneling.setValue(Long.parseLong(obj[0].toString()));
                                     casesWithChanneling.setValue(Long.parseLong(obj[1].toString()));
                                 } else {
-                                    casesWithoutChanneling.setValue(0L);
                                     casesWithChanneling.setValue(0L);
                                 }
                             }
                         }
-                        data.add(casesWithoutChanneling);
                         data.add(casesWithChanneling);
                         return gson.toJson(data);
                 }
