@@ -3,3 +3,5 @@ id|name|description|obsolete
 2|STCHR_2|Estadística de canalizados a la totalidad de los servicios por tipo de institución|0
 3|STCHR_3|Estadística de canalizados por c/u de los servicios|0
 4|STCHR_4|Estadistica de primer cita|0
+5|STCHR_5|Estadistica de altas|0
+6|STCHR_6|Estadistica de inasistencias|0

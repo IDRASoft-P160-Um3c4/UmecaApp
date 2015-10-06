@@ -396,6 +396,9 @@ public class Constants {
     public static final String REPORT_STATISTIC_CHANNELING_B = "STCHR_2";
     public static final String REPORT_STATISTIC_CHANNELING_C = "STCHR_3";
     public static final String REPORT_STATISTIC_CHANNELING_D = "STCHR_4";
+    public static final String REPORT_STATISTIC_CHANNELING_E = "STCHR_5";
+    public static final String REPORT_STATISTIC_CHANNELING_F = "STCHR_6";
+
 
 
 

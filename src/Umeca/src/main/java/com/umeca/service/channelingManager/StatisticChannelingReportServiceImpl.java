@@ -403,8 +403,75 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                         data.add(casesAbsence);
                         return gson.toJson(data);
 
-                }
 
+                }
+            case Constants.REPORT_STATISTIC_CHANNELING_E:
+                SelectList channelingFinished = new SelectList();
+                channelingFinished.setName("Conclusión de la canalización");
+                channelingFinished.setValue(0L);
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        lstObjects = statisticChannelingReportRepository.countChannelingFinishedGeneral(initDate + initTime, endDate + endTime);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+
+                            channelingFinished.setValue(Long.parseLong(obj[1].toString()));
+
+
+                        }
+                        data.add(channelingFinished);
+                        return gson.toJson(data);
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        lstObjects = statisticChannelingReportRepository.countChannelingFinishedByDistrict(initDate + initTime, endDate + endTime, idDistrict);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+
+                            channelingFinished.setValue(Long.parseLong(obj[1].toString()));
+
+
+                        }
+                        data.add(channelingFinished);
+                        return gson.toJson(data);
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                        List<List<ReportList>> totalReport = new ArrayList<>();
+                        List<ReportList> channelingFinishedList = new ArrayList<>();
+                        ReportList channelingFinishedReport;
+
+                        for (int i = 0; i < users.size(); i++) {
+                            channelingFinishedReport = new ReportList();
+
+                            channelingFinishedReport.setName("Conclusión de la canalización");
+                            channelingFinishedReport.setX(new Long(i));
+                            channelingFinishedReport.setUser(users.get(i).getName());
+                            channelingFinishedReport.setY(0L);
+                            channelingFinishedReport.setId(1L);
+
+                            lstObjects = statisticChannelingReportRepository.countChannelingFinishedBySupervisor(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
+                            for (int j = 0; j < lstObjects.size(); j++) {
+                                Object[] obj = (Object[]) lstObjects.get(j);
+
+                                channelingFinishedReport.setY(Long.parseLong(obj[1].toString()));
+
+                            }
+                            channelingFinishedList.add(channelingFinishedReport);
+
+                        }
+                        totalReport.add(channelingFinishedList);
+                        return gson.toJson(totalReport);
+                    case  Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
+                        lstObjects = statisticChannelingReportRepository.countChannelingFinishedBySupervisor(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            channelingFinished.setValue(Long.parseLong(obj[1].toString()));
+
+                        }
+                        data.add(channelingFinished);
+                        return gson.toJson(data);
+
+                }
 
         }
 
