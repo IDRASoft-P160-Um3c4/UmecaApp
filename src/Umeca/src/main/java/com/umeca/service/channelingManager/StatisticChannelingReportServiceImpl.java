@@ -331,6 +331,110 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                         return gson.toJson(data);
 
                 }
+            case Constants.REPORT_STATISTIC_CHANNELING_D:
+
+
+                SelectList casesAssistance = new SelectList();
+                SelectList casesAbsence = new SelectList();
+                casesAssistance.setName("Asistencia");
+                casesAbsence.setName("Inasistencia");
+
+                casesAssistance.setValue(0L);
+                casesAbsence.setValue(0L);
+
+
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        lstObjects = statisticChannelingReportRepository.countAssistanceAndAbsenceGeneral(initDate + initTime, endDate + endTime);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+
+                            if (obj[0].toString().equals("Asistencia")) {
+                                casesAssistance.setValue(Long.parseLong(obj[1].toString()));
+                            } else {
+                                casesAbsence.setValue(Long.parseLong(obj[1].toString()));
+                            }
+
+                        }
+
+                        data.add(casesAssistance);
+                        data.add(casesAbsence);
+                        return gson.toJson(data);
+
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        lstObjects = statisticChannelingReportRepository.countAssistanceAndAbsenceByDistrict(initDate + initTime, endDate + endTime, idDistrict);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+
+                            if (obj[0].toString().equals("Asistencia")) {
+                                casesAssistance.setValue(Long.parseLong(obj[1].toString()));
+                            } else {
+                                casesAbsence.setValue(Long.parseLong(obj[1].toString()));
+                            }
+
+                        }
+
+                        data.add(casesAssistance);
+                        data.add(casesAbsence);
+                        return gson.toJson(data);
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                        List<List<ReportList>> total = new ArrayList<>();
+                        List<List<ReportList>> totalReport = new ArrayList<>();
+                        List<ReportList> drugsMaleList = new ArrayList<>();
+                        List<ReportList> drugsFemaleList = new ArrayList<>();
+                        ReportList assistance;
+                        ReportList absence;
+                        for (int i = 0; i < users.size(); i++) {
+                            assistance = new ReportList();
+                            absence = new ReportList();
+                            absence.setName("Inasistencia");
+                            absence.setX(new Long(i));
+                            absence.setUser(users.get(i).getName());
+                            absence.setY(0L);
+                            absence.setId(1L);
+                            assistance.setName("Asistencia");
+                            assistance.setX(new Long(i));
+                            assistance.setUser(users.get(i).getName());
+                            assistance.setY(0L);
+                            assistance.setId(0L);
+                            lstObjects = statisticChannelingReportRepository.countAssistanceAndAbsenceBySupervisor(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
+                            for (int j = 0; j < lstObjects.size(); j++) {
+                                Object[] obj = (Object[]) lstObjects.get(j);
+                                if (obj[0].toString().equals("Asistencia"))
+                                    assistance.setY(Long.parseLong(obj[1].toString()));
+                                else
+                                    absence.setY(Long.parseLong(obj[1].toString()));
+                            }
+                            drugsMaleList.add(assistance);
+                            drugsFemaleList.add(absence);
+                        }
+                        totalReport.add(drugsMaleList);
+                        totalReport.add(drugsFemaleList);
+                        return gson.toJson(totalReport);
+
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
+
+                        lstObjects = statisticChannelingReportRepository.countAssistanceAndAbsenceBySupervisor(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+
+                            if (obj[0].toString().equals("Asistencia")) {
+                                casesAssistance.setValue(Long.parseLong(obj[1].toString()));
+                            } else {
+                                casesAbsence.setValue(Long.parseLong(obj[1].toString()));
+                            }
+
+                        }
+
+                        data.add(casesAssistance);
+                        data.add(casesAbsence);
+                        return gson.toJson(data);
+
+                }
 
 
         }
