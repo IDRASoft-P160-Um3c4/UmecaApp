@@ -197,7 +197,6 @@
                     .attr("height", function (d) {
                         return height - y(d.y);
                     })
-                    .attr("dx", -5)
                     .attr("dy", "1.2em")
                     .style("fill", "black")
                     .style("text-anchor", "middle")
