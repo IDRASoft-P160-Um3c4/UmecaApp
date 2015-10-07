@@ -470,7 +470,127 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                         }
                         data.add(channelingFinished);
                         return gson.toJson(data);
+                }
 
+            case Constants.REPORT_STATISTIC_CHANNELING_F:
+                SelectList absence = new SelectList();
+                absence.setName("Inasistencias");
+                absence.setValue(0L);
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        lstObjects = statisticChannelingReportRepository.countAbsenceChannelingGeneral(initDate + initTime, endDate + endTime);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            absence.setValue(Long.parseLong(obj[1].toString()));
+                        }
+                        data.add(absence);
+                        return gson.toJson(data);
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        lstObjects = statisticChannelingReportRepository.countAbsenceChannelingByDistrict(initDate + initTime, endDate + endTime, idDistrict);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            absence.setValue(Long.parseLong(obj[1].toString()));
+                        }
+                        data.add(absence);
+                        return gson.toJson(data);
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                        List<List<ReportList>> totalReport = new ArrayList<>();
+                        List<ReportList> absenceList = new ArrayList<>();
+                        ReportList absenceReport;
+
+                        for (int i = 0; i < users.size(); i++) {
+                            absenceReport = new ReportList();
+
+                            absenceReport.setName("Inasistencias");
+                            absenceReport.setX(new Long(i));
+                            absenceReport.setUser(users.get(i).getName());
+                            absenceReport.setY(0L);
+                            absenceReport.setId(1L);
+
+                            lstObjects = statisticChannelingReportRepository.countAbsenceChannelingBySupervisor(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
+                            for (int j = 0; j < lstObjects.size(); j++) {
+                                Object[] obj = (Object[]) lstObjects.get(j);
+
+                                absenceReport.setY(Long.parseLong(obj[1].toString()));
+
+                            }
+                            absenceList.add(absenceReport);
+
+                        }
+                        totalReport.add(absenceList);
+                        return gson.toJson(totalReport);
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
+                        lstObjects = statisticChannelingReportRepository.countAbsenceChannelingBySupervisor(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            absence.setValue(Long.parseLong(obj[1].toString()));
+                        }
+                        data.add(absence);
+                        return gson.toJson(data);
+                }
+            case Constants.REPORT_STATISTIC_CHANNELING_G:
+                SelectList selectList;
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        lstObjects = statisticChannelingReportRepository.countChannelingDesertedGeneral(initDate + initTime, endDate + endTime);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            selectList = new SelectList();
+                            Object[] obj = (Object[]) lstObjects.get(i);
+
+                            selectList.setName(obj[0].toString());
+                            selectList.setValue(Long.parseLong(obj[1].toString()));
+                            data.add(selectList);
+                        }
+                        return gson.toJson(data);
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        lstObjects = statisticChannelingReportRepository.countChannelingDesertedByDistrict(initDate + initTime, endDate + endTime, idDistrict);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            selectList = new SelectList();
+                            Object[] obj = (Object[]) lstObjects.get(i);
+
+                            selectList.setName(obj[0].toString());
+                            selectList.setValue(Long.parseLong(obj[1].toString()));
+                            data.add(selectList);
+                        }
+                        return gson.toJson(data);
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                        List<List<ReportList>> total = new ArrayList<>();
+
+                        for (int i = 0; i < users.size(); i++) {
+                            lstObjects = statisticChannelingReportRepository.countChannelingDesertedBySupervisor(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
+                            for (int j = 0; j < lstObjects.size(); j++) {
+                                Object[] obj = (Object[]) lstObjects.get(j);
+                                if (i == 0) {
+                                    total.add(new ArrayList<ReportList>());
+                                }
+                                ReportList reportList = new ReportList();
+                                reportList.setId(new Long(j));
+                                reportList.setName(obj[0].toString());
+                                reportList.setUser(users.get(i).getName());
+                                reportList.setX(new Long(i));
+                                reportList.setY(new Long(obj[1].toString()));
+                                total.get(j).add(reportList);
+                            }
+                        }
+                        return gson.toJson(total);
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
+                        lstObjects = statisticChannelingReportRepository.countChannelingDesertedBySupervisor(initDate + initTime, endDate + endTime, idDistrict,idSupervisor);
+                        for (int i = 0; i < lstObjects.size(); i++) {
+                            selectList = new SelectList();
+                            Object[] obj = (Object[]) lstObjects.get(i);
+                            selectList.setName(obj[0].toString());
+                            selectList.setValue(Long.parseLong(obj[1].toString()));
+                            data.add(selectList);
+                        }
+                        return gson.toJson(data);
                 }
 
         }
