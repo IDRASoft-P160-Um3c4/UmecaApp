@@ -113,7 +113,7 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
             "            max(hearing_format.id_hearing_format) 'lastHF' " +
             "            from case_detention " +
             "            inner join  hearing_format " +
-            "            on hearing_format.id_case = case_detention.id_case and hearing_format.is_finished = true and case_detention.id_umeca_supervisor = :idDistrict " +
+            "            on hearing_format.id_case = case_detention.id_case and hearing_format.is_finished = true and case_detention.id_district = :idDistrict " +
             "            and hearing_format.register_timestamp between :initDate and :endDate " +
             "            inner join cat_status_case " +
             "            on cat_status_case.id_status = case_detention.id_status and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
@@ -1050,7 +1050,7 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
             "and fm.endDate between :initDate and :endDate " +
             "and stCase.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
             "and c.district.id = :districtId " +
-            "and fm.supervisor.id = :supervisorId " +
+            "and c.umecaSupervisor.id = :supervisorId " +
             "group by sch.block")
     List<SelectList> countImputedStudyingBySupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
 

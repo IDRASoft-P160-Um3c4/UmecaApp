@@ -906,81 +906,119 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         return gson.toJson(data);
                 }
             case Constants.REPORT_STATISTIC_MANAGER_REPORT_R:
+                SelectList studying;
+                SelectList notStudying;
+                List<SelectList> finalData = new ArrayList<>();
+
                 switch (reportTypeRepository.getReportCodeById(idReportType)) {
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+
+                        studying = new SelectList();
+                        notStudying = new SelectList();
+                        studying.setName("Estudia");
+                        studying.setValue(0L);
+                        notStudying.setName("No estudia");
+                        notStudying.setValue(0L);
                         data = statisticSupervisorManagerReportRepository.countImputedStudyingGeneral(initDateF, endDateF);
-                        if (data.size() == 1) {
-                            SelectList selectList = new SelectList();
-                            selectList.setValue(0L);
-                            if (data.get(0).getName().equals("Estudia"))
-                                selectList.setName("No estudia");
-                            else
-                                selectList.setName("Estudia");
-                            data.add(selectList);
+
+
+                        for (int i = 0; i < data.size(); i++) {
+
+                            if(data.get(i).getName().equals("Estudia")){
+                                studying.setValue(data.get(i).getValue());
+                            }
+                            else {
+                                notStudying.setValue(data.get(i).getValue());
+                            }
                         }
-                        return gson.toJson(data);
+                        finalData.add(studying);
+                        finalData.add(notStudying);
+                        return gson.toJson(finalData);
+
                     case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
-                        data = statisticSupervisorManagerReportRepository.countImputedStudyingByDistrict(initDateF, endDateF, idDistrict);
-                        if (data.size() == 1) {
-                            SelectList selectList = new SelectList();
-                            selectList.setValue(0L);
-                            if (data.get(0).getName().equals("Estudia"))
-                                selectList.setName("No estudia");
-                            else
-                                selectList.setName("Estudia");
-                            data.add(selectList);
+
+                        studying = new SelectList();
+                        notStudying = new SelectList();
+                        studying.setName("Estudia");
+                        studying.setValue(0L);
+                        notStudying.setName("No estudia");
+                        notStudying.setValue(0L);
+                        data = statisticSupervisorManagerReportRepository.countImputedStudyingByDistrict(initDateF, endDateF,idDistrict);
+                        for (int i = 0; i < data.size(); i++) {
+
+                            if(data.get(i).getName().equals("Estudia")){
+                                studying.setValue(data.get(i).getValue());
+                            }
+                            else {
+                                notStudying.setValue(data.get(i).getValue());
+                            }
                         }
-                        return gson.toJson(data);
+                        finalData.add(studying);
+                        finalData.add(notStudying);
+                        return gson.toJson(finalData);
+
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
                         List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
                         List<List<ReportList>> total = new ArrayList<>();
                         List<ReportList> studyingList = new ArrayList<>();
                         List<ReportList> notStudyingList = new ArrayList<>();
-                        ReportList studying;
-                        ReportList notStudying;
+                        ReportList studyingReport;
+                        ReportList notStudyingReport;
+
                         for (int i = 0; i < users.size(); i++) {
-                            studying = new ReportList();
-                            notStudying = new ReportList();
-                            notStudying.setId(0L);
-                            notStudying.setName("No estudia");
-                            notStudying.setUser(users.get(i).getName());
-                            notStudying.setX(new Long(i));
-                            notStudying.setY(0L);
-                            studying.setId(1L);
-                            studying.setName("Estudia");
-                            studying.setUser(users.get(i).getName());
-                            studying.setX(new Long(i));
-                            studying.setY(0L);
+                            studyingReport = new ReportList();
+                            notStudyingReport = new ReportList();
+                            notStudyingReport.setId(0L);
+                            notStudyingReport.setName("No estudia");
+                            notStudyingReport.setUser(users.get(i).getName());
+                            notStudyingReport.setX(new Long(i));
+                            notStudyingReport.setY(0L);
+                            studyingReport.setId(1L);
+                            studyingReport.setName("Estudia");
+                            studyingReport.setUser(users.get(i).getName());
+                            studyingReport.setX(new Long(i));
+                            studyingReport.setY(0L);
 
                             data = statisticSupervisorManagerReportRepository.countImputedStudyingBySupervisor(initDateF, endDateF, idDistrict, users.get(i).getId());
                             for (int j = 0; j < data.size(); j++) {
 
-                                if (data.get(0).getName().equals("Estudia"))
-                                    studying.setY(data.get(0).getValue());
-                                else
-                                    notStudying.setY(data.get(0).getValue());
+
+                                if(data.get(j).getName().equals("Estudia")){
+                                    studyingReport.setY(data.get(j).getValue());
+                                }
+                                else {
+                                    notStudyingReport.setY(data.get(j).getValue());
+                                }
 
                             }
-                            studyingList.add(studying);
-                            notStudyingList.add(notStudying);
+                            studyingList.add(studyingReport);
+                            notStudyingList.add(notStudyingReport);
 
                         }
-                        total.add(notStudyingList);
                         total.add(studyingList);
+                        total.add(notStudyingList);
                         return gson.toJson(total);
 
                     case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
+                        studying = new SelectList();
+                        notStudying = new SelectList();
+                        studying.setName("Estudia");
+                        studying.setValue(0L);
+                        notStudying.setName("No estudia");
+                        notStudying.setValue(0L);
                         data = statisticSupervisorManagerReportRepository.countImputedStudyingBySupervisor(initDateF, endDateF, idDistrict, idSupervisor);
-                        if (data.size() == 1) {
-                            SelectList selectList = new SelectList();
-                            selectList.setValue(0L);
-                            if (data.get(0).getName().equals("Estudia"))
-                                selectList.setName("No estudia");
-                            else
-                                selectList.setName("Estudia");
-                            data.add(selectList);
+                        for (int i = 0; i < data.size(); i++) {
+
+                            if(data.get(i).getName().equals("Estudia")){
+                                studying.setValue(data.get(i).getValue());
+                            }
+                            else {
+                                notStudying.setValue(data.get(i).getValue());
+                            }
                         }
-                        return gson.toJson(data);
+                        finalData.add(studying);
+                        finalData.add(notStudying);
+                        return gson.toJson(finalData);
 
                 }
 
