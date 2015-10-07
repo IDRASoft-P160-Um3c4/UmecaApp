@@ -1171,7 +1171,7 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                 switch (reportTypeRepository.getReportCodeById(idReportType)) {
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
                         lstObjects = statisticSupervisorManagerReportRepository.countSuspensionOfSupervisionForPreventivePrisonGeneral(initDate + initTime, endDate + endTime);
-                        for (int i = 0; i < lstObjects.size(); i++) {
+                         for (int i = 0; i < lstObjects.size(); i++) {
                             Object[] obj = (Object[]) lstObjects.get(i);
                             SelectList selectList = new SelectList();
                             selectList.setName(obj[0].toString());
@@ -1289,19 +1289,13 @@ public class StatisticSupervisorManagerReportServiceImpl implements StatisticSup
                         return gson.toJson(data);
 
                 }
-
         }
-
         return null;
     }
 
-
     private List<Object> completeData(List<Object> finalData, List<Object> data, String supervisor, int x, List<DrugType> drugs) {
 
-
         int countNum = 0;
-
-
         for (int i = 0; i < drugs.size(); i++) {
             List<ReportList> aux = new ArrayList<>();
             if (finalData.size() > i) {

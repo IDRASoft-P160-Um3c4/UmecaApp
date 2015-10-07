@@ -1233,22 +1233,25 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
             "")
     List<SelectList> countSubstracted(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
 
-    @Query(value = "select close_cause.name, count(case_detention.id_close_cause) from close_cause " +
+    @Query(value = "select close_cause.name, count(case_detention.id_case) from close_cause " +
             "left join case_detention " +
-            "on close_cause.id_close_cause = case_detention.id_close_cause and close_cause.code = 'CAUSE_PRISION_MULTIPLE_FOLDER'  " +
-            "and (case_detention.close_date between :initDate and :endDate)  ", nativeQuery = true)
+            "on close_cause.id_close_cause = case_detention.id_close_cause and close_cause.code = 'CAUSE_PRISON_MULTIPLE_FOLDER' " +
+            "and (case_detention.close_date between :initDate and :endDate)  " +
+            "where close_cause.code = 'CAUSE_PRISON_MULTIPLE_FOLDER' ", nativeQuery = true)
     List<Object> countSuspensionOfSupervisionForPreventivePrisonGeneral(@Param("initDate") String initDate, @Param("endDate") String endDate);
 
-    @Query(value = "select close_cause.name, count(case_detention.id_close_cause) from close_cause " +
-            "left join case_detention " +
-            "on close_cause.id_close_cause = case_detention.id_close_cause and case_detention.id_district = :idDistrict and close_cause.code = 'CAUSE_PRISION_MULTIPLE_FOLDER'  " +
-            "and (case_detention.close_date between :initDate and :endDate)  ", nativeQuery = true)
+    @Query(value = "select close_cause.name, count(case_detention.id_case) from close_cause " +
+            "            left join case_detention " +
+            "            on close_cause.id_close_cause = case_detention.id_close_cause and close_cause.code = 'CAUSE_PRISON_MULTIPLE_FOLDER' and case_detention.id_district = :idDistrict " +
+            "            and (case_detention.close_date between :initDate and :endDate) " +
+            "            where close_cause.code = 'CAUSE_PRISON_MULTIPLE_FOLDER' ", nativeQuery = true)
     List<Object> countSuspensionOfSupervisionForPreventivePrisonByDistrict(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict);
 
-    @Query(value = "select close_cause.name, count(case_detention.id_close_cause) from close_cause " +
-            "left join case_detention " +
-            "on close_cause.id_close_cause = case_detention.id_close_cause and case_detention.id_district = :idDistrict and close_cause.code = 'CAUSE_PRISION_MULTIPLE_FOLDER'  " +
-            "and (case_detention.close_date between :initDate and :endDate) and case_detention.closer_user = :idSupervisor ", nativeQuery = true)
+    @Query(value = "select close_cause.name, count(case_detention.id_case) from close_cause " +
+            "                        left join case_detention " +
+            "                        on close_cause.id_close_cause = case_detention.id_close_cause and close_cause.code = 'CAUSE_PRISON_MULTIPLE_FOLDER' and case_detention.id_district = :idDistrict and case_detention.id_umeca_supervisor = :idSupervisor " +
+            "                        and (case_detention.close_date between :initDate and :endDate) " +
+            "                        where close_cause.code = 'CAUSE_PRISON_MULTIPLE_FOLDER'  ", nativeQuery = true)
     List<Object> countSuspensionOfSupervisionForPreventivePrisonBySupervision(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("idSupervisor") Long idSupervisor);
 
     //sustraidos por distrito
