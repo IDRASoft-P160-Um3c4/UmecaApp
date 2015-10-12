@@ -870,14 +870,7 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
             "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
             "group by ca.id " +
             ")" +
-            "group by " +
-            "case " +
-            "when cahearcrime.crime.name = 'Robo' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo a casa habitación' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo calificado' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo de autopartes' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo de vehículo' then 'Robo' " +
-            "else cahearcrime.crime.name end")
+            "group by cahearcrime.crime.name")
     List<SelectList> countCrimes(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
 
     //crimes por distrito
@@ -896,14 +889,7 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
             "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
             "group by ca.id" +
             ")" +
-            "group by " +
-            "case " +
-            "when cahearcrime.crime.name = 'Robo' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo a casa habitación' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo calificado' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo de autopartes' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo de vehículo' then 'Robo' " +
-            "else cahearcrime.crime.name end")
+            "group by cahearcrime.crime.name")
     List<SelectList> countCrimesByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
 
     //catalog por distrito
@@ -922,14 +908,7 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
             "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
             "group by ca.id " +
             ")" +
-            "group by " +
-            "case " +
-            "when cahearcrime.crime.name = 'Robo' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo a casa habitación' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo calificado' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo de autopartes' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo de vehículo' then 'Robo' " +
-            "else cahearcrime.crime.name end")
+            "group by cahearcrime.crime.name")
     List<SelectList> catalogCrimesByDistrict(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
 
     //crimes por supervisor y distrito
@@ -949,14 +928,7 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
             "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
             "group by ca.id " +
             ")" +
-            "group by " +
-            "case " +
-            "when cahearcrime.crime.name = 'Robo' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo a casa habitación' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo calificado' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo de autopartes' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo de vehículo' then 'Robo' " +
-            "else cahearcrime.crime.name end")
+            "group by cahearcrime.crime.name")
     List<SelectList> countCrimesByDistrictAndSupervisor(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId, @Param("supervisorId") Long supervisorId);
 
     //crimes sin supervisor por distrito
@@ -976,14 +948,7 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
             "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
             "group by ca.id " +
             ")" +
-            "group by " +
-            "case " +
-            "when cahearcrime.crime.name = 'Robo' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo a casa habitación' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo calificado' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo de autopartes' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo de vehículo' then 'Robo' " +
-            "else cahearcrime.crime.name end")
+            "group by cahearcrime.crime.name")
     List<SelectList> countCrimesByDistrictAndSupervisorNull(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("districtId") Long districtId);
 
 
