@@ -66,7 +66,21 @@ app.controller('statisticReportController', function ($scope, $timeout, $http) {
             return true;
 
 
-        }
+        };
+
+        $scope.findChannelingTypeReport = function(formId, urlToPost){
+            $scope.msgError = "";
+            debugger;
+            if ($(formId).valid() == false)
+                return;
+            $scope.WaitFor = true;
+            var url = urlToPost + "?filterSelected=" + $scope.filterSelected + "&initDate=" + $scope.initDate + "&endDate=" + $scope.endDate + "&idDistrict=" + $scope.idDistrict + "&idSupervisor=" + $scope.idSupervisor + "&idSupervisor=" + $scope.idSupervisor + "&idChannelingType=" + $scope.idChannelingType;
+          //  var url = urlToPost + "&idChannelingType=" + $scope.idChannelingType;
+            window.goToUrlMvcUrl(url);
+            return true;
+
+
+        };
 
     }
 )

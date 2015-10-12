@@ -2,9 +2,11 @@ package com.umeca.service.channelingManager;
 
 import com.google.gson.Gson;
 import com.umeca.model.catalog.DrugType;
+import com.umeca.model.entities.supervisor.ContactData;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.ReportList;
 import com.umeca.model.shared.SelectList;
+import com.umeca.model.shared.SelectOptsList;
 import com.umeca.repository.EventRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
@@ -58,6 +60,8 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
     @Autowired
     StatisticChannelingReportRepository statisticChannelingReportRepository;
 
+    @Autowired
+    ChannelingTypeRepository channelingTypeRepository;
 
     @Override
     public String getData(String initDate, String endDate, String filter, Long idReportType, Long idDistrict, Long idSupervisor) {
@@ -461,7 +465,7 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                         }
                         totalReport.add(channelingFinishedList);
                         return gson.toJson(totalReport);
-                    case  Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
                         lstObjects = statisticChannelingReportRepository.countChannelingFinishedBySupervisor(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
                         for (int i = 0; i < lstObjects.size(); i++) {
                             Object[] obj = (Object[]) lstObjects.get(i);
@@ -582,7 +586,7 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                         return gson.toJson(total);
 
                     case Constants.REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR:
-                        lstObjects = statisticChannelingReportRepository.countChannelingDesertedBySupervisor(initDate + initTime, endDate + endTime, idDistrict,idSupervisor);
+                        lstObjects = statisticChannelingReportRepository.countChannelingDesertedBySupervisor(initDate + initTime, endDate + endTime, idDistrict, idSupervisor);
                         for (int i = 0; i < lstObjects.size(); i++) {
                             selectList = new SelectList();
                             Object[] obj = (Object[]) lstObjects.get(i);
@@ -592,6 +596,68 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                         }
                         return gson.toJson(data);
                 }
+            case Constants.REPORT_STATISTIC_CHANNELING_H:
+                // List<List<ReportList>> total = new ArrayList<>();
+                List<SelectOptsList> channelingType = channelingTypeRepository.findNotObsolete();
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                        List<List<ReportList>> total = new ArrayList<>();
+
+                        for (int i = 0; i < channelingType.size(); i++) {
+                            lstObjects = statisticChannelingReportRepository.countChannelingDesertByType(initDate + initTime, endDate + endTime, channelingType.get(i).getId());
+                            for (int j = 0; j < lstObjects.size(); j++) {
+                                Object[] obj = (Object[]) lstObjects.get(j);
+                                if (i == 0) {
+                                    total.add(new ArrayList<ReportList>());
+                                    total.add(new ArrayList<ReportList>());
+                                    total.add(new ArrayList<ReportList>());
+
+                                }
+                                ReportList reportList = new ReportList();
+                                reportList.setId(0L);
+                                reportList.setName("Bajas");
+                                reportList.setUser(channelingType.get(i).getName());
+                                reportList.setX(new Long(i));
+                                reportList.setY(new Long(obj[1].toString()));
+                                total.get(j).add(reportList);
+
+
+                                lstObjects = statisticChannelingReportRepository.countChannelingFinishedByType(initDate + initTime, endDate + endTime, channelingType.get(i).getId());
+
+                                Object[] obj2 = (Object[]) lstObjects.get(j);
+                                //   if (i == 0) {
+                                //       total.add(new ArrayList<ReportList>());
+                                //   }
+                                ReportList reportList2 = new ReportList();
+                                reportList2.setId(1L);
+                                reportList2.setName("Altas");
+                                reportList2.setUser(channelingType.get(i).getName());
+                                reportList2.setX(new Long(i));
+                                reportList2.setY(new Long(obj2[1].toString()));
+                                total.get(1).add(reportList2);
+
+
+
+                        //        Object[] obj3 = (Object[]) lstObjects.get(j);
+                                //   if (i == 0) {
+                                //       total.add(new ArrayList<ReportList>());
+                                //   }
+                                ReportList reportList3 = new ReportList();
+                                reportList3.setId(1L);
+                                reportList3.setName("Inscritos");
+                                reportList3.setUser(channelingType.get(i).getName());
+                                reportList3.setX(new Long(i));
+                                reportList3.setY(0L);
+                                total.get(2).add(reportList3);
+
+
+                            }
+
+                        }
+                        return gson.toJson(total);
+                }
+
 
         }
 

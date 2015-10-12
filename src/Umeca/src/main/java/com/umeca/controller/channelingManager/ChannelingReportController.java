@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.umeca.model.catalog.StatisticChannelingReportType;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
+import com.umeca.model.shared.SelectOptsList;
 import com.umeca.repository.account.UserRepository;
+import com.umeca.repository.catalog.ChannelingTypeRepository;
 import com.umeca.repository.catalog.ReportTypeRepository;
 import com.umeca.repository.catalog.StatisticChannelingReportTypeRepository;
 import com.umeca.repository.catalog.StatisticOperatorReportTypeRepository;
@@ -44,6 +46,8 @@ public class ChannelingReportController {
     UserRepository userRepository;
     @Autowired
     StatisticChannelingReportTypeRepository statisticChannelingReportTypeRepository;
+    @Autowired
+    ChannelingTypeRepository channelingTypeRepository;
 
     @RequestMapping(value = "/channelingManager/statisticReport/index", method = RequestMethod.GET)
     public ModelAndView index() {
@@ -77,6 +81,12 @@ public class ChannelingReportController {
                 model = new ModelAndView("/channelingManager/statisticReport/showReportFHD");
             }
 
+            if(filterSelected.equals(Constants.REPORT_STATISTIC_CHANNELING_H)){
+                model = new ModelAndView("channelingManager/statisticReport/showReportChannelingTypeGeneral");
+                List<SelectOptsList> lstChannelingType = channelingTypeRepository.findNotObsolete();
+                model.addObject("lstChannelingType",gson.toJson(lstChannelingType));
+            }
+
 
 
             if (reportTypeRepository.getReportCodeById(idReportType).equals(Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR)) {
@@ -86,6 +96,7 @@ public class ChannelingReportController {
                         filterSelected.equals(Constants.REPORT_STATISTIC_CHANNELING_B)
                         ){
                     model = new ModelAndView("/channelingManager/statisticReport/showComplexReportUHD");
+
                 }
 
 
@@ -142,14 +153,58 @@ public class ChannelingReportController {
         return model;
     }
 
+    @RequestMapping("/channelingManager/statisticReport/showReportChannelingType")
+    public ModelAndView showReportByType(String initDate, String endDate, String filterSelected, Long idReportType, Long idDistrict,Long idSupervisor ,Long idChannelingType){
+        Gson gson = new Gson();
+        ModelAndView model = new ModelAndView("/channelingManager/statisticReport/showReportChannelingType");
+
+        String title = null;
+        String extraData = null;
+        Long total = Long.valueOf(0);
+        try {
+
+            //  List<SelectList> data;
+            title = statisticChannelingReportTypeRepository.findByCode(filterSelected).getDescription();
+            String data;
+            data = statisticChannelingReportService.getData(initDate, endDate, filterSelected, 5L, idDistrict, idSupervisor);
+
+       /*     if (idDistrict == 1)
+                extraData = "Por operador: " + currentSupervisorFullName + " - Cuatla";
+            else if (idDistrict == 2)
+                extraData = "Por operador: " + currentSupervisorFullName + " - Cuernavaca";
+            else
+                extraData = "Por operador: " + currentSupervisorFullName + " - Jojutla";
+                */
+
+            model.addObject("idDistrict", idDistrict);
+            model.addObject("initDate", initDate);
+            model.addObject("endDate", endDate);
+            model.addObject("filterSelected", filterSelected);
+            model.addObject("total", total);
+            model.addObject("data", data);
+            model.addObject("extraData", extraData);
+            model.addObject("title", title);
+      //      model.addObject("currentSupervisor", idSupervisor);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logException.Write(e, this.getClass(), "save", sharedUserService);
+            model.addObject("initDate", initDate.toString());
+            model.addObject("endDate", endDate.toString());
+            model.addObject("total", total);
+            model.addObject("data", null);
+            model.addObject("extraData", extraData);
+            model.addObject("title", title);
+        }
+        return model;
+    }
+
     @RequestMapping(value = "/channelingManager/statisticReport/showLargeReport", method = RequestMethod.GET)
     public ModelAndView showLargeReport(String filterSelected, String initDate, String endDate, Long idDistrict, Long idSupervisor) {
 
         Gson gson = new Gson();
         Long total = Long.valueOf(0);
         List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
-
-
 
         SelectList notAssignedSupervisor = new SelectList();
         notAssignedSupervisor.setName("Sin supervisor");

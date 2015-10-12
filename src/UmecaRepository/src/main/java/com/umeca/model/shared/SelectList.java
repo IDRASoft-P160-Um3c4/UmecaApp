@@ -193,9 +193,9 @@ public class SelectList implements EntityGrid{
     public SelectList(Boolean gender, long numberGender){
         this.value = numberGender;
         if(gender == Constants.GENDER_MALE)
-            this.name = "Hombre";
+            this.name = "Masculino";
         else
-            this.name = "Mujer";
+            this.name = "Fenemino";
     }
 
     public SelectList(String name, Long value){

@@ -857,24 +857,18 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
 
     //crimes general
     @Query("select new com.umeca.model.shared.SelectList(" +
-            "case " +
-            "when cahearcrime.crime.name = 'Robo' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo a casa habitación' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo calificado' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo de autopartes' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo de vehículo' then 'Robo' " +
-            "else cahearcrime.crime.name end, count(cahearcrime.id)) " +
+            "cahearcrime.crime.name, count(cahearcrime.id)) " +
             "from Case ca " +
             "inner join ca.hearingFormats cahear " +
             "inner join cahear.crimeList cahearcrime " +
             "where cahear.id in (" +
-            "select distinct cahear.id " +
+            "select max (cahear.id) " +
             "from Case ca " +
             "inner join ca.hearingFormats cahear " +
             "where ca.dateCreate between :initDate and :endDate " +
             "and cahear.isFinished = true " +
             "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
-            "order by cahear.id desc" +
+            "group by ca.id " +
             ")" +
             "group by " +
             "case " +
@@ -888,25 +882,19 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
 
     //crimes por distrito
     @Query("select new com.umeca.model.shared.SelectList(" +
-            "case " +
-            "when cahearcrime.crime.name = 'Robo' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo a casa habitación' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo calificado' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo de autopartes' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo de vehículo' then 'Robo' " +
-            "else cahearcrime.crime.name end, count(cahearcrime.id)) " +
+            "cahearcrime.crime.name, count(cahearcrime.id)) " +
             "from Case ca " +
             "inner join ca.hearingFormats cahear " +
             "inner join cahear.crimeList cahearcrime " +
             "where cahear.id in (" +
-            "select distinct cahear.id " +
+            "select max (cahear.id) " +
             "from Case ca " +
             "inner join ca.hearingFormats cahear " +
             "where ca.dateCreate between :initDate and :endDate " +
             "and ca.district.id = :districtId " +
             "and cahear.isFinished = true " +
             "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
-            "order by cahear.id desc" +
+            "group by ca.id" +
             ")" +
             "group by " +
             "case " +
@@ -920,25 +908,19 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
 
     //catalog por distrito
     @Query("select new com.umeca.model.shared.SelectList( cahearcrime.crime.id, " +
-            "case " +
-            "when cahearcrime.crime.name = 'Robo' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo a casa habitación' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo calificado' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo de autopartes' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo de vehículo' then 'Robo' " +
-            "else cahearcrime.crime.name end) " +
+            "cahearcrime.crime.name) " +
             "from Case ca " +
             "inner join ca.hearingFormats cahear " +
             "inner join cahear.crimeList cahearcrime " +
             "where cahear.id in (" +
-            "select distinct cahear.id " +
+            "select max (cahear.id) " +
             "from Case ca " +
             "inner join ca.hearingFormats cahear " +
             "where ca.dateCreate between :initDate and :endDate " +
             "and ca.district.id = :districtId " +
             "and cahear.isFinished = true " +
             "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
-            "order by cahear.id desc" +
+            "group by ca.id " +
             ")" +
             "group by " +
             "case " +
@@ -952,18 +934,12 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
 
     //crimes por supervisor y distrito
     @Query("select new com.umeca.model.shared.SelectList(" +
-            "case " +
-            "when cahearcrime.crime.name = 'Robo' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo a casa habitación' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo calificado' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo de autopartes' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo de vehículo' then 'Robo' " +
-            "else cahearcrime.crime.name end, count(cahearcrime.id)) " +
+            "cahearcrime.crime.name, count(cahearcrime.id)) " +
             "from Case ca " +
             "inner join ca.hearingFormats cahear " +
             "inner join cahear.crimeList cahearcrime " +
             "where cahear.id in (" +
-            "select distinct cahear.id " +
+            "select max (cahear.id) " +
             "from Case ca " +
             "inner join ca.hearingFormats cahear " +
             "where ca.dateCreate between :initDate and :endDate " +
@@ -971,7 +947,7 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
             "and ca.umecaSupervisor.id = :supervisorId " +
             "and cahear.isFinished = true " +
             "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
-            "order by cahear.id desc" +
+            "group by ca.id " +
             ")" +
             "group by " +
             "case " +
@@ -985,18 +961,12 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
 
     //crimes sin supervisor por distrito
     @Query("select new com.umeca.model.shared.SelectList(" +
-            "case " +
-            "when cahearcrime.crime.name = 'Robo' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo a casa habitación' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo calificado' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo de autopartes' then 'Robo' " +
-            "when cahearcrime.crime.name = 'Robo de vehículo' then 'Robo' " +
-            "else cahearcrime.crime.name end, count(cahearcrime.id)) " +
+            "cahearcrime.crime.name, count(cahearcrime.id)) " +
             "from Case ca " +
             "inner join ca.hearingFormats cahear " +
             "inner join cahear.crimeList cahearcrime " +
             "where cahear.id in (" +
-            "select distinct cahear.id " +
+            "select max (cahear.id) " +
             "from Case ca " +
             "inner join ca.hearingFormats cahear " +
             "where ca.dateCreate between :initDate and :endDate " +
@@ -1004,7 +974,7 @@ public interface StatisticSupervisorManagerReportRepository extends JpaRepositor
             "and ca.umecaSupervisor.id = null " +
             "and cahear.isFinished = true " +
             "and ca.status.name in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
-            "order by cahear.id desc" +
+            "group by ca.id " +
             ")" +
             "group by " +
             "case " +
