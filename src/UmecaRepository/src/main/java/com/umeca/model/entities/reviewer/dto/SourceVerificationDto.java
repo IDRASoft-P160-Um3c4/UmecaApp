@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer.dto;
 
+import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 import com.umeca.model.entities.reviewer.SourceVerification;
 import com.umeca.model.entities.reviewer.View.Section;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * Time: 11:43 AM
  * To change this template use File | Settings | File Templates.
  */
-public class SourceVerificationDto {
+public class SourceVerificationDto implements EntityGrid{
     private Long id;
     private String fullName;
     private String age;
@@ -20,6 +21,16 @@ public class SourceVerificationDto {
     private String address;
     private String phone;
     private List<Section> sections;
+
+    public SourceVerificationDto(){
+    }
+
+    public SourceVerificationDto(Long id, String fullName, String relationship, String address){
+        this.id = id;
+        this.fullName = fullName;
+        this.relationship = relationship;
+        this.address= address;
+    }
 
     public SourceVerificationDto dtoSourceVerification(SourceVerification sv){
         this.id = sv.getId();

@@ -449,7 +449,10 @@ public class HearingFormatController {
                 }
             }
 
-            return hearingFormatService.save(result, request);
+            HearingFormat hearingFormat = hearingFormatService.fillHearingFormat(result);
+            hearingFormat.setCaseDetention(caseRepository.findOne(result.getIdCase()));
+
+            return hearingFormatService.save(hearingFormat, request);
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "doUpsert_hearing_format", sharedUserService);
             return new ResponseMessage(true, "Ha ocurrido un error, intente nuevamente");

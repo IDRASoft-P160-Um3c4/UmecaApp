@@ -8,6 +8,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.security.BcryptUtil;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.infrastructure.security.CryptoRfc2898;
 import com.umeca.model.ResponseUniqueMessage;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.account.UserUnique;
@@ -158,8 +159,10 @@ public class UserController {
             if (resp != null)
                 return resp;
 
+            CryptoRfc2898 cryptoRfc2898 = new CryptoRfc2898();
+
             if (model.getId() <= 0 || modelNew.getHasChangePass())
-                model.setPassword(BcryptUtil.encode(modelNew.getPassword()));
+                model.setPassword(cryptoRfc2898.encode(modelNew.getPassword()));
 
             Long idUser = repositoryUser.findIdByUsername(model.getUsername());
 

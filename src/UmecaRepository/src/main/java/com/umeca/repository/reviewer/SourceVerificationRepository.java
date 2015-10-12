@@ -32,4 +32,11 @@ public interface SourceVerificationRepository extends JpaRepository<SourceVerifi
 
     @Query("select s from SourceVerification  as s where s.verification.caseDetention.id =:idCase and s.isAuthorized = true and s.dateComplete IS NOT NULL")
     List<SourceVerification> getAllSourceCompleteByIdCase(@Param("idCase")Long idCase);
+
+    @Query("select count (sv.id) from TabletAssignmentCase TAC " +
+            "INNER JOIN TAC.caseDetention c " +
+            "INNER JOIN c.verification ver " +
+            "INNER JOIN ver.sourceVerifications sv " +
+            "where TAC.id = :idAssignmentId and sv.dateComplete is null and sv.visible=true and sv.isAuthorized=true")
+    Long getCountIncompleteSourcesByAssignmentId(@Param("idAssignmentId") Long idAssignmentId);
 }

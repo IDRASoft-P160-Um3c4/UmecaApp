@@ -118,6 +118,12 @@ public class Case {
     @Column(name = "date_opinion", nullable = true)
     private Date dateOpinion;
 
+    @Column(name = "assignment_type")
+    private String assignmentType;
+
+    @Column(name = "previous_state_code")
+    private String previousStateCode;
+
     @Transient
     private String idString;
 
@@ -368,5 +374,21 @@ public class Case {
 
     public void setDateOpinion(Date dateOpinion) {
         this.dateOpinion = dateOpinion;
+    }
+
+    public String getAssignmentType() {
+        return assignmentType;
+    }
+
+    public void setAssignmentType(String assignmentType) {
+        this.assignmentType = assignmentType;
+    }
+
+    public String getPreviousStateCode() {
+        return previousStateCode;
+    }
+
+    public void setPreviousStateCode(String previousStateCode) {
+        this.previousStateCode = previousStateCode;
     }
 }

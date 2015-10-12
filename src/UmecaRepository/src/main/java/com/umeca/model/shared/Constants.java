@@ -404,10 +404,11 @@ public class Constants {
 
 
 
-
-
-
-
+    public static final String MEETING_ASSIGNMENT_TYPE = "MEETING";
+    public static final String VERIFICATION_ASSIGNMENT_TYPE = "VERIFICATION";
+    public static final String HEARING_FORMAT_ASSIGNMENT_TYPE = "HEARING_FORMAT";
+    public static final Long VERIFICATION_METHOD_VISIT_ID = 2L;
+    public static final String CASE_STATUS_TABLET_ASSIGNMENT = "ST_CASE_TABLET_ASSIGNED";
 
 
 }

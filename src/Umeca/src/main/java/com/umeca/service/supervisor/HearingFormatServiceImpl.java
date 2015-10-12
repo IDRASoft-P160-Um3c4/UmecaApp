@@ -821,12 +821,11 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         return lstContactView;
     }
 
-    @Override
     @Transactional
-    public ResponseMessage save(HearingFormatView hearingFormatView, HttpServletRequest request) {
+    public ResponseMessage save(HearingFormat hearingFormat, HttpServletRequest request) {
 
-        HearingFormat hearingFormat = this.fillHearingFormat(hearingFormatView);
-        hearingFormat.setCaseDetention(caseRepository.findOne(hearingFormatView.getIdCase()));
+       // HearingFormat hearingFormat = this.fillHearingFormat(hearingFormatView);
+       // hearingFormat.setCaseDetention(caseRepository.findOne(hearingFormatView.getIdCase()));
 
         ResponseMessage response = new ResponseMessage();
         StringBuilder sb = new StringBuilder();
@@ -963,11 +962,11 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                             addrObj.setLocation(newFormatAddress.getLocation());
                             addrObj.setAddressString(addrObj.toString());
                             newFramAddr.setAddress(addrObj);
-                            newFramAddr.setIsHomeless(hearingFormatView.getIsHomeless());
-                            newFramAddr.setTimeAgo(hearingFormatView.getTimeAgo());
+                            newFramAddr.setIsHomeless(hearingFormat.getIsHomeless());
+                            newFramAddr.setTimeAgo(hearingFormat.getTimeAgo());
                             newFramAddr.setAddressRef(hearingFormat.getLocationPlace());
 
-                            if (hearingFormatView.getIsHomeless() == true) {
+                            if (hearingFormat.getIsHomeless() == true) {
                                 newFramAddr.setRegisterType(registerTypeRepository.getRegisterTypeActual());
                                 newFramAddr.setHomeType(homeTypeRepository.getOwnHomeType());
                             }
