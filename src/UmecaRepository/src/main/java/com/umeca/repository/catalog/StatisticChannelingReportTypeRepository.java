@@ -14,6 +14,8 @@ public interface StatisticChannelingReportTypeRepository extends JpaRepository<S
     @Query("SELECT e from StatisticChannelingReportType e where e.name=:code")
     public StatisticChannelingReportType findByCode(@Param("code") String code);
 
+    @Query("SELECT e from StatisticChannelingReportType e where e.id=:id")
+    public StatisticChannelingReportType findById(@Param("id") Long id);
 
     @Query("select new com.umeca.model.shared.SelectList(SRT.id, SRT.name, SRT.description) from StatisticChannelingReportType SRT where SRT.isObsolete=false")
     List<SelectList> getAllNoObsolete();

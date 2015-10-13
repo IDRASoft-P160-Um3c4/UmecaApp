@@ -978,7 +978,7 @@ public class ReportExcelSummary {
 
         if (lstMaritalSt != null)
             for (SelectList act : lstMaritalSt) {
-                if (act.getAux() == idStatus)
+                if (act.getAux().equals(idStatus))
                     tot++;
             }
 
