@@ -188,7 +188,6 @@
                             </ul>
                         </li>
 
-
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
                                     class="glyphicon glyphicon-search"></i>
@@ -303,6 +302,24 @@
                         <li class="nav-li-blue"><a href="<c:url value='/detentionRecord/detainedSheet.html' />"><i
                                 class="icon icon-envelope"></i>&nbsp;&nbsp;S&aacute;bana de detenidos</a></li>
 
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-folder-close"></i>
+                                &nbsp;&nbsp;Casos para tableta
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/shared/upload_info/meeting/index.html' />"><i
+                                        class="icon icon-eye-open"></i>&nbsp;&nbsp;Entrevistas de riesgos</a>
+                                </li>
+                                <li><a href="<c:url value='/shared/upload_info/verification/index.html' />"><i
+                                        class="icon icon-trash"></i>&nbsp;&nbsp;Entrevistas de verificaci&oacute;n</a>
+                                </li>
+                                <li><a href="<c:url value='/shared/upload_info/index.html' />"><i
+                                        class="icon icon-trash"></i>&nbsp;&nbsp;Desasociar casos de tableta</a>
+                                </li>
+                            </ul>
+                        </li>
                     </sec:authorize>
 
                     <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
@@ -391,6 +408,22 @@
                                 </li>
                                 <li><a href="<c:url value='/shared/minute/finishedIndex.html' />"><i
                                         class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Minutas cerradas</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-folder-close"></i>
+                                &nbsp;&nbsp;Casos para tableta
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/shared/upload_info/hearingFormat/index.html' />"><i
+                                        class="icon icon-eye-open"></i>&nbsp;&nbsp;Formato de audiencia</a>
+                                </li>
+                                <li><a href="<c:url value='/shared/upload_info/indexSup.html' />"><i
+                                        class="icon icon-trash"></i>&nbsp;&nbsp;Desasociar casos de tableta</a>
                                 </li>
                             </ul>
                         </li>

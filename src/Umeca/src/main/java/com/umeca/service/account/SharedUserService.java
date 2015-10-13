@@ -1,7 +1,10 @@
 package com.umeca.service.account;
 
+import com.google.gson.Gson;
 import com.umeca.infrastructure.security.BcryptUtil;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.infrastructure.security.CryptoRfc2898;
+import com.umeca.model.dto.tablet.TabletUserDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
@@ -9,11 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Project: Umeca
@@ -82,7 +83,8 @@ public class SharedUserService {
 
     public boolean isValidPasswordForUser(Long userId, String password) {
         String encodePassword = userRepository.getEncodedPassword(userId);
-        return BcryptUtil.match(password, encodePassword);
+        CryptoRfc2898 cryptoRfc2898 = new CryptoRfc2898();
+        return cryptoRfc2898.matches(password.subSequence(0, password.length()), encodePassword);
     }
 
     public List<SelectList> getLstValidUsersByRole(String sRole) {
@@ -175,5 +177,54 @@ public class SharedUserService {
 
     public String getFullNameById(Long id) {
         return userRepository.getFullNameById(id);
+    }
+
+    public String getCodedPassByUsername(String usrname) {
+        return userRepository.getCodedPassByUsername(usrname);
+    }
+
+    //valida las ceredenciales enviadas desde la tableta y en caso de ser correctas genera un guid para el usuario que sera verificado en cada operacion
+    @Transactional
+    public ResponseMessage confirmLoginData(String user, String encodedPass) {
+
+        Gson g = new Gson();
+
+        if (user == null || user.length() == 0 || encodedPass == null || encodedPass.length() == 0)
+            return new ResponseMessage(true, "El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente");
+
+        String bdEncodedPass = this.getCodedPassByUsername(user);
+        if (bdEncodedPass == null || bdEncodedPass.length() == 0)
+            return new ResponseMessage(true, "El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente");
+
+        CryptoRfc2898 rfc2898 = new CryptoRfc2898();
+
+        if (rfc2898.ByteArraysEqual(encodedPass.getBytes(), bdEncodedPass.getBytes())) {
+            ResponseMessage r = new ResponseMessage(false, "Acceso correcto");
+            TabletUserDto info = new TabletUserDto();
+
+            User u = userRepository.findByUsername(user);
+            String guid = UUID.randomUUID().toString();
+            u.setGuidTabletAssignment(guid);
+            userRepository.save(u);
+
+            info.setId(u.getId());
+            info.setFullname(u.getFullname());
+            info.setRoleCode(u.getRoles().get(0).getRole());
+            info.setGuid(guid);
+
+            r.setReturnData(g.toJson(info));
+            return r;
+        }
+
+        return new ResponseMessage(true, "El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente");
+    }
+
+    public boolean validateUserGuid(String user, String guid) {
+        User u = userRepository.findByUserGuid(user, guid);
+        if (u != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

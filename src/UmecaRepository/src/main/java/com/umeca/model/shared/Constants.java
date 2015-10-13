@@ -397,6 +397,7 @@ public class Constants {
     public static final String REPORT_STATISTIC_CHANNELING_C = "STCHR_3";
     public static final String REPORT_STATISTIC_CHANNELING_D = "STCHR_4";
     public static final String REPORT_STATISTIC_CHANNELING_E = "STCHR_5";
+
     public static final String REPORT_STATISTIC_CHANNELING_F = "STCHR_6";
     public static final String REPORT_STATISTIC_CHANNELING_G = "STCHR_7";
     public static final String REPORT_STATISTIC_CHANNELING_H = "STCHR_8";
@@ -404,10 +405,11 @@ public class Constants {
 
 
 
-
-
-
-
+    public static final String MEETING_ASSIGNMENT_TYPE = "MEETING";
+    public static final String VERIFICATION_ASSIGNMENT_TYPE = "VERIFICATION";
+    public static final String HEARING_FORMAT_ASSIGNMENT_TYPE = "HEARING_FORMAT";
+    public static final Long VERIFICATION_METHOD_VISIT_ID = 2L;
+    public static final String CASE_STATUS_TABLET_ASSIGNMENT = "ST_CASE_TABLET_ASSIGNED";
 
 
 }
