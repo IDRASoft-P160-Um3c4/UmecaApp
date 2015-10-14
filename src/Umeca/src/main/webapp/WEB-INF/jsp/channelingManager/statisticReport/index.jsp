@@ -134,8 +134,8 @@
                       <div class="col-xs-6"  ng-disabled = true>
 
 
-                          <input type="hidden" ng-update-hidden ng-model="idChannelingType" name="idChannelingType" id="idChannelingType"
-                                  ng-init = "idChannelingType=0" >
+                          <input type="hidden" ng-update-hidden ng-model="idParameter" name="idParameter" id="idParameter"
+                                  ng-init = "idParameter=0" >
 
                           <input type="hidden" ng-update-hidden ng-model="idDistrict" name="idDistrict" id="idDistrict">
                           <label for="district">Distrito</label>

@@ -506,4 +506,312 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
         List<Object> countChannelingFinishedByTypeGeneral(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idChannelingType") Long idChannelingType);
 
 
+        @Query(value = "SELECT " +
+                "    'Canalizados', " +
+                "    SUM(IF(hasChanneling = 1, 1, 0)) AS 'Channeling' " +
+                "FROM " +
+                "    (SELECT DISTINCT " +
+                "        case_detention.id_case, " +
+                "            IF(channeling.id_channeling IS NULL, 0, 1) AS 'hasChanneling', " +
+                "            case_detention.id_district, " +
+                "            case_detention.id_umeca_supervisor " +
+                "    FROM " +
+                "        case_detention " +
+                "    INNER JOIN hearing_format ON hearing_format.id_case = case_detention.id_case " +
+                "        AND hearing_format.is_finished = TRUE " +
+                "    INNER JOIN cat_status_case ON cat_status_case.id_status = case_detention.id_status " +
+                "        AND cat_status_case.status IN ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
+                "    LEFT JOIN channeling ON case_detention.id_case = channeling.id_case " +
+                "        AND channeling.creation_date BETWEEN :initDate AND :endDate " +
+                "        AND channeling.id_cat_institution_name = :idInstitution " +
+                "        AND case_detention.id_district = :idDistrict) ResA" , nativeQuery = true)
+        List<Object> countChannelingByInstitution(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("idDistrict") Long idDistrict, @Param("idInstitution") Long idInstitution);
+
+
+        @Query(value = "SELECT " +
+                "    CASE activity_monitoring_plan.channeling_assistance " +
+                "        WHEN TRUE THEN 'Asistencia' " +
+                "        ELSE 'Inasistencia' " +
+                "    END AS 'Asistencia/Inasistencia', " +
+                "    COUNT(ResA.sub_id_case) " +
+                "FROM " +
+                "    activity_monitoring_plan " +
+                "        INNER JOIN " +
+                "    supervision_activity ON activity_monitoring_plan.id_supervision_activity = supervision_activity.id_supervision_activity " +
+                "        AND (activity_monitoring_plan.done_time BETWEEN :initDate AND :endDate) " +
+                "        INNER JOIN " +
+                "    activity_goal ON activity_monitoring_plan.id_activity_goal = activity_goal.id_activity_goal " +
+                "        AND activity_goal.name = 'Primer cita canalización' " +
+                "        AND activity_monitoring_plan.status = 'REALIZADA' " +
+                "        INNER JOIN " +
+                "    channeling ON activity_monitoring_plan.id_channeling = channeling.id_channeling " +
+                "        AND channeling.id_cat_institution_name = :idInstitution " +
+                "        INNER JOIN " +
+                "    (SELECT " +
+                "        case_detention.id_case 'sub_id_case', " +
+                "            case_detention.id_umeca_supervisor 'sub_id_umeca_supervisor', " +
+                "            case_detention.id_district 'sub_id_district' " +
+                "    FROM " +
+                "        case_detention " +
+                "    INNER JOIN cat_status_case ON cat_status_case.id_status = case_detention.id_status " +
+                "        AND cat_status_case.status IN ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
+                "    INNER JOIN framing_meeting ON framing_meeting.id_case = case_detention.id_case " +
+                "        AND framing_meeting.is_terminated = TRUE) ResA ON activity_monitoring_plan.id_case = ResA.sub_id_case " +
+                "        AND ResA.sub_id_district = :idDistrict " +
+                "WHERE " +
+                "    activity_monitoring_plan.channeling_assistance IS NOT NULL " +
+                "GROUP BY activity_monitoring_plan.channeling_assistance " +
+                "ORDER BY 'Asistencia/Inasistencia' ", nativeQuery = true)
+        List<Object> countFirstDateByInstitution(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("idDistrict") Long idDistrict, @Param("idInstitution") Long idInstitution);
+
+
+        @Query(value = "SELECT " +
+                "    CASE activity_monitoring_plan.channeling_assistance " +
+                "        WHEN TRUE THEN 'Asistencia' " +
+                "        ELSE 'Inasistencia' " +
+                "    END AS 'Asistencia/Inasistencia', " +
+                "    COUNT(ResA.sub_id_case) " +
+                "FROM " +
+                "    activity_monitoring_plan " +
+                "        INNER JOIN " +
+                "    channeling ON activity_monitoring_plan.id_channeling = channeling.id_channeling " +
+                "        AND channeling.id_cat_institution_name = :idInstitution " +
+                "        INNER JOIN " +
+                "    activity_goal ON activity_monitoring_plan.id_activity_goal = activity_goal.id_activity_goal " +
+                "        AND activity_monitoring_plan.status = 'REALIZADA' " +
+                "        AND (activity_monitoring_plan.done_time BETWEEN :initDate AND :endDate) " +
+                "        INNER JOIN " +
+                "    (SELECT " +
+                "        case_detention.id_case 'sub_id_case', " +
+                "            case_detention.id_umeca_supervisor 'sub_id_umeca_supervisor', " +
+                "            case_detention.id_district 'sub_id_district' " +
+                "    FROM " +
+                "        case_detention " +
+                "    INNER JOIN cat_status_case ON cat_status_case.id_status = case_detention.id_status " +
+                "        AND cat_status_case.status IN ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
+                "    INNER JOIN framing_meeting ON framing_meeting.id_case = case_detention.id_case " +
+                "        AND framing_meeting.is_terminated = TRUE) ResA ON activity_monitoring_plan.id_case = ResA.sub_id_case " +
+                "        AND ResA.sub_id_district = :idDistrict " +
+                "WHERE " +
+                "    activity_monitoring_plan.channeling_assistance IS NOT NULL " +
+                "GROUP BY activity_monitoring_plan.channeling_assistance " +
+                "ORDER BY 'Asistencia/Inasistencia'", nativeQuery = true)
+        List<Object> countAssistanceAndAbsenceByInstitution(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("idDistrict") Long idDistrict, @Param("idInstitution") Long idInstitution);
+
+        @Query(value = "SELECT " +
+                "    cat_channeling_type.name, " +
+                "    COUNT(activity_monitoring_plan.id_case) " +
+                "FROM " +
+                "    activity_monitoring_plan " +
+                "        INNER JOIN " +
+                "    channeling ON activity_monitoring_plan.id_channeling = channeling.id_channeling " +
+                "        INNER JOIN " +
+                "    activity_goal ON activity_monitoring_plan.id_activity_goal = activity_goal.id_activity_goal " +
+                "        AND activity_monitoring_plan.status = 'REALIZADA' " +
+                "        AND activity_goal.name = 'Baja de la canalización' " +
+                "        AND (activity_monitoring_plan.done_time BETWEEN :initDate AND :endDate) " +
+                "        INNER JOIN " +
+                "    (SELECT " +
+                "        case_detention.id_case 'sub_id_case', " +
+                "            case_detention.id_umeca_supervisor 'sub_id_umeca_supervisor', " +
+                "            case_detention.id_district 'sub_id_district' " +
+                "    FROM " +
+                "        case_detention " +
+                "    INNER JOIN cat_status_case ON cat_status_case.id_status = case_detention.id_status " +
+                "        AND cat_status_case.status IN ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
+                "    INNER JOIN framing_meeting ON framing_meeting.id_case = case_detention.id_case " +
+                "        AND framing_meeting.is_terminated = TRUE) ResA ON activity_monitoring_plan.id_case = ResA.sub_id_case " +
+                "        AND ResA.sub_id_district = :idDistrict " +
+                "        RIGHT JOIN " +
+                "    cat_channeling_type ON cat_channeling_type.id_cat_channeling_type = channeling.id_cat_channeling_type " +
+                "WHERE " +
+                "    channeling.id_cat_institution_name = :idInstitution " +
+                "GROUP BY cat_channeling_type.id_cat_channeling_type", nativeQuery = true)
+        List<Object> countDessertChannelingByInstitution(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("idDistrict") Long idDistrict, @Param("idInstitution") Long idInstitution);
+
+
+        @Query(value = "SELECT " +
+                "    cat_channeling_type.name, " +
+                "    COUNT(activity_monitoring_plan.id_case) " +
+                "FROM " +
+                "    activity_monitoring_plan " +
+                "        INNER JOIN " +
+                "    channeling ON activity_monitoring_plan.id_channeling = channeling.id_channeling " +
+                "        INNER JOIN " +
+                "    activity_goal ON activity_monitoring_plan.id_activity_goal = activity_goal.id_activity_goal " +
+                "        AND activity_monitoring_plan.status = 'REALIZADA' " +
+                "        AND activity_goal.name = 'Conclusión de la canalización' " +
+                "        AND (activity_monitoring_plan.done_time BETWEEN :initDate AND :endDate) " +
+                "        INNER JOIN " +
+                "    (SELECT " +
+                "        case_detention.id_case 'sub_id_case', " +
+                "            case_detention.id_umeca_supervisor 'sub_id_umeca_supervisor', " +
+                "            case_detention.id_district 'sub_id_district' " +
+                "    FROM " +
+                "        case_detention " +
+                "    INNER JOIN cat_status_case ON cat_status_case.id_status = case_detention.id_status " +
+                "        AND cat_status_case.status IN ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
+                "    INNER JOIN framing_meeting ON framing_meeting.id_case = case_detention.id_case " +
+                "        AND framing_meeting.is_terminated = TRUE) ResA ON activity_monitoring_plan.id_case = ResA.sub_id_case " +
+                "        AND ResA.sub_id_district = :idDistrict " +
+                "        RIGHT JOIN " +
+                "    cat_channeling_type ON cat_channeling_type.id_cat_channeling_type = channeling.id_cat_channeling_type " +
+                "WHERE " +
+                "    channeling.id_cat_institution_name = :idInstitution " +
+                "GROUP BY cat_channeling_type.id_cat_channeling_type" , nativeQuery = true)
+        List<Object> countFinishedChannelingByInstitution(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("idDistrict") Long idDistrict, @Param("idInstitution") Long idInstitution);
+
+
+        @Query(value = "SELECT " +
+                "    'Canalizados', " +
+                "    SUM(IF(hasChanneling = 1, 1, 0)) AS 'Channeling' " +
+                "FROM " +
+                "    (SELECT DISTINCT " +
+                "        case_detention.id_case, " +
+                "            IF(channeling.id_channeling IS NULL, 0, 1) AS 'hasChanneling', " +
+                "            case_detention.id_district, " +
+                "            case_detention.id_umeca_supervisor " +
+                "    FROM " +
+                "        case_detention " +
+                "    INNER JOIN hearing_format ON hearing_format.id_case = case_detention.id_case " +
+                "        AND hearing_format.is_finished = TRUE " +
+                "    INNER JOIN cat_status_case ON cat_status_case.id_status = case_detention.id_status " +
+                "        AND cat_status_case.status IN ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
+                "    LEFT JOIN channeling ON case_detention.id_case = channeling.id_case " +
+                "        AND channeling.creation_date BETWEEN :initDate AND :endDate " +
+                "        AND channeling.id_cat_institution_name = :idInstitution " +
+                "        ) ResA" , nativeQuery = true)
+        List<Object> countChannelingByInstitution(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("idInstitution") Long idInstitution);
+
+
+        @Query(value = "SELECT " +
+                "    CASE activity_monitoring_plan.channeling_assistance " +
+                "        WHEN TRUE THEN 'Asistencia' " +
+                "        ELSE 'Inasistencia' " +
+                "    END AS 'Asistencia/Inasistencia', " +
+                "    COUNT(ResA.sub_id_case) " +
+                "FROM " +
+                "    activity_monitoring_plan " +
+                "        INNER JOIN " +
+                "    supervision_activity ON activity_monitoring_plan.id_supervision_activity = supervision_activity.id_supervision_activity " +
+                "        AND (activity_monitoring_plan.done_time BETWEEN :initDate AND :endDate) " +
+                "        INNER JOIN " +
+                "    activity_goal ON activity_monitoring_plan.id_activity_goal = activity_goal.id_activity_goal " +
+                "        AND activity_goal.name = 'Primer cita canalización' " +
+                "        AND activity_monitoring_plan.status = 'REALIZADA' " +
+                "        INNER JOIN " +
+                "    channeling ON activity_monitoring_plan.id_channeling = channeling.id_channeling " +
+                "        AND channeling.id_cat_institution_name = :idInstitution " +
+                "        INNER JOIN " +
+                "    (SELECT " +
+                "        case_detention.id_case 'sub_id_case', " +
+                "            case_detention.id_umeca_supervisor 'sub_id_umeca_supervisor', " +
+                "            case_detention.id_district 'sub_id_district' " +
+                "    FROM " +
+                "        case_detention " +
+                "    INNER JOIN cat_status_case ON cat_status_case.id_status = case_detention.id_status " +
+                "        AND cat_status_case.status IN ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
+                "    INNER JOIN framing_meeting ON framing_meeting.id_case = case_detention.id_case " +
+                "        AND framing_meeting.is_terminated = TRUE) ResA ON activity_monitoring_plan.id_case = ResA.sub_id_case " +
+                "WHERE " +
+                "    activity_monitoring_plan.channeling_assistance IS NOT NULL " +
+                "GROUP BY activity_monitoring_plan.channeling_assistance " +
+                "ORDER BY 'Asistencia/Inasistencia' ", nativeQuery = true)
+        List<Object> countFirstDateByInstitution(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("idInstitution") Long idInstitution);
+
+
+        @Query(value = "SELECT " +
+                "    CASE activity_monitoring_plan.channeling_assistance " +
+                "        WHEN TRUE THEN 'Asistencia' " +
+                "        ELSE 'Inasistencia' " +
+                "    END AS 'Asistencia/Inasistencia', " +
+                "    COUNT(ResA.sub_id_case) " +
+                "FROM " +
+                "    activity_monitoring_plan " +
+                "        INNER JOIN " +
+                "    channeling ON activity_monitoring_plan.id_channeling = channeling.id_channeling " +
+                "        AND channeling.id_cat_institution_name = :idInstitution " +
+                "        INNER JOIN " +
+                "    activity_goal ON activity_monitoring_plan.id_activity_goal = activity_goal.id_activity_goal " +
+                "        AND activity_monitoring_plan.status = 'REALIZADA' " +
+                "        AND (activity_monitoring_plan.done_time BETWEEN :initDate AND :endDate) " +
+                "        INNER JOIN " +
+                "    (SELECT " +
+                "        case_detention.id_case 'sub_id_case', " +
+                "            case_detention.id_umeca_supervisor 'sub_id_umeca_supervisor', " +
+                "            case_detention.id_district 'sub_id_district' " +
+                "    FROM " +
+                "        case_detention " +
+                "    INNER JOIN cat_status_case ON cat_status_case.id_status = case_detention.id_status " +
+                "        AND cat_status_case.status IN ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
+                "    INNER JOIN framing_meeting ON framing_meeting.id_case = case_detention.id_case " +
+                "        AND framing_meeting.is_terminated = TRUE) ResA ON activity_monitoring_plan.id_case = ResA.sub_id_case " +
+                "WHERE " +
+                "    activity_monitoring_plan.channeling_assistance IS NOT NULL " +
+                "GROUP BY activity_monitoring_plan.channeling_assistance " +
+                "ORDER BY 'Asistencia/Inasistencia'", nativeQuery = true)
+        List<Object> countAssistanceAndAbsenceByInstitution(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("idInstitution") Long idInstitution);
+
+        @Query(value = "SELECT " +
+                "    cat_channeling_type.name, " +
+                "    COUNT(activity_monitoring_plan.id_case) " +
+                "FROM " +
+                "    activity_monitoring_plan " +
+                "        INNER JOIN " +
+                "    channeling ON activity_monitoring_plan.id_channeling = channeling.id_channeling " +
+                "        INNER JOIN " +
+                "    activity_goal ON activity_monitoring_plan.id_activity_goal = activity_goal.id_activity_goal " +
+                "        AND activity_monitoring_plan.status = 'REALIZADA' " +
+                "        AND activity_goal.name = 'Baja de la canalización' " +
+                "        AND (activity_monitoring_plan.done_time BETWEEN :initDate AND :endDate) " +
+                "        INNER JOIN " +
+                "    (SELECT " +
+                "        case_detention.id_case 'sub_id_case', " +
+                "            case_detention.id_umeca_supervisor 'sub_id_umeca_supervisor', " +
+                "            case_detention.id_district 'sub_id_district' " +
+                "    FROM " +
+                "        case_detention " +
+                "    INNER JOIN cat_status_case ON cat_status_case.id_status = case_detention.id_status " +
+                "        AND cat_status_case.status IN ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
+                "    INNER JOIN framing_meeting ON framing_meeting.id_case = case_detention.id_case " +
+                "        AND framing_meeting.is_terminated = TRUE) ResA ON activity_monitoring_plan.id_case = ResA.sub_id_case " +
+                "        RIGHT JOIN " +
+                "    cat_channeling_type ON cat_channeling_type.id_cat_channeling_type = channeling.id_cat_channeling_type " +
+                "WHERE " +
+                "    channeling.id_cat_institution_name = :idInstitution " +
+                "GROUP BY cat_channeling_type.id_cat_channeling_type", nativeQuery = true)
+        List<Object> countDessertChannelingByInstitution(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("idInstitution") Long idInstitution);
+
+
+        @Query(value = "SELECT " +
+                "    cat_channeling_type.name, " +
+                "    COUNT(activity_monitoring_plan.id_case) " +
+                "FROM " +
+                "    activity_monitoring_plan " +
+                "        INNER JOIN " +
+                "    channeling ON activity_monitoring_plan.id_channeling = channeling.id_channeling " +
+                "        INNER JOIN " +
+                "    activity_goal ON activity_monitoring_plan.id_activity_goal = activity_goal.id_activity_goal " +
+                "        AND activity_monitoring_plan.status = 'REALIZADA' " +
+                "        AND activity_goal.name = 'Conclusión de la canalización' " +
+                "        AND (activity_monitoring_plan.done_time BETWEEN :initDate AND :endDate) " +
+                "        INNER JOIN " +
+                "    (SELECT " +
+                "        case_detention.id_case 'sub_id_case', " +
+                "            case_detention.id_umeca_supervisor 'sub_id_umeca_supervisor', " +
+                "            case_detention.id_district 'sub_id_district' " +
+                "    FROM " +
+                "        case_detention " +
+                "    INNER JOIN cat_status_case ON cat_status_case.id_status = case_detention.id_status " +
+                "        AND cat_status_case.status IN ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
+                "    INNER JOIN framing_meeting ON framing_meeting.id_case = case_detention.id_case " +
+                "        AND framing_meeting.is_terminated = TRUE) ResA ON activity_monitoring_plan.id_case = ResA.sub_id_case " +
+                "        RIGHT JOIN " +
+                "    cat_channeling_type ON cat_channeling_type.id_cat_channeling_type = channeling.id_cat_channeling_type " +
+                "WHERE " +
+                "    channeling.id_cat_institution_name = :idInstitution " +
+                "GROUP BY cat_channeling_type.id_cat_channeling_type" , nativeQuery = true)
+        List<Object> countFinishedChannelingByInstitution(@Param("initDate") Date initDate, @Param("endDate") Date endDate, @Param("idInstitution") Long idInstitution);
+
+
 }

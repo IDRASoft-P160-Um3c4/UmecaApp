@@ -7,10 +7,7 @@ import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.model.shared.SelectOptsList;
 import com.umeca.repository.account.UserRepository;
-import com.umeca.repository.catalog.ChannelingTypeRepository;
-import com.umeca.repository.catalog.ReportTypeRepository;
-import com.umeca.repository.catalog.StatisticChannelingReportTypeRepository;
-import com.umeca.repository.catalog.StatisticOperatorReportTypeRepository;
+import com.umeca.repository.catalog.*;
 import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.repository.supervisorManager.StatisticSupervisorManagerReportRepository;
 import com.umeca.service.account.SharedUserService;
@@ -50,6 +47,8 @@ public class ChannelingReportController {
     StatisticChannelingReportTypeRepository statisticChannelingReportTypeRepository;
     @Autowired
     ChannelingTypeRepository channelingTypeRepository;
+    @Autowired
+    ChannelingInstitutionNameRepository channelingInstitutionNameRepository;
 
     @RequestMapping(value = "/channelingManager/statisticReport/index", method = RequestMethod.GET)
     public ModelAndView index() {
@@ -68,7 +67,7 @@ public class ChannelingReportController {
     }
 
     @RequestMapping(value = "/channelingManager/statisticReport/showReport", method = RequestMethod.GET)
-    public ModelAndView showReport(String initDate, String endDate, Long idDistrict, Long idReportType, Long idChannelingType) {
+    public ModelAndView showReport(String initDate, String endDate, Long idDistrict, Long idReportType, Long idParameter) {
         ModelAndView model = new ModelAndView("/channelingManager/statisticReport/showReportHD");
         Gson gson = new Gson();
         String extraData = null;
@@ -79,30 +78,39 @@ public class ChannelingReportController {
 
             title = statisticChannelingReportTypeRepository.findById(idReportType).getDescription();
             String data;
-            data = statisticChannelingReportService.getData(initDate, endDate, idReportType, idDistrict, idChannelingType);
+            data = statisticChannelingReportService.getData(initDate, endDate, idReportType, idDistrict, idParameter);
 
-            //      if(statisticChannelingReportTypeRepository.findById(idReportType).equals(Constants.REPORT_STATISTIC_CHANNELING_H)){
-
-            if (idChannelingType == 0) {
+            if (idParameter == 0) {
                 model = new ModelAndView("channelingManager/statisticReport/showReportChannelingTypeGeneral");
             } else {
                 model = new ModelAndView("channelingManager/statisticReport/showReportChannelingType");
             }
 
 
-            if(idDistrict == 0){
+            if (idDistrict == 0) {
                 extraData = "Todos los distritos";
-            }
-            else{
+            } else {
                 extraData = districtRepository.findDistrictNameById(idDistrict);
             }
 
 
+            switch (statisticChannelingReportTypeRepository.findById(idReportType).getName()) {
+                case Constants.REPORT_STATISTIC_CHANNELING_H:
+                    List<SelectOptsList> lstChannelingType = channelingTypeRepository.findNotObsolete();
+                    SelectOptsList allChannelingType = new SelectOptsList(0L, "Todas las canalizaciones", "", "");
+                    lstChannelingType.add(allChannelingType);
+                    model.addObject("lstChannelingType", gson.toJson(lstChannelingType));
+                    break;
+                case Constants.REPORT_STATISTIC_CHANNELING_I:
+                    List<SelectOptsList> lstChannelingInstitutionName = channelingInstitutionNameRepository.findNotObsolete();
+                    SelectOptsList allChannelingInstitution = new SelectOptsList(0L, "Todas las instituciones", "", "");
+                    lstChannelingInstitutionName.add(allChannelingInstitution);
+                    model.addObject("lstChannelingInstitutionName", gson.toJson(lstChannelingInstitutionName));
+                    break;
+            }
 
-            List<SelectOptsList> lstChannelingType = channelingTypeRepository.findNotObsolete();
-            SelectOptsList allChannelingType = new SelectOptsList(0L, "Todas las canalizaciones", "", "");
-            lstChannelingType.add(allChannelingType);
-            model.addObject("lstChannelingType", gson.toJson(lstChannelingType));
+
+            model.addObject("reportType",statisticChannelingReportTypeRepository.findById(idReportType).getName());
             model.addObject("idDistrict", idDistrict);
             model.addObject("idReportType", idReportType);
             model.addObject("initDate", initDate.toString());

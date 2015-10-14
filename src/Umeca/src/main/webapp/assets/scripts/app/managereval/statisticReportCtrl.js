@@ -74,7 +74,7 @@ app.controller('statisticReportController', function ($scope, $timeout, $http) {
             if ($(formId).valid() == false)
                 return;
             $scope.WaitFor = true;
-            var url = urlToPost + "?initDate=" + $scope.initDate + "&endDate=" + $scope.endDate + "&idDistrict=" + $scope.idDistrict + "&idReportType=" + $scope.idReportType + "&idChannelingType=" + $scope.idChannelingType;
+            var url = urlToPost + "?initDate=" + $scope.initDate + "&endDate=" + $scope.endDate + "&idDistrict=" + $scope.idDistrict + "&idReportType=" + $scope.idReportType + "&idParameter=" + $scope.idParameter;
           //  var url = urlToPost + "&idChannelingType=" + $scope.idChannelingType;
             window.goToUrlMvcUrl(url);
             return true;
