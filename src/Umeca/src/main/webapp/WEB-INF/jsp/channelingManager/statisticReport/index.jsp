@@ -120,7 +120,7 @@
 
                   <div class="row">
                       <div class="col-xs-6 element-right">
-                          <input type="hidden"ng-update-hidden ng-model="idReportType" name="idReportType" id="idReportType">
+                          <input type="hidden"ng-update-hidden ng-model="m.filterSelected" name="idReportType" id="idReportType">
                           <label for="reportType">Tipo de reporte</label>
                           <select id="reportType"
                               ng-model = "reportType"
@@ -131,8 +131,13 @@
                       </div>
 
 
-                      <div class="col-xs-6"  ng-disabled = true ng-show = "idReportType == 2 || idReportType == 3" >
-                          <input type="hidden" ng-update-hidden ng-model="idDistrict" name="idDistrict" id="idDistrict" ng-disabled = "idReportType == 1">
+                      <div class="col-xs-6"  ng-disabled = true>
+
+
+                          <input type="hidden" ng-update-hidden ng-model="idChannelingType" name="idChannelingType" id="idChannelingType"
+                                  ng-init = "idChannelingType=0" >
+
+                          <input type="hidden" ng-update-hidden ng-model="idDistrict" name="idDistrict" id="idDistrict">
                           <label for="district">Distrito</label>
                           <select id="district"
                                   ng-model="district"
@@ -145,7 +150,7 @@
                   </div>
 
 
-                <div class="row">
+               <%-- <div class="row">
                   <div ng-repeat="filter in entities">
                     <div class="checkbox">
                       <label>
@@ -158,7 +163,7 @@
                   </div>
                   <br/>
 
-                </div>
+                </div>--%>
                 <br/>
                 <div class="row" ng-show="msgError">
                   <div class="col-xs-8 col-xs-offset-2 alert alert-danger element-center">
@@ -173,7 +178,7 @@
             <div class="row">
               <div class="col-xs-11 element-right">
                                 <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                                      ng-click="findSupervisorReport('#FormStatisRep','<c:url value='/channelingManager/statisticReport/showReport.html'/>');">
+                                      ng-click="findChannelingTypeReport('#FormStatisRep','<c:url value='/channelingManager/statisticReport/showReport.html'/>');">
                                     Realizar b&uacute;squeda
                                 </span>
               </div>

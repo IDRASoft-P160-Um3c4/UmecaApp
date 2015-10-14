@@ -33,7 +33,6 @@
 <div class="container body-content col-xs-12 col-xs-offset-1">
 
     <script>
-
         window.onload = function () {
             var initDate = "${initDate}";
             var endDate = "${endDate}";
@@ -43,7 +42,6 @@
             var dataSet = ${data};
             var names = [];
             var cases = [];
-
             var element = dataSet[0];
             for (i = 0; i < element.length; i++) {
                 names.push({"name": element[i].user});
@@ -448,8 +446,6 @@
             }
 
         };
-
-
     </script>
 
 
@@ -474,9 +470,12 @@
                        name="initDate" id="initDate" ng-value="initDate">
                 <input type="hidden" ng-update-hidden ng-model="endDate" ng-init="endDate = '${endDate}'"
                        name="endDate" id="endDate">
-                <input type="hidden" ng-update-hidden ng-model="filterSelected"
-                       ng-init="filterSelected = '${filterSelected}'"
-                       name="filterSelected" id="filterSelected">
+                <input type="hidden" ng-update-hidden ng-model="idReportType"
+                       ng-init="idReportType = '${idReportType}'"
+                       name="idReportType" id="idReportType">
+                <input type="hidden" ng-update-hidden ng-model="idDistrict"
+                       ng-init="idDistrict = '${idDistrict}'"
+                       name="idDistrict" id="idDistrict">
                 <input type="hidden" ng-update-hidden ng-model="idChannelingType" name="idChannelingType" id="idChannelingType">
 
 
@@ -488,7 +487,7 @@
                         ng-change="idChannelingType = ChannelingType.id">
                 </select>
                                   <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                                        ng-click="findChannelingTypeReport('#FormStatisRep','<c:url value='/channelingManager/statisticReport/showReportChannelingType.html'/>');">
+                                        ng-click="findChannelingTypeReport('#FormStatisRep','<c:url value='/channelingManager/statisticReport/showReport.html'/>');">
                                     Realizar b&uacute;squeda
                                 </span>
             </div>
