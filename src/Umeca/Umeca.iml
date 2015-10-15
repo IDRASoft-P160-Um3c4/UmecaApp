@@ -117,7 +117,7 @@
     <orderEntry type="library" name="Maven: org.apache.axis2:axis2-codegen:1.4.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.axis2:axis2-adb:1.4.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.axis2:axis2-spring:1.4.1" level="project" />
-    <orderEntry type="module" module-name="UmecaRepository" />
     <orderEntry type="module" module-name="UmecaInfrastructure" />
+    <orderEntry type="module" module-name="UmecaRepository" />
   </component>
 </module>

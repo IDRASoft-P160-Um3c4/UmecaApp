@@ -145,7 +145,7 @@ public class TabletServiceImpl implements TabletService {
             TabletAssignmentCase tac = tabletAssignmentCaseRepository.findValidAssignmentByAssignmentId(assignmentId);
 
             if (tac != null) {
-                TabletCaseDto caseDto = this.getAllCaseDataByIdCaseAssignmentType(tac.getCaseDetention().getId(), usrId, tac.getCaseDetention().getAssignmentType());
+                TabletCaseDto caseDto = this.getAllCaseDataByIdCaseAssignmentType(tac.getCaseDetention().getId(), usrId, tac.getCaseDetention().getAssignmentType(),assignmentId );
                 response = new ResponseMessage(false, "Datos correctos");
                 response.setReturnData(gson.toJson(caseDto));
             } else {
@@ -238,12 +238,12 @@ public class TabletServiceImpl implements TabletService {
     }
 
     //se usa el id de usuario para traer solo las fuentes asignadas a ese usuario
-    private TabletVerificationDto getVerificationByCaseIdUsrId(Long caseId, Long usrId) {
+    private TabletVerificationDto getVerificationByCaseIdUsrId(Long caseId, Long usrId, Long assignmentId) {
         TabletVerificationDto currVer = caseRepository.getVerificationByCaseId(caseId);
 
         if (currVer != null) {
 
-            List<TabletSourceVerificationDto> lst = caseRepository.getAssignedSourcesVerificationByCaseIdUsrId(caseId, usrId);
+            List<TabletSourceVerificationDto> lst = caseRepository.getAssignedSourcesVerificationByCaseIdUsrId(caseId, usrId,assignmentId);
             //se agrega la fuente imputado
             lst.add(caseRepository.getImputedSourceVerificationByVerificationId(currVer.getId()));
 
@@ -307,14 +307,14 @@ public class TabletServiceImpl implements TabletService {
     }
 
     //obtiene toda la informacion del caso en DTOS para enviarlos a la tableta
-    private TabletCaseDto getAllCaseDataByIdCaseAssignmentType(Long idCase, Long idUsr, String assignmentType) {
+    private TabletCaseDto getAllCaseDataByIdCaseAssignmentType(Long idCase, Long idUsr, String assignmentType, Long assignmentId) {
 
         TabletCaseDto currentCase = this.getCaseDataByCaseId(idCase);
         currentCase.setStatus(this.getStatusCaseByCaseId(idCase));
         currentCase.setMeeting(this.getMeetingDataByCaseId(idCase));
 
         if (assignmentType.equals(Constants.VERIFICATION_ASSIGNMENT_TYPE)) {
-            currentCase.setVerification(this.getVerificationByCaseIdUsrId(idCase, idUsr));
+            currentCase.setVerification(this.getVerificationByCaseIdUsrId(idCase, idUsr, assignmentId));
         } else if (assignmentType.equals(Constants.HEARING_FORMAT_ASSIGNMENT_TYPE)) {
             currentCase.setHearingFormats(this.getHearingFormatByCaseId(idCase));
         }
@@ -933,7 +933,7 @@ public class TabletServiceImpl implements TabletService {
 
             List<FieldMeetingSource> lstFields = webSource.getFieldMeetingSourceList();
 
-            if (lstFields != null) {
+            if (lstFields != null && lstFields.size()>0) {
                 lstFields.clear();
             } else {
                 lstFields = new ArrayList<>();
@@ -973,7 +973,17 @@ public class TabletServiceImpl implements TabletService {
         stv.setId(tabletCase.getVerification().getStatus().getId());
         v.setStatus(stv);
 
-        v.setSourceVerifications(this.mergeVerificationSources(v, tabletCase.getVerification().getSourceVerifications()));
+        List<SourceVerification> lstSources = this.mergeVerificationSources(v, tabletCase.getVerification().getSourceVerifications());
+        for(SourceVerification curr: lstSources) {
+            if(curr.getVerification()==null) {
+                curr.setVerification(v);
+                curr.setIsAuthorized(true);
+                curr.setDateAuthorized(new Date());
+            }
+        }
+
+        v.setSourceVerifications(lstSources);
+
 
         return v;
     }

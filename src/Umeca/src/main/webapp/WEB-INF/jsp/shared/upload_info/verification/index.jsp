@@ -283,14 +283,14 @@
         a tableta</h2>
 
     <div class="row" ng-controller="mobileMeetingController">
-        <div id="finishConfirm" align="right">
-            <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-confirm-action
-                  confirm-message="&iquest;Est&aacute; seguro que desea asignar a tableta los casos seleccionados?"
-                  confirm-title="Guardar asignaci&oacute;n de casos" confirm-type="info"
-                  confirmed-click-action="doSave();">
-                  Guardar
-            </span>
-        </div>
+        <%--<div id="finishConfirm" align="right">--%>
+            <%--<span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-confirm-action--%>
+                  <%--confirm-message="&iquest;Est&aacute; seguro que desea asignar a tableta los casos seleccionados?"--%>
+                  <%--confirm-title="Guardar asignaci&oacute;n de casos" confirm-type="info"--%>
+                  <%--confirmed-click-action="doSave();">--%>
+                  <%--Guardar--%>
+            <%--</span>--%>
+        <%--</div>--%>
 
         <div ng-show="successMsg&&successMsg!=''" class="alert alert-success element-center success-font">
             <span ng-bind-html="successMsg"></span>
