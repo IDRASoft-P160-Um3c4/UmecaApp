@@ -93,183 +93,188 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
 
             case Constants.REPORT_STATISTIC_CHANNELING_H:
                 List<SelectOptsList> channelingTypeList = channelingTypeRepository.findNotObsolete();
-
+                total.add(new ArrayList<ReportList>());
+                total.add(new ArrayList<ReportList>());
+                total.add(new ArrayList<ReportList>());
+                total.add(new ArrayList<ReportList>());
+                total.add(new ArrayList<ReportList>());
+                total.add(new ArrayList<ReportList>());
                 if (idParameter == 0) {
                     if (idDistrict != 0) {
                         for (int i = 0; i < channelingTypeList.size(); i++) {
+                            ReportList reportList1 = new ReportList();
+                            reportList1.setId(0L);
+                            reportList1.setName("Canalizados");
+                            reportList1.setUser(channelingTypeList.get(i).getName());
+                            reportList1.setX(new Long(i));
+                            reportList1.setY(0L);
+
+                            lstObjects = statisticChannelingReportRepository.countChannelingCasesByTypeByDistrict(initDateF, endDateF, idDistrict, channelingTypeList.get(i).getId());
+                            for (int j = 0; j < lstObjects.size(); j++) {
+                                Object[] obj = (Object[]) lstObjects.get(j);
+                                reportList1.setY(new Long(obj[1].toString()));
+                            }
+                            total.get(0).add(reportList1);
+
+
+                            ReportList reportList2 = new ReportList();
+                            reportList2.setId(1L);
+                            reportList2.setName("Primera cita");
+                            reportList2.setUser(channelingTypeList.get(i).getName());
+                            reportList2.setX(new Long(i));
+                            reportList2.setY(0L);
+                            lstObjects = statisticChannelingReportRepository.countAssistanceFirstDateByDistrict(initDateF, endDateF, idDistrict, channelingTypeList.get(i).getId());
+                            for (int j = 0; j < lstObjects.size(); j++) {
+                                Object[] obj = (Object[]) lstObjects.get(j);
+                                if (obj[0].toString().equals("Asistencia")) {
+                                    reportList2.setY(new Long(obj[1].toString()));
+                                }
+
+                            }
+                            total.get(1).add(reportList2);
+
+                            ReportList reportList3 = new ReportList();
+                            reportList3.setId(2L);
+                            reportList3.setName("Asistencias");
+                            reportList3.setUser(channelingTypeList.get(i).getName());
+                            reportList3.setX(new Long(i));
+                            reportList3.setY(0L);
+
+                            ReportList reportList4 = new ReportList();
+                            reportList4.setId(3L);
+                            reportList4.setName("Inasistencias");
+                            reportList4.setUser(channelingTypeList.get(i).getName());
+                            reportList4.setX(new Long(i));
+                            reportList4.setY(0L);
+                            lstObjects = statisticChannelingReportRepository.countAbsenceChannelingByDistrict(initDate + initTime, endDate + endTime, idDistrict, channelingTypeList.get(i).getId());
+                            for (int j = 0; j < lstObjects.size(); j++) {
+                                Object[] obj = (Object[]) lstObjects.get(j);
+                                if (obj[0].toString().equals("Asistencia")) {
+                                    reportList3.setY(new Long(obj[1].toString()));
+                                } else {
+                                    reportList4.setY(new Long(obj[1].toString()));
+                                }
+                            }
+                            total.get(2).add(reportList3);
+                            total.get(3).add(reportList4);
+
+                            ReportList reportList5 = new ReportList();
+                            reportList5.setId(4L);
+                            reportList5.setName("Altas");
+                            reportList5.setUser(channelingTypeList.get(i).getName());
+                            reportList5.setX(new Long(i));
+                            reportList5.setY(0L);
+
+                            lstObjects = statisticChannelingReportRepository.countChannelingFinishedByTypeByDistrict(initDate + initTime, endDate + endTime, idDistrict, channelingTypeList.get(i).getId());
+                            for (int j = 0; j < lstObjects.size(); j++) {
+                                Object[] obj = (Object[]) lstObjects.get(j);
+                                reportList5.setY(new Long(obj[1].toString()));
+                            }
+                            total.get(4).add(reportList5);
+
+
+                            ReportList reportList6 = new ReportList();
+                            reportList6.setId(5L);
+                            reportList6.setName("Bajas");
+                            reportList6.setUser(channelingTypeList.get(i).getName());
+                            reportList6.setX(new Long(i));
+                            reportList6.setY(0L);
+
                             lstObjects = statisticChannelingReportRepository.countChannelingDesertByTypeByDistrict(initDate + initTime, endDate + endTime, idDistrict, channelingTypeList.get(i).getId());
                             for (int j = 0; j < lstObjects.size(); j++) {
                                 Object[] obj = (Object[]) lstObjects.get(j);
-                                if (i == 0) {
-                                    total.add(new ArrayList<ReportList>());
-                                    total.add(new ArrayList<ReportList>());
-                                    total.add(new ArrayList<ReportList>());
-                                    total.add(new ArrayList<ReportList>());
-                                    total.add(new ArrayList<ReportList>());
-                                    total.add(new ArrayList<ReportList>());
-
-                                }
-                                ReportList reportList = new ReportList();
-                                reportList.setId(0L);
-                                reportList.setName("Bajas");
-                                reportList.setUser(channelingTypeList.get(i).getName());
-                                reportList.setX(new Long(i));
-                                reportList.setY(new Long(obj[1].toString()));
-                                total.get(j).add(reportList);
-
-                                lstObjects = statisticChannelingReportRepository.countChannelingFinishedByTypeByDistrict(initDate + initTime, endDate + endTime, idDistrict, channelingTypeList.get(i).getId());
-                                Object[] obj2 = (Object[]) lstObjects.get(j);
-                                ReportList reportList2 = new ReportList();
-                                reportList2.setId(1L);
-                                reportList2.setName("Altas");
-                                reportList2.setUser(channelingTypeList.get(i).getName());
-                                reportList2.setX(new Long(i));
-                                reportList2.setY(new Long(obj2[1].toString()));
-                                total.get(1).add(reportList2);
-
-                                ReportList reportList3 = new ReportList();
-                                reportList3.setId(2L);
-                                reportList3.setName("Asistencias");
-                                reportList3.setUser(channelingTypeList.get(i).getName());
-                                reportList3.setX(new Long(i));
-                                reportList3.setY(0L);
-
-                                ReportList reportList4 = new ReportList();
-                                reportList4.setId(3L);
-                                reportList4.setName("Inasistencias");
-                                reportList4.setUser(channelingTypeList.get(i).getName());
-                                reportList4.setX(new Long(i));
-                                reportList4.setY(0L);
-                                lstObjects = statisticChannelingReportRepository.countAbsenceChannelingByDistrict(initDate + initTime, endDate + endTime, idDistrict, channelingTypeList.get(i).getId());
-                                for (int k = 0; k < lstObjects.size(); k++) {
-                                    Object[] obj34 = (Object[]) lstObjects.get(k);
-                                    if (obj34[0].toString().equals("Asistencia")) {
-                                        reportList3.setY(new Long(obj34[1].toString()));
-                                    } else {
-                                        reportList4.setY(new Long(obj34[1].toString()));
-                                    }
-                                }
-                                total.get(2).add(reportList3);
-                                total.get(3).add(reportList4);
-
-
-                                ReportList reportList5 = new ReportList();
-                                reportList5.setId(4L);
-                                reportList5.setName("Primera Cita");
-                                reportList5.setUser(channelingTypeList.get(i).getName());
-                                reportList5.setX(new Long(i));
-                                reportList5.setY(0L);
-                                lstObjects = statisticChannelingReportRepository.countAssistanceFirstDateByDistrict(initDateF, endDateF, idDistrict, channelingTypeList.get(i).getId());
-                                for (int k = 0; k < lstObjects.size(); k++) {
-                                    Object[] obj34 = (Object[]) lstObjects.get(k);
-                                    if (obj34[0].toString().equals("Asistencia")) {
-                                        reportList5.setY(new Long(obj34[1].toString()));
-                                    }
-
-                                }
-                                total.get(4).add(reportList5);
-
-                                lstObjects = statisticChannelingReportRepository.countChannelingCasesByTypeByDistrict(initDateF, endDateF, idDistrict, channelingTypeList.get(i).getId());
-                                Object[] obj6 = (Object[]) lstObjects.get(j);
-                                ReportList reportList6 = new ReportList();
-                                reportList6.setId(5L);
-                                reportList6.setName("Canalizados");
-                                reportList6.setUser(channelingTypeList.get(i).getName());
-                                reportList6.setX(new Long(i));
-                                reportList6.setY(new Long(obj6[1].toString()));
-                                total.get(5).add(reportList6);
-
+                                reportList6.setY(new Long(obj[1].toString()));
                             }
+                            total.get(5).add(reportList6);
 
                         }
                         return gson.toJson(total);
                     } else {
                         for (int i = 0; i < channelingTypeList.size(); i++) {
-                            lstObjects = statisticChannelingReportRepository.countChannelingDesertByTypeByDistrict(initDate + initTime, endDate + endTime, idDistrict, channelingTypeList.get(i).getId());
+                            ReportList reportList1 = new ReportList();
+                            reportList1.setId(0L);
+                            reportList1.setName("Canalizados");
+                            reportList1.setUser(channelingTypeList.get(i).getName());
+                            reportList1.setX(new Long(i));
+                            reportList1.setY(0L);
+
+                            lstObjects = statisticChannelingReportRepository.countChannelingCasesByTypeGeneral(initDateF, endDateF, channelingTypeList.get(i).getId());
                             for (int j = 0; j < lstObjects.size(); j++) {
                                 Object[] obj = (Object[]) lstObjects.get(j);
-                                if (i == 0) {
-                                    total.add(new ArrayList<ReportList>());
-                                    total.add(new ArrayList<ReportList>());
-                                    total.add(new ArrayList<ReportList>());
-                                    total.add(new ArrayList<ReportList>());
-                                    total.add(new ArrayList<ReportList>());
-                                    total.add(new ArrayList<ReportList>());
+                                reportList1.setY(new Long(obj[1].toString()));
+                            }
+                            total.get(0).add(reportList1);
 
+
+                            ReportList reportList2 = new ReportList();
+                            reportList2.setId(1L);
+                            reportList2.setName("Primera cita");
+                            reportList2.setUser(channelingTypeList.get(i).getName());
+                            reportList2.setX(new Long(i));
+                            reportList2.setY(0L);
+                            lstObjects = statisticChannelingReportRepository.countAssistanceFirstDateGeneral(initDateF, endDateF, channelingTypeList.get(i).getId());
+                            for (int j = 0; j < lstObjects.size(); j++) {
+                                Object[] obj = (Object[]) lstObjects.get(j);
+                                if (obj[0].toString().equals("Asistencia")) {
+                                    reportList2.setY(new Long(obj[1].toString()));
                                 }
-
-                                ReportList reportList = new ReportList();
-                                reportList.setId(0L);
-                                reportList.setName("Bajas");
-                                reportList.setUser(channelingTypeList.get(i).getName());
-                                reportList.setX(new Long(i));
-                                reportList.setY(new Long(obj[1].toString()));
-                                total.get(0).add(reportList);
-
-
-                                lstObjects = statisticChannelingReportRepository.countChannelingFinishedByTypeGeneral(initDate + initTime, endDate + endTime, channelingTypeList.get(i).getId());
-                                Object[] obj2 = (Object[]) lstObjects.get(j);
-                                ReportList reportList2 = new ReportList();
-                                reportList2.setId(1L);
-                                reportList2.setName("Altas");
-                                reportList2.setUser(channelingTypeList.get(i).getName());
-                                reportList2.setX(new Long(i));
-                                reportList2.setY(new Long(obj2[1].toString()));
-                                total.get(1).add(reportList2);
-
-                                ReportList reportList3 = new ReportList();
-                                reportList3.setId(2L);
-                                reportList3.setName("Asistencias");
-                                reportList3.setUser(channelingTypeList.get(i).getName());
-                                reportList3.setX(new Long(i));
-                                reportList3.setY(0L);
-
-                                ReportList reportList4 = new ReportList();
-                                reportList4.setId(3L);
-                                reportList4.setName("Inasistencias");
-                                reportList4.setUser(channelingTypeList.get(i).getName());
-                                reportList4.setX(new Long(i));
-                                reportList4.setY(0L);
-                                lstObjects = statisticChannelingReportRepository.countAbsenceChannelingGeneral(initDate + initTime, endDate + endTime, channelingTypeList.get(i).getId());
-                                for (int k = 0; k < lstObjects.size(); k++) {
-                                    Object[] obj34 = (Object[]) lstObjects.get(k);
-                                    if (obj34[0].toString().equals("Asistencia")) {
-                                        reportList3.setY(new Long(obj34[1].toString()));
-                                    } else {
-                                        reportList4.setY(new Long(obj34[1].toString()));
-                                    }
-                                }
-                                total.get(2).add(reportList3);
-                                total.get(3).add(reportList4);
-
-
-                                ReportList reportList5 = new ReportList();
-                                reportList5.setId(4L);
-                                reportList5.setName("Primera Cita");
-                                reportList5.setUser(channelingTypeList.get(i).getName());
-                                reportList5.setX(new Long(i));
-                                reportList5.setY(0L);
-                                lstObjects = statisticChannelingReportRepository.countAssistanceFirstDateGeneral(initDateF, endDateF, channelingTypeList.get(i).getId());
-                                for (int k = 0; k < lstObjects.size(); k++) {
-                                    Object[] obj34 = (Object[]) lstObjects.get(k);
-                                    if (obj34[0].toString().equals("Asistencia")) {
-                                        reportList5.setY(new Long(obj34[1].toString()));
-                                    }
-
-                                }
-                                total.get(4).add(reportList5);
-
-                                lstObjects = statisticChannelingReportRepository.countChannelingCasesByTypeGeneral(initDateF, endDateF, channelingTypeList.get(i).getId());
-                                Object[] obj6 = (Object[]) lstObjects.get(j);
-                                ReportList reportList6 = new ReportList();
-                                reportList6.setId(5L);
-                                reportList6.setName("Canalizados");
-                                reportList6.setUser(channelingTypeList.get(i).getName());
-                                reportList6.setX(new Long(i));
-                                reportList6.setY(new Long(obj6[1].toString()));
-                                total.get(5).add(reportList6);
 
                             }
+                            total.get(1).add(reportList2);
+
+                            ReportList reportList3 = new ReportList();
+                            reportList3.setId(2L);
+                            reportList3.setName("Asistencias");
+                            reportList3.setUser(channelingTypeList.get(i).getName());
+                            reportList3.setX(new Long(i));
+                            reportList3.setY(0L);
+
+                            ReportList reportList4 = new ReportList();
+                            reportList4.setId(3L);
+                            reportList4.setName("Inasistencias");
+                            reportList4.setUser(channelingTypeList.get(i).getName());
+                            reportList4.setX(new Long(i));
+                            reportList4.setY(0L);
+                            lstObjects = statisticChannelingReportRepository.countAbsenceChannelingGeneral(initDate + initTime, endDate + endTime, channelingTypeList.get(i).getId());
+                            for (int j = 0; j < lstObjects.size(); j++) {
+                                Object[] obj = (Object[]) lstObjects.get(j);
+                                if (obj[0].toString().equals("Asistencia")) {
+                                    reportList3.setY(new Long(obj[1].toString()));
+                                } else {
+                                    reportList4.setY(new Long(obj[1].toString()));
+                                }
+                            }
+                            total.get(2).add(reportList3);
+                            total.get(3).add(reportList4);
+
+                            ReportList reportList5 = new ReportList();
+                            reportList5.setId(4L);
+                            reportList5.setName("Altas");
+                            reportList5.setUser(channelingTypeList.get(i).getName());
+                            reportList5.setX(new Long(i));
+                            reportList5.setY(0L);
+
+                            lstObjects = statisticChannelingReportRepository.countChannelingFinishedByTypeGeneral(initDate + initTime, endDate + endTime, channelingTypeList.get(i).getId());
+                            for (int j = 0; j < lstObjects.size(); j++) {
+                                Object[] obj = (Object[]) lstObjects.get(j);
+                                reportList5.setY(new Long(obj[1].toString()));
+                            }
+                            total.get(4).add(reportList5);
+
+
+                            ReportList reportList6 = new ReportList();
+                            reportList6.setId(5L);
+                            reportList6.setName("Bajas");
+                            reportList6.setUser(channelingTypeList.get(i).getName());
+                            reportList6.setX(new Long(i));
+                            reportList6.setY(0L);
+
+                            lstObjects = statisticChannelingReportRepository.countChannelingDesertByTypeGeneral(initDate + initTime, endDate + endTime, channelingTypeList.get(i).getId());
+                            for (int j = 0; j < lstObjects.size(); j++) {
+                                Object[] obj = (Object[]) lstObjects.get(j);
+                                reportList6.setY(new Long(obj[1].toString()));
+                            }
+                            total.get(5).add(reportList6);
 
                         }
                         return gson.toJson(total);
@@ -277,28 +282,30 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                     }
                 } else {
                     if (idDistrict != 0) {
-                        SelectList report1 = new SelectList();
-                        report1.setName("Bajas");
-                        report1.setValue(0L);
-                        report1.setSubName("Bajas");
 
-                        lstObjects = statisticChannelingReportRepository.countChannelingDesertByTypeByDistrict(initDate + initTime, endDate + endTime, idDistrict, idParameter);
-                        for (int i = 0; i < lstObjects.size(); i++) {
-                            Object[] obj = (Object[]) lstObjects.get(i);
+                        SelectList report1 = new SelectList();
+                        report1.setName("Canalizados");
+                        report1.setValue(0L);
+                        report1.setSubName("Canalizados");
+
+                        lstObjects = statisticChannelingReportRepository.countChannelingCasesByTypeByDistrict(initDateF, endDateF, idDistrict, idParameter);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
                             report1.setValue(new Long(obj[1].toString()));
                         }
 
                         SelectList report2 = new SelectList();
-                        report2.setName("Altas");
+                        report2.setName("Primera cita");
                         report2.setValue(0L);
-                        report2.setSubName("Altas");
+                        report2.setSubName("Primera cita");
 
-                        lstObjects = statisticChannelingReportRepository.countChannelingFinishedByTypeByDistrict(initDate + initTime, endDate + endTime, idDistrict, idParameter);
-                        for (int i = 0; i < lstObjects.size(); i++) {
-                            Object[] obj = (Object[]) lstObjects.get(i);
-                            report2.setValue(new Long(obj[1].toString()));
+                        lstObjects = statisticChannelingReportRepository.countAssistanceFirstDateByDistrict(initDateF, endDateF, idDistrict, idParameter);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
+                            if (obj[0].toString().equals("Asistencia")) {
+                                report2.setValue(new Long(obj[1].toString()));
+                            }
                         }
-
 
                         SelectList report3 = new SelectList();
                         report3.setName("Asistencias");
@@ -312,8 +319,8 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
 
 
                         lstObjects = statisticChannelingReportRepository.countAbsenceChannelingByDistrict(initDate + initTime, endDate + endTime, idDistrict, idParameter);
-                        for (int k = 0; k < lstObjects.size(); k++) {
-                            Object[] obj = (Object[]) lstObjects.get(k);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
                             if (obj[0].toString().equals("Asistencia")) {
                                 report3.setValue(new Long(obj[1].toString()));
                             } else {
@@ -323,29 +330,26 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
 
 
                         SelectList report5 = new SelectList();
-                        report5.setName("Primera cita");
+                        report5.setName("Altas");
                         report5.setValue(0L);
-                        report5.setSubName("Primera cita");
+                        report5.setSubName("Altas");
 
-                        lstObjects = statisticChannelingReportRepository.countAssistanceFirstDateByDistrict(initDateF, endDateF, idDistrict, idParameter);
-                        for (int k = 0; k < lstObjects.size(); k++) {
-                            Object[] obj = (Object[]) lstObjects.get(k);
-                            if (obj[0].toString().equals("Asistencia")) {
-                                report5.setValue(new Long(obj[1].toString()));
-                            }
+                        lstObjects = statisticChannelingReportRepository.countChannelingFinishedByTypeByDistrict(initDate + initTime, endDate + endTime, idDistrict, idParameter);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
+                            report5.setValue(new Long(obj[1].toString()));
                         }
 
                         SelectList report6 = new SelectList();
-                        report6.setName("Canalizados");
+                        report6.setName("Bajas");
                         report6.setValue(0L);
-                        report6.setSubName("Canalizados");
+                        report6.setSubName("Bajas");
 
-                        lstObjects = statisticChannelingReportRepository.countChannelingCasesByTypeByDistrict(initDateF, endDateF, idDistrict, idParameter);
-                        for (int k = 0; k < lstObjects.size(); k++) {
-                            Object[] obj = (Object[]) lstObjects.get(k);
+                        lstObjects = statisticChannelingReportRepository.countChannelingDesertByTypeByDistrict(initDate + initTime, endDate + endTime, idDistrict, idParameter);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
                             report6.setValue(new Long(obj[1].toString()));
                         }
-
 
                         data.add(report1);
                         data.add(report2);
@@ -357,27 +361,28 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                         return gson.toJson(data);
                     } else {
                         SelectList report1 = new SelectList();
-                        report1.setName("Bajas");
+                        report1.setName("Canalizados");
                         report1.setValue(0L);
-                        report1.setSubName("Bajas");
+                        report1.setSubName("Canalizados");
 
-                        lstObjects = statisticChannelingReportRepository.countChannelingDesertByTypeGeneral(initDate + initTime, endDate + endTime, idParameter);
-                        for (int i = 0; i < lstObjects.size(); i++) {
-                            Object[] obj = (Object[]) lstObjects.get(i);
+                        lstObjects = statisticChannelingReportRepository.countChannelingCasesByTypeGeneral(initDateF, endDateF, idParameter);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
                             report1.setValue(new Long(obj[1].toString()));
                         }
 
                         SelectList report2 = new SelectList();
-                        report2.setName("Altas");
+                        report2.setName("Primera cita");
                         report2.setValue(0L);
-                        report2.setSubName("Altas");
+                        report2.setSubName("Primera cita");
 
-                        lstObjects = statisticChannelingReportRepository.countChannelingFinishedByTypeGeneral(initDate + initTime, endDate + endTime, idParameter);
-                        for (int i = 0; i < lstObjects.size(); i++) {
-                            Object[] obj = (Object[]) lstObjects.get(i);
-                            report2.setValue(new Long(obj[1].toString()));
+                        lstObjects = statisticChannelingReportRepository.countAssistanceFirstDateGeneral(initDateF, endDateF, idParameter);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
+                            if (obj[0].toString().equals("Asistencia")) {
+                                report2.setValue(new Long(obj[1].toString()));
+                            }
                         }
-
 
                         SelectList report3 = new SelectList();
                         report3.setName("Asistencias");
@@ -391,8 +396,8 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
 
 
                         lstObjects = statisticChannelingReportRepository.countAbsenceChannelingGeneral(initDate + initTime, endDate + endTime, idParameter);
-                        for (int k = 0; k < lstObjects.size(); k++) {
-                            Object[] obj = (Object[]) lstObjects.get(k);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
                             if (obj[0].toString().equals("Asistencia")) {
                                 report3.setValue(new Long(obj[1].toString()));
                             } else {
@@ -402,29 +407,26 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
 
 
                         SelectList report5 = new SelectList();
-                        report5.setName("Primera cita");
+                        report5.setName("Altas");
                         report5.setValue(0L);
-                        report5.setSubName("Primera cita");
+                        report5.setSubName("Altas");
 
-                        lstObjects = statisticChannelingReportRepository.countAssistanceFirstDateGeneral(initDateF, endDateF, idParameter);
-                        for (int k = 0; k < lstObjects.size(); k++) {
-                            Object[] obj = (Object[]) lstObjects.get(k);
-                            if (obj[0].toString().equals("Asistencia")) {
-                                report5.setValue(new Long(obj[1].toString()));
-                            }
+                        lstObjects = statisticChannelingReportRepository.countChannelingFinishedByTypeGeneral(initDate + initTime, endDate + endTime, idParameter);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
+                            report5.setValue(new Long(obj[1].toString()));
                         }
 
                         SelectList report6 = new SelectList();
-                        report6.setName("Canalizados");
+                        report6.setName("Bajas");
                         report6.setValue(0L);
-                        report6.setSubName("Canalizados");
+                        report6.setSubName("Bajas");
 
-                        lstObjects = statisticChannelingReportRepository.countChannelingCasesByTypeGeneral(initDateF, endDateF, idParameter);
-                        for (int k = 0; k < lstObjects.size(); k++) {
-                            Object[] obj = (Object[]) lstObjects.get(k);
+                        lstObjects = statisticChannelingReportRepository.countChannelingDesertByTypeGeneral(initDate + initTime, endDate + endTime, idParameter);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
                             report6.setValue(new Long(obj[1].toString()));
                         }
-
 
                         data.add(report1);
                         data.add(report2);
@@ -548,8 +550,7 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                         }
                         return gson.toJson(total);
 
-                    }
-                    else {
+                    } else {
                         for (int i = 0; i < lstChannelingNames.size(); i++) {
 
 
@@ -653,15 +654,14 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
 
 
                     }
-                }
-                else {
+                } else {
                     if (idDistrict != 0) {
                         SelectList report1 = new SelectList();
                         report1.setName("Canalizaciones");
                         report1.setValue(0L);
                         report1.setSubName("Canalizaciones");
 
-                        lstObjects = statisticChannelingReportRepository.countChannelingByInstitution(initDateF, endDateF,idDistrict, idParameter);
+                        lstObjects = statisticChannelingReportRepository.countChannelingByInstitution(initDateF, endDateF, idDistrict, idParameter);
                         for (int i = 0; i < lstObjects.size(); i++) {
                             Object[] obj = (Object[]) lstObjects.get(i);
                             report1.setValue(new Long(obj[1].toString()));
@@ -673,8 +673,7 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                         report2.setSubName("Primera cita");
 
 
-
-                        lstObjects = statisticChannelingReportRepository.countFirstDateByInstitution(initDateF, endDateF,idDistrict, idParameter);
+                        lstObjects = statisticChannelingReportRepository.countFirstDateByInstitution(initDateF, endDateF, idDistrict, idParameter);
                         for (int i = 0; i < lstObjects.size(); i++) {
                             Object[] obj = (Object[]) lstObjects.get(i);
                             if (obj[0].toString().equals("Asistencia")) {
@@ -694,7 +693,7 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                         report4.setSubName("Inasistencias");
 
 
-                        lstObjects = statisticChannelingReportRepository.countAssistanceAndAbsenceByInstitution(initDateF, endDateF,idDistrict, idParameter);
+                        lstObjects = statisticChannelingReportRepository.countAssistanceAndAbsenceByInstitution(initDateF, endDateF, idDistrict, idParameter);
                         for (int k = 0; k < lstObjects.size(); k++) {
                             Object[] obj = (Object[]) lstObjects.get(k);
                             if (obj[0].toString().equals("Asistencia")) {
@@ -710,10 +709,10 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                         report5.setValue(0L);
                         report5.setSubName("Bajas");
 
-                        lstObjects = statisticChannelingReportRepository.countDessertChannelingByInstitution(initDateF, endDateF,idDistrict, idParameter);
+                        lstObjects = statisticChannelingReportRepository.countDessertChannelingByInstitution(initDateF, endDateF, idDistrict, idParameter);
                         for (int k = 0; k < lstObjects.size(); k++) {
                             Object[] obj = (Object[]) lstObjects.get(k);
-                                report5.setValue(new Long(obj[1].toString()));
+                            report5.setValue(new Long(obj[1].toString()));
 
                         }
 
@@ -722,7 +721,7 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                         report6.setValue(0L);
                         report6.setSubName("Altas");
 
-                        lstObjects = statisticChannelingReportRepository.countFinishedChannelingByInstitution(initDateF, endDateF,idDistrict, idParameter);
+                        lstObjects = statisticChannelingReportRepository.countFinishedChannelingByInstitution(initDateF, endDateF, idDistrict, idParameter);
                         for (int k = 0; k < lstObjects.size(); k++) {
                             Object[] obj = (Object[]) lstObjects.get(k);
                             report6.setValue(new Long(obj[1].toString()));
@@ -737,8 +736,7 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                         data.add(report6);
 
                         return gson.toJson(data);
-                    }
-                    else{
+                    } else {
                         SelectList report1 = new SelectList();
                         report1.setName("Canalizaciones");
                         report1.setValue(0L);
@@ -754,7 +752,6 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
                         report2.setName("Primera cita");
                         report2.setValue(0L);
                         report2.setSubName("Primera cita");
-
 
 
                         lstObjects = statisticChannelingReportRepository.countFirstDateByInstitution(initDateF, endDateF, idParameter);
@@ -832,7 +829,7 @@ public class StatisticChannelingReportServiceImpl implements StatisticChanneling
     }
 
     @Override
-    public String oldGetData(String initDate, String endDate, String filter, Long idReportType, Long idDistrict, Long idSupervisor){
+    public String oldGetData(String initDate, String endDate, String filter, Long idReportType, Long idDistrict, Long idSupervisor) {
         List<SelectList> data = new ArrayList<>();
         List<Object> lstObjects;
         Gson gson = new Gson();
