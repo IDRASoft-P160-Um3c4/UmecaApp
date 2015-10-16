@@ -71,7 +71,8 @@
         <div class="col-xs-3">
             <input type="hidden" ng-model="siv.homeTypeId" ng-update-hidden name="imputedHomes.homeType.id">
             <select class="form-control element-center" ng-model="siv.homeType"
-                    ng-options="e.name for e in lstHomeType" value="{{siv.homeTypeId}}"
+                    ng-options="e.name for e in lstHomeType"
+                    value="{{siv.homeTypeId}}"
                     ng-change="siv.homeTypeId = siv.homeType.id;" ng-init='lstHomeType = ${lstHomeType}'></select>
         </div>
     </div>

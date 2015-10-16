@@ -23,6 +23,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/addressCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/leavingCountryCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/meetingCtrl.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/socialNetworkCtrl.js"></script>
 
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/ComponentVerificationDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/upsertVerifCtrl.js"></script>

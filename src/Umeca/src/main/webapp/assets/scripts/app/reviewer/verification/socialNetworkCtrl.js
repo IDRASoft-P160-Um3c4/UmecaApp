@@ -1,13 +1,8 @@
-app.controller('socialNetworkController', function($scope, $timeout,$rootScope) {
-    $scope.p = {};
+app.controller('socialNetworkVerificationController', function($scope, $rootScope) {
     $scope.lstRel = [];
     $scope.lstDoc = [];
     $scope.lstLiv = [];
     $scope.lstDep = [];
-    $scope.p.rel = 0;
-    $scope.p.doc = 0;
-    $scope.p.liv = 0;
-    $scope.p.dep = 0;
 
     $scope.showChoicesSection = function(idSection, idList, idSource, sectionName, listView){
         var arg = [idSection, idList, idSource, sectionName, listView]
@@ -16,15 +11,15 @@ app.controller('socialNetworkController', function($scope, $timeout,$rootScope) 
 
     $scope.init = function(){
         if($scope.lstRel && $scope.lstRel.length > 0 ){
-            if($scope.p.relId === undefined){
-                $scope.p.rel = $scope.lstRel[0];
-                $scope.p.relId = $scope.p.rel.id;
+            if($scope.lsn.relId === undefined){
+                $scope.lsn.rel = $scope.lstRel[0];
+                $scope.lsn.relId = $scope.lsn.rel.id;
             }
             else{
                 for(var i = 0; i < $scope.lstRel.length; i++){
                     var rel = $scope.lstRel[i];
-                    if(rel.id === $scope.p.relId){
-                        $scope.p.rel = rel;
+                    if(rel.id === $scope.lsn.relId){
+                        $scope.lsn.rel = rel;
                         break;
                     }
                 }
@@ -32,16 +27,16 @@ app.controller('socialNetworkController', function($scope, $timeout,$rootScope) 
         }
 
         if($scope.lstDoc && $scope.lstDoc.length > 0 ){
-            if($scope.p.docId === undefined) {
+            if($scope.lsn.docId === undefined) {
                 console.log($scope.lstDoc.length - 1)
-                $scope.p.doc = $scope.lstDoc[$scope.lstDoc.length - 1];
-                $scope.p.docId = $scope.p.doc.id;
+                $scope.lsn.doc = $scope.lstDoc[$scope.lstDoc.length - 1];
+                $scope.lsn.docId = $scope.lsn.doc.id;
             }
             else {
                 for (var i = 0; i < $scope.lstDoc.length; i++) {
                     var doc = $scope.lstDoc[i];
-                    if (doc.id === $scope.p.docId) {
-                        $scope.p.doc = doc;
+                    if (doc.id === $scope.lsn.docId) {
+                        $scope.lsn.doc = doc;
                         break;
                     }
                 }
@@ -49,16 +44,16 @@ app.controller('socialNetworkController', function($scope, $timeout,$rootScope) 
         }
 
         if($scope.lstLiv && $scope.lstLiv.length > 0){
-            if($scope.p.livId === undefined){
-                $scope.p.liv = $scope.lstLiv[0];
-                $scope.p.livId = $scope.p.liv.id;
+            if($scope.lsn.livId === undefined){
+                $scope.lsn.liv = $scope.lstLiv[0];
+                $scope.lsn.livId = $scope.lsn.liv.id;
             }
             else{
                 for(var i=0; i < $scope.lstLiv.length; i++){
                     var liv = $scope.lstLiv[i];
 
-                    if(liv.id === $scope.p.livId){
-                        $scope.p.liv = liv;
+                    if(liv.id === $scope.lsn.livId){
+                        $scope.lsn.liv = liv;
                         break;
                     }
                 }
@@ -66,104 +61,24 @@ app.controller('socialNetworkController', function($scope, $timeout,$rootScope) 
         }
 
         if($scope.lstDep && $scope.lstDep.length > 0){
-            if($scope.p.depId === undefined){
-                $scope.p.dep = $scope.lstDep[0];
-                $scope.p.depId = $scope.p.dep.id;
+            if($scope.lsn.depId === undefined){
+                $scope.lsn.dep = $scope.lstDep[0];
+                $scope.lsn.depId = $scope.lsn.dep.id;
             }
             else{
                 for(var i=0; i < $scope.lstDep.length; i++){
                     var dep = $scope.lstDep[i];
 
-                    if(dep.id === $scope.p.depId){
-                        $scope.p.dep = dep;
+                    if(dep.id === $scope.lsn.depId){
+                        $scope.lsn.dep = dep;
                         break;
                     }
                 }
             }
         }
 
-        /* if($scope.lstRel === undefined || $scope.lstRel.length <= 0)
-            return;
-
-        if($scope.p.relId === undefined){
-            $scope.p.rel = $scope.lstRel[0];
-            $scope.p.relId = $scope.p.rel.id;
-        }
-        else{
-            for(var i=0; i < $scope.lstRel.length; i++){
-                var rel = $scope.lstRel[i];
-
-                if(rel.id === $scope.p.relId){
-                    $scope.p.rel = rel;
-                    break;
-                }
-            }
-        }
-
-
-        if($scope.lstDoc === undefined || $scope.lstDoc.length <= 0)
-            return;
-
-        if($scope.p.docId === undefined){
-            console.log($scope.lstDoc.length - 1)
-            $scope.p.doc = $scope.lstDoc[$scope.lstDoc.length - 1];
-            $scope.p.docId = $scope.p.doc.id;
-        }
-        else{
-            for(var i=0; i < $scope.lstDoc.length; i++){
-                var doc = $scope.lstDoc[i];
-
-                if(doc.id === $scope.p.docId){
-                    $scope.p.doc = doc;
-                    break;
-                }
-            }
-        }
-
-        if($scope.lstLiv === undefined || $scope.lstLiv.length <= 0)
-            return;
-
-        if($scope.p.livId === undefined){
-            $scope.p.liv = $scope.lstLiv[0];
-            $scope.p.livId = $scope.p.liv.id;
-        }
-        else{
-            for(var i=0; i < $scope.lstLiv.length; i++){
-                var liv = $scope.lstLiv[i];
-
-                if(liv.id === $scope.p.livId){
-                    $scope.p.liv = liv;
-                    break;
-                }
-            }
-        }
-
-
-
-        if($scope.lstDep === undefined || $scope.lstDep.length <= 0)
-            return;
-
-        if($scope.p.depId === undefined){
-            $scope.p.dep = $scope.lstDep[0];
-            $scope.p.depId = $scope.p.dep.id;
-        }
-        else{
-            for(var i=0; i < $scope.lstDep.length; i++){
-                var dep = $scope.lstDep[i];
-
-                if(dep.id === $scope.p.depId){
-                    $scope.p.dep = dep;
-                    break;
-                }
-            }
-        }*/
-
     };
 
-
-    $timeout(function() {
-        $scope.init();
-    }, 0);
     $scope.WaitFor = false;
     $scope.MsgError = "";
     $scope.Model = {};
@@ -257,54 +172,54 @@ app.controller('socialNetworkController', function($scope, $timeout,$rootScope) 
     $scope.fillModel = function(){
         var template= "NO TIENE";
         var template2 = "Ninguno";
-        if($scope.p.block === false){
+        if($scope.lsn.block === false){
             $scope.name = template;
             for(var i= 0; i < $scope.lstRel.length ; i++){
                 if($scope.lstRel[i].name == template2){
-                    $scope.p.rel = $scope.lstRel[i];
-                    $scope.p.relId = $scope.lstRel[i].id;
+                    $scope.lsn.rel = $scope.lstRel[i];
+                    $scope.lsn.relId = $scope.lstRel[i].id;
                     break;
                 }
             }
             $scope.phone = template;
             for(var i= 0; i < $scope.lstDoc.length ; i++){
                 if($scope.lstDoc[i].name == template2){
-                    $scope.p.doc = $scope.lstDoc[i];
-                    $scope.p.docId = $scope.lstDoc[i].id;
+                    $scope.lsn.doc = $scope.lstDoc[i];
+                    $scope.lsn.docId = $scope.lstDoc[i].id;
                     break;
                 }
             }
 
             $scope.age = 0;
-            $scope.p.isAccompaniment = false;
+            $scope.lsn.isAccompaniment = false;
             for(var i= 0; i < $scope.lstDep.length ; i++){
                 if($scope.lstDep[i].name == "No"){
-                    $scope.p.dep = $scope.lstDep[i];
-                    $scope.p.depId = $scope.lstDep[i].id;
+                    $scope.lsn.dep = $scope.lstDep[i];
+                    $scope.lsn.depId = $scope.lstDep[i].id;
                     break;
                 }
             }
             for(var i= 0; i < $scope.lstLiv.length ; i++){
                 if($scope.lstLiv[i].name == "Si"){
-                    $scope.p.liv = $scope.lstLiv[i];
-                    $scope.p.livId = $scope.lstLiv[i].id;
+                    $scope.lsn.liv = $scope.lstLiv[i];
+                    $scope.lsn.livId = $scope.lstLiv[i].id;
                     break;
                 }
             }
         }else{
             $scope.name = "";
-                    $scope.p.rel = $scope.lstRel[0];
-                    $scope.p.relId = $scope.lstRel[0].id;
+            $scope.lsn.rel = $scope.lstRel[0];
+            $scope.lsn.relId = $scope.lstRel[0].id;
             $scope.phone = template;
-                    $scope.p.doc = $scope.lstDoc[0];
-                    $scope.p.docId = $scope.lstDoc[0].id;
+            $scope.lsn.doc = $scope.lstDoc[0];
+            $scope.lsn.docId = $scope.lstDoc[0].id;
             $scope.age = "";
             $scope.phone = "";
-            $scope.p.isAccompaniment = false;
-                    $scope.p.dep = $scope.lstDep[0];
-                    $scope.p.depId = $scope.lstDep[0].id;
-                    $scope.p.liv = $scope.lstLiv[0];
-                    $scope.p.livId = $scope.lstLiv[0].id;
+            $scope.lsn.isAccompaniment = false;
+            $scope.lsn.dep = $scope.lstDep[0];
+            $scope.lsn.depId = $scope.lstDep[0].id;
+            $scope.lsn.liv = $scope.lstLiv[0];
+            $scope.lsn.livId = $scope.lstLiv[0].id;
             $scope.address="";
         }
     };
