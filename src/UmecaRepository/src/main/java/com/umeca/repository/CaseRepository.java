@@ -645,8 +645,8 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
                 "inner join tac.caseDetention cd " +
                 "left join sv.verificationMethod vm " +
                 "left join sv.relationship r " +
-                "where cd.id=:idCase and au.id=:idUsr and sv.isAuthorized = true")
-        List<TabletSourceVerificationDto> getAssignedSourcesVerificationByCaseIdUsrId(@Param("idCase") Long idCase, @Param("idUsr") Long idUsr);
+                "where tac.id = :idAssignment and cd.id=:idCase and au.id=:idUsr and sv.isAuthorized = true")
+        List<TabletSourceVerificationDto> getAssignedSourcesVerificationByCaseIdUsrId(@Param("idCase") Long idCase, @Param("idUsr") Long idUsr, @Param("idAssignment") Long idAssignment);
 
         @Query("select new com.umeca.model.dto.tablet.TabletSourceVerificationDto(sv.id,sv.fullName,sv.age,sv.address,sv.phone,sv.isAuthorized,sv.dateComplete,sv.dateAuthorized,sv.specification,sv.visible," +
                 "                                       vm.id,vm.name,vm.isObsolete," +

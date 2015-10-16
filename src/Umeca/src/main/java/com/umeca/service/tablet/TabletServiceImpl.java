@@ -142,7 +142,7 @@ public class TabletServiceImpl implements TabletService {
             TabletAssignmentCase tac = tabletAssignmentCaseRepository.findValidAssignmentByAssignmentId(assignmentId);
 
             if (tac != null) {
-                TabletCaseDto caseDto = this.getAllCaseDataByIdCaseAssignmentType(tac.getCaseDetention().getId(), usrId, tac.getCaseDetention().getAssignmentType());
+                TabletCaseDto caseDto = this.getAllCaseDataByIdCaseAssignmentType(tac.getCaseDetention().getId(), usrId, assignmentId, tac.getCaseDetention().getAssignmentType());
                 response = new ResponseMessage(false, "Datos correctos");
                 response.setReturnData(gson.toJson(caseDto));
             } else {
@@ -235,12 +235,12 @@ public class TabletServiceImpl implements TabletService {
     }
 
     //se usa el id de usuario para traer solo las fuentes asignadas a ese usuario
-    private TabletVerificationDto getVerificationByCaseIdUsrId(Long caseId, Long usrId) {
+    private TabletVerificationDto getVerificationByCaseIdUsrId(Long caseId, Long usrId, Long assignmentId) {
         TabletVerificationDto currVer = caseRepository.getVerificationByCaseId(caseId);
 
         if (currVer != null) {
 
-            List<TabletSourceVerificationDto> lst = caseRepository.getAssignedSourcesVerificationByCaseIdUsrId(caseId, usrId);
+            List<TabletSourceVerificationDto> lst = caseRepository.getAssignedSourcesVerificationByCaseIdUsrId(caseId, usrId, assignmentId);
             //se agrega la fuente imputado
             lst.add(caseRepository.getImputedSourceVerificationByVerificationId(currVer.getId()));
 
@@ -249,7 +249,6 @@ public class TabletServiceImpl implements TabletService {
                     currSV.setFieldMeetingSourceList(caseRepository.getFieldMeetingSourceBySourceId(currSV.getId()));
                 }
             }
-
             currVer.setSourceVerifications(lst);
         }
 
@@ -304,14 +303,14 @@ public class TabletServiceImpl implements TabletService {
     }
 
     //obtiene toda la informacion del caso en DTOS para enviarlos a la tableta
-    private TabletCaseDto getAllCaseDataByIdCaseAssignmentType(Long idCase, Long idUsr, String assignmentType) {
+    private TabletCaseDto getAllCaseDataByIdCaseAssignmentType(Long idCase, Long idUsr, Long assignmentId, String assignmentType) {
 
         TabletCaseDto currentCase = this.getCaseDataByCaseId(idCase);
         currentCase.setStatus(this.getStatusCaseByCaseId(idCase));
         currentCase.setMeeting(this.getMeetingDataByCaseId(idCase));
 
         if (assignmentType.equals(Constants.VERIFICATION_ASSIGNMENT_TYPE)) {
-            currentCase.setVerification(this.getVerificationByCaseIdUsrId(idCase, idUsr));
+            currentCase.setVerification(this.getVerificationByCaseIdUsrId(idCase, idUsr, assignmentId));
         } else if (assignmentType.equals(Constants.HEARING_FORMAT_ASSIGNMENT_TYPE)) {
             currentCase.setHearingFormats(this.getHearingFormatByCaseId(idCase));
         }
