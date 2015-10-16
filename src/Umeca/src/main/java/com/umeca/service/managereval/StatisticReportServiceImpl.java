@@ -61,8 +61,39 @@ public class StatisticReportServiceImpl implements StatisticReportService {
         } else if (filter.equals(Constants.REPORT_STATISTIC_D)) {
             List<SelectList> dataA = eventRepository.countCasesWithDrugsOnDateByGender(initDate, endDate);
             List<SelectList> dataB = eventRepository.countCasesWithDrugsByOpinionOnDateByGender(initDate, endDate);
-            data.add(new SelectList(Constants.GENDER_MALE, dataA.get(0).getValue() + dataB.get(0).getValue()));
-            data.add(new SelectList(Constants.GENDER_FEMALE, dataA.get(1).getValue() + dataB.get(1).getValue()));
+
+            SelectList male = new SelectList();
+            SelectList female = new SelectList();
+
+            male.setName("Masculino");
+            female.setName("Femenino");
+
+            male.setValue(0L);
+            female.setValue(0L);
+
+            for(int i = 0 ; i < dataA.size(); i++){
+                if(dataA.get(i).getName().equals("Masculino")){
+                    male.setValue(male.getValue() + dataA.get(i).getValue());
+                }
+                else {
+                    female.setValue(female.getValue() + dataA.get(i).getValue());
+                }
+            }
+
+            for(int i = 0 ; i < dataB.size(); i++){
+                if(dataB.get(i).getName().equals("Masculino")){
+                    male.setValue(male.getValue() + dataB.get(i).getValue());
+                }
+                else {
+                    female.setValue(female.getValue() + dataB.get(i).getValue());
+                }
+            }
+
+            data.add(male);
+            data.add(female);
+
+ //           data.add(new SelectList(Constants.GENDER_MALE, dataA.get(0).getValue() + dataB.get(0).getValue()));
+ //           data.add(new SelectList(Constants.GENDER_FEMALE, dataA.get(1).getValue() + dataB.get(1).getValue()));
 
         } else if (filter.equals(Constants.REPORT_STATISTIC_E)) {
             List<SelectList> dataA = eventRepository.countTypeofDrugs(initDate, endDate);
