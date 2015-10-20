@@ -330,6 +330,7 @@ public class TabletServiceImpl implements TabletService {
         webCase.setIdFolder(tabletCase.getIdFolder());
         webCase.setIdMP(tabletCase.getIdMP());
         webCase.setRecidivist(tabletCase.getRecidivist());
+        webCase.setHasNegation(tabletCase.getHasNegation());
 
         try {
             webCase.setDateNotProsecute(tabletCase.getDateNotProsecute() == null ? null : sdf.parse(tabletCase.getDateNotProsecute()));
@@ -374,10 +375,11 @@ public class TabletServiceImpl implements TabletService {
         webImputed.setBirthLocation(tabletImputed.getBirthLocation());
         webImputed.setNickname(tabletImputed.getNickname());
 
-        MaritalStatus mst = new MaritalStatus();
-        mst.setId(tabletImputed.getMaritalStatus().getId());
-        webImputed.setMaritalStatus(mst);
-
+        if(tabletImputed.getMaritalStatus()!=null){
+            MaritalStatus mst = new MaritalStatus();
+            mst.setId(tabletImputed.getMaritalStatus().getId());
+            webImputed.setMaritalStatus(mst);
+        }
 
         if (tabletImputed.getBirthCountry() != null) {
             Country bc = new Country();
@@ -877,6 +879,11 @@ public class TabletServiceImpl implements TabletService {
         Case c = this.mergeCase(tabletCase);
 
         Meeting m = this.mergeMeeting(tabletCase.getMeeting());
+
+        if(c.isHasNegation()==true){
+            m.setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_DECLINE));
+        }
+
         m.setCaseDetention(c);
         c.setMeeting(m);
         tabletCase.getMeeting().setWebId(m.getId());

@@ -38,6 +38,7 @@ public class TabletCaseDto {
     private TabletVerificationDto verification;
     private List<TabletHearingFormatDto> hearingFormats;
     private List<TabletLogCaseDto> logsCase;
+    private Boolean hasNegation;
 
     public Long getId() {
         return id;
@@ -149,5 +150,13 @@ public class TabletCaseDto {
 
     public void setPreviousStateCode(String previousStateCode) {
         this.previousStateCode = previousStateCode;
+    }
+
+    public Boolean getHasNegation() {
+        return hasNegation;
+    }
+
+    public void setHasNegation(Boolean hasNegation) {
+        this.hasNegation = hasNegation;
     }
 }
