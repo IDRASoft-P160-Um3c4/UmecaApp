@@ -1205,10 +1205,6 @@ public class TabletServiceImpl implements TabletService {
         }
         c.setStatus(statusCaseRepository.findByCode(c.getPreviousStateCode()));
         caseRepository.save(c);
-        //TODO FALTAN LAS NOTIFICACIONES
-
-//        SharedLogCommentService.generateLogComment(MonitoringConstants.LOG_MSG_INFO_PENDING_AUTHORIZATION_OBSOLETE, u, c,
-//                Constants.ACTION_AUTHORIZE_LOG_COMMENT, userReceiver, Constants.TYPE_COMMENT_OBSOLETE_CASE_SUPERVISION, logCommentRepository);
 
         return c;
     }
@@ -1272,7 +1268,6 @@ public class TabletServiceImpl implements TabletService {
             c.setStatus(statusCaseRepository.findByCode(c.getPreviousStateCode()));
             caseRepository.save(c);
         }
-        //TODO FALTAN LAS NOTIFICACIONES
 
         return c;
     }
@@ -1327,7 +1322,6 @@ public class TabletServiceImpl implements TabletService {
             c.setStatus(statusCaseRepository.findByCode(c.getPreviousStateCode()));
         }
         caseRepository.save(c);
-        //TODO FALTAN LAS NOTIFICACIONES
 
         return c;
     }
