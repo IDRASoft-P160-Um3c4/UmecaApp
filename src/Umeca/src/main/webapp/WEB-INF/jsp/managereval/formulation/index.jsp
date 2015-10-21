@@ -34,7 +34,7 @@
                 datatype: "json",
                 autoencode: true,
                 mtype: 'POST',
-                colNames: ['ID', 'Fecha registro formulaci&oacute;n', 'Oficio', 'C&eacute;dula de notificaci&oacute;n', 'Datos imputado', 'Datos evaluador', 'Fecha de audiencia', 'Fecha entrevista Umeca', 'Acci&oacute;n'],
+                colNames: ['ID', 'Fecha registro formulaci&oacute;n', 'Oficio', 'C&eacute;dula de notificaci&oacute;n', 'Datos imputado', 'Datos evaluador', 'Fecha de audiencia', 'Fecha entrevista Umeca','Asistencia', 'Attended', 'Acci&oacute;n'],
                 colModel: [
                     {name: 'id', index: 'id', hidden: true},
                     {
@@ -94,6 +94,20 @@
                         search: false
                     },
                     {
+                        name: 'presenceStr',
+                        index: 'presenceStr',
+                        width: 75,
+                        align: "center",
+                        sorttype: 'string',
+                        search: false
+                    },
+                    {
+                        name: 'attended',
+                        index: 'attended',
+                        hidden: true
+
+                    },
+                    {
                         name: 'Action',
                         width: 70,
                         align: "center",
@@ -121,6 +135,11 @@
                         var be = "";
                         be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Responder solicitud\" onclick=\"window.upsert('" + cl + "');\"><i class=\" icon-pencil\"></i></a>";
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
+
+                        $(this).jqGrid('setRowData', ids[i], {Action: be});
+                        if (row.attended === "false" && row.presenceStr === "Pendiente") {
+                            $("#" + cl).css("background-color", "#FF3617");
+                        }
                     }
                 },
                 loadComplete: function () {
@@ -353,13 +372,13 @@
                 </div>
             </div>
         </div>
-        <sec:authorize access="hasRole('ROLE_REVIEWER')">
+
             <div class="col-xs-12 element-center">
                 Fecha de entrevista UMECA vencida:
                 <span class="glyphicon glyphicon-stop" style="color:#FF3617; font-size: 15px;"
                       aria-hidden="true"></span>
             </div>
-        </sec:authorize>
+
     </div>
 
 

@@ -52,6 +52,10 @@ public class CaseEvaluationView implements EntityGrid {
         if (statusMeeting.equals(Constants.S_MEETING_INCOMPLETE)) {
             statusString = "Entrevista de riesgos procesales incompleta";
         } else {
+            if(statusMeeting.equals(Constants.S_MEETING_DECLINE)){
+                statusString = "Entrevista negada";
+                status++;
+            }
             if (statusMeeting.equals(Constants.S_MEETING_INCOMPLETE_LEGAL)) {
                 status++;
                 statusString = "Por agregar informaci&oacute;n legal";
@@ -68,6 +72,10 @@ public class CaseEvaluationView implements EntityGrid {
                 status++;
             }
         }
+        if(statusMeeting.equals(Constants.S_MEETING_OBSOLETE)){
+            statusString = "Eliminado";
+        }
+
     }
 
 

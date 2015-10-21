@@ -48,6 +48,10 @@ public class CaseEvaluationController {
                     add(Constants.S_MEETING_INCOMPLETE_LEGAL);
                     add(Constants.S_MEETING_COMPLETE);
                     add(Constants.S_MEETING_INCOMPLETE);
+                    //Status allowed
+                    //add(Constants.S_MEETING_COMPLETE_VERIFICATION);
+                    add(Constants.S_MEETING_DECLINE);
+                    add(Constants.S_MEETING_OBSOLETE);
                 }}
                 , JqGridFilterModel.COMPARE_IN
         );
