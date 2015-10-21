@@ -5,6 +5,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.catalog.CloseCause;
+import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.catalog.StatusMeeting;
 import com.umeca.model.catalog.StatusVerification;
 import com.umeca.model.entities.account.User;
@@ -79,6 +80,7 @@ public class CaseEvaluationController {
                 final Join<Verification, StatusVerification> joinVeSt = joinVer.join("status", JoinType.LEFT);
                 final Join<Meeting, TechnicalReview> joinTR = joinMeCa.join("technicalReview", JoinType.LEFT);
                 final Join<Meeting, User> joinUsr = r.join("reviewer", JoinType.INNER);
+                final Join<Case, StatusCase> joinStCase = joinMeCa.join("status", JoinType.INNER);
 
                 ArrayList<Selection<?>> result = new ArrayList<Selection<?>>() {{
                     add(joinMeCa.get("id"));
@@ -91,6 +93,7 @@ public class CaseEvaluationController {
                     add(joinVeSt.get("name").alias("statusVerification"));
                     add(joinTR.get("id").alias("idTec"));
                     add(joinUsr.get("fullname"));
+                    add(joinStCase.get("name").alias("stCase"));
                 }};
 
                 return result;

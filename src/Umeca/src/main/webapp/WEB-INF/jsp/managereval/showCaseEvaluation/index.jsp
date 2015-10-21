@@ -107,7 +107,7 @@
                         var status = parseInt(row.status);
                         var be = "";
                         if (status == 0) {
-                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\"     ></i></a>";
+                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\"></i></a>";
                         } else {
                             if (status >= 1) {
                                 be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Entevista de riesgos procesales\" onclick=\"window.showMeeting('" + cl + "');\"><i class=\"glyphicon icon-comments-alt\"></i></a>  ";

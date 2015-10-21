@@ -36,7 +36,7 @@ public class CaseEvaluationView implements EntityGrid {
     private String resolutionStr;
 
 
-    public CaseEvaluationView(Long id, Long idVerif, String idFolder, String name, String lastNameP, String lastNameM, String statusMeeting, String statusVerification, Long idTec, String userName) {
+    public CaseEvaluationView(Long id, Long idVerif, String idFolder, String name, String lastNameP, String lastNameM, String statusMeeting, String statusVerification, Long idTec, String userName, String statusCaseCode) {
         this.id = id;
         this.idVerif = idVerif;
         this.idFolder = idFolder;
@@ -68,7 +68,11 @@ public class CaseEvaluationView implements EntityGrid {
                 status++;
             }
             if (idTec != null) {
-                statusString = "Opini&oacute;n t&eacute;cnica terminada";
+                if(statusCaseCode!=null && statusCaseCode.equals(Constants.CASE_STATUS_INCOMPLETE_TECHNICAL_REVIEW)) {
+                    statusString = "Opini&oacute;n t&eacute;cnica incompleta";
+                }else if(statusCaseCode!=null && statusCaseCode.equals(Constants.CASE_STATUS_TECHNICAL_REVIEW)) {
+                    statusString = "Opini&oacute;n t&eacute;cnica terminada";
+                }
                 status++;
             }
         }
