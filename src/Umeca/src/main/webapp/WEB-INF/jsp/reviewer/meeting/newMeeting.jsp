@@ -5,6 +5,7 @@
     });
 
 </script>
+<script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/meetingCtrl.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/dateTimePickerCursor.js"></script>
 <div>
     <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak>
@@ -34,7 +35,7 @@
                                     <input class="form-control" data-val="true"
                                            data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres"
                                            data-val-required="El nombre es un campo requerido"
-                                           data-val-length-max="50" data-val-length-min="3" ng-init="name=''"
+                                           data-val-length-max="50" data-val-length-min="3" ng-init='name="${(f.firstName == null) ? '' : f.firstName}"'
                                            id="name" name="name" ng-model="name"
                                            type="text"/>
                                 </div>
@@ -49,7 +50,7 @@
                                 </div>
                                 <div class="col-xs-7">
                                     <input class="form-control" data-val="true"
-                                           data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres" ng-init="lastNameP=''"
+                                           data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres" ng-init='lastNameP="${(f.lastNameP == null) ? '' : f.lastNameP}"'
                                            data-val-length-max="50" data-val-length-min="3"
                                            data-val-required="El apellido paterno es un campo requerido"
                                            id="lastNameP" name="lastNameP"
@@ -69,7 +70,7 @@
                                     <input class="form-control" data-val="true"
                                            data-val-length="Debe tener al menos 3 y m&aacute;ximo 50 caracteres"
                                            data-val-length-max="50" data-val-length-min="3"
-                                           data-val-required="El apellido materno es un campo requerido" ng-init="lastNameM=''"
+                                           data-val-required="El apellido materno es un campo requerido" ng-init='lastNameM="${(f.lastNameM == null) ? '' : f.lastNameM }"'
                                            id="lastNameM" name="lastNameM"
                                            type="text" ng-model="lastNameM"/>
                                 </div>
@@ -143,6 +144,18 @@
                                 </div>
                             </div>
                             <br/>
+                            <div class="row" ng-controller="newMeetController" ng-init='lstDistrict = ${lstDistrict}; init();'>
+                                <div class="col-xs-5 element-left">
+                                    Distrito judicial
+                                </div>
+                                <div class="col-xs-7">
+                                    <select id="district"
+                                            ng-model="m.district"
+                                            ng-options="e.name for e in lstDistrict"></select>
+                                </div>
+                                <input type="hidden" name="meeting.district.id" value="{{m.district.id}}"/>
+                            </div>
+                            <br/>
                             <div class="row">
                                 <div class="col-xs-12 text-danger">
                                     <i class="icon-warning-sign icon-animated-wrench bigger-120"></i>&nbsp;
@@ -157,16 +170,19 @@
                                     <label class="info-note" for="isAccepted">&iquest;El imputado acepta que se realice la entrevista de riesgos procesales?</label>
                                 </div>
                             </div>
+                            <input type="hidden" ng-update-hidden ng-model="isFromFormulation" name="isFromFormulation" ng-init='isFromFormulation = "${(isFromFormulation == null) ? false : isFromFormulation}"'>
                             <div class="row">
                                 <div class="col-xs-12 element-center">
-                                    <input type="checkbox" ng-model="m.isFormulation" id="isFormulation"
-                                           ng-init="m.isFormulation= false">
+                                    <input type="checkbox" ng-model="m.isFromFormulation" id="isFormulation"
+                                           ng-change = "isFromFormulation = m.isFromFormulation"
+                                           ng-init="m.isFromFormulation= ${isFromFormulation ==null ? false: isFromFormulation}">
                                     <label class="info-note" for="isFormulation">&iquest;Se trata de una entrevista de formulaci&oacute;n?</label>
                                 </div>
                             </div>
                             <br/>
                             <br/>
                         </div>
+
 
 
 
@@ -180,9 +196,16 @@
                                         <p>&iquest;Est&aacute; seguro que desea terminar la entrevista de riesgos procesales?</p>
                                         <br/>
                                         <p>Raz&oacute;n de negaci&oacute;n</p>
-                                        <textarea rows="4" cols="50" name="meeting.declineReason" ng-model="m.reason">
+                                        <textarea rows="4" cols="50" data-val="true"
+                                                  data-val-length="Debe tener al menos 3 y m&aacute;ximo 500 caracteres"
+                                                  data-val-required="Es necesario escribir la raz&oacute;n"
+                                                  data-val-length-max="500" data-val-length-min="3"ng-init="reason=''"
+                                                  id="reason" name="meeting.declineReason" ng-model="reason">
 
                                         </textarea>
+                                    </div>
+                                    <div class="col-xs-11 col-xs-offset-1">
+                                        <span class="field-validation-valid" data-valmsg-for="meeting.declineReason" data-valmsg-replace="true"></span>
                                     </div>
 
                                 </div>
@@ -216,7 +239,13 @@
                         Cancelar
                     </span>
                     <span class="btn btn-primary btn-sm" ng-disabled="WaitFor==true || m.isAccepted == false"
+                          ng-show = "m.isFromFormulation == false"
                           ng-click="submitRedirect('#FormCatId','<c:url value="/reviewer/meeting/doNewMeeting.json"/>');">
+                          Continuar
+                    </span>
+                     <span class="btn btn-primary btn-sm" ng-disabled="WaitFor==true || m.isAccepted == false"
+                           ng-show = "m.isFromFormulation == true"
+                           ng-click="submitRedirect('#FormCatId','<c:url value="/reviewer/formulation/doNewMeeting.json"/>');">
                           Continuar
                     </span>
                 </div>

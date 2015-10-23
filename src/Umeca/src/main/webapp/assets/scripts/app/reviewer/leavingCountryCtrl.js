@@ -1,27 +1,27 @@
-app.controller('leavingController', function($scope, $timeout,$q,$rootScope) {
+app.controller('leavingController', function ($scope, $timeout, $q, $rootScope) {
     $scope.l = {};
     $scope.listElection = [];
     $scope.listCountry = [];
-    $scope.l.oc= 0;
-    $scope.l.country= 0;
+    $scope.l.oc = 0;
+    $scope.l.country = 0;
     $scope.l.doc = 0;
     $scope.l.cf = 0;
-    $scope.country=0;
-    $scope.state=0;
+    $scope.country = 0;
+    $scope.state = 0;
     $scope.m = {};
     $scope.Model = {};
-    $scope.def= $q.defer();
+    $scope.def = $q.defer();
 
-    $scope.showChoicesSection = function(idSection, idList, idSource, sectionName, listView){
+    $scope.showChoicesSection = function (idSection, idList, idSource, sectionName, listView) {
         var arg = [idSection, idList, idSource, sectionName, listView]
-        $rootScope.$broadcast('ShowChoicesBySection',arg);
+        $rootScope.$broadcast('ShowChoicesBySection', arg);
     };
 
-    $scope.init = function(){
-        if($scope.listCountry === undefined || $scope.listCountry.length <= 0)
+    $scope.init = function () {
+        if ($scope.listCountry === undefined || $scope.listCountry.length <= 0)
             return;
 
-        if($scope.l.countryId === undefined){
+        if ($scope.l.countryId === undefined) {
 
             for (var i = 0; i < $scope.listCountry.length; i++) {
                 if ($scope.listCountry[i].id == 1) {//para seleccionar Mexico por default
@@ -32,99 +32,99 @@ app.controller('leavingController', function($scope, $timeout,$q,$rootScope) {
 
             $scope.l.countryId = $scope.l.country.id;
         }
-        else{
-            for(var i=0; i < $scope.listCountry.length; i++){
+        else {
+            for (var i = 0; i < $scope.listCountry.length; i++) {
                 var country = $scope.listCountry[i];
 
-                if(country.id === $scope.l.countryId){
+                if (country.id === $scope.l.countryId) {
                     $scope.l.country = country;
                     break;
                 }
             }
         }
-        if($scope.listElection === undefined || $scope.listElection.length <= 0)
+        if ($scope.listElection === undefined || $scope.listElection.length <= 0)
             return;
 
-        if($scope.l.ocId === undefined){
+        if ($scope.l.ocId === undefined) {
             $scope.l.oc = $scope.listElection[0];
             $scope.l.ocId = $scope.l.oc.id;
         }
-        else{
-            for(var i=0; i < $scope.listElection.length; i++){
+        else {
+            for (var i = 0; i < $scope.listElection.length; i++) {
                 var oc = $scope.listElection[i];
 
-                if(oc.id === $scope.l.ocId){
+                if (oc.id === $scope.l.ocId) {
                     $scope.l.oc = oc;
                     break;
                 }
             }
         }
 
-        if($scope.l.docId === undefined){
+        if ($scope.l.docId === undefined) {
             $scope.l.doc = $scope.listElection[0];
             $scope.l.docId = $scope.l.doc.id;
         }
-        else{
-            for(var i=0; i < $scope.listElection.length; i++){
+        else {
+            for (var i = 0; i < $scope.listElection.length; i++) {
                 var doc = $scope.listElection[i];
 
-                if(doc.id === $scope.l.docId){
+                if (doc.id === $scope.l.docId) {
                     $scope.l.doc = doc;
                     break;
                 }
             }
         }
 
-        if($scope.l.cfId === undefined){
+        if ($scope.l.cfId === undefined) {
             $scope.l.cf = $scope.listElection[0];
             $scope.l.cfId = $scope.l.cf.id;
         }
-        else{
-            for(var i=0; i < $scope.listElection.length; i++){
+        else {
+            for (var i = 0; i < $scope.listElection.length; i++) {
                 var cf = $scope.listElection[i];
 
-                if(cf.id === $scope.l.cfId){
+                if (cf.id === $scope.l.cfId) {
                     $scope.l.cf = cf;
                     break;
                 }
             }
         }
 
-        if($scope.l.facId === undefined){
+        if ($scope.l.facId === undefined) {
             $scope.l.fac = $scope.listElection[0];
             $scope.l.facId = $scope.l.fac.id;
         }
-        else{
-            for(var i=0; i < $scope.listElection.length; i++){
+        else {
+            for (var i = 0; i < $scope.listElection.length; i++) {
                 var fac = $scope.listElection[i];
 
-                if(fac.id === $scope.l.facId){
+                if (fac.id === $scope.l.facId) {
                     $scope.l.fac = fac;
                     break;
                 }
             }
         }
-        if($scope.l.immigrationDocId == undefined){
-            $scope.l.immigrationDoc =$scope.listImmigrationDoc[0];
+        if ($scope.l.immigrationDocId == undefined) {
+            $scope.l.immigrationDoc = $scope.listImmigrationDoc[0];
             $scope.l.immigrationDocId = $scope.l.immigrationDoc.id;
-        } else{
-            for(var i=0; i < $scope.listImmigrationDoc.length; i++){
+        } else {
+            for (var i = 0; i < $scope.listImmigrationDoc.length; i++) {
                 var fac = $scope.listImmigrationDoc[i];
 
-                if(fac.id === $scope.l.immigrationDocId){
+                if (fac.id === $scope.l.immigrationDocId) {
                     $scope.l.immigrationDoc = fac;
                     break;
                 }
             }
         }
-        if($scope.l.relId == undefined){
-            $scope.l.rel =$scope.listRel[0];
+        if ($scope.l.relId == undefined) {
+            $scope.l.rel = $scope.listRel[0];
             $scope.l.relId = $scope.l.rel.id;
-        } else{
-            for(var i=0; i < $scope.listRel.length; i++){
+        } else {
+            for (var i = 0; i < $scope.listRel.length; i++) {
                 var fac = $scope.listRel[i];
 
-                if(fac.id === $scope.l.relId){
+                if (fac.id === $scope.l.relId) {
                     $scope.l.rel = fac;
                     break;
                 }
@@ -133,8 +133,28 @@ app.controller('leavingController', function($scope, $timeout,$q,$rootScope) {
     };
 
 
-    $timeout(function() {
+    $timeout(function () {
         $scope.init();
     }, 0);
+
+    $scope.lstSourceInfoLeavingCountry = {};
+    $rootScope.$on('showAnswered', function (event, lstFieldInfo) {
+        for (var a = 0; a < lstFieldInfo.length; a++) {
+            if (lstFieldInfo[a].sectionCode == 8 || lstFieldInfo[a].code == 'socialEnvironment.comment') {
+                $scope.lstSourceInfoLeavingCountry[lstFieldInfo[a].code] = true;
+            }
+        }
+        $scope.$apply();
+    });
+
+    $scope.lstFinalInfoLeavingCountry = {};
+    $rootScope.$on('showFinalAnswered', function (event, lstFieldInfo) {
+        for (var a = 0; a < lstFieldInfo.length; a++) {
+            if (lstFieldInfo[a].sectionCode == 8 || lstFieldInfo[a].code == 'socialEnvironment.comment') {
+                $scope.lstFinalInfoLeavingCountry[lstFieldInfo[a].code] = true;
+            }
+        }
+        $scope.$apply();
+    });
 
 });

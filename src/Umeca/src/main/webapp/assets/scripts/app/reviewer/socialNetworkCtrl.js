@@ -15,7 +15,74 @@ app.controller('socialNetworkController', function($scope, $timeout,$rootScope) 
     };
 
     $scope.init = function(){
-        if($scope.lstRel === undefined || $scope.lstRel.length <= 0)
+        if($scope.lstRel && $scope.lstRel.length > 0 ){
+            if($scope.p.relId === undefined){
+                $scope.p.rel = $scope.lstRel[0];
+                $scope.p.relId = $scope.p.rel.id;
+            }
+            else{
+                for(var i = 0; i < $scope.lstRel.length; i++){
+                    var rel = $scope.lstRel[i];
+                    if(rel.id === $scope.p.relId){
+                        $scope.p.rel = rel;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if($scope.lstDoc && $scope.lstDoc.length > 0 ){
+            if($scope.p.docId === undefined) {
+                console.log($scope.lstDoc.length - 1)
+                $scope.p.doc = $scope.lstDoc[$scope.lstDoc.length - 1];
+                $scope.p.docId = $scope.p.doc.id;
+            }
+            else {
+                for (var i = 0; i < $scope.lstDoc.length; i++) {
+                    var doc = $scope.lstDoc[i];
+                    if (doc.id === $scope.p.docId) {
+                        $scope.p.doc = doc;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if($scope.lstLiv && $scope.lstLiv.length > 0){
+            if($scope.p.livId === undefined){
+                $scope.p.liv = $scope.lstLiv[0];
+                $scope.p.livId = $scope.p.liv.id;
+            }
+            else{
+                for(var i=0; i < $scope.lstLiv.length; i++){
+                    var liv = $scope.lstLiv[i];
+
+                    if(liv.id === $scope.p.livId){
+                        $scope.p.liv = liv;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if($scope.lstDep && $scope.lstDep.length > 0){
+            if($scope.p.depId === undefined){
+                $scope.p.dep = $scope.lstDep[0];
+                $scope.p.depId = $scope.p.dep.id;
+            }
+            else{
+                for(var i=0; i < $scope.lstDep.length; i++){
+                    var dep = $scope.lstDep[i];
+
+                    if(dep.id === $scope.p.depId){
+                        $scope.p.dep = dep;
+                        break;
+                    }
+                }
+            }
+        }
+
+        /* if($scope.lstRel === undefined || $scope.lstRel.length <= 0)
             return;
 
         if($scope.p.relId === undefined){
@@ -32,6 +99,8 @@ app.controller('socialNetworkController', function($scope, $timeout,$rootScope) 
                 }
             }
         }
+
+
         if($scope.lstDoc === undefined || $scope.lstDoc.length <= 0)
             return;
 
@@ -50,6 +119,7 @@ app.controller('socialNetworkController', function($scope, $timeout,$rootScope) 
                 }
             }
         }
+
         if($scope.lstLiv === undefined || $scope.lstLiv.length <= 0)
             return;
 
@@ -69,6 +139,7 @@ app.controller('socialNetworkController', function($scope, $timeout,$rootScope) 
         }
 
 
+
         if($scope.lstDep === undefined || $scope.lstDep.length <= 0)
             return;
 
@@ -85,7 +156,7 @@ app.controller('socialNetworkController', function($scope, $timeout,$rootScope) 
                     break;
                 }
             }
-        }
+        }*/
 
     };
 
@@ -237,4 +308,33 @@ app.controller('socialNetworkController', function($scope, $timeout,$rootScope) 
             $scope.address="";
         }
     };
+
+    $scope.lstSourceInfoSocial = {};
+
+    $rootScope.$on('showAnswered', function (event, lstFieldInfo) {
+        for (var a = 0; a < lstFieldInfo.length; a++) {
+            if (lstFieldInfo[a].sectionCode == 3) {
+                if(lstFieldInfo[a].code=='socialNetwork.comment')
+                    $scope.lstSourceInfoSocial[lstFieldInfo[a].code] = true;
+                else
+                    $scope.lstSourceInfoSocial[lstFieldInfo[a].code + "." + lstFieldInfo[a].idFieldList] = true;
+            }
+        }
+        $scope.$apply();
+    });
+
+    $scope.lstFinalInfoSocial = {};
+
+    $rootScope.$on('showFinalAnswered', function (event, lstFieldInfo) {
+        for (var a = 0; a < lstFieldInfo.length; a++) {
+            if (lstFieldInfo[a].sectionCode == 3) {
+                if(lstFieldInfo[a].code=='socialNetwork.comment')
+                    $scope.lstFinalInfoSocial[lstFieldInfo[a].code] = true;
+                else
+                    $scope.lstFinalInfoSocial[lstFieldInfo[a].code + "." + lstFieldInfo[a].idFieldList] = true;
+            }
+        }
+        $scope.$apply();
+    });
+
 });

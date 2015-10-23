@@ -107,7 +107,7 @@
                         var status = parseInt(row.status);
                         var be = "";
                         if (status == 0) {
-                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\"     ></i></a>";
+                            be += "<a href=\"javascript:;\" style=\"display:inline-block;\"></i></a>";
                         } else {
                             if (status >= 1) {
                                 be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Entevista de riesgos procesales\" onclick=\"window.showMeeting('" + cl + "');\"><i class=\"glyphicon icon-comments-alt\"></i></a>  ";
@@ -123,6 +123,7 @@
                                 be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Instrumento de evaluaci&oacute;n de riesgos \" onclick=\"window.technicalReview('" + _id_verif + "');\"><span class=\"warning icon-archive\"></span></a>";
                                 be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar formato de opini&oacute;n\" onclick=\"generateFile('" + _id_verif + "');\"><span class=\"glyphicon glyphicon-file\"></span></a> ";
                             }
+
                         }
                         be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Subir / Descargar archivos del caso\" onclick=\"window.updwFiles('" + cl + "');\"><i class=\"glyphicon glyphicon-cloud-download\"></i></a>  ";
 

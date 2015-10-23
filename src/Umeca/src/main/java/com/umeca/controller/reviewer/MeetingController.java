@@ -1,5 +1,7 @@
 package com.umeca.controller.reviewer;
 
+import com.google.gson.Gson;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
@@ -8,12 +10,19 @@ import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.model.managerEval.ManagerevalView;
 import com.umeca.model.catalog.StatusMeeting;
+import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.managereval.Formulation;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
 import com.umeca.model.entities.reviewer.View.MeetingView;
 import com.umeca.model.entities.reviewer.View.PersonSocialNetworkView;
 import com.umeca.model.shared.ConsMessage;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.SelectList;
+import com.umeca.repository.CaseRepository;
+import com.umeca.repository.managereval.FormulationRepository;
+import com.umeca.repository.reviewer.MeetingRepository;
+import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.MeetingService;
 import com.umeca.service.reviewer.ScheduleService;
@@ -26,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.persistence.criteria.*;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -39,7 +49,7 @@ public class MeetingController {
         return "/reviewer/meeting/index";
     }
 
-    @RequestMapping(value = "/reviewer/meeting/declined", method = RequestMethod.GET)
+    @RequestMapping(value = {"/reviewer/meeting/declined","/reviewer/formulation/declined"}, method = RequestMethod.GET)
     public String decline() {
         return "/reviewer/declined/index";
     }
@@ -54,6 +64,12 @@ public class MeetingController {
 
     @Autowired
     SharedUserService sharedUserService;
+
+    @Autowired
+    FormulationRepository formulationRepository;
+
+    @Autowired
+    CaseRepository caseRepository;
 
     @RequestMapping(value = "/reviewer/meeting/list", method = RequestMethod.POST)
     public
@@ -133,13 +149,18 @@ public class MeetingController {
         JqGridRulesModel extraFilter2 = new JqGridRulesModel("statusCode",
                 new ArrayList<String>() {{
                     add(Constants.S_MEETING_DECLINE);
-                    add(Constants.S_MEETING_INCOMPLETE_LEGAL);
+                    add(Constants.S_MEETING_INCOMPLETE);
                 }}
                 , JqGridFilterModel.COMPARE_IN
         );
         opts.extraFilters.add(extraFilter2);
-        JqGridRulesModel extraFilter3 =new JqGridRulesModel("statusCase", Constants.CASE_STATUS_MEETING, JqGridFilterModel.COMPARE_EQUAL);
+
+
+
+        JqGridRulesModel extraFilter3 =new JqGridRulesModel("statusCase", Constants.CASE_STATUS_NOT_PROSECUTE, JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter3);
+
+
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
@@ -187,7 +208,7 @@ public class MeetingController {
     }
 
 
-    @RequestMapping(value = "/reviewer/meeting/declined/printSheet", method = RequestMethod.GET)
+        @RequestMapping(value = "/reviewer/meeting/declined/printSheet", method = RequestMethod.GET)
     public ModelAndView printSheet(@RequestParam(required = true) Long id, HttpServletResponse response) {
 
         ModelAndView model = null;
@@ -198,7 +219,7 @@ public class MeetingController {
             if (sheetInfo == null) {
                 model = new ModelAndView("/reviewer/declined/notSheet");
                 response.setContentType("application/force-download");
-                response.setHeader("Content-Disposition", "attachment; filename=\"sin-oficio-canalización.doc\"");
+                response.setHeader("Content-Disposition", "attachment; filename=\"sin-informe-negacion.doc\"");
                 return model;
             }
 
@@ -408,22 +429,40 @@ public class MeetingController {
 
     }
 
+    @Autowired
+    DistrictRepository districtRepository;
+
     @RequestMapping(value = "/reviewer/meeting/newMeeting", method = RequestMethod.POST)
-    public String newMeeting() {
-        return "/reviewer/meeting/newMeeting";
+    public ModelAndView newMeeting() {
+        ModelAndView model = new ModelAndView("/reviewer/meeting/newMeeting");
+        List<SelectList> lstDistrict = districtRepository.findNoObsolete();
+        Gson gson = new Gson();
+        model.addObject("lstDistrict", gson.toJson(lstDistrict));
+        return model;
     }
 
-    @RequestMapping(value = "/reviewer/meeting/doNewMeeting", method = RequestMethod.POST)
+    @RequestMapping(value = {"/reviewer/meeting/doNewMeeting","/reviewer/formulation/doNewMeeting"}, method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doNewMeeting(@ModelAttribute Imputed imputed) {
         imputed.setFoneticString(sharedUserService.getFoneticByName(imputed.getName(),imputed.getLastNameP(),imputed.getLastNameM()));
         ResponseMessage validateCreate = meetingService.validateCreateMeeting(imputed);
+
+        if(imputed.getFormulationId() != null){
+
+            Formulation formulation = formulationRepository.findOne(imputed.getFormulationId());
+            formulation.setPresence(true);
+            formulationRepository.save(formulation);
+        }
+
         if (validateCreate != null)
             return validateCreate;
         Long idCase = meetingService.createMeeting(imputed);
         ResponseMessage result = new ResponseMessage(false, "Se ha guardado exitosamente");
         if(imputed.getMeeting().getDeclineReason() != null){
+            Case c = caseRepository.findOne(idCase);
+            c.setDateNotProsecute(new Date());
+            caseRepository.save(c);
             result.setUrlToGo("declined.html");
         }else {
             result.setUrlToGo("meeting.html?id=" + idCase);
@@ -431,7 +470,7 @@ public class MeetingController {
         return result;
     }
 
-    @RequestMapping(value = "/reviewer/meeting/meeting", method = RequestMethod.GET)
+    @RequestMapping(value = {"/reviewer/meeting/meeting","/reviewer/formulation/meeting"}, method = RequestMethod.GET)
     public
     @ResponseBody
     ModelAndView meeting(@RequestParam(required = true) Long id) {
@@ -647,7 +686,7 @@ public class MeetingController {
     }
 
 
-    @RequestMapping(value = "/reviewer/handingOver/index", method = RequestMethod.GET)
+    @RequestMapping(value = {"/reviewer/handingOver/index","/managereval/handingOver/index"}, method = RequestMethod.GET)
     public
     @ResponseBody
     ModelAndView handingOverIndex() {
@@ -709,4 +748,65 @@ public class MeetingController {
         return result;
     }
 
+    @RequestMapping(value = {"/reviewer/meeting/onlyMeeting"},method = RequestMethod.GET)
+    public ModelAndView onlyMeeting(){
+        ModelAndView model = new ModelAndView("/reviewer/meeting/onlyMeeting");
+        return model;
+    }
+
+    @RequestMapping(value = {"/reviewer/onlyMeeting/list"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel onlyMeetingList(@ModelAttribute JqGridFilterModel opts) {
+
+        Long userId = userService.GetLoggedUserId();
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("reviewerId", userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+        JqGridRulesModel extraFilter3 =new JqGridRulesModel("statusCase", Constants.CASE_STATUS_GOT_FREEDOM, JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter3);
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                final javax.persistence.criteria.Join<Case, Meeting> joinM = r.join("meeting");
+                final javax.persistence.criteria.Join<Meeting, StatusMeeting> joinSM = joinM.join("status");
+                final javax.persistence.criteria.Join<Meeting, Imputed> joinImp = joinM.join("imputed");
+                final javax.persistence.criteria.Join<Meeting, Imputed> joinUsr = joinM.join("reviewer");
+
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(joinSM.get("name").alias("statusCode"));
+                    add(r.get("idFolder"));
+                    add(joinImp.get("name"));
+                    add(joinImp.get("lastNameP"));
+                    add(joinImp.get("lastNameM"));
+                    add(joinImp.get("birthDate"));
+                    add(joinImp.get("gender"));
+                    add(joinSM.get("description"));
+                    add(joinUsr.get("id").alias("reviewerId"));
+                    add(joinUsr.get("fullname").alias("fullname"));
+                    add(r.join("status").get("name").alias("statusCase"));
+                }};
+            }
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("statusCode"))
+                    return r.join("meeting").join("status").get("name");
+                else if (field.equals("reviewerId"))
+                    return r.join("meeting").join("reviewer").get("id");
+                if (field.equals("idFolder"))
+                    return r.get("idFolder");
+                else if (field.equals("fullname"))
+                    return r.join("meeting").join("imputed").get("name");
+                else if (field.equals("statusCase")){
+                    return r.join("status").get("name");
+                }else
+                    return null;
+            }
+        }, Case.class, MeetingView.class);
+        return result;
+    }
 }

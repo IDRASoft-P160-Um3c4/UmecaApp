@@ -139,6 +139,7 @@ app.controller('verificationAddressController', function($scope, $timeout, $q, $
             }
 
             if (resp.hasError === false) {
+                $rootScope.$broadcast('reloadVerifiedInfo');
                 $scope.disableProperties();
                 $scope.Model.dlg.modal('hide');
                 $scope.Model.def.resolve({ isCancel: false });

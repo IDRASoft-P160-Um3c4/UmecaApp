@@ -1,7 +1,6 @@
 package com.umeca.service.reviewer;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.Convert;
 import com.umeca.infrastructure.model.ResponseMessage;
@@ -32,16 +31,20 @@ import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.*;
 import com.umeca.repository.shared.MessageRepository;
 import com.umeca.repository.shared.VictimRepository;
+import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.catalog.CatalogService;
 import com.umeca.service.shared.CrimeService;
+import com.umeca.service.shared.EventService;
+import com.umeca.service.shared.MessageServiceImpl;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -141,6 +144,14 @@ public class MeetingServiceImpl implements MeetingService {
     SharedLogExceptionService logException;
     @Autowired
     InformationAvailabilityRepository informationAvailabilityRepository;
+    @Autowired
+    MessageServiceImpl messageService;
+    @Autowired
+    EventService eventService;
+
+
+    @Autowired
+    DistrictRepository districtRepository;
 
 
     @Transactional
@@ -158,8 +169,13 @@ public class MeetingServiceImpl implements MeetingService {
             else
                 caseDetention.setRecidivist(false);
 
-
-            caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
+            if (!imputed.getMeeting().getDeclineReason().isEmpty()){
+                caseDetention.setHasNegation(true);
+                caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
+            }
+            else{
+                caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
+            }
             caseDetention.setIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
             caseDetention.setDateCreate(new Date());
             caseDetention = caseRepository.save(caseDetention);
@@ -170,10 +186,12 @@ public class MeetingServiceImpl implements MeetingService {
             if (!imputed.getMeeting().getDeclineReason().isEmpty()) {
                 statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_DECLINE);
                 meeting.setDeclineReason(imputed.getMeeting().getDeclineReason());
+                eventService.addEvent(Constants.EVENT_INTERVIEW_DECLINED, caseDetention.getId(), imputed.getMeeting().getDeclineReason());
             } else {
                 statusMeeting = statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE);
             }
             meeting.setStatus(statusMeeting);
+            meeting.setDistrict(districtRepository.findOne(imputed.getMeeting().getDistrict().getId()));
             meeting.setReviewer(userRepository.findOne(userService.GetLoggedUserId()));
             meeting.setDateCreate(new Date());
 
@@ -186,6 +204,21 @@ public class MeetingServiceImpl implements MeetingService {
             imputedRepository.save(imputed);
             imputedInitialRepository.save(imputedInitial);
             result = caseDetention.getId();
+
+            if(imputed.getIsFromFormulation() == true){
+                Date date = imputed.getMeeting().getDateCreate();
+                DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                String strDate = formatter.format(date);
+
+                String title = "REGISTRO DE UNA FORMULACIÓN";
+                String body = "<strong>Registrador por evaluador: " + meeting.getReviewer().getFullname() + "</strong><br/>" +
+                        "Fecha registro: " + strDate + "<br/>" +
+                        "Imputado: " + imputed.getName() + " " + imputed.getLastNameP() + " " + imputed.getLastNameM() +"<br/>" +
+                        "Carpeta de investigación: " + caseDetention.getIdFolder() + "<br/>";
+                messageService.sendNotificationToRole(caseDetention.getId(), body, Constants.ROLE_EVALUATION_MANAGER, title);
+                eventService.addEvent(Constants.EVENT_FROM_FORMULATION, caseDetention.getId(),null);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             logException.Write(e, this.getClass(), "createMeeting", userService);
@@ -436,6 +469,9 @@ public class MeetingServiceImpl implements MeetingService {
             model.addObject("firstProceeding", "Ninguno");
             model.addObject("openProcessNumber", "0");
             model.addObject("numberConvictions", "0");
+            model.addObject("warrant", "Sin informaci&oacute;n");
+            model.addObject("platformMexico", "Sin informaci&oacute;n");
+            model.addObject("afis", "Sin informaci&oacute;n");
         }
         if (showCase != null && showCase.equals(1)) {
             model.addObject("readonlyBand", true);
@@ -1154,6 +1190,10 @@ public class MeetingServiceImpl implements MeetingService {
             } else {
                 c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
                 c.setDateNotProsecute(new Date());
+                m.setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_DECLINE));
+                m.setDeclineReason(meeting.getDeclineReason());
+                meetingRepository.save(m);
+                eventService.addEvent(Constants.EVENT_INTERVIEW_DECLINED, c.getId(), meeting.getDeclineReason());
             }
 
             m.setDateTerminate(new Date());
@@ -1216,8 +1256,6 @@ public class MeetingServiceImpl implements MeetingService {
         pcpc.setWarrant(cpv.getWarrant());
         pcpc.setPlatformMexico(cpv.getPlatformMexico());
         pcpc.setAfis(cpv.getAfis());
-
-
     }
 
     @Autowired

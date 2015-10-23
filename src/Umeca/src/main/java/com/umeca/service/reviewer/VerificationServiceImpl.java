@@ -6,14 +6,17 @@ import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.security.StringEscape;
 import com.umeca.model.catalog.*;
 import com.umeca.model.catalog.dto.*;
+import com.umeca.model.dto.FieldValueBySource;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.ChoiceView;
 import com.umeca.model.entities.reviewer.View.SearchToChoiceIds;
 import com.umeca.model.entities.reviewer.dto.*;
+import com.umeca.model.entities.shared.Event;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
+import com.umeca.repository.EventRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
@@ -22,6 +25,7 @@ import com.umeca.repository.shared.MessageRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.shared.CaseRequestService;
+import com.umeca.service.shared.EventService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -60,6 +65,9 @@ public class VerificationServiceImpl implements VerificationService {
     SharedLogExceptionService logException;
     @Autowired
     InformationAvailabilityRepository informationAvailabilityRepository;
+
+    @Autowired
+    EventService eventService;
 
     @Override
     public void createVerification(Case c) {
@@ -188,7 +196,6 @@ public class VerificationServiceImpl implements VerificationService {
             model.addObject("managereval", true);
         }
 
-
         return model;
     }
 
@@ -244,7 +251,7 @@ public class VerificationServiceImpl implements VerificationService {
                 }
             }
             fieldMeetingSourceRepository.save(fmsList);
-            return new ResponseMessage(false, "Se ha guardado la i nformacion con &eacute;xito");
+            return new ResponseMessage(false, "Se ha guardado la informaci&oacute;n con &eacute;xito");
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "showChoicesBySection", userService);
             return new ResponseMessage(true, "Ha ocurrido un error al guardar la informaci&oacute;n");
@@ -305,6 +312,7 @@ public class VerificationServiceImpl implements VerificationService {
         model.addObject("idCase", idCase);
         model.addObject("idList", idList);
         model.addObject("code", code);
+        model.addObject("reloadFinalInfo", true);
         List<Long> idAllSources = sourceVerificationRepository.getAllSourcesByCase(idCase);
         List<SearchToChoiceIds> idSources;
 
@@ -599,7 +607,7 @@ public class VerificationServiceImpl implements VerificationService {
                 i.setLastNameP(verification.getMeetingVerified().getImputed().getLastNameP());
                 i.setLastNameM(verification.getMeetingVerified().getImputed().getLastNameM());
                 i.setBirthDate(verification.getMeetingVerified().getImputed().getBirthDate());
-                i.setFoneticString(sharedUserService.getFoneticByName(i.getName(),i.getLastNameP(),i.getLastNameM()));
+                i.setFoneticString(sharedUserService.getFoneticByName(i.getName(), i.getLastNameP(), i.getLastNameM()));
 
                 imputedRepository.save(i);
 
@@ -714,8 +722,8 @@ public class VerificationServiceImpl implements VerificationService {
 
         Meeting m = c.getMeeting();
 
-        String[] arrProp = new String[]{"commentHome", "commentReference", "commentSchool","commentJob" ,"commentDrug","commentCountry"};
-        m = (Meeting)StringEscape.escapeAttrs(m, arrProp);
+        String[] arrProp = new String[]{"commentHome", "commentReference", "commentSchool", "commentJob", "commentDrug", "commentCountry"};
+        m = (Meeting) StringEscape.escapeAttrs(m, arrProp);
 
         model.addObject("m", m);
         model.addObject("age", userService.calculateAge(c.getMeeting().getImputed().getBirthDate()));
@@ -1136,7 +1144,6 @@ public class VerificationServiceImpl implements VerificationService {
         try {
             List<FieldMeetingSource> listFieldVerficiation = new ArrayList<>();
 
-
             for (FieldVerified field : list) {
                 if (!field.getValue().equals("")) {
                     FieldMeetingSource fms = new FieldMeetingSource();
@@ -1351,6 +1358,18 @@ public class VerificationServiceImpl implements VerificationService {
 
     }
 
+    @Override
+    public void upsertCaseReport(Long idCase, String reason) {
+        try {
+            Case c  = caseRepository.findOne(idCase);
+            c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE));
+            c.setDateNotProsecute(new Date());
+            caseRepository.save(c);
+            eventService.addEvent(Constants.EVENT_CASE_REPORT, idCase, reason);
+        }catch (Exception e){
+            return;
+        }
+    }
 
 }
 

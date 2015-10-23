@@ -7,8 +7,11 @@ import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
-import com.umeca.model.entities.director.activityReport.ActivityReportDirector;
-import com.umeca.model.entities.director.activityReport.ActivityReportDirectorView;
+import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.director.activityReport.WizardActivityReport;
+import com.umeca.model.entities.director.activityReport.WizardActivityReportView;
+import com.umeca.model.entities.director.activityReport.WizardReportModel;
 import com.umeca.model.entities.director.agenda.ActivityAgenda;
 import com.umeca.model.entities.director.agenda.ActivityAgendaView;
 import com.umeca.model.entities.director.project.Project;
@@ -18,22 +21,25 @@ import com.umeca.model.entities.shared.activityReport.ActivityReport;
 import com.umeca.model.entities.shared.activityReport.ActivityReportView;
 import com.umeca.model.shared.Constants;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.director.ActivityReportWizardService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 import static com.umeca.model.shared.MonitoringConstants.STATUS_ACTIVITY_DELETED;
 
@@ -72,21 +78,27 @@ public class ActivityReportDirectorController {
 
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
-                    add(r.get("creationDate"));
+                    add(r.get("reportDate"));
                     add(r.get("reportName"));
-                    add(r.get("description"));
+                    add(r.get("reportDescription"));
+                    add(r.get("creationDate"));
+                    add(r.join("creatorUser").get("username"));
                 }};
             }
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("stReportDate"))
+                    return r.get("reportDate");
                 if (field.equals("stCreationTime"))
                     return r.get("creationDate");
+                if (field.equals("creatorUserName"))
+                    return r.join("creatorUser").get("username");
                 if (field.equals("userId"))
                     return r.join("creatorUser").get("id");
                 return null;
             }
-        }, ActivityReportDirector.class, ActivityReportDirectorView.class);
+        }, WizardActivityReport.class, WizardActivityReportView.class);
 
         return result;
     }
@@ -97,6 +109,7 @@ public class ActivityReportDirectorController {
         ModelAndView model = new ModelAndView("/director/activityReport/wizardUpsert");
 
         Calendar today = CalendarExt.getToday();
+        model.addObject("todayDate", CalendarExt.calendarToFormatString(today, Constants.FORMAT_CALENDAR_II));
         today.add(Calendar.DAY_OF_MONTH, -15);
         model.addObject("startDate", CalendarExt.calendarToFormatString(today, Constants.FORMAT_CALENDAR_II));
         today.add(Calendar.DAY_OF_MONTH, 30);
@@ -163,7 +176,7 @@ public class ActivityReportDirectorController {
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("isObsolete", "0", JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
-        extraFilter = new JqGridRulesModel("reportFor", Constants.ACT_REPORT_FOR_DIRECTOR.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        extraFilter = new JqGridRulesModel("reportFor", Integer.toString(Constants.ACT_REPORT_FOR_DIRECTOR), JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
         extraFilter = new JqGridRulesModel("reportRole", Constants.ROLE_SUPERVISOR_MANAGER, JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
@@ -206,7 +219,7 @@ public class ActivityReportDirectorController {
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("isObsolete", "0", JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
-        extraFilter = new JqGridRulesModel("reportFor", Constants.ACT_REPORT_FOR_DIRECTOR.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        extraFilter = new JqGridRulesModel("reportFor", Integer.toString(Constants.ACT_REPORT_FOR_DIRECTOR), JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
         extraFilter = new JqGridRulesModel("reportRole", Constants.ROLE_EVALUATION_MANAGER, JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
@@ -250,9 +263,53 @@ public class ActivityReportDirectorController {
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("isObsolete", "0", JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
-        extraFilter = new JqGridRulesModel("reportFor", Constants.ACT_REPORT_FOR_DIRECTOR.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        extraFilter = new JqGridRulesModel("reportFor", Integer.toString(Constants.ACT_REPORT_FOR_DIRECTOR), JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
         extraFilter = new JqGridRulesModel("reportRole", Constants.ROLE_DIRECTOR, JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+        extraFilter = new JqGridRulesModel("creationDate", CalendarExt.stringToCalendar(startDate, Constants.FORMAT_CALENDAR_II)
+                , CalendarExt.stringToCalendar(endDate, Constants.FORMAT_CALENDAR_II) , JqGridFilterModel.BETWEEN);
+        opts.extraFilters.add(extraFilter);
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(r.get("reportName"));
+                    add(r.get("description"));
+                    add(r.get("creationDate"));
+                }};
+            }
+
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("stCreationTime"))
+                    return r.get("creationDate");
+                return null;
+            }
+        }, ActivityReport.class, ActivityReportView.class);
+
+        return result;
+    }
+
+
+    @RequestMapping(value = {"/director/activityReport/listChanneling"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listChanneling(@ModelAttribute JqGridFilterModel opts, String startDate, String endDate) {
+
+        if(StringExt.isNullOrWhiteSpace(startDate) || StringExt.isNullOrWhiteSpace(endDate)) {
+            return null;
+        }
+
+        opts.extraFilters = new ArrayList<>();
+        JqGridRulesModel extraFilter = new JqGridRulesModel("isObsolete", "0", JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+        extraFilter = new JqGridRulesModel("reportFor", Integer.toString(Constants.ACT_REPORT_FOR_DIRECTOR), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+        extraFilter = new JqGridRulesModel("reportRole", Constants.ROLE_CHANNELING_MANAGER, JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
         extraFilter = new JqGridRulesModel("creationDate", CalendarExt.stringToCalendar(startDate, Constants.FORMAT_CALENDAR_II)
                 , CalendarExt.stringToCalendar(endDate, Constants.FORMAT_CALENDAR_II) , JqGridFilterModel.BETWEEN);
@@ -344,7 +401,7 @@ public class ActivityReportDirectorController {
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("isObsolete", "0", JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
-        extraFilter = new JqGridRulesModel("reportFor", Constants.ACT_REPORT_FOR_DIRECTOR.toString(), JqGridFilterModel.COMPARE_EQUAL);
+        extraFilter = new JqGridRulesModel("reportFor", Integer.toString(Constants.ACT_REPORT_FOR_DIRECTOR), JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
         extraFilter = new JqGridRulesModel("reportRole", Constants.ROLE_HUMAN_RESOURCES, JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
@@ -375,6 +432,109 @@ public class ActivityReportDirectorController {
         return result;
     }
 
+    @Autowired
+    ActivityReportWizardService activityReportWizardService;
+
+    @RequestMapping(value = "/director/activityReport/doWizardUpsert", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doWizardUpsert(@RequestBody WizardReportModel req) {
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response.setHasError(true);
+            response.setTitle("Informe de actividades");
+
+            User user = new User();
+            if (userService.isValidUser(user, response) == false)
+                return response;
+
+            if(activityReportWizardService.valid(req, response) == false){
+                return response;
+            }
+
+            activityReportWizardService.saveReport(req, user);
+
+            response.setUrlToGo("/director/activityReport/index.html");
+            response.setHasError(false);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doWizardUpsert", userService);
+            response.setHasError(true);
+            response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
+        }
+
+        return response;
+    }
 
 
+    @RequestMapping(value = "/director/activityReport/doObsolete", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doObsolete(@RequestParam(required = true) Long id) {
+
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response.setTitle("Informe de actividades");
+
+            User user = new User();
+            if (userService.isValidUser(user, response) == false)
+                return response;
+
+            activityReportWizardService.doObsolete(user, id, response);
+
+            return response;
+
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doObsolete", userService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/director/activityReport/downloadFiles", method = RequestMethod.GET)
+    @ResponseBody
+    public FileSystemResource downloadFilesByReportId(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response) {
+        try {
+
+            ResponseMessage responseMsg = new ResponseMessage();
+            User user = new User();
+            if (userService.isValidUser(user, responseMsg) == false)
+                return null;
+
+
+            WizardActivityReport actRep = activityReportWizardService.findOne(id);
+            if (actRep == null) {
+                String fileName = "InformeNoEncontrado" + UUID.randomUUID().toString() + ".doc";
+                File file = new File(fileName);
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                writer.write("<html><body><h3>No existe o ha sido eliminado el informe de actividades que ha seleccionado.</h3></body></html>");
+                writer.flush();
+                file.deleteOnExit();
+                return new FileSystemResource(file);
+            }
+
+            File fileOut = activityReportWizardService.downloadFilesByReport(actRep, user.getId(), request);
+
+            response.setContentType("application/force-download");
+            response.setContentLength((int) fileOut.length());
+            response.setHeader("Content-Transfer-Encoding", "binary");
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + fileOut.getName() + "\"");
+
+            return new FileSystemResource(fileOut);
+
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "downloadFiles", userService);
+            try {
+                File file = new File(UUID.randomUUID().toString());
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                writer.write("<html><body><h3>Ocurrió un error al momento de descargar el informe. Por favor intente de nuevo.</h3></body></html>");
+                writer.flush();
+                file.deleteOnExit();
+                return new FileSystemResource(file);
+            } catch (IOException ex) {
+                logException.Write(ex, this.getClass(), "downloadFiles", userService);
+                return null;
+            }
+        }
+    }
 }

@@ -78,12 +78,18 @@ public class ScheduleHearingsServiceImpl implements ScheduleHearingsService{
                 add(FramingMeetingConstants.PERSON_TYPE_IMPUTED);
             }});
 
+            if(lstSelSourceRel == null || lstSelSourceRel.size() <= 0){
+                response.setMessage("No existen fuentes asignadas para este caso. Revise la entrevista de encuadre");
+                response.setTitle("Audiencias");
+                response.setHasError(true);
+                return false;
+            }
+
             List<SelectList> lstAssignedArrangements = getLstAssignedArrangements(ssValues.getLstIdsArrangement(), lastHearingFormatId);
 
             ActivityMonitoringPlan actMonPlanHearing = createActMonPlan(user, now, ssValues.getGoalActivityId(),
                     lstSelSourceRel.get(0), ssValues.getSupervisionActivityId(), monPlanId, caseId, groupUuid,
                     lstAssignedArrangements, (Calendar)model.getHearingDate().clone(), (Calendar)model.getHearingDate().clone());
-
 
             //Save schedule hearing
             ScheduleHearing scheduleHearing = new ScheduleHearing();

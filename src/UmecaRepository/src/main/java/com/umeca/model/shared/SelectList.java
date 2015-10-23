@@ -1,6 +1,8 @@
 package com.umeca.model.shared;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
+import org.hibernate.sql.Select;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -20,6 +22,9 @@ public class SelectList implements EntityGrid{
     private String strDate;
     private String logType;
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+    private Long value;
+    private String subName;
+
 
     public SelectList() {
     }
@@ -27,6 +32,7 @@ public class SelectList implements EntityGrid{
     public SelectList(Long id, String name) {
         this.id = id;
         this.name = name;
+        this.value = 0L;
     }
 
     public SelectList(Long id, Boolean lock) {
@@ -168,6 +174,57 @@ public class SelectList implements EntityGrid{
             this.strDate = sdf.format(calendar.getTime());
     }
 
+    public SelectList(Long id, Long value, String code){
+        this.id = id;
+        this.value = value;
+        this.description= code;
+        if (description.equals(Constants.EVENT_INTERVIEW_DECLINED))
+            this.name = "Negación";
+        else if (description.equals(Constants.EVENT_CASE_REPORT))
+            this.name = "Informe";
+        else if (description.equals(Constants.EVENT_CASE_OPINION))
+            this.name = "Opinión";
+        else if (description.equals(Constants.EVENT_ONLY_INTERVIEW))
+            this.name = "Solo entrevista";
+        else
+            this.name = description;
+    }
+
+    public SelectList(Boolean gender, long numberGender){
+        this.value = numberGender;
+        if(gender == Constants.GENDER_MALE)
+            this.name = "Masculino";
+        else
+            this.name = "Fenemino";
+    }
+
+    public SelectList(String name, Long value){
+        this.value = value;
+        this.name = name;
+        if(this.name.equals("Cocaína en piedra")) {
+            this.subName = "CocaínaP";
+        }
+        else if(this.name.equals("Metanfetaminas")) {
+            this.subName = "Meta";
+        }
+        else if(name.equals("PBC(Pasta básica de cocaína)")){
+            this.name = "PBC";
+            this.subName = "PBC";
+        }
+        else{
+            this.subName = name;
+        }
+    }
+
+    public SelectList(Long value){
+        this.value = value;
+        this.name = "Casos judicializados";
+
+    }
+
+
+
+
 
     public Long getId() {
         return id;
@@ -283,5 +340,21 @@ public class SelectList implements EntityGrid{
 
     public void setIsSelected(Boolean isSelected) {
         this.isSelected = isSelected;
+    }
+
+    public Long getValue() {
+        return value;
+    }
+
+    public void setValue(Long value) {
+        this.value = value;
+    }
+
+    public String getSubName() {
+        return subName;
+    }
+
+    public void setSubName(String subName) {
+        this.subName = subName;
     }
 }

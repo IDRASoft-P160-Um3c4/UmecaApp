@@ -24,9 +24,9 @@ public class CatChannelingType {
 
     @ManyToMany
     @JoinTable(name="rel_channelint_type_institution_type",
-                    joinColumns={ @JoinColumn(name="id_cat_channeling_type", referencedColumnName="id_cat_channeling_type", unique=false) },
-                    inverseJoinColumns={ @JoinColumn(name="id_cat_institution_type", referencedColumnName="id_cat_institution_type", unique=false) }
-            )
+            joinColumns={ @JoinColumn(name="id_cat_channeling_type", referencedColumnName="id_cat_channeling_type", unique=false) },
+            inverseJoinColumns={ @JoinColumn(name="id_cat_institution_type", referencedColumnName="id_cat_institution_type", unique=false) }
+    )
     private List<CatInstitutionType> lstInstitutionType;
 
 
@@ -89,3 +89,4 @@ public class CatChannelingType {
         this.code = code;
     }
 }
+

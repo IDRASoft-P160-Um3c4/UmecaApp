@@ -40,6 +40,22 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row"  ng-if="cancelMeeting==true">
+                            <div class="col-xs-12 element-center">
+                                <br/>
+                                <p>Raz&oacute;n de negaci&oacute;n</p>
+                                        <textarea rows="4" cols="50" data-val="true"
+                                                  data-val-length="Debe tener al menos 3 y m&aacute;ximo 500 caracteres"
+                                                  data-val-required="Es necesario escribir la raz&oacute;n"
+                                                  data-val-length-max="500" data-val-length-min="3"ng-init="reason=''"
+                                                  id="reason" name="declineReason" ng-model="reason">
+                                        </textarea>
+                            </div>
+                            <div class="col-xs-11 col-xs-offset-1">
+                                <span class="field-validation-valid" data-valmsg-for="meeting.declineReason" data-valmsg-replace="true"></span>
+                            </div>
+
+                        </div>
                     </form>
                     <br/>
 
@@ -54,8 +70,6 @@
                     <span class="btn btn-default btn-sm" ng-click="cancel()">
                         Cancelar
                     </span>
-
-
                     <span ng-if="cancelMeeting!=true" class="btn btn-default btn-primary btn-sm"
                           ng-disabled="WaitFor==true || m.isAccepted == false"
                           ng-click="submit('#FormCatId, #FormSchool , #FormPersonalData, #FormLeaveCountry, #FormCommentHomeId, #FormCommentReferenceId, #FormCommentJobId, #FormSocialNetworkIndexId, #FormCommentDrugId','<c:url value="/reviewer/meeting/terminateMeeting.json"/>');">
@@ -67,7 +81,6 @@
                           ng-click="submit('#FormCatId, #FormSchool , #FormPersonalData, #FormLeaveCountry, #FormCommentHomeId, #FormCommentReferenceId, #FormCommentJobId, #FormSocialNetworkIndexId, #FormCommentDrugId','<c:url value="/reviewer/meeting/terminateMeeting.json"/>');">
                           Terminar entrevista incompleta
                     </span>
-
                 </div>
             </div>
         </div>

@@ -94,4 +94,4 @@
 93|leaveCountry.relationship.id|Facilidad de abandonar el país|8|Relación|13|0|44|Relationship
 94|leaveCountry.specificationRelationship|Facilidad de abandonar el país|8|Especificación de relación|14|0|44|String
 95|leaveCountry.media|Facilidad de abandonar el país|8|Medio de comunicación|15|0|44|String
-96|imputed.birthInfo.id|Datos personales y entorno social|1|Información de nacimiento|20|0|9|InformationAvailability|0
+96|imputed.birthInfo.id|Datos personales y entorno social|1|Información de nacimiento|20|0|9|InformationAvailability

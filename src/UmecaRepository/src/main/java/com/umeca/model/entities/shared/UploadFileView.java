@@ -8,7 +8,7 @@ import java.util.Calendar;
 public class UploadFileView implements EntityGrid{
 
     private Long id;
-    private String filename;
+    private String fileName;
     private String description;
     private Long size;
     private String fullname;
@@ -19,7 +19,7 @@ public class UploadFileView implements EntityGrid{
 
     public UploadFileView(Long id, String filename, String description, Long size, String fullname, Calendar creationTime, Long caseId, String typeName) {
         this.id = id;
-        this.filename = filename;
+        this.fileName = filename;
         this.description = description;
         this.size = size;
         this.fullname = fullname;
@@ -36,12 +36,12 @@ public class UploadFileView implements EntityGrid{
         this.id = id;
     }
 
-    public String getFilename() {
-        return filename;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public void setFileName(String filename) {
+        this.fileName = filename;
     }
 
     public String getDescription() {

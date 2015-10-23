@@ -98,7 +98,7 @@
                                                         <span class="error" ng-show="FormUploadId.description.$error.maxlength">Longitud m&aacute;xima de 450 caracteres</span>
                                                     </div>
                                                 </div>
-                                                <input type="hidden" ng-model="m.reportFor" ng-init="m.reportFor = false;" />
+                                                <input type="hidden" ng-model="m.reportFor" ng-init="m.reportFor = 2;" />
                                                 <br/>
                                                 <hr/>
                                                 <div ng-show="m.description && m.reportName">

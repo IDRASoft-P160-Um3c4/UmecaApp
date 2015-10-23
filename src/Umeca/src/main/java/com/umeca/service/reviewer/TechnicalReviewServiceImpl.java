@@ -21,16 +21,14 @@ import com.umeca.repository.reviewer.SourceVerificationRepository;
 import com.umeca.repository.reviewer.TechnicalReviewRepository;
 import com.umeca.repository.reviewer.VerificationRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.EventService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service("technicalReviewService")
 public class TechnicalReviewServiceImpl implements TechnicalReviewService {
@@ -49,6 +47,9 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
 
     @Autowired
     CaseRepository caseRepository;
+
+    @Autowired
+    EventService eventService;
 
     @Override
     public QuestionarySectionView getSections(QuestionarySection obj) {
@@ -146,6 +147,15 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         Verification ver = verificationRepository.findOne(idVerification);
 
         Meeting meeting = ver.getCaseDetention().getMeeting();
+
+        PreviousCriminalProceeding pcp = meeting.getPreviousCriminalProceeding();
+        pcp.setWarrant(StringEscape.escapeText(pcp.getWarrant()));
+        pcp.setPlatformMexico(StringEscape.escapeText(pcp.getPlatformMexico()));
+        pcp.setAfis(StringEscape.escapeText(pcp.getAfis()));
+
+
+        file.setPreviousCriminalProceeding(pcp);
+
         Imputed im = meeting.getImputed();
         Imputed iV = ver.getMeetingVerified().getImputed();
 
@@ -174,6 +184,8 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                     String v;
                     if (!fms.getValue().trim().equals("")) {
                         if (fms.getStatusFieldVerification().getName().equals(Constants.ST_FIELD_VERIF_UNABLE)) {
+
+                            //TODO BUSCAR EN FIELDMEETINGSOURCE TODOS LOS VALORES PARA ESE FIELMEETING
                             v = templateUnable;
                             List<ChoiceView> list = new ArrayList<>();
                             List<SearchToChoiceIds> idSources = new ArrayList<>();
@@ -194,7 +206,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                                 list.add(new ChoiceView().choiceDto(result));
                             }
                             for (ChoiceView choice : list) {
-                                sourcessay += StringEscape.escapeText(choice.getNameSource()) + ": ";
+                                sourcessay += "<strong>" +  StringEscape.escapeText(choice.getNameSource()) + "</strong>: ";
                                 for (String s : choice.getValues()) {
                                     sourcessay += StringEscape.escapeText(s) + ",";
                                 }
@@ -374,6 +386,9 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         technicalReviewRepository.save(result);
 
         if (result.getIsFinished() != null && result.getIsFinished() == true) {
+            caseDetention.setDateOpinion(new Date());
+            caseRepository.save(caseDetention);
+            eventService.addEvent(Constants.EVENT_CASE_OPINION, caseDetention.getId(), result.getComments());
             response.setHasError(false);
             response.setUrlToGo("index.html");
         } else {

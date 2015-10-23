@@ -96,6 +96,7 @@ public class ActivityAgendaServiceImpl implements ActivityAgendaService {
         ActivityAgendaJson jsonOld = ActivityAgendaJson.convertToJson(activityAgenda);
         activityAgenda.setStatus(STATUS_ACTIVITY_DONE);
         activityAgenda.setDone(model.getIsDone());
+        activityAgenda.setDoneTime(Calendar.getInstance());
         activityAgenda.setComments(model.getComments());
         ActivityAgendaJson jsonNew = ActivityAgendaJson.convertToJson(activityAgenda);
 

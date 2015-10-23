@@ -7,6 +7,210 @@
 	<persistence-unit name="punit">
 		<validation-mode>NONE</validation-mode>
 		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+
+		<class>com.umeca.model.catalog.AcademicLevel</class>
+		<class>com.umeca.model.catalog.Activity</class>
+		<class>com.umeca.model.catalog.Answer</class>
+		<class>com.umeca.model.catalog.Area</class>
+		<class>com.umeca.model.catalog.Arrangement</class>
+		<class>com.umeca.model.catalog.CatChannelingDropType</class>
+		<class>com.umeca.model.catalog.CatChannelingInstitutionName</class>
+		<class>com.umeca.model.catalog.CatChannelingType</class>
+		<class>com.umeca.model.catalog.CatEconomicSupport</class>
+		<class>com.umeca.model.catalog.CatEducationLevel</class>
+		<class>com.umeca.model.catalog.CatFileType</class>
+		<class>com.umeca.model.catalog.CatInstitutionType</class>
+		<class>com.umeca.model.catalog.CatPreventionType</class>
+		<class>com.umeca.model.catalog.CatPriority</class>
+		<class>com.umeca.model.catalog.CloseCause</class>
+		<class>com.umeca.model.catalog.Country</class>
+		<class>com.umeca.model.catalog.CrimeCatalog</class>
+		<class>com.umeca.model.catalog.DayWeek</class>
+		<class>com.umeca.model.catalog.Degree</class>
+		<class>com.umeca.model.catalog.District</class>
+		<class>com.umeca.model.catalog.DocumentType</class>
+		<class>com.umeca.model.catalog.DrugType</class>
+		<class>com.umeca.model.catalog.Election</class>
+		<class>com.umeca.model.catalog.ElectionNotApply</class>
+		<class>com.umeca.model.catalog.EvaluationActivity</class>
+		<class>com.umeca.model.catalog.EventType</class>
+		<class>com.umeca.model.catalog.FieldVerification</class>
+		<class>com.umeca.model.catalog.FulfillmentReportType</class>
+		<class>com.umeca.model.catalog.GroupCrime</class>
+		<class>com.umeca.model.catalog.HomeType</class>
+		<class>com.umeca.model.catalog.ImmigrationDocument</class>
+		<class>com.umeca.model.catalog.IncidentType</class>
+		<class>com.umeca.model.catalog.InformationAvailability</class>
+		<class>com.umeca.model.catalog.Location</class>
+		<class>com.umeca.model.catalog.MaritalStatus</class>
+		<class>com.umeca.model.catalog.Municipality</class>
+		<class>com.umeca.model.catalog.Periodicity</class>
+		<class>com.umeca.model.catalog.Question</class>
+		<class>com.umeca.model.catalog.Questionary</class>
+		<class>com.umeca.model.catalog.QuestionarySection</class>
+		<class>com.umeca.model.catalog.QuestionType</class>
+		<class>com.umeca.model.catalog.RegisterType</class>
+		<class>com.umeca.model.catalog.Relationship</class>
+		<class>com.umeca.model.catalog.ReportType</class>
+		<class>com.umeca.model.catalog.RequestType</class>
+		<class>com.umeca.model.catalog.ResponseType</class>
+		<class>com.umeca.model.catalog.State</class>
+		<class>com.umeca.model.catalog.StatisticChannelingReportType</class>
+		<class>com.umeca.model.catalog.StatisticOperatorReportType</class>
+		<class>com.umeca.model.catalog.StatisticReportType</class>
+		<class>com.umeca.model.catalog.StatisticSupervisorManagerReportType</class>
+		<class>com.umeca.model.catalog.StatusCase</class>
+		<class>com.umeca.model.catalog.StatusFieldVerification</class>
+		<class>com.umeca.model.catalog.StatusMeeting</class>
+		<class>com.umeca.model.catalog.StatusVerification</class>
+		<class>com.umeca.model.catalog.TypeNameFile</class>
+		<class>com.umeca.model.catalog.UmecaPost</class>
+
+		<class>com.umeca.model.dto.supervisorManager.RelFulfillmentReportArrangement</class>
+
+		<class>com.umeca.model.entities.account.Role</class>
+		<class>com.umeca.model.entities.account.User</class>
+
+		<class>com.umeca.model.entities.detentionRecord.Detained</class>
+
+		<class>com.umeca.model.entities.director.activityReport.WizardActivityReport</class>
+
+		<class>com.umeca.model.entities.director.agenda.ActivityAgenda</class>
+
+		<class>com.umeca.model.entities.director.minutes.Agreement</class>
+		<class>com.umeca.model.entities.director.minutes.Assistant</class>
+		<class>com.umeca.model.entities.director.minutes.Minute</class>
+
+		<class>com.umeca.model.catalog.AcademicLevel</class>
+		<class>com.umeca.model.catalog.AcademicLevel</class>
+
+		<class>com.umeca.model.entities.director.project.Project</class>
+		<class>com.umeca.model.entities.director.project.ProjectActivity</class>
+
+		<class>com.umeca.model.entities.fingerprint.Fingerprint</class>
+
+		<class>com.umeca.model.entities.humanReources.AgreementFileRel</class>
+		<class>com.umeca.model.entities.humanReources.Attachment</class>
+		<class>com.umeca.model.entities.humanReources.CourseAchievement</class>
+		<class>com.umeca.model.entities.humanReources.Document</class>
+		<class>com.umeca.model.entities.humanReources.Employee</class>
+		<class>com.umeca.model.entities.humanReources.EmployeeGeneralData</class>
+		<class>com.umeca.model.entities.humanReources.EmployeeReference</class>
+		<class>com.umeca.model.entities.humanReources.EmployeeSchedule</class>
+		<class>com.umeca.model.entities.humanReources.EmployeeSchoolHistory</class>
+		<class>com.umeca.model.entities.humanReources.EmployeeUserRel</class>
+		<class>com.umeca.model.entities.humanReources.Incapacity</class>
+		<class>com.umeca.model.entities.humanReources.Incident</class>
+		<class>com.umeca.model.entities.humanReources.RelDocumentUploadGenericFile</class>
+		<class>com.umeca.model.entities.humanReources.RequestAgreement</class>
+		<class>com.umeca.model.entities.humanReources.RequestMinute</class>
+		<class>com.umeca.model.entities.humanReources.ScheduleDay</class>
+		<class>com.umeca.model.entities.humanReources.UmecaJob</class>
+		<class>com.umeca.model.entities.humanReources.Vacation</class>
+
+		<class>com.umeca.model.entities.managereval.Formulation</class>
+		<class>com.umeca.model.entities.managereval.RelRolActivityEvaluationActivity</class>
+
+		<class>com.umeca.model.entities.reviewer.Address</class>
+		<class>com.umeca.model.entities.reviewer.Case</class>
+		<class>com.umeca.model.entities.reviewer.CaseRequest</class>
+		<class>com.umeca.model.entities.reviewer.CoDefendant</class>
+		<class>com.umeca.model.entities.reviewer.Crime</class>
+		<class>com.umeca.model.entities.reviewer.CurrentCriminalProceeding</class>
+		<class>com.umeca.model.entities.reviewer.Drug</class>
+		<class>com.umeca.model.entities.reviewer.FieldMeetingSource</class>
+		<class>com.umeca.model.entities.reviewer.FinalField</class>
+		<class>com.umeca.model.entities.reviewer.Imputed</class>
+		<class>com.umeca.model.entities.reviewer.ImputedHome</class>
+		<class>com.umeca.model.entities.reviewer.ImputedInitial</class>
+		<class>com.umeca.model.entities.reviewer.Job</class>
+		<class>com.umeca.model.entities.reviewer.LeaveCountry</class>
+		<class>com.umeca.model.entities.reviewer.LogNotification</class>
+		<class>com.umeca.model.entities.reviewer.LogNotificationReviewer</class>
+		<class>com.umeca.model.entities.reviewer.Meeting</class>
+		<class>com.umeca.model.entities.reviewer.PersonSocialNetwork</class>
+		<class>com.umeca.model.entities.reviewer.PreviousCriminalProceeding</class>
+		<class>com.umeca.model.entities.reviewer.QuestionReviewRel</class>
+		<class>com.umeca.model.entities.reviewer.Reference</class>
+		<class>com.umeca.model.entities.reviewer.RelRequestSource</class>
+		<class>com.umeca.model.entities.reviewer.RelSocialEnvironmentActivity</class>
+		<class>com.umeca.model.entities.reviewer.Schedule</class>
+		<class>com.umeca.model.entities.reviewer.School</class>
+		<class>com.umeca.model.entities.reviewer.SocialEnvironment</class>
+		<class>com.umeca.model.entities.reviewer.SocialNetwork</class>
+		<class>com.umeca.model.entities.reviewer.SourceVerification</class>
+		<class>com.umeca.model.entities.reviewer.TechnicalReview</class>
+		<class>com.umeca.model.entities.reviewer.Verification</class>
+		<class>com.umeca.model.entities.reviewer.VerificationMethod</class>
+
+		<class>com.umeca.model.entities.shared.CourseType</class>
+		<class>com.umeca.model.entities.shared.Event</class>
+		<class>com.umeca.model.entities.shared.LogCase</class>
+		<class>com.umeca.model.entities.shared.LogChangeData</class>
+		<class>com.umeca.model.entities.shared.LogException</class>
+		<class>com.umeca.model.entities.shared.Message</class>
+		<class>com.umeca.model.entities.shared.Observation</class>
+		<class>com.umeca.model.entities.shared.RelMessageUserReceiver</class>
+		<class>com.umeca.model.entities.shared.ScheduleHearing</class>
+		<class>com.umeca.model.entities.shared.SchoolDocumentType</class>
+		<class>com.umeca.model.entities.shared.SystemSetting</class>
+		<class>com.umeca.model.entities.shared.TabletAssignmentCase</class>
+		<class>com.umeca.model.entities.shared.TabletRelAssignmentSource</class>
+		<class>com.umeca.model.entities.shared.UploadFile</class>
+		<class>com.umeca.model.entities.shared.UploadFileGeneric</class>
+		<class>com.umeca.model.entities.shared.Victim</class>
+		<class>com.umeca.model.entities.shared.WeekDay</class>
+
+		<class>com.umeca.model.entities.shared.activityReport.ActivityReport</class>
+
+		<class>com.umeca.model.entities.supervisor.AccompanimentInfo</class>
+		<class>com.umeca.model.entities.supervisor.ActivityGoal</class>
+		<class>com.umeca.model.entities.supervisor.ActivityGroup</class>
+		<class>com.umeca.model.entities.supervisor.ActivityMonitoringPlan</class>
+		<class>com.umeca.model.entities.supervisor.ActivityMonitoringPlanArrangement</class>
+		<class>com.umeca.model.entities.supervisor.AddictedAcquaintanceRel</class>
+		<class>com.umeca.model.entities.supervisor.AdditionalFramingQuestions</class>
+		<class>com.umeca.model.entities.supervisor.AidSource</class>
+		<class>com.umeca.model.entities.supervisor.AssignedArrangement</class>
+		<class>com.umeca.model.entities.supervisor.Channeling</class>
+		<class>com.umeca.model.entities.supervisor.ChannelingDropInfo</class>
+		<class>com.umeca.model.entities.supervisor.ContactData</class>
+		<class>com.umeca.model.entities.supervisor.FolderConditionalReprieve</class>
+		<class>com.umeca.model.entities.supervisor.FramingActivity</class>
+		<class>com.umeca.model.entities.supervisor.FramingAddress</class>
+		<class>com.umeca.model.entities.supervisor.FramingImputedPersonalData</class>
+		<class>com.umeca.model.entities.supervisor.FramingMeeting</class>
+		<class>com.umeca.model.entities.supervisor.FramingMeetingLog</class>
+		<class>com.umeca.model.entities.supervisor.FramingPhysicalConditionRel</class>
+		<class>com.umeca.model.entities.supervisor.FramingRisk</class>
+		<class>com.umeca.model.entities.supervisor.FramingReference</class>
+		<class>com.umeca.model.entities.supervisor.FramingSafetyFactor</class>
+		<class>com.umeca.model.entities.supervisor.FramingSelectedSourceRel</class>
+		<class>com.umeca.model.entities.supervisor.FramingSelectedThreatRel</class>
+		<class>com.umeca.model.entities.supervisor.FramingThreat</class>
+		<class>com.umeca.model.entities.supervisor.FulfillmentReport</class>
+		<class>com.umeca.model.entities.supervisor.HearingFormat</class>
+		<class>com.umeca.model.entities.supervisor.HearingFormatImputed</class>
+		<class>com.umeca.model.entities.supervisor.HearingFormatSpecs</class>
+		<class>com.umeca.model.entities.supervisor.HearingFormatType</class>
+		<class>com.umeca.model.entities.supervisor.HearingType</class>
+		<class>com.umeca.model.entities.supervisor.MonitoringPlan</class>
+		<class>com.umeca.model.entities.supervisor.ObligationIssues</class>
+		<class>com.umeca.model.entities.supervisor.Occupation</class>
+		<class>com.umeca.model.entities.supervisor.ProcessAccompaniment</class>
+		<class>com.umeca.model.entities.supervisor.RelativesAbroadRel</class>
+		<class>com.umeca.model.entities.supervisor.RelFramingMeetingActivity</class>
+		<class>com.umeca.model.entities.supervisor.SupervisionActivity</class>
+		<class>com.umeca.model.entities.supervisor.SupervisionCloseCaseLog</class>
+		<class>com.umeca.model.entities.supervisor.FramingSelectedRiskRel</class>
+
+		<class>com.umeca.model.entities.supervisorManager.LogChangeSupervisor</class>
+		<class>com.umeca.model.entities.supervisorManager.LogComment</class>
+		<class>com.umeca.model.entities.supervisorManager.RolActivity</class>
+
+		<class>com.umeca.model.entities.timeAttendance.AttendanceLog</class>
+		<class>com.umeca.model.entities.timeAttendance.Device</class>
+		<class>com.umeca.model.entities.timeAttendance.FingerPrint</class>
 	</persistence-unit>
 	
 </persistence>

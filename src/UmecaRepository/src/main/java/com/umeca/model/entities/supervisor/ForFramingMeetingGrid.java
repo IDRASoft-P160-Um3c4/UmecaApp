@@ -4,7 +4,9 @@ import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class ForFramingMeetingGrid implements EntityGrid {
 
@@ -20,6 +22,11 @@ public class ForFramingMeetingGrid implements EntityGrid {
     private String brthDateTxt;
     private Long idTR;
     private Long framingMeetingId;
+    private String umecaDateStr;
+    private String umecaTimeStr;
+    private Date umecaTime;
+    private String fullNameSupervisor;
+    private Boolean umecaDateExpired;
     //    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
@@ -34,6 +41,7 @@ public class ForFramingMeetingGrid implements EntityGrid {
         this.brthDate = brthDate;
         this.idTR = idTR;
         this.framingMeetingId = framingMeetingId;
+
 
         StringBuilder strBld = new StringBuilder();
 
@@ -117,6 +125,45 @@ public class ForFramingMeetingGrid implements EntityGrid {
         }
     }
 
+
+    public ForFramingMeetingGrid(Long id, String codeStatus,String descStatus, String idMP,String name, String lastNameP, String lastNameM, Date birthDate, Date umecaDate, Date umecaTime,String fullname){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+
+        Date currentDate = new Date();
+
+        Calendar calendarUmeca = new GregorianCalendar();
+        calendarUmeca.setTime(umecaDate);
+        Calendar calendarTime = new GregorianCalendar();
+        calendarTime.setTime(umecaTime);
+
+        long hour = calendarTime.get(Calendar.HOUR_OF_DAY);
+        calendarUmeca.add(Calendar.HOUR, calendarTime.get(Calendar.HOUR_OF_DAY));
+        calendarUmeca.add(Calendar.MINUTE, calendarTime.get(Calendar.MINUTE));
+        calendarUmeca.add(Calendar.SECOND, calendarTime.get(Calendar.SECOND));
+
+        Date umecaT = calendarUmeca.getTime();
+
+
+        this.id = id;
+        this.codeStatus = codeStatus;
+        this.descStatus = descStatus;
+        this.idMP = idMP;
+        this.name = name;
+        this.lastNameP = lastNameP;
+        this.lastNameM = lastNameM;
+        this.umecaDateStr = umecaDate == null ? "" : sdf.format(umecaDate);
+        this.brthDateTxt = sdf.format(birthDate);
+        this.umecaTime = umecaTime;
+        this.fullNameSupervisor = fullname;
+        StringBuilder strBld = new StringBuilder();
+        strBld.append(this.name);
+        strBld.append(" ");
+        strBld.append(this.lastNameP);
+        strBld.append(" ");
+        strBld.append(this.lastNameM);
+        this.fullName = strBld.toString();
+        this.umecaDateExpired = calendarUmeca.getTime().before(Calendar.getInstance().getTime());
+    }
     public Long getId() {
         return id;
     }
@@ -211,5 +258,45 @@ public class ForFramingMeetingGrid implements EntityGrid {
 
     public void setIdTR(Long idTR) {
         this.idTR = idTR;
+    }
+
+    public String getUmecaDateStr() {
+        return umecaDateStr;
+    }
+
+    public void setUmecaDateStr(String umecaDateStr) {
+        this.umecaDateStr = umecaDateStr;
+    }
+
+    public String getUmecaTimeStr() {
+        return umecaTimeStr;
+    }
+
+    public void setUmecaTimeStr(String umecaTimeStr) {
+        this.umecaTimeStr = umecaTimeStr;
+    }
+
+    public Date getUmecaTime() {
+        return umecaTime;
+    }
+
+    public void setUmecaTime(Date umecaTime) {
+        this.umecaTime = umecaTime;
+    }
+
+    public String getFullNameSupervisor() {
+        return fullNameSupervisor;
+    }
+
+    public void setFullNameSupervisor(String fullNameSupervisor) {
+        this.fullNameSupervisor = fullNameSupervisor;
+    }
+
+    public Boolean getUmecaDateExpired() {
+        return umecaDateExpired;
+    }
+
+    public void setUmecaDateExpired(Boolean umecaDateExpired) {
+        this.umecaDateExpired = umecaDateExpired;
     }
 }

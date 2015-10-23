@@ -11,11 +11,13 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/commonActMonPlan.js"></script>
 
     <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardActivityUpsert.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardReport.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardActivity.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardSupervision.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardEvaluation.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardDirector.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardProject.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardChanneling.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/director/activityReport/wizardHumanRes.js"></script>
 
     <script>
@@ -32,10 +34,24 @@
 <body scroll="no" ng-app="ptlUmc">
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
-<div class="container body-content" ng-controller="wizardActivityUpsertController">
+<div class="container body-content" ng-controller="wizardActivityUpsertController"
+     ng-init="url='<c:url value='/director/activityReport/doWizardUpsert.json' />'; urlBack='<c:url value='/director/activityReport/index.html'/>'">
 
     <h2 class="element-center"><i class="glyphicon glyphicon-flash"></i>
         &nbsp;&nbsp;Asistente para generar el reporte de actividades</h2>
+
+    <div class="row" >
+        <div class="col-xs-8 col-xs-offset-2">
+            <div class="alert alert-danger element-center" ng-show="MsgErr">
+                {{MsgErr}}
+            </div>
+        </div>
+        <div class="col-xs-2 element-center">
+            <button type="button" class="btn btn-warning" ng-click="end()">
+                Terminar&nbsp;&nbsp;<i class="glyphicon glyphicon-check"></i></button>
+        </div>
+    </div>
+
 
     <div class="blocker" ng-show="working">
         <div>
@@ -51,6 +67,12 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <ul class="nav nav-tabs nav-list nav-justified" id="myTab">
+                                    <li ng-class="tabItem === 'report' ? 'active' : ''">
+                                        <a data-toggle="tab" ng-click="tabItem = 'report'" href="#report">
+                                            <i class="brown glyphicon glyphicon-file" style="margin-bottom: 5px !important;"></i>
+                                            Informe
+                                        </a>
+                                    </li>
                                     <li ng-class="tabItem === 'activity' ? 'active' : ''">
                                         <a data-toggle="tab" ng-click="tabItem = 'activity'" href="#activity">
                                             <i class="green glyphicon glyphicon-tasks" style="margin-bottom: 5px !important;"></i>
@@ -75,16 +97,16 @@
                                             Direcci&oacute;n
                                         </a>
                                     </li>
-                                    <li ng-class="tabItem === 'projects' ? 'active' : ''">
-                                        <a data-toggle="tab" ng-click="tabItem = 'projects'" href="#projects">
+                                    <li ng-class="tabItem === 'project' ? 'active' : ''">
+                                        <a data-toggle="tab" ng-click="tabItem = 'project'" href="#project">
                                             <i class="dark glyphicon glyphicon-road" style="margin-bottom: 7px !important;"></i>
                                             Proyectos
                                         </a>
                                     </li>
-                                    <li ng-class="tabItem === 'organizations' ? 'active' : ''">
-                                        <a data-toggle="tab" ng-click="tabItem = 'organizations'" href="#organizations">
+                                    <li ng-class="tabItem === 'channeling' ? 'active' : ''">
+                                        <a data-toggle="tab" ng-click="tabItem = 'channeling'" href="#channeling">
                                             <i class="orange glyphicon glyphicon-user" style="margin-bottom: 7px !important;"></i>
-                                            Organizaciones civiles
+                                            Canalizaci&oacute;n
                                         </a>
                                     </li>
                                     <li ng-class="tabItem === 'minute' ? 'active' : ''">
@@ -98,6 +120,10 @@
                                 <div class="tabbable">
 
                                     <div class="tab-content">
+                                        <div id="report" ng-class="tabItem === 'report' ? 'tab-pane fade in active' : 'tab-pane fade'">
+                                            <%@ include file="/WEB-INF/jsp/director/activityReport/wizardReport.jsp" %>
+                                        </div>
+
                                         <div id="activity" ng-class="tabItem === 'activity' ? 'tab-pane fade in active' : 'tab-pane fade'">
                                             <%@ include file="/WEB-INF/jsp/director/activityReport/wizardActivity.jsp" %>
                                         </div>
@@ -114,12 +140,12 @@
                                             <%@ include file="/WEB-INF/jsp/director/activityReport/wizardDirector.jsp" %>
                                         </div>
 
-                                        <div id="projects" ng-class="tabItem === 'projects' ? 'tab-pane fade in active' : 'tab-pane fade'">
+                                        <div id="project" ng-class="tabItem === 'project' ? 'tab-pane fade in active' : 'tab-pane fade'">
                                             <%@ include file="/WEB-INF/jsp/director/activityReport/wizardProject.jsp" %>
                                         </div>
 
-                                        <div id="organizations" ng-class="tabItem === 'organizations' ? 'tab-pane fade in active' : 'tab-pane fade'">
-                                            <p>oo</p>
+                                        <div id="channeling" ng-class="tabItem === 'channeling' ? 'tab-pane fade in active' : 'tab-pane fade'">
+                                            <%@ include file="/WEB-INF/jsp/director/activityReport/wizardChanneling.jsp" %>
                                         </div>
 
                                         <div id="minute" ng-class="tabItem === 'minute' ? 'tab-pane fade in active' : 'tab-pane fade'">
@@ -135,6 +161,7 @@
         </div>
     </div>
 
+    <div id="angJsjqGridId" ng-controller="modalDlgController"></div>
 
     <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
     <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>

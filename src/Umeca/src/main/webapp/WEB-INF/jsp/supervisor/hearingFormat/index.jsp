@@ -27,6 +27,28 @@
 
     <script>
 
+        var hours = ${hours};
+        var currentTime = ${currentTime};
+
+        console.log(hours);
+        function deadLine(opinionDateExpiredMil, hasHF) {
+
+
+            if (opinionDateExpiredMil !== '') {
+
+                var milliseconds = hours * 60 * 60 * 1000;
+                var total = parseInt(milliseconds) + parseInt(opinionDateExpiredMil);
+
+
+                if(total < currentTime && hasHF === 'false'){
+                    console.log(true);
+                    return true;
+                }
+
+            }
+
+            return false;
+        }
 
         showHearingFormats = function (idCase) {
             var goTo = "<c:url value='/supervisor/hearingFormat/indexFormats.html'/>" + "?id=" + idCase;
@@ -44,13 +66,16 @@
         window.obsoleteCase = function (id) {
             window.showObsolete(id, "#angJsjqGridId", "<c:url value='/supervisor/hearingFormat/obsoleteCase.json'/>", "#GridCasesId");
         };
+        doNotProsecute = function (id) {
+            window.showAction(id, "#angJsjqGridId", "<c:url value='/supervisor/hearingFormat/doNotProsecute.json'/>", "#GridCasesId", "Alerta", "&iquest;Desea indicar que el caso  no se ha judicializado?", "warning");
+        }
         $(document).ready(function () {
             jQuery("#GridCasesId").jqGrid({
                 url: '<c:url value='/supervisor/hearingFormat/listCases.json' />',
                 autoencode: true,
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'idStatus', 'Carpeta <br/>de Investigaci&oacute;n', 'Carpeta Judicial', 'Nombre completo', 'Estatus', 'Asignado a ', 'Acci&oacute;n', 'framingMeetingId', 'idTR', 'hasHF'],
+                colNames: ['ID', 'idStatus', 'Carpeta <br/>de Investigaci&oacute;n', 'Carpeta Judicial', 'Nombre completo', 'Estatus', 'Asignado a ', 'Acci&oacute;n', 'framingMeetingId', 'idTR', 'hasHF', 'opinionDateExpired'],
                 colModel: [
                     {name: 'id', index: 'id', hidden: true},
                     {name: 'status', index: 'status', hidden: true},
@@ -99,6 +124,7 @@
                     {name: 'framingMeetingId', index: 'framingMeetingId', hidden: true},
                     {name: 'idTR', index: 'idTR', hidden: true},
                     {name: 'hasHF', index: 'hasHF', hidden: true},
+                    {name: 'opinionDateExpiredMil', index: 'opinionDateExpiredMil',hidden: true},
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],
@@ -121,6 +147,7 @@
                         var cl = ids[i];
                         var be = "";
                         var bs = "";
+                        var row = $(this).getRowData(cl);
 
                         switch (status[i]) {
 
@@ -145,6 +172,7 @@
                             case 'ST_CASE_FRAMING_MEETING_COMPLETE':
                                 be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar formatos de audiencia\" onclick=\"showHearingFormats('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
                                 break;
+
                         }
                         var row = $(this).getRowData(cl);
                         var framingMeetingId = row.framingMeetingId;
@@ -163,6 +191,13 @@
                         } else {
                             bs = "Sin asignar";
                         }
+
+
+                        if (deadLine(row.opinionDateExpiredMil,row.hasHF) === true) {
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"No judicializar caso\" onclick=\"doNotProsecute('" + cl + "');\"><span class=\"glyphicon glyphicon-folder-close\"></span></a>";
+                        }
+
+
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
                         $(this).jqGrid('setRowData', ids[i], {assignedSupervisorName: bs});
                     }

@@ -72,12 +72,12 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService {
         Long idCase = fullModel.getCaseId();
         List<ActivityMonitoringPlanDto> lstActivitiesUpsert = fullModel.getLstActivitiesUpsert();
         String groupUid = UUID.randomUUID().toString();
-        for (ActivityMonitoringPlanDto dto : lstActivitiesUpsert) {
+            for (ActivityMonitoringPlanDto dto : lstActivitiesUpsert) {
 
             if (validateDates(dto.getStartCalendar(), dto.getEndCalendar()) == false)
                 continue;
 
-            if (idCase != dto.getCaseId())
+            if (idCase.equals(dto.getCaseId()) == false)
                 continue;
             try {
                 if (dto.getActivityId() > 0) {

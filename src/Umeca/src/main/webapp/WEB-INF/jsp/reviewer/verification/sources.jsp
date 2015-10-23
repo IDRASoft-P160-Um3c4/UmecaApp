@@ -20,15 +20,19 @@
     <script>
         window.cancelShowSource = function(){
             window.goToUrlMvcUrl("<c:url value='/reviewer/verification/index.html'/>");
-        }
+        };
 
         window.addSources = function(){
             window.goToUrlMvcUrl("<c:url value='/reviewer/verification/addSources/index.html?id=${idCase}'/>");
-        }
+        };
 
         window.electionInformation = function(){
             window.goToUrlMvcUrl("<c:url value='/reviewer/verification/choiceInformation.html?idCase=${idCase}'/>");
-        }
+        };
+
+        window.newReport = function(){
+            window.showUpsert(null, "#angJsjqGridId", "<c:url value='/reviewer/verification/newReport.html?id=${idCase}'/>");
+        };
 
         window.meetingSource = function(id) {
             var params= [];
@@ -119,15 +123,18 @@
     </div>
     <div class="row">
         <div class="modal-footer">
-                    <span class="btn btn-default btn-sm" onclick="window.cancelShowSource()">
-                        Regresar
-                    </span>
-                    <span class="btn btn-primary btn-sm" ng-disabled = "${sourceAvailable}" onclick="window.addSources()">
-                        <span class="icon-group align-top bigger-125"></span> &nbsp;&nbsp;Agregar fuentes
-                    </span>
-                    <span class="btn btn-purple btn-primary btn-sm" ng-disabled="${sourceAvailable}" onclick="window.electionInformation()" >
-                          <span class="icon-list align-top bigger-125"></span>&nbsp;&nbsp;Iniciar elecci&oacute;n de informaci&oacute;n
-                    </span>
+            <span class="btn btn-default btn-sm" onclick="window.cancelShowSource()">
+                Regresar
+            </span>
+            <span class="btn btn-primary btn-sm" ng-disabled = "${sourceAvailable}" onclick="window.addSources()">
+                <span class="icon-group align-top bigger-125"></span> &nbsp;&nbsp;Agregar fuentes
+            </span>
+            <span class="btn btn-purple btn-primary btn-sm" ng-disabled="${sourceAvailable}" onclick="window.electionInformation()" >
+                <span class="icon-list align-top bigger-125"></span>&nbsp;&nbsp;Iniciar elecci&oacute;n de informaci&oacute;n
+            </span>
+            <span class="btn btn-success btn-sm" ng-disabled="${sourceAvailable}" onclick="window.newReport()" >
+                <span class="icon-file align-top bigger-125"></span>&nbsp;&nbsp;Generar informe
+            </span>
         </div>
     </div>
 

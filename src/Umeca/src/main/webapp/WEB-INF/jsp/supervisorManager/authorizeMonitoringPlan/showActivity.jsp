@@ -280,7 +280,7 @@
                 <div class="modal-footer" id="btn-act-footer">
                     <button class="btn btn-default btn-sm" ng-show="!isReadOnly" ng-click="cancel()">Cancelar</button>
                     <button class="btn btn-success btn-sm" ng-show="isReadOnly" ng-click="cancel()">Regresar</button>
-                        <button class="btn btn-default btn-primary btn-sm" ng-disable = "WaitFor==true"
+                        <button class="btn btn-default btn-primary btn-sm" ng-disabled = "WaitFor==true"
                               ng-show="!((!m.do && !m.notDo) || (m.do && !m.commentsOk) || (m.notDo && !m.commentsFail))"
                               ng-click="submit('#FormCatId', '<c:url value='/supervisor/trackMonitoringPlan/doActionActivity.json' />')">
                               Aceptar

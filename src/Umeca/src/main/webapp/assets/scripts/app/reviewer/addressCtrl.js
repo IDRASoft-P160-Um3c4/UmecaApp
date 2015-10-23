@@ -9,42 +9,42 @@ app.controller('addressController', function($scope, $timeout, $http,$rootScope)
     $scope.nameAddress = "address.";
 
     $scope.init = function(){
-        if($scope.listType === undefined || $scope.listType.length <= 0)
-            return;
+        if($scope.listType && $scope.listType.length > 0)
+        {
+            if($scope.a.typeId === undefined){
+                $scope.a.type = $scope.listType[0];
+                $scope.a.typeId = $scope.a.type.id;
+            }
+            else{
+                for(var i=0; i < $scope.listType.length; i++){
+                    var type = $scope.listType[i];
 
-        if($scope.a.typeId === undefined){
-            $scope.a.type = $scope.listType[0];
-            $scope.a.typeId = $scope.a.type.id;
-        }
-        else{
-            for(var i=0; i < $scope.listType.length; i++){
-                var type = $scope.listType[i];
-
-                if(type.id === $scope.a.typeId){
-                    $scope.a.type =type;
-                    break;
+                    if(type.id === $scope.a.typeId){
+                        $scope.a.type =type;
+                        break;
+                    }
                 }
             }
         }
 
+        if($scope.lstHomeType && $scope.lstHomeType.length > 0)
+        {
+            if($scope.a.homeTypeId === undefined){
+                $scope.a.homeType = $scope.lstHomeType[0];
+                $scope.a.homeTypeId = $scope.a.homeType.id;
+            }
+            else{
+                for(var i=0; i < $scope.lstHomeType.length; i++){
+                    var bel = $scope.lstHomeType[i];
 
-        if($scope.lstHomeType === undefined || $scope.lstHomeType.length <= 0)
-            return;
-
-        if($scope.a.homeTypeId === undefined){
-            $scope.a.homeType = $scope.lstHomeType[0];
-            $scope.a.homeTypeId = $scope.a.homeType.id;
-        }
-        else{
-            for(var i=0; i < $scope.lstHomeType.length; i++){
-                var bel = $scope.lstHomeType[i];
-
-                if(bel.id === $scope.a.homeTypeId){
-                    $scope.a.homeType = bel;
-                    break;
+                    if(bel.id === $scope.a.homeTypeId){
+                        $scope.a.homeType = bel;
+                        break;
+                    }
                 }
             }
         }
+
 
         //if($scope.a.isHomeless === undefined)
         //    $scope.a.isHomeless = false;

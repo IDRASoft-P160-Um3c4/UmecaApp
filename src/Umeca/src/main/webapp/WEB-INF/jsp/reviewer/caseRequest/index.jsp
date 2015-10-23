@@ -66,10 +66,15 @@
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"Modificar informaci&oacute;n legal\" onclick=\"window.makeRequest('EDIT_LEGAL_INFORMATION','" + cl + "');\"><span class=\"icon-legal\"></span></a>";
                         }else if(status.indexOf(".C.")!= -1){
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"Cambiar el estado de las fuentes de verificaci&oacute;n\" onclick=\"window.makeRequest('CHANGE_STATUS_SOURCE','" + cl + "');\"><span class=\"icon-group\"></span></a>";
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"El imputado alcanz&oacute; su libertad\" onclick=\"window.makeRequest('GET_FREEDOM','" + cl + "');\"><span class=\"icon-folder-close\"></span></a>";
                         }else if(status.indexOf(".D.")!=-1){
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"Modificar Instrumento de evaluaci&oacute;n de riesgos\" onclick=\"window.makeRequest('EDIT_TECHNICAL_REVIEW','" + cl + "');\"><span class=\"glyphicon glyphicon-user\"></span></a>";
+                        }else if(status.indexOf(".I.")!=-1){
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"El imputado alcanz&oacute; su libertad\" onclick=\"window.makeRequest('GET_FREEDOM','" + cl + "');\"><span class=\"icon-folder-close\"></span></a>";
+                        }else if(status.indexOf(".H.")!=-1){
+                            be += "";
                         }else if(status.indexOf(".G.")!=-1){
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"El caso no se judicializ&oacute;\" onclick=\"window.makeRequest('NOT_PROSECUTE','" + cl + "');\"><span class=\"icon-folder-close\"></span></a>";
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"El imputado alcanz&oacute; su libertad\" onclick=\"window.makeRequest('GET_FREEDOM','" + cl + "');\"><span class=\"icon-folder-close\"></span></a>";
                         }
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }

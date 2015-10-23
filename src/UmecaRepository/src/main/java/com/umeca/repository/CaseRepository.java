@@ -1,11 +1,14 @@
 package com.umeca.repository;
 
 import com.umeca.model.dto.CaseInfo;
+import com.umeca.model.dto.tablet.*;
+import com.umeca.model.dto.tablet.catalog.*;
 import com.umeca.model.dto.victim.VictimDto;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.FindLegalBefore;
 import com.umeca.model.entities.reviewer.StatusEvaluation;
 import com.umeca.model.entities.reviewer.dto.LogNotificationDto;
+import com.umeca.model.entities.shared.TabletAssignmentInfo;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import org.springframework.data.domain.Pageable;
@@ -372,5 +375,344 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
 
         @Query("select C.isSubstracted from Case C where C.id=:caseId")
         Boolean getSubstractedByCaseId(@Param("caseId") Long caseId);
+
+        @Query("select new com.umeca.model.entities.shared.TabletAssignmentInfo(tac.id, cd.assignmentType) from TabletAssignmentCase tac " +
+                "inner join tac.assignedUser au " +
+                "inner join tac.caseDetention cd " +
+                "where tac.isObsolete = false " +
+                "and au.id=:userId")
+        List<TabletAssignmentInfo> getAssignmentIdsTypesByUser(@Param("userId") Long userId);
+
+      /* CONSULTAS PARA ENVIAR INFORMACION A LA TABLETA*/
+
+        /*DTO CASO*/
+        @Query("select new com.umeca.model.dto.tablet.TabletCaseDto(c.id, c.idFolder, c.idMP, c.recidivist, c.dateNotProsecute, c.dateObsolete, c.dateCreate, c.previousStateCode) from Case c " +
+                "inner join c.status s " +
+                "inner join c.meeting m " +
+                "inner join m.status sm " +
+                "where c.id=:idCase " +
+                "and c.dateObsolete is null")
+//            "and s.name= com.umeca.model.shared.Constants.CASE_STATUS_MEETING " +
+//            "and sm.name= com.umeca.model.shared.Constants.S_MEETING_INCOMPLETE")
+        TabletCaseDto getInfoCaseByCaseId(@Param("idCase") Long idCase);
+
+        /*DTO STATUS CASO*/
+        @Query("select new com.umeca.model.dto.tablet.catalog.TabletStatusCaseDto(s.id,s.name,s.description) from Case c " +
+                "inner join c.status s " +
+                "where c.id=:idCase ")
+        TabletStatusCaseDto getStatusCaseByCaseId(@Param("idCase") Long idCase);
+
+        /*DTO MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.TabletMeetingDto(m.id, m.meetingType, m.commentReference, m.commentJob, m.commentSchool,m.commentCountry, m.commentHome, m.commentDrug, m.dateCreate, m.dateTerminate) from Case c " +
+                "inner join c.meeting m " +
+                "where c.id=:idCase")
+        TabletMeetingDto getMeetingDataByCaseId(@Param("idCase") Long idCase);
+
+        /*DTO STATUS MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.catalog.TabletStatusMeetingDto(s.id,s.name,s.description) from Case c " +
+                "inner join c.meeting m " +
+                "inner join m.status s " +
+                "where c.id=:idCase")
+        TabletStatusMeetingDto getStatusMeetingDataByCaseId(@Param("idCase") Long idCase);
+
+        /*DTO REVIEWER MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.TabletUserDto(u.id,u.fullname) from Case c " +
+                "inner join c.meeting m " +
+                "inner join m.reviewer u " +
+                "where c.id=:idCase")
+        TabletUserDto getUserMeetingDataByCaseId(@Param("idCase") Long idCase);
+
+        /*DTO STATUS MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.catalog.TabletStatusMeetingDto(st.id, st.name, st.description) from Case c " +
+                "inner join c.meeting m " +
+                "inner join m.status st " +
+                "where c.id=:idCase")
+        TabletUserDto getStatusMeetingByCaseId(@Param("idCase") Long idCase);
+
+        /*DTO IMPUTED MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.TabletImputedDto(i.id, i.name, i.lastNameP, i.lastNameM, i.foneticString, i.gender, " +
+                "i.birthDate, i.celPhone, i.yearsMaritalStatus, i.boys, i.dependentBoys, i.birthMunicipality, " +
+                "i.birthState, i.birthLocation, i.nickname) from Case c " +
+                "inner join c.meeting m " +
+                "inner join m.imputed i " +
+                "where c.id=:idCase")
+        TabletImputedDto getImputedDataByCaseId(@Param("idCase") Long idCase);
+
+        /*DTO IMPUTED MARITAL STATUS MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.catalog.TabletMaritalStatusDto(ms.id,ms.name) from Case c " +
+                "inner join c.meeting m " +
+                "inner join m.imputed i " +
+                "inner join i.maritalStatus ms " +
+                "where c.id=:idCase")
+        TabletMaritalStatusDto getImputedMaritalStatusByCaseId(@Param("idCase") Long idCase);
+
+        /*DTO IMPUTED BIRTH COUNTRY MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.catalog.TabletCountryDto(bc.id, bc.name, bc.alpha2, bc.alpha3, bc.latitude, bc.longitude) from Case c " +
+                "inner join c.meeting m " +
+                "inner join m.imputed i " +
+                "inner join i.birthCountry bc " +
+                "where c.id=:idCase")
+        TabletCountryDto getImputedBirthCountryByCaseId(@Param("idCase") Long idCase);
+
+        /*DTO IMPUTED LOCATION MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.catalog.TabletLocationDto(l.id, l.name, l.abbreviation, l.description, l.zipCode) from Case c " +
+                "inner join c.meeting m " +
+                "inner join m.imputed i " +
+                "inner join i.location l " +
+                "where c.id=:idCase")
+        TabletLocationDto getImputedLocationByCaseId(@Param("idCase") Long idCase);
+
+        /*DTO SOCIAL NETWORK MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.TabletSocialNetworkDto(sn.id, sn.comment) from Case c " +
+                "inner join c.meeting m " +
+                "inner join m.socialNetwork sn " +
+                "where c.id=:idCase")
+        TabletSocialNetworkDto getSocialNetworkByCaseId(@Param("idCase") Long idCase);
+
+        /*DTO PERSON SOCIAL NETWORK MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.TabletPersonSocialNetworkDto(psn.id,psn.name, psn.age, psn.phone, psn.address, psn.specification, psn.isAccompaniment, psn.specificationRelationship, psn.block) from Case c " +
+                "inner join c.meeting m " +
+                "inner join m.socialNetwork sn " +
+                "inner join sn.peopleSocialNetwork psn " +
+                "where c.id=:idCase")
+        List<TabletPersonSocialNetworkDto> getPeopleSocialNetworkByCaseId(@Param("idCase") Long idCase);
+
+        /*DTO PERSON SOCIAL NETWORK RELATIONSHIP MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.catalog.TabletRelationshipDto(r.id,r.name,r.isObsolete, r.specification) from PersonSocialNetwork psn " +
+                "inner join psn.relationship r " +
+                "where psn.id=:personId")
+        TabletRelationshipDto getRelationshipByPersonId(@Param("personId") Long personId);
+
+        /*DTO PERSON SOCIAL NETWORK DEPENDENT MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.catalog.TabletElectionDto(d.id,d.name) from PersonSocialNetwork psn " +
+                "inner join psn.dependent d " +
+                "where psn.id=:personId")
+        TabletElectionDto getDependentByPersonId(@Param("personId") Long personId);
+
+        /*DTO PERSON SOCIAL NETWORK LIVING WITH MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.catalog.TabletElectionDto(lw.id, lw.name) from PersonSocialNetwork psn " +
+                "inner join psn.livingWith lw " +
+                "where psn.id=:personId")
+        TabletElectionDto getLivingWithByPersonId(@Param("personId") Long personId);
+
+        /*DTO PERSON DOCUMENT TYPE MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.catalog.TabletDocumentTypeDto(dt.id, dt.name, dt.isObsolete, dt.specification) from PersonSocialNetwork psn " +
+                "inner join psn.documentType dt " +
+                "where psn.id=:personId")
+        TabletDocumentTypeDto getDocumentTypeByPersonId(@Param("personId") Long personId);
+
+        /*DTO SCHOOL MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.TabletSchoolDto(sch.id, sch.name, sch.phone, sch.address, sch.specification, sch.block) from Case c " +
+                "inner join c.meeting m " +
+                "inner join m.school sch " +
+                "where c.id=:idCase")
+        TabletSchoolDto getSchoolByCaseId(@Param("idCase") Long idCase);
+
+        /*DTO DEGREE MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.catalog.TabletDegreeDto(d.id,d.name,d.isObsolete) from School sch " +
+                "inner join sch.degree d " +
+                "where sch.id=:idSchool")
+        TabletDegreeDto getDegreeBySchoolId(@Param("idSchool") Long idSchool);
+
+        /*DTO SCHEDULE MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.TabletScheduleDto(sc.id, sc.day, sc.start, sc.end) from School sch " +
+                "inner join sch.schedule sc " +
+                "where sch.id=:idSchool")
+        List<TabletScheduleDto> getScheduleSchoolId(@Param("idSchool") Long idSchool);
+
+        /*DTO SOCIAL ENVIRONMENT MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.TabletSocialEnvironmentDto(se.id,se.physicalCondition,se.comment) from Case c " +
+                "inner join c.meeting m " +
+                "inner join m.socialEnvironment se " +
+                "where c.id=:idCase ")
+        TabletSocialEnvironmentDto getSocialEnvironmentByCaseId(@Param("idCase") Long idCase);
+
+        /*DTO SOCIAL ENVIRONMENT REL ACTIVITY MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.TabletRelSocialEnvironmentActivityDto(rsea.id,rsea.specification,act.id,act.name,act.specification,act.isObsolete) from SocialEnvironment se " +
+                "inner join se.relSocialEnvironmentActivities rsea " +
+                "inner join rsea.activity act " +
+                "where se.id=:idSE")
+        List<TabletRelSocialEnvironmentActivityDto> getRelSocialEnvironmentActivityBySocialEnvId(@Param("idSE") Long idSE);
+
+
+        /*DTO SOCIAL ENVIRONMENT MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.TabletLeaveCountryDto(lc.id,lc.timeAgo,lc.reason, lc.state,lc.media, lc.address, lc.timeResidence, lc.specficationImmigranDoc, lc.specificationRelationship," +
+                "fac.id,fac.name, cf.id,cf.name,od.id,od.name,llc.id,llc.name, " +
+                "inmd.id,inmd.name,inmd.specification,inmd.obsolete, " +
+                "cou.id,cou.name,cou.alpha2,cou.alpha3,cou.latitude,cou.longitude," +
+                "rel.id, rel.name, rel.isObsolete, rel.specification) " +
+                "from Case c " +
+                "inner join c.meeting m " +
+                "inner join m.leaveCountry lc " +
+                "left join lc.familyAnotherCountry fac " +
+                "left join lc.communicationFamily cf " +
+                "left join lc.officialDocumentation od " +
+                "left join lc.livedCountry llc " +
+                "left join lc.immigrationDocument inmd " +
+                "left join lc.country cou " +
+                "left join lc.relationship rel " +
+                "where c.id=:idCase ")
+        TabletLeaveCountryDto getLeaveCountryByCaseId(@Param("idCase") Long idCase);
+
+        /*DTO REFERENCES MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.TabletReferenceDto(ref.id,ref.fullName,ref.age,ref.address,ref.phone,ref.specification,ref.isAccompaniment,ref.specificationRelationship,ref.block," +
+                "dt.id, dt.name,dt.isObsolete,dt.specification," +
+                "rel.id,rel.name,rel.isObsolete,rel.specification) " +
+                "from Case c " +
+                "inner join c.meeting m " +
+                "inner join m.references ref " +
+                "left join ref.documentType dt " +
+                "left join ref.relationship rel " +
+                "where c.id=:idCase")
+        List<TabletReferenceDto> getReferencesByCaseId(@Param("idCase") Long idCase);
+
+        /*DTO IMPUTED HOME  MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.TabletImputedHomeDto(ih.id,ih.timeLive,ih.reasonChange,ih.description,ih.phone,ih.specification,ih.reasonSecondary," +
+                "                                addr.id,addr.street,addr.outNum,addr.innNum,addr.lat,addr.lng,addr.addressString," +
+                "                                loc.id,loc.name,loc.abbreviation,loc.description,loc.zipCode," +
+                "                                ht.id,ht.name,ht.specification,ht.obsolete," +
+                "                                rt.id, rt.name) " +
+                "from Case c " +
+                "inner join c.meeting m " +
+                "inner join m.imputedHomes ih " +
+                "left join ih.address addr " +
+                "left join addr.location loc " +
+                "left join ih.registerType rt " +
+                "left join ih.homeType ht " +
+                "where c.id=:idCase")
+        List<TabletImputedHomeDto> getImputedHomeByCaseId(@Param("idCase") Long idCase);
+
+        /*DTO SCHEDULE IMPUTED HOME MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.TabletScheduleDto(sc.id, sc.day, sc.start, sc.end) from ImputedHome ih " +
+                "inner join ih.schedule sc " +
+                "where ih.id=:idIH")
+        List<TabletScheduleDto> getScheduleByImputedHomeId(@Param("idIH") Long idIH);
+
+
+        /*DTO SCHEDULE JOB*/
+        @Query("select new com.umeca.model.dto.tablet.TabletJobDto(j.id,j.post,j.nameHead,j.company,j.phone,j.startPrev,j.start,j.salaryWeek,j.end,j.reasonChange,j.address,j.block," +
+                "                        rt.id,rt.name) " +
+                "from Case c " +
+                "inner join c.meeting m " +
+                "inner join m.jobs j " +
+                "left join j.registerType rt " +
+                "where c.id=:idCase")
+        List<TabletJobDto> getJobByCaseId(@Param("idCase") Long idCase);
+
+        /*DTO SCHEDULE JOB MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.TabletScheduleDto(sc.id, sc.day, sc.start, sc.end) from Job j " +
+                "inner join j.schedule sc " +
+                "where j.id=:idJob")
+        List<TabletScheduleDto> getScheduleByJobId(@Param("idJob") Long idJob);
+
+    /*Long id, String quantity, String lastUse, Boolean block, String specificationType, String specificationPeriodicity, String onsetAge,
+                         Long idDT, String nameDT, Boolean specificationDT, Boolean isObsoleteDT,
+                         Long idP, String nameP, Boolean isObsoleteP, Boolean specificationP*/
+
+        /*DTO DRUG MEETING*/
+        @Query("select new com.umeca.model.dto.tablet.TabletDrugDto(d.id,d.quantity,d.lastUse,d.block,d.specificationType,d.specificationPeriodicity,d.onsetAge," +
+                "                         dt.id,dt.name,dt.specification,dt.isObsolete," +
+                "                         p.id,p.name,p.isObsolete,p.specification) " +
+                "from Case c " +
+                "inner join c.meeting m " +
+                "inner join m.drugs d " +
+                "left join d.drugType dt " +
+                "left join d.periodicity p " +
+                "where c.id=:idCase")
+        List<TabletDrugDto> getDrugByCaseId(@Param("idCase") Long idCase);
+
+
+        /*DTO VERIFICATION*/
+        @Query("select new com.umeca.model.dto.tablet.TabletVerificationDto(v.id,v.dateComplete,v.dateCreate," +
+                "                                 rev.id, rev.fullname," +
+                "                                 st.id,st.name,st.description) " +
+                "from Case c " +
+                "inner join c.verification v " +
+                "inner join v.status st " +
+                "inner join v.reviewer rev " +
+                "where c.id=:idCase")
+        TabletVerificationDto getVerificationByCaseId(@Param("idCase") Long idCase);
+
+
+        /*DTO SOURCE VERIFICATION**********************************************************/
+        @Query("select new com.umeca.model.dto.tablet.TabletSourceVerificationDto(sv.id,sv.fullName,sv.age,sv.address,sv.phone,sv.isAuthorized,sv.dateComplete,sv.dateAuthorized,sv.specification,sv.visible," +
+                "                                       vm.id,vm.name,vm.isObsolete," +
+                "                                       r.id,r.name,r.isObsolete,r.specification) " +
+                "from TabletRelAssignmentSource trac " +
+                "inner join trac.sourceVerification sv " +
+                "inner join trac.tabletAssignmentCase tac " +
+                "inner join tac.assignedUser au " +
+                "inner join tac.caseDetention cd " +
+                "left join sv.verificationMethod vm " +
+                "left join sv.relationship r " +
+                "where tac.id = :idAssignment and cd.id=:idCase and au.id=:idUsr and sv.isAuthorized = true")
+        List<TabletSourceVerificationDto> getAssignedSourcesVerificationByCaseIdUsrId(@Param("idCase") Long idCase, @Param("idUsr") Long idUsr, @Param("idAssignment") Long idAssignment);
+
+        @Query("select new com.umeca.model.dto.tablet.TabletSourceVerificationDto(sv.id,sv.fullName,sv.age,sv.address,sv.phone,sv.isAuthorized,sv.dateComplete,sv.dateAuthorized,sv.specification,sv.visible," +
+                "                                       vm.id,vm.name,vm.isObsolete," +
+                "                                       r.id,r.name,r.isObsolete,r.specification) " +
+                "from SourceVerification sv " +
+                "inner join sv.verification v " +
+                "left join sv.verificationMethod vm " +
+                "left join sv.relationship r " +
+                "where v.id=:idVerif " +
+                "and sv.visible=false and sv.isAuthorized = true")
+        TabletSourceVerificationDto getImputedSourceVerificationByVerificationId(@Param("idVerif") Long idVerif);
+
+        /*DTO FIELD MEETING SOURCE */
+        @Query("select new com.umeca.model.dto.tablet.TabletFieldMeetingSourceDto(fms.id,fms.value,fms.jsonValue,fms.isFinal,fms.idFieldList,fms.reason," +
+                "                                       sfv.id,sfv.name,sfv.description," +
+                "                                       fv.id,fv.code,fv.section,fv.sectionCode,fv.fieldName,fv.indexField,fv.isObsolete,fv.idSubsection,fv.type) " +
+                "from SourceVerification sv  " +
+                "left join sv.fieldMeetingSourceList fms " +
+                "left join fms.statusFieldVerification sfv " +
+                "left join fms.fieldVerification fv " +
+                "where sv.id=:idSource")
+        List<TabletFieldMeetingSourceDto> getFieldMeetingSourceBySourceId(@Param("idSource") Long idSource);
+
+        /*DTO HEARING FORMAT*/
+        @Query("select new com.umeca.model.dto.tablet.TabletHearingFormatDto(hf.id, hf.registerTime,hf.idFolder, hf.idJudicial, 'room', hf.appointmentDate, " +
+                "hf.initTime , hf.endTime, hf.judgeName, hf.mpName, hf.defenderName, hf.terms, hf.confirmComment, hf.isFinished, hf.comments, hf.umecaDate, hf.umecaTime, hf.hearingTypeSpecification, hf.imputedPresence, hf.hearingResult, hf.previousHearing, hf.showNotification, " +
+                "                                  ht.id, ht.description, ht.isObsolete, ht.lock, ht.specification," +
+                "                                  hfs.id, hfs.controlDetention, hfs.extension, hfs.imputationFormulation, hfs.imputationDate, hfs.linkageProcess, hfs.linkageRoom, hfs.linkageDate, hfs.extDate, hfs.linkageTime, hfs.arrangementType, hfs.nationalArrangement," +
+                "                                  hi.id, hi.name, hi.lastNameP, hi.lastNameM, hi.birthDate, hi.imputeTel, " +
+                "                                  addr.id, addr.street, addr.outNum, addr.innNum, addr.lat, addr.lng, addr.addressString," +
+                "                                  l.id, l.name, l.abbreviation, l.description, l.zipCode, hf.isHomeless) " +
+                "from Case c " +
+                "inner join c.hearingFormats hf " +
+                "left join hf.hearingType ht " +
+                "left join hf.hearingFormatSpecs hfs " +
+                "left join hf.hearingImputed hi " +
+                "left join hi.address addr " +
+                "left join addr.location l " +
+                "where c.id=:idCase order by hf.id desc ")
+        List<TabletHearingFormatDto> getLastHearingFormatByCaseId(@Param("idCase") Long idCase, Pageable pageable);
+
+        /*DTO ASSIGNED ARRANGEMENT*/
+        @Query("select new com.umeca.model.dto.tablet.TabletAssignedArrangementDto(aa.id, aa.description," +
+                "                                        a.id, a.description, a.type, a.isNational, a.index, a.isObsolete, a.isDefault, a.isExclusive) " +
+                "from HearingFormat hf " +
+                "inner join hf.assignedArrangements aa " +
+                "inner join aa.arrangement a " +
+                "where hf.id=:formatId")
+        List<TabletAssignedArrangementDto> getAssignedArrangementByFormatId(@Param("formatId") Long formatId);
+
+        /*DTO CONTACTS*/
+        @Query("select new com.umeca.model.dto.tablet.TabletContactDataDto(c.id, c.nameTxt, c.phoneTxt, c.addressTxt) " +
+                "from HearingFormat hf " +
+                "inner join hf.contacts c " +
+                "where hf.id=:formatId")
+        List<TabletContactDataDto> getContactsByFormatId(@Param("formatId") Long formatId);
+
+        /*DTO CRIME */
+        @Query("select new com.umeca.model.dto.tablet.TabletCrimeDto(cl.id, cl.comment, cl.article," +
+                "                          f.id, f.name," +
+                "                          c.id, c.name, c.description, c.obsolete) " +
+                "from HearingFormat hf " +
+                "inner join hf.crimeList cl " +
+                "inner join cl.federal f " +
+                "inner join cl.crime c " +
+                "where hf.id=:formatId")
+        List<TabletCrimeDto> getCrimesByFormatId(@Param("formatId") Long formatId);
 
 }

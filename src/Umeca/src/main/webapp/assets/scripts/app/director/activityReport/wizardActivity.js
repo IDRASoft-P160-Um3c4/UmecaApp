@@ -9,6 +9,11 @@ app.controller('wizardActivityController', function ($scope, $rootScope) {
     };
 
     $scope.change = function(check, val){
+        $scope.send();
+    };
+
+    $scope.send = function(){
+        $rootScope.$broadcast("onChange", {key: "activity", value: $scope.m.lstAct});
     };
 
     $scope.selectAll = function(){
@@ -17,7 +22,7 @@ app.controller('wizardActivityController', function ($scope, $rootScope) {
 
     $scope.next = function (tabName) {
         $scope.$emit("onNextTab", tabName);
-    }
+    };
 
     $scope.$on("selectAllManagerAct", function(ev, data){
         var obj = $scope.m.lstAct;
@@ -25,5 +30,6 @@ app.controller('wizardActivityController', function ($scope, $rootScope) {
             var attrName = key;
             obj[key] = $scope.m.selectAll;
         }
+        $scope.send();
     });
 });

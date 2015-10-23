@@ -90,6 +90,12 @@ public class Imputed {
     @JoinColumn(name = "id_meeting", nullable = false)
     protected Meeting meeting;
 
+    @Column(name = "isFromFomulation", nullable = true)
+    protected Boolean isFromFormulation;
+
+    @Transient
+    protected Long formulationId;
+
     public Long getId() {
         return id;
     }
@@ -226,6 +232,14 @@ public class Imputed {
         this.nickname = nickname;
     }
 
+    public Boolean getIsFromFormulation() {
+        return isFromFormulation;
+    }
+
+    public void setIsFromFormulation(Boolean isFromFormulation) {
+        this.isFromFormulation = isFromFormulation;
+    }
+
     public void validateMeeting(TerminateMeetingMessageDto t) {
         List<String> result = new ArrayList<>();
         String e = "entity";
@@ -334,6 +348,14 @@ public class Imputed {
         imp.setYearsMaritalStatus(yearsMaritalStatus);
         imp.setBirthInfo(birthInfo);
         return imp;
+    }
+
+    public Long getFormulationId() {
+        return formulationId;
+    }
+
+    public void setFormulationId(Long formulationId) {
+        this.formulationId = formulationId;
     }
 }
 

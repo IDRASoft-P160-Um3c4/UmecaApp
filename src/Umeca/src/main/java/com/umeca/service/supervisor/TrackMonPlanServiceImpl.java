@@ -29,6 +29,7 @@ import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.CaseService;
 import com.umeca.service.shared.CaseRequestService;
+import com.umeca.service.shared.EventService;
 import com.umeca.service.shared.LogCaseService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -281,6 +282,9 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
     @Autowired
     LogChangeSupervisorRepository logChangeSupervisorRepository;
 
+    @Autowired
+    EventService eventService;
+
     @Override
     @Transactional
     public void saveChangeSupervisorMonPlan(ChangeSupervisor model, User user, MonitoringPlan monPlan) {
@@ -302,6 +306,12 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         logChangeDataRepository.save(new LogChangeData(ActivityMonitoringPlan.class.getName(), jsonOld, jsonNew, user.getUsername(), monPlan.getId()));
         logChangeSupervisorRepository.save(commentModel);
         monitoringPlanRepository.save(monPlan);
+
+        Case c = caseRepository.findOne(monPlan.getCaseDetention().getId());
+        c.setUmecaSupervisor(userSupNew);
+        caseRepository.save(c);
+        eventService.addEvent(Constants.EVENT_SUPERVISOR_REASSIGNMENT,c.getId(),null);
+
     }
 
     @Autowired

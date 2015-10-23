@@ -8,14 +8,13 @@
             postData: {
                 startDate: '',
                 endDate: ''
-            },            colNames: ['ID', 'Agregar', 'Informe','Descripci&oacute;n', 'Fecha', 'Estatus'],
+            },            colNames: ['ID', 'Agregar', 'Informe','Descripci&oacute;n', 'Fecha'],
             colModel: [
                 { name: 'id', index: 'id', hidden: true },
                 { name: 'Action', width: 110, align: "center", sortable: false, search: false,formatter:window.actionFormatter},
                 { name: 'reportName', index: 'reportName', width: 350, align: "center", sorttype: 'string', search: false },
-                { name: 'description', index: 'description', width: 450, align: "center", sorttype: 'string', search: false },
-                { name: 'stCreationDate', index: 'stCreationDate', width: 180, align: "center", sorttype: 'string', search: false },
-                { name: 'status', index: 'status', width: 120, align: "center", sorttype: 'string', search: false }
+                { name: 'description', index: 'description', width: 485, align: "center", sorttype: 'string', search: false },
+                { name: 'stCreationDate', index: 'stCreationDate', width: 180, align: "center", sorttype: 'string', search: false }
             ],
             rowNum: 100,
             rowList: [100, 200, 500, 1000],
@@ -73,7 +72,7 @@
 
 </script>
 
-<div class="row" ng-controller="wizardEvaluationController" id="idWizardEvaluation" >
+<div class="row" ng-controller="wizardEvaluationController">
     <div class="col-xs-12">
         <div class="widget-box transparent">
             <div class="widget-header">
@@ -141,21 +140,23 @@
                         </div>
                     </div>
                     <div class="space-10"></div>
-                    <div class="row">
-                        <div class="col-xs-4 col-xs-offset-2">
-                            <div class="checkbox i-checks col-xs-8">
-                                <label>
-                                    <input type="checkbox" ng-model="m.selectAll" ng-change="selectAll()" > Agregar todos
-                                </label>
+                    <div  ng-controller="wizardEvaluationController" id="idWizardEvaluation" >
+                        <div class="row">
+                            <div class="col-xs-4 col-xs-offset-2">
+                                <div class="checkbox i-checks col-xs-8">
+                                    <label class="col-xs-11 col-xs-offset-1">
+                                        <input type="checkbox" ng-model="m.selectAll" ng-change="selectAll()" > Agregar todos
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="angJsjqGridEvaluationId" ng-controller="modalDlgController">
-                        <table id="GridEvaluationId" class="element-center" style="margin: auto"></table>
-                        <div id="GridPagerEvaluation"></div>
-                        <div class="blocker" ng-show="working">
-                            <div>
-                                Procesando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
+                        <div id="angJsjqGridEvaluationId" ng-controller="modalDlgController">
+                            <table id="GridEvaluationId" class="element-center" style="margin: auto"></table>
+                            <div id="GridPagerEvaluation"></div>
+                            <div class="blocker" ng-show="working">
+                                <div>
+                                    Procesando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>
+                                </div>
                             </div>
                         </div>
                     </div>

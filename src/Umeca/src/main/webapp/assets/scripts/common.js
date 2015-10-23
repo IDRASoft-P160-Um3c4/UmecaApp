@@ -123,7 +123,7 @@ window.showConfirmService = function (id, divScope, urlToGo, jqGridToUse) {
     var scope = angular.element($(divScope)).scope();
     scope.doConfirm({id: id}, urlToGo).
         then(function () {
-            $(jqGridToUse).trigger("reloadGrid");
+            if (jqGridToUse) $(jqGridToUse).trigger("reloadGrid");
         });
 };
 
@@ -160,11 +160,20 @@ window.showAction = function (id, divScope, urlToGo, jqGridToUse, title, message
         });
 };
 
+window.showActionParams = function (jsonParams, divScope, urlToGo, jqGridToUse, title, message, type) {
+    var scope = angular.element($(divScope)).scope();
+    scope.doAction(jsonParams, urlToGo, title, message, type).
+        then(function () { $(jqGridToUse).trigger("reloadGrid"); });
+};
+
 window.showConfirmFull = function (id, divScope, urlToGo, jqGridToUse, title, message, type, choiceA) {
     var scope = angular.element($(divScope)).scope();
     scope.doConfirmFull({id: id}, urlToGo, title, message, type, choiceA).
         then(function () {
-            $(jqGridToUse).trigger("reloadGrid");
+            if (jqGridToUse) $(jqGridToUse).trigger("reloadGrid");
+            if(choiceA && choiceA.callbackOk) choiceA.callbackOk();
+        }, function(){
+            if(choiceA && choiceA.callbackErr) choiceA.callbackErr();
         });
 };
 

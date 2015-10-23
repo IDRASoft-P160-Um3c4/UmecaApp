@@ -41,6 +41,17 @@ public class CalendarExt {
         return cal;
     }
 
+    public static Calendar stringToCalendarExc(String sDate, String format) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        try {
+            cal.setTime(sdf.parse(sDate));// all done
+        } catch (Exception e) {
+            return null;
+        }
+        return cal;
+    }
+
     public static Calendar getToday(){
         Calendar today = Calendar.getInstance();
         today.set(Calendar.HOUR_OF_DAY, 0);

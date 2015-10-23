@@ -30,12 +30,14 @@ public class Constants {
     public static final String ST_REQUEST_EDIT_MEETING = "EDIT_MEETING";
     public static final String ST_REQUEST_EDIT_LEGAL_INFORMATION = "EDIT_LEGAL_INFORMATION";
     public static final String ST_REQUEST_EDIT_TECHNICAL_REVIEW = "EDIT_TECHNICAL_REVIEW";
+    public static final String ST_REQUEST_GET_FREEDOM = "GET_FREEDOM";
     public static final String RESPONSE_TYPE_DRESSED = "DRESSED";
     public static final String ST_REQUEST_CASE_OBSOLETE_SUPERVISION = "CASE_OBSOLETE_SUPERVISION";
     public static final String CASE_STATUS_REQUEST_SUPERVISION = "ST_CASE_REQUEST_SUPERVISION";
     public static final String TYPE_COMMENT_OBSOLETE_CASE_SUPERVISION = "OBSOLETE_CASE_SUPERVISION";
     public static final String RESPONSE_OBSOLETE_CASE_SUPERVISION = "Respuesta a solicitud de eliminar un caso";
     public static final Long ENTITY_ID_NULL = -1l;
+    public static final Integer ACT_REPORT_FOR_CHANNELING = 2;
     public static final Integer ACT_REPORT_FOR_DIRECTOR = 1;
     public static final Integer ACT_REPORT_FOR_NOBODY = 0;
     public static final String FILE_PREFIX_USER = "USR_";
@@ -81,6 +83,7 @@ public class Constants {
     public static final String CASE_STATUS_EDIT_TEC_REV = "ST_CASE_EDIT_TEC_REV";
     public static final String CASE_STATUS_NOT_PROSECUTE = "ST_CASE_NOT_PROSECUTE";
     public static final String CASE_STATUS_NOT_PROSECUTE_OPEN = "ST_CASE_NOT_PROSECUTE_OPEN";
+    public static final String CASE_STATUS_GOT_FREEDOM = "ST_CASE_GOT_FREEDOM";
 //    public static final String CASE_STATUS_CLOSE_FORGIVENESS = "ST_CASE_CLOSE_FORGIVENESS";
 //    public static final String CASE_STATUS_CLOSE_AGREEMENT = "ST_CASE_CLOSE_AGREEMENT";
 //    public static final String CASE_STATUS_CLOSE_DESIST = "ST_CASE_CLOSE_DESIST";
@@ -195,6 +198,7 @@ public class Constants {
     public static final String ST_REQUEST_CLOSE_CASE = "CLOSE_CASE_SUPERVISION";
     public static final String ST_REQUEST_UPDATE_MONPLAN_AUTH = "UPDATE_MONPLAN_AUTH";
 
+
     public static final String NAME_RELATIONSHIP_IMPUTED = "Imputado";
     public static final String NAME_RELATIONSHIP_OTHER = "Otro";
     public static String CODE_FILE_TECH_REVIEW = "FILE_TECHNICAL_REVIEW";
@@ -267,6 +271,8 @@ public class Constants {
     public static final String CHANNELING_DROP_REJ_TITLE = "RECHAZÓ SOLICITUD DE BAJA DE CANALIZACIÓN";
     public static final String CHANNELING_DROP_AUTH_TITLE = "AUTORIZÓ SOLICITUD DE BAJA DE CANALIZACIÓN";
     public static final String CHANNELING_END_RECORD_TITLE = "CONCLUSIÓN DEL SERVICIO DE LA CANALIZACIÓN";
+    public static final String CHANNELING_END_CODE = "CHANNELING_END";
+
     public static final String CHANNELING_SUPERVISION_ACTIVITY_CODE = "ACCA";
     public static final long CHANNELING_NOTIFICATION_GOAL_FIRST_DATE = 9l; //Identificador del catálogo activity_goals.txt
     public static final long CHANNELING_NOTIFICATION_GOAL_TRACK = 10l; //Identificador del catálogo activity_goals.txt
@@ -294,10 +300,118 @@ public class Constants {
     public static final String CLOSE_CAUSE_OBSOLETE_SUPERVISION = "CAUSE_OBSOLETE_SUPERVISION";
     public static final String CLOSE_CAUSE_PROMISE_PRISION = "CAUSE_PROMISE_PRISION";
     public static final String CLOSE_CAUSE_DISMISSAL = "CAUSE_DISMISSAL";
+    public static final String CAUSE_NOT_ENTAILMENT = "CAUSE_NOT_ENTAILMENT";
+    public static final String CAUSE_PROTECTION = "CAUSE_PROTECTION";
+    public static final String CAUSE_DEATH = "CAUSE_DEATH";
+    public static final String CAUSE_SUMMARY_PROCEDURE = "CAUSE_SUMMARY_PROCEDURE";
+    public static final String CAUSE_FINAL_JUDGMENT = "CAUSE_FINAL_JUDGMENT";
+    public static final String CAUSE_DEADLINE_OF_CONDITIONAL_SUSPENSION = "CAUSE_DEADLINE_OF_CONDITIONAL_SUSPENSION";
+    public static final String CAUSE_PRISON_MULTIPLE_FOLDER = "CAUSE_PRISON_MULTIPLE_FOLDER";
 
     /** códigos para causas de cierre **/
 
     public static final String COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW = "No proporcionado";
+
+
+
+    /** códigos para los eventos **/
+    public static final String EVENT_INTERVIEW_DECLINED = "DECLINED";
+    public static final String EVENT_CASE_REPORT = "REPORT";
+    public static final String EVENT_CASE_OPINION = "OPINION";
+    public static final String EVENT_ONLY_INTERVIEW = "INTERVIEW";
+    public static final String EVENT_FROM_FORMULATION = "FORMULATION";
+    public static final String EVENT_PROSECUTE = "PROSECUTED";
+
+    public static final String EVENT_SUPERVISOR_PRE_ASSIGNMENT = "SUPERVISOR_PRE_ASSIGNMENT";
+    public static final String EVENT_SUPERVISOR_ASSIGNMENT = "SUPERVISOR_ASSIGNMENT";
+    public static final String EVENT_SUPERVISOR_REASSIGNMENT = "SUPERVISOR_REASSIGNMENT";
+
+    public static final String EVENT_MC_NON_FULFILLMENT = "MC_NON_FULFILLMENT";
+    public static final String EVENT_MC_PARTIAL_NON_FULFILLMENT = "MC_PARTIAL_NON_FULFILLMENT";
+    public static final String EVENT_SCP_NON_FULFILLMENT = "SCP_NON_FULFILLMENT";
+    public static final String EVENT_SCP_PARTIAL_NON_FULFILLMENT = "SCP_PARTIAL_NON_FULFILLMENT";
+
+    public static final String EVENT_CHANGE_SCPP_TO_MC = "CHANGE_SCPP_TO_MC";
+    public static final String EVENT_CHANGE_MC_TO_SCPP = "CHANGE_MC_TO_SCPP";
+
+
+
+
+    /** códigos para los reportes **/
+    public static final String REPORT_STATISTIC_A = "STR_1";
+    public static final String REPORT_STATISTIC_B = "STR_2";
+    public static final String REPORT_STATISTIC_C = "STR_3";
+    public static final String REPORT_STATISTIC_D = "STR_4";
+    public static final String REPORT_STATISTIC_E = "STR_5";
+    public static final String REPORT_STATISTIC_F = "STR_6";
+    public static final String REPORT_STATISTIC_G = "STR_7";
+    public static final String REPORT_STATISTIC_H = "STR_8";
+
+
+    public static final String REPORT_OPERATOR_STATISTIC_A = "STOPR_1";
+    public static final String REPORT_OPERATOR_STATISTIC_B = "STOPR_2";
+    public static final String REPORT_OPERATOR_STATISTIC_C = "STOPR_3";
+    public static final String REPORT_OPERATOR_STATISTIC_D = "STOPR_4";
+
+
+    /** códigos reportes coordinador de supervición **/
+
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_A = "STMSR_1";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_B = "STMSR_2";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_C = "STMSR_3";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_D = "STMSR_4";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_E = "STMSR_5";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_F = "STMSR_6";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_G = "STMSR_7";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_H = "STMSR_8";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_I = "STMSR_9";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_J = "STMSR_10";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_K = "STMSR_11";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_L = "STMSR_12";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_M = "STMSR_13";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_N = "STMSR_14";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_O = "STMSR_15";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_P = "STMSR_16";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_Q = "STMSR_17";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_R = "STMSR_18";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_S = "STMSR_19";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_T = "STMSR_20";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_U = "STMSR_21";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_V = "STMSR_22";
+    public static final String REPORT_STATISTIC_MANAGER_REPORT_W = "STMSR_23";
+
+
+
+    /** códigos de tipo de reporte**/
+
+    public static final String REPORT_STATISTIC_MANAGER_GENERAL = "GENERAL";
+    public static final String REPORT_STATISTIC_MANAGER_BY_DISTRICT = "DISTRICT";
+    public static final String REPORT_STATISTIC_MANAGER_BY_OPERATOR = "BY_OPERATOR";
+    public static final String REPORT_STATISTIC_MANAGER_BY_SINGLE_OPERATOR = "SINGLE_OPERATOR";
+
+
+
+
+    public static final String REPORT_STATISTIC_CHANNELING_A = "STCHR_1";
+    public static final String REPORT_STATISTIC_CHANNELING_B = "STCHR_2";
+    public static final String REPORT_STATISTIC_CHANNELING_C = "STCHR_3";
+    public static final String REPORT_STATISTIC_CHANNELING_D = "STCHR_4";
+    public static final String REPORT_STATISTIC_CHANNELING_E = "STCHR_5";
+
+    public static final String REPORT_STATISTIC_CHANNELING_F = "STCHR_6";
+    public static final String REPORT_STATISTIC_CHANNELING_G = "STCHR_7";
+    public static final String REPORT_STATISTIC_CHANNELING_H = "STCHR_8";
+    public static final String REPORT_STATISTIC_CHANNELING_I = "STCHR_9";
+
+
+
+
+    public static final String MEETING_ASSIGNMENT_TYPE = "MEETING";
+    public static final String VERIFICATION_ASSIGNMENT_TYPE = "VERIFICATION";
+    public static final String HEARING_FORMAT_ASSIGNMENT_TYPE = "HEARING_FORMAT";
+    public static final Long VERIFICATION_METHOD_VISIT_ID = 2L;
+    public static final String CASE_STATUS_TABLET_ASSIGNMENT = "ST_CASE_TABLET_ASSIGNED";
+
 
 }
 

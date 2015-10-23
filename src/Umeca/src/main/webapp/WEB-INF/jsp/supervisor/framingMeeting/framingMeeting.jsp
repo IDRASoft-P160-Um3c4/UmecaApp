@@ -170,7 +170,7 @@
                 </div>
                 <div class="row">
                     <div
-                            ng-init="hasMeeting = ${hasMeeting}; hasTR = ${hasTR}; checked=true; fileIdTR = ${fileIdTR == null?0:fileIdTR}; isSubstracted=${isSubstracted};">
+                            ng-init="hasMeeting = ${hasMeeting};isFromFormulation = ${isFromFormulation};interviewDeclined = ${interviewDeclined};caseReport = ${caseReport}; hasTR = ${hasTR}; checked=true; fileIdTR = ${fileIdTR == null?0:fileIdTR}; isSubstracted=${isSubstracted};">
                         <div class="col-xs-9 col-xs-offset-1">
                             <h3 class="header smaller lighter blue">
                                 <br/>
@@ -183,6 +183,13 @@
                                 <i class="icon-check" ng-show="hasTR"></i><i class="icon-unchecked"
                                                                              ng-show="!hasTR"></i>&nbsp;<label>Opini&oacute;n
                                 T&eacute;cnica</label>
+
+                                &nbsp;
+                                <i class="icon-check" ng-show="interviewDeclined"></i><i class="icon-unchecked"
+                                                                                  ng-show="!interviewDeclined"></i>&nbsp;<label>Negaci&oacute;n</label>&nbsp;&nbsp;
+                                <i class="icon-check" ng-show="caseReport"></i><i class="icon-unchecked"
+                                                                             ng-show="!caseReport"></i>&nbsp;<label>Informe</label>
+
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a ng-show="hasMeeting && hasTR" href="javascript:;"
                                                                  style="display:inline-block;"
                                                                  title="Descargar opini&oacute;n t&eacute;cnica generada por el sistema"
@@ -217,6 +224,12 @@
                                 &nbsp;<label ng-show="isSubstracted">Si</label>&nbsp;&nbsp;
                                 <i class="icon-check" ng-show="!isSubstracted"></i>
                                 &nbsp;<label ng-show="!isSubstracted">No</label>&nbsp;&nbsp;
+
+                                <small>&iquest;Fue entrevista de formulaci&oacute;n:</small>
+                                <i class="icon-check" ng-show="isFromFormulation"></i>
+                                &nbsp;<label ng-show="isFromFormulation">Si</label>&nbsp;&nbsp;
+                                <i class="icon-check" ng-show="!isFromFormulation"></i>
+                                &nbsp;<label ng-show="!isFromFormulation">No</label>&nbsp;&nbsp;
                             </h3>
                         </div>
                     </div>

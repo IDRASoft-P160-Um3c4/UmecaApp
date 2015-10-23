@@ -67,6 +67,42 @@
 <br/>
 <br/>
 <br/>
+
+<h4>PROCESOS ANTERIORES:</h4>
+<br/>
+<p>
+    <b>Primer proceso: </b>
+    ${data.previousCriminalProceeding.firstProceeding}
+</p>
+<p>
+    <b>N&uacute;mero de procesos abiertos: </b>
+    ${data.previousCriminalProceeding.openProcessNumber}</p>
+<p>
+    <b>N&uacute;mero de sentencias condenatorias: </b>
+    ${data.previousCriminalProceeding.numberConvictions}</p>
+<p>
+    <b>&iquest;Cumpli&oacute; con medidas cautelares?: </b>
+    ${data.previousCriminalProceeding.complyPM.name}</p>
+<p>
+    <b>&iquest;Cumpli&oacute; con SCPP?: </b>
+    ${data.previousCriminalProceeding.complyCSPP.name}</p>
+<p>
+    <b>&iquest;Permiti&oacute; o colabor&oacute; con procesos anteriores?: </b>
+    ${data.previousCriminalProceeding.complyProcessAbove.name}</p>
+<p>
+    <b>Rubro de orden de aprehensi&oacute;n: </b>
+    ${data.previousCriminalProceeding.warrant}</p>
+<p>
+    <b>Rubro de de plataforma M&eacute;xico: </b>
+    ${data.previousCriminalProceeding.platformMexico}</p>
+<p>
+    <b>Rubro de AFIS: </b>
+    ${data.previousCriminalProceeding.afis}</p>
+
+
+<br/>
+<br/>
+<br/>
 <h4>VALORACI&Oacute;N DE RIESGOS:</h4>
 <br/>
 <b>Comentarios:</b>

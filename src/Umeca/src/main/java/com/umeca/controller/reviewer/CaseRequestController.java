@@ -84,6 +84,7 @@ public class CaseRequestController {
                     add(Constants.CASE_STATUS_VERIFICATION_COMPLETE);
                     add(Constants.CASE_STATUS_TECHNICAL_REVIEW);
                     add(Constants.CASE_STATUS_REQUEST);
+                    add(Constants.CASE_STATUS_NOT_PROSECUTE);
                 }}
                 , JqGridFilterModel.COMPARE_IN
         );
@@ -93,6 +94,7 @@ public class CaseRequestController {
                     add(Constants.S_MEETING_INCOMPLETE_LEGAL);
                     add(Constants.S_MEETING_COMPLETE);
                     add(Constants.S_MEETING_INCOMPLETE);
+                    add(Constants.S_MEETING_DECLINE);
                 }}
                 , JqGridFilterModel.COMPARE_IN
         );

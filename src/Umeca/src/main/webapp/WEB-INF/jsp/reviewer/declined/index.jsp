@@ -67,7 +67,7 @@
                         var status = row.statusCode;
                         var be="";
                         if ( status == 'DECLINE') {
-                            be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar informe de negaci&oacute;n\" onclick=\"window.printDocument('" + cl + "');\"><i class=\"icon-file\"></i></a>";
+                            be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar informe de negaci&oacute;n\" onclick=\"window.printDocument('" + row.id + "');\"><i class=\"icon-file\"></i></a>";
                         }
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }

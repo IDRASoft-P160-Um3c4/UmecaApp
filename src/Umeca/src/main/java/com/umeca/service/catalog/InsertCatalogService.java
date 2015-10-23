@@ -117,4 +117,18 @@ public interface InsertCatalogService {
     void evaluationActivity();
 
     void channelingDropType();
+
+    void eventType();
+
+    void statisticReportType();
+
+    void statisticOperatorReportType();
+
+    void statisticSupervisorManagerReportType();
+
+    void framingSafetyFactor();
+
+    void reportType();
+
+    void statisticChannelingReportType();
 }

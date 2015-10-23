@@ -33,7 +33,8 @@ public class ActivityReportServiceImpl implements ActivityReportService {
         activityReport.setDescription(model.getDescription());
         activityReport.setIsObsolete(false);
         activityReport.setCreationDate(Calendar.getInstance());
-        activityReport.setReportFor(model.getReportFor() ? Constants.ACT_REPORT_FOR_DIRECTOR : Constants.ACT_REPORT_FOR_NOBODY);
+        Integer reportFor = model.getReportFor();
+        activityReport.setReportFor(reportFor == null ? Constants.ACT_REPORT_FOR_NOBODY : reportFor);
         activityReport.setCreatorUser(user);
         activityReport.setReportName(model.getReportName());
         activityReport.setReportRole(role);

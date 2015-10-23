@@ -2,10 +2,14 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="col-xs-2 element-left">
+            <span ng-class="lstSourceInfoRefe['references.fullName'+'.'+r.id]==true?'verified':'';">
             <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('references.fullName',r.id);"></i>
-            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="references.fullName" id-element="{{r.id}}"></i>
+            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification" code="references.fullName" id-element="{{r.id}}"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('references.fullName',r.id);"></i>
+            </span>
+            <span ng-class="lstFinalInfoRefe['references.fullName'+'.'+r.id]==true?'verified':'';">
             <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('references.fullName',r.id)"></i>
+            </span>
             Nombre:
         </div>
         <div class="col-xs-10">
@@ -20,10 +24,14 @@
 <div class="row">
     <div class="col-xs-6">
         <div class="col-xs-4 element-left">
+            <span ng-class="lstSourceInfoRefe['references.relationship.id'+'.'+r.id]==true?'verified':'';">
             <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('references.relationship.id',r.id);"></i>
-            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification" code="references.relationship.id" id-element="{{r.id}}"></i>
+            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="4" ng-show="verification" code="references.relationship.id" id-element="{{r.id}}"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('references.relationship.id',r.id);"></i>
+                </span>
+            <span ng-class="lstFinalInfoRefe['references.relationship.id'+'.'+r.id]==true?'verified':'';">
             <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('references.relationship.id',r.id)"></i>
+            </span>
             Relaci&oacute;n:
         </div>
         <div class="col-xs-8">
@@ -55,10 +63,14 @@
 <div class="row" >
     <div class="col-xs-12">
         <div class="col-xs-2 element-left">
+            <span ng-class="lstSourceInfoRefe['references.phone'+'.'+r.id]==true?'verified':'';">
             <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('references.phone',r.id);"></i>
-            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="references.phone" id-element="{{r.id}}"></i>
+            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification" code="references.phone" id-element="{{r.id}}"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('references.phone',r.id);"></i>
+            </span>
+            <span ng-class="lstFinalInfoRefe['references.phone'+'.'+r.id]==true?'verified':'';">
             <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('references.phone',r.id)"></i>
+            </span>
             Tel&eacute;fono:
         </div>
         <div class="col-xs-10">
@@ -74,10 +86,14 @@
 <div class="row">
     <div class="col-xs-6">
         <div class="col-xs-4 element-left">
+            <span ng-class="lstSourceInfoRefe['references.documentType.id'+'.'+r.id]==true?'verified':'';">
             <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('references.documentType.id',r.id);"></i>
-            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="references.documentType.id" id-element="{{r.id}}"></i>
+            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification" code="references.documentType.id" id-element="{{r.id}}"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('references.documentType.id',r.id);"></i>
+                </span>
+            <span ng-class="lstFinalInfoRefe['references.documentType.id'+'.'+r.id]==true?'verified':'';">
             <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('references.documentType.id',r.id)"></i>
+            </span>
             Identificaci&oacute;n prensentada:
         </div>
         <div class="col-xs-8">
@@ -103,10 +119,14 @@
     </div>
     <div class="col-xs-6">
         <div class="col-xs-4 element-left">
+            <span ng-class="lstSourceInfoRefe['references.age'+'.'+r.id]==true?'verified':'';">
             <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('references.age',r.id);"></i>
-            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="references.age" id-element="{{r.id}}"></i>
+            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification" code="references.age" id-element="{{r.id}}"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('references.age',r.id);"></i>
+            </span>
+            <span ng-class="lstFinalInfoRefe['references.age'+'.'+r.id]==true?'verified':'';">
             <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('references.age',r.id)"></i>
+            </span>
             Edad:
         </div>
         <div class="col-xs-8">
@@ -123,10 +143,14 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="col-xs-2 element-left">
+            <span ng-class="lstSourceInfoRefe['references.address'+'.'+r.id]==true?'verified':'';">
             <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification" ng-click="doConfirmVerifEqual('references.address',r.id);"></i>
-            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="2" ng-show="verification" code="references.address" id-element="{{r.id}}"></i>
+            <i class="icon-remove-circle red  icon-only bigger-120" verif-comp level-child="3" ng-show="verification" code="references.address" id-element="{{r.id}}"></i>
             <i class="icon-ban-circle gray icon-only bigger-120" ng-show="verification"  ng-click="doConfirmVerifNotKnow('references.address',r.id);"></i>
+                </span>
+            <span ng-class="lstFinalInfoRefe['references.address'+'.'+r.id]==true?'verified':'';">
             <i class="purple icon-list icon-only bigger-120"   ng-show="selectSource" ng-click="showChoices('references.address',r.id)"></i>
+            </span>
             Direcci&oacute;n:</div>
         <div class="col-xs-10">
             <textarea id="address" class="form-control width-100"  name="references.address"

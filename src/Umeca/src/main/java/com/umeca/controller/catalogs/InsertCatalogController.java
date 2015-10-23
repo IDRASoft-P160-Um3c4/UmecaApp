@@ -150,7 +150,7 @@ public class InsertCatalogController {
     }
 
 
-    @RequestMapping(value = "/catalogs/insertStatusCase", method = RequestMethod.GET)
+        @RequestMapping(value = "/catalogs/insertStatusCase", method = RequestMethod.GET)
     public String insertStatusCase() {
         service.statusCase();
         return "Status Case OK!";
@@ -358,6 +358,54 @@ public class InsertCatalogController {
         return "channelingDropType";
     }
 
+
+    @RequestMapping(value = "/catalogs/eventType", method = RequestMethod.GET)
+    public String eventType() {
+        service.eventType();
+        return "eventType";
+    }
+
+    @RequestMapping(value = "/catalogs/statisticReportType", method = RequestMethod.GET)
+    public String statisticReportType() {
+        service.statisticReportType();
+        return "statisticReportType";
+    }
+
+    @RequestMapping(value = "/catalogs/statisticOperatorReportType", method = RequestMethod.GET)
+    public String statisticOperatorReportType() {
+        service.statisticOperatorReportType();
+        return "statisticOperatorReportType";
+    }
+
+    @RequestMapping(value = "/catalogs/statisticSupervisorManagerReportType", method = RequestMethod.GET)
+    public String statisticSupervisorManagerReportType() {
+        service.statisticSupervisorManagerReportType();
+        return "statisticSupervisorManagerReportType";
+    }
+
+
+    @RequestMapping(value = "/catalogs/framingSafetyFactor", method = RequestMethod.GET)
+     public String framingSafetyFactor() {
+        service.framingSafetyFactor();
+        return "framingSafetyFactor";
+    }
+
+    @RequestMapping(value = "/catalogs/reportType", method = RequestMethod.GET)
+    public String reportType() {
+        service.reportType();
+        return "reportType";
+    }
+
+    @RequestMapping(value = "/catalogs/statisticChannelingReportType", method = RequestMethod.GET)
+    public String statisticChannelingReportType() {
+        service.statisticChannelingReportType();
+        return "statisticChannelingReportType";
+    }
+
+
+
+
+
     @RequestMapping(value = "/catalogs/insertCatalogAll", method = RequestMethod.GET)
     public String insertCatalogAll() {
         service.role();
@@ -415,6 +463,13 @@ public class InsertCatalogController {
         service.informationAvailability();
         service.evaluationActivity();
         service.channelingDropType();
+        service.eventType();
+        service.statisticReportType();
+        service.statisticOperatorReportType();
+        service.framingSafetyFactor();
+        service.statisticSupervisorManagerReportType();
+        service.reportType();
+        service.statisticChannelingReportType();
         return "insertCatalog OK!!";
     }
 }

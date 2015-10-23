@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+@Repository("qSystemSettingRepository")
 public interface SystemSettingRepository extends JpaRepository<SystemSetting, Long> {
 
     @Query("SELECT new com.umeca.model.entities.shared.SystemSetting(SS.key, SS.value) FROM SystemSetting SS WHERE SS.group =:group")

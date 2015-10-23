@@ -60,4 +60,10 @@ public interface ArrangementRepository extends JpaRepository<Arrangement, Long> 
     @Query("SELECT new com.umeca.model.entities.supervisor.ArrangementView(arr.id, arr.description, arr.isNational, arr.type) FROM Arrangement arr " +
             "WHERE arr.isObsolete = false")
     List<ArrangementView> findAllArrangementForView();
+
+
+    @Query("SELECT new com.umeca.model.shared.SelectList(arr.id, arr.description) " +
+            "FROM Arrangement arr " +
+            "WHERE arr.isObsolete = false")
+    List<SelectList> findAllNoObsolete();
 }

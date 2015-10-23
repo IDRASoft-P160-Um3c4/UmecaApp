@@ -71,8 +71,13 @@
                                         class="icon-check"></i>&nbsp;&nbsp;Verificaci&oacute;n</a>
                                 </li>
                                 <li><a
+
                                         href="<c:url value='/reviewer/technicalReview/index.html' />"><i
                                         class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Instrumento de evaluaci&oacute;n</a>
+                                </li>
+                                <li><a
+                                        href="<c:url value='/reviewer/formulation/index.html' />"><i
+                                        class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Cita de formulaci&oacute;n</a>
                                 </li>
                             </ul>
                         </li>
@@ -93,12 +98,21 @@
                                         class="icon icon-trash"></i>&nbsp;&nbsp;Casos eliminados</a>
                                 </li>
                                 <li><a
+                                        href="<c:url value='/reviewer/caseReport/index.html' />"><i
+                                        class="icon icon-file"></i>&nbsp;&nbsp;Casos con informe</a>
+                                </li>
+                                <li><a
                                         href="<c:url value='/shared/messageHistory/index.html' />"><i
                                         class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a>
                                 </li>
                                 <li><a
                                         href="<c:url value='/reviewer/meeting/declined.html' />"><i
                                         class="glyphicon icon-comments-alt"></i>&nbsp;&nbsp;Entrevistas con negaci&oacute;n</a>
+                                </li>
+
+                               <li><a
+                                        href="<c:url value='/reviewer/meeting/onlyMeeting.html'/>"><i
+                                        class="glyphicon icon-list-alt"></i>&nbsp;&nbsp;Casos s&oacute;lo entrevista</a>
                                 </li>
                             </ul>
                         </li>
@@ -108,6 +122,19 @@
                                 class="icon icon-envelope"></i>&nbsp;&nbsp;S&aacute;bana de detenidos</a></li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_SUPERVISOR')">
+
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-list-alt"></i>
+                                &nbsp;&nbsp;Tablero
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/supervisor/framingMeeting/dates.html'/>">
+                                    <i class="icon icon-calendar"></i>&nbsp;&nbsp;Cita entrevistas de encuadre</a>
+                                </li>
+                            </ul>
+                        </li>
 
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
@@ -161,7 +188,6 @@
                             </ul>
                         </li>
 
-
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
                                     class="glyphicon glyphicon-search"></i>
@@ -189,9 +215,21 @@
                         </li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_EVALUATION_MANAGER')">
-
-                        <li class="nav-li-blue"><a href="<c:url value='/managereval/formulationDate/index.html' />"><i
-                                class="icon icon-calendar"></i>&nbsp;&nbsp;Cita formulaci&oacute;n</a></li>
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-list"></i>
+                                &nbsp;&nbsp;Tablero
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a
+                                        href="<c:url value='/managereval/handingOver/index.html'/>"><i
+                                        class="glyphicon icon-bell"></i>&nbsp;&nbsp;Puesta a disposici&oacute;n</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-li-blue"><a href="<c:url value='/managereval/formulation/index.html' />"><i
+                                class="icon icon-calendar"></i>&nbsp;&nbsp;Cita de formulaci&oacute;n</a></li>
 
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
@@ -239,6 +277,12 @@
                                 <li><a href="<c:url value='/shared/activityReport/index.html' />"><i
                                         class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Informe de actividades para
                                     direcci&oacute;n</a></li>
+                                <li><a href="<c:url value='/managereval/statisticReport/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Estad&iacute;sticos - Reporte
+                                    estad&iacute;stico</a></li>
+                                <li><a href="<c:url value='/managereval/statisticOperatorReport/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Reportes por operador - Estad&iacute;sticos
+                                    operador</a></li>
                             </ul>
                         </li>
                         <li class="dropdown nav-li-blue">
@@ -258,6 +302,24 @@
                         <li class="nav-li-blue"><a href="<c:url value='/detentionRecord/detainedSheet.html' />"><i
                                 class="icon icon-envelope"></i>&nbsp;&nbsp;S&aacute;bana de detenidos</a></li>
 
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-folder-close"></i>
+                                &nbsp;&nbsp;Casos para tableta
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/shared/upload_info/meeting/index.html' />"><i
+                                        class="icon icon-eye-open"></i>&nbsp;&nbsp;Entrevistas de riesgos</a>
+                                </li>
+                                <li><a href="<c:url value='/shared/upload_info/verification/index.html' />"><i
+                                        class="icon icon-trash"></i>&nbsp;&nbsp;Entrevistas de verificaci&oacute;n</a>
+                                </li>
+                                <li><a href="<c:url value='/shared/upload_info/index.html' />"><i
+                                        class="icon icon-trash"></i>&nbsp;&nbsp;Desasociar casos de tableta</a>
+                                </li>
+                            </ul>
+                        </li>
                     </sec:authorize>
 
                     <sec:authorize access="hasRole('ROLE_SUPERVISOR_MANAGER')">
@@ -326,6 +388,9 @@
                                 <li><a href="<c:url value='/supervisorManager/report/reportChart.html' />"><i
                                         class="glyphicon glyphicon-tasks"></i>&nbsp;&nbsp;Reportes con
                                     gr&aacute;fico</a></li>
+                                <li><a href="<c:url value='/supervisorManager/statisticReport/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Estad&iacute;sticos - Reporte
+                                    estad&iacute;stico</a></li>
                                 <li><a href="<c:url value='/shared/activityReport/index.html' />"><i
                                         class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Informe de actividades para
                                     direcci&oacute;n</a></li>
@@ -346,6 +411,22 @@
                                 </li>
                             </ul>
                         </li>
+
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-folder-close"></i>
+                                &nbsp;&nbsp;Casos para tableta
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/shared/upload_info/hearingFormat/index.html' />"><i
+                                        class="icon icon-eye-open"></i>&nbsp;&nbsp;Formato de audiencia</a>
+                                </li>
+                                <li><a href="<c:url value='/shared/upload_info/indexSup.html' />"><i
+                                        class="icon icon-trash"></i>&nbsp;&nbsp;Desasociar casos de tableta</a>
+                                </li>
+                            </ul>
+                        </li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_CHANNELING_MANAGER')">
                         <li class="dropdown nav-li-blue">
@@ -360,6 +441,19 @@
                                 <li><a href="<c:url value='/channelingManager/queryChanneling/index.html' />">
                                     <i class="glyphicon glyphicon-search"></i>&nbsp;&nbsp;Canalizaciones por caso</a>
                                 </li>
+                                <li><a href="<c:url value='/shared/activityReport/index.html' />"><i
+                                        class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Informe de actividades para direcci&oacute;n</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Reportes
+                                <i class="icon-caret-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/channelingManager/statisticReport/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Estad&iacute;sticos - Reporte
+                                    estad&iacute;stico</a></li>
                             </ul>
                         </li>
                     </sec:authorize>

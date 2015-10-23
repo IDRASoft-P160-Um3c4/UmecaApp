@@ -23,6 +23,7 @@ import com.umeca.repository.shared.QuestionaryRepository;
 import com.umeca.repository.shared.SystemSettingRepository;
 import com.umeca.repository.shared.WeekDayRepository;
 import com.umeca.repository.supervisor.*;
+import com.umeca.repository.supervisorManager.StatisticSupervisorManagerReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -145,18 +146,40 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     @Autowired
     ChannelingTypeRepository channelingTypeRepository;
     @Autowired
+    ChannelingInstitutionNameRepository channelingInstitutionNameRepository;
+    @Autowired
     InformationAvailabilityRepository informationAvailabilityRepository;
     @Autowired
     ChannelingDropTypeRepository channelingDropTypeRepository;
     @Autowired
     EvaluationActivityRepository evaluationActivityRepository;
+    @Autowired
+    EventTypeRepository eventTypeRepository;
+    @Autowired
+    StatisticReportTypeRepository statisticReportTypeRepository;
+    @Autowired
+    StatisticOperatorReportTypeRepository statisticOperatorReportTypeRepository;
+    @Autowired
+    FramingSafetyFactorRepository framingSafetyFactorRepository;
+    @Autowired
+    StatisticSupervisorManagerReportRepository statisticSupervisorManagerReportRepository;
+    @Autowired
+    ReportTypeRepository reportTypeRepository;
+    @Autowired
+    StatisticChannelingReportTypeRepository statisticChannelingReportTypeRepository;
 
 
+<<<<<<< HEAD
     private String PATH = "C:\\Users\\Administrator\\Documents\\GitHub\\UmecaApp-Morelos\\UmecaApp\\db\\";
+=======
+    private String PATH = "C:\\Users\\DeveloperII\\Source\\UmecaApp\\db\\";
+>>>>>>> 771181fe0337a1bd9b6c64ceb16390cae54de338
 
 //    private String PATH = "C:\\Users\\Rata\\Desktop\\branchSandra\\UmecaApp\\db\\";
 
 //    private String PATH = "C:\\Projects\\IDRASoft\\UmecaAppBranchMorelos\\UmecaApp\\db\\";
+
+//    private String PATH = "C:\\Projects\\Umeca\\UmecaApp\\db\\";
 
     //para la maquina virtual donde se montara el war
 //    private String PATH = "C:\\Users\\idrasoft\\Desktop\\umeca_catalog\\db\\";
@@ -1012,6 +1035,21 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             channelingTypeRepository.save(model);
         }
         channelingTypeRepository.flush();
+
+
+        lstDta = ReaderFile.readFile(PATH + "channeling_institution_name.txt", "\\|", 5);
+        for (String[] data : lstDta) {
+            CatChannelingInstitutionName model = new CatChannelingInstitutionName();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            final long catChannelingTypeId = Long.parseLong(data[3]);
+            CatChannelingType catChannelingType = channelingTypeRepository.findOne(catChannelingTypeId);
+            model.setChannelingType(catChannelingType);
+            model.setIsObsolete(data[4].equals("1"));
+            channelingInstitutionNameRepository.save(model);
+        }
+        channelingInstitutionNameRepository.flush();
     }
 
     @Override
@@ -1054,6 +1092,108 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             channelingDropTypeRepository.save(model);
         }
         channelingDropTypeRepository.flush();
+    }
+
+    @Override
+    public void eventType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "event.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            EventType model = new EventType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            eventTypeRepository.save(model);
+        }
+        eventTypeRepository.flush();
+    }
+
+    @Override
+    public void statisticReportType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "statisticReport.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            StatisticReportType model = new StatisticReportType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            statisticReportTypeRepository.save(model);
+        }
+        statisticReportTypeRepository.flush();
+    }
+
+
+
+    @Override
+    public void statisticOperatorReportType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "statisticOperatorReport.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            StatisticOperatorReportType model = new StatisticOperatorReportType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            statisticOperatorReportTypeRepository.save(model);
+        }
+        statisticOperatorReportTypeRepository.flush();
+    }
+
+    @Override
+    public void statisticSupervisorManagerReportType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "statistic_supervisor_manager_report.txt", "\\|", 4 );
+        for(String[] data : lstDta){
+            StatisticSupervisorManagerReportType model = new StatisticSupervisorManagerReportType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            statisticSupervisorManagerReportRepository.save(model);
+
+        }
+    }
+
+    @Override
+    public void framingSafetyFactor() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "framing_safety_factor.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            FramingSafetyFactor model = new FramingSafetyFactor();
+
+            model.setId(Long.parseLong(data[0]));
+            model.setDescription(data[1]);
+            model.setIndex(Long.parseLong(data[2]));
+            model.setIsObsolete(data[3].equals("1"));
+
+            framingSafetyFactorRepository.save(model);
+        }
+        framingSafetyFactorRepository.flush();
+    }
+
+    @Override
+    public void reportType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "report_type.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            ReportType model = new ReportType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            reportTypeRepository.save(model);
+        }
+    }
+
+    @Override
+    public void statisticChannelingReportType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "statistic_channeling_report.txt", "\\|", 4 );
+        for(String[] data : lstDta){
+            StatisticChannelingReportType model = new StatisticChannelingReportType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            statisticChannelingReportTypeRepository.save(model);
+
+        }
+
     }
 }
 

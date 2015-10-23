@@ -42,6 +42,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import com.umeca.service.shared.EventService;
+
 
 import javax.persistence.criteria.*;
 import java.text.SimpleDateFormat;
@@ -68,6 +70,9 @@ public class ManagerevalController {
     private CaseRepository _case;
     @Autowired
     private StatusCaseRepository statusCase;
+
+    @Autowired
+    EventService eventService;
 
 
     @RequestMapping(value = {"/managereval/index"}, method = RequestMethod.GET)
@@ -414,6 +419,7 @@ public class ManagerevalController {
             if(requestDto.getReason().equals("")){
                 return new ResponseMessage(true, "Debes ingresar una raz&oacute;n por la cu&aacute;l quieres realizar la solicitud");
             }
+            boolean onlyInterview = false;
             Gson gson = new Gson();
             Long userId = userService.GetLoggedUserId();
             User userSender =userRepository.findOne(userId);
@@ -490,6 +496,12 @@ public class ManagerevalController {
                             c.setDateNotProsecute(new Date());
 
                             break;
+                        case Constants.ST_REQUEST_GET_FREEDOM:
+                            c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_GOT_FREEDOM));
+                            c.setDateNotProsecute(new Date());
+                            onlyInterview = true;
+                            break;
+
                     }
                     break;
                 case Constants.RESPONSE_TYPE_REJECTED:
@@ -505,6 +517,11 @@ public class ManagerevalController {
             }
             caseRequestRepository.save(caseRequest);
             qCaseRepository.save(c);
+
+            if(onlyInterview == true){
+                eventService.addEvent(Constants.EVENT_ONLY_INTERVIEW,c.getId(),null);
+            }
+
             LogNotification notif = new LogNotification();
             notif.setIsObsolete(false);
             User uSender = userRepository.findOne(userService.GetLoggedUserId());

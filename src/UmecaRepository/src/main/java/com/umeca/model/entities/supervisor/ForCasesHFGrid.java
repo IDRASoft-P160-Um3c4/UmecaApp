@@ -1,9 +1,18 @@
 package com.umeca.model.entities.supervisor;
 
+import com.sun.corba.se.impl.orbutil.closure.Constant;
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
+import com.umeca.model.entities.shared.SystemSetting;
+import com.umeca.model.entities.shared.SystemSettingValues;
+import com.umeca.model.shared.Constants;
+import com.umeca.repository.shared.SystemSettingRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class ForCasesHFGrid implements EntityGrid {
-
     private Long id;
     private String status;
     private String statusDesc;
@@ -18,6 +27,11 @@ public class ForCasesHFGrid implements EntityGrid {
     private StringBuilder sb;
     private boolean hasHF;
     private String assignedSupervisorName;
+    private Date dateOpinion;
+    private Boolean opinionDateExpired;
+    private Long opinionDateExpiredMil;
+    private String description;
+
 
 
     public ForCasesHFGrid(Long id, String status, String idMP, String name, String lastNameP, String lastNameM) {
@@ -35,10 +49,32 @@ public class ForCasesHFGrid implements EntityGrid {
         sb.append(" ");
         sb.append(this.lastNameM);
         this.fullName = sb.toString();
+
+
+    }
+
+    public ForCasesHFGrid(Long id, String status, String description, String idFolder,String idMP,String name, String lastNameP, String lastNameM ){
+        this.id = id;
+        this.status = status;
+        this.statusDesc = description;
+        this.idFolder = idFolder;
+        this.idMP = idMP;
+        this.name = name;
+        this.lastNameP = lastNameP;
+        this.lastNameM = lastNameM;
+
+        sb = new StringBuilder();
+        sb.append(this.name);
+        sb.append(" ");
+        sb.append(this.lastNameP);
+        sb.append(" ");
+        sb.append(this.lastNameM);
+        this.fullName = sb.toString();
+
     }
 
     public ForCasesHFGrid(Long id, String status, String statusDesc, String idFolder, String idMP, String name, String lastNameP,
-                          String lastNameM, Long framingMeetingId, Long idTR, boolean hasHF, String assignedSupervisorName) {
+                          String lastNameM, Long framingMeetingId, Long idTR, boolean hasHF, String assignedSupervisorName,Date dateOpinion) {
         this(id, status, idMP, name, lastNameP, lastNameM);
         this.statusDesc = statusDesc;
         this.idFolder = idFolder;
@@ -46,10 +82,16 @@ public class ForCasesHFGrid implements EntityGrid {
         this.idTR = idTR;
         this.hasHF = hasHF;
         this.assignedSupervisorName = assignedSupervisorName;
+
+
+
+        if(dateOpinion != null) {
+            this.opinionDateExpiredMil = dateOpinion.getTime();
+        }
     }
 
     public ForCasesHFGrid(Long id, String status, String statusDesc, String idFolder, String idMP, String name, String lastNameP,
-                          String lastNameM) {
+                          String lastNameM, Date dateOpinion) {
         this(id, status, idMP, name, lastNameP, lastNameM);
         this.statusDesc = statusDesc;
         this.idFolder = idFolder;
@@ -166,5 +208,37 @@ public class ForCasesHFGrid implements EntityGrid {
 
     public void setAssignedSupervisorName(String assignedSupervisorName) {
         this.assignedSupervisorName = assignedSupervisorName;
+    }
+
+    public Date getDateOpinion() {
+        return dateOpinion;
+    }
+
+    public void setDateOpinion(Date dateOpinion) {
+        this.dateOpinion = dateOpinion;
+    }
+
+    public Boolean getOpinionDateExpired() {
+        return opinionDateExpired;
+    }
+
+    public void setOpinionDateExpired(Boolean opinionDateExpired) {
+        this.opinionDateExpired = opinionDateExpired;
+    }
+
+    public Long getOpinionDateExpiredMil() {
+        return opinionDateExpiredMil;
+    }
+
+    public void setOpinionDateExpiredMil(Long opinionDateExpiredMil) {
+        this.opinionDateExpiredMil = opinionDateExpiredMil;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

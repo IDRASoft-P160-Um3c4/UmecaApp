@@ -230,7 +230,6 @@ public class TechnicalReviewController {
         ModelAndView model = new ModelAndView("/reviewer/technicalReview/infoFile");
 
         TechnicalReviewInfoFileView dataFile = technicalReviewService.fillInfoFile(id);
-
         model.addObject("data", dataFile);
         response.setContentType("application/force-download");
         response.setHeader("Content-Disposition", "attachment; filename=\"formato_de_opinion.doc\"");

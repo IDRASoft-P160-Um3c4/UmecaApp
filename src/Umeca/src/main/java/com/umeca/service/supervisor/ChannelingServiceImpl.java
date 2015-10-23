@@ -84,6 +84,9 @@ public class ChannelingServiceImpl implements ChannelingService {
     @Autowired
     ChannelingDropInfoRepository channelingDropInfoRepository;
 
+    @Autowired
+    ChannelingInstitutionNameRepository channelingInstitutionNameRepository;
+
     @Override
     public void getChannelingCatalogs(ModelAndView model) {
         Gson gson = new Gson();
@@ -110,6 +113,10 @@ public class ChannelingServiceImpl implements ChannelingService {
         lstGenericI = channelingTypeRepository.findNotObsolete();
         sLstGeneric = gson.toJson(lstGenericI);
         model.addObject("lstChannelingType", sLstGeneric);
+
+        lstGenericI = channelingInstitutionNameRepository.findNotObsolete();
+        sLstGeneric = gson.toJson(lstGenericI);
+        model.addObject("lstChannelingInstitutionName", sLstGeneric);
 
         return;
     }
@@ -249,7 +256,9 @@ public class ChannelingServiceImpl implements ChannelingService {
         model.setName(modelNew.getName());
 
         String code = channelingTypeRepository.getCodeById(modelNew.getChannelingTypeId());
-        model.setInstitutionName(modelNew.getInstitutionName());
+        model.setInstitutionName(new CatChannelingInstitutionName(){{
+            setId(modelNew.getInstitutionNameId());
+        }});
 
         model.setEconomicSupport(null);
         model.setPreventionType(null);

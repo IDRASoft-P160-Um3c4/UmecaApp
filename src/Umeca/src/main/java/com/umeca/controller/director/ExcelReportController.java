@@ -873,7 +873,7 @@ public class ExcelReportController {
             /*supervision*/
 
 
-            /*estadisticas*/
+            /*estadisticas*///
 
             ReportExcelSummary summ = conv.fromJson(filt, new TypeToken<ReportExcelSummary>() {
             }.getType());

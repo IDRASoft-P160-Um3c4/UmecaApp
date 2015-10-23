@@ -259,7 +259,7 @@ public class GenerateMonitoringPlanController {
                     && model.getActsPreIns() == 0 && model.getActsPreUpd() == 0 && model.getActsPreDel() == 0) {
                 response.setMessage("No fue posible realizar la operaci&oacute;n, revise que su informaci&oacute;n est&eacute; correcta o que la(s)" +
                         " actividad(es) que desea modificar y/o eliminar a&uacute;n no est&eacute;(n) finalizada(s) o sean actividades actuales y/o futuras.");
-                response.setHasError(true);
+                 response.setHasError(true);
             } else {
                 Gson gson = new Gson();
                 response.setReturnData(gson.toJson(model.getLstActivitiesUpserted()));

@@ -85,12 +85,20 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "where (c.id in (:lstCases) and md.block=true)")
     List<SelectList> getAllDrugsEval(@Param("lstCases") List<Long> lstCases);
 
-    @Query("select new com.umeca.model.shared.SelectList(c.id,fmd.id) from Case as c " +
+   @Query("select new com.umeca.model.shared.SelectList(c.id,dt.id) from Case as c " +
             "inner join c.framingMeeting as fm " +
             "inner join fm.drugs as fmd " +
             "inner join fmd.drugType dt " +
-            "where (c.id in (:lstCases) and fmd.block=true)")
+            "where (c.id in (:lstCases) and fmd.block=true) ")
+           // "and c.status.name in (com.umeca.model.shared.Constants.CASE_STATUS_HEARING_FORMAT_END, com.umeca.model.shared.Constants.CASE_STATUS_FRAMING_INCOMPLETE, com.umeca.model.shared.Constants.CASE_STATUS_FRAMING_COMPLETE,com.umeca.model.shared.Constants.CASE_STATUS_REQUEST,com.umeca.model.shared.Constants.CASE_STATUS_REQUEST_SUPERVISION,com.umeca.model.shared.Constants.CASE_STATUS_CLOSE_REQUEST)")
     List<SelectList> getAllDrugsSup(@Param("lstCases") List<Long> lstCases);
+
+  /*  @Query("select new com.umeca.model.shared.SelectList(c.id, d.id) from Case as c " +
+            "inner join c.framingMeeting as fm " +
+            "inner join fm.drugs as d " +
+            "inner join d.drugType as dT "  +
+            "where c.id in (:lstCases) and d.block = true")
+    List<SelectList> getAllDrugsSup(@Param("lstCases") List<Long> lstCases);  */
 
     @Query("select distinct (c.id) from Case as c " +
             "left join c.meeting as m " +
@@ -202,7 +210,8 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
     @Query("select new com.umeca.model.shared.SelectList(c.id,fmpd.gender) from Case as c " +
             "inner join c.framingMeeting as fm " +
             "inner join fm.personalData as fmpd " +
-            "where (c.id in (:lstCases)) and (fmpd.gender is not null)")
+            "where (c.id in (:lstCases)) and (fmpd.gender is not null) " +
+            "and c.status.name in (com.umeca.model.shared.Constants.CASE_STATUS_HEARING_FORMAT_END, com.umeca.model.shared.Constants.CASE_STATUS_FRAMING_INCOMPLETE, com.umeca.model.shared.Constants.CASE_STATUS_FRAMING_COMPLETE,com.umeca.model.shared.Constants.CASE_STATUS_REQUEST,com.umeca.model.shared.Constants.CASE_STATUS_REQUEST_SUPERVISION,com.umeca.model.shared.Constants.CASE_STATUS_CLOSE_REQUEST)")
     List<SelectList> getAllGenderSup(@Param("lstCases") List<Long> lstCases);
 
     @Query("select new com.umeca.model.shared.SelectList(c.id,ms.id) from Case as c " +
@@ -216,7 +225,8 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "inner join c.framingMeeting as fm " +
             "inner join fm.personalData as fmpd " +
             "inner join fmpd.maritalStatus as fmpdms " +
-            "where c.id in (:lstCases)")
+            "where c.id in (:lstCases) " +
+            "and c.status.name in (com.umeca.model.shared.Constants.CASE_STATUS_HEARING_FORMAT_END, com.umeca.model.shared.Constants.CASE_STATUS_FRAMING_INCOMPLETE, com.umeca.model.shared.Constants.CASE_STATUS_FRAMING_COMPLETE,com.umeca.model.shared.Constants.CASE_STATUS_REQUEST,com.umeca.model.shared.Constants.CASE_STATUS_REQUEST_SUPERVISION,com.umeca.model.shared.Constants.CASE_STATUS_CLOSE_REQUEST)")
     List<SelectList> getAllMaritalStatusSup(@Param("lstCases") List<Long> lstCases);
 
     @Query("select distinct (c.id) from Case as c " +
@@ -230,7 +240,8 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "inner join c.meeting as m " +
             "inner join m.jobs as j " +
             "inner join j.registerType as rt " +
-            "where (c.id in (:lstCases) and j.block=false)")
+            "where (c.id in (:lstCases) and j.block=false) " +
+            "and c.status.name in (com.umeca.model.shared.Constants.CASE_STATUS_HEARING_FORMAT_END, com.umeca.model.shared.Constants.CASE_STATUS_FRAMING_INCOMPLETE, com.umeca.model.shared.Constants.CASE_STATUS_FRAMING_COMPLETE,com.umeca.model.shared.Constants.CASE_STATUS_REQUEST,com.umeca.model.shared.Constants.CASE_STATUS_REQUEST_SUPERVISION,com.umeca.model.shared.Constants.CASE_STATUS_CLOSE_REQUEST)")
     List<Long> getAllNoJobEv(@Param("lstCases") List<Long> lstCases);
 
     @Query("select distinct (c.id) from Case as c " +
@@ -252,7 +263,8 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "inner join m.school sch " +
             "inner join sch.degree deg " +
             "inner join deg.academicLevel alvl " +
-            "where (c.id in (:lstCases))")
+            "where (c.id in (:lstCases)) " +
+            "and c.status.name in (com.umeca.model.shared.Constants.CASE_STATUS_HEARING_FORMAT_END, com.umeca.model.shared.Constants.CASE_STATUS_FRAMING_INCOMPLETE, com.umeca.model.shared.Constants.CASE_STATUS_FRAMING_COMPLETE,com.umeca.model.shared.Constants.CASE_STATUS_REQUEST,com.umeca.model.shared.Constants.CASE_STATUS_REQUEST_SUPERVISION,com.umeca.model.shared.Constants.CASE_STATUS_CLOSE_REQUEST)")
     List<SelectList> getAllAcLvlEv(@Param("lstCases") List<Long> lstCases);
 
     @Query("select new com.umeca.model.shared.SelectList(c.id, alvl.id) from Case as c " +
@@ -260,7 +272,8 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "inner join fm.school sch " +
             "inner join sch.degree deg " +
             "inner join deg.academicLevel alvl " +
-            "where (c.id in (:lstCases))")
+            "where (c.id in (:lstCases)) " +
+            "and c.status.name in (com.umeca.model.shared.Constants.CASE_STATUS_HEARING_FORMAT_END, com.umeca.model.shared.Constants.CASE_STATUS_FRAMING_INCOMPLETE, com.umeca.model.shared.Constants.CASE_STATUS_FRAMING_COMPLETE,com.umeca.model.shared.Constants.CASE_STATUS_REQUEST,com.umeca.model.shared.Constants.CASE_STATUS_REQUEST_SUPERVISION,com.umeca.model.shared.Constants.CASE_STATUS_CLOSE_REQUEST)")
     List<SelectList> getAllAcLvlSup(@Param("lstCases") List<Long> lstCases);
 
 //    @Query("select distinct (c.id) from Case as c " +
@@ -467,20 +480,77 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "where CDET.id in (:lstCasesIds)")
     List<ExcelActivitiesDto> getFramingInfoActivities(@Param("lstCasesIds") List<Long> lstCasesIds);
 
-    @Query(value = "select count(distinct C.id_case) as CC, A.description from cat_arrangement A " +
+  /*  @Query(value = "select count(distinct C.id_case) as CC, A.description from cat_arrangement A " +
             "left join assigned_arrangement AA on AA.id_arrangement = A.id_arrangement " +
             "left join hearing_format HF on AA.id_hearing_format = HF.id_hearing_format " +
             "left join case_detention C on HF.id_case = C.id_case " +
             "where C.id_case in (:lstCases) or C.id_case is null group by A.description order by CC desc", nativeQuery = true)
-    List<Object> getCountCasesByArrangement(@Param("lstCases") List<Long> lstCases);
+    List<Object> getCountCasesByArrangement(@Param("lstCases") List<Long> lstCases); */
 
-    @Query(value = "select  count(distinct CD.id_case) as CCC,GC.description from cat_group_crime GC " +
-            "left join cat_crime CC on GC.id_group = CC.id_group " +
+    @Query(value = "select " +
+            "    count(ResA.caseHF) as CC, " +
+            "        cat_arrangement.description " +
+            "                        from assigned_arrangement " +
+            "                    inner join( " +
+            "                        select " +
+            "                        case_detention.id_case 'caseHF', " +
+            "                        max(hearing_format.id_hearing_format) 'lastHF' " +
+            "                        from case_detention " +
+            "                        inner join  hearing_format " +
+            "                        on hearing_format.id_case = case_detention.id_case and hearing_format.is_finished = true " +
+            "                        inner join cat_status_case " +
+            "                        on cat_status_case.id_status = case_detention.id_status and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+            "                        group by case_detention.id_case)ResA " +
+            "                        on assigned_arrangement.id_hearing_format = ResA.lastHF " +
+            "                        right join cat_arrangement " +
+            "                        on assigned_arrangement.id_arrangement = cat_arrangement.id_arrangement " +
+            "                        where (ResA.caseHF in (:lstFormats) or ResA.caseHF is null) " +
+            "                        group by cat_arrangement.id_arrangement\n" +
+            "                        order by CC desc", nativeQuery = true)
+    List<Object> getCountCasesByArrangement(@Param("lstFormats") List<Long> lstFormats);
+
+
+
+  /*  @Query(value = "select  count(distinct CD.id_case) as CCC, CC.description from " +
+            "from cat_crime CC " +
             "left join crime CR on CC.id_crime_cat = CR.id_crime_cat " +
-            "left join hearing_format HF on HF.id_hearing_format = CR.hearingFormat " +
+            "left join hearing_format HF on HF.id_hearing_format = CR.hearingFormat and HF.is_finished = true " +
             "left join case_detention CD on HF.id_case = CD.id_case " +
-            "where (CD.id_case in (:lstCases) or CD.id_case is null) group by GC.description order by CCC desc", nativeQuery = true)
+            "left join cat_status_case CSC " +
+            "on CSC.id_status = CD.id_status and CSC.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+            "where (CD.id_case in (:lstCases) or CD.id_case is null) " +
+            "group by GC.description order by CCC desc", nativeQuery = true)
+    List<Object> getCountCasesByCrimeSup(@Param("lstCases") List<Long> lstCases); */
+
+
+    @Query(value = "select  count(distinct ResA.id_case) as CCC,CC.description from cat_crime CC " +
+            "            left join crime CR on CC.id_crime_cat = CR.id_crime_cat  " +
+            "            left join " +
+            "            (select " +
+            "                    max(hearingfor10_.id_hearing_format) idHearing, " +
+            "                    case9_.id_case id_case " +
+            "                from " +
+            "                    case_detention case9_ " +
+            "                inner join " +
+            "                    hearing_format hearingfor10_ " +
+            "                        on case9_.id_case=hearingfor10_.id_case cross " +
+            "                join " +
+            "                    cat_status_case statuscase11_ " +
+            "                where " +
+            "                    case9_.id_status=statuscase11_.id_status  " +
+            "                    and case9_.id_case in (:lstCases) " +
+            "                    and hearingfor10_.is_finished=1 " +
+            "                    and (" +
+            "                        statuscase11_.status in ( " +
+            "                            'ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE' , 'ST_CASE_FRAMING_MEETING_COMPLETE' , 'ST_CASE_REQUEST' , 'ST_CASE_REQUEST_SUPERVISION' , 'ST_CASE_CLOSE_REQUEST' " +
+            "                        ) " +
+            "                    ) " +
+            "                group by " +
+            "                    case9_.id_case) ResA " +
+            "            on CR.hearingFormat = ResA.idHearing " +
+            "            group by CC.description order by CCC desc", nativeQuery = true)
     List<Object> getCountCasesByCrimeSup(@Param("lstCases") List<Long> lstCases);
+
 
     @Query(value = "select  count(distinct CD.id_case) as CCC,GC.description from cat_group_crime GC " +
             "left join cat_crime CC on GC.id_group = CC.id_group " +
@@ -519,6 +589,30 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
             "left join case_detention C on HF.id_case = C.id_case " +
             "where HF.id_hearing_format in (:lstFormats) or C.id_case is null group by A.description order by CC desc", nativeQuery = true)
     List<Object> getCountCasesByArrangementInFormatsId(@Param("lstFormats") List<Long> lstFormats);
+
+/*
+    //contar los casos para cada medida en los formatos de audiencia
+    @Query(value = "select " +
+            "    count(ResA.caseHF) as CC, " +
+            "        cat_arrangement.description " +
+            "                        from assigned_arrangement " +
+            "                    inner join( " +
+            "                        select " +
+            "                        case_detention.id_case 'caseHF', " +
+            "                        max(hearing_format.id_hearing_format) 'lastHF' " +
+            "                        from case_detention " +
+            "                        inner join  hearing_format " +
+            "                        on hearing_format.id_case = case_detention.id_case and hearing_format.is_finished = true " +
+            "                        inner join cat_status_case " +
+            "                        on cat_status_case.id_status = case_detention.id_status and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+            "                        group by case_detention.id_case)ResA " +
+            "                        on assigned_arrangement.id_hearing_format = ResA.lastHF " +
+            "                        right join cat_arrangement " +
+            "                        on assigned_arrangement.id_arrangement = cat_arrangement.id_arrangement " +
+            "                        where (ResA.caseHF in (:lstFormats) or ResA.caseHF is null) " +
+            "                        group by cat_arrangement.id_arrangement\n" +
+            "                        order by CC desc", nativeQuery = true)
+    List<Object> getCountCasesByArrangementInFormatsId(@Param("lstFormats") List<Long> lstFormats); */
 
     //traer los casos con drogas en entrevista de encuadre finalizada
     @Query(value = "select CD.id_case, DT.id_drug_type from case_detention CD " +

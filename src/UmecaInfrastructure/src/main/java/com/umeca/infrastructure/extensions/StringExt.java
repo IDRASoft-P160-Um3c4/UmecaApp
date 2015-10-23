@@ -1,11 +1,8 @@
 package com.umeca.infrastructure.extensions;
 
-/**
- * Project: Umeca
- * User: Israel
- * Date: 4/30/14
- * Time: 6:07 PM
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class StringExt {
     public static boolean isNullOrWhiteSpace(java.lang.String param) {
         return param == null || param.trim().length() == 0;
@@ -17,5 +14,38 @@ public class StringExt {
             return "NA";
 
         return supUserDone;
+    }
+
+    public static String joinToString(List<Long> lstData) {
+        if(lstData == null || lstData.size() == 0){
+            return null;
+        }
+
+        String sRet = "";
+        for (Long data : lstData){
+            sRet = sRet + (sRet == "" ? "" : ", ") + data;
+        }
+        return sRet;
+    }
+
+    public static List<Long> getListIds(String sIds) {
+
+        if(sIds == null)
+            return null;
+
+        String[] strArray = sIds.split(",");
+
+        List<Long> lstIds = new ArrayList<>(strArray.length);
+
+        for(int i = 0; i < strArray.length; i++) {
+            try{
+                String sVal = strArray[i].trim();
+                lstIds.add(Long.parseLong(sVal));
+            }catch (Exception e){
+                continue;
+            }
+        }
+
+        return lstIds;
     }
 }

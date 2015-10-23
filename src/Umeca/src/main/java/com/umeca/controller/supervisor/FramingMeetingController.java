@@ -31,6 +31,7 @@ import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.shared.CrimeService;
+import com.umeca.service.shared.EventService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.shared.UpDwFileService;
 import com.umeca.service.supervisor.FramingMeetingService;
@@ -38,6 +39,7 @@ import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -115,6 +117,9 @@ public class FramingMeetingController {
 
     @Autowired
     private InformationAvailabilityRepository informationAvailabilityRepository;
+
+    @Autowired
+    private EventService eventService;
 
     @RequestMapping(value = "/supervisor/framingMeeting/index", method = RequestMethod.GET)
     public String index() {
@@ -286,7 +291,9 @@ public class FramingMeetingController {
 
             model.addObject("hasTR", caseDet.getTechnicalReview() != null);
             model.addObject("listCrime", crimeService.getListCrimeHearingformatByCase(id));
-
+            model.addObject("isFromFormulation",eventService.caseHasEvent(Constants.EVENT_FROM_FORMULATION, caseDet.getId()));
+            model.addObject("interviewDeclined",eventService.caseHasEvent(Constants.EVENT_INTERVIEW_DECLINED, caseDet.getId()));
+            model.addObject("caseReport",eventService.caseHasEvent(Constants.EVENT_CASE_REPORT, caseDet.getId()));
             model.addObject("lstCL", new Gson().toJson(technicalReviewRepository.getCommunityLinksByCaseId(id)));
             model.addObject("lstPR", new Gson().toJson(technicalReviewRepository.getProceduralRiskByCaseId(id)));
             model.addObject("lstInfoAvail", new Gson().toJson(informationAvailabilityRepository.findNoObsolete()));
@@ -1099,8 +1106,63 @@ public class FramingMeetingController {
     }
 
 
-//    @InitBinder
-//    public void initBinder(WebDataBinder dataBinder) {
-//        dataBinder.registerCustomEditor(String.class, new StringEscapeEditor(false, false, true));
-//    }
+    @RequestMapping(value = {"/supervisor/framingMeeting/dates"}, method = RequestMethod.GET)
+    public ModelAndView FramingMeetingDate(){
+        ModelAndView model = new ModelAndView("/supervisor/framingMeeting/dates");
+        return model;
+    }
+
+
+    @RequestMapping(value = "/supervisor/framingMeeting/datesList", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel datesList(@ModelAttribute JqGridFilterModel opts) {
+
+        opts.extraFilters = new ArrayList<>();
+        /*JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
+                new ArrayList<String>() {{
+                    add(Constants.CASE_STATUS_HEARING_FORMAT_END);
+                    add(Constants.CASE_STATUS_FRAMING_COMPLETE);
+                    add(Constants.CASE_STATUS_FRAMING_INCOMPLETE);
+                }}, JqGridFilterModel.COMPARE_IN
+        );
+        opts.extraFilters.add(extraFilter);*/
+
+        JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
+
+            @Override
+            public <T> List<Selection<?>> getFields(final Root<T> r) {
+
+                final javax.persistence.criteria.Join<Case, StatusCase> joinSt = r.join("status");
+                final javax.persistence.criteria.Join<Case, StatusCase> joinM = r.join("meeting").join("imputed");
+                final javax.persistence.criteria.Join<Case, StatusCase> joinUS = r.join("umecaSupervisor");
+                final javax.persistence.criteria.Join<Case, StatusCase> joinHF = r.join("hearingFormats");
+                return new ArrayList<Selection<?>>() {{
+                    add(r.get("id"));
+                    add(joinSt.get("name"));
+                    add(joinSt.get("description"));
+                    add(r.get("idMP"));
+                    add(joinM.get("name"));
+                    add(joinM.get("lastNameP"));
+                    add(joinM.get("lastNameM"));
+                    add(joinM.get("birthDate"));
+                    add(joinHF.get("umecaDate"));
+                    add(joinHF.get("umecaTime"));
+                    add(joinUS.get("fullname"));
+                }};
+            }
+            @Override
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("idMP"))
+                    return r.get("idMP");
+
+                if (field.equals("statusName"))
+                    return r.join("status").get("name");
+
+                return null;
+            }
+        }, Case.class, ForFramingMeetingGrid.class);
+
+        return result;
+    }
 }
