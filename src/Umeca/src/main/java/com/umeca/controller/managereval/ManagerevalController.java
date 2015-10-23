@@ -2,6 +2,7 @@ package com.umeca.controller.managereval;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.umeca.infrastructure.extensions.CalendarExt;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
@@ -347,7 +348,7 @@ public class ManagerevalController {
 
     @RequestMapping(value = "/managereval/responseRequest", method = RequestMethod.POST)
     public ModelAndView responseRequest(@RequestParam Long id) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        // SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         ModelAndView model = new ModelAndView("/managereval/authorizeRequest/responseRequest");
         try{
             CaseRequest caseRequest = caseRequestRepository.findOne(id);
@@ -368,7 +369,7 @@ public class ManagerevalController {
             Message requestMessage= caseRequest.getRequestMessage();
             model.addObject("reason", requestMessage.getBody());
             model.addObject("user", requestMessage.getSender().getFullname());
-            model.addObject("dateRequest", dateFormat.format(requestMessage.getCreationDate()));
+            model.addObject("dateRequest", CalendarExt.calendarToFormatString(requestMessage.getCreationDate(),Constants.FORMAT_CALENDAR_IV));
             List<SourceVerification> sources = new ArrayList<>();
             if(requestType.getName().equals(Constants.ST_REQUEST_CHANGE_SOURCE)){
                 sources = caseRequest.getSources();
