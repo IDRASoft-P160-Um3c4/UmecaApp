@@ -168,12 +168,7 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     @Autowired
     StatisticChannelingReportTypeRepository statisticChannelingReportTypeRepository;
 
-
-<<<<<<< HEAD
     private String PATH = "C:\\Users\\Administrator\\Documents\\GitHub\\UmecaApp-Morelos\\UmecaApp\\db\\";
-=======
-    private String PATH = "C:\\Users\\DeveloperII\\Source\\UmecaApp\\db\\";
->>>>>>> 771181fe0337a1bd9b6c64ceb16390cae54de338
 
 //    private String PATH = "C:\\Users\\Rata\\Desktop\\branchSandra\\UmecaApp\\db\\";
 
