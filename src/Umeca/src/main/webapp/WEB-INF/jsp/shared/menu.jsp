@@ -439,12 +439,24 @@
                     <sec:authorize access="hasRole('ROLE_HUMAN_RESOURCES')">
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                    class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Dispositivos
+                                    class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Control de asistencia
                                 <i class="icon-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="<c:url value='/timeAttendance/device/index.html' />"><i
-                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Configuraci&oacute;n de Biom&eacute;tricos</a>
+                                <li><a href="<c:url value='/humanResources/device/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Configuraci&oacute;n de dispositivos biom&eacute;tricos</a>
+                                </li>
+                                <li><a href="<c:url value='/humanResources/assistence/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Control de retardos</a>
+                                </li>
+                                <li><a href="<c:url value='/humanResources/bonustime/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Gesti&oacute;n de horas extra</a>
+                                </li>
+                                <li><a href="<c:url value='/humanResources/absence/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Gesti&oacute;n de faltas del personal</a>
+                                </li>
+                                <li><a href="<c:url value='/humanResources/incidence/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Gesti&oacute;n de incidencias</a>
                                 </li>
                             </ul>
                         </li>
