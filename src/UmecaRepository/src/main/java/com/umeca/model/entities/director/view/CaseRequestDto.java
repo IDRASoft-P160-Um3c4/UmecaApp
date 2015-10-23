@@ -1,5 +1,8 @@
 package com.umeca.model.entities.director.view;
 
+import com.umeca.infrastructure.extensions.CalendarExt;
+import com.umeca.model.shared.Constants;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,7 +15,7 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 public class CaseRequestDto {
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+    ///private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
     String status;
     String typeRequest;
     String messageRequest;
@@ -41,10 +44,12 @@ public class CaseRequestDto {
         this.messageRequest = messageRequest;
         this.messageResponse = messageResponse;
         this.dateRequest = dateRequest;
-        this.dateRequestString =  dateFormat.format(this.dateRequest);
+        if(this.dateRequest!=null){
+            this.dateRequestString = CalendarExt.calendarToFormatString(this.dateRequest, Constants.FORMAT_CALENDAR_II);
+        }
         this.dateResponse = dateResponse;
         if(this.dateResponse!=null){
-            this.dateResponseString =  dateFormat.format(this.dateResponse);
+            this.dateResponseString = CalendarExt.calendarToFormatString(this.dateResponse, Constants.FORMAT_CALENDAR_II);
         }
         this.userRequest = userRequest;
         this.userResponse = userResponse;
