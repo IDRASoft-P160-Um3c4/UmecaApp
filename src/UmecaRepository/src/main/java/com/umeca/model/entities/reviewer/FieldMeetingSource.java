@@ -13,7 +13,8 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="field_meeting_source")
+@Table(name="field_meeting_source", uniqueConstraints = @UniqueConstraint(columnNames = {"id_field", "id_source_verification", "id_field_list"}))
+
 public class FieldMeetingSource {
 
     public FieldMeetingSource() {
@@ -48,7 +49,7 @@ public class FieldMeetingSource {
     private Long id;
 
     @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_source_verification", nullable = true)
+    @JoinColumn(name="id_source_verification", nullable = false)
     private SourceVerification sourceVerification;
 
     @ManyToOne(fetch=FetchType.LAZY)
@@ -68,7 +69,7 @@ public class FieldMeetingSource {
     @Column(name="is_final", nullable = true)
     private Boolean isFinal;
 
-    @Column(name="id_filed_list", nullable = true)
+    @Column(name="id_field_list", nullable = true)
     private Long idFieldList;
 
     @Column(name="reason", length = 500, nullable = true)

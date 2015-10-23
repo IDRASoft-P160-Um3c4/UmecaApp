@@ -87,8 +87,8 @@
                                 var cl = ids[i];
                                 var row = $(this).getRowData(cl);
                                 var enabled = row.enabled;
-                                var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar curso\" onclick=\"window.upsertReference('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
-                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar curso\" onclick=\"window.deleteReference('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+                                var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar referencia\" onclick=\"window.upsertReference('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar referencia\" onclick=\"window.deleteReference('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                                 $(this).jqGrid('setRowData', ids[i], {Action: be});
                             }
                         },

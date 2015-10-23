@@ -103,7 +103,7 @@
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar empleado\" onclick=\"deleteEmployee('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar expediente\" onclick=\"downloadDigitalRecord('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
                         } else {
-                            be = "";
+                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar expediente\" onclick=\"downloadDigitalRecord('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
                         }
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
