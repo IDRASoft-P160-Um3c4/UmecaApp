@@ -60,7 +60,7 @@
                         var _f = fId[i];
                         var be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar incapacidad\" onclick=\"window.upsertIncapacity('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
                         be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar incapacidad\" onclick=\"window.deleteIncapacity('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
-                        be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar archivo del incapacidad\" onclick=\"window.download('" + _f + "');\"><i class=\"glyphicon glyphicon-cloud-download\"></i></a>  ";
+                        be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar archivo de la incapacidad\" onclick=\"window.download('" + _f + "');\"><i class=\"glyphicon glyphicon-cloud-download\"></i></a>  ";
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
                 },
