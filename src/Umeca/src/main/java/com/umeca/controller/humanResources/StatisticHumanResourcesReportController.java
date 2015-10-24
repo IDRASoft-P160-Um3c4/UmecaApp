@@ -5,6 +5,7 @@ import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.ReportTypeRepository;
+import com.umeca.repository.catalog.StatisticHumanResourcesReportTypeRepository;
 import com.umeca.repository.catalog.StatisticOperatorReportTypeRepository;
 import com.umeca.repository.humanResources.EmployeeRepository;
 import com.umeca.repository.supervisor.DistrictRepository;
@@ -34,9 +35,10 @@ public class StatisticHumanResourcesReportController {
     ReportTypeRepository reportTypeRepository;
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     EmployeeRepository  employeeRepository;
+    @Autowired
+    StatisticHumanResourcesReportTypeRepository statisticHumanResourcesReportTypeRepository;
 
     @RequestMapping(value = "/humanResources/statisticReport/index", method = RequestMethod.GET)
     public ModelAndView index() {
@@ -45,9 +47,10 @@ public class StatisticHumanResourcesReportController {
         List<SelectList> lstEmployee = employeeRepository.getAllNoObsoleteEmployees();
         List<SelectList> lstDistrict = districtRepository.findNoObsolete();
         List<SelectList> lstReportType = reportTypeRepository.getAllNoObsolete();
+        List<SelectList> lstFilter = statisticHumanResourcesReportTypeRepository.getAllNoObsolete();
         model.addObject("lstDistrict", gson.toJson(lstDistrict));
         model.addObject("lstReportType", gson.toJson(lstReportType));
-        model.addObject("lstFilter", gson.toJson(lstEmployee));
+        model.addObject("lstFilter", gson.toJson(lstFilter));
         model.addObject("lstEmployee", gson.toJson(lstEmployee));
         return model;
     }
