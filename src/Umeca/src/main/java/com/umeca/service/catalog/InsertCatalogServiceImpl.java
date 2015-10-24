@@ -167,6 +167,8 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     ReportTypeRepository reportTypeRepository;
     @Autowired
     StatisticChannelingReportTypeRepository statisticChannelingReportTypeRepository;
+    @Autowired
+    StatisticHumanResourcesReportTypeRepository statisticHumanResourcesReportTypeRepository;
 
 
 //    private String PATH = "C:\\Users\\DeveloperII\\Source\\UmecaApp\\db\\";
@@ -1190,6 +1192,20 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
 
         }
 
+    }
+
+    @Override
+    public void statisticHumanResourcesReportType() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "statisticHumanResourcesReport.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            StatisticHumanResourcesReportType model = new StatisticHumanResourcesReportType();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setDescription(data[2]);
+            model.setIsObsolete(data[3].equals("1"));
+            statisticHumanResourcesReportTypeRepository.save(model);
+        }
+        statisticHumanResourcesReportTypeRepository.flush();
     }
 }
 

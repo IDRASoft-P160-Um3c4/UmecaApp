@@ -402,6 +402,12 @@ public class InsertCatalogController {
         return "statisticChannelingReportType";
     }
 
+    @RequestMapping(value = "/catalogs/statisticHumanResourcesReportType", method = RequestMethod.GET)
+    public String statisticHumanResourcesReportType() {
+        service.statisticHumanResourcesReportType();
+        return "statisticHumanResourcesReportType";
+    }
+
 
 
 
@@ -470,6 +476,7 @@ public class InsertCatalogController {
         service.statisticSupervisorManagerReportType();
         service.reportType();
         service.statisticChannelingReportType();
+        service.statisticHumanResourcesReportType();
         return "insertCatalog OK!!";
     }
 }

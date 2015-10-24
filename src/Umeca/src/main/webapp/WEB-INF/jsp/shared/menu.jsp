@@ -566,6 +566,16 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Reportes
+                                <i class="icon-caret-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<c:url value='/humanResources/statisticReport/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Reportes estad&iacute;sticos
+                                    </a></li>
+                            </ul>
+                        </li>
 
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
