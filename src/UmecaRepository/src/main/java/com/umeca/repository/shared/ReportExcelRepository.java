@@ -21,8 +21,7 @@ public interface ReportExcelRepository extends JpaRepository<Case, Long> {
 
     @Query("select distinct (c.id) from Case as c " +
             "inner join c.status st " +
-            "where (st.name not in " +
-            "      (com.umeca.model.shared.Constants.CASE_STATUS_NOT_PROSECUTE) and (c.dateCreate between :initDate and :endDate))")
+            "where (c.dateCreate between :initDate and :endDate)")
     List<Long> findIdCasesByDates(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
 
     @Query("select distinct (c.id) from Case as c " +
