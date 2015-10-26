@@ -1,0 +1,25 @@
+package com.umeca.model.entities.humanReources;
+
+import javax.persistence.*;
+
+/**
+ * Created by Administrator on 10/23/2015.
+ */
+@Entity
+@Table(name = "employee_fingerprint")
+public class EmployeeFingerPrint {
+    @Id
+    @GeneratedValue
+    @Column(name = "id_employee_fingerprint")
+    private Long id;
+
+    @Column(name = "finger")
+    private int finger;
+
+    @Column(name = "fingerprint", length = 2048)
+    private String fingerprint;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_employee")
+    private Employee employee;
+}
