@@ -6,9 +6,11 @@ import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.catalog.StatusMeeting;
+import com.umeca.model.catalog.StatusVerification;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
+import com.umeca.model.entities.reviewer.Verification;
 import com.umeca.model.entities.reviewer.View.CaseReportView;
 import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileAllSourcesView;
 import com.umeca.model.entities.shared.Event;
@@ -22,9 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Selection;
+import javax.persistence.criteria.*;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,12 +77,14 @@ public class CaseReportController {
 
                 final javax.persistence.criteria.Join<Event, Case> joinC = r.join("caseDetention");
                 final javax.persistence.criteria.Join<Case, Meeting> joinM = joinC.join("meeting");
+                final javax.persistence.criteria.Join<Verification, StatusVerification> joinVer = joinC.join("verification", JoinType.LEFT);
                 final javax.persistence.criteria.Join<Meeting, StatusMeeting> joinSM = joinM.join("status");
                 final javax.persistence.criteria.Join<Meeting, Imputed> joinImp = joinM.join("imputed");
                 final javax.persistence.criteria.Join<Meeting, Imputed> joinUsr = joinM.join("reviewer");
 
                 return new ArrayList<Selection<?>>() {{
                     add(joinC.get("id"));
+                    add(joinVer.get("id").alias("idVerif"));
                     add(joinSM.get("name").alias("statusCode"));
                     add(joinC.get("idFolder"));
                     add(joinImp.get("name"));
