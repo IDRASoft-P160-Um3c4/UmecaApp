@@ -66,7 +66,7 @@ public class Formulation implements EntityGrid {
     @Column(name = "umeca_interview_date", nullable = false)
     private Date umecaInterviewDate;
 
-    @Column(name = "hearing_date", nullable = false)
+    @Column(name = "hearing_date", nullable = true)
     private Date hearingDate;
 
     @Column(name = "is_obsolete", nullable = false)
@@ -77,7 +77,7 @@ public class Formulation implements EntityGrid {
     private User reviewer;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_managereval", nullable = false)
+    @JoinColumn(name = "id_managereval", nullable = true)
     private User managereval;
 
     @Column(name = "comments", length = 300, nullable = true)

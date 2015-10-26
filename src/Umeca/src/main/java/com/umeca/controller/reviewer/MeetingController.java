@@ -20,6 +20,7 @@ import com.umeca.model.shared.ConsMessage;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
+import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.managereval.FormulationRepository;
 import com.umeca.repository.reviewer.MeetingRepository;
 import com.umeca.repository.supervisor.DistrictRepository;
@@ -70,6 +71,9 @@ public class MeetingController {
 
     @Autowired
     CaseRepository caseRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @RequestMapping(value = "/reviewer/meeting/list", method = RequestMethod.POST)
     public
@@ -190,7 +194,7 @@ public class MeetingController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("statusCode"))
                     return r.join("meeting").join("status").get("name");
-                else if (field.equals("reviewerId"))
+                else if  (field.equals("reviewerId"))
                     return r.join("meeting").join("reviewer").get("id");
                 if (field.equals("idFolder"))
                     return r.get("idFolder");
@@ -445,29 +449,58 @@ public class MeetingController {
     public
     @ResponseBody
     ResponseMessage doNewMeeting(@ModelAttribute Imputed imputed) {
-        imputed.setFoneticString(sharedUserService.getFoneticByName(imputed.getName(),imputed.getLastNameP(),imputed.getLastNameM()));
-        ResponseMessage validateCreate = meetingService.validateCreateMeeting(imputed);
 
-        if(imputed.getFormulationId() != null){
+        try{
+            imputed.setFoneticString(sharedUserService.getFoneticByName(imputed.getName(),imputed.getLastNameP(),imputed.getLastNameM()));
+            ResponseMessage validateCreate = meetingService.validateCreateMeeting(imputed);
 
-            Formulation formulation = formulationRepository.findOne(imputed.getFormulationId());
-            formulation.setPresence(true);
-            formulationRepository.save(formulation);
+            if(imputed.getFormulationId() != null){
+
+                Formulation formulation = formulationRepository.findOne(imputed.getFormulationId());
+                formulation.setPresence(true);
+                formulationRepository.save(formulation);
+            }
+            if(imputed.getFormulationId() == null && imputed.getIsFromFormulation() == true){
+                Formulation formulation = new Formulation();
+
+                formulation.setFirstName(imputed.getName());
+                formulation.setLastNameP(imputed.getLastNameP());
+                formulation.setLastNameM(imputed.getLastNameM());
+                formulation.setRegistrationFormulationDate(new Date());
+                formulation.setUmecaInterviewDate(new Date());
+                formulation.setDocument("Sin oficio");
+                formulation.setCertificateNotification("Sin cédula de notificación");
+                formulation.setIsObsolete(false);
+                formulation.setPresence(true);
+                formulation.setReviewer(userRepository.findOne(userService.GetLoggedUserId()));
+                formulation.setId(null);
+
+                formulationRepository.save(formulation);
+
+            }
+
+
+
+            if (validateCreate != null)
+                return validateCreate;
+            Long idCase = meetingService.createMeeting(imputed);
+            ResponseMessage result = new ResponseMessage(false, "Se ha guardado exitosamente");
+            if(imputed.getMeeting().getDeclineReason() != null){
+                Case c = caseRepository.findOne(idCase);
+                c.setDateNotProsecute(new Date());
+                caseRepository.save(c);
+                result.setUrlToGo("declined.html");
+            }else {
+                result.setUrlToGo("meeting.html?id=" + idCase);
+            }
+            return result;
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doNewMeeting", sharedUserService);
+            return new ResponseMessage(true, "Ha ocurrido un error al crear la entrevista");
         }
 
-        if (validateCreate != null)
-            return validateCreate;
-        Long idCase = meetingService.createMeeting(imputed);
-        ResponseMessage result = new ResponseMessage(false, "Se ha guardado exitosamente");
-        if(imputed.getMeeting().getDeclineReason() != null){
-            Case c = caseRepository.findOne(idCase);
-            c.setDateNotProsecute(new Date());
-            caseRepository.save(c);
-            result.setUrlToGo("declined.html");
-        }else {
-            result.setUrlToGo("meeting.html?id=" + idCase);
-        }
-        return result;
+
+
     }
 
     @RequestMapping(value = {"/reviewer/meeting/meeting","/reviewer/formulation/meeting"}, method = RequestMethod.GET)
