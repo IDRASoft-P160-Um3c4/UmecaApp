@@ -204,7 +204,7 @@ app.controller('choiceInformationController', function ($scope, $timeout, $q, sh
                     resp = resp.responseMessage;
                 }
                 if (resp.hasError === true) {
-                    alert("errrrooooorA");
+                    alert(resp.message);
                 }
                 else {
                     $scope.lstFinalFieldInfo = JSON.parse(resp.returnData);
@@ -212,7 +212,7 @@ app.controller('choiceInformationController', function ($scope, $timeout, $q, sh
                 }
             },
             error: function () {
-                alert("errrrooooorB");
+                alert("Error de red");
             }
         };
 

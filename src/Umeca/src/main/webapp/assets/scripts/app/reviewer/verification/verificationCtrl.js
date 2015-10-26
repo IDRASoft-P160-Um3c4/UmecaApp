@@ -174,7 +174,7 @@ app.controller('verificationController', function ($scope, $timeout, $q, sharedS
                     resp = resp.responseMessage;
                 }
                 if (resp.hasError === true) {
-                    alert("errrrooooorA");
+                    alert(resp.message);
                 }
                 else {
                     $scope.lstFieldInfo = JSON.parse(resp.returnData);
@@ -183,7 +183,7 @@ app.controller('verificationController', function ($scope, $timeout, $q, sharedS
                 }
             },
             error: function () {
-                alert("errrrooooorB");
+                alert("Error de red");
             }
         };
 
