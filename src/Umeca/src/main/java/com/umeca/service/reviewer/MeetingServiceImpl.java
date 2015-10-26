@@ -1442,7 +1442,7 @@ public class MeetingServiceImpl implements MeetingService {
         try {
             TerminateMeetingMessageDto validate = new TerminateMeetingMessageDto();
             validateProceedingLegal(cpv, validate);
-            if (validate.existsMessageProperties()) {//valida cada seccion
+            if (validate.existsMessageProperties()) {
                 Gson gson = new Gson();
                 List<String> listGeneral = new ArrayList<>();
                 listGeneral.add(Convert.convertToValidString("No se puede guardar la informaci&oacute;n legal puesto que falta por responder preguntas, para m&aacute;s detalles revise los mensajes de cada secci&oacute;n"));
@@ -1450,20 +1450,19 @@ public class MeetingServiceImpl implements MeetingService {
                 result.setHasError(true);
                 validate.formatMessages();
                 result.setMessage(gson.toJson(validate));
-                return result; //en caso de que algo falte muestra los mensajes correspondientes
+                return result;
             }
-
             Case c = caseRepository.findOne(cpv.getIdCase());
-            refreshCurrentProceeding(cpv, c);//actualiza los valores de la seccion proceso actual
-            refreshPreviousProceeding(cpv, c);//actualiza los valores de la seccion procesos anteriores
-            StatusMeeting stm = statusMeetingRepository.findByCode(Constants.S_MEETING_COMPLETE);// se acutaliza el estatus del meeting
+            refreshCurrentProceeding(cpv, c);
+            refreshPreviousProceeding(cpv, c);
+            StatusMeeting stm = statusMeetingRepository.findByCode(Constants.S_MEETING_COMPLETE);
             c.getMeeting().setStatus(stm);
             c.getMeeting().setDateTerminateLegal(new Date());
-            c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_SOURCE_VALIDATION));// se acutaliza el estatus del caso
-            verificationService.createVerification(c); //este metodo crea la verificacion y la relaciona al caso que se pasa como parametro
-            caseRepository.save(c);//guarda y actualiza el caso
-            caseRepository.saveAndFlush(c);//guarda y actualiza el caso
-            List<FieldMeetingSource> listFS = verificationService.createAllFieldVerificationOfImputed(c.getId()); //crea la lista de campos con los valores que el imputado dio en la entrevista inicial
+            c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_SOURCE_VALIDATION));
+            verificationService.createVerification(c);
+            caseRepository.save(c);
+            caseRepository.saveAndFlush(c);
+            List<FieldMeetingSource> listFS = verificationService.createAllFieldVerificationOfImputed(c.getId());
             fieldMeetingSourceRepository.save(listFS);
             //add request to authorize sources
             //Gson gson = new Gson();

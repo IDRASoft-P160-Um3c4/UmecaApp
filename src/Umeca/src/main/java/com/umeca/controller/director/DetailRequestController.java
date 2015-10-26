@@ -11,6 +11,7 @@ import com.umeca.model.entities.director.view.CaseView;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.CaseRequest;
 import com.umeca.model.entities.reviewer.Imputed;
+import com.umeca.model.entities.shared.Message;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.reviewer.CaseRequestRepository;
 import com.umeca.service.account.SharedUserService;
@@ -53,11 +54,10 @@ public class DetailRequestController {
     public
     @ResponseBody
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
-
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
-                final javax.persistence.criteria.Join<CaseRequest, Case> joinMeCa = r.join("requestMessage").join("caseDetention");
+                final javax.persistence.criteria.Join<Message, Case> joinMeCa = r.join("requestMessage").join("caseDetention");
                 final javax.persistence.criteria.Join<Case, Imputed> joinCaIm = joinMeCa.join("meeting").join("imputed");
                 return new ArrayList<Selection<?>>() {{
                     add(joinMeCa.get("id"));
@@ -80,7 +80,7 @@ public class DetailRequestController {
                 }else
                     return null;
             }
-        }, true, CaseRequest.class, CaseView.class);
+        }, CaseRequest.class, CaseView.class);
 
         return result;
 
@@ -93,18 +93,11 @@ public class DetailRequestController {
     public ModelAndView upsertSocialNetwork(@RequestParam(required = true) Long id) {
         ModelAndView model = new ModelAndView("/director/caseRequest/detailRequest");
         Gson gson = new Gson();
-
-        try {
-            if (id != null) {
-                CaseInfo caseInfo = caseRepository.getInfoById(id);
-                model.addObject("caseInfo", caseInfo);
-                List<CaseRequestDto> listRequest = caseRequestRepository.findRequestByIdCase(id);
-                model.addObject("listRequest", gson.toJson(listRequest));
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            logException.Write(e, this.getClass(), "upsertSocialNetwork", sharedUserService);
+        if (id != null) {
+            CaseInfo caseInfo = caseRepository.getInfoById(id);
+            model.addObject("caseInfo",caseInfo);
+            List<CaseRequestDto> listRequest  = caseRequestRepository.findRequestByIdCase(id);
+            model.addObject("listRequest", gson.toJson(listRequest));
         }
         return model;
     }

@@ -5,7 +5,7 @@
 <head>
   <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
   <script src="${pageContext.request.contextPath}/assets/scripts/app/management/userCtrl.js"></script>
-  <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/employees/upsertEmployeeCtrl.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/scripts/app/humanResources/devices/deviceCtrl.js"></script>
 
   <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/content/themes/umeca/datepicker.css"/>
   <link rel="stylesheet"
@@ -25,8 +25,9 @@
 
   <script>
 
-    showUpsertEmployee = function () {
-      window.showUpsert(null, "#angJsjqGridId", "<c:url value='/humanResources/employees/upsertEmployee.html'/>", "#GridDevices");
+    editDevice = function (id) {
+      if (id == undefined) id = 0;
+      window.showUpsert(id, "#angJsjqGridId", "<c:url value='/humanResources/device/upsertDevice.html'/>", "#GridDevices");
     };
 
     deleteEmployee = function (id) {
@@ -46,14 +47,14 @@
 
     $(document).ready(function () {
       jQuery("#GridDevices").jqGrid({
-        url: '<c:url value='/timeAttendance/device/list.json' />',
+        url: '<c:url value='/humanResources/device/list.json' />',
         autoencode: true,
         datatype: "json",
         mtype: 'POST',
-        colNames: ['ID', 'isObsolete', 'Nombre', 'Dirección', 'Puerto', 'Acci&oacute;n'],
+        colNames: ['ID', 'isObsolete', 'Nombre', 'Direcci&oacute;n', 'Puerto', 'Acci&oacute;n'],
         colModel: [
           {name: 'id', index: 'id', hidden: true},
-          {name: 'isObsolete', index: 'isObsolete', hidden: true},
+          {name: 'obsolete', index: 'obsolete', hidden: true},
           {
             name: 'name',
             index: 'name',
@@ -100,16 +101,16 @@
         altRows: true,
         gridComplete: function () {
           var ids = $(this).jqGrid('getDataIDs');
-          var obsolete = $(this).jqGrid('getCol', 'isObsolete', false);
+          var obsolete = $(this).jqGrid('getCol', 'obsolete', false);
 
           for (var i = 0; i < ids.length; i++) {
             var cl = ids[i];
             var be = "";
 
             if (obsolete[i] == 'false') {
-              be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Expediente digital\" onclick=\"showDigitalRecord(" + cl + ");\"><span class=\"glyphicon glyphicon-list\"></span></a>";
-              be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar empleado\" onclick=\"deleteEmployee('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
-              be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar expediente\" onclick=\"downloadDigitalRecord('" + cl + "');\"><span class=\"glyphicon glyphicon-file\"></span></a>";
+              be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar dispositivo\" onclick=\"editDevice(" + cl + ");\"><span class=\"glyphicon glyphicon-list\"></span></a>";
+              be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar Dispositivo\" onclick=\"deleteEmployee('" + cl + "');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
+              be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Configurar dispositivo\" onclick=\"downloadDigitalRecord('" + cl + "');\"><span class=\"glyphicon glyphicon-flash\"></span></a>";
             } else {
               be = "";
             }
@@ -127,7 +128,7 @@
 
       jQuery("#GridDevices").jqGrid('navGrid', '#GridPager', {
         edit: false,
-        add: true, addfunc: showUpsertEmployee, addicon: 'icon-plus-sign purple',
+        add: true, addfunc: editDevice, addicon: 'icon-plus-sign purple',
         refresh: true, refreshicon: 'icon-refresh green',
         del: false,
         search: false
@@ -155,12 +156,11 @@
         multipleSearch: true,
         ignoreCase: true
       });
-    })
-    ;
+    });
 
   </script>
 
-  <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Dispositivos Bio&eacute;tricos
+  <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Dispositivos Biom&eacute;tricos
   </h2>
 
   <div id="angJsjqGridId" ng-controller="modalDlgController">

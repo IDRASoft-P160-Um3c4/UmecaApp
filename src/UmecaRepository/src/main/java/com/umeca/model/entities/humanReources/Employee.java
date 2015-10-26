@@ -93,6 +93,9 @@ public class Employee {
     @JoinColumn(name = "id_employee_schedule")
     private EmployeeSchedule employeeSchedule;
 
+    @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
+    private List<EmployeeFingerPrint> fingerPrints;
+
     public Employee() {
 
     }
@@ -292,5 +295,13 @@ public class Employee {
 
     public void setEmployeeSchedule(EmployeeSchedule employeeSchedule) {
         this.employeeSchedule = employeeSchedule;
+    }
+
+    public List<EmployeeFingerPrint> getFingerPrints() {
+        return fingerPrints;
+    }
+
+    public void setFingerPrints(List<EmployeeFingerPrint> fingerPrints) {
+        this.fingerPrints = fingerPrints;
     }
 }

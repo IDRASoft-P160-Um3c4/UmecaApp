@@ -170,14 +170,13 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     @Autowired
     StatisticHumanResourcesReportTypeRepository statisticHumanResourcesReportTypeRepository;
 
-
-//    private String PATH = "C:\\Users\\DeveloperII\\Source\\UmecaApp\\db\\";
+    private String PATH = "C:\\Users\\Administrator\\Documents\\GitHub\\UmecaApp-Morelos\\UmecaApp\\db\\";
 
 //    private String PATH = "C:\\Users\\Rata\\Desktop\\branchSandra\\UmecaApp\\db\\";
 
 //    private String PATH = "C:\\Projects\\IDRASoft\\UmecaAppBranchMorelos\\UmecaApp\\db\\";
 
-    private String PATH = "C:\\Projects\\Umeca\\UmecaApp\\db\\";
+//    private String PATH = "C:\\Projects\\Umeca\\UmecaApp\\db\\";
 
     //para la maquina virtual donde se montara el war
 //    private String PATH = "C:\\Users\\idrasoft\\Desktop\\umeca_catalog\\db\\";

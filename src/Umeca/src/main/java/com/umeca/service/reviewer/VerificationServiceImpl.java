@@ -78,14 +78,14 @@ public class VerificationServiceImpl implements VerificationService {
         verification.setReviewer(userRepository.findOne(userService.GetLoggedUserId()));
         verification.setDateCreate(new Date());
         c.setVerification(verification);
-        c.getVerification().setSourceVerifications(convertAllInitSourcesVerif(c)); // extrae todas las referencias y personas de red social y el imputado y crea una fuente de verficicación por cada uno
+        c.getVerification().setSourceVerifications(convertAllInitSourcesVerif(c));
     }
 
     @Override
     public List<SourceVerification> convertAllInitSourcesVerif(Case c) {
         List<SourceVerification> svlist = new ArrayList<>();
         List<Reference> rlist = (c.getMeeting().getReferences() == null) ? new ArrayList<Reference>() : c.getMeeting().getReferences();
-        for (Reference reference : rlist) {//itera las referencias registradas en meeting
+        for (Reference reference : rlist) {
             SourceVerification sv = new SourceVerification();
             sv.setFullName(reference.getFullName());
             sv.setPhone(reference.getPhone());
@@ -96,7 +96,7 @@ public class VerificationServiceImpl implements VerificationService {
             sv.setVisible(Boolean.TRUE);
             sv.setVerification(c.getVerification());
             sv.setAuthorized(Boolean.FALSE);
-            svlist.add(sv);//agrega la referencia como una fuente de verificacion (source verification)
+            svlist.add(sv);
         }
         List<PersonSocialNetwork> psnList = (c.getMeeting().getSocialNetwork() != null && c.getMeeting().getSocialNetwork().getPeopleSocialNetwork() != null)
                 ? c.getMeeting().getSocialNetwork().getPeopleSocialNetwork() : new ArrayList<PersonSocialNetwork>();
@@ -110,7 +110,7 @@ public class VerificationServiceImpl implements VerificationService {
                 }
             }
         }
-        for (PersonSocialNetwork psn : psnList) {//itera las personas de la red social registradas en meeting
+        for (PersonSocialNetwork psn : psnList) {
             SourceVerification sv = new SourceVerification();
             sv.setFullName(psn.getName());
             sv.setPhone(psn.getPhone());
@@ -125,10 +125,10 @@ public class VerificationServiceImpl implements VerificationService {
             sv.setVisible(Boolean.TRUE);
             sv.setAuthorized(Boolean.FALSE);
             sv.setVerification(c.getVerification());
-            svlist.add(sv);//agrega la persona de red social como una fuente de verificacion (source verification)
+            svlist.add(sv);
         }
         SourceVerification svImputed = new SourceVerification();
-        Imputed i = c.getMeeting().getImputed(); //obtiene la info del imputado para crear una fuente de verificacion
+        Imputed i = c.getMeeting().getImputed();
         String fullNameI = i.getName() + " " + i.getLastNameP() + " " + i.getLastNameM();
         svImputed.setFullName(fullNameI);
         String phone = "No proporcionado";
@@ -141,7 +141,7 @@ public class VerificationServiceImpl implements VerificationService {
         svImputed.setVisible(Boolean.FALSE);
         svImputed.setAuthorized(Boolean.TRUE);
         svImputed.setVerification(c.getVerification());
-        svlist.add(svImputed); //agrega al imputado como una fuente de verificacion (source verification)
+        svlist.add(svImputed);
         return svlist;
     }
 
@@ -984,15 +984,12 @@ public class VerificationServiceImpl implements VerificationService {
         try {
             if (!caseService.validateStatus(idCase, Constants.CASE_STATUS_VERIFICATION, Verification.class, Constants.VERIFICATION_STATUS_AUTHORIZED)) {
                 return new ResponseMessage(true, "De acuerdo al estado del caso y la verificación no se puede realizar esta acción");
-            }//valida el estatus del caso
-
+            }
             Date sv = sourceVerificationRepository.getDateCompleteBySource(idSource);
             if (sv != null) {
                 return new ResponseMessage(true, "No se puede modificar la información de esta fuente");
-            }//verifica  que no se haya terminado la entrevista con la fuente
-
-            StatusFieldVerification st = statusFieldVerificationRepository.findStatusByCode(Constants.ST_FIELD_VERIF_NOEQUALS); //busca el estatus del catalago
-
+            }
+            StatusFieldVerification st = statusFieldVerificationRepository.findStatusByCode(Constants.ST_FIELD_VERIF_NOEQUALS);
             List<Long> fmsToDelete = new ArrayList<>();
             if (list.size() > 0) {
                 Integer idSub = fieldVerificationRepository.getIdSubsectionByCode(list.get(0).getName());
@@ -1001,15 +998,14 @@ public class VerificationServiceImpl implements VerificationService {
                 } else {
                     fmsToDelete = fieldMeetingSourceRepository.getFMSByIdSubsectionWithIdList(idCase, idSource, idSub, idList);
                 }
-            }//busca los valores anteriores que deban eliminarse
-
+            }
             List<FieldMeetingSource> result = createFieldVerification(list, idCase, idSource, idList, st, fmsToDelete);
             if (result == null) {
                 return new ResponseMessage(true, "Ha ocurrido un error al crear la lista.");
             }
-            fieldMeetingSourceRepository.save(result);//salva la lista de campos generados/actualizados
+            fieldMeetingSourceRepository.save(result);
             for (Long id : fmsToDelete) {
-                fieldMeetingSourceRepository.delete(id);//borra los campos que sobran
+                fieldMeetingSourceRepository.delete(id);
             }
             return new ResponseMessage(false, "El dato se ha guardado correctamente");
         } catch (Exception e) {
@@ -1086,7 +1082,7 @@ public class VerificationServiceImpl implements VerificationService {
         try {
             List<FieldMeetingSource> result = new ArrayList<>();
             List<Long> listFieldSection = fieldVerificationRepository.getListSubsectionByCode(code);
-            Long idSourceImputed = sourceVerificationRepository.findIdSourceImputed(idCase);//busca al imputado como fuente de verificacion
+            Long idSourceImputed = sourceVerificationRepository.findIdSourceImputed(idCase);
             for (Long idFv : listFieldSection) {
                 FieldVerification fv = fieldVerificationRepository.findOne(idFv);
                 if (fv != null) {
@@ -1098,11 +1094,10 @@ public class VerificationServiceImpl implements VerificationService {
                     } else {
                         fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCodeWithIdList(idCase, idSource, fv.getCode(), idList);
                         fieldMeetingImputedId = fieldMeetingSourceRepository.getIdMeetingSourceByCodeWithIdList(idCase, idSourceImputed, fv.getCode(), idList);
-                    }//busca el campo existente y el valor que dio el imputado
-
-                    if (fieldMeetingImputedId != null) {//actualiza los valores para el campo existente o nuevo
-                        fmsNew.setId(fieldMeetingSourceId);//setea el id del campo a actualizar si existe
-                        fmsNew.setSourceVerification(sourceVerificationRepository.findOne(idSource)); //setea la fuente que contesta la pregunta
+                    }
+                    if (fieldMeetingImputedId != null) {
+                        fmsNew.setId(fieldMeetingSourceId);
+                        fmsNew.setSourceVerification(sourceVerificationRepository.findOne(idSource));
                         fmsNew.setFieldVerification(fv);
                         fmsNew.setValue(Constants.VALUE_NOT_KNOW_SOURCE);
                         fmsNew.setJsonValue(Constants.VALUE_NOT_KNOW_SOURCE);
@@ -1131,7 +1126,7 @@ public class VerificationServiceImpl implements VerificationService {
         fms.setFinal(false);
         for (FieldVerification field : listField) {
             fms.setFieldVerification(field);
-                listFieldMeetingSource.addAll(getValueOfMeetingByCode(field.getCode(), c.getMeeting(), fms));
+            listFieldMeetingSource.addAll(getValueOfMeetingByCode(field.getCode(), c.getMeeting(), fms));
         }
         return listFieldMeetingSource;
         // fieldMeetingSourceRepository.save(listFieldMeetingSource);
@@ -1157,9 +1152,8 @@ public class VerificationServiceImpl implements VerificationService {
                         fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCode(idCase, idSource, field.getName());
                     } else {
                         fieldMeetingSourceId = fieldMeetingSourceRepository.getIdMeetingSourceByCodeWithIdList(idCase, idSource, field.getName(), idList);
-                    }//busca el valor existente para la fuente, campo
-
-                    fms.setId(fieldMeetingSourceId);//setea los nuevos valores para el campo
+                    }
+                    fms.setId(fieldMeetingSourceId);
                     FieldVerification fv = fieldVerificationRepository.findByCode(field.getName());
                     fms.setFieldVerification(fv);
                     fms.setSourceVerification(sourceVerificationRepository.findOne(idSource));
@@ -1168,12 +1162,10 @@ public class VerificationServiceImpl implements VerificationService {
                     fms.setFinal(false);
                     fms.setIdFieldList(idList);
                     fms.setStatusFieldVerification(st);
-
                     if (adding) {
-                        listFieldVerficiation.add(fms); //se agrega a la lista de campos a guardar
+                        listFieldVerficiation.add(fms);
                     }
-
-                    if (fieldMeetingSourceId != null) {//quita de la lista para eliminar el id correspondiente al campo que se actualiza
+                    if (fieldMeetingSourceId != null) {
                         for (int i = 0; i < fmsToDelete.size(); i++) {
                             if (fieldMeetingSourceId.equals(fmsToDelete.get(i))) {
                                 fmsToDelete.remove(i);
@@ -1183,7 +1175,7 @@ public class VerificationServiceImpl implements VerificationService {
                     }
                 }
             }
-            return listFieldVerficiation;//regresa la lista de campos que se guardaran
+            return listFieldVerficiation;
         } catch (Exception e) {
             return null;
         }
