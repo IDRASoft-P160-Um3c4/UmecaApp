@@ -167,7 +167,7 @@
                       <label>
                         <input class="ace" type="radio" ng-model="m.filterSelected"
                                ng-value="filter.name" ng-required="!m.filterSelected">
-                        <span class="lbl col-xs-10">&nbsp;&nbsp;{{filter.name}}</span>
+                        <span class="lbl col-xs-10">&nbsp;&nbsp;{{filter.description}}</span>
                       </label>
                     </div>
                     <br/>
