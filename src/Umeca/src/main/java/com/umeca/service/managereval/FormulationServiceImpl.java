@@ -78,24 +78,27 @@ public class FormulationServiceImpl implements FormulationService {
             formulationRepository.save(formulation);
 
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-            messageService.sendNotificationToUser(null,
-                    String.format("<strong>Registrada por coordinador de evaluación: %s </strong><br/>" +
-                                    "Fecha de registro: <b>%s</b><br/>" +
-                                    "Oficio: <b>%s</b><br/>" +
-                                    "Cedula de notificación: <b>%s</b> <br/>" +
-                                    "Imputado: <b>%s</b> <br/>" +
-                                    "Fecha de la cita de entrevista: <b>%s</b> <br/>" +
-                                    "Fecha de audiencia: <b>%s</b> <br/>",
-                            userService.getFullNameById(userService.GetLoggedUserId()),
-                            formulation.getRegistrationFormulationDate() == null ? "" : sdf.format(formulation.getRegistrationFormulationDate()),
-                            formulation.getDocument(),
-                            formulation.getCertificateNotification(),
-                            formulation.getLastNameP() + " " + formulation.getLastNameM() + " " + formulation.getFirstName(),
-                            formulation.getUmecaInterviewDate() == null ? "" : sdf.format(formulation.getUmecaInterviewDate()),
-                            formulation.getHearingDate() == null ? "" : sdf.format(formulation.getHearingDate()))
-                    , userRepository.findOne(userService.GetLoggedUserId()),
-                    userRepository.findOne(formulation.getReviewer().getId()), "Notificación REGISTRO DE CITA de FORMULACIÓN", "");
+            if(formulation.getManagereval() != null) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                messageService.sendNotificationToUser(null,
+                        String.format("<strong>Registrada por coordinador de evaluación: %s </strong><br/>" +
+                                        "Fecha de registro: <b>%s</b><br/>" +
+                                        "Oficio: <b>%s</b><br/>" +
+                                        "Cedula de notificación: <b>%s</b> <br/>" +
+                                        "Imputado: <b>%s</b> <br/>" +
+                                        "Fecha de la cita de entrevista: <b>%s</b> <br/>" +
+                                        "Fecha de audiencia: <b>%s</b> <br/>",
+                                userService.getFullNameById(userService.GetLoggedUserId()),
+                                formulation.getRegistrationFormulationDate() == null ? "" : sdf.format(formulation.getRegistrationFormulationDate()),
+                                formulation.getDocument(),
+                                formulation.getCertificateNotification(),
+                                formulation.getLastNameP() + " " + formulation.getLastNameM() + " " + formulation.getFirstName(),
+                                formulation.getUmecaInterviewDate() == null ? "" : sdf.format(formulation.getUmecaInterviewDate()),
+                                formulation.getHearingDate() == null ? "" : sdf.format(formulation.getHearingDate()))
+                        , userRepository.findOne(userService.GetLoggedUserId()),
+                        userRepository.findOne(formulation.getReviewer().getId()), "Notificación REGISTRO DE CITA de FORMULACIÓN", "");
+            }
+
             result.setHasError(false);
             result.setMessage(ConsMessage.MSG_SUCCESS_UPSERT);
         } catch (Exception e) {
@@ -111,28 +114,30 @@ public class FormulationServiceImpl implements FormulationService {
         ResponseMessage result = new ResponseMessage();
         try {
             Formulation formulation;
-
             formulation = formulationRepository.findOne(id);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
             formulation.setInformationDelivered(true);
             formulationRepository.save(formulation);
-            messageService.sendNotificationToUser(null,
-                    String.format("<strong>Registrada por evaluador: %s </strong><br/>" +
-                                    "Fecha de registro: <b>%s</b><br/>" +
-                                    "Oficio: <b>%s</b><br/>" +
-                                    "Cedula de notificación: <b>%s</b> <br/>" +
-                                    "Imputado: <b>%s</b> <br/>" +
-                                    "Fecha de la cita de entrevista: <b>%s</b> <br/>" +
-                                    "Fecha de audiencia: <b>%s</b> <br/>",
-                            userService.getFullNameById(userService.GetLoggedUserId()),
-                            formulation.getRegistrationFormulationDate() == null ? "" : sdf.format(formulation.getRegistrationFormulationDate()),
-                            formulation.getDocument(),
-                            formulation.getCertificateNotification(),
-                            formulation.getLastNameP() + " " + formulation.getLastNameM() + " " + formulation.getFirstName(),
-                            formulation.getUmecaInterviewDate() == null ? "" : sdf.format(formulation.getUmecaInterviewDate()),
-                            formulation.getHearingDate() == null ? "" : sdf.format(formulation.getHearingDate()))
-                    , userRepository.findOne(userService.GetLoggedUserId()),
-                    userRepository.findOne(formulation.getManagereval().getId()), "Notificación REGISTRO ENTREGA INFORMACI&Oacute;N FORMULACI&Oacute;N", "");
+
+            if(formulation.getManagereval() != null) {
+                messageService.sendNotificationToUser(null,
+                        String.format("<strong>Registrada por evaluador: %s </strong><br/>" +
+                                        "Fecha de registro: <b>%s</b><br/>" +
+                                        "Oficio: <b>%s</b><br/>" +
+                                        "Cedula de notificación: <b>%s</b> <br/>" +
+                                        "Imputado: <b>%s</b> <br/>" +
+                                        "Fecha de la cita de entrevista: <b>%s</b> <br/>" +
+                                        "Fecha de audiencia: <b>%s</b> <br/>",
+                                userService.getFullNameById(userService.GetLoggedUserId()),
+                                formulation.getRegistrationFormulationDate() == null ? "" : sdf.format(formulation.getRegistrationFormulationDate()),
+                                formulation.getDocument(),
+                                formulation.getCertificateNotification(),
+                                formulation.getLastNameP() + " " + formulation.getLastNameM() + " " + formulation.getFirstName(),
+                                formulation.getUmecaInterviewDate() == null ? "" : sdf.format(formulation.getUmecaInterviewDate()),
+                                formulation.getHearingDate() == null ? "" : sdf.format(formulation.getHearingDate()))
+                        , userRepository.findOne(userService.GetLoggedUserId()),
+                        userRepository.findOne(formulation.getManagereval().getId()), "Notificación REGISTRO ENTREGA INFORMACI&Oacute;N FORMULACI&Oacute;N", "");
+            }
             result.setHasError(false);
             result.setMessage("Se ha envíado la notificación de información");
 
