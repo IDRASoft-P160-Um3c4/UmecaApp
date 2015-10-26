@@ -190,7 +190,7 @@
             <div class="row">
               <div class="col-xs-11 element-right">
                                 <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                                      ng-click="findSupervisorReport('#FormStatisRep','<c:url value='/supervisorManager/statisticReport/showReport.html'/>');">
+                                      ng-click="findHumanResourceReport('#FormStatisRep','<c:url value='/humanResources/statisticReport/showReport.html'/>');">
                                     Realizar b&uacute;squeda
                                 </span>
               </div>

@@ -6,14 +6,10 @@ import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.ReportTypeRepository;
 import com.umeca.repository.catalog.StatisticHumanResourcesReportTypeRepository;
-import com.umeca.repository.catalog.StatisticOperatorReportTypeRepository;
 import com.umeca.repository.humanResources.EmployeeRepository;
 import com.umeca.repository.supervisor.DistrictRepository;
-import com.umeca.repository.supervisorManager.StatisticSupervisorManagerReportRepository;
 import com.umeca.service.account.SharedUserService;
-import com.umeca.service.managereval.StatisticReportService;
 import com.umeca.service.shared.SharedLogExceptionService;
-import com.umeca.service.supervisiorManager.StatisticSupervisorManagerReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,16 +51,16 @@ public class StatisticHumanResourcesReportController {
         return model;
     }
 
-//    @RequestMapping(value = "/supervisorManager/statisticReport/showReport", method = RequestMethod.GET)
-//    public ModelAndView showReport(String initDate, String endDate, String filterSelected, Long idReportType, Long idDistrict) {
-//        ModelAndView model = new ModelAndView("/supervisorManager/statisticReport/showReportHD");
-//        Gson gson = new Gson();
-//        String extraData = null;
-//        String title = null;
-//        Long total = Long.valueOf(0);
-//        try {
-//            title = statisticSupervisorManagerReportRepository.findByCode(filterSelected).getDescription();
-//            //  List<SelectList> data;
+    @RequestMapping(value = "/humanResources/statisticReport/showReport", method = RequestMethod.GET)
+    public ModelAndView showReport(String initDate, String endDate, String filterSelected, Long idReportType, Long idDistrict, Long idEmployee) {
+        ModelAndView model = new ModelAndView("/humanResources/statisticReport/showReportHD");
+        Gson gson = new Gson();
+        String extraData = null;
+        String title = null;
+        Long total = Long.valueOf(0);
+        try {
+            title = statisticHumanResourcesReportTypeRepository.findByCode(filterSelected).getDescription();
+//            List<SelectList> data;
 //            String data;
 //            data = statisticSupervisorManagerReportService.getData(initDate, endDate, filterSelected, idReportType, idDistrict, null);
 //
@@ -103,23 +99,19 @@ public class StatisticHumanResourcesReportController {
 //                model.addObject("filterSelected", filterSelected);
 //            }
 //
-//            if (idReportType == 1)
-//                extraData = "General";
-//            else if (idReportType == 2) {
-//                if (idDistrict == 1)
-//                    extraData = "Por operador - Cuatla";
-//                else if (idDistrict == 2)
-//                    extraData = "Por operador - Cuernavaca";
-//                else
-//                    extraData = "Por operador - Jojutla";
-//            } else {
-//                if (idDistrict == 1)
-//                    extraData = "Por distrito - Cuatla";
-//                else if (idDistrict == 2)
-//                    extraData = "Por distrito - Cuernavaca";
-//                else
-//                    extraData = "Por distrito - Jojutla";
-//            }
+            if (idReportType == 1)
+                extraData = "General";
+            else if (idReportType == 2){
+                if (idDistrict == 1)
+                    extraData = "Por distrito - Cuatla";
+                else if (idDistrict == 2)
+                    extraData = "Por distrito - Cuernavaca";
+                else
+                    extraData = "Por distrito - Jojutla";
+            } else {
+
+
+            }
 //
 //            model.addObject("filterSelected",filterSelected);
 //            model.addObject("initDate", initDate.toString());
@@ -129,18 +121,18 @@ public class StatisticHumanResourcesReportController {
 //            model.addObject("extraData", extraData);
 //            model.addObject("title", title);
 //
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            logException.Write(e, this.getClass(), "save", sharedUserService);
-//            model.addObject("initDate", initDate.toString());
-//            model.addObject("endDate", endDate.toString());
-//            model.addObject("total", total);
-//            model.addObject("data", null);
-//            model.addObject("extraData", extraData);
-//            model.addObject("title", title);
-//        }
-//        return model;
-//    }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logException.Write(e, this.getClass(), "save", sharedUserService);
+            model.addObject("initDate", initDate.toString());
+            model.addObject("endDate", endDate.toString());
+            model.addObject("total", total);
+            model.addObject("data", null);
+            model.addObject("extraData", extraData);
+            model.addObject("title", title);
+        }
+        return model;
+    }
 //
 //    @RequestMapping(value = "/supervisorManager/statisticReport/showLargeReport", method = RequestMethod.GET)
 //    public ModelAndView showLargeReport(String filterSelected, String initDate, String endDate, Long idDistrict, Long idSupervisor) {

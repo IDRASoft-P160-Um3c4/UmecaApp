@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface StatisticHumanResourcesReportTypeRepository extends JpaRepository<StatisticHumanResourcesReportType,Long> {
 
-    @Query("SELECT e from StatisticReportType e where e.name=:code")
+    @Query("SELECT e from StatisticHumanResourcesReportType e where e.name=:code")
     public StatisticHumanResourcesReportType findByCode(@Param("code") String code);
 
 
