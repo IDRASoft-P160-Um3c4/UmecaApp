@@ -11,10 +11,11 @@ import java.util.Date;
 
 public class CaseReportView implements EntityGrid {
 
-    public CaseReportView(Long id,String statusCode,  String idFolder, String name, String lastNameP, String lastNameM,
+    public CaseReportView(Long id, Long idVerif, String statusCode,  String idFolder, String name, String lastNameP, String lastNameM,
                           Date dateBirth, Boolean gender, String description, Long reviewerId, String reviewerName,
                           String statusCase, String eventString, String eventCode, Long eventId) {
         this.id = id;
+        this.idVerif = idVerif;
         this.idFolder = idFolder;
         this.name = name;
         this.lastNameP = lastNameP;
@@ -105,6 +106,8 @@ public class CaseReportView implements EntityGrid {
     private Date reportDate;
 
     private String stringDate;
+
+    private Long idVerif;
 
     public Long getId() {
         return id;
@@ -285,5 +288,14 @@ public class CaseReportView implements EntityGrid {
 
     public void setStringDate(String stringDate) {
         this.stringDate = stringDate;
+    }
+
+
+    public Long getIdVerif() {
+        return idVerif;
+    }
+
+    public void setIdVerif(Long idVerif) {
+        this.idVerif = idVerif;
     }
 }
