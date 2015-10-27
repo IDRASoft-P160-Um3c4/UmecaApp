@@ -23,15 +23,42 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
 
 
 
+    //Reporte1
+    @Query("select new com.umeca.model.shared.SelectList(case when delayJus.approved = 0 then 'Faltas' else 'Faltas' end,count(attend.id))" +
+            "from AttendanceLog attend " +
+            "inner join attend.employee emp " +
+            "inner join attend.delayJustification delayJus " +
+            "where delayJus.approved = 0 and (attend.eventTime between :initDate and :endDate)")
+    List<SelectList> countEmployeeAbsence(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate);
+
+    @Query("select new com.umeca.model.shared.SelectList(case when delayJus.approved = 0 then 'Faltas' else 'Faltas' end,count(attend.id))" +
+            "from AttendanceLog attend " +
+            "inner join attend.employee emp " +
+            "inner join attend.delayJustification delayJus " +
+            "where emp.district.id = :idDistrict " +
+            "and delayJus.approved = 0 " +
+            "and (attend.eventTime between :initDate and :endDate)")
+    List<SelectList> countEmployeeAbsenceByDistrict(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idDistrict") Long idDistrict);
+
+    @Query("select new com.umeca.model.shared.SelectList(case when delayJus.approved = 0 then 'Faltas' else 'Faltas' end,count(attend.id))" +
+            "from AttendanceLog attend " +
+            "inner join attend.employee emp " +
+            "inner join attend.delayJustification delayJus " +
+            "where emp.id = :idEmployee " +
+            "and delayJus.approved = 0 " +
+            "and (attend.eventTime between :initDate and :endDate)")
+    List<SelectList> countEmployeeAbsenceByOperator(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idEmployee") Long idEmployee);
+
+
     //Reporte2
-    @Query("select new com.umeca.model.shared.SelectList(count(attend.id))" +
+    @Query("select new com.umeca.model.shared.SelectList(case when delayJus.approved = 0 then 'Retardos' else 'Retardos' end,count(attend.id))" +
             "from AttendanceLog attend " +
             "inner join attend.employee emp " +
             "inner join attend.delayJustification delayJus " +
             "where delayJus.approved = 0 and (attend.eventTime between :initDate and :endDate)")
     List<SelectList> countEmployeeDelays(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate);
 
-    @Query("select new com.umeca.model.shared.SelectList(count(attend.id))" +
+    @Query("select new com.umeca.model.shared.SelectList(case when delayJus.approved = 0 then 'Retardos' else 'Retardos' end,count(attend.id))" +
             "from AttendanceLog attend " +
             "inner join attend.employee emp " +
             "inner join attend.delayJustification delayJus " +
@@ -40,7 +67,7 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "and (attend.eventTime between :initDate and :endDate)")
     List<SelectList> countEmployeeDelaysByDistrict(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idDistrict") Long idDistrict);
 
-    @Query("select new com.umeca.model.shared.SelectList(count(attend.id))" +
+    @Query("select new com.umeca.model.shared.SelectList(case when delayJus.approved = 0 then 'Retardos' else 'Retardos' end,count(attend.id))" +
             "from AttendanceLog attend " +
             "inner join attend.employee emp " +
             "inner join attend.delayJustification delayJus " +
@@ -48,6 +75,33 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "and delayJus.approved = 0 " +
             "and (attend.eventTime between :initDate and :endDate)")
     List<SelectList> countEmployeeDelaysByOperator(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idEmployee") Long idEmployee);
+
+
+    //Reporte3
+    @Query("select new com.umeca.model.shared.SelectList(case when delayJus.approved = 0 then 'Horas extras' else 'Horas extras' end,count(attend.id))" +
+            "from AttendanceLog attend " +
+            "inner join attend.employee emp " +
+            "inner join attend.delayJustification delayJus " +
+            "where delayJus.approved = 0 and (attend.eventTime between :initDate and :endDate)")
+    List<SelectList> countEmployeeBonusTime(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate);
+
+    @Query("select new com.umeca.model.shared.SelectList(case when delayJus.approved = 0 then 'Horas extras' else 'Horas extras' end,count(attend.id))" +
+            "from AttendanceLog attend " +
+            "inner join attend.employee emp " +
+            "inner join attend.delayJustification delayJus " +
+            "where emp.district.id = :idDistrict " +
+            "and delayJus.approved = 0 " +
+            "and (attend.eventTime between :initDate and :endDate)")
+    List<SelectList> countEmployeeBonusTimeByDistrict(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idDistrict") Long idDistrict);
+
+    @Query("select new com.umeca.model.shared.SelectList(case when delayJus.approved = 0 then 'Horas extras' else 'Horas extras' end,count(attend.id))" +
+            "from AttendanceLog attend " +
+            "inner join attend.employee emp " +
+            "inner join attend.delayJustification delayJus " +
+            "where emp.id = :idEmployee " +
+            "and delayJus.approved = 0 " +
+            "and (attend.eventTime between :initDate and :endDate)")
+    List<SelectList> countEmployeeBonusTimeByOperator(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idEmployee") Long idEmployee);
 
 
 

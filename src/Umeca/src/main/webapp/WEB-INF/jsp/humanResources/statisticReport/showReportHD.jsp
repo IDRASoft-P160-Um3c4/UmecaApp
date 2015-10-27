@@ -47,6 +47,7 @@
             var endDate = "${endDate}";
             var extraData = "${extraData}";
             var title = "${title}";
+            var measure = "${measure}";
 
 
             var color = d3.scale.ordinal()
@@ -172,7 +173,7 @@
                     .attr("y", 6)
                     .attr("dy", ".71em")
                     .style("text-anchor", "end")
-                    .text("Personas");
+                    .text(measure);
 
 
             svg.append("text")

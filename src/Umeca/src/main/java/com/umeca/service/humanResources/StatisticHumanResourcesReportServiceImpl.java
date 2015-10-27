@@ -14,7 +14,6 @@ import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,8 +47,6 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
         Calendar initCal = Calendar.getInstance();
         Calendar endCal = Calendar.getInstance();
 
-        int initId = 0;
-        int endId = 0;
         String initTime = " 00:00:00";
         String endTime = " 23:59:59";
 
@@ -57,9 +54,6 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
         try {
             initDateF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(initDate + initTime);
             endDateF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(endDate + endTime);
-            DateFormat df = new SimpleDateFormat("yyyyMMdd");
-            initId = Integer.parseInt(df.format(initDateF));
-            endId = Integer.parseInt(df.format(endDateF));
             initCal.setTime(initDateF);
             endCal.setTime(endDateF);
 
@@ -69,18 +63,22 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
 
         switch (filter) {
             case Constants.REPORT_HUMAN_RESOURCES_STATISTIC_A:
-//                switch (reportTypeRepository.getReportCodeById(idReportType)) {
-//                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
-//                        return gson.toJson(statisticSupervisorManagerReportRepository.countCasesProsecuted(initId, endId));
-//                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
-//                        return gson.toJson(statisticSupervisorManagerReportRepository.countCasesProsecutedByDistrict(initId, endId, idDistrict));
-//                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
-//                }
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        data = statisticHumanResourcesReportTypeRepository.countEmployeeAbsence(initCal, endCal);
+                        return gson.toJson(data);
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        data = statisticHumanResourcesReportTypeRepository.countEmployeeAbsenceByDistrict(initCal, endCal, idDistrict);
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        data = statisticHumanResourcesReportTypeRepository.countEmployeeAbsenceByOperator(initCal, endCal, idEmployee);
+                        return gson.toJson(data);
+                }
                 break;
 
 
             case Constants.REPORT_HUMAN_RESOURCES_STATISTIC_B:
-
                 switch (reportTypeRepository.getReportCodeById(idReportType)) {
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
                         data = statisticHumanResourcesReportTypeRepository.countEmployeeDelays(initCal, endCal);
@@ -92,61 +90,23 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
                         data = statisticHumanResourcesReportTypeRepository.countEmployeeDelaysByOperator(initCal, endCal, idEmployee);
                         return gson.toJson(data);
-
-
                 }
                 break;
 
             case Constants.REPORT_HUMAN_RESOURCES_STATISTIC_C:
-//                switch (reportTypeRepository.getReportCodeById(idReportType)) {
-//                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
-//                        lstObjects = statisticHumanResourcesReportTypeRepository.getCountCasesByArrangement(initDate + initTime, endDate + endTime);
-//                        for (int i = 0; i < lstObjects.size(); i++) {
-//                            Object[] obj = (Object[]) lstObjects.get(i);
-//                            SelectList selectList = new SelectList();
-//                            selectList.setName(obj[0].toString());
-//                            selectList.setSubName(obj[0].toString());
-//                            selectList.setValue(Long.parseLong(obj[1].toString()));
-//                            data.add(selectList);
-//                        }
-//                        return gson.toJson(data);
-//
-//                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
-//                        lstObjects = statisticHumanResourcesReportTypeRepository.getCountCasesByArrangementAndDistrict(initDate + initTime, endDate + endTime, idDistrict);
-//                        for (int i = 0; i < lstObjects.size(); i++) {
-//                            Object[] obj = (Object[]) lstObjects.get(i);
-//                            SelectList selectList = new SelectList();
-//                            selectList.setName(obj[0].toString());
-//                            selectList.setSubName(obj[0].toString());
-//                            selectList.setValue(Long.parseLong(obj[1].toString()));
-//                            data.add(selectList);
-//                        }
-//                        return gson.toJson(data);
-//                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
-//                        List<SelectList> users = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
-//                        List<List<ReportList>> total = new ArrayList<>();
-//
-//                        for (int i = 0; i < users.size(); i++) {
-//                            lstObjects = statisticHumanResourcesReportTypeRepository.getArrangementByIdAndSupervisorId(initDate + initTime, endDate + endTime, idDistrict, users.get(i).getId());
-//                            for (int j = 0; j < lstObjects.size(); j++) {
-//                                Object[] obj = (Object[]) lstObjects.get(j);
-//                                if (i == 0) {
-//                                    total.add(new ArrayList<ReportList>());
-//                                }
-//                                ReportList reportList = new ReportList();
-//                                reportList.setId(new Long(j));
-//                                reportList.setName(obj[0].toString());
-//                                reportList.setUser(users.get(i).getName());
-//                                reportList.setX(new Long(i));
-//                                reportList.setY(new Long(obj[1].toString()));
-//                                total.get(j).add(reportList);
-//                            }
-//                        }
-//                        return gson.toJson(total);
-//
-//
-//                }
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        data = statisticHumanResourcesReportTypeRepository.countEmployeeBonusTime(initCal, endCal);
+                        return gson.toJson(data);
 
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        data = statisticHumanResourcesReportTypeRepository.countEmployeeBonusTimeByDistrict(initCal, endCal, idDistrict);
+                        return gson.toJson(data);
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        data = statisticHumanResourcesReportTypeRepository.countEmployeeBonusTimeByOperator(initCal, endCal, idEmployee);
+                        return gson.toJson(data);
+                }
+                break;
         }
         return null;
     }
@@ -182,38 +142,6 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
                 finalData.add(aux);
             } else {
                 finalData.set(i, aux);
-            }
-
-        }
-
-        return finalData;
-
-    }
-
-    private List<SelectList> completeDrugsData(List<SelectList> finalData, List<Object> data, List<DrugType> drugs) {
-
-        int countNum = 0;
-
-
-        for (int i = 0; i < drugs.size(); i++) {
-
-            if (data.size() == countNum) {
-                finalData.add(new SelectList(drugs.get(i).getName(), new Long(0)));
-
-            } else {
-                for (int j = countNum; j < data.size(); j++) {
-                    Object[] obj = (Object[]) data.get(j);
-
-                    if (drugs.get(i).getId() == Long.parseLong(obj[0].toString())) {
-                        finalData.add(new SelectList(obj[1].toString(), Long.parseLong(obj[2].toString())));
-                        countNum = j + 1;
-                    } else {
-                        finalData.add(new SelectList(drugs.get(i).getName(), new Long(0)));
-                    }
-                    break;
-
-
-                }
             }
 
         }
@@ -328,46 +256,6 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
 
     }
 
-    private List<Object> completeCrimeData(List<Object> finalData, List<SelectList> data, String supervisor, int x, List<SelectList> crimes) {
-
-
-        int countNum = 0;
-
-
-        for (int i = 0; i < crimes.size(); i++) {
-            List<ReportList> aux = new ArrayList<>();
-            if (finalData.size() > i) {
-                aux = (List<ReportList>) finalData.get(i);
-            }
-            if (data.size() == countNum) {
-                aux.add(new ReportList(new Long(i), new Long(0), crimes.get(i).getName(), supervisor, (long) x));
-
-            } else {
-                for (int j = countNum; j < data.size(); j++) {
-
-                    if (crimes.get(i).getName().equals(data.get(j).getName())) {
-                        aux.add(new ReportList(new Long(i), data.get(j).getValue(), crimes.get(i).getName(), supervisor, (long) x));
-                        countNum = j + 1;
-                    } else {
-                        aux.add(new ReportList(new Long(i), new Long(0), crimes.get(i).getName(), supervisor, (long) x));
-                    }
-                    break;
-
-
-                }
-            }
-
-            if (finalData.size() <= i) {
-                finalData.add(aux);
-            } else {
-                finalData.set(i, aux);
-            }
-
-        }
-
-        return finalData;
-
-    }
 
 
 }

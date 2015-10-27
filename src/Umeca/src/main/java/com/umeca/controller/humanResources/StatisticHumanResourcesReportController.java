@@ -60,6 +60,7 @@ public class StatisticHumanResourcesReportController {
         Gson gson = new Gson();
         String extraData = null;
         String title = null;
+        String measure = "x";
         Long total = Long.valueOf(0);
         try {
             title = statisticHumanResourcesReportTypeRepository.findByCode(filterSelected).getDescription();
@@ -82,6 +83,13 @@ public class StatisticHumanResourcesReportController {
 
             }
 
+            if(filterSelected.equals(Constants.REPORT_HUMAN_RESOURCES_STATISTIC_A))
+                measure = "Faltas";
+            else if(filterSelected.equals(Constants.REPORT_HUMAN_RESOURCES_STATISTIC_B))
+                measure = "Retardos";
+            else
+                measure = "Horas";
+
 
             model.addObject("filterSelected",filterSelected);
             model.addObject("initDate", initDate.toString());
@@ -90,6 +98,7 @@ public class StatisticHumanResourcesReportController {
             model.addObject("data", data);
             model.addObject("extraData", extraData);
             model.addObject("title", title);
+            model.addObject("measure", measure);
 //
         } catch (Exception e) {
             e.printStackTrace();
@@ -100,6 +109,7 @@ public class StatisticHumanResourcesReportController {
             model.addObject("data", null);
             model.addObject("extraData", extraData);
             model.addObject("title", title);
+            model.addObject("measure", measure);
         }
         return model;
     }
