@@ -31,6 +31,7 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "where delayJus.approved = 0 and (attend.eventTime between :initDate and :endDate)")
     List<SelectList> countEmployeeAbsence(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate);
 
+
     @Query("select new com.umeca.model.shared.SelectList(case when delayJus.approved = 0 then 'Faltas' else 'Faltas' end,count(attend.id))" +
             "from AttendanceLog attend " +
             "inner join attend.employee emp " +
@@ -58,6 +59,32 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "where delayJus.approved = 0 and (attend.eventTime between :initDate and :endDate)")
     List<SelectList> countEmployeeDelays(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate);
 
+    @Query(value = "select " +
+            "case " +
+            "WHEN day >= p1 AND day < p2 THEN CONCAT('1-', month, '-', year) " +
+            "WHEN p1 = 1 AND day >= p2 THEN CONCAT('2-', month, '-', year) "+
+            "WHEN p1 > 1 AND day < p1 THEN CONCAT('2-', month, '-', year) "+
+            "end as date_range, count(*) as count " +
+            "from " +
+            "(select YEAR(attend.eventtime) year, " +
+            "   MONTH(attend.eventtime) month, "+
+            "   DAY(attend.eventtime) day, " +
+            "   (SELECT value_setting " +
+            "   FROM system_setting " +
+            "   WHERE group_setting = 'ATTENDANCE' " +
+            "   AND key_setting = 'PeriodStart') p1, " +
+            "   (SELECT value_setting " +
+            "   FROM system_setting" +
+            "   WHERE group_setting = 'ATTENDANCE' " +
+            "   AND key_setting = 'PeriodEnd') p2 " +
+            "   from attendancelog attend " +
+            "   inner join employee emp on attend.id_employee = emp.id_employee " +
+            "   inner join delay_justification delayJus on attend.id_attendancelog = delayJus.id_attendancelog " +
+            "   where delayJus.approved = 0 " +
+            "   and (attend.eventtime between :initDate and :endDate)" +
+            ") as query", nativeQuery = true)
+    List<Object> countEmployeeDelaysXx(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate);
+
     @Query("select new com.umeca.model.shared.SelectList(case when delayJus.approved = 0 then 'Retardos' else 'Retardos' end,count(attend.id))" +
             "from AttendanceLog attend " +
             "inner join attend.employee emp " +
@@ -66,6 +93,61 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "and delayJus.approved = 0 " +
             "and (attend.eventTime between :initDate and :endDate)")
     List<SelectList> countEmployeeDelaysByDistrict(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idDistrict") Long idDistrict);
+
+    @Query(value = "select mes, periodo, SUM(total) from ( " +
+            "select 1 mes, 1 periodo, 0 total union " +
+            "select 1, 2, 0 union " +
+            "select 2, 1, 0 union " +
+            "select 2, 2, 0 union " +
+            "select 3, 1, 0 union " +
+            "select 3, 2, 0 union " +
+            "select 4, 1, 0 union " +
+            "select 4, 2, 0 union " +
+            "select 5, 1, 0 union " +
+            "select 5, 2, 0 union " +
+            "select 6, 1, 0 union " +
+            "select 6, 2, 0 union " +
+            "select 7, 1, 0 union " +
+            "select 7, 2, 0 union " +
+            "select 8, 1, 0 union " +
+            "select 8, 2, 0 union " +
+            "select 9, 1, 0 union " +
+            "select 9, 2, 0 union " +
+            "select 10, 1, 0 union " +
+            "select 10, 2, 0 union " +
+            "select 11, 1, 0 union " +
+            "select 11, 2, 0 union " +
+            "select 12, 1, 0 union " +
+            "select 12, 2, 0 union " +
+            "select " +
+            "IFNULL(month,1), " +
+            "case " +
+            "WHEN day >= p1 AND day < p2 THEN CONCAT(1) " +
+            "WHEN p1 = 1 AND day >= p2 THEN CONCAT(2) "+
+            "WHEN p1 > 1 AND day < p1 THEN CONCAT(2) "+
+            "else 1 " +
+            "end as date_range, count(*) as count " +
+            "from " +
+            "(select YEAR(attend.eventtime) year, " +
+            "   MONTH(attend.eventtime) month, "+
+            "   DAY(attend.eventtime) day, " +
+            "   (SELECT value_setting " +
+            "   FROM system_setting " +
+            "   WHERE group_setting = 'ATTENDANCE' " +
+            "   AND key_setting = 'PeriodStart') p1, " +
+            "   (SELECT value_setting " +
+            "   FROM system_setting" +
+            "   WHERE group_setting = 'ATTENDANCE' " +
+            "   AND key_setting = 'PeriodEnd') p2 " +
+            "   from attendancelog attend " +
+            "   inner join employee emp on attend.id_employee = emp.id_employee " +
+            "   inner join delay_justification delayJus on attend.id_attendancelog = delayJus.id_attendancelog " +
+            "   where delayJus.approved = 0 " +
+            "   and (attend.eventtime between :initDate and :endDate)" +
+            ") as query ) query2 " +
+            "where mes between :monthI and :monthF " +
+            "GROUP by mes, periodo", nativeQuery = true)
+    List<Object> countEmployeeDelaysX(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
 
     @Query("select new com.umeca.model.shared.SelectList(case when delayJus.approved = 0 then 'Retardos' else 'Retardos' end,count(attend.id))" +
             "from AttendanceLog attend " +

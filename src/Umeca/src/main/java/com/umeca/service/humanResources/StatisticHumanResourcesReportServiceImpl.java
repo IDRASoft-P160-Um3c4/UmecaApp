@@ -46,6 +46,8 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
         Date endDateF = null;
         Calendar initCal = Calendar.getInstance();
         Calendar endCal = Calendar.getInstance();
+        int monthI = 0;
+        int monthF = 0;
 
         String initTime = " 00:00:00";
         String endTime = " 23:59:59";
@@ -56,6 +58,9 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
             endDateF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(endDate + endTime);
             initCal.setTime(initDateF);
             endCal.setTime(endDateF);
+
+            monthI = initCal.get(Calendar.MONTH);
+            monthF = endCal.get(Calendar.MONTH);
 
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "getData", sharedUserService);
@@ -81,7 +86,11 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
             case Constants.REPORT_HUMAN_RESOURCES_STATISTIC_B:
                 switch (reportTypeRepository.getReportCodeById(idReportType)) {
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
-                        data = statisticHumanResourcesReportTypeRepository.countEmployeeDelays(initCal, endCal);
+                        lstObjects = statisticHumanResourcesReportTypeRepository.countEmployeeDelaysX(initCal, endCal, monthI, monthF);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
+                            data.add(new SelectList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Long.parseLong(obj[2].toString())));
+                        }
                         return gson.toJson(data);
 
                     case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
