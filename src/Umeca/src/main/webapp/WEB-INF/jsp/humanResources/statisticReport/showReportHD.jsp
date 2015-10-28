@@ -50,21 +50,34 @@
             var measure = "${measure}";
 
 
-            var color = d3.scale.ordinal()
-                    .range(["#00BCD4", "#E91E63", "#009688", "#3F51B5"]);
 
 
             var len = dataSet.length;
 
-            if (len > 4) {
-                color = d3.scale.ordinal().range(["#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3", "#00BCD4", "#009688", "#4CAF50", "#8BC34A", "#FFEB3B", "#FFC107", "#FF9800", "#795548", "#9E9E9E"]);
-            }
 
-            if (len > 8) {
-                dataSet.map(function (d) {
-                    d.name = d.subName;
-                })
-            }
+            var color = d3.scale.ordinal().range([
+                "#F44336", "#EF9A9A",
+                "#E91E63", "#F48FB1",
+                "#9C27B0", "#CE93D8",
+                "#673AB7", "#B39DDB",
+                "#3F51B5", "#9FA8DA",
+                "#2196F3", "#90CAF9",
+                "#00BCD4", "#80DEEA",
+                "#009688", "#80CBC4",
+                "#4CAF50", "#A5D6A7",
+                "#8BC34A", "#C5E1A5",
+                "#FFEB3B", "#FFF59D",
+                "#FF9800", "#FFCC80",
+                "#795548", "#BCAAA4",
+                "#9E9E9E", "#EEEEEE"
+            ]);
+
+
+//            if (len > 8) {
+//                dataSet.map(function (d) {
+//                    d.name = d.subName;
+//                })
+//            }
 
             var margin = {top: 50, right: 120, bottom: 50, left: 110},
                     width = 1280 - margin.left - margin.right,

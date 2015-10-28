@@ -227,29 +227,29 @@ public class SelectList implements EntityGrid{
         this.aux = aux;
         this.value = value;
         if(this.id == 1)
-            this.name = "Enero";
+            this.name = "Enero - " + aux;
         else if(this.id == 2)
-            this.name = "Febrero";
+            this.name = "Febrero - "  + aux;
         else if(this.id == 3)
-            this.name = "Marzo";
+            this.name = "Marzo - "  + aux;
         else if(this.id == 4)
-            this.name = "Abril";
+            this.name = "Abril - "  + aux;
         else if(this.id == 5)
-            this.name = "Mayo";
+            this.name = "Mayo - "  + aux;
         else if(this.id == 6)
-            this.name = "Junio";
+            this.name = "Junio - "  + aux;
         else if(this.id == 7)
-            this.name = "Julio";
+            this.name = "Julio - "  + aux;
         else if(this.id == 8)
-            this.name = "Agosto";
+            this.name = "Agosto - "  + aux;
         else if(this.id == 9)
-            this.name = "Septiembre";
+            this.name = "Septiembre - "  + aux;
         else if(this.id == 10)
-            this.name = "Octubre";
+            this.name = "Octubre - "  + aux;
         else if(this.id == 11)
-            this.name = "Noviembre";
+            this.name = "Noviembre - "  + aux;
         else if(this.id == 12)
-            this.name = "Diciembre";
+            this.name = "Diciembre - "  + aux;
 
     }
 
