@@ -83,6 +83,7 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
                             Object[] obj = (Object[]) lstObjects.get(j);
                             data.add(new SelectList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Long.parseLong(obj[2].toString())));
                         }
+                        return gson.toJson(data);
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
                         lstObjects = statisticHumanResourcesReportTypeRepository.countEmployeeAbsenceByOperator(initCal, endCal, idEmployee, monthI, monthF);
                         for (int j = 0; j < lstObjects.size(); j++) {
