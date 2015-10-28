@@ -484,28 +484,36 @@
                         datatype: "json",
                         autoencode: true,
                         mtype: 'POST',
-                        colNames: ['ID', 'Quincena', 'Dato'],
+                        postData: {
+                            initDate : "${initDate}",
+                            endDate : "${endDate}",
+                            filterSelected : "${filterSelected}",
+                            idReportType : ${idReportType},
+                            idDistrict : ${idDistrict},
+                            idEmployee : ${idEmployee}
+                        },
+                        colNames: ['ID', 'Periodo', 'Incidencias'],
                         colModel: [
                             {name: 'id', index: 'id', hidden: true},
                             {
-                                name: 'registrationFormulationDateStr',
-                                index: 'registrationFormulationDateStr',
+                                name: 'name',
+                                index: 'name',
                                 width: 200,
                                 align: "center",
                                 sorttype: 'string',
                                 search: false
                             },
                             {
-                                name: 'document',
-                                index: 'document',
+                                name: 'value',
+                                index: 'value',
                                 width: 170,
                                 align: "center",
                                 sorttype: 'string',
                                 searchoptions: {sopt: ['bw']}
                             }
                         ],
-                        rowNum: 10,
-                        rowList: [10, 20, 30],
+                        rowNum: 30,
+                     //   rowList: [10, 20, 30],
                         pager: '#GridPager',
                         sortname: 'id',
                         height: 450,
@@ -567,7 +575,7 @@
                     jQuery("#GridId").jqGrid('navButtonAdd', "#GridPager",
                             {
                                 caption: "",
-                                title: "Descargar informaci\u00f3n en excel",
+                                title: "Descargar Excel",
                                 buttonicon: 'icon-download-alt red',
 
                                 onClickButton: function () {
@@ -576,7 +584,7 @@
                                         params["idParam"] = listIds;
                                         params["filters"] = JSON.stringify(selectedFilters);
 
-                                        window.goToUrlMvcUrl("<c:url value='/humanResources/statisticReport/jxls.html'/>", params);
+                                        window.goToUrlMvcUrl("<c:url value='/director/excelReport/jxls.html?ids=idParam&filt=filters'/>", params);
 
                                     } catch (e) {
 
@@ -584,12 +592,12 @@
                                 }
                             });
 
+
                 });
 
-
-
-
             </script>
+
+
 
 
             <div id="angJsjqGridId" ng-controller="modalDlgController">

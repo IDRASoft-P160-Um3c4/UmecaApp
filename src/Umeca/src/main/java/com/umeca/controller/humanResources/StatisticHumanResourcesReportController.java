@@ -1,6 +1,9 @@
 package com.umeca.controller.humanResources;
 
 import com.google.gson.Gson;
+import com.umeca.infrastructure.jqgrid.model.*;
+import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
+import com.umeca.model.entities.managereval.Formulation;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
@@ -13,10 +16,17 @@ import com.umeca.service.humanResources.StatisticHumanResourcesReportService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Selection;
+import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,6 +48,8 @@ public class StatisticHumanResourcesReportController {
     StatisticHumanResourcesReportTypeRepository statisticHumanResourcesReportTypeRepository;
     @Autowired
     StatisticHumanResourcesReportService statisticHumanResourcesReportService;
+    @Autowired
+    private GenericJqGridPageSortFilter gridFilter;
 
     @RequestMapping(value = "/humanResources/statisticReport/index", method = RequestMethod.GET)
     public ModelAndView index() {
@@ -90,7 +102,9 @@ public class StatisticHumanResourcesReportController {
             else
                 measure = "Horas";
 
-
+            model.addObject("idDistrict",idDistrict);
+            model.addObject("idEmployee", idEmployee);
+            model.addObject("idReportType",idReportType);
             model.addObject("filterSelected",filterSelected);
             model.addObject("initDate", initDate.toString());
             model.addObject("endDate", endDate.toString());
@@ -115,4 +129,20 @@ public class StatisticHumanResourcesReportController {
     }
 
 
+
+    @RequestMapping(value = {"/humanResources/statisticReport/list"} )
+    public
+    @ResponseBody
+    JqGridResultModel list(@ModelAttribute JqGridFilterModel opts,String initDate,  String endDate, String filterSelected, Long idReportType, Long idDistrict, Long idEmployee){
+
+        try{
+            return statisticHumanResourcesReportService.getDataGrid(initDate, endDate, filterSelected, idReportType, idDistrict, idEmployee);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            logException.Write(e, this.getClass(), "HumanResourcesReport", sharedUserService);
+            return null;
+        }
+
+    }
 }

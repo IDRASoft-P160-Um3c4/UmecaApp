@@ -1,7 +1,10 @@
 package com.umeca.service.humanResources;
 
 import com.google.gson.Gson;
+import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
+import com.umeca.infrastructure.jqgrid.model.JqGridRowsModel;
 import com.umeca.model.catalog.DrugType;
+import com.umeca.model.entities.managereval.Formulation;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.ReportList;
 import com.umeca.model.shared.SelectList;
@@ -276,5 +279,121 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
     }
 
 
+
+    @Override
+    public JqGridResultModel getDataGrid(String initDate, String endDate, String filter, Long idReportType, Long idDistrict, Long idEmployee) {
+        List<SelectList> data = new ArrayList<>();
+        List<Object> lstObjects;
+        Gson gson = new Gson();
+        Date initDateF = null;
+        Date endDateF = null;
+        Calendar initCal = Calendar.getInstance();
+        Calendar endCal = Calendar.getInstance();
+        int monthI = 0;
+        int monthF = 0;
+
+        String initTime = " 00:00:00";
+        String endTime = " 23:59:59";
+
+
+
+
+
+
+        try {
+            initDateF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(initDate + initTime);
+            endDateF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(endDate + endTime);
+            initCal.setTime(initDateF);
+            endCal.setTime(endDateF);
+
+            monthI = initCal.get(Calendar.MONTH);
+            monthF = endCal.get(Calendar.MONTH);
+
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "getData", sharedUserService);
+        }
+
+        switch (filter) {
+            case Constants.REPORT_HUMAN_RESOURCES_STATISTIC_A:
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        data = statisticHumanResourcesReportTypeRepository.countEmployeeAbsence(initCal, endCal);
+                        break;
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        data = statisticHumanResourcesReportTypeRepository.countEmployeeAbsenceByDistrict(initCal, endCal, idDistrict);
+                        break;
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        data = statisticHumanResourcesReportTypeRepository.countEmployeeAbsenceByOperator(initCal, endCal, idEmployee);
+                        break;
+                }
+                break;
+
+
+            case Constants.REPORT_HUMAN_RESOURCES_STATISTIC_B:
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        lstObjects = statisticHumanResourcesReportTypeRepository.countEmployeeDelays(initCal, endCal, monthI, monthF);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
+                            data.add(new SelectList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Long.parseLong(obj[2].toString())));
+                        }
+                        break;
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        lstObjects = statisticHumanResourcesReportTypeRepository.countEmployeeDelaysByDistrict(initCal, endCal, idDistrict, monthI, monthF);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
+                            data.add(new SelectList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Long.parseLong(obj[2].toString())));
+                        }
+                        break;
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        lstObjects = statisticHumanResourcesReportTypeRepository.countEmployeeDelaysByOperator(initCal, endCal, idEmployee, monthI, monthF);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
+                            data.add(new SelectList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Long.parseLong(obj[2].toString())));
+                        }
+                        break;
+
+                }
+                break;
+
+            case Constants.REPORT_HUMAN_RESOURCES_STATISTIC_C:
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        data = statisticHumanResourcesReportTypeRepository.countEmployeeBonusTime(initCal, endCal);
+                        break;
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        data = statisticHumanResourcesReportTypeRepository.countEmployeeBonusTimeByDistrict(initCal, endCal, idDistrict);
+                        break;
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        data = statisticHumanResourcesReportTypeRepository.countEmployeeBonusTimeByOperator(initCal, endCal, idEmployee);
+                        break;
+                }
+                break;
+        }
+
+
+
+        JqGridResultModel result = new JqGridResultModel();
+        List<JqGridRowsModel> jqGridRowsModelList = new ArrayList<>();
+
+
+
+        for(int i = 0; i < data.size(); i++){
+            JqGridRowsModel jqGridRowsModel = new JqGridRowsModel();
+            jqGridRowsModel.setId(i + 1);
+            jqGridRowsModel.setCell(data.get(i));
+            jqGridRowsModelList.add(jqGridRowsModel);
+
+        }
+
+        result.setPage(1);
+        result.setRecords(1);
+        result.setTotal(1);
+        result.setRows(jqGridRowsModelList);
+
+        return result;
+    }
 
 }
