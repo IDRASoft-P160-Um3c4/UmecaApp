@@ -580,11 +580,20 @@
 
                                 onClickButton: function () {
                                     try {
-                                        var params = [];
-                                        params["idParam"] = listIds;
-                                        params["filters"] = JSON.stringify(selectedFilters);
 
-                                        window.goToUrlMvcUrl("<c:url value='/director/excelReport/jxls.html?ids=idParam&filt=filters'/>", params);
+                                        var params = [];
+                                        params["initDateParam"] = "${initDate}";
+                                        params["endDateParam"] = "${endDate}";
+                                        params["filterSelectedParam"] = "${filterSelected}";
+                                        params["idReportTypeParam"] = ${idReportType};
+                                        params["idDistrictParam"] = ${idDistrict};
+                                        params["idEmployeeParam"] = ${idEmployee};
+
+                                        debugger;
+                                     //   params["idParam"] = listIds;
+                                     //   params["filters"] = JSON.stringify(selectedFilters);
+
+                                        window.goToUrlMvcUrl("<c:url value='/humanResources/statisticReport/jxls.html?initDate=initDateParam&endDate=endDateParam&filterSelected=filterSelectedParam&idReportType=idReportTypeParam&idDistrict=idDistrictParam&idEmployee=idEmployeeParam'/>", params);
 
                                     } catch (e) {
 

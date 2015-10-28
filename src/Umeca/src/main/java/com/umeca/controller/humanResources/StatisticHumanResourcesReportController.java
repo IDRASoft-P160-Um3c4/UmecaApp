@@ -14,6 +14,7 @@ import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.humanResources.StatisticHumanResourcesReportService;
 import com.umeca.service.shared.SharedLogExceptionService;
+import net.sf.jxls.transformer.XLSTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,9 +26,14 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.text.Normalizer;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 @Controller
@@ -134,16 +140,87 @@ public class StatisticHumanResourcesReportController {
     public
     @ResponseBody
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts,String initDate,  String endDate, String filterSelected, Long idReportType, Long idDistrict, Long idEmployee){
-
+        List<SelectList> data;
         try{
-            //return statisticHumanResourcesReportService.getDataGrid(initDate, endDate, filterSelected, idReportType, idDistrict, idEmployee);
-            return null;
+            data = statisticHumanResourcesReportService.getData(initDate, endDate, filterSelected, idReportType, idDistrict, idEmployee);
+            JqGridResultModel result = new JqGridResultModel();
+            List<JqGridRowsModel> jqGridRowsModelList = new ArrayList<>();
+
+
+
+            for(int i = 0; i < data.size(); i++){
+                JqGridRowsModel jqGridRowsModel = new JqGridRowsModel();
+                jqGridRowsModel.setId(i + 1);
+                jqGridRowsModel.setCell(data.get(i));
+                jqGridRowsModelList.add(jqGridRowsModel);
+
+            }
+
+            result.setPage(1);
+            result.setRecords(1);
+            result.setTotal(1);
+            result.setRows(jqGridRowsModelList);
+            return result;
         }
         catch (Exception e){
             e.printStackTrace();
             logException.Write(e, this.getClass(), "HumanResourcesReport", sharedUserService);
             return null;
         }
-
     }
+
+
+
+    @RequestMapping(value = "/humanResources/statisticReport/jxls", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    void jxlsMethod(HttpServletRequest request, HttpServletResponse response, String initDate, String endDate,String filterSelected,Long idReportType, Long idDistrict, Long idEmployee) {
+
+        Map beans = new HashMap();
+
+        XLSTransformer transformer = new XLSTransformer();
+
+
+
+        try {
+
+            List<SelectList> data;
+            data = statisticHumanResourcesReportService.getData(initDate, endDate, filterSelected, idReportType, idDistrict, idEmployee);
+
+            beans.put("data", data);
+
+
+            UUID uid = UUID.randomUUID();
+
+            File temp = File.createTempFile(uid.toString(), ".xls");
+            String tempPath = temp.getAbsolutePath();
+
+            ServletContext servletContext = request.getSession().getServletContext();
+            String realContextPath = servletContext.getRealPath("/");
+            realContextPath += "/WEB-INF/jxlsTemplate/reportHumanResources.xls";
+
+            transformer.transformXLS(realContextPath, beans, tempPath);
+
+            response.setContentType("application/x-download");
+            response.setHeader("Content-Disposition", "attachment; filename=\"reportHumanResources.xls\"");
+
+            FileInputStream istr = new FileInputStream(tempPath);
+            OutputStream ostr = response.getOutputStream();
+
+            int curByte = -1;
+
+            while ((curByte = istr.read()) != -1)
+                ostr.write(curByte);
+
+            ostr.flush();
+            ostr.close();
+            istr.close();
+            temp.delete();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
 }
