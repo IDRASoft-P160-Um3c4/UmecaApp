@@ -355,30 +355,289 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
 
 
     //Reporte3
-    @Query("select new com.umeca.model.shared.SelectList(case when delayJus.approved = 0 then 'Horas extras' else 'Horas extras' end,count(attend.id))" +
-            "from AttendanceLog attend " +
-            "inner join attend.employee emp " +
-            "inner join attend.delayJustification delayJus " +
-            "where delayJus.approved = 0 and (attend.eventTime between :initDate and :endDate)")
-    List<SelectList> countEmployeeBonusTime(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate);
+    @Query(value = "select mes, periodo, SUM(total)\n" +
+            "from (\n" +
+            "select 1 mes, 1 periodo, 0 total union\n" +
+            "select 1, 2, 0 union\n" +
+            "select 2, 1, 0 union\n" +
+            "select 2, 2, 0 union\n" +
+            "select 3, 1, 0 union\n" +
+            "select 3, 2, 0 union\n" +
+            "select 4, 1, 0 union\n" +
+            "select 4, 2, 0 union\n" +
+            "select 5, 1, 0 union\n" +
+            "select 5, 2, 0 union\n" +
+            "select 6, 1, 0 union\n" +
+            "select 6, 2, 0 union\n" +
+            "select 7, 1, 0 union\n" +
+            "select 7, 2, 0 union\n" +
+            "select 8, 1, 0 union\n" +
+            "select 8, 2, 0 union\n" +
+            "select 9, 1, 0 union\n" +
+            "select 9, 2, 0 union\n" +
+            "select 10, 1, 0 union\n" +
+            "select 10, 2, 0 union\n" +
+            "select 11, 1, 0 union\n" +
+            "select 11, 2, 0 union\n" +
+            "select 12, 1, 0 union\n" +
+            "select 12, 2, 0 union\n" +
+            "SELECT\n" +
+            "\tIFNULL(month,1),\n" +
+            "    CASE\n" +
+            "        WHEN day >= p1 AND day < p2 THEN CONCAT(1)\n" +
+            "        WHEN p1 = 1 AND day >= p2 THEN CONCAT(2)\n" +
+            "        WHEN p1 > 1 AND day < p1 THEN CONCAT(2)\n" +
+            "        else 1\n" +
+            "    END as intervals,\n" +
+            "        SUM(bonustime)\n" +
+            "FROM\n" +
+            "    (\n" +
+            "    select \n" +
+            "    YEAR(extraTime.eventtime) year,\n" +
+            "\tMONTH(extraTime.eventtime) month,\n" +
+            "\tDAY(extraTime.eventtime) day,\n" +
+            "    extraTime.bonustime,\n" +
+            "            (SELECT \n" +
+            "                    value_setting\n" +
+            "                FROM\n" +
+            "                    system_setting\n" +
+            "                WHERE\n" +
+            "                    group_setting = 'ATTENDANCE'\n" +
+            "                        AND key_setting = 'PeriodStart') p1,\n" +
+            "            (SELECT \n" +
+            "                    value_setting\n" +
+            "                FROM\n" +
+            "                    system_setting\n" +
+            "                WHERE\n" +
+            "                    group_setting = 'ATTENDANCE'\n" +
+            "                        AND key_setting = 'PeriodEnd') p2\n" +
+            "    from (select\n" +
+            "\t\t\tid_attendancelog,\n" +
+            "\t\t\tname,\n" +
+            "\t\t\teventtime,\n" +
+            "\t\t\tcheckout,\n" +
+            "\t\t\touttime,\n" +
+            "\t\t\ttolerance,\n" +
+            "\t\t\tovertime > 0 approved,\n" +
+            "\t\t\tconcat('', sec_to_time(outtime)) textOut, \n" +
+            "\t\t\tconcat('', time(eventtime)) textOu,\n" +
+            "\t\t\tconcat('', date(eventtime)) textDt, \n" +
+            "\t\t\tround((checkout - outtime) / (60 * 60)) bonustime,\n" +
+            "\t\t\tid_employee,\n" +
+            "\t\t\tworkcode \n" +
+            "\t\tfrom (\n" +
+            "\t\t\tselect \n" +
+            "\t\t\t\ta.id_attendancelog,\n" +
+            "\t\t\t\tconcat(e.name, ' ', coalesce(concat(e.last_name_p,' '), ''), coalesce(concat('', e.last_name_m), '')) \"name\",\n" +
+            "\t\t\t\ta.eventtime,\n" +
+            "\t\t\t\ttime_to_sec(eventtime) checkout,\n" +
+            "\t\t\t\tcoalesce((select sd.end from schedule_days sd where sd.day_id = weekday(a.eventtime) + 1 and sd.id_employee_schedule = e.id_employee_schedule), 23 * 60 * 60 + 59 * 60 + 59) \"outtime\",\n" +
+            "\t\t\t\tcast(time_to_sec(coalesce((select value_setting from system_setting where group_setting = 'ATTENDANCE' and key_setting = 'ArrivalTolerance'), '00:00:00')) as UNSIGNED) tolerance,\n" +
+            "\t\t\t\t(select count(*) > 0 from bonustime bt where bt.id_attendancelog = a.id_attendancelog) overtime,\n" +
+            "\t\t\t\ta.id_employee,\n" +
+            "\t\t\t\ta.workcode  \n" +
+            "\t\t\tfrom attendancelog a   \n" +
+            "\t\t\tinner join employee e   \n" +
+            "\t\t\t\ton a.id_employee = e.id_employee   \n" +
+            "\t\t\t\tand a.workcode = 2\n" +
+            "\t\t\twhere (a.eventTime between :initDate and :endDate)\n" +
+            "\t\t) attendancelogview ) extraTime\n" +
+            "        \n" +
+            "\t) AS query1\n" +
+            "    ) query2\n" +
+            "   where mes between :monthI and :monthF " +
+            "group by mes, periodo", nativeQuery = true)
+    List<Object> countEmployeeBonusTime(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
 
-    @Query("select new com.umeca.model.shared.SelectList(case when delayJus.approved = 0 then 'Horas extras' else 'Horas extras' end,count(attend.id))" +
-            "from AttendanceLog attend " +
-            "inner join attend.employee emp " +
-            "inner join attend.delayJustification delayJus " +
-            "where emp.district.id = :idDistrict " +
-            "and delayJus.approved = 0 " +
-            "and (attend.eventTime between :initDate and :endDate)")
-    List<SelectList> countEmployeeBonusTimeByDistrict(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idDistrict") Long idDistrict);
+    @Query(value = "select mes, periodo, SUM(total)\n" +
+            "from (\n" +
+            "select 1 mes, 1 periodo, 0 total union\n" +
+            "select 1, 2, 0 union\n" +
+            "select 2, 1, 0 union\n" +
+            "select 2, 2, 0 union\n" +
+            "select 3, 1, 0 union\n" +
+            "select 3, 2, 0 union\n" +
+            "select 4, 1, 0 union\n" +
+            "select 4, 2, 0 union\n" +
+            "select 5, 1, 0 union\n" +
+            "select 5, 2, 0 union\n" +
+            "select 6, 1, 0 union\n" +
+            "select 6, 2, 0 union\n" +
+            "select 7, 1, 0 union\n" +
+            "select 7, 2, 0 union\n" +
+            "select 8, 1, 0 union\n" +
+            "select 8, 2, 0 union\n" +
+            "select 9, 1, 0 union\n" +
+            "select 9, 2, 0 union\n" +
+            "select 10, 1, 0 union\n" +
+            "select 10, 2, 0 union\n" +
+            "select 11, 1, 0 union\n" +
+            "select 11, 2, 0 union\n" +
+            "select 12, 1, 0 union\n" +
+            "select 12, 2, 0 union\n" +
+            "SELECT\n" +
+            "\tIFNULL(month,1),\n" +
+            "    CASE\n" +
+            "        WHEN day >= p1 AND day < p2 THEN CONCAT(1)\n" +
+            "        WHEN p1 = 1 AND day >= p2 THEN CONCAT(2)\n" +
+            "        WHEN p1 > 1 AND day < p1 THEN CONCAT(2)\n" +
+            "        else 1\n" +
+            "    END as intervals,\n" +
+            "        SUM(bonustime)\n" +
+            "FROM\n" +
+            "    (\n" +
+            "    select \n" +
+            "    YEAR(extraTime.eventtime) year,\n" +
+            "\tMONTH(extraTime.eventtime) month,\n" +
+            "\tDAY(extraTime.eventtime) day,\n" +
+            "    extraTime.bonustime,\n" +
+            "            (SELECT \n" +
+            "                    value_setting\n" +
+            "                FROM\n" +
+            "                    system_setting\n" +
+            "                WHERE\n" +
+            "                    group_setting = 'ATTENDANCE'\n" +
+            "                        AND key_setting = 'PeriodStart') p1,\n" +
+            "            (SELECT \n" +
+            "                    value_setting\n" +
+            "                FROM\n" +
+            "                    system_setting\n" +
+            "                WHERE\n" +
+            "                    group_setting = 'ATTENDANCE'\n" +
+            "                        AND key_setting = 'PeriodEnd') p2\n" +
+            "    from (select\n" +
+            "\t\t\tid_attendancelog,\n" +
+            "\t\t\tname,\n" +
+            "\t\t\teventtime,\n" +
+            "\t\t\tcheckout,\n" +
+            "\t\t\touttime,\n" +
+            "\t\t\ttolerance,\n" +
+            "\t\t\tovertime > 0 approved,\n" +
+            "\t\t\tconcat('', sec_to_time(outtime)) textOut, \n" +
+            "\t\t\tconcat('', time(eventtime)) textOu,\n" +
+            "\t\t\tconcat('', date(eventtime)) textDt, \n" +
+            "\t\t\tround((checkout - outtime) / (60 * 60)) bonustime,\n" +
+            "\t\t\tid_employee,\n" +
+            "\t\t\tworkcode \n" +
+            "\t\tfrom (\n" +
+            "\t\t\tselect \n" +
+            "\t\t\t\ta.id_attendancelog,\n" +
+            "\t\t\t\tconcat(e.name, ' ', coalesce(concat(e.last_name_p,' '), ''), coalesce(concat('', e.last_name_m), '')) \"name\",\n" +
+            "\t\t\t\ta.eventtime,\n" +
+            "\t\t\t\ttime_to_sec(eventtime) checkout,\n" +
+            "\t\t\t\tcoalesce((select sd.end from schedule_days sd where sd.day_id = weekday(a.eventtime) + 1 and sd.id_employee_schedule = e.id_employee_schedule), 23 * 60 * 60 + 59 * 60 + 59) \"outtime\",\n" +
+            "\t\t\t\tcast(time_to_sec(coalesce((select value_setting from system_setting where group_setting = 'ATTENDANCE' and key_setting = 'ArrivalTolerance'), '00:00:00')) as UNSIGNED) tolerance,\n" +
+            "\t\t\t\t(select count(*) > 0 from bonustime bt where bt.id_attendancelog = a.id_attendancelog) overtime,\n" +
+            "\t\t\t\ta.id_employee,\n" +
+            "\t\t\t\ta.workcode  \n" +
+            "\t\t\tfrom attendancelog a   \n" +
+            "\t\t\tinner join employee e   \n" +
+            "\t\t\t\ton a.id_employee = e.id_employee   \n" +
+            "\t\t\t\tand a.workcode = 2\n" +
+            "\t\t\twhere e.id_district = :idDistrict\n" +
+            "\t\t\tand (a.eventTime between :initDate and :endDate)\n" +
+            "\t\t) attendancelogview ) extraTime\n" +
+            "        \n" +
+            "\t) AS query1\n" +
+            "    ) query2\n" +
+            "   where mes between :monthI and :monthF " +
+            "group by mes, periodo", nativeQuery = true)
+    List<Object> countEmployeeBonusTimeByDistrict(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idDistrict") Long idDistrict, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
 
-    @Query("select new com.umeca.model.shared.SelectList(case when delayJus.approved = 0 then 'Horas extras' else 'Horas extras' end,count(attend.id))" +
-            "from AttendanceLog attend " +
-            "inner join attend.employee emp " +
-            "inner join attend.delayJustification delayJus " +
-            "where emp.id = :idEmployee " +
-            "and delayJus.approved = 0 " +
-            "and (attend.eventTime between :initDate and :endDate)")
-    List<SelectList> countEmployeeBonusTimeByOperator(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idEmployee") Long idEmployee);
+    @Query(value = "select mes, periodo, SUM(total)\n" +
+            "from (\n" +
+            "select 1 mes, 1 periodo, 0 total union\n" +
+            "select 1, 2, 0 union\n" +
+            "select 2, 1, 0 union\n" +
+            "select 2, 2, 0 union\n" +
+            "select 3, 1, 0 union\n" +
+            "select 3, 2, 0 union\n" +
+            "select 4, 1, 0 union\n" +
+            "select 4, 2, 0 union\n" +
+            "select 5, 1, 0 union\n" +
+            "select 5, 2, 0 union\n" +
+            "select 6, 1, 0 union\n" +
+            "select 6, 2, 0 union\n" +
+            "select 7, 1, 0 union\n" +
+            "select 7, 2, 0 union\n" +
+            "select 8, 1, 0 union\n" +
+            "select 8, 2, 0 union\n" +
+            "select 9, 1, 0 union\n" +
+            "select 9, 2, 0 union\n" +
+            "select 10, 1, 0 union\n" +
+            "select 10, 2, 0 union\n" +
+            "select 11, 1, 0 union\n" +
+            "select 11, 2, 0 union\n" +
+            "select 12, 1, 0 union\n" +
+            "select 12, 2, 0 union\n" +
+            "SELECT\n" +
+            "\tIFNULL(month,1),\n" +
+            "    CASE\n" +
+            "        WHEN day >= p1 AND day < p2 THEN CONCAT(1)\n" +
+            "        WHEN p1 = 1 AND day >= p2 THEN CONCAT(2)\n" +
+            "        WHEN p1 > 1 AND day < p1 THEN CONCAT(2)\n" +
+            "        else 1\n" +
+            "    END as intervals,\n" +
+            "        SUM(bonustime)\n" +
+            "FROM\n" +
+            "    (\n" +
+            "    select \n" +
+            "    YEAR(extraTime.eventtime) year,\n" +
+            "\tMONTH(extraTime.eventtime) month,\n" +
+            "\tDAY(extraTime.eventtime) day,\n" +
+            "    extraTime.bonustime,\n" +
+            "            (SELECT \n" +
+            "                    value_setting\n" +
+            "                FROM\n" +
+            "                    system_setting\n" +
+            "                WHERE\n" +
+            "                    group_setting = 'ATTENDANCE'\n" +
+            "                        AND key_setting = 'PeriodStart') p1,\n" +
+            "            (SELECT \n" +
+            "                    value_setting\n" +
+            "                FROM\n" +
+            "                    system_setting\n" +
+            "                WHERE\n" +
+            "                    group_setting = 'ATTENDANCE'\n" +
+            "                        AND key_setting = 'PeriodEnd') p2\n" +
+            "    from (select\n" +
+            "\t\t\tid_attendancelog,\n" +
+            "\t\t\tname,\n" +
+            "\t\t\teventtime,\n" +
+            "\t\t\tcheckout,\n" +
+            "\t\t\touttime,\n" +
+            "\t\t\ttolerance,\n" +
+            "\t\t\tovertime > 0 approved,\n" +
+            "\t\t\tconcat('', sec_to_time(outtime)) textOut, \n" +
+            "\t\t\tconcat('', time(eventtime)) textOu,\n" +
+            "\t\t\tconcat('', date(eventtime)) textDt, \n" +
+            "\t\t\tround((checkout - outtime) / (60 * 60)) bonustime,\n" +
+            "\t\t\tid_employee,\n" +
+            "\t\t\tworkcode \n" +
+            "\t\tfrom (\n" +
+            "\t\t\tselect \n" +
+            "\t\t\t\ta.id_attendancelog,\n" +
+            "\t\t\t\tconcat(e.name, ' ', coalesce(concat(e.last_name_p,' '), ''), coalesce(concat('', e.last_name_m), '')) \"name\",\n" +
+            "\t\t\t\ta.eventtime,\n" +
+            "\t\t\t\ttime_to_sec(eventtime) checkout,\n" +
+            "\t\t\t\tcoalesce((select sd.end from schedule_days sd where sd.day_id = weekday(a.eventtime) + 1 and sd.id_employee_schedule = e.id_employee_schedule), 23 * 60 * 60 + 59 * 60 + 59) \"outtime\",\n" +
+            "\t\t\t\tcast(time_to_sec(coalesce((select value_setting from system_setting where group_setting = 'ATTENDANCE' and key_setting = 'ArrivalTolerance'), '00:00:00')) as UNSIGNED) tolerance,\n" +
+            "\t\t\t\t(select count(*) > 0 from bonustime bt where bt.id_attendancelog = a.id_attendancelog) overtime,\n" +
+            "\t\t\t\ta.id_employee,\n" +
+            "\t\t\t\ta.workcode  \n" +
+            "\t\t\tfrom attendancelog a   \n" +
+            "\t\t\tinner join employee e   \n" +
+            "\t\t\t\ton a.id_employee = e.id_employee   \n" +
+            "\t\t\t\tand a.workcode = 2\n" +
+            "\t\t\twhere e.id_employee = :idEmployee\n" +
+            "\t\t\tand (a.eventTime between :initDate and :endDate)\n" +
+            "\t\t) attendancelogview ) extraTime\n" +
+            "        \n" +
+            "\t) AS query1\n" +
+            "    ) query2\n" +
+            "   where mes between :monthI and :monthF " +
+            "group by mes, periodo", nativeQuery = true)
+    List<Object> countEmployeeBonusTimeByOperator(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idEmployee") Long idEmployee, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
 
 
 }
