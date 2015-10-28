@@ -1,9 +1,7 @@
 package com.umeca.service.humanResources;
 
 import com.google.gson.Gson;
-import com.umeca.model.catalog.DrugType;
 import com.umeca.model.shared.Constants;
-import com.umeca.model.shared.ReportList;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.ArrangementRepository;
@@ -128,164 +126,31 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
             case Constants.REPORT_HUMAN_RESOURCES_STATISTIC_C:
                 switch (reportTypeRepository.getReportCodeById(idReportType)) {
                     case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
-                        data = statisticHumanResourcesReportTypeRepository.countEmployeeBonusTime(initCal, endCal);
+                        lstObjects = statisticHumanResourcesReportTypeRepository.countEmployeeBonusTime(initCal, endCal, monthI, monthF);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
+                            data.add(new SelectList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Long.parseLong(obj[2].toString())));
+                        }
                         return data;
 
                     case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
-                        data = statisticHumanResourcesReportTypeRepository.countEmployeeBonusTimeByDistrict(initCal, endCal, idDistrict);
+                        lstObjects = statisticHumanResourcesReportTypeRepository.countEmployeeBonusTimeByDistrict(initCal, endCal, idDistrict, monthI, monthF);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
+                            data.add(new SelectList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Long.parseLong(obj[2].toString())));
+                        }
                         return data;
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
-                        data = statisticHumanResourcesReportTypeRepository.countEmployeeBonusTimeByOperator(initCal, endCal, idEmployee);
+                        lstObjects = statisticHumanResourcesReportTypeRepository.countEmployeeBonusTimeByOperator(initCal, endCal, idEmployee, monthI, monthF);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
+                            data.add(new SelectList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Long.parseLong(obj[2].toString())));
+                        }
                         return data;
                 }
                 break;
         }
         return null;
-    }
-
-    private List<Object> completeData(List<Object> finalData, List<Object> data, String supervisor, int x, List<DrugType> drugs) {
-
-        int countNum = 0;
-        for (int i = 0; i < drugs.size(); i++) {
-            List<ReportList> aux = new ArrayList<>();
-            if (finalData.size() > i) {
-                aux = (List<ReportList>) finalData.get(i);
-            }
-            if (data.size() == countNum) {
-                aux.add(new ReportList(new Long(i), new Long(0), drugs.get(i).getName(), supervisor, (long) x));
-
-            } else {
-                for (int j = countNum; j < data.size(); j++) {
-                    Object[] obj = (Object[]) data.get(j);
-
-                    if (drugs.get(i).getId() == Long.parseLong(obj[0].toString())) {
-                        aux.add(new ReportList(new Long(i), Long.parseLong(obj[2].toString()), drugs.get(i).getName(), supervisor, (long) x));
-                        countNum = j + 1;
-                    } else {
-                        aux.add(new ReportList(new Long(i), new Long(0), drugs.get(i).getName(), supervisor, (long) x));
-                    }
-                    break;
-
-
-                }
-            }
-
-            if (finalData.size() <= i) {
-                finalData.add(aux);
-            } else {
-                finalData.set(i, aux);
-            }
-
-        }
-
-        return finalData;
-
-    }
-
-    private List<SelectList> completeDoubleData(List<SelectList> data, String firstSrt, String secondSrt) {
-
-        if (data.size() > 0) {
-            if (!data.get(0).getName().equals(firstSrt)) {
-                SelectList x = data.get(0);
-                data.set(0, new SelectList(firstSrt, new Long(0)));
-                data.add(x);
-            } else if (data.size() < 2)
-                data.add(new SelectList(secondSrt, new Long(0)));
-        } else {
-            data.add(new SelectList(firstSrt, new Long(0)));
-            data.add(new SelectList(secondSrt, new Long(0)));
-        }
-
-        return data;
-
-    }
-
-    private List<Object> completeDataBySup(List<Object> finalData, List<SelectList> data, String supervisor, int x) {
-
-
-        List<ReportList> aux1 = new ArrayList<>();
-        List<ReportList> aux2 = new ArrayList<>();
-
-        if (finalData.size() > 0) {
-            aux1 = (List<ReportList>) finalData.get(0);
-            aux2 = (List<ReportList>) finalData.get(1);
-
-            aux1.add(new ReportList(new Long(0), data.get(0).getValue(), data.get(0).getName(), supervisor, (long) x));
-            aux2.add(new ReportList(new Long(1), data.get(1).getValue(), data.get(1).getName(), supervisor, (long) x));
-
-            finalData.set(0, aux1);
-            finalData.set(1, aux2);
-
-        } else {
-
-            aux1.add(new ReportList(new Long(0), data.get(0).getValue(), data.get(0).getName(), supervisor, (long) x));
-            aux2.add(new ReportList(new Long(1), data.get(1).getValue(), data.get(1).getName(), supervisor, (long) x));
-
-            finalData.add(aux1);
-            finalData.add(aux2);
-        }
-
-
-        return finalData;
-    }
-
-    private List<Object> completeSingleDataBySup(List<Object> finalData, List<SelectList> data, String supervisor, int x) {
-
-        List<ReportList> aux1 = new ArrayList<>();
-
-        if (finalData.size() > 0) {
-            aux1 = (List<ReportList>) finalData.get(0);
-            aux1.add(new ReportList(new Long(0), data.get(0).getValue(), data.get(0).getName(), supervisor, (long) x));
-            finalData.set(0, aux1);
-        } else {
-            aux1.add(new ReportList(new Long(0), data.get(0).getValue(), data.get(0).getName(), supervisor, (long) x));
-            finalData.add(aux1);
-        }
-
-
-        return finalData;
-    }
-
-    private List<Object> completeAgeData(List<Object> finalData, List<Object> data, String supervisor, int x, List<SelectList> ages) {
-
-
-        int countNum = 0;
-
-
-        for (int i = 0; i < ages.size(); i++) {
-            List<ReportList> aux = new ArrayList<>();
-            if (finalData.size() > i) {
-                aux = (List<ReportList>) finalData.get(i);
-            }
-            if (data.size() == countNum) {
-                aux.add(new ReportList(new Long(i), new Long(0), ages.get(i).getName(), supervisor, (long) x));
-
-            } else {
-                for (int j = countNum; j < data.size(); j++) {
-                    Object[] obj = (Object[]) data.get(j);
-
-                    if (ages.get(i).getId() == Long.parseLong(obj[0].toString())) {
-                        aux.add(new ReportList(new Long(i), Long.parseLong(obj[2].toString()), ages.get(i).getName(), supervisor, (long) x));
-                        countNum = j + 1;
-                    } else {
-                        aux.add(new ReportList(new Long(i), new Long(0), ages.get(i).getName(), supervisor, (long) x));
-                    }
-                    break;
-
-
-                }
-            }
-
-            if (finalData.size() <= i) {
-                finalData.add(aux);
-            } else {
-                finalData.set(i, aux);
-            }
-
-        }
-
-        return finalData;
-
     }
 
 
