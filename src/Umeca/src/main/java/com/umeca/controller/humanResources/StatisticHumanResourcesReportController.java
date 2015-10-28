@@ -76,9 +76,9 @@ public class StatisticHumanResourcesReportController {
         Long total = Long.valueOf(0);
         try {
             title = statisticHumanResourcesReportTypeRepository.findByCode(filterSelected).getDescription();
-//            List<SelectList> data;
-            String data;
+            List<SelectList> data;
             data = statisticHumanResourcesReportService.getData(initDate, endDate, filterSelected, idReportType, idDistrict, idEmployee);
+
 
             if (idReportType == 1)
                 extraData = "General";
@@ -109,7 +109,7 @@ public class StatisticHumanResourcesReportController {
             model.addObject("initDate", initDate.toString());
             model.addObject("endDate", endDate.toString());
             model.addObject("total", total);
-            model.addObject("data", data);
+            model.addObject("data", gson.toJson(data));
             model.addObject("extraData", extraData);
             model.addObject("title", title);
             model.addObject("measure", measure);
@@ -136,7 +136,8 @@ public class StatisticHumanResourcesReportController {
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts,String initDate,  String endDate, String filterSelected, Long idReportType, Long idDistrict, Long idEmployee){
 
         try{
-            return statisticHumanResourcesReportService.getDataGrid(initDate, endDate, filterSelected, idReportType, idDistrict, idEmployee);
+            //return statisticHumanResourcesReportService.getDataGrid(initDate, endDate, filterSelected, idReportType, idDistrict, idEmployee);
+            return null;
         }
         catch (Exception e){
             e.printStackTrace();
