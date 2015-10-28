@@ -436,7 +436,156 @@
             </div>
         </div>
         <div id="sectionB" class="tab-pane fade">
-            <p></p>
+            <script>
+
+                window.showConfirmPresence = function (id) {
+
+                    //  window.showUpsert(id, "#angJsjqGridId", '<c:url value='/reviewer/meeting/newMeetingForFormulation.html'/>', "#GridId");
+                    window.showUpsert(id, "#angJsjqGridId", '<c:url value='/reviewer/formulation/showAttendaneRecord.html'/>', "#GridId");
+                    //   window.showAction(id, "#angJsjqGridId", '', "#GridId","Registrar Asistencia/inasistencia","&iquest;El imputado asisti&oacute; a la cita de entrevista de riesgo?","warning");
+                };
+
+                window.showInterview = function (id) {
+                    window.showUpsert(id, "#angJsjqGridId", '<c:url value='/reviewer/meeting/newMeetingForFormulation.html'/>', "#GridId");
+                }
+
+                window.showReportAbsence = function (id) {
+                    window.showUpsert(id, "#angJsjqGridId", '<c:url value='/reviewer/reviewer/absenceReport.html'/>', "#GridId", "Registrar Asistencia/inasistencia", "&iquest;El imputado asisti&oacute; a la cita de entrevista de riesgo?", "warning");
+                };
+
+                window.printDocument = function (id) {
+                    var goTo = "<c:url value='/reviewer/formulation/printAbsenceReport.html'/>" + "?id=" + id;
+                    window.goToUrlMvcUrl(goTo);
+                    $("#GridId").trigger("reloadGrid");
+                };
+
+                window.showConfirmInformationDelivery = function (id) {
+                    window.showAction(id, "#angJsjqGridId", '<c:url value='/reviewer/formulation/confirmInformation.json'/>', "#GridId", "Registrar entrega de informaci&oacute;n", "&iquest;Realiz&oacute; la entrega de la informaci&oacute;n de la entrevista de formulaci&oacute;n?", "warning");
+                };
+                $(document).ready(function () {
+                    jQuery("#GridId").jqGrid({
+                        url: '<c:url value='/humanResources/statisticReport/list.json' />',
+                        datatype: "json",
+                        autoencode: true,
+                        mtype: 'POST',
+                        colNames: ['ID', 'Quincena', 'Dato'],
+                        colModel: [
+                            {name: 'id', index: 'id', hidden: true},
+                            {
+                                name: 'registrationFormulationDateStr',
+                                index: 'registrationFormulationDateStr',
+                                width: 200,
+                                align: "center",
+                                sorttype: 'string',
+                                search: false
+                            },
+                            {
+                                name: 'document',
+                                index: 'document',
+                                width: 170,
+                                align: "center",
+                                sorttype: 'string',
+                                searchoptions: {sopt: ['bw']}
+                            }
+                        ],
+                        rowNum: 10,
+                        rowList: [10, 20, 30],
+                        pager: '#GridPager',
+                        sortname: 'id',
+                        height: 450,
+                        viewrecords: true,
+                        shrinkToFit: false,
+                        sortorder: "desc",
+                        caption: "&nbsp;",
+                        altRows: true,
+                        gridComplete: function () {
+                            var ids = $(this).jqGrid('getDataIDs');
+                            for (var i = 0; i < ids.length; i++) {
+                                var cl = ids[i];
+                                var row = $(this).getRowData(cl);
+                                var presenceStr = row.presenceStr + "";
+                                var informationDeliveredStr = row.informationDeliveredStr;
+                                var be = "";
+                                if (presenceStr === "Pendiente") {
+                                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Registrar asistencia/inasistencia\" onclick=\"window.showConfirmPresence('" + cl + "');\"><i class=\" icon-ok\"></i></a>";
+                                }
+                                if (presenceStr === "No") {
+                                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar reporte de inasistencia\" onclick=\"window.printDocument('" + cl + "');\"><i class=\" icon-file\"></i></a>";
+                                }
+                                if (presenceStr === "Si") {
+//                                be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Entrevistas de riesgos\" onclick=\"window.showInterview('" + cl + "');\"><i class=\" icon-comments-alt\"></i></a>";
+                                    be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Entrega de informaci&oacute;n\" onclick=\"window.showConfirmInformationDelivery('" + cl + "');\"><i class=\" icon-list-alt\"></i></a>";
+                                }
+                                if(informationDeliveredStr === "Si"){
+                                    be = "";
+
+                                }
+                                /* be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Registrar asistencia/inasistencia\" onclick=\"window.showConfirmPresence('" + cl + "');\"><i class=\" icon-ok\"></i></a>";
+                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar reporte de inasistencia\" onclick=\"window.printDocument('" + cl + "');\"><i class=\" icon-file\"></i></a>";
+                                 be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Entrega de informaci&oacute;n\" onclick=\"window.showConfirmInformationDelivery('" + cl + "');\"><i class=\" icon-list-alt\"></i></a>";*/
+                                $(this).jqGrid('setRowData', ids[i], {Action: be});
+                                if (row.attended === "false" && row.presenceStr === "Pendiente") {
+                                    $("#" + cl).css("background-color", "#FF3617");
+                                }
+                            }
+                        },
+                        loadComplete: function () {
+                            var table = this;
+                            setTimeout(function () {
+                                updatePagerIcons(table);
+                                enableTooltips(table);
+                            }, 0);
+                        }
+                    });
+
+
+
+                    jQuery("#GridId").jqGrid('navGrid', '#GridPager', {
+                        edit: false, editicon: 'icon-pencil blue',
+                        add: false,
+                        refresh: true, refreshicon: 'icon-refresh green',
+                        del: false,
+                        search: false
+                    });
+
+                    jQuery("#GridId").jqGrid('navButtonAdd', "#GridPager",
+                            {
+                                caption: "",
+                                title: "Descargar informaci\u00f3n en excel",
+                                buttonicon: 'icon-download-alt red',
+
+                                onClickButton: function () {
+                                    try {
+                                        var params = [];
+                                        params["idParam"] = listIds;
+                                        params["filters"] = JSON.stringify(selectedFilters);
+
+                                        window.goToUrlMvcUrl("<c:url value='/humanResources/statisticReport/jxls.html'/>", params);
+
+                                    } catch (e) {
+
+                                    }
+                                }
+                            });
+
+                });
+
+
+
+
+            </script>
+
+
+            <div id="angJsjqGridId" ng-controller="modalDlgController">
+                <table id="GridId" class="element-center" style="margin: auto"></table>
+                <div id="GridPager"></div>
+                <%--<div class="blocker" ng-show="working">--%>
+                    <%--<div>--%>
+                        <%--Cargando...<img src="<c:url value='/assets/content/images/ajax_loader.gif' />" alt=""/>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            </div>
+
         </div>
     </div>
 
