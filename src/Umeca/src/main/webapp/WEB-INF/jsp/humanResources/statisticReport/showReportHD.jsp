@@ -125,6 +125,9 @@
             });
 
             x.domain(dataSet.map(function (d) {
+                if (len > 8) {
+                    return d.subName;
+                }
                 return d.name;
             }));
             y.domain([0, d3.max(dataSet, function (d) {
@@ -437,7 +440,7 @@
                 <canvas width="1280" height="720" style="display:none"></canvas>
             </div>
             <div class="row element-center">
-                <a href="<c:url value='/supervisorManager/statisticReport/index.html' />">
+                <a href="<c:url value='/humanResources/statisticReport/index.html' />">
                     <button class="btn">
                         <i class="glyphicon glyphicon-stats"></i>&nbsp;Obtener otro reporte
 
