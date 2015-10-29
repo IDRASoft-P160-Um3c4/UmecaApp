@@ -539,7 +539,7 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "\t\t\t\ton a.id_employee = e.id_employee   \n" +
             "\t\t\t\tand a.workcode = 1\n" +
             "\t\t\twhere (a.eventTime between :initDate and :endDate)\n" +
-            "\t\t) attendancelogview where floor((checkout - outtime) / (60 * 60)) > 0 and overtime = 0) extraTime\n" +
+            "\t\t) attendancelogview where floor((checkout - outtime) / (60 * 60)) > 0 and overtime = 1) extraTime\n" +
             "        \n" +
             "\t) AS query1\n" +
             "    group by month, date_range) query2\n" +
@@ -645,7 +645,7 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "\t\t\t\tand a.workcode = 1\n" +
             "\t\t\twhere e.id_district = :idDistrict\n" +
             "\t\t\tand (a.eventTime between :initDate and :endDate)\n" +
-            "\t\t) attendancelogview where floor((checkout - outtime) / (60 * 60)) > 0 and overtime = 0) extraTime\n" +
+            "\t\t) attendancelogview where floor((checkout - outtime) / (60 * 60)) > 0 and overtime = 1) extraTime\n" +
             "        \n" +
             "\t) AS query1\n" +
             "    group by month, date_range) query2\n" +
@@ -751,7 +751,7 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "\t\t\t\tand a.workcode = 1\n" +
             "\t\t\twhere e.id_employee = :idEmployee\n" +
             "\t\t\tand (a.eventTime between :initDate and :endDate)\n" +
-            "\t\t) attendancelogview where floor((checkout - outtime) / (60 * 60)) > 0 and overtime = 0) extraTime\n" +
+            "\t\t) attendancelogview where floor((checkout - outtime) / (60 * 60)) > 0 and overtime = 1) extraTime\n" +
             "        \n" +
             "\t) AS query1\n" +
             "    group by month, date_range) query2\n" +
