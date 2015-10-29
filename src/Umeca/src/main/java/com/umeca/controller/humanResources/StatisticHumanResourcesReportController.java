@@ -5,6 +5,7 @@ import com.umeca.infrastructure.jqgrid.model.*;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.model.entities.managereval.Formulation;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.ReportList;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.ReportTypeRepository;
@@ -82,7 +83,7 @@ public class StatisticHumanResourcesReportController {
         Long total = Long.valueOf(0);
         try {
             title = statisticHumanResourcesReportTypeRepository.findByCode(filterSelected).getDescription();
-            List<SelectList> data;
+            List<ReportList> data;
             data = statisticHumanResourcesReportService.getData(initDate, endDate, filterSelected, idReportType, idDistrict, idEmployee);
 
 
@@ -140,7 +141,7 @@ public class StatisticHumanResourcesReportController {
     public
     @ResponseBody
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts,String initDate,  String endDate, String filterSelected, Long idReportType, Long idDistrict, Long idEmployee){
-        List<SelectList> data;
+        List<ReportList> data;
         try{
             data = statisticHumanResourcesReportService.getData(initDate, endDate, filterSelected, idReportType, idDistrict, idEmployee);
             JqGridResultModel result = new JqGridResultModel();
@@ -184,7 +185,7 @@ public class StatisticHumanResourcesReportController {
 
         try {
 
-            List<SelectList> data;
+            List<ReportList> data;
             data = statisticHumanResourcesReportService.getData(initDate, endDate, filterSelected, idReportType, idDistrict, idEmployee);
 
             beans.put("data", data);

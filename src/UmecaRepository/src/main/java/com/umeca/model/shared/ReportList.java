@@ -13,6 +13,11 @@ public class ReportList implements EntityGrid{
     private String user;
 
 
+    private Long aux;
+    private Double  value;
+    private String subName;
+
+
     public ReportList() {
     }
 
@@ -54,6 +59,62 @@ public class ReportList implements EntityGrid{
             this.name = "PBC";
         else
             this.name = description;
+    }
+
+
+    public ReportList(Long id, Long aux, Double value){
+        this.id = id;
+        this.aux = aux;
+        this.value = value;
+        if(this.id == 1){
+            this.name = "Enero" + aux;
+            this.subName = "Ene" + aux;
+        }
+        else if(this.id == 2){
+            this.name = "Febrero"  + aux;
+            this.subName = "Feb" + aux;
+        }
+        else if(this.id == 3){
+            this.name = "Marzo"  + aux;
+            this.subName = "Mar" + aux;
+        }
+        else if(this.id == 4){
+            this.name = "Abril"  + aux;
+            this.subName = "Abr" + aux;
+        }
+        else if(this.id == 5){
+            this.name = "Mayo"  + aux;
+            this.subName = "May" + aux;
+        }
+        else if(this.id == 6){
+            this.name = "Junio"  + aux;
+            this.subName = "Jun" + aux;
+        }
+        else if(this.id == 7){
+            this.name = "Julio"  + aux;
+            this.subName = "Jul" + aux;
+        }
+        else if(this.id == 8){
+            this.name = "Agosto"  + aux;
+            this.subName = "Ago"  + aux;
+        }
+        else if(this.id == 9){
+            this.name = "Septiembre"  + aux;
+            this.subName = "Sep"  + aux;
+        }
+        else if(this.id == 10){
+            this.name = "Octubre"  + aux;
+            this.subName = "Oct"  + aux;
+        }
+        else if(this.id == 11){
+            this.name = "Noviembre"  + aux;
+            this.subName = "Nov"  + aux;
+        }
+        else if(this.id == 12){
+            this.name = "Diciembre"  + aux;
+            this.subName = "Dic"  + aux;
+        }
+
     }
 
 
@@ -105,5 +166,29 @@ public class ReportList implements EntityGrid{
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public Long getAux() {
+        return aux;
+    }
+
+    public void setAux(Long aux) {
+        this.aux = aux;
+    }
+
+    public Double getValue() {
+        return value;
+    }
+
+    public void setValue(Double value) {
+        this.value = value;
+    }
+
+    public String getSubName() {
+        return subName;
+    }
+
+    public void setSubName(String subName) {
+        this.subName = subName;
     }
 }
