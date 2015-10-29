@@ -47,13 +47,25 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "select 12, 1, 0 union " +
             "select 12, 2, 0 union " +
             "select " +
-            "IFNULL(month,1), " +
             "case " +
-            "WHEN day >= p1 AND day < p2 THEN CONCAT(1) " +
-            "WHEN p1 = 1 AND day >= p2 THEN CONCAT(2) " +
-            "WHEN p1 > 1 AND day < p1 THEN CONCAT(2) " +
+            "when day >= p1 " +
+            "and day < p2 then month " +
+            "when p1 = 1 " +
+            "and day >= p2 then month " +
+            "when p1 > 1 " +
+            "and day < p1 then (month - 1) " +
             "else 1 " +
-            "end as date_range, count(*) as count " +
+            "end, " +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then 1 " +
+            "when p1 = 1 " +
+            "and day >= p2 then 2 " +
+            "when p1 > 1 " +
+            "and day < p1 then 2 " +
+            "else 1 " +
+            "end as date_range, " +
+            "count(*) as count " +
             "from " +
             "(select YEAR(absen.absence_date) year, " +
             "   MONTH(absen.absence_date) month, " +
@@ -102,13 +114,25 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "select 12, 1, 0 union " +
             "select 12, 2, 0 union " +
             "select " +
-            "IFNULL(month,1), " +
             "case " +
-            "WHEN day >= p1 AND day < p2 THEN CONCAT(1) " +
-            "WHEN p1 = 1 AND day >= p2 THEN CONCAT(2) " +
-            "WHEN p1 > 1 AND day < p1 THEN CONCAT(2) " +
+            "when day >= p1 " +
+            "and day < p2 then month " +
+            "when p1 = 1 " +
+            "and day >= p2 then month " +
+            "when p1 > 1 " +
+            "and day < p1 then (month - 1) " +
             "else 1 " +
-            "end as date_range, count(*) as count " +
+            "end, " +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then 1 " +
+            "when p1 = 1 " +
+            "and day >= p2 then 2 " +
+            "when p1 > 1 " +
+            "and day < p1 then 2 " +
+            "else 1 " +
+            "end as date_range, " +
+            "count(*) as count " +
             "from " +
             "(select YEAR(absen.absence_date) year, " +
             "   MONTH(absen.absence_date) month, " +
@@ -157,13 +181,25 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "select 12, 1, 0 union " +
             "select 12, 2, 0 union " +
             "select " +
-            "IFNULL(month,1), " +
             "case " +
-            "WHEN day >= p1 AND day < p2 THEN CONCAT(1) " +
-            "WHEN p1 = 1 AND day >= p2 THEN CONCAT(2) " +
-            "WHEN p1 > 1 AND day < p1 THEN CONCAT(2) " +
+            "when day >= p1 " +
+            "and day < p2 then month " +
+            "when p1 = 1 " +
+            "and day >= p2 then month " +
+            "when p1 > 1 " +
+            "and day < p1 then (month - 1) " +
             "else 1 " +
-            "end as date_range, count(*) as count " +
+            "end, " +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then 1 " +
+            "when p1 = 1 " +
+            "and day >= p2 then 2 " +
+            "when p1 > 1 " +
+            "and day < p1 then 2 " +
+            "else 1 " +
+            "end as date_range, " +
+            "count(*) as count " +
             "from " +
             "(select YEAR(absen.absence_date) year, " +
             "   MONTH(absen.absence_date) month, " +
@@ -214,13 +250,25 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "select 12, 1, 0 union " +
             "select 12, 2, 0 union " +
             "select " +
-            "IFNULL(month,1), " +
             "case " +
-            "WHEN day >= p1 AND day < p2 THEN CONCAT(1) " +
-            "WHEN p1 = 1 AND day >= p2 THEN CONCAT(2) " +
-            "WHEN p1 > 1 AND day < p1 THEN CONCAT(2) " +
+            "when day >= p1 " +
+            "and day < p2 then month " +
+            "when p1 = 1 " +
+            "and day >= p2 then month " +
+            "when p1 > 1 " +
+            "and day < p1 then (month - 1) " +
             "else 1 " +
-            "end as date_range, count(*) as count " +
+            "end, " +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then 1 " +
+            "when p1 = 1 " +
+            "and day >= p2 then 2 " +
+            "when p1 > 1 " +
+            "and day < p1 then 2 " +
+            "else 1 " +
+            "end as date_range, " +
+            "count(*) as count " +
             "from " +
             "(select YEAR(attend.eventtime) year, " +
             "   MONTH(attend.eventtime) month, " +
@@ -270,13 +318,25 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "select 12, 1, 0 union " +
             "select 12, 2, 0 union " +
             "select " +
-            "IFNULL(month,1), " +
             "case " +
-            "WHEN day >= p1 AND day < p2 THEN CONCAT(1) " +
-            "WHEN p1 = 1 AND day >= p2 THEN CONCAT(2) " +
-            "WHEN p1 > 1 AND day < p1 THEN CONCAT(2) " +
+            "when day >= p1 " +
+            "and day < p2 then month " +
+            "when p1 = 1 " +
+            "and day >= p2 then month " +
+            "when p1 > 1 " +
+            "and day < p1 then (month - 1) " +
             "else 1 " +
-            "end as date_range, count(*) as count " +
+            "end, " +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then 1 " +
+            "when p1 = 1 " +
+            "and day >= p2 then 2 " +
+            "when p1 > 1 " +
+            "and day < p1 then 2 " +
+            "else 1 " +
+            "end as date_range, " +
+            "count(*) as count " +
             "from " +
             "(select YEAR(attend.eventtime) year, " +
             "   MONTH(attend.eventtime) month, " +
@@ -328,13 +388,25 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "select 12, 1, 0 union " +
             "select 12, 2, 0 union " +
             "select " +
-            "IFNULL(month,1), " +
             "case " +
-            "WHEN day >= p1 AND day < p2 THEN CONCAT(1) " +
-            "WHEN p1 = 1 AND day >= p2 THEN CONCAT(2) " +
-            "WHEN p1 > 1 AND day < p1 THEN CONCAT(2) " +
+            "when day >= p1 " +
+            "and day < p2 then month " +
+            "when p1 = 1 " +
+            "and day >= p2 then month " +
+            "when p1 > 1 " +
+            "and day < p1 then (month - 1) " +
             "else 1 " +
-            "end as date_range, count(*) as count " +
+            "end, " +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then 1 " +
+            "when p1 = 1 " +
+            "and day >= p2 then 2 " +
+            "when p1 > 1 " +
+            "and day < p1 then 2 " +
+            "else 1 " +
+            "end as date_range, " +
+            "count(*) as count " +
             "from " +
             "(select YEAR(attend.eventtime) year, " +
             "   MONTH(attend.eventtime) month, " +
@@ -388,13 +460,24 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "select 12, 1, 0 union\n" +
             "select 12, 2, 0 union\n" +
             "SELECT\n" +
-            "\tIFNULL(month,1),\n" +
-            "    CASE\n" +
-            "        WHEN day >= p1 AND day < p2 THEN CONCAT(1)\n" +
-            "        WHEN p1 = 1 AND day >= p2 THEN CONCAT(2)\n" +
-            "        WHEN p1 > 1 AND day < p1 THEN CONCAT(2)\n" +
-            "        else 1\n" +
-            "    END as intervals,\n" +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then month " +
+            "when p1 = 1 " +
+            "and day >= p2 then month " +
+            "when p1 > 1 " +
+            "and day < p1 then (month - 1) " +
+            "else 1 " +
+            "end, " +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then 1 " +
+            "when p1 = 1 " +
+            "and day >= p2 then 2 " +
+            "when p1 > 1 " +
+            "and day < p1 then 2 " +
+            "else 1 " +
+            "end as date_range, " +
             "        SUM(bonustime)\n" +
             "FROM\n" +
             "    (\n" +
@@ -482,13 +565,24 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "select 12, 1, 0 union\n" +
             "select 12, 2, 0 union\n" +
             "SELECT\n" +
-            "\tIFNULL(month,1),\n" +
-            "    CASE\n" +
-            "        WHEN day >= p1 AND day < p2 THEN CONCAT(1)\n" +
-            "        WHEN p1 = 1 AND day >= p2 THEN CONCAT(2)\n" +
-            "        WHEN p1 > 1 AND day < p1 THEN CONCAT(2)\n" +
-            "        else 1\n" +
-            "    END as intervals,\n" +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then month " +
+            "when p1 = 1 " +
+            "and day >= p2 then month " +
+            "when p1 > 1 " +
+            "and day < p1 then (month - 1) " +
+            "else 1 " +
+            "end, " +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then 1 " +
+            "when p1 = 1 " +
+            "and day >= p2 then 2 " +
+            "when p1 > 1 " +
+            "and day < p1 then 2 " +
+            "else 1 " +
+            "end as date_range, " +
             "        SUM(bonustime)\n" +
             "FROM\n" +
             "    (\n" +
@@ -577,13 +671,24 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "select 12, 1, 0 union\n" +
             "select 12, 2, 0 union\n" +
             "SELECT\n" +
-            "\tIFNULL(month,1),\n" +
-            "    CASE\n" +
-            "        WHEN day >= p1 AND day < p2 THEN CONCAT(1)\n" +
-            "        WHEN p1 = 1 AND day >= p2 THEN CONCAT(2)\n" +
-            "        WHEN p1 > 1 AND day < p1 THEN CONCAT(2)\n" +
-            "        else 1\n" +
-            "    END as intervals,\n" +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then month " +
+            "when p1 = 1 " +
+            "and day >= p2 then month " +
+            "when p1 > 1 " +
+            "and day < p1 then (month - 1) " +
+            "else 1 " +
+            "end, " +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then 1 " +
+            "when p1 = 1 " +
+            "and day >= p2 then 2 " +
+            "when p1 > 1 " +
+            "and day < p1 then 2 " +
+            "else 1 " +
+            "end as date_range, " +
             "        SUM(bonustime)\n" +
             "FROM\n" +
             "    (\n" +

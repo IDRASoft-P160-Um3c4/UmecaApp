@@ -9,6 +9,7 @@ import com.umeca.repository.catalog.ReportTypeRepository;
 import com.umeca.repository.catalog.StatisticHumanResourcesReportTypeRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
+import com.umeca.service.shared.SystemSettingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,9 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
     @Autowired
     StatisticHumanResourcesReportTypeRepository statisticHumanResourcesReportTypeRepository;
 
+    @Autowired
+    SystemSettingService systemSettingService;
+
     @Override
     public List<SelectList> getData(String initDate, String endDate, String filter, Long idReportType, Long idDistrict, Long idEmployee) {
         List<SelectList> data = new ArrayList<>();
@@ -59,6 +63,8 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
 
             monthI = initCal.get(Calendar.MONTH);
             monthF = endCal.get(Calendar.MONTH);
+
+            initCal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(systemSettingService.findOneValue("ATTENDANCE", "PeriodStart")));
 
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "getData", sharedUserService);
