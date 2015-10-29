@@ -23,7 +23,7 @@ public class BonusTime implements Serializable{
     private String comment;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_user")
+    @JoinColumn(name = "id_user", nullable = false)
     private User responsible;
 
     @Column(name = "id_attendancelog")

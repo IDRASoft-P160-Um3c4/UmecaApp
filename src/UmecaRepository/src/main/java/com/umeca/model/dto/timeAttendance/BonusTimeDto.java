@@ -22,6 +22,7 @@ public class BonusTimeDto implements EntityGrid {
     private boolean approved;
     private String password;
     private String comment;
+    private Long idUser;
 
     public BonusTimeDto(){}
 
@@ -96,5 +97,13 @@ public class BonusTimeDto implements EntityGrid {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public Long getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
     }
 }

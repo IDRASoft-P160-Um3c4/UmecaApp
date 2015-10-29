@@ -18,11 +18,11 @@ import java.util.Date;
         "\tcheckout,\n" +
         "\touttime,\n" +
         "\ttolerance,\n" +
-        "\tovertime > 0 approved,\n" +
+        "\tovertime approved,\n" +
         "\tconcat('', sec_to_time(outtime)) textOut,\n" +
         "\tconcat('', time(eventtime)) textOu,\n" +
         "\tconcat('', date(eventtime)) textDt,\n" +
-        "\tround((checkout - outtime) / (60 * 60), 1) bonustime,\n" +
+        "\tfloor((checkout - outtime) / (60 * 60)) bonustime,\n" +
         "\tid_employee,\n" +
         "\tworkcode\n" +
         "from (\n" +
@@ -40,8 +40,10 @@ import java.util.Date;
         "\t\tattendancelog a\n" +
         "\t\tinner join employee e\n" +
         "\t\ton a.id_employee = e.id_employee\n" +
-        "\t\tand a.workcode = 2\n" +
-        "\t) attendancelogview")
+        "\t\tand a.workcode = 1\n" +
+        "\t) attendancelogview where floor((checkout - outtime) / (60 * 60)) > 0 and overtime = 0")
+
+//0—Check-In (default value) 1—Check-Out 2—Break-Out 3—Break-In 4—OT-In 5—OT-Out
 public class BonusTimeView {
     @Id
     @Column(name = "id_attendancelog")

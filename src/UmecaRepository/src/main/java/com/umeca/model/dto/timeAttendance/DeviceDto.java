@@ -1,7 +1,6 @@
 package com.umeca.model.dto.timeAttendance;
 
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
-import com.umeca.infrastructure.security.StringEscape;
 
 /**
  * Created by Administrator on 5/4/2015.
@@ -21,6 +20,8 @@ public class DeviceDto implements EntityGrid {
         this.port = port;
         this.isObsolete = isObsolete;
     }
+
+    public DeviceDto(){}
 
     public boolean isObsolete() {
         return isObsolete;

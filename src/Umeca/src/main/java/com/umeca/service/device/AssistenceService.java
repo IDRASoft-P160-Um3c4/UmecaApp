@@ -7,5 +7,5 @@ import com.umeca.model.dto.timeAttendance.JustifyDto;
  * Created by Administrator on 10/13/2015.
  */
 public interface AssistenceService {
-    ResponseMessage upsertDevice(JustifyDto delayJustification);
+    ResponseMessage upsertDevice(JustifyDto delayJustification) throws Exception;
 }

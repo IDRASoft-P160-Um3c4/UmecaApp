@@ -22,7 +22,7 @@ public class DeviceServiceImpl implements DeviceService {
 
         Device device = new Device();
 
-        if (deviceDto.getId() == null || deviceDto.getId() == 0)
+        if (deviceDto.getId() != null || deviceDto.getId() != 0)
             device = deviceRepository.findOne(deviceDto.getId());
 
         device.setName(deviceDto.getName());
@@ -35,6 +35,27 @@ public class DeviceServiceImpl implements DeviceService {
         ResponseMessage resp = new ResponseMessage();
         resp.setHasError(false);
         resp.setMessage("El dispositivo ha sido registrado con éxito.");
+        return resp;
+    }
+
+    @Transactional
+    @Override
+    public ResponseMessage deleteDevice(DeviceDto deviceDto){
+
+        Device device = deviceRepository.findOne(deviceDto.getId());
+        ResponseMessage resp = new ResponseMessage();
+
+        if (device != null) {
+            deviceRepository.delete(device);
+            resp.setHasError(false);
+            resp.setMessage("El dispositivo ha sido registrado con éxito.");
+        }
+        else {
+            resp.setHasError(true);
+            resp.setMessage("El registro del dispositivo, ya no está disponible.");
+        }
+
+
         return resp;
     }
 }

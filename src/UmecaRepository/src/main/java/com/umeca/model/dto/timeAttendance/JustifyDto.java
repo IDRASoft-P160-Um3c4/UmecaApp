@@ -14,6 +14,7 @@ public class JustifyDto implements EntityGrid {
     private String comment;
     private String password;
     private Long idAttendanceLog;
+    private Long idUser;
 
     public void setId(Long id) { this.id = id; }
     @Override
@@ -78,4 +79,12 @@ public class JustifyDto implements EntityGrid {
     }
 
     public JustifyDto() { }
+
+    public Long getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
+    }
 }
