@@ -181,11 +181,13 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
                 "TR.subtotalsTxt," +
                 "VER.id," +
                 "OD.name, " +
-                "MP.id) " +
+                "MP.id, " +
+                "DIST.name) " +
                 "from Case CDET " +
                 "inner join CDET.status STC " +
                 "inner join CDET.meeting MEET " +
                 "inner join MEET.imputed IMP " +
+                "left join MEET.district DIST " +
                 "left join IMP.birthCountry IBC " +
                 "left join IMP.maritalStatus IMS " +
                 "left join IMP.location IBL " +
