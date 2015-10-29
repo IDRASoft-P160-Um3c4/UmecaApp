@@ -20,12 +20,13 @@
             <br/>
             <div class="row">
               <div class="col-xs-4 element-left">
-                Nombre:<br/>{{dv.IdEmployee}}
+                Nombre:<br/>
               </div>
               <div class="col-xs-8">
-                <select class="form-control" name="IdEmployee"
-                       ng-model="dv.IdEmployee" ng-options="employee.id as employee.name for employee in employees"
-                       >
+                  <input type="hidden" ng-model="dv.employeeId" name="idEmployee" ng-update-hidden>
+                <select class="form-control" ng-model="dv.employee"
+                        ng-change = "dv.employeeId = dv.employee.id"
+                        ng-options="employee.id as employee.name for employee in employees">
                   </select>
               </div>
             </div>
