@@ -65,7 +65,7 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "and day < p1 then 2 " +
             "else 1 " +
             "end as date_range, " +
-            "sum(absences) " +
+            "SUM(absences) " +
             "from " +
             "(select YEAR(absen.absence_date) year, " +
             "   MONTH(absen.absence_date) month, " +
@@ -135,7 +135,7 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "and day < p1 then 2 " +
             "else 1 " +
             "end as date_range, " +
-            "count(*) as count " +
+            "SUM(absences) " +
             "from " +
             "(select YEAR(absen.absence_date) year, " +
             "   MONTH(absen.absence_date) month, " +
@@ -147,10 +147,13 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "   (SELECT value_setting " +
             "   FROM system_setting" +
             "   WHERE group_setting = 'ATTENDANCE' " +
-            "   AND key_setting = 'PeriodEnd') p2 " +
+            "   AND key_setting = 'PeriodEnd') p2, " +
+            "   absen.value absences " +
             "   from absence absen " +
             "   inner join employee emp on absen.id_employee = emp.id_employee " +
             "   where emp.id_district = :idDistrict " +
+            "   and absen.approved = 0 " +
+            "   and absen.isClosed = 1 " +
             "   and (absen.absence_date between :initDate and :endDate)" +
             ") as query " +
             "group by month, date_range) query2 " +
@@ -202,7 +205,7 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "and day < p1 then 2 " +
             "else 1 " +
             "end as date_range, " +
-            "count(*) as count " +
+            "SUM(absences) " +
             "from " +
             "(select YEAR(absen.absence_date) year, " +
             "   MONTH(absen.absence_date) month, " +
@@ -214,10 +217,13 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "   (SELECT value_setting " +
             "   FROM system_setting" +
             "   WHERE group_setting = 'ATTENDANCE' " +
-            "   AND key_setting = 'PeriodEnd') p2 " +
+            "   AND key_setting = 'PeriodEnd') p2, " +
+            "   absen.value absences " +
             "   from absence absen " +
             "   inner join employee emp on absen.id_employee = emp.id_employee " +
             "   where emp.id_employee = :idEmployee " +
+            "   and absen.approved = 0 " +
+            "   and absen.isClosed = 1 " +
             "   and (absen.absence_date between :initDate and :endDate)" +
             ") as query " +
             "group by month, date_range) query2 " +
