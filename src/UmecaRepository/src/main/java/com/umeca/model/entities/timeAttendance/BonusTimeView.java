@@ -32,7 +32,7 @@ import java.util.Date;
         "\t\ta.eventtime,\n" +
         "\t\ttime_to_sec(eventtime) checkout,\n" +
         "\t\tcoalesce((select sd.end from schedule_days sd where sd.day_id = weekday(a.eventtime) + 1 and sd.id_employee_schedule = e.id_employee_schedule), 23 * 60 * 60 + 59 * 60 + 59) \"outtime\",\n" +
-        "\t\tcast(time_to_sec(coalesce((select value_setting from system_setting where group_setting = 'ATTENDANCE' and key_setting = 'ArrivalTolerance'), '00:00:00')) as int) tolerance,\n" +
+        "\t\tcast(time_to_sec(coalesce((select value_setting from system_setting where group_setting = 'ATTENDANCE' and key_setting = 'ArrivalTolerance'), '00:00:00')) as signed) tolerance,\n" +
         "\t\t(select count(*) > 0 from bonustime bt where bt.id_attendancelog = a.id_attendancelog) overtime,\n" +
         "\t\ta.id_employee,\n" +
         "\t\ta.workcode\n" +
