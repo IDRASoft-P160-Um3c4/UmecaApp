@@ -69,7 +69,8 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "   from absence absen " +
             "   inner join employee emp on absen.id_employee = emp.id_employee " +
             "   where (absen.absence_date between :initDate and :endDate)" +
-            ") as query ) query2 " +
+            ") as query " +
+            "group by month, date_range) query2 " +
             "where mes between :monthI and :monthF " +
             "GROUP by mes, periodo", nativeQuery = true)
     List<Object> countEmployeeAbsence(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
@@ -124,7 +125,8 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "   inner join employee emp on absen.id_employee = emp.id_employee " +
             "   where emp.id_district = :idDistrict " +
             "   and (absen.absence_date between :initDate and :endDate)" +
-            ") as query ) query2 " +
+            ") as query " +
+            "group by month, date_range) query2 " +
             "where mes between :monthI and :monthF " +
             "GROUP by mes, periodo", nativeQuery = true)
     List<Object> countEmployeeAbsenceByDistrict(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idDistrict") Long idDistrict, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
@@ -178,7 +180,8 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "   inner join employee emp on absen.id_employee = emp.id_employee " +
             "   where emp.id_employee = :idEmployee " +
             "   and (absen.absence_date between :initDate and :endDate)" +
-            ") as query ) query2 " +
+            ") as query " +
+            "group by month, date_range) query2 " +
             "where mes between :monthI and :monthF " +
             "GROUP by mes, periodo", nativeQuery = true)
     List<Object> countEmployeeAbsenceByOperator(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idEmployee") Long idEmployee, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
@@ -235,7 +238,8 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "   inner join delay_justification delayJus on attend.id_attendancelog = delayJus.id_attendancelog " +
             "   where delayJus.approved = 0 " +
             "   and (attend.eventtime between :initDate and :endDate)" +
-            ") as query ) query2 " +
+            ") as query " +
+            "group by month, date_range) query2 " +
             "where mes between :monthI and :monthF " +
             "GROUP by mes, periodo", nativeQuery = true)
     List<Object> countEmployeeDelays(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
@@ -291,7 +295,8 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "   where emp.id_district = :idDistrict " +
             "   and delayJus.approved = 0 " +
             "   and (attend.eventtime between :initDate and :endDate)" +
-            ") as query ) query2 " +
+            ") as query " +
+            "group by month, date_range) query2 " +
             "where mes between :monthI and :monthF " +
             "GROUP by mes, periodo", nativeQuery = true)
     List<Object> countEmployeeDelaysByDistrict(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idDistrict") Long idDistrict, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
@@ -348,7 +353,8 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "   where emp.id_employee = :idEmployee " +
             "   and delayJus.approved = 0 " +
             "   and (attend.eventtime between :initDate and :endDate)" +
-            ") as query ) query2 " +
+            ") as query " +
+            "group by month, date_range) query2 " +
             "where mes between :monthI and :monthF " +
             "GROUP by mes, periodo", nativeQuery = true)
     List<Object> countEmployeeDelaysByOperator(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idEmployee") Long idEmployee, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
@@ -444,7 +450,7 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "\t\t) attendancelogview ) extraTime\n" +
             "        \n" +
             "\t) AS query1\n" +
-            "    ) query2\n" +
+            "    group by month, date_range) query2\n" +
             "   where mes between :monthI and :monthF " +
             "group by mes, periodo", nativeQuery = true)
     List<Object> countEmployeeBonusTime(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
@@ -539,7 +545,7 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "\t\t) attendancelogview ) extraTime\n" +
             "        \n" +
             "\t) AS query1\n" +
-            "    ) query2\n" +
+            "    group by month, date_range) query2\n" +
             "   where mes between :monthI and :monthF " +
             "group by mes, periodo", nativeQuery = true)
     List<Object> countEmployeeBonusTimeByDistrict(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idDistrict") Long idDistrict, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
@@ -634,7 +640,7 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "\t\t) attendancelogview ) extraTime\n" +
             "        \n" +
             "\t) AS query1\n" +
-            "    ) query2\n" +
+            "    group by month, date_range) query2\n" +
             "   where mes between :monthI and :monthF " +
             "group by mes, periodo", nativeQuery = true)
     List<Object> countEmployeeBonusTimeByOperator(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idEmployee") Long idEmployee, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);

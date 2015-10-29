@@ -235,7 +235,7 @@ public class SelectList implements EntityGrid{
             this.subName = "Feb" + aux;
         }
         else if(this.id == 3){
-            this.name = "Marzo - "  + aux;
+            this.name = "Marzo"  + aux;
             this.subName = "Mar" + aux;
         }
         else if(this.id == 4){
