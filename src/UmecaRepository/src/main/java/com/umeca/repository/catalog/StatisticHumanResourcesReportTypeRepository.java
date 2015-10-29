@@ -516,11 +516,11 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "\t\t\tcheckout,\n" +
             "\t\t\touttime,\n" +
             "\t\t\ttolerance,\n" +
-            "\t\t\tovertime > 0 approved,\n" +
+            "\t\t\tovertime approved,\n" +
             "\t\t\tconcat('', sec_to_time(outtime)) textOut, \n" +
             "\t\t\tconcat('', time(eventtime)) textOu,\n" +
             "\t\t\tconcat('', date(eventtime)) textDt, \n" +
-            "\t\t\tround((checkout - outtime) / (60 * 60)) bonustime,\n" +
+            "\t\t\tfloor((checkout - outtime) / (60 * 60)) bonustime,\n" +
             "\t\t\tid_employee,\n" +
             "\t\t\tworkcode \n" +
             "\t\tfrom (\n" +
@@ -537,9 +537,9 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "\t\t\tfrom attendancelog a   \n" +
             "\t\t\tinner join employee e   \n" +
             "\t\t\t\ton a.id_employee = e.id_employee   \n" +
-            "\t\t\t\tand a.workcode = 2\n" +
+            "\t\t\t\tand a.workcode = 1\n" +
             "\t\t\twhere (a.eventTime between :initDate and :endDate)\n" +
-            "\t\t) attendancelogview ) extraTime\n" +
+            "\t\t) attendancelogview where floor((checkout - outtime) / (60 * 60)) > 0 and overtime = 0) extraTime\n" +
             "        \n" +
             "\t) AS query1\n" +
             "    group by month, date_range) query2\n" +
@@ -625,7 +625,7 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "\t\t\tconcat('', sec_to_time(outtime)) textOut, \n" +
             "\t\t\tconcat('', time(eventtime)) textOu,\n" +
             "\t\t\tconcat('', date(eventtime)) textDt, \n" +
-            "\t\t\tround((checkout - outtime) / (60 * 60)) bonustime,\n" +
+            "\t\t\tfloor((checkout - outtime) / (60 * 60)) bonustime,\n" +
             "\t\t\tid_employee,\n" +
             "\t\t\tworkcode \n" +
             "\t\tfrom (\n" +
@@ -642,10 +642,10 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "\t\t\tfrom attendancelog a   \n" +
             "\t\t\tinner join employee e   \n" +
             "\t\t\t\ton a.id_employee = e.id_employee   \n" +
-            "\t\t\t\tand a.workcode = 2\n" +
+            "\t\t\t\tand a.workcode = 1\n" +
             "\t\t\twhere e.id_district = :idDistrict\n" +
             "\t\t\tand (a.eventTime between :initDate and :endDate)\n" +
-            "\t\t) attendancelogview ) extraTime\n" +
+            "\t\t) attendancelogview where floor((checkout - outtime) / (60 * 60)) > 0 and overtime = 0) extraTime\n" +
             "        \n" +
             "\t) AS query1\n" +
             "    group by month, date_range) query2\n" +
@@ -731,7 +731,7 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "\t\t\tconcat('', sec_to_time(outtime)) textOut, \n" +
             "\t\t\tconcat('', time(eventtime)) textOu,\n" +
             "\t\t\tconcat('', date(eventtime)) textDt, \n" +
-            "\t\t\tround((checkout - outtime) / (60 * 60)) bonustime,\n" +
+            "\t\t\tfloor((checkout - outtime) / (60 * 60)) bonustime,\n" +
             "\t\t\tid_employee,\n" +
             "\t\t\tworkcode \n" +
             "\t\tfrom (\n" +
@@ -748,10 +748,10 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "\t\t\tfrom attendancelog a   \n" +
             "\t\t\tinner join employee e   \n" +
             "\t\t\t\ton a.id_employee = e.id_employee   \n" +
-            "\t\t\t\tand a.workcode = 2\n" +
+            "\t\t\t\tand a.workcode = 1\n" +
             "\t\t\twhere e.id_employee = :idEmployee\n" +
             "\t\t\tand (a.eventTime between :initDate and :endDate)\n" +
-            "\t\t) attendancelogview ) extraTime\n" +
+            "\t\t) attendancelogview where floor((checkout - outtime) / (60 * 60)) > 0 and overtime = 0) extraTime\n" +
             "        \n" +
             "\t) AS query1\n" +
             "    group by month, date_range) query2\n" +
