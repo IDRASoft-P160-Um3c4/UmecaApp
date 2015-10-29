@@ -293,7 +293,11 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "   from attendancelog attend " +
             "   inner join employee emp on attend.id_employee = emp.id_employee " +
             "   inner join delay_justification delayJus on attend.id_attendancelog = delayJus.id_attendancelog " +
+            "   inner join absence_detail absDetail on attend.id_attendancelog = absDetail.id_attendancelog " +
+            "   inner join absence absen on absDetail.id_absence = absen.id_absence " +
             "   where delayJus.approved = 0 " +
+            "   and absen.value = 0 " +
+            "   and absen.isClosed = 1 " +
             "   and (attend.eventtime between :initDate and :endDate)" +
             ") as query " +
             "group by month, date_range) query2 " +
@@ -361,7 +365,11 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "   from attendancelog attend " +
             "   inner join employee emp on attend.id_employee = emp.id_employee " +
             "   inner join delay_justification delayJus on attend.id_attendancelog = delayJus.id_attendancelog " +
+            "   inner join absence_detail absDetail on attend.id_attendancelog = absDetail.id_attendancelog " +
+            "   inner join absence absen on absDetail.id_absence = absen.id_absence " +
             "   where emp.id_district = :idDistrict " +
+            "   and absen.value = 0 " +
+            "   and absen.isClosed = 1 " +
             "   and delayJus.approved = 0 " +
             "   and (attend.eventtime between :initDate and :endDate)" +
             ") as query " +
@@ -431,7 +439,11 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "   from attendancelog attend " +
             "   inner join employee emp on attend.id_employee = emp.id_employee " +
             "   inner join delay_justification delayJus on attend.id_attendancelog = delayJus.id_attendancelog " +
+            "   inner join absence_detail absDetail on attend.id_attendancelog = absDetail.id_attendancelog " +
+            "   inner join absence absen on absDetail.id_absence = absen.id_absence " +
             "   where emp.id_employee = :idEmployee " +
+            "   and absen.value = 0 " +
+            "   and absen.isClosed = 1 " +
             "   and delayJus.approved = 0 " +
             "   and (attend.eventtime between :initDate and :endDate)" +
             ") as query " +
