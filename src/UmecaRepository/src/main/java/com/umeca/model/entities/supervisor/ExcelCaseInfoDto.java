@@ -98,6 +98,8 @@ public class ExcelCaseInfoDto {
     private List<ExcelVerificationDto> summaryVerificationSources;
     private HearingFormatInfo lastFormatInfo;
 
+    private String districtName;
+
     public ExcelCaseInfoDto(Long idCase,
                             String idFolder,
                             String idMP,
@@ -152,7 +154,8 @@ public class ExcelCaseInfoDto {
                             String subtotalsJson,
                             Long idVerification,
                             String officialDoc,
-                            Long idMonP) {
+                            Long idMonP,
+                            String districtName) {
 
         this.idCase = idCase;
         this.idFolder = idFolder;
@@ -214,6 +217,7 @@ public class ExcelCaseInfoDto {
         this.idVerification = idVerification;
         this.officialDoc = officialDoc;
         this.idMonP = idMonP;
+        this.districtName = districtName;
     }
 
     public Long getIdCase() {
@@ -1107,6 +1111,14 @@ public class ExcelCaseInfoDto {
 
     public void setFramingMeetingInfo(FramingMeetingInfo framingMeetingInfo) {
         this.framingMeetingInfo = framingMeetingInfo;
+    }
+
+    public String getDistrictName() {
+        return districtName;
+    }
+
+    public void setDistrictName(String districtName) {
+        this.districtName = districtName;
     }
 
     public MonitoringPlanExcelInfo getMonitoringPlanExcelInfo() {

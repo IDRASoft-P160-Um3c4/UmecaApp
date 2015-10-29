@@ -1,0 +1,4 @@
+﻿id|name|description|obsolete
+1|STHRR_1|Número de faltas.|0
+2|STHRR_2|Número de retardos.|0
+3|STHRR_3|Número de horas extras.|0
