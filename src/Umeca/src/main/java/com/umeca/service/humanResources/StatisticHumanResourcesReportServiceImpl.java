@@ -2,6 +2,7 @@ package com.umeca.service.humanResources;
 
 import com.google.gson.Gson;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.ReportList;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.ArrangementRepository;
@@ -9,6 +10,7 @@ import com.umeca.repository.catalog.ReportTypeRepository;
 import com.umeca.repository.catalog.StatisticHumanResourcesReportTypeRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
+import com.umeca.service.shared.SystemSettingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,9 +37,12 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
     @Autowired
     StatisticHumanResourcesReportTypeRepository statisticHumanResourcesReportTypeRepository;
 
+    @Autowired
+    SystemSettingService systemSettingService;
+
     @Override
-    public List<SelectList> getData(String initDate, String endDate, String filter, Long idReportType, Long idDistrict, Long idEmployee) {
-        List<SelectList> data = new ArrayList<>();
+    public List<ReportList> getData(String initDate, String endDate, String filter, Long idReportType, Long idDistrict, Long idEmployee) {
+        List<ReportList> data = new ArrayList<>();
         List<Object> lstObjects;
         Gson gson = new Gson();
         Date initDateF = null;
@@ -57,8 +62,10 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
             initCal.setTime(initDateF);
             endCal.setTime(endDateF);
 
-            monthI = initCal.get(Calendar.MONTH);
-            monthF = endCal.get(Calendar.MONTH);
+            monthI = initCal.get(Calendar.MONTH) + 1;
+            monthF = endCal.get(Calendar.MONTH)  + 1;
+
+            initCal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(systemSettingService.findOneValue("ATTENDANCE", "PeriodStart")));
 
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "getData", sharedUserService);
@@ -71,7 +78,7 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
                         lstObjects = statisticHumanResourcesReportTypeRepository.countEmployeeAbsence(initCal, endCal, monthI, monthF);
                         for (int j = 0; j < lstObjects.size(); j++) {
                             Object[] obj = (Object[]) lstObjects.get(j);
-                            data.add(new SelectList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Long.parseLong(obj[2].toString())));
+                            data.add(new ReportList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()),Double.parseDouble(obj[2].toString())));
                         }
                         return data;
 
@@ -79,14 +86,14 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
                         lstObjects = statisticHumanResourcesReportTypeRepository.countEmployeeAbsenceByDistrict(initCal, endCal, idDistrict, monthI, monthF);
                         for (int j = 0; j < lstObjects.size(); j++) {
                             Object[] obj = (Object[]) lstObjects.get(j);
-                            data.add(new SelectList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Long.parseLong(obj[2].toString())));
+                            data.add(new ReportList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Double.parseDouble(obj[2].toString())));
                         }
                         return data;
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
                         lstObjects = statisticHumanResourcesReportTypeRepository.countEmployeeAbsenceByOperator(initCal, endCal, idEmployee, monthI, monthF);
                         for (int j = 0; j < lstObjects.size(); j++) {
                             Object[] obj = (Object[]) lstObjects.get(j);
-                            data.add(new SelectList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Long.parseLong(obj[2].toString())));
+                            data.add(new ReportList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Double.parseDouble(obj[2].toString())));
                         }
                         return data;
 
@@ -100,7 +107,7 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
                         lstObjects = statisticHumanResourcesReportTypeRepository.countEmployeeDelays(initCal, endCal, monthI, monthF);
                         for (int j = 0; j < lstObjects.size(); j++) {
                             Object[] obj = (Object[]) lstObjects.get(j);
-                            data.add(new SelectList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Long.parseLong(obj[2].toString())));
+                            data.add(new ReportList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Double.parseDouble(obj[2].toString())));
                         }
                         return data;
 
@@ -108,14 +115,14 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
                         lstObjects = statisticHumanResourcesReportTypeRepository.countEmployeeDelaysByDistrict(initCal, endCal, idDistrict, monthI, monthF);
                         for (int j = 0; j < lstObjects.size(); j++) {
                             Object[] obj = (Object[]) lstObjects.get(j);
-                            data.add(new SelectList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Long.parseLong(obj[2].toString())));
+                            data.add(new ReportList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Double.parseDouble(obj[2].toString())));
                         }
                         return data;
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
                         lstObjects = statisticHumanResourcesReportTypeRepository.countEmployeeDelaysByOperator(initCal, endCal, idEmployee, monthI, monthF);
                         for (int j = 0; j < lstObjects.size(); j++) {
                             Object[] obj = (Object[]) lstObjects.get(j);
-                            data.add(new SelectList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Long.parseLong(obj[2].toString())));
+                            data.add(new ReportList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Double.parseDouble(obj[2].toString())));
                         }
                         return data;
 
@@ -129,7 +136,7 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
                         lstObjects = statisticHumanResourcesReportTypeRepository.countEmployeeBonusTime(initCal, endCal, monthI, monthF);
                         for (int j = 0; j < lstObjects.size(); j++) {
                             Object[] obj = (Object[]) lstObjects.get(j);
-                            data.add(new SelectList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Long.parseLong(obj[2].toString())));
+                            data.add(new ReportList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Double.parseDouble(obj[2].toString())));
                         }
                         return data;
 
@@ -137,14 +144,14 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
                         lstObjects = statisticHumanResourcesReportTypeRepository.countEmployeeBonusTimeByDistrict(initCal, endCal, idDistrict, monthI, monthF);
                         for (int j = 0; j < lstObjects.size(); j++) {
                             Object[] obj = (Object[]) lstObjects.get(j);
-                            data.add(new SelectList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Long.parseLong(obj[2].toString())));
+                            data.add(new ReportList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Double.parseDouble(obj[2].toString())));
                         }
                         return data;
                     case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
                         lstObjects = statisticHumanResourcesReportTypeRepository.countEmployeeBonusTimeByOperator(initCal, endCal, idEmployee, monthI, monthF);
                         for (int j = 0; j < lstObjects.size(); j++) {
                             Object[] obj = (Object[]) lstObjects.get(j);
-                            data.add(new SelectList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Long.parseLong(obj[2].toString())));
+                            data.add(new ReportList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Double.parseDouble(obj[2].toString())));
                         }
                         return data;
                 }

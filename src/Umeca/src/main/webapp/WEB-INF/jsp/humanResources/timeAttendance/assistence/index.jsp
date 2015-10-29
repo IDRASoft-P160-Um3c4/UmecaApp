@@ -21,7 +21,7 @@
 
     doJustify = function (id) {
       if (id == undefined) id = 0;
-      window.showUpsert(id, "#angJsjqGridId", "<c:url value='/humanResources/assistence/upsertAssistence.html'/>", "#GridDevices");
+      window.showUpsert(id, "#angJsjqGridId", "<c:url value='/humanResources/assistence/upsertAssistence.html'/>", "#GridAssistence");
     };
 
 
@@ -34,18 +34,19 @@
         colNames: ['ID', 'Nombre', 'Fecha de Registro', 'Acci&oacute;n'],
         colModel: [
           {name: 'id', index: 'id', hidden: true},
-          {name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', searchoptions: {sopt: ['bw']}},
-          {name: 'date',index: 'date',width: 200,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
-          {name: 'Action',index: 'Action',width: 200,align: "center",sortable: false,search: false,formatter: window.actionFormatter},
+          {name: 'name', index: 'name', width: 300, align: "center", sorttype: 'string', searchoptions: {sopt: ['bw']}},
+          {name: 'eventDate',index: 'eventDate',width: 240,align: "center",sorttype: 'date',searchoptions: {sopt: ['bw']}},
+          {name: 'Action',index: 'Action',width: 130,align: "center",sortable: false,search: false,formatter: window.actionFormatter},
         ],
         rowNum: 10,
         rowList: [10, 20, 30],
         pager: '#GridPager',
-        sortname: 'id',
-        height: 280,
+        sortname: 'eventDate',
+        height: 350,
+        width: 700,
         viewrecords: true,
         shrinkToFit: false,
-        sortorder: "desc",
+        sortorder: "asc",
         caption: "&nbsp;",
         altRows: true,
         gridComplete: function () {
@@ -72,18 +73,18 @@
 
       jQuery("#GridAssistence").jqGrid('navSeparatorAdd', '#GridPager');
       jQuery("#GridAssistence").jqGrid('navButtonAdd', "#GridPager",
-              {
-                caption: "",
-                title: "Exportar a excel",
-                buttonicon: 'icon-download-alt blue',
+      {
+        caption: "",
+        title: "Exportar a excel",
+        buttonicon: 'icon-download-alt blue',
 
-                onClickButton: function () {
-                  try {
-                    $("#GridAssistence").jqGrid('toExcelFile', {nombre: "datosXls", formato: "excel"});
-                  } catch (e) {
-                  }
-                }
-              });
+        onClickButton: function () {
+          try {
+            $("#GridAssistence").jqGrid('toExcelFile', {nombre: "datosXls", formato: "excel"});
+          } catch (e) {
+          }
+        }
+      });
 
       jQuery("#GridAssistence").jqGrid('filterToolbar', {
         stringResult: true,

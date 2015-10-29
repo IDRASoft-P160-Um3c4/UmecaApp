@@ -6,17 +6,17 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.Date;
 
 @Entity
 @Subselect("select\n" +
         "\tid_attendancelog,\n" +
         "\tname,\n" +
-        "\teventtime,\n" +
+        "\tconcat('', eventtime) eventtime,\n" +
         "\tcheckin,\n" +
         "\tentrance,\n" +
         "\ttolerance,\n" +
-        "\tjustified > 0 justified,\n" +
+        "\tabsence,\n" +
+        "\tjustified,\n" +
         "\tconcat('', sec_to_time(entrance)) textCh,\n" +
         "\tconcat('', time(eventtime)) textIn,\n" +
         "\tconcat('', date(eventtime)) textDt,\n" +
@@ -29,7 +29,8 @@ import java.util.Date;
         "\t\ta.eventtime,\n" +
         "\t\ttime_to_sec(eventtime) checkin,\n" +
         "\t\tcoalesce((select sd.start from schedule_days sd where sd.day_id = weekday(a.eventtime) + 1 and sd.id_employee_schedule = e.id_employee_schedule), 23 * 60 * 60 + 59 * 60 + 59) \"entrance\",\n" +
-        "\t\tcast(time_to_sec(coalesce((select value_setting from system_setting where group_setting = 'ATTENDANCE' and key_setting = 'ArrivalTolerance'), '00:00:00')) as int) tolerance,\n" +
+        "\t\tcast(time_to_sec(coalesce((select value_setting from system_setting where group_setting = 'ATTENDANCE' and key_setting = 'ArrivalTolerance'), '00:00:00')) as signed) tolerance,\n" +
+        "\t\tcast(time_to_sec(coalesce((select value_setting from system_setting where group_setting = 'ATTENDANCE' and key_setting = 'AbsenceTime'), '00:00:00')) as signed) absence,\n" +
         "\t\t(select count(*) > 0 from delay_justification dj where dj.id_attendancelog = a.id_attendancelog) justified,\n" +
         "\t\ta.id_employee,\n" +
         "\t\ta.workcode\n" +
@@ -37,8 +38,8 @@ import java.util.Date;
         "\t\tattendancelog a\n" +
         "\t\tinner join employee e\n" +
         "\t\ton a.id_employee = e.id_employee\n" +
-        "\t\tand a.workcode = 1\n" +
-        ") attendancelogview")
+        "\t\tand a.workcode = 0\n" +
+        ") attendancelogview where justified = 0 and checkin > (entrance + tolerance)")// and checkin <= (entrance + absence)")
 public class DelayJustificationView implements Serializable {
     @Id
     @Column(name = "id_attendancelog")
@@ -47,8 +48,8 @@ public class DelayJustificationView implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "eventdate")
-    private Date eventDate;
+    @Column(name = "eventtime")
+    private String eventDate;
 
     @Column(name = "checkin")
     private int checkIn;
@@ -101,11 +102,11 @@ public class DelayJustificationView implements Serializable {
         this.name = name;
     }
 
-    public Date getEventDate() {
+    public String getEventDate() {
         return eventDate;
     }
 
-    public void setEventDate(Date eventDate) {
+    public void setEventDate(String eventDate) {
         this.eventDate = eventDate;
     }
 

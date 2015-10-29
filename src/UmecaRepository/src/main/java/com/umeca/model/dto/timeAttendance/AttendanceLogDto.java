@@ -19,13 +19,13 @@ public class AttendanceLogDto implements EntityGrid {
     }
     private String name;
 
-    public String getDate() {
-        return date;
+    public String getEventDate() {
+        return eventDate;
     }
-    public void setDate(String date) {
-        this.date = date;
+    public void setEventDate(String eventDate) {
+        this.eventDate = eventDate;
     }
-    private String date;
+    private String eventDate;
 
     public boolean isJustified() {
         return justified;
@@ -37,10 +37,10 @@ public class AttendanceLogDto implements EntityGrid {
 
     private boolean justified;
 
-    public AttendanceLogDto(Long id, String date, boolean justified, String name){
+    public AttendanceLogDto(Long id, String eventDate, boolean justified, String name){
         this.id = id;
         this.name = name;
-        this.date = date;
+        this.eventDate = eventDate;
         this.justified = justified;
     }
 }

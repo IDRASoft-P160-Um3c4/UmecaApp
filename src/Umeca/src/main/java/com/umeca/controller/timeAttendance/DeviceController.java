@@ -89,11 +89,28 @@ public class DeviceController {
     }
 
     @RequestMapping(value = "/humanResources/device/doUpsertDevice", method = RequestMethod.POST)
-    public ResponseMessage doUpsertDevice(@ModelAttribute DeviceDto deviceDto){
+     public ResponseMessage doUpsertDevice(@ModelAttribute DeviceDto deviceDto){
 
         ResponseMessage response = new ResponseMessage();
         try {
             response = deviceService.upsertDevice(deviceDto);
+        }
+        catch(Exception ex) {
+            logException.Write(ex, this.getClass(), "doUpsertDevice", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        }
+        finally {
+            return response;
+        }
+    }
+
+    @RequestMapping(value = "/humanResources/device/deleteDevice", method = RequestMethod.POST)
+    public ResponseMessage deleteDevice(@ModelAttribute DeviceDto deviceDto){
+
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = deviceService.deleteDevice(deviceDto);
         }
         catch(Exception ex) {
             logException.Write(ex, this.getClass(), "doUpsertDevice", sharedUserService);

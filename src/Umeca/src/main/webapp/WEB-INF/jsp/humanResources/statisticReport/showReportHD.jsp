@@ -141,7 +141,11 @@
                     .enter().append("rect")
                     .attr("class", "bar")
                     .attr("x", function (d) {
+                        if (len > 8) {
+                            return x(d.subName);
+                        }
                         return x(d.name);
+
                     })
                     .attr("width", x.rangeBand())
                     .attr("y", function (d) {

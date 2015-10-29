@@ -8,4 +8,6 @@ import com.umeca.model.dto.timeAttendance.DeviceDto;
  */
 public interface DeviceService {
     ResponseMessage upsertDevice(DeviceDto deviceDto);
+
+    ResponseMessage deleteDevice(DeviceDto deviceDto);
 }

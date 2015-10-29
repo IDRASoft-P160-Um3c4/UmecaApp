@@ -103,10 +103,12 @@ public class BonusTimeController {
     public ResponseMessage doUserBonusTime(@ModelAttribute BonusTimeDto bonusTimeDto){
         ResponseMessage response = new ResponseMessage();
         try {
-            Long userId = sharedUserService.GetLoggedUserId();
+            Long idUser = sharedUserService.GetLoggedUserId();
 
-            if (sharedUserService.isValidPasswordForUser(userId, bonusTimeDto.getPassword()))
+            if (sharedUserService.isValidPasswordForUser(idUser, bonusTimeDto.getPassword())) {
+                bonusTimeDto.setIdUser(idUser);
                 response = bonusTimeService.upsertBonusTime(bonusTimeDto);
+            }
             else
                 throw new SecurityException("La constraseña no es válida");
         }

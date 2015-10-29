@@ -8,8 +8,8 @@ import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.dto.timeAttendance.AttendanceLogDto;
 import com.umeca.model.dto.timeAttendance.JustifyDto;
-import com.umeca.model.entities.timeAttendance.DelayJustificationView;
 import com.umeca.model.entities.timeAttendance.DelayJustification;
+import com.umeca.model.entities.timeAttendance.DelayJustificationView;
 import com.umeca.repository.humanResources.AssistenceRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.device.AssistenceService;
@@ -52,22 +52,13 @@ public class AssistenceController {
 
         opts.extraFilters = new ArrayList<>();
 
-//        JqGridRulesModel extraFilterA = new JqGridRulesModel("eventTime", CalendarExt.stringToCalendar("9:00", Constants.FORMAT_CALENDAR_II), CalendarExt.stringToCalendar("23:59:59", Constants.FORMAT_CALENDAR_II), JqGridFilterModel.BETWEEN);
-//        opts.extraFilters.add(extraFilterA);
-
-//        JqGridRulesModel extraFilterB = new JqGridRulesModel("justified", "0", JqGridFilterModel.COMPARE_EQUAL);
-//        opts.extraFilters.add(extraFilterB);
-
-//        JqGridRulesModel extraFilterC = new JqGridRulesModel("workCode", "1", JqGridFilterModel.COMPARE_EQUAL);
-//        opts.extraFilters.add(extraFilterC);
-
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
 
                  return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
-                    add(r.get("textCh"));
+                    add(r.get("eventDate"));
                     add(r.get("justified"));
                     add(r.get("name"));
                 }};
@@ -77,8 +68,8 @@ public class AssistenceController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("name"))
                     return r.get("name");
-                if (field.equals("date"))
-                    return r.get("date");
+                if (field.equals("eventDate"))
+                    return r.get("eventDate");
                 return null;
             }
         }, DelayJustificationView.class, AttendanceLogDto.class);
@@ -111,10 +102,12 @@ public class AssistenceController {
     public ResponseMessage doUpsertJustify(@ModelAttribute JustifyDto justifyDto){
         ResponseMessage response = new ResponseMessage();
         try {
-            Long userId = sharedUserService.GetLoggedUserId();
+            Long idUser = sharedUserService.GetLoggedUserId();
 
-            if (sharedUserService.isValidPasswordForUser(userId, justifyDto.getPassword()))
+            if (sharedUserService.isValidPasswordForUser(idUser, justifyDto.getPassword())) {
+                justifyDto.setIdUser(idUser);
                 response = assistenceService.upsertDevice(justifyDto);
+            }
             else
                 throw new SecurityException("La constraseña no es válida");
         }

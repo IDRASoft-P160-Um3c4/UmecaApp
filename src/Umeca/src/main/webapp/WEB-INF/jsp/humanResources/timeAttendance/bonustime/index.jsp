@@ -26,7 +26,7 @@
 
 
     $(document).ready(function () {
-      jQuery("#GridAssistence").jqGrid({
+      jQuery("#GridBonusTime").jqGrid({
         url: '<c:url value='/humanResources/bonustime/list.json' />',
         autoencode: true,
         datatype: "json",
@@ -43,11 +43,11 @@
         rowNum: 10,
         rowList: [10, 20, 30],
         pager: '#GridPager',
-        sortname: 'id',
-        height: 280,
+        sortname: 'eventDate',
+        height: 350,
         viewrecords: true,
         shrinkToFit: false,
-        sortorder: "desc",
+        sortorder: "asc",
         caption: "&nbsp;",
         altRows: true,
         gridComplete: function () {
@@ -72,8 +72,16 @@
         }
       });
 
-      jQuery("#GridAssistence").jqGrid('navSeparatorAdd', '#GridPager');
-      jQuery("#GridAssistence").jqGrid('navButtonAdd', "#GridPager",
+      jQuery("#GridAbsence ").jqGrid('navGrid', '#GridPager', {
+        edit: false,
+        add: false,
+        refresh: true, refreshicon: 'icon-refresh green',
+        del: false,
+        search: false
+      });
+
+      jQuery("#GridBonusTime").jqGrid('navSeparatorAdd', '#GridPager');
+      jQuery("#GridBonusTime").jqGrid('navButtonAdd', "#GridPager",
               {
                 caption: "",
                 title: "Exportar a excel",
@@ -81,13 +89,13 @@
 
                 onClickButton: function () {
                   try {
-                    $("#GridAssistence").jqGrid('toExcelFile', {nombre: "datosXls", formato: "excel"});
+                    $("#GridBonusTime").jqGrid('toExcelFile', {nombre: "datosXls", formato: "excel"});
                   } catch (e) {
                   }
                 }
               });
 
-      jQuery("#GridAssistence").jqGrid('filterToolbar', {
+      jQuery("#GridBonusTime").jqGrid('filterToolbar', {
         stringResult: true,
         searchOperators: true,
         searchOnEnter: true,
@@ -98,10 +106,10 @@
 
   </script>
 
-  <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Gesti&oacute;n de retardos</h2>
+  <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Gesti&oacute;n de horas extra</h2>
 
   <div id="angJsjqGridId" ng-controller="modalDlgController">
-    <table id="GridAssistence" class="element-center" style="margin: auto"></table>
+    <table id="GridBonusTime" class="element-center" style="margin: auto"></table>
     <div id="GridPager"></div>
     <div class="blocker" ng-show="working">
       <div>

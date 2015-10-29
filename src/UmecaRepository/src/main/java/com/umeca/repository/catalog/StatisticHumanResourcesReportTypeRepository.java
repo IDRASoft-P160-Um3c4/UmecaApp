@@ -47,13 +47,25 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "select 12, 1, 0 union " +
             "select 12, 2, 0 union " +
             "select " +
-            "IFNULL(month,1), " +
             "case " +
-            "WHEN day >= p1 AND day < p2 THEN CONCAT(1) " +
-            "WHEN p1 = 1 AND day >= p2 THEN CONCAT(2) " +
-            "WHEN p1 > 1 AND day < p1 THEN CONCAT(2) " +
+            "when day >= p1 " +
+            "and day < p2 then month " +
+            "when p1 = 1 " +
+            "and day >= p2 then month " +
+            "when p1 > 1 " +
+            "and day < p1 then (month - 1) " +
             "else 1 " +
-            "end as date_range, count(*) as count " +
+            "end, " +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then 1 " +
+            "when p1 = 1 " +
+            "and day >= p2 then 2 " +
+            "when p1 > 1 " +
+            "and day < p1 then 2 " +
+            "else 1 " +
+            "end as date_range, " +
+            "SUM(absences) " +
             "from " +
             "(select YEAR(absen.absence_date) year, " +
             "   MONTH(absen.absence_date) month, " +
@@ -65,11 +77,15 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "   (SELECT value_setting " +
             "   FROM system_setting" +
             "   WHERE group_setting = 'ATTENDANCE' " +
-            "   AND key_setting = 'PeriodEnd') p2 " +
+            "   AND key_setting = 'PeriodEnd') p2, " +
+            "   absen.value absences " +
             "   from absence absen " +
             "   inner join employee emp on absen.id_employee = emp.id_employee " +
-            "   where (absen.absence_date between :initDate and :endDate)" +
-            ") as query ) query2 " +
+            "   where (absen.absence_date between :initDate and :endDate) " +
+            "   and absen.approved = 0 " +
+            "   and absen.isClosed = 1" +
+            ") as query " +
+            "group by month, date_range) query2 " +
             "where mes between :monthI and :monthF " +
             "GROUP by mes, periodo", nativeQuery = true)
     List<Object> countEmployeeAbsence(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
@@ -101,13 +117,25 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "select 12, 1, 0 union " +
             "select 12, 2, 0 union " +
             "select " +
-            "IFNULL(month,1), " +
             "case " +
-            "WHEN day >= p1 AND day < p2 THEN CONCAT(1) " +
-            "WHEN p1 = 1 AND day >= p2 THEN CONCAT(2) " +
-            "WHEN p1 > 1 AND day < p1 THEN CONCAT(2) " +
+            "when day >= p1 " +
+            "and day < p2 then month " +
+            "when p1 = 1 " +
+            "and day >= p2 then month " +
+            "when p1 > 1 " +
+            "and day < p1 then (month - 1) " +
             "else 1 " +
-            "end as date_range, count(*) as count " +
+            "end, " +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then 1 " +
+            "when p1 = 1 " +
+            "and day >= p2 then 2 " +
+            "when p1 > 1 " +
+            "and day < p1 then 2 " +
+            "else 1 " +
+            "end as date_range, " +
+            "SUM(absences) " +
             "from " +
             "(select YEAR(absen.absence_date) year, " +
             "   MONTH(absen.absence_date) month, " +
@@ -119,12 +147,16 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "   (SELECT value_setting " +
             "   FROM system_setting" +
             "   WHERE group_setting = 'ATTENDANCE' " +
-            "   AND key_setting = 'PeriodEnd') p2 " +
+            "   AND key_setting = 'PeriodEnd') p2, " +
+            "   absen.value absences " +
             "   from absence absen " +
             "   inner join employee emp on absen.id_employee = emp.id_employee " +
             "   where emp.id_district = :idDistrict " +
+            "   and absen.approved = 0 " +
+            "   and absen.isClosed = 1 " +
             "   and (absen.absence_date between :initDate and :endDate)" +
-            ") as query ) query2 " +
+            ") as query " +
+            "group by month, date_range) query2 " +
             "where mes between :monthI and :monthF " +
             "GROUP by mes, periodo", nativeQuery = true)
     List<Object> countEmployeeAbsenceByDistrict(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idDistrict") Long idDistrict, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
@@ -155,13 +187,25 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "select 12, 1, 0 union " +
             "select 12, 2, 0 union " +
             "select " +
-            "IFNULL(month,1), " +
             "case " +
-            "WHEN day >= p1 AND day < p2 THEN CONCAT(1) " +
-            "WHEN p1 = 1 AND day >= p2 THEN CONCAT(2) " +
-            "WHEN p1 > 1 AND day < p1 THEN CONCAT(2) " +
+            "when day >= p1 " +
+            "and day < p2 then month " +
+            "when p1 = 1 " +
+            "and day >= p2 then month " +
+            "when p1 > 1 " +
+            "and day < p1 then (month - 1) " +
             "else 1 " +
-            "end as date_range, count(*) as count " +
+            "end, " +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then 1 " +
+            "when p1 = 1 " +
+            "and day >= p2 then 2 " +
+            "when p1 > 1 " +
+            "and day < p1 then 2 " +
+            "else 1 " +
+            "end as date_range, " +
+            "SUM(absences) " +
             "from " +
             "(select YEAR(absen.absence_date) year, " +
             "   MONTH(absen.absence_date) month, " +
@@ -173,12 +217,16 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "   (SELECT value_setting " +
             "   FROM system_setting" +
             "   WHERE group_setting = 'ATTENDANCE' " +
-            "   AND key_setting = 'PeriodEnd') p2 " +
+            "   AND key_setting = 'PeriodEnd') p2, " +
+            "   absen.value absences " +
             "   from absence absen " +
             "   inner join employee emp on absen.id_employee = emp.id_employee " +
             "   where emp.id_employee = :idEmployee " +
+            "   and absen.approved = 0 " +
+            "   and absen.isClosed = 1 " +
             "   and (absen.absence_date between :initDate and :endDate)" +
-            ") as query ) query2 " +
+            ") as query " +
+            "group by month, date_range) query2 " +
             "where mes between :monthI and :monthF " +
             "GROUP by mes, periodo", nativeQuery = true)
     List<Object> countEmployeeAbsenceByOperator(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idEmployee") Long idEmployee, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
@@ -211,13 +259,25 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "select 12, 1, 0 union " +
             "select 12, 2, 0 union " +
             "select " +
-            "IFNULL(month,1), " +
             "case " +
-            "WHEN day >= p1 AND day < p2 THEN CONCAT(1) " +
-            "WHEN p1 = 1 AND day >= p2 THEN CONCAT(2) " +
-            "WHEN p1 > 1 AND day < p1 THEN CONCAT(2) " +
+            "when day >= p1 " +
+            "and day < p2 then month " +
+            "when p1 = 1 " +
+            "and day >= p2 then month " +
+            "when p1 > 1 " +
+            "and day < p1 then (month - 1) " +
             "else 1 " +
-            "end as date_range, count(*) as count " +
+            "end, " +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then 1 " +
+            "when p1 = 1 " +
+            "and day >= p2 then 2 " +
+            "when p1 > 1 " +
+            "and day < p1 then 2 " +
+            "else 1 " +
+            "end as date_range, " +
+            "count(*) as count " +
             "from " +
             "(select YEAR(attend.eventtime) year, " +
             "   MONTH(attend.eventtime) month, " +
@@ -233,9 +293,14 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "   from attendancelog attend " +
             "   inner join employee emp on attend.id_employee = emp.id_employee " +
             "   inner join delay_justification delayJus on attend.id_attendancelog = delayJus.id_attendancelog " +
+            "   inner join absence_detail absDetail on attend.id_attendancelog = absDetail.id_attendancelog " +
+            "   inner join absence absen on absDetail.id_absence = absen.id_absence " +
             "   where delayJus.approved = 0 " +
+            "   and absen.value = 0 " +
+            "   and absen.isClosed = 1 " +
             "   and (attend.eventtime between :initDate and :endDate)" +
-            ") as query ) query2 " +
+            ") as query " +
+            "group by month, date_range) query2 " +
             "where mes between :monthI and :monthF " +
             "GROUP by mes, periodo", nativeQuery = true)
     List<Object> countEmployeeDelays(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
@@ -266,13 +331,25 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "select 12, 1, 0 union " +
             "select 12, 2, 0 union " +
             "select " +
-            "IFNULL(month,1), " +
             "case " +
-            "WHEN day >= p1 AND day < p2 THEN CONCAT(1) " +
-            "WHEN p1 = 1 AND day >= p2 THEN CONCAT(2) " +
-            "WHEN p1 > 1 AND day < p1 THEN CONCAT(2) " +
+            "when day >= p1 " +
+            "and day < p2 then month " +
+            "when p1 = 1 " +
+            "and day >= p2 then month " +
+            "when p1 > 1 " +
+            "and day < p1 then (month - 1) " +
             "else 1 " +
-            "end as date_range, count(*) as count " +
+            "end, " +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then 1 " +
+            "when p1 = 1 " +
+            "and day >= p2 then 2 " +
+            "when p1 > 1 " +
+            "and day < p1 then 2 " +
+            "else 1 " +
+            "end as date_range, " +
+            "count(*) as count " +
             "from " +
             "(select YEAR(attend.eventtime) year, " +
             "   MONTH(attend.eventtime) month, " +
@@ -288,10 +365,15 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "   from attendancelog attend " +
             "   inner join employee emp on attend.id_employee = emp.id_employee " +
             "   inner join delay_justification delayJus on attend.id_attendancelog = delayJus.id_attendancelog " +
+            "   inner join absence_detail absDetail on attend.id_attendancelog = absDetail.id_attendancelog " +
+            "   inner join absence absen on absDetail.id_absence = absen.id_absence " +
             "   where emp.id_district = :idDistrict " +
+            "   and absen.value = 0 " +
+            "   and absen.isClosed = 1 " +
             "   and delayJus.approved = 0 " +
             "   and (attend.eventtime between :initDate and :endDate)" +
-            ") as query ) query2 " +
+            ") as query " +
+            "group by month, date_range) query2 " +
             "where mes between :monthI and :monthF " +
             "GROUP by mes, periodo", nativeQuery = true)
     List<Object> countEmployeeDelaysByDistrict(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idDistrict") Long idDistrict, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
@@ -323,13 +405,25 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "select 12, 1, 0 union " +
             "select 12, 2, 0 union " +
             "select " +
-            "IFNULL(month,1), " +
             "case " +
-            "WHEN day >= p1 AND day < p2 THEN CONCAT(1) " +
-            "WHEN p1 = 1 AND day >= p2 THEN CONCAT(2) " +
-            "WHEN p1 > 1 AND day < p1 THEN CONCAT(2) " +
+            "when day >= p1 " +
+            "and day < p2 then month " +
+            "when p1 = 1 " +
+            "and day >= p2 then month " +
+            "when p1 > 1 " +
+            "and day < p1 then (month - 1) " +
             "else 1 " +
-            "end as date_range, count(*) as count " +
+            "end, " +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then 1 " +
+            "when p1 = 1 " +
+            "and day >= p2 then 2 " +
+            "when p1 > 1 " +
+            "and day < p1 then 2 " +
+            "else 1 " +
+            "end as date_range, " +
+            "count(*) as count " +
             "from " +
             "(select YEAR(attend.eventtime) year, " +
             "   MONTH(attend.eventtime) month, " +
@@ -345,10 +439,15 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "   from attendancelog attend " +
             "   inner join employee emp on attend.id_employee = emp.id_employee " +
             "   inner join delay_justification delayJus on attend.id_attendancelog = delayJus.id_attendancelog " +
+            "   inner join absence_detail absDetail on attend.id_attendancelog = absDetail.id_attendancelog " +
+            "   inner join absence absen on absDetail.id_absence = absen.id_absence " +
             "   where emp.id_employee = :idEmployee " +
+            "   and absen.value = 0 " +
+            "   and absen.isClosed = 1 " +
             "   and delayJus.approved = 0 " +
             "   and (attend.eventtime between :initDate and :endDate)" +
-            ") as query ) query2 " +
+            ") as query " +
+            "group by month, date_range) query2 " +
             "where mes between :monthI and :monthF " +
             "GROUP by mes, periodo", nativeQuery = true)
     List<Object> countEmployeeDelaysByOperator(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idEmployee") Long idEmployee, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
@@ -382,13 +481,24 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "select 12, 1, 0 union\n" +
             "select 12, 2, 0 union\n" +
             "SELECT\n" +
-            "\tIFNULL(month,1),\n" +
-            "    CASE\n" +
-            "        WHEN day >= p1 AND day < p2 THEN CONCAT(1)\n" +
-            "        WHEN p1 = 1 AND day >= p2 THEN CONCAT(2)\n" +
-            "        WHEN p1 > 1 AND day < p1 THEN CONCAT(2)\n" +
-            "        else 1\n" +
-            "    END as intervals,\n" +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then month " +
+            "when p1 = 1 " +
+            "and day >= p2 then month " +
+            "when p1 > 1 " +
+            "and day < p1 then (month - 1) " +
+            "else 1 " +
+            "end, " +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then 1 " +
+            "when p1 = 1 " +
+            "and day >= p2 then 2 " +
+            "when p1 > 1 " +
+            "and day < p1 then 2 " +
+            "else 1 " +
+            "end as date_range, " +
             "        SUM(bonustime)\n" +
             "FROM\n" +
             "    (\n" +
@@ -418,11 +528,11 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "\t\t\tcheckout,\n" +
             "\t\t\touttime,\n" +
             "\t\t\ttolerance,\n" +
-            "\t\t\tovertime > 0 approved,\n" +
+            "\t\t\tovertime approved,\n" +
             "\t\t\tconcat('', sec_to_time(outtime)) textOut, \n" +
             "\t\t\tconcat('', time(eventtime)) textOu,\n" +
             "\t\t\tconcat('', date(eventtime)) textDt, \n" +
-            "\t\t\tround((checkout - outtime) / (60 * 60)) bonustime,\n" +
+            "\t\t\tfloor((checkout - outtime) / (60 * 60)) bonustime,\n" +
             "\t\t\tid_employee,\n" +
             "\t\t\tworkcode \n" +
             "\t\tfrom (\n" +
@@ -439,12 +549,12 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "\t\t\tfrom attendancelog a   \n" +
             "\t\t\tinner join employee e   \n" +
             "\t\t\t\ton a.id_employee = e.id_employee   \n" +
-            "\t\t\t\tand a.workcode = 2\n" +
+            "\t\t\t\tand a.workcode = 1\n" +
             "\t\t\twhere (a.eventTime between :initDate and :endDate)\n" +
-            "\t\t) attendancelogview ) extraTime\n" +
+            "\t\t) attendancelogview where floor((checkout - outtime) / (60 * 60)) > 0 and overtime = 1) extraTime\n" +
             "        \n" +
             "\t) AS query1\n" +
-            "    ) query2\n" +
+            "    group by month, date_range) query2\n" +
             "   where mes between :monthI and :monthF " +
             "group by mes, periodo", nativeQuery = true)
     List<Object> countEmployeeBonusTime(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
@@ -476,13 +586,24 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "select 12, 1, 0 union\n" +
             "select 12, 2, 0 union\n" +
             "SELECT\n" +
-            "\tIFNULL(month,1),\n" +
-            "    CASE\n" +
-            "        WHEN day >= p1 AND day < p2 THEN CONCAT(1)\n" +
-            "        WHEN p1 = 1 AND day >= p2 THEN CONCAT(2)\n" +
-            "        WHEN p1 > 1 AND day < p1 THEN CONCAT(2)\n" +
-            "        else 1\n" +
-            "    END as intervals,\n" +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then month " +
+            "when p1 = 1 " +
+            "and day >= p2 then month " +
+            "when p1 > 1 " +
+            "and day < p1 then (month - 1) " +
+            "else 1 " +
+            "end, " +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then 1 " +
+            "when p1 = 1 " +
+            "and day >= p2 then 2 " +
+            "when p1 > 1 " +
+            "and day < p1 then 2 " +
+            "else 1 " +
+            "end as date_range, " +
             "        SUM(bonustime)\n" +
             "FROM\n" +
             "    (\n" +
@@ -516,7 +637,7 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "\t\t\tconcat('', sec_to_time(outtime)) textOut, \n" +
             "\t\t\tconcat('', time(eventtime)) textOu,\n" +
             "\t\t\tconcat('', date(eventtime)) textDt, \n" +
-            "\t\t\tround((checkout - outtime) / (60 * 60)) bonustime,\n" +
+            "\t\t\tfloor((checkout - outtime) / (60 * 60)) bonustime,\n" +
             "\t\t\tid_employee,\n" +
             "\t\t\tworkcode \n" +
             "\t\tfrom (\n" +
@@ -533,13 +654,13 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "\t\t\tfrom attendancelog a   \n" +
             "\t\t\tinner join employee e   \n" +
             "\t\t\t\ton a.id_employee = e.id_employee   \n" +
-            "\t\t\t\tand a.workcode = 2\n" +
+            "\t\t\t\tand a.workcode = 1\n" +
             "\t\t\twhere e.id_district = :idDistrict\n" +
             "\t\t\tand (a.eventTime between :initDate and :endDate)\n" +
-            "\t\t) attendancelogview ) extraTime\n" +
+            "\t\t) attendancelogview where floor((checkout - outtime) / (60 * 60)) > 0 and overtime = 1) extraTime\n" +
             "        \n" +
             "\t) AS query1\n" +
-            "    ) query2\n" +
+            "    group by month, date_range) query2\n" +
             "   where mes between :monthI and :monthF " +
             "group by mes, periodo", nativeQuery = true)
     List<Object> countEmployeeBonusTimeByDistrict(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idDistrict") Long idDistrict, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
@@ -571,13 +692,24 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "select 12, 1, 0 union\n" +
             "select 12, 2, 0 union\n" +
             "SELECT\n" +
-            "\tIFNULL(month,1),\n" +
-            "    CASE\n" +
-            "        WHEN day >= p1 AND day < p2 THEN CONCAT(1)\n" +
-            "        WHEN p1 = 1 AND day >= p2 THEN CONCAT(2)\n" +
-            "        WHEN p1 > 1 AND day < p1 THEN CONCAT(2)\n" +
-            "        else 1\n" +
-            "    END as intervals,\n" +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then month " +
+            "when p1 = 1 " +
+            "and day >= p2 then month " +
+            "when p1 > 1 " +
+            "and day < p1 then (month - 1) " +
+            "else 1 " +
+            "end, " +
+            "case " +
+            "when day >= p1 " +
+            "and day < p2 then 1 " +
+            "when p1 = 1 " +
+            "and day >= p2 then 2 " +
+            "when p1 > 1 " +
+            "and day < p1 then 2 " +
+            "else 1 " +
+            "end as date_range, " +
             "        SUM(bonustime)\n" +
             "FROM\n" +
             "    (\n" +
@@ -611,7 +743,7 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "\t\t\tconcat('', sec_to_time(outtime)) textOut, \n" +
             "\t\t\tconcat('', time(eventtime)) textOu,\n" +
             "\t\t\tconcat('', date(eventtime)) textDt, \n" +
-            "\t\t\tround((checkout - outtime) / (60 * 60)) bonustime,\n" +
+            "\t\t\tfloor((checkout - outtime) / (60 * 60)) bonustime,\n" +
             "\t\t\tid_employee,\n" +
             "\t\t\tworkcode \n" +
             "\t\tfrom (\n" +
@@ -628,13 +760,13 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "\t\t\tfrom attendancelog a   \n" +
             "\t\t\tinner join employee e   \n" +
             "\t\t\t\ton a.id_employee = e.id_employee   \n" +
-            "\t\t\t\tand a.workcode = 2\n" +
+            "\t\t\t\tand a.workcode = 1\n" +
             "\t\t\twhere e.id_employee = :idEmployee\n" +
             "\t\t\tand (a.eventTime between :initDate and :endDate)\n" +
-            "\t\t) attendancelogview ) extraTime\n" +
+            "\t\t) attendancelogview where floor((checkout - outtime) / (60 * 60)) > 0 and overtime = 1) extraTime\n" +
             "        \n" +
             "\t) AS query1\n" +
-            "    ) query2\n" +
+            "    group by month, date_range) query2\n" +
             "   where mes between :monthI and :monthF " +
             "group by mes, periodo", nativeQuery = true)
     List<Object> countEmployeeBonusTimeByOperator(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idEmployee") Long idEmployee, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
