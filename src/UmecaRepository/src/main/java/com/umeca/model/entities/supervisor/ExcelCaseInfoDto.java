@@ -1,5 +1,6 @@
 package com.umeca.model.entities.supervisor;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.umeca.model.dto.victim.VictimDto;
 import com.umeca.model.shared.Constants;
 
@@ -107,6 +108,12 @@ public class ExcelCaseInfoDto {
     private String reportStr;
     private String hasNegationStr;
 
+    private String reviewerFullName;
+
+
+    private String formulationPresenceStr;
+    private String formulationInformationDeliveredStr;
+
 
 
     public ExcelCaseInfoDto(Long idCase,
@@ -167,7 +174,10 @@ public class ExcelCaseInfoDto {
                             Long idMonP,
                             String districtName,
                             Boolean isFromFormulation,
-                            Boolean hasNegation) {
+                            Boolean hasNegation,
+                            String reviewerFullName,
+                            Boolean formulationPresence,
+                            Boolean formulationInformationDelivered) {
 
         this.idCase = idCase;
         this.idFolder = idFolder;
@@ -230,13 +240,38 @@ public class ExcelCaseInfoDto {
         this.officialDoc = officialDoc;
         this.idMonP = idMonP;
         this.districtName = districtName;
+        this.reviewerFullName = reviewerFullName;
 
 
 
-        if(isFromFormulation == true)
+        if(isFromFormulation == true) {
+
+            if(formulationPresence == true){
+                formulationPresenceStr = "Sí";
+            }
+            else if(formulationPresence == null){
+                formulationPresenceStr = "Pendiente";
+            }
+            else {
+                formulationPresenceStr = "No";
+            }
+
             this.isFromFormulationStr = "Sí";
-        else
+            if(formulationInformationDelivered == true){
+                formulationInformationDeliveredStr = "Sí";
+            }
+            else if(formulationInformationDelivered == null){
+                formulationInformationDeliveredStr = "Pendiente";
+            }
+            else {
+                formulationInformationDeliveredStr = "No";
+            }
+        }
+        else {
             this.isFromFormulationStr = "No";
+            formulationInformationDeliveredStr = "No aplica";
+            formulationPresenceStr = "No aplica";
+        }
 
 
         if(hasNegation == true)
@@ -254,6 +289,9 @@ public class ExcelCaseInfoDto {
             this.reportStr = "Sí";
         else
             this.reportStr = "No";
+
+
+
 
     }
 
@@ -407,6 +445,22 @@ public class ExcelCaseInfoDto {
 
     public void setImputedPhysicalCondition(String imputedPhysicalCondition) {
         this.imputedPhysicalCondition = imputedPhysicalCondition;
+    }
+
+    public String getFormulationPresenceStr() {
+        return formulationPresenceStr;
+    }
+
+    public void setFormulationPresenceStr(String formulationPresenceStr) {
+        this.formulationPresenceStr = formulationPresenceStr;
+    }
+
+    public String getFormulationInformationDeliveredStr() {
+        return formulationInformationDeliveredStr;
+    }
+
+    public void setFormulationInformationDeliveredStr(String formulationInformationDeliveredStr) {
+        this.formulationInformationDeliveredStr = formulationInformationDeliveredStr;
     }
 
     public String getOfficialDoc() {
@@ -743,6 +797,14 @@ public class ExcelCaseInfoDto {
 
     public void setLstActivities(List<ExcelActivitiesDto> lstActivities) {
         this.lstActivities = lstActivities;
+    }
+
+    public String getReviewerFullName() {
+        return reviewerFullName;
+    }
+
+    public void setReviewerFullName(String reviewerFullName) {
+        this.reviewerFullName = reviewerFullName;
     }
 
     public String getActivitiesStr() {
