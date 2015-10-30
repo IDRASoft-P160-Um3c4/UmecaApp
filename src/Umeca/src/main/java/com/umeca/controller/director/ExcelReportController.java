@@ -14,6 +14,8 @@ import com.umeca.model.catalog.Municipality;
 import com.umeca.model.catalog.State;
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.dto.victim.VictimDto;
+import com.umeca.model.entities.account.Role;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.director.view.ReportExcelFiltersDto;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.dto.CrimeDto;
@@ -21,6 +23,7 @@ import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
+import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.CrimeRepository;
 import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
@@ -53,6 +56,12 @@ import java.util.*;
 
 @Controller
 public class ExcelReportController {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private SharedUserService userService;
 
     @Autowired
     private GenericJqGridPageSortFilter gridFilter;
@@ -1091,7 +1100,24 @@ public class ExcelReportController {
 
             ServletContext servletContext = request.getSession().getServletContext();
             String realContextPath = servletContext.getRealPath("/");
-            realContextPath += "/WEB-INF/jxlsTemplate/reportCase.xls";
+
+            Long idCurrentUser  = sharedUserService.GetLoggedUserId();
+
+            User currentUser = userRepository.findOne(idCurrentUser);
+
+            Role currentRole = currentUser.getRoles().get(0);
+
+
+
+            if(currentRole.getRole().equals(Constants.ROLE_DIRECTOR)) {
+                realContextPath += "/WEB-INF/jxlsTemplate/ExcelReportCasesDirector.xls";
+            }
+            else if(currentRole.getRole().equals(Constants.ROLE_EVALUATION_MANAGER)) {
+                realContextPath += "/WEB-INF/jxlsTemplate/ExcelReportCasesEv.xls";
+            }
+            if(currentRole.getRole().equals(Constants.ROLE_SUPERVISOR_MANAGER)) {
+                realContextPath += "/WEB-INF/jxlsTemplate/ExcelReportCasesDirector.xls";
+            }
 
             transformer.transformXLS(realContextPath, beans, tempPath);
 

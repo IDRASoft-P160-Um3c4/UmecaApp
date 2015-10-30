@@ -100,10 +100,20 @@ public class ExcelCaseInfoDto {
 
     private String districtName;
 
+
+
+    private String isFromFormulationStr;
+    private String gotFreedomStr;
+    private String reportStr;
+    private String hasNegationStr;
+
+
+
     public ExcelCaseInfoDto(Long idCase,
                             String idFolder,
                             String idMP,
                             Date createDate,
+                            String statusName,
                             String statusCase,
                             String imputedName,
                             String imputedAlias,
@@ -155,7 +165,9 @@ public class ExcelCaseInfoDto {
                             Long idVerification,
                             String officialDoc,
                             Long idMonP,
-                            String districtName) {
+                            String districtName,
+                            Boolean isFromFormulation,
+                            Boolean hasNegation) {
 
         this.idCase = idCase;
         this.idFolder = idFolder;
@@ -218,6 +230,31 @@ public class ExcelCaseInfoDto {
         this.officialDoc = officialDoc;
         this.idMonP = idMonP;
         this.districtName = districtName;
+
+
+
+        if(isFromFormulation == true)
+            this.isFromFormulationStr = "Sí";
+        else
+            this.isFromFormulationStr = "No";
+
+
+        if(hasNegation == true)
+            this.hasNegationStr = "Sí";
+        else
+            this.hasNegationStr = "No";
+
+        if(statusName.equals(Constants.CASE_STATUS_GOT_FREEDOM))
+            this.gotFreedomStr = "Sí";
+        else
+            this.gotFreedomStr = "No";
+
+
+        if(statusName.equals(Constants.CASE_STATUS_NOT_PROSECUTE))
+            this.reportStr = "Sí";
+        else
+            this.reportStr = "No";
+
     }
 
     public Long getIdCase() {
@@ -653,6 +690,39 @@ public class ExcelCaseInfoDto {
 
         return totCom;
 
+    }
+
+    public String getIsFromFormulationStr() {
+        return isFromFormulationStr;
+    }
+
+    public void setIsFromFormulationStr(String isFromFormulationStr) {
+        this.isFromFormulationStr = isFromFormulationStr;
+    }
+
+    public String getGotFreedomStr() {
+        return gotFreedomStr;
+    }
+
+    public void setGotFreedomStr(String gotFreedomStr) {
+        this.gotFreedomStr = gotFreedomStr;
+    }
+
+    public String getReportStr() {
+        return reportStr;
+    }
+
+    public void setReportStr(String reportStr) {
+        this.reportStr = reportStr;
+    }
+
+
+    public String getHasNegationStr() {
+        return hasNegationStr;
+    }
+
+    public void setHasNegationStr(String hasNegationStr) {
+        this.hasNegationStr = hasNegationStr;
     }
 
     public void setTecRevCommentsStr(String tecRevCommentsStr) {
