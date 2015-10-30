@@ -70,7 +70,7 @@
                                                                   data-valmsg-replace="true"></span>
                                                         </div>
                                                         <div class="col-xs-6">
-                                                            <label>Descripcio&oacute;n</label>
+                                                            <label>Descripci&oacute;n</label>
                                                             <br/>
                                                             <textarea class="input-xxlarge form-control limited"
                                                                       name="description"

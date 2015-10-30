@@ -21,23 +21,25 @@
 
     doJustify = function (id) {
       if (id == undefined) id = 0;
-      window.showUpsert(id, "#angJsjqGridId", "<c:url value='/humanResources/bonustime/upsertBonusTime.html'/>", "#GridDevices");
+      window.showUpsert(id, "#angJsjqGridId", "<c:url value='/humanResources/incidence/upsertIncidence.html'/>", "#GridIncidence");
     };
 
+    addIncidence = function() {
+      window.showUpsert(0, "#angJsjqGridId", "<c:url value='/humanResources/incidence/addIncidence.html'/>", "#GridAbsence");
+    }
 
     $(document).ready(function () {
-      jQuery("#GridAssistence").jqGrid({
-        url: '<c:url value='/humanResources/bonustime/list.json' />',
+      jQuery("#GridIncidence").jqGrid({
+        url: '<c:url value='/humanResources/incidence/list.json' />',
         autoencode: true,
         datatype: "json",
         mtype: 'POST',
-        colNames: ['ID', 'Nombre', 'Fecha de Registro', 'Hora de salida', 'Horas extra', 'Acci&oacute;n'],
+        colNames: ['ID', 'Nombre', 'Fecha de Registro', 'Causa', 'Acci&oacute;n'],
         colModel: [
           {name: 'id', index: 'id', hidden: true},
           {name: 'name', index: 'name', width: 200, align: "center", sorttype: 'string', searchoptions: {sopt: ['bw']}},
-          {name: 'eventDate',index: 'eventDate',width: 200,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
-          {name: 'eventTime',index: 'eventTime',width: 200,align: "center",sorttype: 'string',search: false},
-          {name: 'bonusTime',index: 'bonusTime',width: 200,align: "center",sorttype: 'string',search: false},
+          {name: 'date',index: 'eventDate',width: 200,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
+          {name: 'reason',index: 'eventTime',width: 200,align: "center",sorttype: 'string',search: false},
           {name: 'Action',index: 'Action',width: 200,align: "center",sortable: false,search: false,formatter: window.actionFormatter},
         ],
         rowNum: 10,
@@ -72,8 +74,15 @@
         }
       });
 
-      jQuery("#GridAssistence").jqGrid('navSeparatorAdd', '#GridPager');
-      jQuery("#GridAssistence").jqGrid('navButtonAdd', "#GridPager",
+      jQuery("#GridIncidence").jqGrid('navGrid', '#GridPager', {
+        edit: false,
+        add: true, addfunc: addIncidence, addicon: 'icon-plus-sign purple',
+        refresh: true, refreshicon: 'icon-refresh green',
+        del: false,
+        search: false
+      });
+      jQuery("#GridIncidence").jqGrid('navSeparatorAdd', '#GridPager');
+      jQuery("#GridIncidence").jqGrid('navButtonAdd', "#GridPager",
               {
                 caption: "",
                 title: "Exportar a excel",
@@ -81,13 +90,13 @@
 
                 onClickButton: function () {
                   try {
-                    $("#GridAssistence").jqGrid('toExcelFile', {nombre: "datosXls", formato: "excel"});
+                    $("#GridIncidence").jqGrid('toExcelFile', {nombre: "datosXls", formato: "excel"});
                   } catch (e) {
                   }
                 }
               });
 
-      jQuery("#GridAssistence").jqGrid('filterToolbar', {
+      jQuery("#GridIncidence").jqGrid('filterToolbar', {
         stringResult: true,
         searchOperators: true,
         searchOnEnter: true,
@@ -101,7 +110,7 @@
   <h2 class="element-center"><i class="glyphicon icon-comments-alt "></i>&nbsp;&nbsp;Gesti&oacute;n de incidencias</h2>
 
   <div id="angJsjqGridId" ng-controller="modalDlgController">
-    <table id="GridAssistence" class="element-center" style="margin: auto"></table>
+    <table id="GridIncidence" class="element-center" style="margin: auto"></table>
     <div id="GridPager"></div>
     <div class="blocker" ng-show="working">
       <div>
