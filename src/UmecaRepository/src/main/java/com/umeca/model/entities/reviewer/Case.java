@@ -4,6 +4,7 @@ import com.umeca.model.catalog.CloseCause;
 import com.umeca.model.catalog.District;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.managereval.Formulation;
 import com.umeca.model.entities.supervisor.FolderConditionalReprieve;
 import com.umeca.model.entities.supervisor.FramingMeeting;
 import com.umeca.model.entities.supervisor.HearingFormat;
@@ -123,6 +124,11 @@ public class Case {
 
     @Column(name = "previous_state_code")
     private String previousStateCode;
+
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_formulation",nullable = true)
+    private Formulation formulation;
 
     @Transient
     private String idString;
@@ -390,5 +396,13 @@ public class Case {
 
     public void setPreviousStateCode(String previousStateCode) {
         this.previousStateCode = previousStateCode;
+    }
+
+    public Formulation getFormulation() {
+        return formulation;
+    }
+
+    public void setFormulation(Formulation formulation) {
+        this.formulation = formulation;
     }
 }
