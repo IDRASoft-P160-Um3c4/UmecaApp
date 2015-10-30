@@ -219,8 +219,11 @@ public class MeetingServiceImpl implements MeetingService {
                 DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                 String strDate = formatter.format(date);
 
-              //  Formulation formulation = formulationRepository.findOne(imputed.getFormulationId());
-             //   caseDetention.setFormulation(formulation);
+
+                Formulation formulation = formulationRepository.findOne(imputed.getFormulationId());
+                caseDetention.setFormulation(formulation);
+                caseDetention = caseRepository.save(caseDetention);
+
 
                 String title = "REGISTRO DE UNA FORMULACIÓN";
                 String body = "<strong>Registrador por evaluador: " + meeting.getReviewer().getFullname() + "</strong><br/>" +

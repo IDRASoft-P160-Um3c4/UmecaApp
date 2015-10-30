@@ -460,8 +460,9 @@ public class MeetingController {
                 formulation.setPresence(true);
                 formulationRepository.save(formulation);
             }
+            Formulation formulation;
             if(imputed.getFormulationId() == null && imputed.getIsFromFormulation() == true){
-                Formulation formulation = new Formulation();
+                formulation = new Formulation();
 
                 formulation.setFirstName(imputed.getName());
                 formulation.setLastNameP(imputed.getLastNameP());
@@ -476,6 +477,7 @@ public class MeetingController {
                 formulation.setId(null);
 
                 formulationRepository.save(formulation);
+                imputed.setFormulationId(formulation.getId());
 
             }
 
