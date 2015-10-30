@@ -8,6 +8,7 @@ app.controller('upsertAbsenceController', function ($scope, $timeout, $sce, $roo
 
     $scope.initAdd = function(value) {
         $scope.employees = value;
+        $scope.dv.employeeId = value[0].id;
     }
 
     $scope.submitAbsence = function(formId, urlToPost) {
