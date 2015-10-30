@@ -11,6 +11,7 @@ import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.catalog.dto.CountryDto;
 import com.umeca.model.catalog.dto.ElectionDto;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.managereval.Formulation;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
 import com.umeca.model.entities.reviewer.View.MeetingView;
@@ -28,6 +29,7 @@ import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
+import com.umeca.repository.managereval.FormulationRepository;
 import com.umeca.repository.reviewer.*;
 import com.umeca.repository.shared.MessageRepository;
 import com.umeca.repository.shared.VictimRepository;
@@ -35,6 +37,7 @@ import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.catalog.CatalogService;
+import com.umeca.service.managereval.FormulationService;
 import com.umeca.service.shared.CrimeService;
 import com.umeca.service.shared.EventService;
 import com.umeca.service.shared.MessageServiceImpl;
@@ -153,6 +156,9 @@ public class MeetingServiceImpl implements MeetingService {
     @Autowired
     DistrictRepository districtRepository;
 
+    @Autowired
+    FormulationRepository formulationRepository;
+
 
     @Transactional
     @Override
@@ -179,6 +185,7 @@ public class MeetingServiceImpl implements MeetingService {
             caseDetention.setIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
             caseDetention.setDateCreate(new Date());
             caseDetention = caseRepository.save(caseDetention);
+
             Meeting meeting = new Meeting();
             meeting.setMeetingType(HearingFormatConstants.MEETING_PROCEDURAL_RISK);
             meeting.setCaseDetention(caseDetention);
@@ -205,10 +212,18 @@ public class MeetingServiceImpl implements MeetingService {
             imputedInitialRepository.save(imputedInitial);
             result = caseDetention.getId();
 
+
+
             if(imputed.getIsFromFormulation() == true){
                 Date date = imputed.getMeeting().getDateCreate();
                 DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                 String strDate = formatter.format(date);
+
+
+                Formulation formulation = formulationRepository.findOne(imputed.getFormulationId());
+                caseDetention.setFormulation(formulation);
+                caseDetention = caseRepository.save(caseDetention);
+
 
                 String title = "REGISTRO DE UNA FORMULACIÓN";
                 String body = "<strong>Registrador por evaluador: " + meeting.getReviewer().getFullname() + "</strong><br/>" +
@@ -218,6 +233,9 @@ public class MeetingServiceImpl implements MeetingService {
                 messageService.sendNotificationToRole(caseDetention.getId(), body, Constants.ROLE_EVALUATION_MANAGER, title);
                 eventService.addEvent(Constants.EVENT_FROM_FORMULATION, caseDetention.getId(),null);
             }
+
+
+
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -131,6 +131,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
                 "CDET.idFolder," +
                 "CDET.idMP," +
                 "CDET.dateCreate," +
+                "STC.name," +
                 "STC.description," +
                 "concat(IMP.name,' ',IMP.lastNameP,' ',IMP.lastNameM)," +
                 "IMP.nickname," +
@@ -182,12 +183,19 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
                 "VER.id," +
                 "OD.name, " +
                 "MP.id, " +
-                "DIST.name) " +
+                "DIST.name," +
+                "IMP.isFromFormulation," +
+                "CDET.hasNegation," +
+                "REV.fullname," +
+                "FORM.presence, " +
+                "FORM.informationDelivered) " +
                 "from Case CDET " +
                 "inner join CDET.status STC " +
                 "inner join CDET.meeting MEET " +
                 "inner join MEET.imputed IMP " +
+                "left join CDET.formulation FORM " +
                 "left join MEET.district DIST " +
+                "left join MEET.reviewer REV " +
                 "left join IMP.birthCountry IBC " +
                 "left join IMP.maritalStatus IMS " +
                 "left join IMP.location IBL " +

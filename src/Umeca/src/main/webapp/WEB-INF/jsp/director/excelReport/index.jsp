@@ -151,7 +151,7 @@
             jQuery("#GridCasesId").jqGrid('navButtonAdd', "#GridPager",
                     {
                         caption: "",
-                        title: "Descargar información de casos en excel",
+                        title: "Descargar informaci\xF3n de casos en excel",
                         buttonicon: 'icon-download-alt red',
 
                         onClickButton: function () {

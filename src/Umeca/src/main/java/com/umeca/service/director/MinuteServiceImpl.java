@@ -1,14 +1,10 @@
 package com.umeca.service.director;
 
-import antlr.debug.MessageAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.Area;
 import com.umeca.model.dto.director.MinuteDto;
-import com.umeca.model.dto.humanResources.CourseAchievementDto;
-import com.umeca.model.dto.humanResources.DigitalRecordSummaryDto;
-import com.umeca.model.dto.humanResources.EmployeeGeneralDataDto;
 import com.umeca.model.dto.shared.AgreementDto;
 import com.umeca.model.dto.shared.MinuteSummaryDto;
 import com.umeca.model.dto.shared.ObservationDto;
@@ -17,7 +13,6 @@ import com.umeca.model.entities.director.minutes.Agreement;
 import com.umeca.model.entities.director.minutes.Assistant;
 import com.umeca.model.entities.director.minutes.Minute;
 import com.umeca.model.entities.humanReources.*;
-import com.umeca.model.entities.reviewer.dto.JobDto;
 import com.umeca.model.entities.shared.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;

@@ -62,10 +62,22 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
             initCal.setTime(initDateF);
             endCal.setTime(endDateF);
 
-            monthI = initCal.get(Calendar.MONTH);
-            monthF = endCal.get(Calendar.MONTH);
 
-            initCal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(systemSettingService.findOneValue("ATTENDANCE", "PeriodStart")));
+            monthI = initCal.get(Calendar.MONTH) + 1;
+            monthF = endCal.get(Calendar.MONTH)  + 1;
+
+
+            Integer  startPeriod = Integer.parseInt(systemSettingService.findOneValue("ATTENDANCE", "PeriodStart"));
+            Integer  endPeriod = Integer.parseInt(systemSettingService.findOneValue("ATTENDANCE", "PeriodEnd"));
+
+            initCal.set(Calendar.DAY_OF_MONTH, startPeriod);
+
+            if(startPeriod > 1){
+                endCal.set(Calendar.MONTH, monthF);
+                endCal.set(Calendar.DAY_OF_MONTH, startPeriod - 1);
+            }
+
+
 
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "getData", sharedUserService);

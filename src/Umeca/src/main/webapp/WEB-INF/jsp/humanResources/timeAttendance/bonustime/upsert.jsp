@@ -65,10 +65,10 @@
               </div>
               <div class="col-xs-8">
                 <label class="radio-inline">
-                  <input type="radio" name="approved" ng-model="dv.justified" value="true"/>S&iacute;
+                  <input type="radio" name="approved" ng-model="dv.approved" ng-value="true"/>S&iacute;
                 </label>
                 <label class="radio-inline">
-                  <input type="radio" name="approved" ng-model="dv.justified" value="false"/>No
+                  <input type="radio" name="approved" ng-model="dv.approved" ng-value="false"/>No
                 </label>
               </div>
             </div>
