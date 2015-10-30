@@ -223,7 +223,7 @@
 
             legendRect.enter()
                     .append("rect")
-                    .attr("x", width - 72)
+                    .attr("x", width - 52)
                     .attr("width", 10)
                     .attr("height", 10)
                     .style("fill", color);
@@ -237,7 +237,7 @@
 
             legendText.enter()
                     .append("text")
-                    .attr("x", width - 58);
+                    .attr("x", width - 38);
 
             legendText
                     .attr("y", function (d, i) {

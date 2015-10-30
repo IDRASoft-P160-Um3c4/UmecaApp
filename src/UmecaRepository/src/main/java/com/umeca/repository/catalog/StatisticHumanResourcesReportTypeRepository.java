@@ -718,4 +718,194 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
     List<Object> countEmployeeBonusTimeByOperator(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idEmployee") Long idEmployee, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
 
 
+    //Reporte4
+    @Query(value = "select mes, periodo, SUM(total) from ( " +
+            "select 1 mes, 1 periodo, 0 total union " +
+            "select 1, 2, 0 union " +
+            "select 2, 1, 0 union " +
+            "select 2, 2, 0 union " +
+            "select 3, 1, 0 union " +
+            "select 3, 2, 0 union " +
+            "select 4, 1, 0 union " +
+            "select 4, 2, 0 union " +
+            "select 5, 1, 0 union " +
+            "select 5, 2, 0 union " +
+            "select 6, 1, 0 union " +
+            "select 6, 2, 0 union " +
+            "select 7, 1, 0 union " +
+            "select 7, 2, 0 union " +
+            "select 8, 1, 0 union " +
+            "select 8, 2, 0 union " +
+            "select 9, 1, 0 union " +
+            "select 9, 2, 0 union " +
+            "select 10, 1, 0 union " +
+            "select 10, 2, 0 union " +
+            "select 11, 1, 0 union " +
+            "select 11, 2, 0 union " +
+            "select 12, 1, 0 union " +
+            "select 12, 2, 0 union " +
+            "select " +
+            "case " +
+            "when day >= p1 and day < p2 then month " +
+            "when day >= p2 then month " +
+            "when p1 > 1 and day < p1 then (month - 1) " +
+            "else 1 " +
+            "end as new_month, " +
+            "case " +
+            "when day >= p1 and day < p2 then 1 " +
+            "when day >= p2 then 2 " +
+            "when p1 > 1 and day < p1 then 2 " +
+            "else 1 " +
+            "end as date_range, " +
+            "count(*) " +
+            "from " +
+            "(select YEAR(inciden.incidence_date) year, " +
+            "   MONTH(inciden.incidence_date) month, " +
+            "   DAY(inciden.incidence_date) day, " +
+            "   (SELECT value_setting " +
+            "   FROM system_setting " +
+            "   WHERE group_setting = 'ATTENDANCE' " +
+            "   AND key_setting = 'PeriodStart') p1, " +
+            "   (SELECT value_setting " +
+            "   FROM system_setting" +
+            "   WHERE group_setting = 'ATTENDANCE' " +
+            "   AND key_setting = 'PeriodEnd') p2 " +
+            "   from incidence inciden " +
+            "   inner join employee emp on inciden.id_employee = emp.id_employee " +
+            "   where (inciden.incidence_date between :initDate and :endDate) " +
+            "   and inciden.approved = 0 " +
+            "   and inciden.is_closed = 1 " +
+            ") as query " +
+            "group by new_month, date_range) query2 " +
+            "where mes between :monthI and :monthF " +
+            "GROUP by mes, periodo", nativeQuery = true)
+    List<Object> countEmployeeIncidence(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
+
+    @Query(value = "select mes, periodo, SUM(total) from ( " +
+            "select 1 mes, 1 periodo, 0 total union " +
+            "select 1, 2, 0 union " +
+            "select 2, 1, 0 union " +
+            "select 2, 2, 0 union " +
+            "select 3, 1, 0 union " +
+            "select 3, 2, 0 union " +
+            "select 4, 1, 0 union " +
+            "select 4, 2, 0 union " +
+            "select 5, 1, 0 union " +
+            "select 5, 2, 0 union " +
+            "select 6, 1, 0 union " +
+            "select 6, 2, 0 union " +
+            "select 7, 1, 0 union " +
+            "select 7, 2, 0 union " +
+            "select 8, 1, 0 union " +
+            "select 8, 2, 0 union " +
+            "select 9, 1, 0 union " +
+            "select 9, 2, 0 union " +
+            "select 10, 1, 0 union " +
+            "select 10, 2, 0 union " +
+            "select 11, 1, 0 union " +
+            "select 11, 2, 0 union " +
+            "select 12, 1, 0 union " +
+            "select 12, 2, 0 union " +
+            "select " +
+            "case " +
+            "when day >= p1 and day < p2 then month " +
+            "when day >= p2 then month " +
+            "when p1 > 1 and day < p1 then (month - 1) " +
+            "else 1 " +
+            "end as new_month, " +
+            "case " +
+            "when day >= p1 and day < p2 then 1 " +
+            "when day >= p2 then 2 " +
+            "when p1 > 1 and day < p1 then 2 " +
+            "else 1 " +
+            "end as date_range, " +
+            "count(*) " +
+            "from " +
+            "(select YEAR(inciden.incidence_date) year, " +
+            "   MONTH(inciden.incidence_date) month, " +
+            "   DAY(inciden.incidence_date) day, " +
+            "   (SELECT value_setting " +
+            "   FROM system_setting " +
+            "   WHERE group_setting = 'ATTENDANCE' " +
+            "   AND key_setting = 'PeriodStart') p1, " +
+            "   (SELECT value_setting " +
+            "   FROM system_setting" +
+            "   WHERE group_setting = 'ATTENDANCE' " +
+            "   AND key_setting = 'PeriodEnd') p2 " +
+            "   from incidence inciden " +
+            "   inner join employee emp on inciden.id_employee = emp.id_employee " +
+            "   where emp.id_district = :idDistrict " +
+            "   and (inciden.incidence_date between :initDate and :endDate) " +
+            "   and inciden.approved = 0 " +
+            "   and inciden.is_closed = 1 " +
+            ") as query " +
+            "group by new_month, date_range) query2 " +
+            "where mes between :monthI and :monthF " +
+            "GROUP by mes, periodo", nativeQuery = true)
+    List<Object> countEmployeeIncidenceByDistrict(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idDistrict") Long idDistrict, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
+
+    @Query(value = "select mes, periodo, SUM(total) from ( " +
+            "select 1 mes, 1 periodo, 0 total union " +
+            "select 1, 2, 0 union " +
+            "select 2, 1, 0 union " +
+            "select 2, 2, 0 union " +
+            "select 3, 1, 0 union " +
+            "select 3, 2, 0 union " +
+            "select 4, 1, 0 union " +
+            "select 4, 2, 0 union " +
+            "select 5, 1, 0 union " +
+            "select 5, 2, 0 union " +
+            "select 6, 1, 0 union " +
+            "select 6, 2, 0 union " +
+            "select 7, 1, 0 union " +
+            "select 7, 2, 0 union " +
+            "select 8, 1, 0 union " +
+            "select 8, 2, 0 union " +
+            "select 9, 1, 0 union " +
+            "select 9, 2, 0 union " +
+            "select 10, 1, 0 union " +
+            "select 10, 2, 0 union " +
+            "select 11, 1, 0 union " +
+            "select 11, 2, 0 union " +
+            "select 12, 1, 0 union " +
+            "select 12, 2, 0 union " +
+            "select " +
+            "case " +
+            "when day >= p1 and day < p2 then month " +
+            "when day >= p2 then month " +
+            "when p1 > 1 and day < p1 then (month - 1) " +
+            "else 1 " +
+            "end as new_month, " +
+            "case " +
+            "when day >= p1 and day < p2 then 1 " +
+            "when day >= p2 then 2 " +
+            "when p1 > 1 and day < p1 then 2 " +
+            "else 1 " +
+            "end as date_range, " +
+            "count(*) " +
+            "from " +
+            "(select YEAR(inciden.incidence_date) year, " +
+            "   MONTH(inciden.incidence_date) month, " +
+            "   DAY(inciden.incidence_date) day, " +
+            "   (SELECT value_setting " +
+            "   FROM system_setting " +
+            "   WHERE group_setting = 'ATTENDANCE' " +
+            "   AND key_setting = 'PeriodStart') p1, " +
+            "   (SELECT value_setting " +
+            "   FROM system_setting" +
+            "   WHERE group_setting = 'ATTENDANCE' " +
+            "   AND key_setting = 'PeriodEnd') p2 " +
+            "   from incidence inciden " +
+            "   inner join employee emp on inciden.id_employee = emp.id_employee " +
+            "   where emp.id_employee = :idEmployee " +
+            "   and (inciden.incidence_date between :initDate and :endDate) " +
+            "   and inciden.approved = 0 " +
+            "   and inciden.is_closed = 1 " +
+            ") as query " +
+            "group by new_month, date_range) query2 " +
+            "where mes between :monthI and :monthF " +
+            "GROUP by mes, periodo", nativeQuery = true)
+    List<Object> countEmployeeIncidenceByOperator(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idEmployee") Long idEmployee, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
+
+
 }

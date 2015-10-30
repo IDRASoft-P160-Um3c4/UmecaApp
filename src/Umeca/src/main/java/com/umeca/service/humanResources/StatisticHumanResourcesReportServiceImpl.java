@@ -168,6 +168,33 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
                         return data;
                 }
                 break;
+
+            case Constants.REPORT_HUMAN_RESOURCES_STATISTIC_D:
+                switch (reportTypeRepository.getReportCodeById(idReportType)) {
+                    case Constants.REPORT_STATISTIC_MANAGER_GENERAL:
+                        lstObjects = statisticHumanResourcesReportTypeRepository.countEmployeeIncidence(initCal, endCal, monthI, monthF);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
+                            data.add(new ReportList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Double.parseDouble(obj[2].toString())));
+                        }
+                        return data;
+
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_DISTRICT:
+                        lstObjects = statisticHumanResourcesReportTypeRepository.countEmployeeIncidenceByDistrict(initCal, endCal, idDistrict, monthI, monthF);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
+                            data.add(new ReportList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Double.parseDouble(obj[2].toString())));
+                        }
+                        return data;
+                    case Constants.REPORT_STATISTIC_MANAGER_BY_OPERATOR:
+                        lstObjects = statisticHumanResourcesReportTypeRepository.countEmployeeIncidenceByOperator(initCal, endCal, idEmployee, monthI, monthF);
+                        for (int j = 0; j < lstObjects.size(); j++) {
+                            Object[] obj = (Object[]) lstObjects.get(j);
+                            data.add(new ReportList(Long.parseLong(obj[0].toString()), Long.parseLong(obj[1].toString()), Double.parseDouble(obj[2].toString())));
+                        }
+                        return data;
+                }
+                break;
         }
         return null;
     }

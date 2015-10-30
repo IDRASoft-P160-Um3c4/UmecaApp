@@ -106,8 +106,10 @@ public class StatisticHumanResourcesReportController {
                 measure = "Faltas";
             else if(filterSelected.equals(Constants.REPORT_HUMAN_RESOURCES_STATISTIC_B))
                 measure = "Retardos";
-            else
+            else if(filterSelected.equals(Constants.REPORT_HUMAN_RESOURCES_STATISTIC_C))
                 measure = "Horas";
+            else
+                measure = "Incidencias";
 
             model.addObject("idDistrict",idDistrict);
             model.addObject("idEmployee", idEmployee);
