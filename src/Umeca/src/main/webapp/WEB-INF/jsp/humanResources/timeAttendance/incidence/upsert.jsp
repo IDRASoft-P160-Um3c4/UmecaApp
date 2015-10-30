@@ -51,14 +51,14 @@
             <br/>
             <div class="row">
               <div class="col-xs-4 element-left">
-                &iquest;Desea justificar la falta?:
+                &iquest;Desea justificar la incidencia?:
               </div>
               <div class="col-xs-8">
                 <label class="radio-inline">
-                  <input type="radio" name="approved" ng-model="dv.approved" value="true"/>S&iacute;
+                  <input type="radio" name="approved" ng-model="dv.approved" ng-value="true"/>S&iacute;
                 </label>
                 <label class="radio-inline">
-                  <input type="radio" name="approved" ng-model="dv.approved" value="false"/>No
+                  <input type="radio" name="approved" ng-model="dv.approved" ng-value="false"/>No
                 </label>
               </div>
             </div>
