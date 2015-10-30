@@ -184,6 +184,7 @@ public class MeetingServiceImpl implements MeetingService {
             }
             caseDetention.setIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
             caseDetention.setDateCreate(new Date());
+            caseDetention = caseRepository.save(caseDetention);
 
             Meeting meeting = new Meeting();
             meeting.setMeetingType(HearingFormatConstants.MEETING_PROCEDURAL_RISK);
@@ -205,6 +206,12 @@ public class MeetingServiceImpl implements MeetingService {
             meeting.setImputedInitial(imputedInitial);
             imputedInitial.setMeeting(meeting);
 
+            meeting = meetingRepository.save(meeting);
+            imputed.setMeeting(meeting);
+            imputedRepository.save(imputed);
+            imputedInitialRepository.save(imputedInitial);
+            result = caseDetention.getId();
+
 
 
             if(imputed.getIsFromFormulation() == true){
@@ -212,8 +219,8 @@ public class MeetingServiceImpl implements MeetingService {
                 DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                 String strDate = formatter.format(date);
 
-                Formulation formulation = formulationRepository.findOne(imputed.getFormulationId());
-                caseDetention.setFormulation(formulation);
+              //  Formulation formulation = formulationRepository.findOne(imputed.getFormulationId());
+             //   caseDetention.setFormulation(formulation);
 
                 String title = "REGISTRO DE UNA FORMULACIÓN";
                 String body = "<strong>Registrador por evaluador: " + meeting.getReviewer().getFullname() + "</strong><br/>" +
@@ -224,12 +231,8 @@ public class MeetingServiceImpl implements MeetingService {
                 eventService.addEvent(Constants.EVENT_FROM_FORMULATION, caseDetention.getId(),null);
             }
 
-            caseDetention = caseRepository.save(caseDetention);
-            meeting = meetingRepository.save(meeting);
-            imputed.setMeeting(meeting);
-            imputedRepository.save(imputed);
-            imputedInitialRepository.save(imputedInitial);
-            result = caseDetention.getId();
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
