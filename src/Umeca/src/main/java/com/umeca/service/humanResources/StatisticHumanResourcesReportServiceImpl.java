@@ -54,6 +54,8 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
 
         String initTime = " 00:00:00";
         String endTime = " 23:59:59";
+        initDate = initDate + "/01";
+        endDate = endDate + "/01";
 
 
         try {
