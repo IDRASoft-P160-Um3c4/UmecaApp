@@ -74,7 +74,7 @@
                                                                            class="form-control date-picker"
                                                                            type="text"
                                                                            data-date-format="yyyy/mm" data-val="true"
-
+                                                                           ng-change="resetDate();"
                                                                            data-val-required="Fecha de inicio es un campo requerido"/>
                                                                     <span class="input-group-addon">
                                                                         <i class="icon-calendar bigger-110"></i>
@@ -233,7 +233,6 @@
         $('#initDate').datepicker()
                 .on('changeDate', function(e) {
                     startDate = new Date(e.date.getFullYear(), (e.date.getMonth()+1));
-                    $('#endDate').datepicker('setDate', startDate);
                     $('#endDate').datepicker('setStartDate', startDate);
                     $('#endDate').datepicker('setEndDate', new Date(startDate.getFullYear(),11,31));
 
