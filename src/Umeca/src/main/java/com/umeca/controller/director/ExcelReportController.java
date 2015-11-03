@@ -498,8 +498,11 @@ public class ExcelReportController {
             if (!(casesIds.size() > 0))
                 casesIds.add(-1L);
 
-           // List<ExcelCaseInfoDto> listCases = caseRepository.getInfoCases(casesIds);
+          //  List<ExcelCaseInfoDto> listCases = caseRepository.getInfoCases(casesIds);
             List<ExcelCaseInfoEvalDto> listCases = caseRepository.getInfoCasesEval(casesIds);
+
+
+
             List<ExcelActivitiesDto> lstActivities = caseRepository.getInfoImputedActivities(casesIds);
             List<ExcelImputedHomeDto> lstHomes = caseRepository.getInfoImputedHomes(casesIds);
             List<ExcelSocialNetworkDto> lstSN = caseRepository.getInfoSocialNetwork(casesIds);
@@ -1121,7 +1124,8 @@ public class ExcelReportController {
 
 
             if(currentRole.getRole().equals(Constants.ROLE_DIRECTOR)) {
-                realContextPath += "/WEB-INF/jxlsTemplate/ExcelReportCasesDirector.xls";
+                // realContextPath += "/WEB-INF/jxlsTemplate/ExcelReportCasesDirector.xls";
+                realContextPath += "/WEB-INF/jxlsTemplate/ExcelEvReport.xls";
             }
             else if(currentRole.getRole().equals(Constants.ROLE_EVALUATION_MANAGER)) {
                 realContextPath += "/WEB-INF/jxlsTemplate/ExcelEvReport.xls";
