@@ -214,7 +214,7 @@
                                 <span class="btn btn-default btn-sm" ng-click="cancel()">
                                     Cancelar
                                 </span>
-                                <span class="btn btn-primary btn-sm" ng-click="submitRedirect('#FormCatId','<c:url value="/reviewer/meeting/doNewMeeting.json"/>');">
+                                <span class="btn btn-primary btn-sm" ng-disabled="checked" ng-click="checked = true; submitRedirect('#FormCatId','<c:url value="/reviewer/meeting/doNewMeeting.json"/>');">
                                     Terminar
                                 </span>
                             </div>
