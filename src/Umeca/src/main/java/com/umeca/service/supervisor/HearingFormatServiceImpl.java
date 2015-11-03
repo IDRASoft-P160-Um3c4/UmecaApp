@@ -823,6 +823,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
     @Transactional
     public ResponseMessage save(HearingFormat hearingFormat, HttpServletRequest request) {
+        //Si request es nulo, es una petición recibida por el web service, de lo contrario es una petición web
 
        // HearingFormat hearingFormat = this.fillHearingFormat(hearingFormatView);
        // hearingFormat.setCaseDetention(caseRepository.findOne(hearingFormatView.getIdCase()));
@@ -1006,7 +1007,15 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormatRepository.save(hearingFormat);
 
         if (hearingFormat.getIsFinished() == true) {
-            List<LogCase> logs = logCaseService.addLog(ConstantsLogCase.NEW_HEARING_FORMAT, hearingFormat.getCaseDetention().getId(), hearingFormat.getId());
+            List<LogCase> logs;
+            User supervisor = hearingFormat.getSupervisor();
+
+            if(request == null){
+                logs = logCaseService.addLog(ConstantsLogCase.NEW_HEARING_FORMAT, hearingFormat.getCaseDetention().getId(), hearingFormat.getId(), supervisor.getId());
+            }  else{
+                logs = logCaseService.addLog(ConstantsLogCase.NEW_HEARING_FORMAT, hearingFormat.getCaseDetention().getId(), hearingFormat.getId());
+            }
+
             if (logs.size() > 0) {
                 LogCase l = logs.get(logs.size() - 1);
                 LogComment logComment = new LogComment();
@@ -1014,7 +1023,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 logComment.setAction(l.getTitle());
                 Case c = l.getCaseDetention();
                 logComment.setCaseDetention(c);
-                logComment.setSenderUser(hearingFormat.getSupervisor());
+                logComment.setSenderUser(supervisor);
                 Long mp = monitoringPlanRepository.getMonPlanIdByCaseId(c.getId());
                 logComment.setAction(ConstantsLogCase.TT_ADD_HEARING_FORMAT);
                 if (mp != null) {
@@ -1023,7 +1032,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                     u.setId(uid);
                     logComment.setReceiveUser(u);
                 } else {
-                    logComment.setReceiveUser(hearingFormat.getSupervisor());
+                    logComment.setReceiveUser(supervisor);
                 }
                 logComment.setTimestamp(Calendar.getInstance());
                 logComment.setType(ConstantsLogCase.NEW_HEARING_FORMAT);
@@ -1035,18 +1044,24 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 lSupMan.setComments(l.getResume());
                 lSupMan.setAction(l.getTitle());
                 lSupMan.setCaseDetention(c);
-                lSupMan.setSenderUser(hearingFormat.getSupervisor());
+                lSupMan.setSenderUser(supervisor);
                 lSupMan.setTimestamp(Calendar.getInstance());
                 lSupMan.setType(ConstantsLogCase.NEW_HEARING_FORMAT);
                 lSupMan.setObsolete(false);
                 logCommentRepository.save(lSupMan);
 
             }
-            sb = new StringBuilder();
-            sb.append(request.getContextPath());
-            sb.append("/supervisor/hearingFormat/indexFormats.html?id=");
-            sb.append(hearingFormat.getCaseDetention().getId());
-            response.setUrlToGo(sb.toString());
+
+            if(request != null){
+                sb = new StringBuilder();
+                sb.append(request.getContextPath());
+                sb.append("/supervisor/hearingFormat/indexFormats.html?id=");
+                sb.append(hearingFormat.getCaseDetention().getId());
+                response.setUrlToGo(sb.toString());
+            }
+            else{
+                response.setUrlToGo("");
+            }
 
             if(eventService.caseHasEvent(Constants.EVENT_PROSECUTE,hearingFormat.getCaseDetention().getId()) == false)
                 eventService.addEvent(Constants.EVENT_PROSECUTE,hearingFormat.getCaseDetention().getId(),null);

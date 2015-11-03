@@ -19,7 +19,8 @@ public class TabletHearingFormatDto {
                                   Long idHFS, Integer controlDetentionHFS, Integer extensionHFS, Integer imputationFormulationHFS, Date imputationDateHFS, Integer linkageProcessHFS, String linkageRoomHFS, Date linkageDateHFS, Date extDateHFS, Date linkageTimeHFS, Integer arrangementTypeHFS, Boolean nationalArrangementHFS,
                                   Long idI, String nameI, String lastNamePI, String lastNameMI, Date birthDateI, String imputeTelI,
                                   Long idA, String streetA, String outNumA, String innNumA, String latA, String lngA, String addressStringA,
-                                  Long idL, String nameL, String abbreviationL, String descriptionL, String zipCodeL, Boolean isHomeless) {
+                                  Long idL, String nameL, String abbreviationL, String descriptionL, String zipCodeL,
+                                  Boolean isHomeless,Long district, String timeAgo, String locationPlace) {
 
         SimpleDateFormat sdfTS = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         SimpleDateFormat sdfD = new SimpleDateFormat("yyyy/MM/dd");
@@ -49,6 +50,10 @@ public class TabletHearingFormatDto {
         this.showNotification = showNotification;
 
         this.isHomeless= isHomeless;
+        this.district= district.intValue();
+        this.timeAgo= timeAgo;
+        this.locationPlace= locationPlace;
+
 
         if (idHT != null) {
             this.hearingType = new TabletHearingTypeDto(idHT, descriptionHT, isObsoleteHT, lockHT, specificationHT);
@@ -111,6 +116,9 @@ public class TabletHearingFormatDto {
     private TabletUserDto supervisor;
 
     private Boolean isHomeless;
+    private Integer district;
+    private String timeAgo;
+    private String locationPlace;
 
     public Long getId() {
         return id;
@@ -358,5 +366,29 @@ public class TabletHearingFormatDto {
 
     public void setIsHomeless(Boolean isHomeless) {
         this.isHomeless = isHomeless;
+    }
+
+    public Integer getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(Integer district) {
+        this.district = district;
+    }
+
+    public String getTimeAgo() {
+        return timeAgo;
+    }
+
+    public void setTimeAgo(String timeAgo) {
+        this.timeAgo = timeAgo;
+    }
+
+    public String getLocationPlace() {
+        return locationPlace;
+    }
+
+    public void setLocationPlace(String locationPlace) {
+        this.locationPlace = locationPlace;
     }
 }

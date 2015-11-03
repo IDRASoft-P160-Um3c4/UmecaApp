@@ -396,16 +396,16 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
 
       /* CONSULTAS PARA ENVIAR INFORMACION A LA TABLETA*/
 
-        /*DTO CASO*/
-        @Query("select new com.umeca.model.dto.tablet.TabletCaseDto(c.id, c.idFolder, c.idMP, c.recidivist, c.dateNotProsecute, c.dateObsolete, c.dateCreate, c.previousStateCode) from Case c " +
-                "inner join c.status s " +
-                "inner join c.meeting m " +
-                "inner join m.status sm " +
-                "where c.id=:idCase " +
-                "and c.dateObsolete is null")
+    /*DTO CASO*/
+    @Query("select new com.umeca.model.dto.tablet.TabletCaseDto(c.id, c.idFolder, c.idMP, c.recidivist, c.dateNotProsecute, c.dateObsolete, c.dateCreate, c.previousStateCode, c.hasNegation, c.isSubstracted, c.dateSubstracted) from Case c " +
+            "inner join c.status s " +
+            "inner join c.meeting m " +
+            "inner join m.status sm " +
+            "where c.id=:idCase " +
+            "and c.dateObsolete is null")
 //            "and s.name= com.umeca.model.shared.Constants.CASE_STATUS_MEETING " +
 //            "and sm.name= com.umeca.model.shared.Constants.S_MEETING_INCOMPLETE")
-        TabletCaseDto getInfoCaseByCaseId(@Param("idCase") Long idCase);
+    TabletCaseDto getInfoCaseByCaseId(@Param("idCase") Long idCase);
 
         /*DTO STATUS CASO*/
         @Query("select new com.umeca.model.dto.tablet.catalog.TabletStatusCaseDto(s.id,s.name,s.description) from Case c " +
@@ -681,23 +681,23 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
                 "where sv.id=:idSource")
         List<TabletFieldMeetingSourceDto> getFieldMeetingSourceBySourceId(@Param("idSource") Long idSource);
 
-        /*DTO HEARING FORMAT*/
-        @Query("select new com.umeca.model.dto.tablet.TabletHearingFormatDto(hf.id, hf.registerTime,hf.idFolder, hf.idJudicial, 'room', hf.appointmentDate, " +
-                "hf.initTime , hf.endTime, hf.judgeName, hf.mpName, hf.defenderName, hf.terms, hf.confirmComment, hf.isFinished, hf.comments, hf.umecaDate, hf.umecaTime, hf.hearingTypeSpecification, hf.imputedPresence, hf.hearingResult, hf.previousHearing, hf.showNotification, " +
-                "                                  ht.id, ht.description, ht.isObsolete, ht.lock, ht.specification," +
-                "                                  hfs.id, hfs.controlDetention, hfs.extension, hfs.imputationFormulation, hfs.imputationDate, hfs.linkageProcess, hfs.linkageRoom, hfs.linkageDate, hfs.extDate, hfs.linkageTime, hfs.arrangementType, hfs.nationalArrangement," +
-                "                                  hi.id, hi.name, hi.lastNameP, hi.lastNameM, hi.birthDate, hi.imputeTel, " +
-                "                                  addr.id, addr.street, addr.outNum, addr.innNum, addr.lat, addr.lng, addr.addressString," +
-                "                                  l.id, l.name, l.abbreviation, l.description, l.zipCode, hf.isHomeless) " +
-                "from Case c " +
-                "inner join c.hearingFormats hf " +
-                "left join hf.hearingType ht " +
-                "left join hf.hearingFormatSpecs hfs " +
-                "left join hf.hearingImputed hi " +
-                "left join hi.address addr " +
-                "left join addr.location l " +
-                "where c.id=:idCase order by hf.id desc ")
-        List<TabletHearingFormatDto> getLastHearingFormatByCaseId(@Param("idCase") Long idCase, Pageable pageable);
+    /*DTO HEARING FORMAT*/
+    @Query("select new com.umeca.model.dto.tablet.TabletHearingFormatDto(hf.id, hf.registerTime,hf.idFolder, hf.idJudicial, 'room', hf.appointmentDate, " +
+            "hf.initTime , hf.endTime, hf.judgeName, hf.mpName, hf.defenderName, hf.terms, hf.confirmComment, hf.isFinished, hf.comments, hf.umecaDate, hf.umecaTime, hf.hearingTypeSpecification, hf.imputedPresence, hf.hearingResult, hf.previousHearing, hf.showNotification, " +
+            "                                  ht.id, ht.description, ht.isObsolete, ht.lock, ht.specification," +
+            "                                  hfs.id, hfs.controlDetention, hfs.extension, hfs.imputationFormulation, hfs.imputationDate, hfs.linkageProcess, hfs.linkageRoom, hfs.linkageDate, hfs.extDate, hfs.linkageTime, hfs.arrangementType, hfs.nationalArrangement," +
+            "                                  hi.id, hi.name, hi.lastNameP, hi.lastNameM, hi.birthDate, hi.imputeTel, " +
+            "                                  addr.id, addr.street, addr.outNum, addr.innNum, addr.lat, addr.lng, addr.addressString," +
+            "                                  l.id, l.name, l.abbreviation, l.description, l.zipCode, hf.isHomeless, hf.district.id, hf.timeAgo, hf.locationPlace) " +
+            "from Case c " +
+            "inner join c.hearingFormats hf " +
+            "left join hf.hearingType ht " +
+            "left join hf.hearingFormatSpecs hfs " +
+            "left join hf.hearingImputed hi " +
+            "left join hi.address addr " +
+            "left join addr.location l " +
+            "where c.id=:idCase order by hf.id desc ")
+    List<TabletHearingFormatDto> getLastHearingFormatByCaseId(@Param("idCase") Long idCase, Pageable pageable);
 
         /*DTO ASSIGNED ARRANGEMENT*/
         @Query("select new com.umeca.model.dto.tablet.TabletAssignedArrangementDto(aa.id, aa.description," +
@@ -708,12 +708,12 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
                 "where hf.id=:formatId")
         List<TabletAssignedArrangementDto> getAssignedArrangementByFormatId(@Param("formatId") Long formatId);
 
-        /*DTO CONTACTS*/
-        @Query("select new com.umeca.model.dto.tablet.TabletContactDataDto(c.id, c.nameTxt, c.phoneTxt, c.addressTxt) " +
-                "from HearingFormat hf " +
-                "inner join hf.contacts c " +
-                "where hf.id=:formatId")
-        List<TabletContactDataDto> getContactsByFormatId(@Param("formatId") Long formatId);
+    /*DTO CONTACTS*/
+    @Query("select new com.umeca.model.dto.tablet.TabletContactDataDto(c.id, c.nameTxt, c.phoneTxt, c.addressTxt, c.liveWith) " +
+            "from HearingFormat hf " +
+            "inner join hf.contacts c " +
+            "where hf.id=:formatId")
+    List<TabletContactDataDto> getContactsByFormatId(@Param("formatId") Long formatId);
 
         /*DTO CRIME */
         @Query("select new com.umeca.model.dto.tablet.TabletCrimeDto(cl.id, cl.comment, cl.article," +
