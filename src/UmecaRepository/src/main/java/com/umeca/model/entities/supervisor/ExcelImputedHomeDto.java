@@ -10,13 +10,22 @@ public class ExcelImputedHomeDto {
     private String homeType;
     private String regType;
     private String summaryStr;
+    private String isHomelessStr;
 
-    public ExcelImputedHomeDto(Long idCase, String address, String homeType, String regType, String summaryStr) {
+    public ExcelImputedHomeDto(Long idCase, String address, String homeType, String regType, String summaryStr,Boolean isHomeless) {
         this.idCase = idCase;
         this.address = address;
         this.homeType = homeType;
         this.regType = regType;
         this.summaryStr = summaryStr;
+
+        if(isHomeless == null || isHomeless == false){
+            this.isHomelessStr = "No";
+        }
+        else {
+            this.isHomelessStr = "Sí";
+        }
+
     }
 
     public Long getIdCase() {
@@ -58,4 +67,15 @@ public class ExcelImputedHomeDto {
     public void setSummaryStr(String summaryStr) {
         this.summaryStr = summaryStr;
     }
+
+    public String getIsHomelessStr() {
+        return isHomelessStr;
+    }
+
+    public void setIsHomelessStr(String isHomelessStr) {
+        this.isHomelessStr = isHomelessStr;
+    }
+
+
+
 }

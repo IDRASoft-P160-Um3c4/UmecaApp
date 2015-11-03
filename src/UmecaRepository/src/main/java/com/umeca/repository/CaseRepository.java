@@ -4,6 +4,7 @@ import com.umeca.model.dto.CaseInfo;
 import com.umeca.model.dto.tablet.*;
 import com.umeca.model.dto.tablet.catalog.*;
 import com.umeca.model.dto.victim.VictimDto;
+import com.umeca.model.entities.managereval.ExcelCaseInfoEvalDto;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.FindLegalBefore;
 import com.umeca.model.entities.reviewer.StatusEvaluation;
@@ -235,7 +236,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
                 "where CDET.id in (:casesIds)")
         List<ExcelActivitiesDto> getInfoImputedActivities(@Param("casesIds") List<Long> lstCasesIds);
 
-        @Query("select new com.umeca.model.entities.supervisor.ExcelImputedHomeDto(CDET.id,IADD.addressString,HT.name, RT.name, concat(ST.name,', ',MUN.name,', ',LOC.name)) " +
+        @Query("select new com.umeca.model.entities.supervisor.ExcelImputedHomeDto(CDET.id,IADD.addressString,HT.name, RT.name, concat(ST.name,', ',MUN.name,', ',LOC.name), IH.isHomeless) " +
                 "from Case CDET " +
                 "inner join CDET.meeting MEET " +
                 "left join MEET.imputedHomes IH " +
@@ -724,5 +725,75 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
                 "inner join cl.crime c " +
                 "where hf.id=:formatId")
         List<TabletCrimeDto> getCrimesByFormatId(@Param("formatId") Long formatId);
+
+
+
+
+     @Query("select new com.umeca.model.entities.managereval.ExcelCaseInfoEvalDto(" +
+             "CDET.id, " +
+             "REV.fullname, " +
+             "CDET.idFolder, " +
+             "CDET.hasNegation, " +
+             "IMP.isFromFormulation, " +
+             "STC.name, " +
+             "TECREV.isFinished, " +
+             "TECREV.totalRisk, " +
+             "IMP.birthDate, " +
+             "IMP.gender, " +
+             "DIST.name, " +
+             "FORM.presence, " +
+             "FORM.informationDelivered," +
+             "MTSTA.name," +
+             "IMP.boys," +
+             "IMP.dependentBoys," +
+             "MUNI.name," +
+             "STATE.name," +
+             "COUNTRY.name," +
+             "MEETSTATUS.name," +
+             "OFFICIALDOC.name," +
+             "INMIDOC.name," +
+             "LIVEDCOUNTRY.name," +
+             "LCOUNTRY.name," +
+             "LEAVECOUNTRY.timeAgo," +
+             "LEAVECOUNTRY.timeResidence," +
+             "FAMILYANOTHERCOUNTRY.name," +
+             "COMMUNICATIONFAM.name," +
+             "LCRELATIONSHIPFAM.name," +
+             "SCHL.block," +
+             "DEGREE.name," +
+             "ACADLVL.name " +
+            ") " +
+             "from Case CDET " +
+             "inner join CDET.meeting MEET " +
+             "inner join MEET.imputed IMP " +
+             "inner join CDET.status STC " +
+             "left join MEET.reviewer REV " +
+             "left join MEET.status MEETSTATUS " +
+             "left join CDET.technicalReview TECREV " +
+             "left join MEET.district DIST " +
+             "left join CDET.formulation FORM " +
+             "left join IMP.maritalStatus MTSTA " +
+             // "left join IMP. " +
+             "left join IMP.location LOC " +
+             "left join LOC.municipality MUNI " +
+             "left join MUNI.state STATE " +
+             "left join STATE.country COUNTRY " +
+             "left join MEET.leaveCountry LEAVECOUNTRY " +
+             "left join LEAVECOUNTRY.officialDocumentation OFFICIALDOC " +
+             "left join LEAVECOUNTRY.immigrationDocument INMIDOC " +
+             "left join LEAVECOUNTRY.livedCountry LIVEDCOUNTRY " +
+             "left join LEAVECOUNTRY.country LCOUNTRY " +
+             "left join LEAVECOUNTRY.familyAnotherCountry FAMILYANOTHERCOUNTRY " +
+             "left join LEAVECOUNTRY.communicationFamily COMMUNICATIONFAM " +
+             "left join LEAVECOUNTRY.relationship LCRELATIONSHIPFAM " +
+             "left join LEAVECOUNTRY.immigrationDocument INMIDOC " +
+             "left join MEET.school SCHL " +
+             "left join SCHL.degree DEGREE " +
+             "left join DEGREE.academicLevel ACADLVL " +
+             "where CDET.id in (:lstIdsCases) " +
+             "order by CDET.dateCreate" )
+    List<ExcelCaseInfoEvalDto> getInfoCasesEval(@Param("lstIdsCases") List<Long> lstIdsCases);
+
+
 
 }

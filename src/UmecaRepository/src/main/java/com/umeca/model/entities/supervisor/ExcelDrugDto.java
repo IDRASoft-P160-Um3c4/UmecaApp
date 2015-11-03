@@ -15,6 +15,8 @@ public class ExcelDrugDto {
     private String specificationType;
     private String specificationPeriodicity;
     private Boolean block;
+    private String onsetAge;
+
 
     public ExcelDrugDto(Long idCase, String drugType, String periodicity, String quantity, Date lastUse, String specificationType, String specificationPeriodicity, Boolean block) {
         this.idCase = idCase;
@@ -25,6 +27,7 @@ public class ExcelDrugDto {
         this.specificationType = specificationType;
         this.specificationPeriodicity = specificationPeriodicity;
         this.block = block;
+
     }
 
     public Long getIdCase() {
@@ -89,5 +92,13 @@ public class ExcelDrugDto {
 
     public void setBlock(Boolean block) {
         this.block = block;
+    }
+
+    public String getOnsetAge() {
+        return onsetAge;
+    }
+
+    public void setOnsetAge(String onsetAge) {
+        this.onsetAge = onsetAge;
     }
 }

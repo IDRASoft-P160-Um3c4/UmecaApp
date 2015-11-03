@@ -17,6 +17,7 @@ import com.umeca.model.dto.victim.VictimDto;
 import com.umeca.model.entities.account.Role;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.director.view.ReportExcelFiltersDto;
+import com.umeca.model.entities.managereval.ExcelCaseInfoEvalDto;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.dto.CrimeDto;
 import com.umeca.model.entities.supervisor.*;
@@ -497,7 +498,8 @@ public class ExcelReportController {
             if (!(casesIds.size() > 0))
                 casesIds.add(-1L);
 
-            List<ExcelCaseInfoDto> listCases = caseRepository.getInfoCases(casesIds);
+           // List<ExcelCaseInfoDto> listCases = caseRepository.getInfoCases(casesIds);
+            List<ExcelCaseInfoEvalDto> listCases = caseRepository.getInfoCasesEval(casesIds);
             List<ExcelActivitiesDto> lstActivities = caseRepository.getInfoImputedActivities(casesIds);
             List<ExcelImputedHomeDto> lstHomes = caseRepository.getInfoImputedHomes(casesIds);
             List<ExcelSocialNetworkDto> lstSN = caseRepository.getInfoSocialNetwork(casesIds);
@@ -552,7 +554,7 @@ public class ExcelReportController {
                 }
             }
 
-            for (ExcelCaseInfoDto cAct : listCases) {
+            for (ExcelCaseInfoEvalDto cAct : listCases) {
 
                 List<ExcelActivitiesDto> acts = new ArrayList<>();
                 for (ExcelActivitiesDto aAct : lstActivities) {
@@ -562,6 +564,8 @@ public class ExcelReportController {
                 }
                 cAct.setLstActivities(acts);
 
+
+
                 List<ExcelImputedHomeDto> lstImHome = new ArrayList<>();
                 for (ExcelImputedHomeDto hAct : lstHomes) {
                     if (hAct.getIdCase() == cAct.getIdCase()) {
@@ -569,6 +573,7 @@ public class ExcelReportController {
                     }
                 }
                 cAct.setLstHomes(lstImHome);
+
 
                 List<ExcelSocialNetworkDto> lstCSN = new ArrayList<>();
                 for (ExcelSocialNetworkDto snAct : lstSN) {
@@ -578,6 +583,8 @@ public class ExcelReportController {
                 }
                 cAct.setLstSN(lstCSN);
 
+
+
                 List<ExcelReferenceDto> lstR = new ArrayList<>();
                 for (ExcelReferenceDto rAct : lstRef) {
                     if (rAct.getIdCase() == cAct.getIdCase()) {
@@ -586,13 +593,17 @@ public class ExcelReportController {
                 }
                 cAct.setLstRef(lstR);
 
+
                 List<ExcelJobDto> lstJ = new ArrayList<>();
                 for (ExcelJobDto jAct : lstJob) {
                     if (jAct.getIdCase() == cAct.getIdCase()) {
                         lstJ.add(jAct);
                     }
                 }
+
+
                 cAct.setLstJob(lstJ);
+
 
                 List<ExcelDrugDto> lstD = new ArrayList<>();
                 for (ExcelDrugDto dAct : lstDrug) {
@@ -601,7 +612,7 @@ public class ExcelReportController {
                     }
                 }
                 cAct.setLstDrug(lstD);
-
+/*
                 List<ExcelCrimeDto> lstCr = new ArrayList<>();
                 for (ExcelCrimeDto crAct : lstCrimes) {
                     if (crAct.getIdCase() == cAct.getIdCase()) {
@@ -640,14 +651,14 @@ public class ExcelReportController {
                         lstSources.add(actSource);
                     }
                 }
-                cAct.setSummaryVerificationSources(lstSources);
+                cAct.setSummaryVerificationSources(lstSources); */
             }
 
             /*supervision*/
 
             List<HearingFormatInfo> allHearingFormat = reportExcelRepository.getHearingFormatInfo(casesIds);
 
-            for (ExcelCaseInfoDto actCase : listCases) {
+            /*for (ExcelCaseInfoDto actCase : listCases) {
                 List<HearingFormatInfo> lstFormats = new ArrayList<>();
 
                 for (HearingFormatInfo actHF : allHearingFormat) {
@@ -682,7 +693,7 @@ public class ExcelReportController {
                     actCase.setLastFormatInfo(lstFormats.get(lstFormats.size() - 1));
                     actCase.getLastFormatInfo().setTotalFormats(Integer.toString(lstFormats.size()));
                 }
-            }
+            }*/
 
             List<FramingMeetingInfo> allFramingMeeting = reportExcelRepository.getFramingMeetingInfo(casesIds);
             List<FramingReferenceInfo> allReferences = reportExcelRepository.getFramingReferenceInfo(casesIds);
@@ -811,15 +822,15 @@ public class ExcelReportController {
                 actFM.setArrangements(arran);
             }
 
-            for (ExcelCaseInfoDto actCase : listCases) {
+           /* for (ExcelCaseInfoDto actCase : listCases) {
                 FramingMeetingInfo aa = new FramingMeetingInfo();
                 for (FramingMeetingInfo actFM : allFramingMeeting) {
                     if (actCase.getIdCase() == actFM.getIdCase())
                         actCase.setFramingMeetingInfo(actFM);
                 }
-            }
+            }*/
 
-            for (ExcelCaseInfoDto actCase : listCases) {
+           /* for (ExcelCaseInfoDto actCase : listCases) {
                 if (actCase.getFramingMeetingInfo() == null)
                     actCase.setFramingMeetingInfo(new FramingMeetingInfo());
             }
@@ -878,7 +889,7 @@ public class ExcelReportController {
                 monInfo.setLstFulfillment(lstFulfimentRep);
                 actCase.setMonitoringPlanExcelInfo(monInfo);
 
-            }
+            }*/
             /*supervision*/
 
 
@@ -1113,7 +1124,7 @@ public class ExcelReportController {
                 realContextPath += "/WEB-INF/jxlsTemplate/ExcelReportCasesDirector.xls";
             }
             else if(currentRole.getRole().equals(Constants.ROLE_EVALUATION_MANAGER)) {
-                realContextPath += "/WEB-INF/jxlsTemplate/ExcelReportCasesEv.xls";
+                realContextPath += "/WEB-INF/jxlsTemplate/ExcelEvReport.xls";
             }
             if(currentRole.getRole().equals(Constants.ROLE_SUPERVISOR_MANAGER)) {
                 realContextPath += "/WEB-INF/jxlsTemplate/ExcelReportCasesDirector.xls";

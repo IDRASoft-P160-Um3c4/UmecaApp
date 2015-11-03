@@ -64,9 +64,9 @@
                 colModel: [
                     {name: 'id', hidden: true},
                     {name: 'detentionDateMil', hidden: true},
-                    {name: 'fullname', width: 150, align: "center", sortable: false, search: false},
+                    {name: 'fullname', width: 150, align: "center",  sorttype: 'string', searchoptions: { sopt: ['bw']}},
                     {name: 'age', width: 150, align: "center", sortable: false, search: false},
-                    {name: 'idFolder', width: 150, align: "center", sortable: false, search: false},
+                    {name: 'idFolder', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw']}},
                     {name: 'initDateStr', width: 150, align: "center", sortable: false, search: false},
                     {name: 'initTimeStr', width: 150, align: "center", sortable: false, search: false},
                     {name: 'crime', width: 150, align: "center", sortable: false, search: false},

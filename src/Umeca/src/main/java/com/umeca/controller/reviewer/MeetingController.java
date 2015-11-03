@@ -736,7 +736,7 @@ public class MeetingController {
     JqGridResultModel handingOverList(@ModelAttribute JqGridFilterModel opts) {
         opts.extraFilters = new ArrayList<>();
 
-        JqGridRulesModel extraFilter = new JqGridRulesModel("statusMeeting",
+    /*    JqGridRulesModel extraFilter = new JqGridRulesModel("statusMeeting",
                 new ArrayList<String>() {{
                     add(Constants.S_MEETING_INCOMPLETE_LEGAL);
                     add(Constants.S_MEETING_COMPLETE);
@@ -745,13 +745,14 @@ public class MeetingController {
                 , JqGridFilterModel.COMPARE_IN
         );
 
-        opts.extraFilters.add(extraFilter);
+      opts.extraFilters.add(extraFilter); */
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
                 final Join<Case, Meeting> joinMe = r.join("meeting");
                 final Join<Meeting, Imputed> joinImp = joinMe.join("imputed");
+                final Join<Meeting, StatusMeeting> joinStatusMe = joinMe.join("status");
                 final Join<Meeting, CurrentCriminalProceeding> joinLegal = joinMe.join("currentCriminalProceeding");
                 final Join<CurrentCriminalProceeding, Crime> joinC = joinLegal.join("crimeList", JoinType.LEFT);
                 final Join<CurrentCriminalProceeding, Crime> joinCC = joinC.join("crime",JoinType.LEFT);
@@ -759,6 +760,7 @@ public class MeetingController {
                 ArrayList<Selection<?>> result = new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
                     add(r.get("idFolder"));
+                  //  add(joinStatusMe.get("status").alias("statusMeeting"));
                     add(joinImp.get("name"));
                     add(joinImp.get("lastNameP"));
                     add(joinImp.get("lastNameM"));
@@ -771,7 +773,10 @@ public class MeetingController {
             }
 
             @Override
-            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {;
+                if (field.equals("fullname"))
+                    return r.join("meeting").join("imputed").get("name");
+
                 if (field.equals("statusCode"))
                     return r.join("verification").join("status").get("name");
                 if (field.equals("statusCaseCode"))

@@ -447,21 +447,7 @@ public class ExcelCaseInfoDto {
         this.imputedPhysicalCondition = imputedPhysicalCondition;
     }
 
-    public String getFormulationPresenceStr() {
-        return formulationPresenceStr;
-    }
 
-    public void setFormulationPresenceStr(String formulationPresenceStr) {
-        this.formulationPresenceStr = formulationPresenceStr;
-    }
-
-    public String getFormulationInformationDeliveredStr() {
-        return formulationInformationDeliveredStr;
-    }
-
-    public void setFormulationInformationDeliveredStr(String formulationInformationDeliveredStr) {
-        this.formulationInformationDeliveredStr = formulationInformationDeliveredStr;
-    }
 
     public String getOfficialDoc() {
         return officialDoc;
