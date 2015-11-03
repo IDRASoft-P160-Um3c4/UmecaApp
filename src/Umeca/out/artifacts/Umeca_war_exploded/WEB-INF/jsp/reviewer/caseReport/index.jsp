@@ -21,8 +21,11 @@
         window.printDocument = function(id){
             var goTo = "<c:url value='/reviewer/caseReport/printSheet.html'/>" + "?id=" + id;
             window.goToUrlMvcUrl(goTo);
+        };
 
-
+        window.generateFileAllSources = function (id) {
+            var goTo = "<c:url value='/reviewer/technicalReview/generateFileAllSources.html'/>" + "?id=" + id;
+            window.goToUrlMvcUrl(goTo);
         };
 
 
@@ -34,7 +37,7 @@
                 autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID','Carpeta de Investigaci&oacute;n','Nombre completo','Fecha de nacimiento','Estatus','Evaluador','Id estatus','Status case','Evento','ID Evento','Acci&oacute;n'],
+                colNames: ['ID','IDVER','Carpeta de Investigaci&oacute;n','Nombre completo','Fecha de nacimiento','Estatus','Evaluador','Id estatus','Status case','Evento','ID Evento','Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idVerif', index: 'idVerif', hidden: true },
@@ -61,14 +64,16 @@
                 altRows: true,
                 gridComplete: function () {
                     var ids = $(this).jqGrid('getDataIDs');
+                    var verifs = $(this).jqGrid('getCol', 'idVerif', false);
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
+                        var _id_verif = verifs[i];
                         var row = $(this).getRowData(cl);
                         var status = row.eventCode;
                         var be="";
                         if ( status == 'REPORT') {
                             be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Generar documento de informe\" onclick=\"window.printDocument('" + row.eventId + "');\"><i class=\"icon-file\"></i></a>";
-                            //be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar entrevistas\" onclick=\"generateFileAllSources('" + _id_verif + "');\"><i class=\" icon-group purple\"></i></a> ";
+                            be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Descargar entrevistas\" onclick=\"generateFileAllSources('" + _id_verif + "');\"><i class=\" icon-group purple\"></i></a> ";
                         }
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }

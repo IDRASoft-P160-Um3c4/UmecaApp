@@ -408,6 +408,7 @@ public class Constants {
     public static final String REPORT_HUMAN_RESOURCES_STATISTIC_A = "STHRR_1";
     public static final String REPORT_HUMAN_RESOURCES_STATISTIC_B = "STHRR_2";
     public static final String REPORT_HUMAN_RESOURCES_STATISTIC_C = "STHRR_3";
+    public static final String REPORT_HUMAN_RESOURCES_STATISTIC_D = "STHRR_4";
 
 
 

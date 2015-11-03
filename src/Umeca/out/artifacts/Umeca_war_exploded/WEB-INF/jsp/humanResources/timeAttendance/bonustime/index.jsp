@@ -44,7 +44,7 @@
         rowList: [10, 20, 30],
         pager: '#GridPager',
         sortname: 'eventDate',
-        height: 280,
+        height: 350,
         viewrecords: true,
         shrinkToFit: false,
         sortorder: "asc",

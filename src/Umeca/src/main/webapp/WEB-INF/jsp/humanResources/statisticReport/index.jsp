@@ -66,15 +66,15 @@
                                                         <div class="col-xs-3 col-xs-offset-2">
                                                             <label for="initDate">Fecha inicio</label>
                                                             <br/>
-                                                            <small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
+                                                            <small>(A&ntilde;o/Mes) Ej. (2015/01)</small>
                                                             <div class="row">
                                                                 <div class="input-group">
                                                                     <input id="initDate" name="initDate"
                                                                            ng-model="initDate"
                                                                            class="form-control date-picker"
                                                                            type="text"
-                                                                           data-date-format="yyyy/mm/dd" data-val="true"
-
+                                                                           data-date-format="yyyy/mm" data-val="true"
+                                                                           ng-change="resetDate();"
                                                                            data-val-required="Fecha de inicio es un campo requerido"/>
                                                                     <span class="input-group-addon">
                                                                         <i class="icon-calendar bigger-110"></i>
@@ -90,12 +90,12 @@
                                                         <div class="col-xs-3 col-xs-offset-1">
                                                             <label for="endDate">Fecha fin</label>
                                                             <br/>
-                                                            <small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
+                                                            <small>(A&ntilde;o/Mes) Ej. (2015/01)</small>
                                                             <div class="row">
                                                                 <div class="input-group">
                                                                     <input id="endDate" name="endDate"
                                                                            class="form-control date-picker" type="text"
-                                                                           data-date-format="yyyy/mm/dd" data-val="true"
+                                                                           data-date-format="yyyy/mm" data-val="true"
                                                                            ng-model="endDate"
                                                                            data-val-required="Fecha de fin es un campo requerido"/>
                                                                     <span class="input-group-addon">
@@ -216,13 +216,32 @@
 </html>
 <script type="text/javascript">
 
+    var startDate = new Date('01/01/2012');
+    var FromEndDate = new Date();
+    var ToEndDate = new Date();
+
     jQuery(function ($) {
 
-        $('#initDate').datepicker({autoclose: true, endDate: new Date()}).next().on(ace.click_event, function () {
+        $('#initDate').datepicker({
+            minViewMode: 1,
+            autoclose: true,
+            endDate: new Date()}).next().on(ace.click_event, function () {
             $(this).prev().focus();
-        });
+        })
 
-        $('#endDate').datepicker({autoclose: true, endDate: new Date()}).next().on(ace.click_event, function () {
+
+        $('#initDate').datepicker()
+                .on('changeDate', function(e) {
+                    startDate = new Date(e.date.getFullYear(), (e.date.getMonth()+1));
+                    $('#endDate').datepicker('setStartDate', startDate);
+                    $('#endDate').datepicker('setEndDate', new Date(startDate.getFullYear(),11,31));
+
+                });
+
+        $('#endDate').datepicker({
+            minViewMode: 1,
+            autoclose: true
+            }).next().on(ace.click_event, function () {
             $(this).prev().focus();
         });
 

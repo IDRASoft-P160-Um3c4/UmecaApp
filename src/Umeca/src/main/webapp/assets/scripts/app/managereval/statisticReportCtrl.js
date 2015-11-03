@@ -114,6 +114,11 @@ app.controller('statisticReportController', function ($scope, $timeout, $http) {
             return true;
         };
 
+
+        $scope.resetDate = function(){
+            $scope.endDate = null;
+        };
+
     }
 )
 ;

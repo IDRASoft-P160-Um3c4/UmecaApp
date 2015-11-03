@@ -6,7 +6,12 @@ app.controller('upsertIncidenceController', function ($scope, $timeout, $sce, $r
         $scope.dv = value;
     };
 
-    $scope.submitUpsertBonusTime = function(formId, urlToPost) {
+    $scope.initAdd = function(value) {
+        $scope.employees = value;
+        $scope.dv.employeeId = value[0].id;
+    }
+
+    $scope.submitAbsence = function(formId, urlToPost) {
         $scope.WaitFor = true;
         if ($(formId).valid() == false) {
             $scope.Invalid = true;
@@ -33,7 +38,10 @@ app.controller('upsertIncidenceController', function ($scope, $timeout, $sce, $r
                 $scope.MsgError = $sce.trustAsHtml(resp.message);
                 $scope.$apply();
             } else {
-                window.goToUrlMvcUrl(resp.urlToGo);
+                scope = angular.element('#dlgUpModalId').scope()
+                scope.Model.dlg.modal('hide');
+                scope.Model.def.resolve({isCancel: false});
+                $('#GridIncidence').trigger( 'reloadGrid' );
             }
         } catch (e) {
             $scope.MsgError = $sce.trustAsHtml("Error inesperado de datos. Por favor intente m&aacute;s tarde.");
