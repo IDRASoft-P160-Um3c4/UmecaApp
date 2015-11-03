@@ -146,4 +146,20 @@ app.controller('addressController', function($scope, $timeout, $http,$rootScope)
             dlg.replaceWith("");
         });
     };
+
+
+    $scope.fillModel = function(){
+        var template= "No tiene";
+        //alert("en fill model con blcok "+$scope.block);
+        if($scope.a.isHomeless === true){
+            $scope.street= "Situación de calle";
+            $scope.outNum= template;
+            $scope.a.phone = template;
+
+        }else{
+            $scope.a.company= "";
+            $scope.a.post= "";
+            $scope.a.phone = "";
+        }
+    };
 });
