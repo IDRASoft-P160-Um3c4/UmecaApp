@@ -11,7 +11,7 @@ public class TabletCaseDto {
     public TabletCaseDto() {
     }
 
-    public TabletCaseDto(Long id, String idFolder, String idMP, Boolean recidivist, Date dateNotProsecute, Date dateObsolete, Date dateCreate, String previousStateCode) {
+    public TabletCaseDto(Long id, String idFolder, String idMP, Boolean recidivist, Date dateNotProsecute, Date dateObsolete, Date dateCreate, String previousStateCode, Boolean hasNegation, Boolean isSubstracted, Date dateSubstracted) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         this.id = id;
         this.webId = id;
@@ -22,6 +22,10 @@ public class TabletCaseDto {
         this.dateObsolete = dateObsolete == null ? null : sdf.format(dateObsolete);
         this.dateCreate = dateCreate == null ? null : sdf.format(dateCreate);
         this.previousStateCode = previousStateCode;
+
+        this.hasNegation = hasNegation;
+        this.isSubstracted = isSubstracted;
+        this.dateSubstracted = dateSubstracted == null ? null : sdf.format(dateSubstracted);
     }
 
     private Long webId;
@@ -38,7 +42,10 @@ public class TabletCaseDto {
     private TabletVerificationDto verification;
     private List<TabletHearingFormatDto> hearingFormats;
     private List<TabletLogCaseDto> logsCase;
+
     private Boolean hasNegation;
+    private Boolean isSubstracted;
+    private String dateSubstracted;
 
     public Long getId() {
         return id;
@@ -158,5 +165,21 @@ public class TabletCaseDto {
 
     public void setHasNegation(Boolean hasNegation) {
         this.hasNegation = hasNegation;
+    }
+
+    public Boolean getIsSubstracted() {
+        return isSubstracted;
+    }
+
+    public void setIsSubstracted(Boolean isSubstracted) {
+        this.isSubstracted = isSubstracted;
+    }
+
+    public String getDateSubstracted() {
+        return dateSubstracted;
+    }
+
+    public void setDateSubstracted(String dateSubstracted) {
+        this.dateSubstracted = dateSubstracted;
     }
 }

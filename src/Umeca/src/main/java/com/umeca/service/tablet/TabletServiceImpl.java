@@ -19,6 +19,7 @@ import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.*;
 import com.umeca.repository.shared.LogCaseRepository;
 import com.umeca.repository.shared.TabletAssignmentCaseRepository;
+import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.service.catalog.CatalogService;
 import com.umeca.service.supervisor.HearingFormatService;
@@ -129,6 +130,9 @@ public class TabletServiceImpl implements TabletService {
 
     @Autowired
     CatalogService catalogService;
+
+    @Autowired
+    DistrictRepository districtRepository;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
     private SimpleDateFormat sdfT = new SimpleDateFormat("HH:mm:ss");
@@ -1000,6 +1004,16 @@ public class TabletServiceImpl implements TabletService {
             webHF.setIdFolder(tabletHF.getIdFolder());
             webHF.setIdJudicial(tabletHF.getIdJudicial());
 
+            webHF.setIsHomeless(tabletHF.getIsHomeless());
+            webHF.setLocationPlace(tabletHF.getLocationPlace());
+            webHF.setTimeAgo(tabletHF.getTimeAgo());
+
+            if(tabletHF.getDistrict() != null) {
+                District d;
+                d = districtRepository.findOne(tabletHF.getDistrict().longValue());
+                webHF.setDistrict(d);
+            }
+
             try {
 
                 Calendar cal = Calendar.getInstance();
@@ -1149,6 +1163,7 @@ public class TabletServiceImpl implements TabletService {
                     webCont.setNameTxt(tabletContact.getNameTxt());
                     webCont.setPhoneTxt(tabletContact.getPhoneTxt());
                     webCont.setHearingFormat(webHF);
+                    webCont.setLiveWith(tabletContact.getLiveWith());
                     webContacts.add(webCont);
                 }
                 webHF.setContacts(webContacts);

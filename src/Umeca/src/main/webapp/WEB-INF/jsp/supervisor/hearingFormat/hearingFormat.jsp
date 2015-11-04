@@ -313,8 +313,8 @@
                                                     <input id="idFolder" ng-model="m.idFolder" name="idFolder"
                                                            type="text" class="input-xxlarge" data-val="true"
                                                            ng-disabled="m.canEdit==false"
-                                                           data-val-length-max="25"
-                                                           data-val-length="Debe tener m&aacute;ximo 25 caracteres"
+                                                           data-val-length-max="30"
+                                                           data-val-length="Debe tener m&aacute;ximo 30 caracteres"
                                                            data-val-required="Carpeta de investigaci&oacute;n es un campo requerido"/>
                                                     <br/>
                         <span class="field-validation-valid" data-valmsg-for="idFolder"

@@ -27,6 +27,7 @@
                                         <input name="isHomeless" class="ace" type="radio"
                                                ng-value="true"
                                                ng-model="a.isHomeless"
+                                               ng-change="fillModel()"
                                                ng-checked="a.isHomeless==true">
                                         <span class="lbl">&nbsp;&nbsp;S&iacute;</span>
                                     </label>
@@ -37,6 +38,7 @@
                                                ng-value="false"
                                                ng-model="a.isHomeless"
                                                ng-checked="a.isHomeless==false"
+                                               ng-change="fillModel()"
                                                data-val="true"
                                                data-val-required="Debe seleccionar un valor">
                                         <span class="lbl">&nbsp;&nbsp;No</span>

@@ -255,12 +255,15 @@ public class LogCaseServiceImpl implements LogCaseService {
         return hfdto.toString(crimes, aa, umecaSupervisor);
     }
 
-
     public List<LogCase> addLog(String activityCode, Long idCase, Object detail) {
+        Long idUser = sharedUserService.GetLoggedUserId();
+        return addLog(activityCode, idCase, detail, idUser);
+    }
+
+    public List<LogCase> addLog(String activityCode, Long idCase, Object detail, Long idUser) {
         List<LogCase> newLogs = new ArrayList<>();
         try {
             Long rCount = logCaseRepository.countLogByIdCase(idCase);
-            Long idUser = sharedUserService.GetLoggedUserId();
             User user = userRepository.findOne(idUser);
             Case cd = new Case();
             String resume = "";
