@@ -28,7 +28,7 @@ public class SocialNetwork {
     private List<PersonSocialNetwork> peopleSocialNetwork;
 
     @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_meeting", nullable = false)
+    @JoinColumn(name="id_meeting", nullable = false, unique = true)
     private Meeting meeting;
 
     @ManyToOne

@@ -481,8 +481,6 @@ public class MeetingController {
 
             }
 
-
-
             if (validateCreate != null)
                 return validateCreate;
             Long idCase = meetingService.createMeeting(imputed);
@@ -501,27 +499,40 @@ public class MeetingController {
             return new ResponseMessage(true, "Ha ocurrido un error al crear la entrevista");
         }
 
-
-
     }
 
     @RequestMapping(value = {"/reviewer/meeting/meeting","/reviewer/formulation/meeting"}, method = RequestMethod.GET)
     public
     @ResponseBody
     ModelAndView meeting(@RequestParam(required = true) Long id) {
-        return meetingService.showMeeting(id);
+        try{
+            return meetingService.showMeeting(id);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "meeting", sharedUserService);
+            throw ex;
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/legal/index", method = RequestMethod.GET)
     public
     @ResponseBody
     ModelAndView legal(@RequestParam(required = true) Long id, @RequestParam(required = false) Integer showCase) {
-        return meetingService.showLegalProcess(id, showCase);
+        try {
+            return meetingService.showLegalProcess(id, showCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "legal", sharedUserService);
+            throw ex;
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/address/upsert", method = RequestMethod.POST)
     public ModelAndView upsert(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
-        return meetingService.upsertAddress(id, idCase);
+        try{
+            return meetingService.upsertAddress(id, idCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "upsert", sharedUserService);
+            throw ex;
+        }
     }
 
 
@@ -529,7 +540,13 @@ public class MeetingController {
     public
     @ResponseBody
     ResponseMessage doUpsertAddress(@ModelAttribute ImputedHome imputedHome, @RequestParam Long idCase, @RequestParam(required = false) String sch) {
-        return meetingService.doUpsertAddress(imputedHome, idCase, sch);
+        try{
+            return meetingService.doUpsertAddress(imputedHome, idCase, sch);
+
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doUpsertAddress", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
 
@@ -537,98 +554,174 @@ public class MeetingController {
     public
     @ResponseBody
     ResponseMessage doDeleteAddress(@RequestParam Long id) {
-        return meetingService.deleteAddress(id);
+        try{
+            return meetingService.deleteAddress(id);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doDeleteAddress", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/socialNetwork/upsert", method = RequestMethod.POST)
     public ModelAndView upsertSocialNetwork(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
-        return meetingService.upsertSocialNetwork(id, idCase);
+        try{
+            return meetingService.upsertSocialNetwork(id, idCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "upsertSocialNetwork", sharedUserService);
+            throw ex;
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/socialNetwork/doUpsert", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doUpsertSocialNewtork(@ModelAttribute PersonSocialNetwork person, @RequestParam Long idCase) {
-        return meetingService.doUpsertSocialNetwork(person, idCase);
+        try{
+            return meetingService.doUpsertSocialNetwork(person, idCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doUpsertSocialNewtork", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/socialNetwork/delete", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doDeleteSocialNewtork(@RequestParam Long id) {
-        return meetingService.deleteSocialNetwork(id);
+
+        try{
+            return meetingService.deleteSocialNetwork(id);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doDeleteSocialNewtork", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/drug/upsert", method = RequestMethod.POST)
     public ModelAndView upsertDrug(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
-
-        return meetingService.upsertDrug(id, idCase);
+        try{
+            return meetingService.upsertDrug(id, idCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "upsertDrug", sharedUserService);
+            throw ex;
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/drug/doUpsert", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doDrugNewtork(@ModelAttribute Drug drug, @RequestParam Long idCase) {
-        return meetingService.doUpsertDrug(drug, idCase);
+        try{
+            return meetingService.doUpsertDrug(drug, idCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doDrugNewtork", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/drug/delete", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doDeleteDrug(@RequestParam Long id) {
-        return meetingService.deleteDrug(id);
+        try{
+            return meetingService.deleteDrug(id);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doDeleteDrug", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/job/upsert", method = RequestMethod.POST)
     public ModelAndView upsertJob(@RequestParam(required = false) Long id, @RequestParam Long idCase) {
-        return meetingService.upsertJob(id, idCase);
+        try{
+            return meetingService.upsertJob(id, idCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "upsertJob", sharedUserService);
+            throw ex;
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/job/doUpsert", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doUpsertJob(@ModelAttribute Job job, @RequestParam Long idCase, @RequestParam(required = false) String sch) {
-        return meetingService.doUpsertJob(job, idCase, sch);
+        try{
+            return meetingService.doUpsertJob(job, idCase, sch);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doUpsertJob", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/job/delete", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doDeleteJob(@RequestParam Long id) {
-        return meetingService.deleteJob(id);
+        try{
+            return meetingService.deleteJob(id);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "deleteJob", sharedUserService);
+            throw ex;
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/reference/upsert", method = RequestMethod.POST)
     public ModelAndView upsertReference(@RequestParam(required = false) Long id, @RequestParam Long idCase) {
-        return meetingService.upsertReference(id, idCase);
+        try{
+            return meetingService.upsertReference(id, idCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "upsertReference", sharedUserService);
+            throw ex;
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/reference/doUpsert", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doUpsertReference(@ModelAttribute Reference reference, @RequestParam Long idCase) {
-        return meetingService.doUpsertReference(reference, idCase);
+        try{
+            return meetingService.doUpsertReference(reference, idCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doUpsertReference", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/reference/delete", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doDeleteReference(@RequestParam Long id) {
-        return meetingService.deleteReference(id);
+
+        try{
+            return meetingService.deleteReference(id);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doDeleteReference", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/upsertPersonalData", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage upsertPersonalData(@ModelAttribute Meeting meeting, String activities) {
-        return meetingService.upsertPersonalData(meeting.getCaseDetention().getId(), meeting.getImputed(), meeting.getSocialEnvironment(), activities);
+        try{
+            return meetingService.upsertPersonalData(meeting.getCaseDetention().getId(), meeting.getImputed(), meeting.getSocialEnvironment(), activities);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "upsertPersonalData", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/upsertLeaveCountry", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage upsertLeaveCountry(@ModelAttribute Meeting meeting) {
-        return meetingService.upsertLeaveCountry(meeting.getCaseDetention().getId(), meeting.getLeaveCountry());
+        try{
+            return meetingService.upsertLeaveCountry(meeting.getCaseDetention().getId(), meeting.getLeaveCountry());
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "upsertLeaveCountry", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @Autowired
@@ -652,14 +745,24 @@ public class MeetingController {
     public
     @ResponseBody
     ResponseMessage terminateMeeting(@ModelAttribute Meeting meeting, @RequestParam String sch, String activities, @RequestParam(required = false,defaultValue="false") Boolean cancelMeeting) {
-        return meetingService.doTerminateMeeting(meeting, sch, activities, cancelMeeting);
+        try{
+            return meetingService.doTerminateMeeting(meeting, sch, activities, cancelMeeting);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "terminateMeeting", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/saveProceedingLegal", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage saveProceedingLegal(@ModelAttribute CriminalProceedingView cpv) {
-        return meetingService.saveProceedingLegal(cpv);
+        try{
+            return meetingService.saveProceedingLegal(cpv);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "saveProceedingLegal", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
 
@@ -667,28 +770,48 @@ public class MeetingController {
     public
     @ResponseBody
     ResponseMessage upsertSocialNetworkComment(@RequestParam String comment, @RequestParam Long idCase) {
-        return meetingService.upsertSocialNetworkComment(comment, idCase);
+        try{
+            return meetingService.upsertSocialNetworkComment(comment, idCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "upsertSocialNetworkComment", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/findPreviousCase", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage findPreviousCase(@RequestParam String sName, @RequestParam String sLastNameP,@RequestParam String sLastNameM, @RequestParam Long idCase) {
-        return meetingService.findPreviousCase(sName, sLastNameP, sLastNameM, idCase);
+        try{
+            return meetingService.findPreviousCase(sName, sLastNameP, sLastNameM, idCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "findPreviousCase", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/savePartialPrevious", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage savePartialPrevious(@ModelAttribute CriminalProceedingView cpv) {
-        return meetingService.savePartialPrevious(cpv);
+        try{
+            return meetingService.savePartialPrevious(cpv);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "savePartialPrevious", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/savePartialCurrent", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage savePartialCurrent(@ModelAttribute CriminalProceedingView cpv) {
-        return meetingService.savePartialCurrent(cpv);
+        try{
+            return meetingService.savePartialCurrent(cpv);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "savePartialCurrent", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/saveTimeDetention", method = RequestMethod.POST)
@@ -709,7 +832,12 @@ public class MeetingController {
     public
     @ResponseBody
     ResponseMessage upsertComment(@RequestParam String comment,@RequestParam Long idCase, @RequestParam Integer typeComment) {
-        return meetingService.upsertComment(idCase, comment, typeComment);
+        try{
+            return meetingService.upsertComment(idCase, comment, typeComment);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "upsertComment", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/showTerminateMeeting", method = RequestMethod.POST)
