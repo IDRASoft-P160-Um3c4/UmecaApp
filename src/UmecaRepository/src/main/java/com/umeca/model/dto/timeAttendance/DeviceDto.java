@@ -2,9 +2,6 @@ package com.umeca.model.dto.timeAttendance;
 
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 
-/**
- * Created by Administrator on 5/4/2015.
- */
 public class DeviceDto implements EntityGrid {
 
     private Long id;
@@ -12,6 +9,8 @@ public class DeviceDto implements EntityGrid {
     private String ip;
     private int port;
     private boolean isObsolete;
+
+    public DeviceDto(){}
 
     public DeviceDto(Long id, String name, String ip, int port, boolean isObsolete){
         this.id = id;
@@ -21,7 +20,6 @@ public class DeviceDto implements EntityGrid {
         this.isObsolete = isObsolete;
     }
 
-    public DeviceDto(){}
 
     public boolean isObsolete() {
         return isObsolete;

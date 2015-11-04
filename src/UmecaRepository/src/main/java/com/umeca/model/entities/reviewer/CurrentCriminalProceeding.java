@@ -44,7 +44,7 @@ public class CurrentCriminalProceeding {
     private String additionalInfo;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_meeting", nullable = true)
+    @JoinColumn(name = "id_meeting", nullable = false, unique = true)
     private Meeting meeting;
 
     @OneToMany(mappedBy = "criminalProceeding", cascade = {CascadeType.ALL})

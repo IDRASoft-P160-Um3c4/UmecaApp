@@ -88,6 +88,7 @@ public class DeviceController {
         return model;
     }
 
+    @ResponseBody
     @RequestMapping(value = "/humanResources/device/doUpsertDevice", method = RequestMethod.POST)
      public ResponseMessage doUpsertDevice(@ModelAttribute DeviceDto deviceDto){
 
