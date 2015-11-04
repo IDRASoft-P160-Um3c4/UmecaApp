@@ -30,6 +30,7 @@ import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.umeca.repository.supervisor.LogNotificationRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -83,7 +84,7 @@ public class ManagerevalServiceImp implements ManagerevalService {
 
 
 
-
+    @Transactional
     @Override
     public ResponseMessage save(SourcesDataView sourcesInfo, Long c) {
         Gson conv = new Gson();
