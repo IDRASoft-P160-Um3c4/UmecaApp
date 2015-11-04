@@ -20,10 +20,15 @@ public class DeviceServiceImpl implements DeviceService {
     @Transactional
     public ResponseMessage upsertDevice(DeviceDto deviceDto) {
 
-        Device device = new Device();
+        Device device;
+        Long deviceId = deviceDto.getId();
 
-        if (deviceDto.getId() != null || deviceDto.getId() != 0)
-            device = deviceRepository.findOne(deviceDto.getId());
+        if (deviceId != null && deviceId > 0){
+            device = deviceRepository.findOne(deviceId);
+        }
+        else{
+            device = new Device();
+        }
 
         device.setName(deviceDto.getName());
         device.setIp(deviceDto.getIp());

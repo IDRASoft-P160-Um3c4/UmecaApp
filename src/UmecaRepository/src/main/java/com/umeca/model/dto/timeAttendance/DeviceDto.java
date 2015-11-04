@@ -21,11 +21,13 @@ public class DeviceDto implements EntityGrid {
     }
 
 
+
+
     public boolean isObsolete() {
         return isObsolete;
     }
 
-    public void setIsObsolete(boolean isObsolete) {
+    public void setObsolete(boolean isObsolete) {
         this.isObsolete = isObsolete;
     }
 
@@ -60,4 +62,6 @@ public class DeviceDto implements EntityGrid {
     public void setId(Long id) {
         this.id = id;
     }
+
+
 }
