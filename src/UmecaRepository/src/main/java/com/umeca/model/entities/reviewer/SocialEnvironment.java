@@ -34,7 +34,7 @@ public class SocialEnvironment {
     private String comment;
 
     @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_meeting", nullable = false)
+    @JoinColumn(name="id_meeting", nullable = false, unique = true)
     private Meeting meeting;
 
     public Long getId() {
