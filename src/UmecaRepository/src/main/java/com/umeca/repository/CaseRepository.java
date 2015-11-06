@@ -584,7 +584,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "                                addr.id,addr.street,addr.outNum,addr.innNum,addr.lat,addr.lng,addr.addressString," +
             "                                loc.id,loc.name,loc.abbreviation,loc.description,loc.zipCode," +
             "                                ht.id,ht.name,ht.specification,ht.obsolete," +
-            "                                rt.id, rt.name) " +
+            "                                rt.id, rt.name, ih.isHomeless) " +
             "from Case c " +
             "inner join c.meeting m " +
             "inner join m.imputedHomes ih " +

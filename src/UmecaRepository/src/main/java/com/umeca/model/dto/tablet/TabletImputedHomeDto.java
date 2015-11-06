@@ -11,7 +11,7 @@ public class TabletImputedHomeDto {
                                 Long idA, String streetA, String outNumA, String innNumA, String latA, String lngA, String addressStringA,
                                 Long idL, String nameL, String abbreviationL, String descriptionL, String zipCodeL,
                                 Long idHT, String nameHT, Boolean specificationHT, Boolean obsoleteHT,
-                                Long idRT, String nameRT) {
+                                Long idRT, String nameRT, Boolean isHomeless) {
         this.id = id;
         this.webId = id;
         this.timeLive = timeLive;
@@ -20,6 +20,8 @@ public class TabletImputedHomeDto {
         this.phone = phone;
         this.specification = specification;
         this.reasonSecondary = reasonSecondary;
+
+        this.isHomeless = isHomeless;
 
         if (idA != null) {
             this.address = new TabletAddressDto(idA, streetA, outNumA, innNumA, latA, lngA, addressStringA, idL, nameL, abbreviationL, descriptionL, zipCodeL);
@@ -46,6 +48,8 @@ public class TabletImputedHomeDto {
     private TabletHomeTypeDto homeType;
     private TabletRegisterTypeDto registerType;
     private List<TabletScheduleDto> schedule;
+
+    private Boolean isHomeless;
 
     public Long getId() {
         return id;
@@ -141,5 +145,13 @@ public class TabletImputedHomeDto {
 
     public void setWebId(Long webId) {
         this.webId = webId;
+    }
+
+    public Boolean getIsHomeless() {
+        return isHomeless;
+    }
+
+    public void setIsHomeless(Boolean isHomeless) {
+        this.isHomeless = isHomeless;
     }
 }
