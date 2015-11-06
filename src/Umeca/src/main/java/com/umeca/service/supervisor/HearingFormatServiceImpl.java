@@ -449,8 +449,11 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                     hearingFormatView.setImputedSLastName(existCase.getMeeting().getImputed().getLastNameM());
                     hearingFormatView.setImputedBirthDate(existCase.getMeeting().getImputed().getBirthDate());
 
-                    User us = userRepository.findOne(sharedUserService.GetLoggedUserId());
-                    hearingFormatView.setUserName(us.getFullname());
+                    Long usrId =sharedUserService.GetLoggedUserId();
+                    if(usrId!=null) {
+                        User us = userRepository.findOne(usrId);
+                        hearingFormatView.setUserName(us.getFullname());
+                    }
 
                     hearingFormatView.setCanSave(true);
                     hearingFormatView.setCanEdit(true);
@@ -490,8 +493,11 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                         hearingFormatView.setIsHomeless(false);
                     }
 
-                    User us = userRepository.findOne(sharedUserService.GetLoggedUserId());
-                    hearingFormatView.setUserName(us.getFullname());
+                    Long usrId =sharedUserService.GetLoggedUserId();
+                    if(usrId!=null) {
+                        User us = userRepository.findOne(usrId);
+                        hearingFormatView.setUserName(us.getFullname());
+                    }
 
                     if(existCase.getMeeting().getCurrentCriminalProceeding() != null) {
                         List<Crime> lstCrime = existCase.getMeeting().getCurrentCriminalProceeding().getCrimeList();
@@ -663,6 +669,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormatView.setImputedPresence(existHF.getImputedPresence());
         hearingFormatView.setHearingResult(existHF.getHearingResult());
         hearingFormatView.setIsHomeless(existHF.getIsHomeless());
+        hearingFormatView.setTimeAgo(existHF.getTimeAgo());
+        hearingFormatView.setLocationPlace(existHF.getLocationPlace());
 
         if (existHF.getHearingImputed().getAddress() != null) {
             hearingFormatView.setIdAddres(existHF.getHearingImputed().getAddress().getId());
@@ -858,10 +866,19 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
             if (lastHearingType != null && lastHearingType > 0 && !lastHearingType.equals(hearingFormat.getHearingFormatSpecs().getArrangementType())) {
                 hearingFormat.getCaseDetention().setDateChangeArrangementType(new Date());
-                if(lastHearingType.equals(1))
-                    eventService.addEvent(Constants.EVENT_CHANGE_MC_TO_SCPP,hearingFormat.getCaseDetention().getId(),null);
-                else if(lastHearingType.equals(2))
-                    eventService.addEvent(Constants.EVENT_CHANGE_SCPP_TO_MC,hearingFormat.getCaseDetention().getId(),null);
+                if(lastHearingType.equals(1)) {
+                    if(request != null) {
+                        eventService.addEvent(Constants.EVENT_CHANGE_MC_TO_SCPP, hearingFormat.getCaseDetention().getId(), null);
+                    }else{
+                        eventService.addEventTablet(Constants.EVENT_CHANGE_MC_TO_SCPP, hearingFormat.getCaseDetention().getId(), null, hearingFormat.getSupervisor().getId());
+                    }
+                }else if(lastHearingType.equals(2)) {
+                    if(request != null) {
+                        eventService.addEvent(Constants.EVENT_CHANGE_SCPP_TO_MC, hearingFormat.getCaseDetention().getId(), null);
+                    }else{
+                        eventService.addEventTablet(Constants.EVENT_CHANGE_SCPP_TO_MC, hearingFormat.getCaseDetention().getId(), null, hearingFormat.getSupervisor().getId());
+                    }
+                }
             }
 
             //si se indica que el imputado ha sido sustraido
@@ -1063,8 +1080,12 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 response.setUrlToGo("");
             }
 
-            if(eventService.caseHasEvent(Constants.EVENT_PROSECUTE,hearingFormat.getCaseDetention().getId()) == false)
-                eventService.addEvent(Constants.EVENT_PROSECUTE,hearingFormat.getCaseDetention().getId(),null);
+            if(eventService.caseHasEvent(Constants.EVENT_PROSECUTE,hearingFormat.getCaseDetention().getId()) == false && request != null) {
+                eventService.addEvent(Constants.EVENT_PROSECUTE, hearingFormat.getCaseDetention().getId(), null);
+            }
+            if(eventService.caseHasEvent(Constants.EVENT_PROSECUTE,hearingFormat.getCaseDetention().getId()) == false && request == null) {
+                eventService.addEventTablet(Constants.EVENT_PROSECUTE, hearingFormat.getCaseDetention().getId(), null, hearingFormat.getSupervisor().getId());
+            }
         } else {
             response.setMessage(hearingFormat.getId() + "|Se ha registrado el formato de audiencia.");
         }
