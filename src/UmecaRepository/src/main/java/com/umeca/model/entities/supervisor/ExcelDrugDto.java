@@ -30,6 +30,14 @@ public class ExcelDrugDto {
 
     }
 
+
+    public ExcelDrugDto(Long idCase, String drugType, String periodicity, String onsetAge){
+        this.idCase = idCase;
+        this.drugType = drugType;
+        this.periodicity = periodicity;
+        this.onsetAge = onsetAge;
+    }
+
     public Long getIdCase() {
         return idCase;
     }
@@ -101,4 +109,6 @@ public class ExcelDrugDto {
     public void setOnsetAge(String onsetAge) {
         this.onsetAge = onsetAge;
     }
+
+
 }

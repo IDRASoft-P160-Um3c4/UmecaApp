@@ -16,6 +16,13 @@ public class ExcelCrimeDto {
         this.comment = comment;
     }
 
+    public ExcelCrimeDto(Long idCase, String crime){
+        this.idCase = idCase;
+        this.crime = crime;
+
+
+    }
+
     public Long getIdCase() {
         return idCase;
     }
