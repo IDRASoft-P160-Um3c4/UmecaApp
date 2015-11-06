@@ -5,7 +5,11 @@
     };
 
     $scope.show = function (data, urlToGo, divToAppendId, dlgUpsertId, innerScp) {
-        if (innerScp === true) { $scope.working = true; } else { $scope.$apply(function () { $scope.working = true; }); }
+        if (innerScp === true) { $scope.working = true; } else {
+            if(!$scope.$$phase) {
+                $scope.$apply(function () { $scope.working = true; });
+            }
+        }
         var def = $q.defer();
         divToAppendId = divToAppendId || "#dlgUpsert";
         dlgUpsertId = dlgUpsertId || "#dlgUpModalId";

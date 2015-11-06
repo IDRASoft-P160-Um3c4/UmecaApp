@@ -1,9 +1,10 @@
 package com.umeca.controller.humanResources;
 
 import com.google.gson.Gson;
-import com.umeca.infrastructure.jqgrid.model.*;
+import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
+import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
+import com.umeca.infrastructure.jqgrid.model.JqGridRowsModel;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
-import com.umeca.model.entities.managereval.Formulation;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.ReportList;
 import com.umeca.model.shared.SelectList;
@@ -24,16 +25,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Selection;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
-import java.text.Normalizer;
 import java.util.*;
 
 

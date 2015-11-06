@@ -211,13 +211,25 @@
                 }
             });
 
-            jQuery("#GridMinuteId").jqGrid('navGrid', '#GridPager', {
-                edit: false,
-                add: false, addfunc: upsertMinute, addicon: 'icon-plus-sign purple',
-                refresh: true, refreshicon: 'icon-refresh green',
-                del: false,
-                search: false
-            });
+            if(isRH == true){
+                jQuery("#GridMinuteId").jqGrid('navGrid', '#GridPager', {
+                    edit: false,
+                    add: true, addfunc: upsertMinute, addicon: 'icon-plus-sign purple',
+                    refresh: true, refreshicon: 'icon-refresh green',
+                    del: false,
+                    search: false
+                });
+
+            }else{
+                jQuery("#GridMinuteId").jqGrid('navGrid', '#GridPager', {
+                    edit: false,
+                    add: false, addfunc: upsertMinute, addicon: 'icon-plus-sign purple',
+                    refresh: true, refreshicon: 'icon-refresh green',
+                    del: false,
+                    search: false
+                });
+
+            }
 
             jQuery("#GridMinuteId").jqGrid('navSeparatorAdd', '#GridPager');
             jQuery("#GridMinuteId").jqGrid('navButtonAdd', "#GridPager",

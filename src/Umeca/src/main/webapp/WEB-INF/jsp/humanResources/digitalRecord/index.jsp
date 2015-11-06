@@ -254,9 +254,8 @@
                                 file="/WEB-INF/jsp/humanResources/digitalRecord/vacation/vacation.jsp" %>
                     </div>
                     <div id="overtime" class="tab-pane">
-                        GRAFICA!!!
-                        <%--<%@ include--%>
-                        <%--file="/WEB-INF/jsp/supervisor/framingMeeting/job/school.jsp" %>--%>
+                        <%@ include
+                                file="/WEB-INF/jsp/humanResources/digitalRecord/overtime/overtime.jsp" %>
                     </div>
 
                     <div id="incapacity" class="tab-pane">

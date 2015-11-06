@@ -119,6 +119,24 @@ app.controller('statisticReportController', function ($scope, $timeout, $http) {
             $scope.endDate = null;
         };
 
+
+
+        $scope.findHumanResourceOvertimeReport = function (formId, urlToPost,  idEmployee) {
+            $scope.msgError = "";
+
+
+            if ($(formId).valid() == false)
+                return;
+
+            $scope.WaitFor = true;
+
+            var url = urlToPost + "?initDate=" + $scope.initDate + "&endDate=" + $scope.endDate + "&idEmployee="  + idEmployee;
+            window.goToNewUrl(url);
+            //window.showOvertime($scope.initDate, $scope.endDate, idEmployee);
+
+            return true;
+        };
+
     }
 )
 ;
