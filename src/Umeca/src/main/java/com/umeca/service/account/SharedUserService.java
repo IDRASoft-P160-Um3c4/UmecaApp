@@ -6,6 +6,7 @@ import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.security.CryptoRfc2898;
 import com.umeca.model.dto.tablet.TabletUserDto;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -203,6 +204,11 @@ public class SharedUserService {
             TabletUserDto info = new TabletUserDto();
 
             User u = userRepository.findByUsername(user);
+
+            String rol = u.getRoles().get(0).getRole();
+            if(!rol.equalsIgnoreCase(Constants.ROLE_REVIEWER) && !rol.equalsIgnoreCase(Constants.ROLE_SUPERVISOR)){
+                return new ResponseMessage(true, "El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente");
+            }
             String guid = UUID.randomUUID().toString();
             u.setGuidTabletAssignment(guid);
             userRepository.save(u);
