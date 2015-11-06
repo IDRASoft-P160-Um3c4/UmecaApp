@@ -44,8 +44,12 @@ public class DetentionRecordController {
 
         List<String> roles = sharedUserService.getLstRolesByUserId(sharedUserService.GetLoggedUserId());
 
+        Boolean showAdd = false;
         Boolean showAction = false;
         Boolean showProsecute = false;
+
+        if (roles.contains(Constants.ROLE_DETENTION_RECORD))
+            showAdd = true;
 
         if (roles.contains(Constants.ROLE_EVALUATION_MANAGER))
             showAction = true;
@@ -53,6 +57,7 @@ public class DetentionRecordController {
         if (roles.contains(Constants.ROLE_EVALUATION_MANAGER) || roles.contains(Constants.ROLE_REVIEWER))
             showProsecute = true;
 
+        model.addObject("showAdd", showAdd);
         model.addObject("showAction", showAction);
         model.addObject("showProsecute", showProsecute);
         return model;
