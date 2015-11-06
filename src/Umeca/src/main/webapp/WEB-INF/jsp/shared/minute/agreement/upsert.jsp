@@ -31,6 +31,7 @@
                                      ng-bind-html="MsgError">
                                 </div>
                             </div>
+                            <input type="hidden" name="id" ng-value="agreement.id"/>
                             <input type="hidden" name="minuteId" value="${minuteId}"/>
 
                             <div class="row">
@@ -123,8 +124,7 @@
                             <br/>
 
                             <div class="row">
-                                <div class="col-xs-12"
-                                     ng-show="agreement.title&&agreement.theme&&agreement.agreementDate&&agreement.comments&&isRH==true">
+                                <div class="col-xs-12" ng-show="agreement.title&&agreement.theme&&agreement.agreementDate&&agreement.comments&&isRH==true&&agreement.id==null">
                                     <label>Ingrese su contrase&ntilde;a para validar su usuario</label>
                                     <input name="password" class="input-xxlarge form-control  form-control"
                                            type="password" ng-enter-key for-element-id="btn-def-ck"

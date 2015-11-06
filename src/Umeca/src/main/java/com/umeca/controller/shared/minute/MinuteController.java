@@ -327,7 +327,8 @@ public class MinuteController {
 
         User user = userRepository.findOne(sharedUserService.GetLoggedUserId());
 
-        if (sharedUserService.isValidPasswordForUser(user.getId(), agreementDto.getPassword()) == false) {
+
+        if (sharedUserService.isValidPasswordForUser(user.getId(), agreementDto.getPassword()) == false && agreementDto.getId() == null) {
             response.setHasError(true);
             response.setMessage("La contraseña no corresponde al usuario en sesión");
             return response;
