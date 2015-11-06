@@ -27,6 +27,7 @@
     <script>
         $(document).ready(function () {
 
+            var showAdd =${showAdd};
             var showAction =${showAction};
             var showProsecute =${showProsecute};
             var _48hrsMil = 172800000;
@@ -245,7 +246,7 @@
 
             jQuery("#GridIdDetained").jqGrid('navGrid', '#GridPager', {
                 edit: false,
-                add: !showAction, addfunc: upsertDetained, addicon: 'icon-plus-sign purple',
+                add: showAdd, addfunc: upsertDetained, addicon: 'icon-plus-sign purple',
                 refresh: true, refreshicon: 'icon-refresh green',
                 del: false,
                 search: false

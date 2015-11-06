@@ -115,7 +115,7 @@
                     var cl = ids[i];
                     var be = "";
                     if (finished[i] == 'false') {
-                        be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Consultar acuerdo\" onclick=\"window.upsertAgreement('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                        be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar acuerdo\" onclick=\"window.upsertAgreement('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
                         be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar observaci&oacute;n\" onclick=\"upsertObservation('" + cl + "');\"><span class=\"glyphicon glyphicon-comment\"></span></a>";
                         be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar archivo al acuerdo\" onclick=\"upsertAgreementFile('" + cl + "');\"><span class=\"glyphicon glyphicon-upload\"></span></a>";
                         if (isRH == 'true') {
