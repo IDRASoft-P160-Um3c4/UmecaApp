@@ -213,13 +213,26 @@
             }
         });
 
-        jQuery("#GridIdAgreement").jqGrid('navGrid', '#GridPagerAgreement', {
-            edit: false, editicon: 'icon-pencil blue',
-            add: true, addfunc: upsertAgreement, addicon: 'icon-plus-sign purple',
-            refresh: true, refreshicon: 'icon-refresh green',
-            del: false,
-            search: false
-        });
+        if(isRH == 'true'){
+            jQuery("#GridIdAgreement").jqGrid('navGrid', '#GridPagerAgreement', {
+                edit: false, editicon: 'icon-pencil blue',
+                add: true, addfunc: upsertAgreement, addicon: 'icon-plus-sign purple',
+                refresh: true, refreshicon: 'icon-refresh green',
+                del: false,
+                search: false
+            });
+
+        }else{
+            jQuery("#GridIdAgreement").jqGrid('navGrid', '#GridPagerAgreement', {
+                edit: false, editicon: 'icon-pencil blue',
+                add: false, addfunc: upsertAgreement, addicon: 'icon-plus-sign purple',
+                refresh: true, refreshicon: 'icon-refresh green',
+                del: false,
+                search: false
+            });
+
+        }
+
 
         jQuery("#GridIdAgreement").jqGrid('filterToolbar', {
             stringResult: true,
