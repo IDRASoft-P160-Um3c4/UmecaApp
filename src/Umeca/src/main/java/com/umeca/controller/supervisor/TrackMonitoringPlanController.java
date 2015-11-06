@@ -137,41 +137,54 @@ public class TrackMonitoringPlanController {
     ModelAndView generate(@RequestParam(required = false) Long id, @RequestParam(required = false) Integer redirect) { //Id monitoring plan
         ModelAndView model = new ModelAndView("/supervisor/trackMonitoringPlan/trackCalendar");
 
-        if (id == null) {
-            model.addObject("monitoringPlanId", -1);
-        } else {
-            model.addObject("monitoringPlanId", id);
-            trackMonPlanService.notificationNewHearingFormat(id, model);
+        try {
+
+            if (id == null) {
+                model.addObject("monitoringPlanId", -1);
+            } else {
+                model.addObject("monitoringPlanId", id);
+                trackMonPlanService.notificationNewHearingFormat(id, model);
+            }
+
+            model.addObject("urlGetActivities", "/supervisor/trackMonitoringPlan/getActivities.json");
+            model.addObject("urlShowActivity", "/supervisor/trackMonitoringPlan/showActivity.html");
+            if (redirect == null) {
+                model.addObject("urlReturn", "/supervisor/trackMonitoringPlan/index.html");
+            } else if (redirect.equals(1)) {
+                model.addObject("urlReturn", "/supervisor/manageMonitoringPlan/index.html");
+            }
+            Long idUser = sharedUserService.GetLoggedUserId();
+            List<String> rolesUser = sharedUserService.getLstRolesByUserId(idUser);
+            if (!rolesUser.contains(Constants.ROLE_SUPERVISOR)) {
+                idUser = 0L;
+            }
+            model.addObject("idUser", idUser);
+            trackMonPlanService.setLstActivitiesSupervision(model);
+            trackMonPlanService.setListCaseFilter(model, idUser);
+            trackMonPlanService.setListUserFilter(model, idUser);
+
+            Long idCase = monitoringPlanRepository.getCaseIdByMonPlan(id);
+
+            if(idCase != null && idCase > 0){
+                Long idTec = qTechnicalReviewRepository.getTechnicalReviewByCaseId(idCase);
+                if (idTec != null) {
+                    model.addObject("idTec", idTec);
+                    model.addObject("caseId", idCase);
+                }
+
+                model.addObject("isSubstracted", caseRepository.findOne(idCase).getIsSubstracted());
+                model.addObject("showIsSubstracted", true);
+            }
+            else{
+                model.addObject("isSubstracted", false);
+                model.addObject("showIsSubstracted", false);
+            }
+
+            return model;
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "generate", sharedUserService);
+            throw ex;
         }
-
-        model.addObject("urlGetActivities", "/supervisor/trackMonitoringPlan/getActivities.json");
-        model.addObject("urlShowActivity", "/supervisor/trackMonitoringPlan/showActivity.html");
-        if (redirect == null) {
-            model.addObject("urlReturn", "/supervisor/trackMonitoringPlan/index.html");
-        } else if (redirect.equals(1)) {
-            model.addObject("urlReturn", "/supervisor/manageMonitoringPlan/index.html");
-        }
-        Long idUser = sharedUserService.GetLoggedUserId();
-        List<String> rolesUser = sharedUserService.getLstRolesByUserId(idUser);
-        if (!rolesUser.contains(Constants.ROLE_SUPERVISOR)) {
-            idUser = 0L;
-        }
-        model.addObject("idUser", idUser);
-        trackMonPlanService.setLstActivitiesSupervision(model);
-        trackMonPlanService.setListCaseFilter(model, idUser);
-        trackMonPlanService.setListUserFilter(model, idUser);
-
-        Long idCase = monitoringPlanRepository.getCaseIdByMonPlan(id);
-
-        Long idTec = qTechnicalReviewRepository.getTechnicalReviewByCaseId(idCase);
-        if (idTec != null) {
-            model.addObject("idTec", idTec);
-            model.addObject("caseId", idCase);
-        }
-
-        model.addObject("isSubstracted", caseRepository.findOne(idCase).getIsSubstracted());
-
-        return model;
     }
 
 
@@ -350,17 +363,16 @@ public class TrackMonitoringPlanController {
             }
 
 
-
             Channeling channeling = activityMonitoringPlan.getChanneling();
-            if(channeling != null && activityMonitoringPlan.getActivityGoal() != null && activityMonitoringPlan.getActivityGoal().getId() != null
-                    && Constants.LstChannelingNotificationGoal.contains(activityMonitoringPlan.getActivityGoal().getId())){
+            if (channeling != null && activityMonitoringPlan.getActivityGoal() != null && activityMonitoringPlan.getActivityGoal().getId() != null
+                    && Constants.LstChannelingNotificationGoal.contains(activityMonitoringPlan.getActivityGoal().getId())) {
                 //Asistencia a la canalización
                 Integer channelingAssistance = model.getChannelingAssistance();
-                if(channelingAssistance != null){
+                if (channelingAssistance != null) {
                     activityMonitoringPlan.setChannelingAssistance(channelingAssistance);
 
-                    try{
-                        if (channelingAssistance == 0){
+                    try {
+                        if (channelingAssistance == 0) {
                             //Notificar inasistencia
                             Case caseDetention = activityMonitoringPlan.getCaseDetention();
                             Imputed imputed = caseDetention.getMeeting().getImputed();
@@ -374,9 +386,11 @@ public class TrackMonitoringPlanController {
                                                     "Fecha de inasistencia: <b>%s</b> al <b>%s</b>",
                                             channeling.getChannelingType().getName(), imputedFullName, caseDetention.getIdMP(),
                                             sharedUserService.getFullNameById(user.getId()), start, end),
-                                            new ArrayList<String>(){{add(Constants.ROLE_CHANNELING_MANAGER);}}, Constants.CHANNELING_ABSENCE_TITLE);
+                                    new ArrayList<String>() {{
+                                        add(Constants.ROLE_CHANNELING_MANAGER);
+                                    }}, Constants.CHANNELING_ABSENCE_TITLE);
                         }
-                    }catch (Exception ex){
+                    } catch (Exception ex) {
                         logException.Write(ex, this.getClass(), "doActionActivity-sendNotification", sharedUserService);
                     }
                 }
