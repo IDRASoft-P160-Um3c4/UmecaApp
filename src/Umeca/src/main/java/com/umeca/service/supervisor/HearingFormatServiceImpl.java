@@ -663,6 +663,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormatView.setImputedPresence(existHF.getImputedPresence());
         hearingFormatView.setHearingResult(existHF.getHearingResult());
         hearingFormatView.setIsHomeless(existHF.getIsHomeless());
+        hearingFormatView.setTimeAgo(existHF.getTimeAgo());
+        hearingFormatView.setLocationPlace(existHF.getLocationPlace());
 
         if (existHF.getHearingImputed().getAddress() != null) {
             hearingFormatView.setIdAddres(existHF.getHearingImputed().getAddress().getId());

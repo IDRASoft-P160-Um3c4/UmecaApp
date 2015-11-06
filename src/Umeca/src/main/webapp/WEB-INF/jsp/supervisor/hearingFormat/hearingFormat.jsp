@@ -588,7 +588,6 @@
                                                 <div class="col-xs-12 element-center">
                                                     &iquest;El imputado se encuentra en situaci&oacute;n de calle?
                                                     <br/>
-
                                                     <div class="radio">
                                                         <label>
                                                             <input name="isHomeless" class="ace" type="radio"
@@ -620,7 +619,6 @@
                                             </div>
 
                                             <div class="row" ng-if="a.isHomeless==true">
-
                                                     <div class="col-xs-6">
                                                         <br/>
                                                         <label>Tiempo en sitauci&oacute;n de calle</label>
