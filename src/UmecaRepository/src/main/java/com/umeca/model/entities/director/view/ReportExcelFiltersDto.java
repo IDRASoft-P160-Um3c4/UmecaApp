@@ -317,5 +317,4 @@ public class ReportExcelFiltersDto {
         this.lstActivities = lstActivities;
     }
 
-
 }

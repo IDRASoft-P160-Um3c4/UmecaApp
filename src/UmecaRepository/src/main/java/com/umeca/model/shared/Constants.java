@@ -420,5 +420,9 @@ public class Constants {
     public static final String CASE_STATUS_TABLET_ASSIGNMENT = "ST_CASE_TABLET_ASSIGNED";
 
 
+    public static final Long EVALUATION_CASE_TYPE  = 1L;
+    public static final Long SUPERVISOR_CASE_TYPE = 2L;
+
+
 }
 

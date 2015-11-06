@@ -12,6 +12,7 @@ import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.Location;
 import com.umeca.model.catalog.Municipality;
 import com.umeca.model.catalog.State;
+import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.dto.victim.VictimDto;
 import com.umeca.model.entities.account.Role;
@@ -24,6 +25,7 @@ import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
+import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.CrimeRepository;
@@ -136,6 +138,21 @@ public class ExcelReportController {
         List<State> states = stateRepository.findStatesByCountryAlpha2("MX");
         List<CatalogDto> lstStates = new ArrayList<>();
 
+        List<SelectList> casesType = new ArrayList<>();
+        SelectList sup = new SelectList();
+        SelectList eval = new SelectList();
+
+        eval.setId(1L);
+        eval.setName("Evaluación");
+
+        sup.setId(2L);
+        sup.setName("Supervisión");
+
+        casesType.add(eval);
+        casesType.add(sup);
+
+
+
         for (State act : states) {
             CatalogDto dto = new CatalogDto();
             dto.setId(act.getId());
@@ -158,6 +175,7 @@ public class ExcelReportController {
         model.addObject("lstCrimes", conv.toJson(lstCrimes));
         model.addObject("lstArrangement", conv.toJson(lstArrangement));
         model.addObject("lstActivities", conv.toJson(lstActivities));
+        model.addObject("casesType", conv.toJson(casesType));
 
         return model;
     }
@@ -217,8 +235,11 @@ public class ExcelReportController {
     @Autowired
     ExcelReportService excelReportService;
 
+    @Autowired
+    StatusCaseRepository statusCaseRepository;
+
     @RequestMapping(value = "/director/excelReport/findCases", method = RequestMethod.POST)
-    public ResponseMessage findCases(@ModelAttribute ReportExcelFiltersDto filtersDto) {
+    public ResponseMessage findCases(@ModelAttribute ReportExcelFiltersDto filtersDto,Long caseTypeId) {
 
         Date initDate = null;
         Date endDate = null;
@@ -235,6 +256,42 @@ public class ExcelReportController {
             logException.Write(e, this.getClass(), "save", sharedUserService);
             return new ResponseMessage(true, "Error de red, intente mas tarde.");
         }
+        Gson gson = new Gson();
+
+        List<Long> lstStatusCase = new ArrayList<>();
+        if(caseTypeId == Constants.EVALUATION_CASE_TYPE){
+            StatusCase verificationCompleted = statusCaseRepository.findByCode(Constants.CASE_STATUS_VERIFICATION_COMPLETE);
+            StatusCase technicalReviewerCompleted = statusCaseRepository.findByCode(Constants.CASE_STATUS_TECHNICAL_REVIEW);
+            StatusCase meeting = statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING);
+            StatusCase sourceValidation = statusCaseRepository.findByCode(Constants.CASE_STATUS_SOURCE_VALIDATION);
+            StatusCase verification  = statusCaseRepository.findByCode(Constants.CASE_STATUS_VERIFICATION);
+            StatusCase closed  = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED);
+            StatusCase technicalEdit = statusCaseRepository.findByCode(Constants.CASE_STATUS_EDIT_TEC_REV);
+            StatusCase technicalInc = statusCaseRepository.findByCode(Constants.CASE_STATUS_INCOMPLETE_TECHNICAL_REVIEW);
+            StatusCase notProsecute = statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE);
+            StatusCase gotFreedom = statusCaseRepository.findByCode(Constants.CASE_STATUS_GOT_FREEDOM);
+
+            lstStatusCase.add(verificationCompleted.getId());
+            lstStatusCase.add(technicalReviewerCompleted.getId());
+            lstStatusCase.add(meeting.getId());
+            lstStatusCase.add(sourceValidation.getId());
+            lstStatusCase.add(verification.getId());
+            lstStatusCase.add(closed.getId());
+            lstStatusCase.add(technicalEdit.getId());
+            lstStatusCase.add(technicalInc.getId());
+            lstStatusCase.add(notProsecute.getId());
+            lstStatusCase.add(gotFreedom.getId());
+
+        }
+        else if(caseTypeId == Constants.SUPERVISOR_CASE_TYPE){
+            StatusCase hearingFormatStatus = statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END);
+            StatusCase framingMeeting = statusCaseRepository.findByCode(Constants.CASE_STATUS_FRAMING_COMPLETE);
+            lstStatusCase.add(hearingFormatStatus.getId());
+            lstStatusCase.add(framingMeeting.getId());
+        }
+
+        filtersDto.setLstStatusCaseStr(gson.toJson(lstStatusCase));
+
 
         List<Long> idsCases = reportExcelRepository.findIdCasesByDates(initDate, endDate);
 

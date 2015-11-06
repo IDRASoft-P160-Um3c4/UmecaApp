@@ -272,7 +272,7 @@
                                     class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Reportes
                                 <i class="icon-caret-down"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a href="<c:url value='/director/excelReport/index.html'/>"><i
+                                <li><a href="<c:url value='/managereval/excelReport/index.html'/>"><i
                                         class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Reporte excel</a></li>
                                 <li><a href="<c:url value='/shared/activityReport/index.html' />"><i
                                         class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Informe de actividades para
