@@ -257,12 +257,12 @@ public class ReportExcelSummary {
     }
 
     public Double calcPercentEv(Long subt) {
-
         Double percent = 0.0;
+        if(subt != null) {
+            if (this.totCasesEv > 0)
+                percent = subt.doubleValue() / this.totCasesEv.doubleValue();
 
-        if (this.totCasesEv > 0)
-            percent = subt.doubleValue() / this.totCasesEv.doubleValue();
-
+        }
         return percent;
     }
 

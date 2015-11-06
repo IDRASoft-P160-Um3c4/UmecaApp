@@ -233,17 +233,15 @@ public class ManagerSupReportController {
         Date endDate = null;
         String initTime = " 00:00:00";
         String endTime = " 23:59:59";
+        Gson gson = new Gson();
+
         try {
             initDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
                     .parse(filtersDto.getInitDate() + initTime);
 
             endDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
                     .parse(filtersDto.getEndDate() + endTime);
-        } catch (Exception e) {
-            e.printStackTrace();
-            logException.Write(e, this.getClass(), "save", sharedUserService);
-            return new ResponseMessage(true, "Error de red, intente mas tarde.");
-        }
+
 
         List<Long> lstStatusCase = new ArrayList<>();
 
@@ -252,7 +250,7 @@ public class ManagerSupReportController {
         lstStatusCase.add(hearingFormatStatus.getId());
         lstStatusCase.add(framingMeeting.getId());
 
-        filtersDto.setLstStatusCase(lstStatusCase);
+        filtersDto.setLstStatusCaseStr(gson.toJson(lstStatusCase));
 
         List<Long> idsCases = reportExcelRepository.findIdCasesByDates(initDate, endDate);
 
@@ -261,6 +259,13 @@ public class ManagerSupReportController {
         Gson conv = new Gson();
 
         return new ResponseMessage(false, conv.toJson(idsCases));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logException.Write(e, this.getClass(), "save", sharedUserService);
+            return new ResponseMessage(true, "Error de red, intente mas tarde.");
+        }
+
     }
 
 
@@ -649,7 +654,7 @@ public class ManagerSupReportController {
     @Autowired
     CaseRepository caseRepository;
 
-    @RequestMapping(value = "/supervisorManager/report/jxls", method = RequestMethod.GET)
+    @RequestMapping(value = {"/supervisorManager/report/jxls","/director/excelReport/jxlsSup"}, method = RequestMethod.GET)
     public
     @ResponseBody
     void jxlsMethod(HttpServletRequest request, HttpServletResponse response, String ids, String filt) {

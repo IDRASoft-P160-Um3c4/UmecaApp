@@ -3,6 +3,7 @@ package com.umeca.service.shared;
 import com.umeca.model.entities.director.view.ReportExcelFiltersDto;
 import com.umeca.model.entities.supervisor.ReportExcelSummary;
 import com.umeca.repository.shared.ReportExcelRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
 @Service("excelReportService")
 public class ExcelReportServiceImpl implements ExcelReportService {
 
+    @Autowired
     private ReportExcelRepository reportExcelRepository;
 
     @Override
