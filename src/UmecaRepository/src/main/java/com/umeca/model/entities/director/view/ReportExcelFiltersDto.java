@@ -316,4 +316,6 @@ public class ReportExcelFiltersDto {
     public void setLstActivities(List<Long> lstActivities) {
         this.lstActivities = lstActivities;
     }
+
+
 }

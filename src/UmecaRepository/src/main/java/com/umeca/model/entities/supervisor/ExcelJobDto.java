@@ -78,6 +78,12 @@ public class ExcelJobDto {
         this.block = block;
     }
 
+    public ExcelJobDto(Long idCase, Boolean block, String registerType){
+        this.idCase = idCase;
+        this.block = block;
+        this.registerType = registerType;
+    }
+
 
     public String scheduleToStr() {
         String schStr = "";
@@ -91,6 +97,7 @@ public class ExcelJobDto {
         }
         return schStr;
     }
+
 
     public String getRegisterType() {
         return registerType;
