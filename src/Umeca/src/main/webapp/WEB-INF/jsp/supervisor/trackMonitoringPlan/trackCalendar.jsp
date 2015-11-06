@@ -97,7 +97,7 @@
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
 <div class="container body-content" ng-controller="trackMonPlanController" id="TrackMonPlanControllerId"
-     ng-init="idTec = ${idTec == null? 0: idTec}; caseId='${caseId}'; isSubstracted=${isSubstracted == null ? false : isSubstracted};">
+     ng-init="idTec = ${idTec == null? 0: idTec}; caseId='${caseId}'; isSubstracted=${isSubstracted == null ? false : isSubstracted}; showIsSubstracted=${showIsSubstracted == null ? false : showIsSubstracted};">
     <div class="page-content">
         <div class="page-header">
             <h1 class="element-center">
@@ -111,7 +111,7 @@
         </div>
         <div class="row">
             <div class="col-xs-12">
-                <div class="row">
+                <div class="row" ng-show="showIsSubstracted">
                     <div class="col-xs-4 col-xs-offset-4 element-center">
                         <h3 class="header smaller lighter blue">
                             <small>&iquest;El imputado se encuentra sustra&iacute;do?:</small>
