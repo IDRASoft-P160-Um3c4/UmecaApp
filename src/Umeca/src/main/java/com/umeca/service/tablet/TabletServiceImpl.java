@@ -22,7 +22,6 @@ import com.umeca.repository.shared.TabletAssignmentCaseRepository;
 import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.service.catalog.CatalogService;
-import com.umeca.service.shared.EventService;
 import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -135,8 +134,6 @@ public class TabletServiceImpl implements TabletService {
     @Autowired
     DistrictRepository districtRepository;
 
-    @Autowired
-    private EventService eventService;
 
     private SimpleDateFormat sdfexact = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
@@ -919,7 +916,6 @@ public class TabletServiceImpl implements TabletService {
 
         if(c.isHasNegation()==true){
             m.setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_DECLINE));
-            eventService.addEventTablet(Constants.EVENT_INTERVIEW_DECLINED, c.getId(), m.getDeclineReason(), m.getReviewer().getId());
         }
 
         m.setCaseDetention(c);

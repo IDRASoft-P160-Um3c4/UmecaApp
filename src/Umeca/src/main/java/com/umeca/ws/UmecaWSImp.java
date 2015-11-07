@@ -13,6 +13,7 @@ import com.umeca.repository.CaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.supervisor.LogNotificationReviewerRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.EventService;
 import com.umeca.service.tablet.TabletService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -35,6 +36,9 @@ public class UmecaWSImp implements UmecaWS {
 
     @Autowired
     LogNotificationReviewerRepository logNotificationReviewerRepository;
+
+    @Autowired
+    private EventService eventService;
 
     public UmecaWSImp() {
     }
@@ -155,6 +159,9 @@ public class UmecaWSImp implements UmecaWS {
                 lnr.setReceiveUser(userReceiver);
                 logNotificationReviewerRepository.save(lnr);
 
+                if(c.isHasNegation()) {
+                    eventService.addEventTablet(Constants.EVENT_INTERVIEW_DECLINED, c.getId(), tabletDto.getMeeting().getDeclineReason(), usuariotableta.getId());
+                }
 
             } else {
                 response = new ResponseMessage(true, "Debe acceder nuevamente a la aplicación.");
