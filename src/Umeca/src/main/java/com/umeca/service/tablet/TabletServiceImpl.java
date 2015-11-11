@@ -1253,7 +1253,7 @@ public class TabletServiceImpl implements TabletService {
         if (assignmentId != null) {
             this.finishAssignment(assignmentId);
         }
-        if(c.getPreviousStateCode()!=null) {
+        if(c.getPreviousStateCode()!=null && !c.getPreviousStateCode().equalsIgnoreCase("")) {
             c.setStatus(statusCaseRepository.findByCode(c.getPreviousStateCode()));
         }
         caseRepository.save(c);
