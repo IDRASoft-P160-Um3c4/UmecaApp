@@ -259,7 +259,7 @@ public class ExcelReportController {
         Gson gson = new Gson();
 
         List<Long> lstStatusCase = new ArrayList<>();
-        if(caseTypeId == Constants.EVALUATION_CASE_TYPE){
+        if(caseTypeId.equals(Constants.EVALUATION_CASE_TYPE)){
             StatusCase verificationCompleted = statusCaseRepository.findByCode(Constants.CASE_STATUS_VERIFICATION_COMPLETE);
             StatusCase technicalReviewerCompleted = statusCaseRepository.findByCode(Constants.CASE_STATUS_TECHNICAL_REVIEW);
             StatusCase meeting = statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING);
@@ -283,7 +283,7 @@ public class ExcelReportController {
             lstStatusCase.add(gotFreedom.getId());
 
         }
-        else if(caseTypeId == Constants.SUPERVISOR_CASE_TYPE){
+        else if(caseTypeId.equals(Constants.SUPERVISOR_CASE_TYPE)){
             StatusCase hearingFormatStatus = statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END);
             StatusCase framingMeeting = statusCaseRepository.findByCode(Constants.CASE_STATUS_FRAMING_COMPLETE);
             lstStatusCase.add(hearingFormatStatus.getId());
@@ -406,7 +406,7 @@ public class ExcelReportController {
 
                 List<ExcelActivitiesDto> acts = new ArrayList<>();
                 for (ExcelActivitiesDto aAct : lstActivities) {
-                    if (aAct.getIdCase() == cAct.getIdCase()) {
+                    if (aAct.getIdCase().equals(cAct.getIdCase())) {
                         acts.add(aAct);
                     }
                 }
@@ -416,7 +416,7 @@ public class ExcelReportController {
 
                 List<ExcelImputedHomeDto> lstImHome = new ArrayList<>();
                 for (ExcelImputedHomeDto hAct : lstHomes) {
-                    if (hAct.getIdCase() == cAct.getIdCase()) {
+                    if (hAct.getIdCase().equals(cAct.getIdCase())) {
                         lstImHome.add(hAct);
                     }
                 }
@@ -425,7 +425,7 @@ public class ExcelReportController {
 
                 List<ExcelSocialNetworkDto> lstCSN = new ArrayList<>();
                 for (ExcelSocialNetworkDto snAct : lstSN) {
-                    if (snAct.getIdCase() == cAct.getIdCase()) {
+                    if (snAct.getIdCase().equals(cAct.getIdCase())) {
                         lstCSN.add(snAct);
                     }
                 }
@@ -435,7 +435,7 @@ public class ExcelReportController {
 
                 List<ExcelReferenceDto> lstR = new ArrayList<>();
                 for (ExcelReferenceDto rAct : lstRef) {
-                    if (rAct.getIdCase() == cAct.getIdCase()) {
+                    if (rAct.getIdCase().equals(cAct.getIdCase())) {
                         lstR.add(rAct);
                     }
                 }
@@ -444,7 +444,7 @@ public class ExcelReportController {
 
                 List<ExcelJobDto> lstJ = new ArrayList<>();
                 for (ExcelJobDto jAct : lstJob) {
-                    if (jAct.getIdCase() == cAct.getIdCase()) {
+                    if (jAct.getIdCase().equals(cAct.getIdCase())) {
                         lstJ.add(jAct);
                     }
                 }
@@ -455,7 +455,7 @@ public class ExcelReportController {
 
                 List<ExcelDrugDto> lstD = new ArrayList<>();
                 for (ExcelDrugDto dAct : lstDrug) {
-                    if (dAct.getIdCase() == cAct.getIdCase()) {
+                    if (dAct.getIdCase().equals(cAct.getIdCase())) {
                         lstD.add(dAct);
                     }
                 }
@@ -565,7 +565,7 @@ public class ExcelReportController {
             for (FramingMeetingInfo actFM : allFramingMeeting) {
 
                 for (SchoolDto actSch : allFramingSchool) {
-                    if (actSch.getIdCase() == actFM.getIdCase()) {
+                    if (actSch.getIdCase().equals(actFM.getIdCase())) {
                         actSch.setLstSchedule(scheduleRepository.getScheduleDtoBySchoolId(actSch.getId()));
                         actFM.setSchool(actSch);
                         break;
@@ -574,28 +574,28 @@ public class ExcelReportController {
 
                 List<FramingReferenceInfo> refs = new ArrayList<>();
                 for (FramingReferenceInfo actRef : allReferences) {
-                    if (actRef.getId() == actFM.getIdCase())
+                    if (actRef.getId().equals(actFM.getIdCase()))
                         refs.add(actRef);
                 }
                 actFM.setReferences(refs);
 
                 List<CatalogDto> homes = new ArrayList<>();
                 for (CatalogDto actHome : allFramingHomes) {
-                    if (actHome.getId() == actFM.getIdCase())
+                    if (actHome.getId().equals(actFM.getIdCase()))
                         homes.add(actHome);
                 }
                 actFM.setHomes(homes);
 
                 List<CatalogDto> summaryFramingHomes = new ArrayList<>();
                 for (CatalogDto actHome : allSummaryFramingHomes) {
-                    if (actHome.getId() == actFM.getIdCase())
+                    if (actHome.getId().equals(actFM.getIdCase()))
                         summaryFramingHomes.add(actHome);
                 }
                 actFM.setSummaryHomes(summaryFramingHomes);
 
                 List<ExcelActivitiesDto> activities = new ArrayList<>();
                 for (ExcelActivitiesDto actAct : allFramingActivities) {
-                    if (actAct.getIdCase() == actFM.getIdCase()) {
+                    if (actAct.getIdCase().equals(actFM.getIdCase())) {
                         actAct.setSchedule(scheduleRepository.getScheduleByFramingActivityId(actAct.getId()));
                         activities.add(actAct);
                     }
@@ -604,7 +604,7 @@ public class ExcelReportController {
 
                 List<ExcelJobDto> jobs = new ArrayList<>();
                 for (ExcelJobDto actJob : allFramingJobs) {
-                    if (actJob.getIdCase() == actFM.getIdCase()) {
+                    if (actJob.getIdCase().equals(actFM.getIdCase())) {
                         actJob.setSchedule(scheduleRepository.getScheduleByFramingActivityId(actJob.getId()));
                         jobs.add(actJob);
                     }
@@ -613,49 +613,49 @@ public class ExcelReportController {
 
                 List<ExcelDrugDto> drugs = new ArrayList<>();
                 for (ExcelDrugDto actDrug : allDrugs) {
-                    if (actDrug.getIdCase() == actFM.getIdCase())
+                    if (actDrug.getIdCase().equals(actFM.getIdCase()))
                         drugs.add(actDrug);
                 }
                 actFM.setDrugs(drugs);
 
                 List<CatalogDto> addictedAcquaintances = new ArrayList<>();
                 for (CatalogDto actAA : allAddictedAcquaintances) {
-                    if (actAA.getId() == actFM.getIdCase())
+                    if (actAA.getId().equals(actFM.getIdCase()))
                         addictedAcquaintances.add(actAA);
                 }
                 actFM.setAddictedAcquaintances(addictedAcquaintances);
 
                 List<ObligationIssuesInfo> obligationIssues = new ArrayList<>();
                 for (ObligationIssuesInfo actOI : allObligationIssues) {
-                    if (actOI.getIdCase() == actFM.getIdCase())
+                    if (actOI.getIdCase().equals(actFM.getIdCase()))
                         obligationIssues.add(actOI);
                 }
                 actFM.setObligationIssues(obligationIssues);
 
                 List<ObligationIssuesInfo> relativesAbroad = new ArrayList<>();
                 for (ObligationIssuesInfo actRA : allRelativesAbroad) {
-                    if (actRA.getIdCase() == actFM.getIdCase())
+                    if (actRA.getIdCase().equals(actFM.getIdCase()))
                         relativesAbroad.add(actRA);
                 }
                 actFM.setRelativesAbroad(relativesAbroad);
 
                 List<CatalogDto> sourcesSel = new ArrayList<>();
                 for (CatalogDto actSS : allSelectedSourcesRel) {
-                    if (actSS.getId() == actFM.getIdCase())
+                    if (actSS.getId().equals(actFM.getIdCase()))
                         sourcesSel.add(actSS);
                 }
                 actFM.setLinks(sourcesSel);
 
                 List<CatalogDto> threatsSel = new ArrayList<>();
                 for (CatalogDto actTS : allSelectedThreatsRel) {
-                    if (actTS.getId() == actFM.getIdCase())
+                    if (actTS.getId().equals(actFM.getIdCase()))
                         threatsSel.add(actTS);
                 }
                 actFM.setThreats(threatsSel);
 
                 List<CatalogDto> riskSel = new ArrayList<>();
                 for (CatalogDto actRS : allSelectedRiskRel) {
-                    if (actRS.getId() == actFM.getIdCase())
+                    if (actRS.getId().equals(actFM.getIdCase()))
                         riskSel.add(actRS);
                 }
                 actFM.setRisks(riskSel);
@@ -905,7 +905,7 @@ public class ExcelReportController {
 
             for (ExcelStatusCasesInfo actInfo : summ.getAllCasesIds()) {
                 for (SelectList actHF : allCasesWithHearingFormatFinished) {
-                    if (actHF.getId() == actInfo.getIdCase()) {
+                    if (actHF.getId().equals(actInfo.getIdCase())) {
                         actInfo.setIdFirstFormatFinished(actHF.getAux());
                     }
                 }

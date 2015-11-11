@@ -193,22 +193,30 @@ public class HearingFormatController {
 
     @RequestMapping(value = "/supervisor/hearingFormat/index", method = RequestMethod.GET)
     public ModelAndView index() {
-        ModelAndView model = new ModelAndView("/supervisor/hearingFormat/index");
-        Date currentDate = new Date();
-        int hours = Integer.parseInt(systemSettingRepository.findOneValue(Constants.SYSTEM_SETTINGS_MONPLAN, Constants.SYSTEM_SETTINGS_MONPLAN_HOURS_TO_AUTHORIZE));
-        model.addObject("hours",hours);
-        model.addObject("currentTime", currentDate.getTime());
-        return model;
+        try {
+            ModelAndView model = new ModelAndView("/supervisor/hearingFormat/index");
+            Date currentDate = new Date();
+            int hours = Integer.parseInt(systemSettingRepository.findOneValue(Constants.SYSTEM_SETTINGS_MONPLAN, Constants.SYSTEM_SETTINGS_MONPLAN_HOURS_TO_AUTHORIZE));
+            model.addObject("hours",hours);
+            model.addObject("currentTime", currentDate.getTime());
+            return model;
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "index", sharedUserService);
+            throw ex;
+        }
     }
 
     @RequestMapping(value = "/supervisor/hearingFormat/indexFormats", method = RequestMethod.GET)
     public ModelAndView indexFormats(@RequestParam(required = true) Long id, Integer returnId) {
-
-        ModelAndView model = new ModelAndView("/supervisor/hearingFormat/indexFormats");
-
-        model.addObject("idCase", id);
-        model.addObject("returnId", returnId);
-        return model;
+        try {
+            ModelAndView model = new ModelAndView("/supervisor/hearingFormat/indexFormats");
+            model.addObject("idCase", id);
+            model.addObject("returnId", returnId);
+            return model;
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "indexFormats", sharedUserService);
+            throw ex;
+        }
     }
 
     @Autowired
@@ -228,29 +236,78 @@ public class HearingFormatController {
 
     @RequestMapping(value = "/supervisor/hearingFormat/newHearingFormat", method = RequestMethod.GET)
     public ModelAndView newHearingFormat(@RequestParam(required = true) Long idCase) {
+        try {
+            ModelAndView model = new ModelAndView();
 
-        ModelAndView model = new ModelAndView();
+            if (hearingFormatRepository.findHearingFormatIncomplete(idCase) != null && hearingFormatRepository.findHearingFormatIncomplete(idCase) > 0) {
+                model.setViewName("/supervisor/hearingFormat/indexFormats");
+                model.addObject("idCase", idCase);
+                model.addObject("showErr", true);
+                model.addObject("msgError", "No es posible agregar mas formatos, el caso tiene un formato de audiencia incompleto.");
+            } else if (caseRepository.findOne(idCase).getStatus().getName().equals(Constants.CASE_STATUS_CLOSED)) {
+                model.setViewName("/supervisor/hearingFormat/indexFormats");
+                model.addObject("idCase", idCase);
+                model.addObject("showErr", true);
+                model.addObject("msgError", "No es posible agregar mas formatos, el caso se encuentra cerrado.");
+            } else {
+                model.setViewName("/supervisor/hearingFormat/hearingFormat");
+                HearingFormatView hfView = hearingFormatService.fillNewHearingFormatForView(idCase);
+                Gson conv = new Gson();
+                model.addObject("hfView", conv.toJson(hfView));
+                model.addObject("hasPrevHF", hfView.getHasPrevHF());
+                model.addObject("listCrime", hfView.getListCrime());
 
-        if (hearingFormatRepository.findHearingFormatIncomplete(idCase) != null && hearingFormatRepository.findHearingFormatIncomplete(idCase) > 0) {
-            model.setViewName("/supervisor/hearingFormat/indexFormats");
-            model.addObject("idCase", idCase);
-            model.addObject("showErr", true);
-            model.addObject("msgError", "No es posible agregar mas formatos, el caso tiene un formato de audiencia incompleto.");
-        } else if (caseRepository.findOne(idCase).getStatus().getName().equals(Constants.CASE_STATUS_CLOSED)) {
-            model.setViewName("/supervisor/hearingFormat/indexFormats");
-            model.addObject("idCase", idCase);
-            model.addObject("showErr", true);
-            model.addObject("msgError", "No es posible agregar mas formatos, el caso se encuentra cerrado.");
-        } else {
-            model.setViewName("/supervisor/hearingFormat/hearingFormat");
-            HearingFormatView hfView = hearingFormatService.fillNewHearingFormatForView(idCase);
+                crimeService.fillCatalogModel(model);
+                model.addObject("readonlyBand", false);
+                if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF() == true)
+                    model.addObject("lstHearingType", conv.toJson(hearingTypeRepository.getValidaHearingType()));
+                else
+                    model.addObject("lstHearingType", "[]");
+
+                addressService.fillCatalogAddress(model);
+
+                model.addObject("listHearingFormatType", conv.toJson(hearingFormatTypeRepository.findAllValid()));
+
+                List<SelectList> lstSuper = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+                List<SelectList> lstDistrict = districtRepository.findNoObsolete();
+
+//            model.addObject("lstSupervisor", conv.toJson(lstSuper));
+                model.addObject("lstDistrict", conv.toJson(lstDistrict));
+
+                if (hfView.getIdAddres() != null)
+                    addressService.fillModelAddress(model, hfView.getIdAddres());
+
+            }
+            return model;
+
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "", sharedUserService);
+            throw ex;
+        }
+    }
+
+
+    @RequestMapping(value = "/supervisor/hearingFormat/viewHearingFormat", method = RequestMethod.GET)
+    public ModelAndView viewHearingFormat(@RequestParam(required = true) Long idFormat, Integer returnId) {
+
+        try {
+            ModelAndView model = new ModelAndView("/supervisor/hearingFormat/hearingFormat");
+
+            HearingFormatView hfView = hearingFormatService.fillExistHearingFormatForView(idFormat, false);
             Gson conv = new Gson();
-            model.addObject("hfView", conv.toJson(hfView));
-            model.addObject("hasPrevHF", hfView.getHasPrevHF());
-            model.addObject("listCrime", hfView.getListCrime());
 
+            hfView.setIsView(true);
+            model.addObject("hfView", conv.toJson(hfView));
+            model.addObject("returnId", conv.toJson(returnId));
+            List<SelectList> lstSuper = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+//        model.addObject("lstSupervisor", conv.toJson(lstSuper));
             crimeService.fillCatalogModel(model);
-            model.addObject("readonlyBand", false);
+            model.addObject("readonlyBand", true);
+            model.addObject("listCrime", crimeService.getListCrimeHearingformatByIdFormat(idFormat));
+            model.addObject("hasPrevHF", hfView.getHasPrevHF());
+            List<SelectList> lstDistrict = districtRepository.findNoObsolete();
+            model.addObject("lstDistrict", conv.toJson(lstDistrict));
+
             if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF() == true)
                 model.addObject("lstHearingType", conv.toJson(hearingTypeRepository.getValidaHearingType()));
             else
@@ -258,84 +315,47 @@ public class HearingFormatController {
 
             addressService.fillCatalogAddress(model);
 
-            model.addObject("listHearingFormatType", conv.toJson(hearingFormatTypeRepository.findAllValid()));
-
-            List<SelectList> lstSuper = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
-            List<SelectList> lstDistrict = districtRepository.findNoObsolete();
-
-//            model.addObject("lstSupervisor", conv.toJson(lstSuper));
-            model.addObject("lstDistrict", conv.toJson(lstDistrict));
-
             if (hfView.getIdAddres() != null)
                 addressService.fillModelAddress(model, hfView.getIdAddres());
 
+            return model;
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "", sharedUserService);
+            throw ex;
         }
-        return model;
-
-
-    }
-
-
-    @RequestMapping(value = "/supervisor/hearingFormat/viewHearingFormat", method = RequestMethod.GET)
-    public ModelAndView viewHearingFormat(@RequestParam(required = true) Long idFormat, Integer returnId) {
-
-        ModelAndView model = new ModelAndView("/supervisor/hearingFormat/hearingFormat");
-
-        HearingFormatView hfView = hearingFormatService.fillExistHearingFormatForView(idFormat, false);
-        Gson conv = new Gson();
-
-        hfView.setIsView(true);
-        model.addObject("hfView", conv.toJson(hfView));
-        model.addObject("returnId", conv.toJson(returnId));
-        List<SelectList> lstSuper = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
-//        model.addObject("lstSupervisor", conv.toJson(lstSuper));
-        crimeService.fillCatalogModel(model);
-        model.addObject("readonlyBand", true);
-        model.addObject("listCrime", crimeService.getListCrimeHearingformatByIdFormat(idFormat));
-        model.addObject("hasPrevHF", hfView.getHasPrevHF());
-        List<SelectList> lstDistrict = districtRepository.findNoObsolete();
-        model.addObject("lstDistrict", conv.toJson(lstDistrict));
-
-        if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF() == true)
-            model.addObject("lstHearingType", conv.toJson(hearingTypeRepository.getValidaHearingType()));
-        else
-            model.addObject("lstHearingType", "[]");
-
-        addressService.fillCatalogAddress(model);
-
-        if (hfView.getIdAddres() != null)
-            addressService.fillModelAddress(model, hfView.getIdAddres());
-
-        return model;
     }
 
     @RequestMapping(value = "/supervisor/hearingFormat/editHearingFormat", method = RequestMethod.GET)
     public ModelAndView editHearingFormat(@RequestParam(required = true) Long idFormat) {
+        try {
+            ModelAndView model = new ModelAndView("/supervisor/hearingFormat/hearingFormat");
 
-        ModelAndView model = new ModelAndView("/supervisor/hearingFormat/hearingFormat");
-
-        HearingFormatView hfView = hearingFormatService.fillIncompleteFormatForView(idFormat);
-        Gson conv = new Gson();
-        model.addObject("hfView", conv.toJson(hfView));
-        List<SelectList> lstSuper = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
+            HearingFormatView hfView = hearingFormatService.fillIncompleteFormatForView(idFormat);
+            Gson conv = new Gson();
+            model.addObject("hfView", conv.toJson(hfView));
+            List<SelectList> lstSuper = userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR);
 //        model.addObject("lstSupervisor", conv.toJson(lstSuper));
-        model.addObject("listCrime", crimeService.getListCrimeHearingformatByIdFormat(idFormat));
-        model.addObject("hasPrevHF", hfView.getHasPrevHF());
+            model.addObject("listCrime", crimeService.getListCrimeHearingformatByIdFormat(idFormat));
+            model.addObject("hasPrevHF", hfView.getHasPrevHF());
 
-        if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF() == true)
-            model.addObject("lstHearingType", conv.toJson(hearingTypeRepository.getValidaHearingType()));
-        else
-            model.addObject("lstHearingType", "[]");
+            if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF() == true)
+                model.addObject("lstHearingType", conv.toJson(hearingTypeRepository.getValidaHearingType()));
+            else
+                model.addObject("lstHearingType", "[]");
 
-        List<SelectList> lstDistrict = districtRepository.findNoObsolete();
-        model.addObject("lstDistrict", conv.toJson(lstDistrict));
+            List<SelectList> lstDistrict = districtRepository.findNoObsolete();
+            model.addObject("lstDistrict", conv.toJson(lstDistrict));
 
-        addressService.fillCatalogAddress(model);
+            addressService.fillCatalogAddress(model);
 
-        if (hfView.getIdAddres() != null)
-            addressService.fillModelAddress(model, hfView.getIdAddres());
-        crimeService.fillCatalogModel(model);
-        return model;
+            if (hfView.getIdAddres() != null)
+                addressService.fillModelAddress(model, hfView.getIdAddres());
+            crimeService.fillCatalogModel(model);
+            return model;
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "", sharedUserService);
+            throw ex;
+        }
     }
 
     @RequestMapping(value = "/supervisor/hearingFormat/newConditionalReprieve", method = RequestMethod.POST)
@@ -350,15 +370,15 @@ public class HearingFormatController {
     ResponseMessage doNewCase(@RequestParam(required = true) String idJudicial, @ModelAttribute Imputed imputed) {
 
         ResponseMessage response = new ResponseMessage();
-
-        if (imputed.getBirthDate() != null) {
-            Integer age = sharedUserService.calculateAge(imputed.getBirthDate());
-            if (age.compareTo(18) == -1) {
-                return new ResponseMessage(true, "El imputado debe tener m&aacute;s de 18 a&ntilde;os para continuar.");
-            }
-        }
-
         try {
+
+            if (imputed.getBirthDate() != null) {
+                Integer age = sharedUserService.calculateAge(imputed.getBirthDate());
+                if (age.compareTo(18) == -1) {
+                    return new ResponseMessage(true, "El imputado debe tener m&aacute;s de 18 a&ntilde;os para continuar.");
+                }
+            }
+
             Case caseDet;
 
             caseDet = caseService.generateNewCase(imputed, HearingFormatConstants.MEETING_CONDITIONAL_REPRIEVE);
@@ -393,11 +413,16 @@ public class HearingFormatController {
     @ResponseBody
     String searchArrangement(@RequestParam(required = true) Boolean national, @RequestParam(required = true) Integer idTipo) {
 
-        Gson conv = new Gson();
-        List<ArrangementView> lstArrangementView = hearingFormatService.getArrangmentLst(national, idTipo);
-        String jsonLst = conv.toJson(lstArrangementView);
+        try {
+            Gson conv = new Gson();
+            List<ArrangementView> lstArrangementView = hearingFormatService.getArrangmentLst(national, idTipo);
+            String jsonLst = conv.toJson(lstArrangementView);
+            return jsonLst;
 
-        return jsonLst;
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "", sharedUserService);
+            throw ex;
+        }
     }
 
     @RequestMapping(value = "supervisor/hearingFormat/obsoleteCase", method = RequestMethod.POST)
@@ -433,7 +458,8 @@ public class HearingFormatController {
     ResponseMessage doUpsert(@ModelAttribute HearingFormatView result, HttpServletRequest request) {
 
         try {
-                Long incompleteHFId = hearingFormatRepository.findHearingFormatIncomplete(result.getIdCase());
+
+            Long incompleteHFId = hearingFormatRepository.findHearingFormatIncomplete(result.getIdCase());
 
             if (incompleteHFId != null && incompleteHFId > 0 && incompleteHFId != result.getIdFormat())
                 return new ResponseMessage(true, "Tiene un formato de audiencia anterior incompleto, debe terminarlo para poder agregar un nuevo formato de audiencia.");
@@ -458,18 +484,22 @@ public class HearingFormatController {
 
     @RequestMapping(value = "/supervisor/hearingFormat/assignSupervisor", method = RequestMethod.POST)
     public ModelAndView assignSupervisor(@RequestParam(required = true) Long id) {
-        ModelAndView model = new ModelAndView("/supervisor/hearingFormat/assignSupervisor");
-        Gson gson = new Gson();
-        model.addObject("lstSupervisor", gson.toJson(userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR)));
-        model.addObject("idCase", id);
-        return model;
+        try {
+            ModelAndView model = new ModelAndView("/supervisor/hearingFormat/assignSupervisor");
+            Gson gson = new Gson();
+            model.addObject("lstSupervisor", gson.toJson(userRepository.getLstValidUsersByRole(Constants.ROLE_SUPERVISOR)));
+            model.addObject("idCase", id);
+            return model;
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "", sharedUserService);
+            throw ex;
+        }
     }
 
     @RequestMapping(value = "/supervisor/hearingFormat/doAssignSupervisor", method = RequestMethod.POST)
     public ResponseMessage doAssignSupervisor(@RequestParam(required = true) Long idCase, @RequestParam(required = true) Long idUser) {
 
         ResponseMessage response = new ResponseMessage();
-
         try {
             response = hearingFormatService.doAssignSupervisor(idCase, idUser);
         } catch (Exception ex) {

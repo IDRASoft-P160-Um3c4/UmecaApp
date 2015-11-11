@@ -842,8 +842,9 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         String idJudicial = hearingFormat.getCaseDetention().getIdMP();
         Long idCase = hearingFormat.getCaseDetention().getId();
         Case currentCase = hearingFormat.getCaseDetention();
+        Boolean isFinished = ((hearingFormat.getIsFinished() != null) && hearingFormat.getIsFinished() == true) ? true : false;
 
-        if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true) {
+        if (isFinished == true) {
 
             if (currentCase.isHasHearingFormat() == false) {
                 currentCase.setHasHearingFormat(true);
@@ -927,7 +928,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_INCOMPLETE));
         }
 
-        if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true && hearingFormat.getHearingFormatSpecs() != null && hearingFormat.getHearingFormatSpecs().getLinkageProcess() != null &&
+        if (isFinished == true && hearingFormat.getHearingFormatSpecs() != null && hearingFormat.getHearingFormatSpecs().getLinkageProcess() != null &&
                 hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)) {
             hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSE_REQUEST));
             hearingFormat.getCaseDetention().setCloseCause(closeCauseRepository.findByCode(Constants.CLOSE_CAUSE_NO_ENTAILMENT));
@@ -942,7 +943,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                     hearingFormat.getCaseDetention(), MonitoringConstants.STATUS_PENDING_AUTHORIZATION, null, MonitoringConstants.TYPE_COMMENT_CASE_END, logCommentRepository);
         }
 
-        if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true && hearingFormat.getHearingFormatSpecs() != null &&
+        if (isFinished == true && hearingFormat.getHearingFormatSpecs() != null &&
                 hearingFormat.getHearingFormatSpecs().getLinkageProcess() != null &&
                 (hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES)
                         || hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO_REGISTER))) {
@@ -996,20 +997,31 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
                 List<FramingReference> newList = new ArrayList<>();
                 //agregar los contactos a entrevista de encuadre como personas que viven con el imputado y referencias personales
-                for (ContactData cData : hearingFormat.getContacts()) {
-                    List<FramingReference> lstExistRefs = framingReferenceRepository.findReferenceByName(currentCase.getId(), cData.getNameTxt());
+                List<ContactData> lstContacts = hearingFormat.getContacts();
 
-                    if (lstExistRefs == null || lstExistRefs.size() == 0) {
-                        FramingReference framingReference = new FramingReference();
-                        framingReference.setName(cData.getNameTxt());
-                        framingReference.setPhone(cData.getPhoneTxt());
-                        framingReference.setAddress(cData.getAddressTxt());
-                        framingReference.setPersonType(cData.getLiveWith() == true ? FramingMeetingConstants.PERSON_TYPE_HOUSEMATE : FramingMeetingConstants.PERSON_TYPE_REFERENCE);
-                        framingReference.setRelationship(relationshipRepository.findOne(19L));//para setear otro
-                        framingReference.setHasVictimWitnessInfo(true);
-                        framingReference.setIsAccompaniment(false);
-                        framingReference.setFramingMeeting(existFramning);
-                        newList.add(framingReference);
+                if(lstContacts == null || lstContacts.size() <= 0){
+                    if(isFinished == true){
+                        response.setHasError(true);
+                        response.setMessage("Al menos debe tener un contacto por defecto");
+                        return response;
+                    }
+                }
+                else{
+                    for (ContactData cData : hearingFormat.getContacts()) {
+                        List<FramingReference> lstExistRefs = framingReferenceRepository.findReferenceByName(currentCase.getId(), cData.getNameTxt());
+
+                        if (lstExistRefs == null || lstExistRefs.size() == 0) {
+                            FramingReference framingReference = new FramingReference();
+                            framingReference.setName(cData.getNameTxt());
+                            framingReference.setPhone(cData.getPhoneTxt());
+                            framingReference.setAddress(cData.getAddressTxt());
+                            framingReference.setPersonType(cData.getLiveWith() == true ? FramingMeetingConstants.PERSON_TYPE_HOUSEMATE : FramingMeetingConstants.PERSON_TYPE_REFERENCE);
+                            framingReference.setRelationship(relationshipRepository.findOne(19L));//para setear otro
+                            framingReference.setHasVictimWitnessInfo(true);
+                            framingReference.setIsAccompaniment(false);
+                            framingReference.setFramingMeeting(existFramning);
+                            newList.add(framingReference);
+                        }
                     }
                 }
 
@@ -1023,7 +1035,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         hearingFormatRepository.save(hearingFormat);
 
-        if (hearingFormat.getIsFinished() == true) {
+        if (isFinished == true) {
             List<LogCase> logs;
             User supervisor = hearingFormat.getSupervisor();
 

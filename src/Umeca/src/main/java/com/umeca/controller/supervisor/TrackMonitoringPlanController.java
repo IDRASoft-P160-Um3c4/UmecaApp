@@ -333,7 +333,7 @@ public class TrackMonitoringPlanController {
                     Long assignedArrangementId = ampa.getAssignedArrangement().getId();
                     bHasValue = false;
                     for (OptionList optionList : optLst) {
-                        if (assignedArrangementId == optionList.getId()) {
+                        if (assignedArrangementId.equals(optionList.getId())) {
                             switch (Integer.parseInt(optionList.getValue())) {
                                 case MonitoringConstants.ACTIVITY_ARRANGEMENT_DONE:
                                     ampa.setStatus(MonitoringConstants.ACTIVITY_ARRANGEMENT_DONE);

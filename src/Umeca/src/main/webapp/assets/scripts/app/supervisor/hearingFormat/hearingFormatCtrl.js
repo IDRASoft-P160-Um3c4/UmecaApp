@@ -415,15 +415,15 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $timeout(function () {
                 $.post(urlToPost, $(formId).serialize())
                     .success(function (resp) {
+                        $scope.WaitFor = false;
+
                         if (resp.hasError === undefined) {
                             resp = resp.responseMessage;
                         }
-
-                        if (resp.hasError == false) {
+                        else if (resp.hasError == false) {
                             window.goToUrlMvcUrl(resp.urlToGo);
                         }
-
-                        if (resp.hasError == true) {
+                        else if (resp.hasError == true) {
                             $scope.m.isFinished = false;
                             $scope.MsgError = $sce.trustAsHtml(resp.message);
                             $scope.$apply();
@@ -522,20 +522,17 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             $.post(urlToPost, $(formId).serialize())
                 .success(function (resp) {
+                    $scope.WaitFor = false;
                     if (resp.hasError === undefined) {
                         resp = resp.responseMessage;
                     }
-
                     if (resp.hasError == true) {
-                        $scope.WaitFor = false;
                         $scope.MsgError = $sce.trustAsHtml(resp.message);
                     } else {
-                        $scope.WaitFor = false;
                         var listMsg = resp.message.split("|");
                         $scope.m.idFormat = listMsg[0];
                         $scope.MsgError = "";
                         $scope.MsgSuccess = $sce.trustAsHtml(listMsg[1]);
-
                     }
                     $scope.$apply();
                 })

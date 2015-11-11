@@ -415,6 +415,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
             $timeout(function () {
                 $.post(urlToPost, $(formId).serialize())
                     .success(function (resp) {
+                        $scope.WaitFor = false;
                         if (resp.hasError === undefined) {
                             resp = resp.responseMessage;
                         }
@@ -522,12 +523,12 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
 
             $.post(urlToPost, $(formId).serialize())
                 .success(function (resp) {
+                    $scope.WaitFor = false;
+
                     if (resp.hasError === undefined) {
                         resp = resp.responseMessage;
                     }
-
                     if (resp.hasError == true) {
-                        $scope.WaitFor = false;
                         $scope.MsgError = $sce.trustAsHtml(resp.message);
                     } else {
                         $scope.WaitFor = false;

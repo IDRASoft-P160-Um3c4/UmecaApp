@@ -73,31 +73,31 @@ public class FramingMeeting {
     @JoinColumn(name = "id_user")
     private User supervisor;
 
-    @Column(name = "environment_comments")
+    @Column(name = "environment_comments", length = 1000)
     private String environmentComments;
 
-    @Column(name = "address_comments")
+    @Column(name = "address_comments", length = 1000)
     private String addressComments;
 
-    @Column(name = "housemate_comments")
+    @Column(name = "housemate_comments", length = 1000)
     private String housemateComments;
 
-    @Column(name = "references_comments")
+    @Column(name = "references_comments", length = 1000)
     private String referencesComments;
 
-    @Column(name = "drugs_comments")
+    @Column(name = "drugs_comments", length = 1000)
     private String drugsComments;
 
-    @Column(name = "activities_comments")
+    @Column(name = "activities_comments", length = 1000)
     private String activitiesComments;
 
-    @Column(name = "job_comments")
+    @Column(name = "job_comments", length = 1000)
     private String jobComments;
 
-    @Column(name = "school_comments")
+    @Column(name = "school_comments", length = 1000)
     private String schoolComments;
 
-    @Column(name = "victim_comments")
+    @Column(name = "victim_comments", length = 1000)
     private String victimComments;
 
     @OneToMany(mappedBy = "framingMeeting", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
