@@ -1031,6 +1031,11 @@ public class MeetingServiceImpl implements MeetingService {
                         scheduleRepository.delete(schedule.getId());
                     }
                 }
+                if(newImputedHome.getIsHomeless()) {
+                    Schedule homeless = new Schedule("no tiene","00:00","00:00");
+                    homeless.setImputedHome(newImputedHome);
+                    scheduleRepository.save(homeless);
+                }
                 Gson gson = new Gson();
                 List<Schedule> listSchedules = gson.fromJson(sch, new TypeToken<List<Schedule>>() {
                 }.getType());
@@ -1039,6 +1044,7 @@ public class MeetingServiceImpl implements MeetingService {
                 }
                 scheduleRepository.save(listSchedules);
             }
+
             result.setHasError(false);
             result.setMessage(ConsMessage.MSG_SUCCESS_UPSERT);
         } catch (Exception e) {
