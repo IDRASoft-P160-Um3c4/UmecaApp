@@ -153,7 +153,7 @@ public class ChannelingTrackController {
                 return new ResponseMessage(true, "No existe una actividad para justificar.");
             }
 
-            if(amp.getChannelingAssistance() != 0){
+            if(amp.getChannelingAssistance().equals(0) == false){
                 return new ResponseMessage(true, "La actividad si fue realizada, por ello, no es necesario justificarla.");
             }
 

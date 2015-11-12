@@ -165,7 +165,7 @@ public class TrackMonitoringPlanController {
 
             Long idCase = monitoringPlanRepository.getCaseIdByMonPlan(id);
 
-            if(idCase != null && idCase > 0){
+            if(idCase != null && idCase.longValue() > 0){
                 Long idTec = qTechnicalReviewRepository.getTechnicalReviewByCaseId(idCase);
                 if (idTec != null) {
                     model.addObject("idTec", idTec);

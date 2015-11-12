@@ -762,7 +762,7 @@ public class MeetingServiceImpl implements MeetingService {
         Gson gson = new Gson();
         model.addObject("lstDrugType", gson.toJson(drugTypeRepository.findNotObsolete()));
         model.addObject("lstPeriodicity", gson.toJson(periodicityRepository.findNotObsolete()));
-        if (id != null && id != 0) {
+        if (id != null && id.longValue() != 0L) {
             Drug d = drugRepository.findOne(id);
             model.addObject("d", d);
             model.addObject("typeId", d.getDrugType().getId());
@@ -878,7 +878,7 @@ public class MeetingServiceImpl implements MeetingService {
         Gson gson = new Gson();
         model.addObject("lstRegisterType", gson.toJson(registerTypeRepository.findAllOrderByName()));
         model.addObject("lstDayWeek", gson.toJson(dayWeekRepository.findAll()));
-        if (id != null && id != 0) {
+        if (id != null && id.longValue() != 0L) {
             Job j = jobRepository.findOne(id);
             model.addObject("j", j);
             model.addObject("listSchedule", scheduleService.getSchedules(j.getId(), Job.class));
@@ -967,7 +967,7 @@ public class MeetingServiceImpl implements MeetingService {
             model.addObject("lstHomeType", gson.toJson(homeTypeRepository.findNotObsolete()));
             model.addObject("idCase", idCase);
             addressService.fillCatalogAddress(model);
-            if (id != null && id != 0) {
+            if (id != null && id.longValue() != 0L) {
 
                 ImputedHome imputedHome = imputedHomeRepository.findOne(id);
                 model.addObject("d", imputedHome);
@@ -1179,7 +1179,7 @@ public class MeetingServiceImpl implements MeetingService {
 
             TerminateMeetingMessageDto validate = new TerminateMeetingMessageDto();
 
-            if (cancelMeeting != true) {
+            if (cancelMeeting.equals(false)) {
                 m.getImputed().validateMeeting(validate);
                 if (m.getSocialEnvironment() == null) {
                     m.setSocialEnvironment(new SocialEnvironment());
@@ -1208,7 +1208,7 @@ public class MeetingServiceImpl implements MeetingService {
                 return new ResponseMessage(true, gson.toJson(validate));
             }
 
-            if (cancelMeeting != true) {
+            if (cancelMeeting.equals(false)) {
                 c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
                 m.setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE_LEGAL));
             } else {

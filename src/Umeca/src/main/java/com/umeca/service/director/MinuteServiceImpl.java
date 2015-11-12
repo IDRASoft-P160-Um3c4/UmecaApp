@@ -335,7 +335,7 @@ public class MinuteServiceImpl implements MinuteService {
         List<RelMessageUserReceiver> lstReceiver = new ArrayList<>();
         List<User> lstUsr = new ArrayList<>();
 
-        if (request.getId() != null && responseType != null && responseType != "") {
+        if (request.getId() != null && responseType != null && responseType.isEmpty() == false) {
 
             switch (responseType) {
                 case Constants.RESPONSE_AGREEMENT_TYPE_FINISH_AUTH:
@@ -353,7 +353,7 @@ public class MinuteServiceImpl implements MinuteService {
             lstUsr.addAll(sharedUserService.getLstValidUserIdsByRole(Constants.ROLE_SUPERVISOR_MANAGER));
             lstUsr.addAll(sharedUserService.getLstValidUserIdsByRole(Constants.ROLE_EVALUATION_MANAGER));
 
-        } else if (requestType != null && requestType != "") {
+        } else if (requestType != null && requestType.isEmpty() == false) {
             switch (requestType) {
                 case Constants.REQUEST_AGREEMENT_TYPE_FINISH:
                     title = "Solicitud de conclusi&oacute;n de acuerdo";
@@ -396,7 +396,7 @@ public class MinuteServiceImpl implements MinuteService {
         List<RelMessageUserReceiver> lstReceiver = new ArrayList<>();
         List<User> lstUsr = new ArrayList<>();
 
-        if (request.getId() != null && responseType != null && responseType != "") {
+        if (request.getId() != null && responseType != null && responseType.isEmpty() == false) {
 
             switch (responseType) {
                 case Constants.RESPONSE_MINUTE_TYPE_FINISH_AUTH:
@@ -414,7 +414,7 @@ public class MinuteServiceImpl implements MinuteService {
             lstUsr.addAll(sharedUserService.getLstValidUserIdsByRole(Constants.ROLE_SUPERVISOR_MANAGER));
             lstUsr.addAll(sharedUserService.getLstValidUserIdsByRole(Constants.ROLE_EVALUATION_MANAGER));
 
-        } else if (requestType != null && requestType != "") {
+        } else if (requestType != null && requestType.isEmpty() == false) {
             switch (requestType) {
                 case Constants.REQUEST_MINUTE_TYPE_FINISH:
                     title = "Solicitud de cierre de minuta";

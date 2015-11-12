@@ -101,7 +101,7 @@ public class LogCaseServiceImpl implements LogCaseService {
 
         String cad = "";
         for (SelectList act : lstMoral) {
-            if (cad != "")
+            if (cad.isEmpty() == false)
                 cad += " / ";
             cad += StringEscape.escapeText(act.getName()) + " - " + act.getDescription();
         }
@@ -116,7 +116,7 @@ public class LogCaseServiceImpl implements LogCaseService {
         if (lstResol != null && lstResol.size() > 0) {
             for (int i = 0; i < lstResol.size(); i++) {
 
-                if (allResol != "")
+                if (allResol.isEmpty() == false)
                     allResol += " <br/> ";
 
                 allResol += CalendarExt.calendarToFormatString(lstResol.get(i).getCalendar(), Constants.FORMAT_CALENDAR_I);

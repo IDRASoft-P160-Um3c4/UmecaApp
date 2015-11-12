@@ -101,12 +101,12 @@ public class SharedUserService {
     }
 
     public boolean isUserInRole(Long supervisorId, String sRole) {
-        return (userRepository.isUserInRole(supervisorId, sRole) > 0);
+        return (userRepository.isUserInRole(supervisorId, sRole).longValue() > 0L);
 
     }
 
     public boolean isUserInRoles(Long supervisorId, List<String> lstRole) {
-        return (userRepository.isUserInRoles(supervisorId, lstRole) > 0);
+        return (userRepository.isUserInRoles(supervisorId, lstRole).longValue() > 0L);
 
     }
 

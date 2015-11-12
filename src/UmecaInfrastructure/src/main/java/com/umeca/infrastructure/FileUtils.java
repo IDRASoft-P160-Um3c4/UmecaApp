@@ -84,7 +84,7 @@ public class FileUtils {
 
 	public static InputStream recoverFile(CommonsMultipartFile file) {
 		
-		if (file.getSize() <= 0) {
+		if (file.getSize() <= 0L) {
 			return null;
 		}
 

@@ -59,7 +59,7 @@ public class ForFramingMeetingGrid implements EntityGrid {
 
             String[] arrDt = brthDateTxt.split("/");
 
-            Integer mnth = Integer.parseInt(arrDt[1]) + 1;
+            int mnth = Integer.parseInt(arrDt[1]) + 1;
 
             if (mnth < 10) {
                 strBld.append(0);
@@ -105,7 +105,7 @@ public class ForFramingMeetingGrid implements EntityGrid {
 
             String[] arrDt = brthDateTxt.split("/");
 
-            Integer mnth = Integer.parseInt(arrDt[1]) + 1;
+            int mnth = Integer.parseInt(arrDt[1]) + 1;
 
             if (mnth < 10) {
                 strBld.append(0);
