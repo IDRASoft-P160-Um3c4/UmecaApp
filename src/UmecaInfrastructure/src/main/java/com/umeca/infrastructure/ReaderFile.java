@@ -30,7 +30,7 @@ public class ReaderFile {
 				
 		    	//System.out.println (strLine);
 		      
-		    	if(iCount <= 1)
+		    	if(iCount <= 1L)
 		    		continue;
 		    	  
 		    	String[] data = strLine.split(delimiter);

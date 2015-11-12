@@ -161,12 +161,12 @@ public class UserController {
 
             CryptoRfc2898 cryptoRfc2898 = new CryptoRfc2898();
 
-            if (model.getId() <= 0 || modelNew.getHasChangePass())
+            if (model.getId().longValue() <= 0L || modelNew.getHasChangePass())
                 model.setPassword(cryptoRfc2898.encode(modelNew.getPassword()));
 
             Long idUser = repositoryUser.findIdByUsername(model.getUsername());
 
-            if (idUser != null && idUser != model.getId()) {
+            if (idUser != null && idUser.equals(model.getId()) == false) {
                 response.setHasError(true);
                 response.setMessage("El usuario ya existe, por favor elija otro usuario");
                 return response;
@@ -192,7 +192,7 @@ public class UserController {
 
         try {
             Long count = repositoryUser.countByUsername(model.getUsername(), model.getId());
-            if (count != null && count > 0)
+            if (count != null && count.longValue() > 0)
                 response.setUnique(false);
             else
                 response.setUnique(true);

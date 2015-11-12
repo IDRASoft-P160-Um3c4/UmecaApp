@@ -751,7 +751,7 @@ public class ExcelCaseInfoEvalDto {
         if (lstDrug != null && lstDrug.size() > 0)
             for (ExcelDrugDto act : lstDrug) {
                 if (act.getBlock().equals(true)) {
-                    if (returnStr != "")
+                    if (returnStr.isEmpty() == false)
                         returnStr += "\n";
                     if (act.getDrugType() != null && !act.getDrugType().equals(""))
                         returnStr += "," + act.getDrugType();
@@ -771,7 +771,7 @@ public class ExcelCaseInfoEvalDto {
         if (lstDrug != null && lstDrug.size() > 0)
             for (ExcelDrugDto act : lstDrug) {
                 if (act.getBlock().equals(true)) {
-                    if (returnStr != "")
+                    if (returnStr.isEmpty() == false)
                         returnStr += "\n";
                     if (act.getDrugType() != null && !act.getDrugType().equals(""))
                         returnStr += "," + act.getPeriodicity();
@@ -791,7 +791,7 @@ public class ExcelCaseInfoEvalDto {
         if (lstDrug != null && lstDrug.size() > 0)
             for (ExcelDrugDto act : lstDrug) {
                 if (act.getBlock().equals(true)) {
-                    if (returnStr != "")
+                    if (returnStr.isEmpty() == false)
                         returnStr += "\n";
                     if (act.getDrugType() != null && !act.getDrugType().equals(""))
                         returnStr += "," + (act.getLastUse()  == null ? "" : dateFormat.format(act.getLastUse()));
@@ -839,7 +839,7 @@ public class ExcelCaseInfoEvalDto {
         if (this.lstActivities != null && lstActivities.size() > 0)
 
             for (ExcelActivitiesDto act : this.lstActivities) {
-                if (activitiesStr != "")
+                if (activitiesStr.isEmpty() == false)
                     activitiesStr += "\n ";
 
                 if (act.getNameAct() != null && !act.getNameAct().trim().equals(""))
@@ -877,7 +877,7 @@ public class ExcelCaseInfoEvalDto {
 
             for (ExcelImputedHomeDto act : this.lstHomes) {
 
-                if (this.homesStr != "")
+                if (this.homesStr.isEmpty() == false)
                     this.homesStr += "\n";
 
                 if (act.getAddress() != null && !act.getAddress().trim().equals(""))
@@ -925,7 +925,7 @@ public class ExcelCaseInfoEvalDto {
 
                 if (act.getBlock().equals(true)) {
 
-                    if (this.socialNetworkStr != "")
+                    if (this.socialNetworkStr.isEmpty() == false)
                         this.socialNetworkStr += "\n";
 
                     if (act.getName() != null && !act.getName().equals(""))
@@ -991,7 +991,7 @@ public class ExcelCaseInfoEvalDto {
             for (ExcelReferenceDto act : this.lstRef) {
 
                 if (act.getBlock().equals(true)) {
-                    if (this.referencesStr != "")
+                    if (this.referencesStr.isEmpty() == false)
                         this.referencesStr += "\n";
 
                     if (act.getName() != null && !act.getName().equals(""))
@@ -1041,7 +1041,7 @@ public class ExcelCaseInfoEvalDto {
         if (this.lstJob != null && this.lstJob.size() > 0)
             for (ExcelJobDto act : this.lstJob) {
                 if (act.getBlock().equals(true)) {
-                    if (jobsStr != "")
+                    if (jobsStr.isEmpty() == false)
                         jobsStr += "\n";
 
                     if (act.getCompany() != null && !act.getCompany().equals(""))

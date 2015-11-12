@@ -56,7 +56,7 @@ public class AssistenceServiceImpl implements AssistenceService {
         if (justifyDto.getId() == null || justifyDto.getId().equals(0L))
             delayJustification = assistenceRepository.findOne(justifyDto.getId());
 
-        if (justifyDto.getId() != null || justifyDto.getId().longValue() > 0)
+        if (justifyDto.getId() != null || justifyDto.getId().longValue() > 0L)
             delayJustification.setIdAttendanceLog(justifyDto.getId());
 
         User user = userRepository.findOne(justifyDto.getIdUser());

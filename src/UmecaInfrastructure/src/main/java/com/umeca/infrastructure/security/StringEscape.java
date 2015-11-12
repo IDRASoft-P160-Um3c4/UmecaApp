@@ -43,7 +43,7 @@ public class StringEscape {
                         Object objComp = fieldProp.get(obj);//obtengo el objeto
                         String prop = "";
                         for (int k = 1; k < arrNameProp.length; k++) {//empieza en uno ya que la posicion 0 es el nombre de la propiedad composicion
-                            if (prop != "")
+                            if (prop.isEmpty() == false)
                                 prop += ".";
                             prop += arrNameProp[k];
                         }

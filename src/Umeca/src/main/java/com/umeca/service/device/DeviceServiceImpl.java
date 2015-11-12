@@ -23,7 +23,7 @@ public class DeviceServiceImpl implements DeviceService {
         Device device;
         Long deviceId = deviceDto.getId();
 
-        if (deviceId != null && deviceId > 0){
+        if (deviceId != null && deviceId.longValue() > 0L){
             device = deviceRepository.findOne(deviceId);
         }
         else{

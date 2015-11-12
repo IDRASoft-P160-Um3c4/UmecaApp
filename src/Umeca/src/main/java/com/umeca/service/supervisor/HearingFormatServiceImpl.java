@@ -865,7 +865,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 lastHearingType = listHearingTypes.get(0);
             }
 
-            if (lastHearingType != null && lastHearingType > 0 && !lastHearingType.equals(hearingFormat.getHearingFormatSpecs().getArrangementType())) {
+            if (lastHearingType != null && lastHearingType.intValue() > 0 && !lastHearingType.equals(hearingFormat.getHearingFormatSpecs().getArrangementType())) {
                 hearingFormat.getCaseDetention().setDateChangeArrangementType(new Date());
                 if(lastHearingType.equals(1)) {
                     if(request != null) {

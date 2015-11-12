@@ -87,7 +87,7 @@ public class ReconstructedActivityInfo {
 
         if (lstAssignedArrangements != null && lstAssignedArrangements.size() > 0) {
             for (SelectList act : lstAssignedArrangements) {
-                if (returnStr != "")
+                if (returnStr.isEmpty() == false)
                     returnStr += "\n";
 
                 if (act.getName() != null && act.getDescription() != null) {

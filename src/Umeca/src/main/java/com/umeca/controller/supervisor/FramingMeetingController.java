@@ -645,7 +645,7 @@ public class FramingMeetingController {
         Gson gson = new Gson();
         model.addObject("lstDrugType", gson.toJson(drugTypeRepository.findNotObsolete()));
         model.addObject("lstPeriodicity", gson.toJson(periodicityRepository.findNotObsolete()));
-        if (id != null && id != 0) {
+        if (id != null && id.longValue() != 0) {
             Drug d = drugRepository.findOne(id);
             model.addObject("d", d);
             model.addObject("typeId", d.getDrugType().getId());

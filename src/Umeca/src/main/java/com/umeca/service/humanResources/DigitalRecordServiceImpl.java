@@ -413,10 +413,10 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         job.setSalary(jobDto.getSalary());
 
         try {
-            if (jobDto.getStartDate() != null && jobDto.getStartDate() != "")
+            if (jobDto.getStartDate() != null && jobDto.getStartDate().isEmpty() == false)
                 job.setStartDate(sdf.parse(jobDto.getStartDate()));
 
-            if (jobDto.getEndDate() != null && jobDto.getEndDate() != "")
+            if (jobDto.getEndDate() != null && jobDto.getEndDate().isEmpty() == false)
                 job.setEndDate(sdf.parse(jobDto.getEndDate()));
             else
                 job.setEndDate(null);
@@ -465,7 +465,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
             training.setEmployee(e);
         }
 
-        if (training.getFile() != null && training.getFile().getId() != trainingDto.getFileId()) {//si ya tiene uno, verifico que no sea el mismo
+        if (training.getFile() != null && training.getFile().getId().equals(trainingDto.getFileId()) == false) {//si ya tiene uno, verifico que no sea el mismo
             String path = request.getSession().getServletContext().getRealPath("");
             //si es difenrente elimino el anterior
             upDwFileGenericService.deleteFile(path, training.getFile(), userRepository.findOne(sharedUserService.GetLoggedUserId()));
@@ -522,7 +522,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         } catch (Exception e) {
         }
 
-        if (incident.getFile() != null && incident.getFile().getId() != incidentDto.getFileId()) {//si ya tiene uno, verifico que no sea el mismo
+        if (incident.getFile() != null && incident.getFile().getId().equals(incidentDto.getFileId()) == false) {//si ya tiene uno, verifico que no sea el mismo
             String path = request.getSession().getServletContext().getRealPath("");
             //si es difenrente elimino el anterior
             upDwFileGenericService.deleteFile(path, incident.getFile(), userRepository.findOne(sharedUserService.GetLoggedUserId()));
@@ -623,7 +623,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         } catch (Exception e) {
         }
 
-        if (incapacity.getFile() != null && incapacity.getFile().getId() != incapacityDto.getFileId()) {//si ya tiene uno, verifico que no sea el mismo
+        if (incapacity.getFile() != null && incapacity.getFile().getId().equals(incapacityDto.getFileId()) == false) {//si ya tiene uno, verifico que no sea el mismo
             String path = request.getSession().getServletContext().getRealPath("");
             //si es difenrente elimino el anterior
             upDwFileGenericService.deleteFile(path, incapacity.getFile(), userRepository.findOne(sharedUserService.GetLoggedUserId()));
@@ -676,7 +676,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
             att.setEmployee(e);
         }
 
-        if (att.getGenericFile() != null && att.getGenericFile().getId() != attachmentDto.getFileId()) {//si ya tiene uno, verifico que no se el mismo
+        if (att.getGenericFile() != null && att.getGenericFile().getId().equals(attachmentDto.getFileId()) == false) {//si ya tiene uno, verifico que no se el mismo
             String path = request.getSession().getServletContext().getRealPath("");
             //si es difenrente elimino el anterior
             upDwFileGenericService.deleteFile(path, att.getGenericFile(), userRepository.findOne(sharedUserService.GetLoggedUserId()));
@@ -740,7 +740,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
 
         resMsg.setMessage("El archivo " + file.getFileName() + " fue subido de forma correcta. Por favor presione el botón guardar para finalizar el proceso.");
         resMsg.setHasError(false);
-        if (uploadRequest.getCloseUploadFile() != null && uploadRequest.getCloseUploadFile()) {
+        if (uploadRequest.getCloseUploadFile() != null && uploadRequest.getCloseUploadFile().equals(true)) {
 
             resMsg.setUrlToGo("close");
             resMsg.setReturnData(file.getPath() + "/" + file.getRealFileName());
