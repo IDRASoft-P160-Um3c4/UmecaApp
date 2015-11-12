@@ -1,6 +1,7 @@
 package com.umeca.repository.catalog;
 
 import com.umeca.model.catalog.StatisticHumanResourcesReportType;
+import com.umeca.model.dto.humanResources.AttendanceExcelDto;
 import com.umeca.model.shared.SelectList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -906,6 +907,41 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
             "where mes between :monthI and :monthF " +
             "GROUP by mes, periodo", nativeQuery = true)
     List<Object> countEmployeeIncidenceByOperator(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate, @Param("idEmployee") Long idEmployee, @Param("monthI") Integer monthI, @Param("monthF") Integer monthF);
+
+
+
+
+        @Query(value = "select\n" +
+                "attend.id_attendancelog,\n" +
+                "attend.eventtime,\n" +
+                "attend.workcode,\n" +
+                "concat(emp.name, ' ', emp.last_name_p, ' ', emp.last_name_m) name,\n" +
+                "emp.id_employee,\n" +
+                "absences.id_absence,\n" +
+                "absences.approved,\n" +
+                "absences.absence_date,\n" +
+                "absences.type\n" +
+                "from attendancelog attend\n" +
+                "inner join employee emp on attend.id_employee = emp.id_employee\n" +
+                "left join (\n" +
+                "select \n" +
+                "absen.id_absence,\n" +
+                "absen.approved,\n" +
+                "absen.absence_date,\n" +
+                "absen.type,\n" +
+                "absenD.id_attendancelog\n" +
+                "from absence absen\n" +
+                "inner join absence_detail absenD on absenD.id_absence = absen.id_absence\n" +
+                "where absen.value = 1\n" +
+                "and absen.isClosed = 1\n" +
+                ") absences on absences.id_attendancelog = attend.id_attendancelog\n" +
+                "where (attend.eventtime between :initDate and :endDate) " +
+                "order by date(attend.eventtime), emp.id_employee, attend.workcode", nativeQuery = true)
+        List<Object> countEmployeeAttendanceLog(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate);
+
+
+
+
 
 
 }

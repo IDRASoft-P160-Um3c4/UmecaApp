@@ -255,7 +255,7 @@ public class UploadFileController {
 
             upDwFileService.save(uploadFile);
 
-            if(uploadRequest.getTypeId() == Constants.CHANNELING_ID_TYPE_FILE_CHANNELING_END_RECORD){
+            if(uploadRequest.getTypeId().equals(Constants.CHANNELING_ID_TYPE_FILE_CHANNELING_END_RECORD)){
 
                 Case caseDetention = caseRepository.findOne(uploadRequest.getCaseId());
                 Imputed imputed = caseDetention.getMeeting().getImputed();

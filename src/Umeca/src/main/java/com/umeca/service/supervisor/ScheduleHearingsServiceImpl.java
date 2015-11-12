@@ -146,7 +146,7 @@ public class ScheduleHearingsServiceImpl implements ScheduleHearingsService{
         for(Long arrangementId : lstArrangements){
             bFound = false;
             for(final RelationModel relAssArr : relAssignedArrAndArrangements){
-                if(relAssArr.getSecondId() == arrangementId){
+                if(relAssArr.getSecondId().equals(arrangementId)){
                     bFound = true;
                     lstAssignedArrangements.add(new SelectList(relAssArr.getFirstId(), relAssArr.getName()));
                     break;

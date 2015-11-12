@@ -273,7 +273,7 @@ public class CaseServiceImpl implements CaseService {
 
     @Override
     public boolean isValidCase(Long caseId) {
-        return caseRepository.existsCaseNotClosed(caseId, Constants.CASE_STATUS_CLOSED) == 1;
+        return caseRepository.existsCaseNotClosed(caseId, Constants.CASE_STATUS_CLOSED).equals(1L);
     }
 
     @Override

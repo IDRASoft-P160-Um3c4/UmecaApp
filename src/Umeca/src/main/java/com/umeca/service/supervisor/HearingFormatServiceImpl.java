@@ -573,7 +573,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         if (existHF.getCaseDetention().getHearingFormats().size() > 0) {
             hearingFormatView.setHasPrevHF(true);
-            if (idsFormats != null && idsFormats.get(0) == idFormat)
+            if (idsFormats != null && idsFormats.get(0).equals(idFormat))
                 hearingFormatView.setHasPrevHF(false);
         }
 
@@ -750,7 +750,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         for (ArrangementView existArr : existArrangements) {
             for (AssignedArrangement assArr : assignedArrangements) {
-                if (assArr.getArrangement().getId() == existArr.getId()) {
+                if (assArr.getArrangement().getId().equals(existArr.getId())) {
                     existArr.setSelVal(true);
                     existArr.setDescription(assArr.getDescription());
                 }

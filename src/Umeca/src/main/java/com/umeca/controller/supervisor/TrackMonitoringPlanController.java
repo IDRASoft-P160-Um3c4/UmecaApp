@@ -372,7 +372,7 @@ public class TrackMonitoringPlanController {
                     activityMonitoringPlan.setChannelingAssistance(channelingAssistance);
 
                     try {
-                        if (channelingAssistance == 0) {
+                        if (channelingAssistance.equals(0)) {
                             //Notificar inasistencia
                             Case caseDetention = activityMonitoringPlan.getCaseDetention();
                             Imputed imputed = caseDetention.getMeeting().getImputed();

@@ -280,7 +280,7 @@ public class ActiveMonitoringPlanController {
             trackMonPlanService.saveAuthRejectAccomplishment(model, user, monPlan,
                     MonitoringConstants.TYPE_COMMENT_LOG_ACCOMPLISHMENT, fulfillmentReport);
 
-            if(monPlan.getResolution() == HearingFormatConstants.HEARING_TYPE_MC){
+            if(monPlan.getResolution().equals(HearingFormatConstants.HEARING_TYPE_MC)){
                 if(fulfillmentReport.getFulfillmentReportType().getCode().equals(Constants.CODE_TOTAL_FULFILLMENT)) {
                     eventService.addEvent(Constants.EVENT_MC_NON_FULFILLMENT, monPlan.getCaseDetention().getId(), null);
                 }

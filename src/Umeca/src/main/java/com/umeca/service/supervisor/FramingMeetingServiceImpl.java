@@ -1741,7 +1741,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             for (PersonSocialNetwork person : verifMeeting.getSocialNetwork().getPeopleSocialNetwork()) {
 
-                if (person.getLivingWith().getId() == Constants.ELECTION_YES) {
+                if (person.getLivingWith().getId().equals(Constants.ELECTION_YES) ) {
 
                     FramingReference fRef = new FramingReference();
 
@@ -2370,9 +2370,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         element = new FramingLogElement();
         element.setFieldName("G&eacute;nero");
-        if (personalData.getGender() == 1)
+        if (personalData.getGender().equals(1L))
             element.setValue("Femenino");
-        else if (personalData.getGender() == 2)
+        else if (personalData.getGender().equals(2L))
             element.setValue("Masculino");
         lstElements.add(element);
 

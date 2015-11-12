@@ -244,7 +244,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
         //Si ya no hay actividades se debe quitar el tiempo, para que no se suspenda en caso de pasar las n horas
         MonitoringPlan monitoringPlan = monPlanRepository.findOne(monPlanId);
         String message;
-        if (activitiesInPre == null || activitiesInPre == 0) {
+        if (activitiesInPre == null || activitiesInPre.equals(0L)) {
             monitoringPlan.setPosAuthorizationChangeTime(null);
             message = ".<br/>Todas las actividades fueron autorizada(s) o rechazada(s).";
             //CaseRequest... Response
@@ -371,7 +371,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
             add(MonitoringConstants.STATUS_ACTIVITY_DELETED);
         }});
 
-        if (countValidActivities == 0) {
+        if (countValidActivities.equals(0L)) {
             message.setMessage("Al menos debe existir una actividad válida en el plan de seguimiento");
             return false;
         }

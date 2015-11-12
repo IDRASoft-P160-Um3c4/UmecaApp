@@ -18,7 +18,7 @@ public class ExcelConv {
 
     public String genderToString(Boolean gender) {
 
-        if (gender == true) {
+        if (gender.equals(true)) {
             return "Femenino";
         } else return "Masculino";
 
@@ -378,7 +378,7 @@ public class ExcelConv {
         System.out.println();
 
         for (FieldMeetingSource act : fields) {
-            if (act.getFieldVerification().getSectionCode() == section) {
+            if (act.getFieldVerification().getSectionCode().equals(section)) {
 
                 if (answersSourceString != "")
                     answersSourceString += "\n";

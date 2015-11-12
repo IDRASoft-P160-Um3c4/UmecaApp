@@ -121,9 +121,9 @@ public class LogCaseServiceImpl implements LogCaseService {
 
                 allResol += CalendarExt.calendarToFormatString(lstResol.get(i).getCalendar(), Constants.FORMAT_CALENDAR_I);
 
-                if (lstResol.get(i).getIdAux() == HearingFormatConstants.HEARING_TYPE_MC)
+                if (lstResol.get(i).getIdAux().equals(HearingFormatConstants.HEARING_TYPE_MC))
                     allResol += " - MC";
-                else if (lstResol.get(i).getIdAux() == HearingFormatConstants.HEARING_TYPE_SCP)
+                else if (lstResol.get(i).getIdAux().equals(HearingFormatConstants.HEARING_TYPE_SCP))
                     allResol += " - SCPP";
             }
         }

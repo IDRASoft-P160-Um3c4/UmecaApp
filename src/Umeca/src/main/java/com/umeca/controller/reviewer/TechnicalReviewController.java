@@ -176,7 +176,7 @@ public class TechnicalReviewController {
                 else
                     model.addObject("returnId", returnId);
 
-                if (tecRev_prev.getIsFinished() != null && tecRev_prev.getIsFinished() == true)
+                if (tecRev_prev.getIsFinished() != null && tecRev_prev.getIsFinished().equals(true))
                     model.addObject("showRisk", true);
                 else
                     model.addObject("showRisk", false);

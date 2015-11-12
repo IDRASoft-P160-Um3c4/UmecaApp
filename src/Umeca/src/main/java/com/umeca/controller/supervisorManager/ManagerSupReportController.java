@@ -694,7 +694,7 @@ public class ManagerSupReportController {
             for(ExcelCaseInfoHearingFormatDto caseHF : listCasesHF){
                 List<ExcelCrimeDto> crimes = new ArrayList<>();
                 for(ExcelCrimeDto crime : lstCrimesHF){
-                    if(crime.getIdCase() ==  caseHF.getIdCase()){
+                    if(crime.getIdCase().equals(caseHF.getIdCase())){
                         crimes.add(crime);
                     }
                 }
@@ -703,7 +703,7 @@ public class ManagerSupReportController {
 
                 List<ExcelArrangementDto> arrangements = new ArrayList<>();
                 for(ExcelArrangementDto arrangement : lstArrangementHF){
-                    if(arrangement.getIdCase() == caseHF.getIdCase()){
+                    if(arrangement.getIdCase().equals(caseHF.getIdCase())){
                         arrangements.add(arrangement);
                     }
                 }
@@ -711,7 +711,7 @@ public class ManagerSupReportController {
 
                 List<ExcelContactsDto> contacts = new ArrayList<>();
                 for(ExcelContactsDto contact : lstContacts){
-                    if(contact.getIdCase() == caseHF.getIdCase()){
+                    if(contact.getIdCase().equals(caseHF.getIdCase())){
                         contacts.add(contact);
                     }
                 }
@@ -725,7 +725,7 @@ public class ManagerSupReportController {
 
                 List<ExcelImputedHomeDto> homes = new ArrayList<>();
                 for (ExcelImputedHomeDto home : lstHomes) {
-                    if (home.getIdCase() == cAct.getIdCase()) {
+                    if (home.getIdCase().equals(cAct.getIdCase())) {
                         homes.add(home);
                     }
                 }
@@ -734,7 +734,7 @@ public class ManagerSupReportController {
 
                 List<ExcelReferenceDto> housemates = new ArrayList<>();
                 for (ExcelReferenceDto housemate : lstHousemates) {
-                    if (housemate.getIdCase() == cAct.getIdCase()) {
+                    if (housemate.getIdCase().equals(cAct.getIdCase())) {
                         housemates.add(housemate);
                     }
                 }
@@ -743,7 +743,7 @@ public class ManagerSupReportController {
 
                 List<ExcelReferenceDto> references = new ArrayList<>();
                 for (ExcelReferenceDto reference : lstReferences) {
-                    if (reference.getIdCase() == cAct.getIdCase()) {
+                    if (reference.getIdCase().equals(cAct.getIdCase())) {
                         references.add(reference);
                     }
                 }
@@ -751,7 +751,7 @@ public class ManagerSupReportController {
 
                 List<ExcelJobDto> jobs = new ArrayList<>();
                 for(ExcelJobDto job : lstJobs){
-                    if(job.getIdCase() == cAct.getIdCase()){
+                    if(job.getIdCase().equals(cAct.getIdCase())){
                         jobs.add(job);
                     }
                 }
@@ -760,7 +760,7 @@ public class ManagerSupReportController {
                 //lstAct
                 List<ExcelActivitiesDto> activities = new ArrayList<>();
                 for (ExcelActivitiesDto activity : lstAct){
-                    if (activity.getIdCase() == cAct.getIdCase()){
+                    if (activity.getIdCase().equals(cAct.getIdCase())){
                         activities.add(activity);
                     }
                 }
@@ -768,7 +768,7 @@ public class ManagerSupReportController {
 
                 List<ExcelDrugDto> drugs = new ArrayList<>();
                 for(ExcelDrugDto drug : lstDrug){
-                    if(drug.getIdCase() == cAct .getIdCase()){
+                    if(drug.getIdCase().equals(cAct.getIdCase())){
                         drugs.add(drug);
                     }
                 }
@@ -776,7 +776,7 @@ public class ManagerSupReportController {
 
                 List<ExcelRiskDto> risks = new ArrayList<>();
                 for(ExcelRiskDto risk : lstRisk){
-                    if(risk.getIdCase() == cAct.getIdCase()){
+                    if(risk.getIdCase().equals(cAct.getIdCase())){
                         risks.add(risk);
                     }
                 }
@@ -784,7 +784,7 @@ public class ManagerSupReportController {
 
                 List<ExcelThreatsDto> threats = new ArrayList<>();
                 for(ExcelThreatsDto threat : lstThreat){
-                    if(threat.getIdCase() == cAct.getIdCase()){
+                    if(threat.getIdCase().equals(cAct.getIdCase())){
                         threats.add(threat);
                     }
                 }
@@ -792,7 +792,7 @@ public class ManagerSupReportController {
 
                 List<ExcelSafetyFactorsDto> safetyFactors = new ArrayList<>();
                 for(ExcelSafetyFactorsDto safetyFactor : lstSafetyFactor){
-                    if(safetyFactor.getIdCase() == cAct.getIdCase()){
+                    if(safetyFactor.getIdCase().equals(cAct.getIdCase())){
                         safetyFactors.add(safetyFactor);
                     }
                 }
@@ -801,7 +801,7 @@ public class ManagerSupReportController {
 
                 List<ExcelReferenceDto> victims = new ArrayList<>();
                 for(ExcelReferenceDto victim : lstVictims){
-                    if(victim.getIdCase() == cAct.getIdCase()){
+                    if(victim.getIdCase().equals(cAct.getIdCase()) ){
                         victims.add(victim);
                     }
                 }
@@ -809,7 +809,7 @@ public class ManagerSupReportController {
 
                 List<ExcelReferenceDto> witnesses = new ArrayList<>();
                 for(ExcelReferenceDto witness : lstWitness){
-                    if(witness.getIdCase() == cAct.getIdCase()){
+                    if(witness.getIdCase().equals(cAct.getIdCase())){
                         witnesses.add(witness);
                     }
                 }
@@ -818,7 +818,7 @@ public class ManagerSupReportController {
 
                 List<ExcelChannelingDto> channelingList  = new ArrayList<>();
                 for(ExcelChannelingDto channeling : lstChanneling){
-                    if(channeling.getIdCase() == cAct.getIdCase()){
+                    if(channeling.getIdCase().equals(cAct.getIdCase())){
                         channelingList.add(channeling);
                     }
                 }

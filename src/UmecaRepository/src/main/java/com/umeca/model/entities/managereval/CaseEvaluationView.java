@@ -112,9 +112,9 @@ public class CaseEvaluationView implements EntityGrid {
         this.idTec = idTec;
         this.fmTerminated = fmTerminated;
         this.userName = userName;
-        if (resolution != null && resolution == HearingFormatConstants.HEARING_TYPE_MC)
+        if (resolution != null && resolution.equals(HearingFormatConstants.HEARING_TYPE_MC))
             resolutionStr = "MC";
-        else if (resolution != null && resolution == HearingFormatConstants.HEARING_TYPE_SCP)
+        else if (resolution != null && resolution.equals(HearingFormatConstants.HEARING_TYPE_SCP))
             resolutionStr = "SCPP";
     }
 

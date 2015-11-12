@@ -670,7 +670,7 @@ public class MeetingServiceImpl implements MeetingService {
                 socialNetworkRepository.save(sn);
             }
             person.setSocialNetwork(sn);
-            if (person.getId() != null && person.getId() == 0) {
+            if (person.getId() != null && person.getId().equals(0L)) {
                 person.setId(null);
             }
             personSocialNetworkRepository.save(person);
@@ -726,7 +726,7 @@ public class MeetingServiceImpl implements MeetingService {
             reference.setMeeting(caseDetention.getMeeting());
             reference.setRelationship(relationshipRepository.findOne(reference.getRelationship().getId()));
             reference.setDocumentType(documentTypeRepository.findOne(reference.getDocumentType().getId()));
-            if (reference.getId() != null && reference.getId() == 0) {
+            if (reference.getId() != null && reference.getId().equals(0L)) {
                 reference.setId(null);
             }
             referenceRepository.saveAndFlush(reference);
@@ -780,7 +780,7 @@ public class MeetingServiceImpl implements MeetingService {
             drug.setDrugType(drugTypeRepository.findOne(drug.getDrugType().getId()));
             drug.setPeriodicity(periodicityRepository.findOne(drug.getPeriodicity().getId()));
             drug.setMeeting(caseRepository.findOne(idCase).getMeeting());
-            if (drug.getId() != null && drug.getId() == 0) {
+            if (drug.getId() != null && drug.getId().equals(0L)) {
                 drug.setId(null);
             }
             drugRepository.save(drug);
@@ -900,7 +900,7 @@ public class MeetingServiceImpl implements MeetingService {
                 }
             }
             Case c = caseRepository.findOne(idCase);
-            if (job.getId() != null && job.getId() == 0) {
+            if (job.getId() != null && job.getId().equals(0L)) {
                 job.setId(null);
             }
             job.setMeeting(c.getMeeting());

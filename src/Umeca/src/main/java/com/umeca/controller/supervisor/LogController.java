@@ -224,7 +224,7 @@ public class LogController {
         try {
             Gson gson = new Gson();
             List<ActivityMonitoringPlanLog> lstActMonPlan = new ArrayList<>();
-            if (activityId == 0) {
+            if (activityId.equals(0L)) {
                 lstActMonPlan = activityMonitoringPlanRepository.getListByMonPlanId(id);
             } else {
                 lstActMonPlan = activityMonitoringPlanRepository.getListByMonPlanIdWhitArrangementId(id, assignedArrangementId, activityId);
