@@ -143,7 +143,7 @@ public class ExcelCaseInfoHearingFormatDto {
         if(isHomeless == null){
             this.isHomelessStr = "";
         }
-        else if(isHomeless == true){
+        else if(isHomeless.equals(true)){
             this.isHomelessStr = "Sí";
         }
         else {
@@ -414,7 +414,7 @@ public class ExcelCaseInfoHearingFormatDto {
         else{
             for(int i = 0; i < lstContacts.size(); i++ ){
 
-                if(lstContacts.get(i).getLiveWith() == true){
+                if(lstContacts.get(i).getLiveWith().equals(true)){
                     this.contactsLiveWith = "Sí";
                     break;
                 }

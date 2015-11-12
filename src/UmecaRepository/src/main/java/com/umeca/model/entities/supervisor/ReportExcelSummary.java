@@ -954,7 +954,7 @@ public class ReportExcelSummary {
 
         if (lstGender != null)
             for (SelectList act : lstGender) {
-                if (act.getLock() == gender)
+                if (act.getLock().equals(gender))
                     tot++;
             }
 
@@ -966,7 +966,7 @@ public class ReportExcelSummary {
 
         if (lstGender != null)
             for (SelectList act : lstGender) {
-                if (act.getIdAux() == gender)
+                if (act.getIdAux().equals(gender))
                     tot++;
             }
 

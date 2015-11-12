@@ -129,7 +129,7 @@ public class ExcelCaseInfoSupDto {
         if (this.isStudying == null) {
             this.isStudyingStr = "";
         } else {
-            if (this.isStudying == true) {
+            if (this.isStudying.equals(true)) {
                 this.isStudyingStr = "Sí";
             } else {
                 this.isStudyingStr = "No";
@@ -148,7 +148,7 @@ public class ExcelCaseInfoSupDto {
 
         if (addictionTreatment == null) {
             this.addictionTreatmentStr = "";
-        } else if (addictionTreatment.longValue() == Constants.ELECTION_YES) {
+        } else if (addictionTreatment.longValue() == Constants.ELECTION_YES.longValue()) {
             this.addictionTreatmentStr = "Sí";
         } else {
             this.addictionTreatmentStr = "No";
@@ -156,7 +156,7 @@ public class ExcelCaseInfoSupDto {
 
         if (addictedAcquaintance == null) {
             this.addictedAcquaintanceStr = "";
-        } else if (addictedAcquaintance.longValue() == Constants.ELECTION_YES) {
+        } else if (addictedAcquaintance.longValue() == Constants.ELECTION_YES.longValue()) {
             this.addictedAcquaintanceStr = "Sí";
         } else {
             this.addictedAcquaintanceStr = "No";
@@ -164,7 +164,7 @@ public class ExcelCaseInfoSupDto {
 
         if (relativeAbroad == null) {
             this.relativeAbroadStr = "";
-        } else if (relativeAbroad.longValue() == Constants.ELECTION_YES) {
+        } else if (relativeAbroad.longValue() == Constants.ELECTION_YES.longValue()) {
             this.relativeAbroadStr = "Sí";
         } else {
             this.relativeAbroadStr = "No";
@@ -172,7 +172,7 @@ public class ExcelCaseInfoSupDto {
 
         if (obligationIssue == null) {
             this.obligationIssueStr = "";
-        } else if (obligationIssue.longValue() == Constants.ELECTION_YES) {
+        } else if (obligationIssue.longValue() == Constants.ELECTION_YES.longValue()) {
             this.obligationIssueStr = "Sí";
         } else {
             this.obligationIssueStr = "No";
@@ -569,7 +569,7 @@ public class ExcelCaseInfoSupDto {
         this.hasJob = "";
         if (lstJobs != null) {
             for (int i = 0; i < lstJobs.size(); i++) {
-                if (lstJobs.get(i).getBlock() == true) {
+                if (lstJobs.get(i).getBlock().equals(true)) {
                     this.hasJob += "Sí";
                 } else {
                     this.hasJob += "No";
@@ -590,7 +590,7 @@ public class ExcelCaseInfoSupDto {
         this.jobType = "";
         if (lstJobs != null) {
             for (int i = 0; i < lstJobs.size(); i++) {
-                if (lstJobs.get(i).getBlock() == true)
+                if (lstJobs.get(i).getBlock().equals(true))
                     this.jobType = lstJobs.get(i).getRegisterType();
                 else
                     this.jobType = "SIN TRABAJO";
@@ -1025,7 +1025,7 @@ public class ExcelCaseInfoSupDto {
                 if(lstChanneling.get(i).getIsVolunteer() == null){
                     this.isVolunteerStr += "";
                 }
-                else if(lstChanneling.get(i).getIsVolunteer() == true){
+                else if(lstChanneling.get(i).getIsVolunteer().equals(true)){
                     this.isVolunteerStr += "Sí";
                 }
                 else {
