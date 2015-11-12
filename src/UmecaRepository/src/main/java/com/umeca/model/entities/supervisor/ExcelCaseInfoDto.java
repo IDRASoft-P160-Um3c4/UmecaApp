@@ -716,13 +716,14 @@ public class ExcelCaseInfoDto {
         if (this.totalRisk != null) {
             totCom += "-Total: " + this.totalRisk + "\n";
 
-            if (this.totalRisk < -15)
+            int totalRiskVal = this.totalRisk.intValue();
+            if (totalRiskVal < -15)
                 totCom += "-" + Constants.TEC_REV_HIGH_RISK + "\n";
-            else if (this.totalRisk > -16 && this.totalRisk < 0)
+            else if (totalRiskVal > -16 && totalRiskVal < 0)
                 totCom += "-" + Constants.TEC_REV_MEDIUM_RISK + "\n";
-            else if (this.totalRisk > -1 && this.totalRisk < 10)
+            else if (totalRiskVal > -1 && totalRiskVal < 10)
                 totCom += "-" + Constants.TEC_REV_LOW_RISK + "\n";
-            else if (this.totalRisk > 9)
+            else if (totalRiskVal > 9)
                 totCom += "-" + Constants.TEC_REV_MINIMUM_RISK + "\n";
 
             totCom += "-Comentarios: " + this.tecRevComments;

@@ -205,7 +205,7 @@ public class DigitalRecordController {
 
         Long idPhoto = employeeRepository.getIdPhotoByIdEmployee(id);
 
-        if (idPhoto != null && idPhoto > 0) {
+        if (idPhoto != null && idPhoto.longValue() > 0L) {
             UploadFileGeneric photo = upDwFileGenericService.getPathAndFilename(idPhoto);
             String path = new File(photo.getPath(), photo.getRealFileName()).toString();
             model.addObject("pathPhoto", path);

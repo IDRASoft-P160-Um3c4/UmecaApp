@@ -80,7 +80,7 @@ public class MonitoringPlanServiceImpl implements MonitoringPlanService {
             if (idCase.equals(dto.getCaseId()) == false)
                 continue;
             try {
-                if (dto.getActivityId() > 0) {
+                if (dto.getActivityId().longValue() > 0L) {
                     //Si está en modo autorizado, se agrega uno nuevo para, en caso de no ser aceptado se toma la actividad anterior
                     if (fullModel.isInAuthorizeReady())
                         create(dto, actMpRepository, user, fullModel, lstArrangementSelected, groupUid, true, sharedUserService);

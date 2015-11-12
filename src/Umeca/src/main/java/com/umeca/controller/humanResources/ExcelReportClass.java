@@ -98,8 +98,8 @@ public class ExcelReportClass {
             monthF = endCal.get(Calendar.MONTH) + 1;
 
 
-            Integer startPeriod = Integer.parseInt(systemSettingService.findOneValue("ATTENDANCE", "PeriodStart"));
-            Integer endPeriod = Integer.parseInt(systemSettingService.findOneValue("ATTENDANCE", "PeriodEnd"));
+            int startPeriod = Integer.parseInt(systemSettingService.findOneValue("ATTENDANCE", "PeriodStart"));
+            int endPeriod = Integer.parseInt(systemSettingService.findOneValue("ATTENDANCE", "PeriodEnd"));
 
             initCal.set(Calendar.DAY_OF_MONTH, startPeriod);
 

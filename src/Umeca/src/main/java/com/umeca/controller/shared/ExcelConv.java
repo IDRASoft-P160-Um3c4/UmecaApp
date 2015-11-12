@@ -328,7 +328,7 @@ public class ExcelConv {
 
                 case 6:
 
-                    Integer totalRisk = technicalReview.getTotalRisk();
+                    int totalRisk = technicalReview.getTotalRisk().intValue();
 
                     questionsString += "-Total: " + totalRisk + "\n";
 

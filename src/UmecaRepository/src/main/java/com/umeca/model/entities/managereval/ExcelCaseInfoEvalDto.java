@@ -188,13 +188,14 @@ public class ExcelCaseInfoEvalDto {
         }
 
         if (totalRisk != null) {
-            if (totalRisk < -15)
+            int totalRiskVal = totalRisk.intValue();
+            if (totalRiskVal < -15)
                 this.riskEvaluation = "Alto";
-            else if (totalRisk > -16 && totalRisk < 0)
+            else if (totalRiskVal > -16 && totalRiskVal < 0)
                 this.riskEvaluation = "Medio";
-            else if (totalRisk > -1 && totalRisk < 10)
+            else if (totalRiskVal > -1 && totalRiskVal < 10)
                 this.riskEvaluation = "Bajo";
-            else if (totalRisk > 9)
+            else if (totalRiskVal > 9)
                 this.riskEvaluation = "Mínimo";
         }
 

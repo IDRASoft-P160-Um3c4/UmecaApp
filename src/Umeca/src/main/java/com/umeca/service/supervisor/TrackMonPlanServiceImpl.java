@@ -81,7 +81,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         milDate = milDate - millisecondsToAuthorize;
         referenceDate.setTimeInMillis(milDate);
         Integer findActive = 0, findBlock = 0;
-        Long findCase = req.getCaseFilterId() < 0 ? 0L : req.getCaseFilterId();
+        Long findCase = req.getCaseFilterId().longValue() < 0L ? 0L : req.getCaseFilterId();
         if (req.getCaseFilterId().equals(MonitoringConstants.FILTER_ACTIVE_CASE)) {
             findActive = 1;
         } else if (req.getCaseFilterId().equals(MonitoringConstants.FILTER_SUSPENDED_CASE)) {

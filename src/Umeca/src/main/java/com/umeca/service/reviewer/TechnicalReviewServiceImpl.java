@@ -265,9 +265,9 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
 
                 String cad = Convert.convertToValidString(act.getDescription());
 
-                if (act.getIdAux() > 0)
+                if (act.getIdAux().intValue() > 0)
                     questLinks.add(cad);
-                else if (act.getIdAux() < 0)
+                else if (act.getIdAux().intValue() < 0)
                     questRisks.add(cad);
             }
         }
@@ -280,7 +280,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         file.setComment(StringEscape.escapeText(technicalReview.getComments()));
 
         String risk = "";
-        Integer total = technicalReview.getTotalRisk();
+        int total = technicalReview.getTotalRisk().intValue();
         if (total < -15) {
             risk = "Riesgo alto! Libertad muy dif&iacute;cil de cumplir.";
         } else if (total > -16 && total < 0) {
@@ -343,8 +343,9 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         return file;
     }
 
-    public Integer calculateLevelRisk(Integer total) {
+    public Integer calculateLevelRisk(Integer totalObj) {
 
+        int total = totalObj.intValue();
         if (total < -15)
             return 1; //alto
         else if (total > -16 && total < 0)

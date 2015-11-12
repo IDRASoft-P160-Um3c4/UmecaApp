@@ -239,7 +239,7 @@ public class HearingFormatController {
         try {
             ModelAndView model = new ModelAndView();
 
-            if (hearingFormatRepository.findHearingFormatIncomplete(idCase) != null && hearingFormatRepository.findHearingFormatIncomplete(idCase) > 0) {
+            if (hearingFormatRepository.findHearingFormatIncomplete(idCase) != null && hearingFormatRepository.findHearingFormatIncomplete(idCase).longValue() > 0L) {
                 model.setViewName("/supervisor/hearingFormat/indexFormats");
                 model.addObject("idCase", idCase);
                 model.addObject("showErr", true);

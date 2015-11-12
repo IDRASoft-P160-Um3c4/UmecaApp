@@ -376,7 +376,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         personalData.setComments(view.getComments());
 
 
-        if (view.getBirthStateId() != null && view.getBirthStateId() > 0 && view.getIsMexico() != null && view.getIsMexico().equals(true))
+        if (view.getBirthStateId() != null && view.getBirthStateId().longValue() > 0L && view.getIsMexico() != null && view.getIsMexico().equals(true))
             personalData.setBirthStateCmb(stateRepository.findOne(view.getBirthStateId()));
 
         return personalData;
@@ -726,7 +726,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             AccompanimentInfo accompanimentInfo = null;
 
-            if (newReference.getId() != null && newReference.getId() > 0)
+            if (newReference.getId() != null && newReference.getId().longValue() > 0L)
                 isNew = false;
 
             if (lstAccomInf != null && lstAccomInf.size() > 0)

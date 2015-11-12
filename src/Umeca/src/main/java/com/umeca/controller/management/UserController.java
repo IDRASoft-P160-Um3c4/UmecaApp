@@ -136,7 +136,7 @@ public class UserController {
         try {
             User model;
 
-            if (modelNew.getId() > 0) {
+            if (modelNew.getId().longValue() > 0L) {
                 model = repositoryUser.findOne(modelNew.getId());
                 model.setUsername(modelNew.getUsername());
                 model.setEmail(modelNew.getEmail());

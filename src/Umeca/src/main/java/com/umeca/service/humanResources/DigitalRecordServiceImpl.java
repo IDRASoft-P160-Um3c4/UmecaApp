@@ -122,7 +122,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
             count = employeeRepository.findExistEmployee(name.toLowerCase(), lastNameP.toLowerCase(), lastNameM.toLowerCase(), bthDate);
         }
 
-        if (count > 0) {
+        if (count != null && count.longValue() > 0) {
             resp.setHasError(true);
             resp.setMessage("Ya existe un empleado con los mismos datos. Revise la información e intente de nuevo.");
             return resp;

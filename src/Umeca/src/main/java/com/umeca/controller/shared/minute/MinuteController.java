@@ -408,7 +408,7 @@ public class MinuteController {
                 return response;
             }
 
-            if (minuteService.countPendingRequestByAgreementId(agreementDto.getId()) > 0) {
+            if (minuteService.countPendingRequestByAgreementId(agreementDto.getId()).longValue() > 0L) {
                 response.setHasError(true);
                 response.setMessage("No es posible registrar la solicitud. El acuerdo tiene una solicitud pendiente.");
                 return response;
@@ -489,7 +489,7 @@ public class MinuteController {
             return response;
         }
 
-        if (minuteService.countPendingRequestByMinuteId(requestDto.getId()) > 0) {
+        if (minuteService.countPendingRequestByMinuteId(requestDto.getId()).longValue() > 0L) {
             response.setHasError(true);
             response.setMessage("No es posible registrar la solicitud. La minuta tiene una solicitud pendiente.");
             return response;
