@@ -58,15 +58,17 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
                 row.setId(entity.getId());
                 row.setCell(entity);
                 for (JqGridRowsModel rs : rows) {
-                    if (rs.getId() == row.getId()) {
-                        cn = true;
-                        if (vClass.getName() == ManagerevalView.class.getName()) {
-                            ManagerevalView mev = (ManagerevalView) entity;
-                            ManagerevalView rsv = (ManagerevalView) rs.getCell();
-                            rsv.setCrime(rsv.getCrime() + ", " + mev.getCrime());
+                    try {
+                        if (Long.parseLong(rs.getId().toString()) == Long.parseLong(row.getId().toString())) {
+                            cn = true;
+                            if (vClass.getName().equals(ManagerevalView.class.getName())) {
+                                ManagerevalView mev = (ManagerevalView) entity;
+                                ManagerevalView rsv = (ManagerevalView) rs.getCell();
+                                rsv.setCrime(rsv.getCrime() + ", " + mev.getCrime());
+                            }
+                            break;
                         }
-                        break;
-                    }
+                    }catch (Exception ex){}
                 }
 
                 if (!cn)
@@ -122,14 +124,18 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
                 row.setId(entity.getId());
                 row.setCell(entity);
                 for (JqGridRowsModel rs : rows) {
-                    if (rs.getId() == row.getId()) {
-                        cn = true;
-                        if (vClass.getName() == ManagerevalView.class.getName()) {
-                            ManagerevalView mev = (ManagerevalView) entity;
-                            ManagerevalView rsv = (ManagerevalView) rs.getCell();
-                            rsv.setCrime(rsv.getCrime() + ", " + mev.getCrime());
+                    try {
+                        if (Long.parseLong(rs.getId().toString()) == Long.parseLong(row.getId().toString())) {
+                            cn = true;
+                            if (vClass.getName() == ManagerevalView.class.getName()) {
+                                ManagerevalView mev = (ManagerevalView) entity;
+                                ManagerevalView rsv = (ManagerevalView) rs.getCell();
+                                rsv.setCrime(rsv.getCrime() + ", " + mev.getCrime());
+                            }
+                            break;
                         }
-                        break;
+                    }catch (Exception ex){
+
                     }
                 }
 

@@ -51,9 +51,10 @@ public class ExcelReportServiceImpl implements ExcelReportService {
                 List<Integer> lstGenderInt = new ArrayList<>();
 
                 for (Boolean act : filtersDto.getLstGenderBool()) {
-                    if (act == true)
+
+                    if (act!= null && act.equals(true))
                         lstGenderInt.add(1);
-                    else if (act == false)
+                    else
                         lstGenderInt.add(2);
                 }
 
@@ -77,7 +78,7 @@ public class ExcelReportServiceImpl implements ExcelReportService {
                 idsMartialSt = reportExcelRepository.findIdCasesByMaritalSt(filtersDto.getLstMaritalSt(), idsCasesInDateRange);
             }
 
-            if (filtersDto.getHasJob() != null && filtersDto.getHasJob() == true) {
+            if (filtersDto.getHasJob() != null && filtersDto.getHasJob().equals(true)) {
                 idsActualJob = reportExcelRepository.findIdCasesWithActualJob(idsCasesInDateRange);
             }
 
@@ -97,11 +98,11 @@ public class ExcelReportServiceImpl implements ExcelReportService {
                 idsHearingType = reportExcelRepository.findIdCasesByHearingType(filtersDto.getLstHearingType(), idsCasesInDateRange);
             }
 
-            if (filtersDto.getHasMonP() != null && filtersDto.getHasMonP() == true) {
+            if (filtersDto.getHasMonP() != null && filtersDto.getHasMonP().equals(true)) {
                 idsWithMonP = reportExcelRepository.findIdCasesWithMonP(idsCasesInDateRange);
             }
 
-            if (filtersDto.getHomePlace() != null && filtersDto.getHomePlace() == true) {
+            if (filtersDto.getHomePlace() != null && filtersDto.getHomePlace().equals(true)) {
                 idsHomePlace = reportExcelRepository.findIdCasesByLocation(idsCasesInDateRange, filtersDto.getIdLoc());
             }
 

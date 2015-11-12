@@ -156,7 +156,7 @@ public class StatisticOperatorServiceImpl implements StatisticOperatorService {
             }else{
                 for(int j = countNum; j < data.size(); j++){
 
-                    if(users.get(i).getId() == data.get(j).getId()){
+                    if(users.get(i).getId().equals(data.get(j).getId())){
                         finalData.add(new SelectList(data.get(j).getId(), data.get(j).getValue(), data.get(j).getName()));
                         countNum = j + 1;
                     }else {

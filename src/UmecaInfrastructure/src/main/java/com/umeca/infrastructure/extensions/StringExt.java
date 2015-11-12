@@ -23,7 +23,7 @@ public class StringExt {
 
         String sRet = "";
         for (Long data : lstData){
-            sRet = sRet + (sRet == "" ? "" : ", ") + data;
+            sRet = sRet + (sRet.isEmpty() ? "" : ", ") + data;
         }
         return sRet;
     }

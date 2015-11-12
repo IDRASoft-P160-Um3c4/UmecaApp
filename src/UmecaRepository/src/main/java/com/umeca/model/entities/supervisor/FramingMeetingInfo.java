@@ -339,8 +339,8 @@ public class FramingMeetingInfo {
                             returnStr += "\n";
                         }
 
-                        if (actRef.getHasInfo() == true) {
-                            if (actRef.getIsAccompaniment() == true) {
+                        if (actRef.getHasInfo().equals(true)) {
+                            if (actRef.getIsAccompaniment().equals(true)) {
                                 returnStr += "-" + actRef.getName();
                                 returnStr += "," + actRef.getGenderStr();
                                 returnStr += ", " + actRef.getAge() + " años";
@@ -368,7 +368,7 @@ public class FramingMeetingInfo {
                     }
                 }
             }
-            if (returnStr == "")
+            if (returnStr.isEmpty())
                 returnStr = "El imputado no cuenta con referencias personales.";
 
         } catch (Exception e) {
@@ -391,8 +391,8 @@ public class FramingMeetingInfo {
                             returnStr += "\n";
                         }
 
-                        if (actRef.getHasInfo() == true) {
-                            if (actRef.getIsAccompaniment() == true) {
+                        if (actRef.getHasInfo().equals(true)) {
+                            if (actRef.getIsAccompaniment().equals(true)) {
                                 returnStr += "-" + actRef.getName();
                                 returnStr += "," + actRef.getGenderStr();
                                 returnStr += ", " + actRef.getAge() + " años";
@@ -424,7 +424,7 @@ public class FramingMeetingInfo {
                 }
             }
 
-            if (returnStr == "")
+            if (returnStr.isEmpty())
                 returnStr = "El imputado vive solo.";
         } catch (Exception e) {
             e.printStackTrace();
@@ -446,7 +446,7 @@ public class FramingMeetingInfo {
                             returnStr += "\n";
                         }
 
-                        if (actRef.getHasInfo() == true) {
+                        if (actRef.getHasInfo().equals(true)) {
                             returnStr += "-" + actRef.getName();
                             returnStr += ", Edad: " + actRef.getAge();
                             if (actRef.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_WITNESS))
@@ -464,7 +464,7 @@ public class FramingMeetingInfo {
                     }
                 }
             }
-            if (returnStr == "")
+            if (returnStr.isEmpty())
                 returnStr = "No existe información de víctimas o testigos";
         } catch (Exception e) {
             e.printStackTrace();
@@ -684,7 +684,7 @@ public class FramingMeetingInfo {
     public String getAddictionTreatmentStr() {
         addictionTreatmentStr = "";
         if (this.addictionTreatment != null) {
-            if (this.addictionTreatment == 1)
+            if (this.addictionTreatment.equals(1))
                 addictionTreatmentStr = "Si";
             else
                 addictionTreatmentStr = "No";
@@ -699,7 +699,7 @@ public class FramingMeetingInfo {
     public String getAddictedAcquaintanceStr() {
         addictedAcquaintanceStr = "";
         if (this.addictedAcquaintance != null) {
-            if (this.addictedAcquaintance == 1)
+            if (this.addictedAcquaintance.equals(1))
                 addictedAcquaintanceStr = "Si";
             else
                 addictedAcquaintanceStr = "No";
@@ -714,7 +714,7 @@ public class FramingMeetingInfo {
     public String getRelativeAbroadStr() {
         relativeAbroadStr = "";
         if (this.relativeAbroad != null) {
-            if (this.relativeAbroad == 1)
+            if (this.relativeAbroad.equals(1))
                 relativeAbroadStr = "Si";
             else
                 relativeAbroadStr = "No";
@@ -729,7 +729,7 @@ public class FramingMeetingInfo {
     public String getObligationIssueStr() {
         obligationIssueStr = "";
         if (this.obligationIssue != null) {
-            if (this.obligationIssue == 1)
+            if (this.obligationIssue.equals(1))
                 obligationIssueStr = "Si";
             else
                 obligationIssueStr = "No";
@@ -795,9 +795,9 @@ public class FramingMeetingInfo {
 
     public String getImputedGenderStr() {
         imputedGenderStr = "";
-        if (imputedGender != null && imputedGender == 1)
+        if (imputedGender != null && imputedGender.equals(1))
             imputedGenderStr = "Femenino";
-        else if (imputedGender != null && imputedGender == 2)
+        else if (imputedGender != null && imputedGender.equals(2))
             imputedGenderStr = "Masculino";
 
         return imputedGenderStr;
@@ -853,7 +853,7 @@ public class FramingMeetingInfo {
     public String schoolToStr() {
         String returnStr = "";
 
-        if (this.school.getHasActualSchool() == true) {
+        if (this.school.getHasActualSchool().equals(true)) {
             returnStr += "Nombre: " + this.school.getName();
             returnStr += ", Teléfono: " + this.school.getPhone();
             returnStr += ", Dirección: " + this.school.getAddress() + ", ";
@@ -863,7 +863,7 @@ public class FramingMeetingInfo {
         returnStr += "Nivel: " + this.school.getAcademicLvlStr() + ", ";
         returnStr += " Grado: " + this.school.getDegreeStr();
 
-        if (this.school.getHasActualSchool() == true && this.school.getLstSchedule() != null && this.school.getLstSchedule().size() > 0)
+        if (this.school.getHasActualSchool().equals(true) && this.school.getLstSchedule() != null && this.school.getLstSchedule().size() > 0)
             returnStr += ", Disponibilidad: " + this.school.scheduleToStr();
 
         return returnStr;
@@ -882,7 +882,7 @@ public class FramingMeetingInfo {
 
         if (this.jobs != null && this.jobs.size() > 0) {
             for (ExcelJobDto act : jobs) {
-                if (act.getBlock() == true) {
+                if (act.getBlock().equals(true)) {
                     if (returnStr != "")
                         returnStr += "\n";
 
@@ -967,7 +967,7 @@ public class FramingMeetingInfo {
 
         Boolean hasACt = false;
         for (ExcelJobDto act : this.jobs) {
-            if (act.getBlock() == true) {
+            if (act.getBlock().equals(true)) {
                 hasACt = true;
                 break;
             } else {
@@ -975,7 +975,7 @@ public class FramingMeetingInfo {
             }
         }
 
-        if (hasACt == true)
+        if (hasACt.equals(true))
             return "Tiene trabajo actual";
         else
             return "No tiene trabajo actual";
@@ -987,7 +987,7 @@ public class FramingMeetingInfo {
             for (ExcelDrugDto act : this.drugs) {
                 if (drugsStr != "")
                     drugsStr += "\n";
-                if (act.getBlock() == true) {
+                if (act.getBlock().equals(true)) {
                     if (act.getDrugType() != null && !act.getDrugType().equals(""))
                         drugsStr += "-" + act.getDrugType();
                 } else {
@@ -1012,7 +1012,7 @@ public class FramingMeetingInfo {
             }
         }
 
-        if (hasLinks == true)
+        if (hasLinks.equals(true))
             return "El imputado cuenta con vínculos";
         else
             return "El imputado no cuenta con vínculos";

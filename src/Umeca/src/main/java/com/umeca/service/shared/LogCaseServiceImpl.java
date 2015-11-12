@@ -216,7 +216,7 @@ public class LogCaseServiceImpl implements LogCaseService {
             if (ampal.getActMonPlanId().equals(idActivity)) {
                 ampal.setStatusString();
                 String assArr = findElement(assigmentArringment, ampal.getAssignedArrangementId(), true);
-                if (ampal.getStatus() == (status)) {
+                if (ampal.getStatus().equals(status)) {
                     lstArrangement.add(assArr + " - " + ampal.getStatusSt());
                 }
             }

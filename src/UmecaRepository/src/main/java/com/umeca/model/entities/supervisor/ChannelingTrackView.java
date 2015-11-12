@@ -23,7 +23,7 @@ public class ChannelingTrackView implements EntityGrid {
                                String channelingTypeName, Calendar start, Calendar end, Boolean isJustified, Long rescheduleAppointmentId) {
         this.id = id;
         this.idMP = idMP;
-        this.resolutionTxt = resolution == HearingFormatConstants.HEARING_TYPE_SCP ? HearingFormatConstants.HEARING_TYPE_SCP_TXT : HearingFormatConstants.HEARING_TYPE_MC_TXT;
+        this.resolutionTxt = resolution.equals(HearingFormatConstants.HEARING_TYPE_SCP) ? HearingFormatConstants.HEARING_TYPE_SCP_TXT : HearingFormatConstants.HEARING_TYPE_MC_TXT;
         this.imputed = name + " " + lastNameP + " " + lastNameM;
         this.channelingName = channelingName;
         this.channelingTypeName = channelingTypeName;

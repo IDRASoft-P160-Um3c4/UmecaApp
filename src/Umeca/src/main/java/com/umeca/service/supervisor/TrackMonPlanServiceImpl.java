@@ -101,7 +101,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
 
         MonitoringPlanDto monitoringPlanDto = null;
         for (ActivityMonitoringPlanResponse act : lstAllActivities) {
-            if (monitoringPlanDto == null || monitoringPlanDto.getMonPlanId() != act.getMonitoringPlanId()) {
+            if (monitoringPlanDto == null || monitoringPlanDto.getMonPlanId().equals(act.getMonitoringPlanId()) == false) {
                 monitoringPlanDto = null;
                 for (MonitoringPlanDto monPlan : lstMonPlanSus) {
                     if (act.getMonitoringPlanId() != monPlan.getMonPlanId())
@@ -232,7 +232,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
     public void saveAuthRejectMonPlan(SharedUserService sharedUserService, SharedLogExceptionService logException, AuthorizeRejectMonPlan model, User user, MonitoringPlan monPlan, String statusAuth, String statusReject, String type) {
         LogComment commentModel = new LogComment();
         Calendar now = Calendar.getInstance();
-        String statusAction = (model.getAuthorized() == 1 ? statusAuth : statusReject);
+        String statusAction = (model.getAuthorized().equals(1) ? statusAuth : statusReject);
         commentModel.setComments(StringEscape.escapeText(model.getComments()));
         commentModel.setAction(statusAction);
         commentModel.setMonitoringPlan(monPlan);
@@ -247,7 +247,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         monPlan.setAuthorizationTime(now);
         MonitoringPlanJson jsonNew = MonitoringPlanJson.convertToJson(monPlan);
 
-        if (type.equals(MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END) && model.getAuthorized() == 1) {
+        if (type.equals(MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END) && model.getAuthorized().equals(1)) {
             Case caseDetention = monPlan.getCaseDetention();
             caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED));
             caseDetention.setCloseDate(new Date());
@@ -262,7 +262,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         if (type.equals(MonitoringConstants.TYPE_COMMENT_AUTHORIZED)) {
             CaseRequestService.CreateCaseResponseToUser(responseTypeRepository, caseRequestRepository, messageRepository,
                     sharedUserService, logException, user, monPlan.getCaseDetention(),
-                    "El plan de monitoreo fue " + (model.getAuthorized() == 1 ? "autorizado" : "rechazado") + ". Comentarios: " + StringEscape.escapeText(model.getComments()),
+                    "El plan de monitoreo fue " + (model.getAuthorized().equals(1) ? "autorizado" : "rechazado") + ". Comentarios: " + StringEscape.escapeText(model.getComments()),
                     Constants.ST_REQUEST_MONPLAN_AUTH);
         }
 
@@ -330,7 +330,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         Calendar now = Calendar.getInstance();
         commentModel.setComments(model.getComments());
 
-        String sAction = (model.getAuthorized() == 1 ? MonitoringConstants.LOG_ACCOMPLISHMENT_AUTHORIZED : MonitoringConstants.LOG_ACCOMPLISHMENT_REJECTED);
+        String sAction = (model.getAuthorized().equals(1) ? MonitoringConstants.LOG_ACCOMPLISHMENT_AUTHORIZED : MonitoringConstants.LOG_ACCOMPLISHMENT_REJECTED);
         commentModel.setAction(sAction);
         commentModel.setMonitoringPlan(monPlan);
         commentModel.setCaseDetention(monPlan.getCaseDetention());

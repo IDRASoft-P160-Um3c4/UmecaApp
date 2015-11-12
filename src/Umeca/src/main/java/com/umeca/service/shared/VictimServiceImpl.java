@@ -94,7 +94,7 @@ public class VictimServiceImpl implements VictimService {
             sVictim.setAge(victim.getAge());
             sVictim.setPhone(victim.getPhone());
 
-            if(victim.getHasInfoAddress()==true) {
+            if(victim.getHasInfoAddress().equals(true)) {
                 sVictim.getAddress().setStreet(victim.getAddress().getStreet());
                 sVictim.getAddress().setInnNum(victim.getAddress().getInnNum());
                 sVictim.getAddress().setOutNum(victim.getAddress().getOutNum());

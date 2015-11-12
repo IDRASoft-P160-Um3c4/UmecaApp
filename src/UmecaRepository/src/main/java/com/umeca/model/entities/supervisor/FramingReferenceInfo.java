@@ -112,9 +112,9 @@ public class FramingReferenceInfo {
 
     public String getIsAccompanimentStr() {
         isAccompanimentStr = "NA";
-        if (isAccompaniment != null && isAccompaniment == true)
+        if (isAccompaniment != null && isAccompaniment.equals(true))
             isAccompanimentStr = "Si";
-        else if (isAccompaniment != null && isAccompaniment == false)
+        else if (isAccompaniment != null && isAccompaniment.equals(false))
             isAccompanimentStr = "No";
         return isAccompanimentStr;
     }
@@ -141,9 +141,9 @@ public class FramingReferenceInfo {
 
     public String getGenderStr() {
         genderStr = "";
-        if (gender != null && gender == 1)
+        if (gender != null && gender.equals(1))
             genderStr = "Femenino";
-        else if (gender != null && gender == 1)
+        else if (gender != null && gender.equals(1))
             genderStr = "Masculino";
         return genderStr;
     }

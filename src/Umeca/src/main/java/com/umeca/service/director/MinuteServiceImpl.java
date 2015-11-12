@@ -196,7 +196,7 @@ public class MinuteServiceImpl implements MinuteService {
 
         Agreement agreement = req.getAgreement();
 
-        if (requestAgreementDto.getAuthorize() == true) {
+        if (requestAgreementDto.getAuthorize().equals(true)) {
             req.setResponseType(Constants.RESPONSE_AGREEMENT_TYPE_FINISH_AUTH);
             agreement.setIsFinished(true);
             agreement.setFinishDate(new Date());
@@ -473,7 +473,7 @@ public class MinuteServiceImpl implements MinuteService {
 
         Minute minute = req.getMinute();
 
-        if (requestDto.getAuthorize() == true) {
+        if (requestDto.getAuthorize().equals(true)) {
             req.setResponseType(Constants.RESPONSE_MINUTE_TYPE_FINISH_AUTH);
             minute.setIsFinished(true);
             minute.setFinishDate(new Date());
@@ -487,7 +487,7 @@ public class MinuteServiceImpl implements MinuteService {
         }
 
         for (Agreement agreement : minute.getAgreements()) {
-            if (agreement.getIsFinished() == false) {
+            if (agreement.getIsFinished().equals(false)) {
                 agreement.setStCode(Constants.ST_CODE_MINUTE_FINISHED);
                 agreement.setFinishedComment("La minuta ha sido cerrada: " + requestDto.getComments());
                 agreement.setIsFinished(true);

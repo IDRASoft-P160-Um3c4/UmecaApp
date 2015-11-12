@@ -26,7 +26,7 @@ public class ExcelConv {
 
     public String genderToString(Integer gender) {
 
-        if (gender == 1) {
+        if (gender.equals(1)) {
             return "Femenino";
         } else return "Masculino";
 

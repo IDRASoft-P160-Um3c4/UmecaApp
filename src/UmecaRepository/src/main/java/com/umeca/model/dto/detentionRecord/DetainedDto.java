@@ -61,7 +61,7 @@ public class DetainedDto implements EntityGrid {
         this.crime = crime;
         this.district = district;
         this.isProsecute = isProsecute;
-        if (this.isProsecute != null && this.isProsecute == true)
+        if (this.isProsecute != null && this.isProsecute.equals(true))
             this.prosecute = "Si";
         else
             this.prosecute = "No";

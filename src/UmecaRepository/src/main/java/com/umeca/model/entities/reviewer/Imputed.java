@@ -277,7 +277,7 @@ public class Imputed {
 
         if (birthInfo == null) {
             result.add(t.template.replace(e, "Lugar de nacimiento"));
-        } else if (birthInfo.getSpecification() == true) {
+        } else if (birthInfo.getSpecification().equals(true)) {
             if (birthCountry == null) {
                 result.add(t.template.replace(e, "El pa&iacute;s de nacimiento"));
             } else {

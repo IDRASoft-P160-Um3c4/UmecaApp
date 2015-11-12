@@ -94,7 +94,7 @@ public class RolActivityServiceImpl implements RolActivityService{
                 if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER) && dto.getRolActivityId() < 0){
                     List<SelectList> lstActivities = dto.getActivities();
                     for(SelectList act: lstActivities){
-                        if(act.getIsSelected() == true)
+                        if(act.getIsSelected().equals(true))
                             activities = activities + "<li>" + act.getName() + "</li>";
                     }
                 }
@@ -239,7 +239,7 @@ public class RolActivityServiceImpl implements RolActivityService{
             List<EvaluationActivity> lstAct= new ArrayList<>();
 
             for(SelectList curr : dto.getActivities()){
-                if(curr.getIsSelected()==true){
+                if(curr.getIsSelected().equals(true)){
                     EvaluationActivity act = evaluationActivityRepository.findOne(curr.getId());
                     lstAct.add(act);
                 }

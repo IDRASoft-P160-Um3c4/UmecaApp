@@ -59,7 +59,7 @@ public class SharedUserService {
         String sUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         User userToValidate = userRepository.getInfoToValidate(sUsername);
 
-        if (userToValidate.getEnabled() == false) {
+        if (userToValidate.getEnabled().equals(false)) {
             response.setMessage("Usted no tiene permisos para realizar esta acci&oacute;n. Por favor solicite los permisos suficientes para realizar esta acci&oacute;n e intente de nuevo.");
             response.setHasError(true);
             return false;

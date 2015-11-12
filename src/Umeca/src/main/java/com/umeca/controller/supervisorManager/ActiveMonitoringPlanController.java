@@ -259,7 +259,7 @@ public class ActiveMonitoringPlanController {
                 return response;
             }
 
-            if (monPlan.getStatus().equals(MonitoringConstants.STATUS_END) == true) {
+            if (monPlan.getStatus().equals(MonitoringConstants.STATUS_END)) {
                 response.setMessage("El plan de supervisión se encuentra en estado " + monPlan.getStatus() + ", por ello no se puede realizar esta acción");
                 return response;
             }
@@ -407,7 +407,7 @@ public class ActiveMonitoringPlanController {
                 return response;
             }
 
-            if (monPlan.getStatus().equals(MonitoringConstants.STATUS_END) == true) {
+            if (monPlan.getStatus().equals(MonitoringConstants.STATUS_END)) {
                 response.setMessage("El plan de supervisi&oacuten se encuentra en estado " + monPlan.getStatus() + ", por ello ya no es posible cambiar de supervisor");
                 return response;
             }

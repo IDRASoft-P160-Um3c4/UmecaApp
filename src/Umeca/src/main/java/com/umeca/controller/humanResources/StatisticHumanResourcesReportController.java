@@ -84,12 +84,12 @@ public class StatisticHumanResourcesReportController {
             data = statisticHumanResourcesReportService.getData(initDate, endDate, filterSelected, idReportType, idDistrict, idEmployee);
 
 
-            if (idReportType == 1)
+            if (idReportType.equals(1L))
                 extraData = "General";
-            else if (idReportType == 2){
-                if (idDistrict == 1)
+            else if (idReportType.equals(2L)){
+                if (idDistrict.equals(1L))
                     extraData = "Por distrito - Cuatla";
-                else if (idDistrict == 2)
+                else if (idDistrict.equals(2L))
                     extraData = "Por distrito - Cuernavaca";
                 else
                     extraData = "Por distrito - Jojutla";

@@ -338,9 +338,9 @@ public class ChannelingController {
                 act = lstActivitiesChanneling.get(i);
                 attendance = act.getAttendance();
 
-                if(attendance == -1)
+                if(attendance.equals(-1))
                     lstActivities.add(act);
-                else if(attendance == 0)
+                else if(attendance.equals(0))
                     lstActivitiesNotAttendance.add(act);
                 else
                     lstActivitiesAttendance.add(act);

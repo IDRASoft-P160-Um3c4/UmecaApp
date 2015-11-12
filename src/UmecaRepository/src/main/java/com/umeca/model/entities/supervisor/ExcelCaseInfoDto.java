@@ -244,9 +244,9 @@ public class ExcelCaseInfoDto {
 
 
 
-        if(isFromFormulation == true) {
+        if(isFromFormulation.equals(true)) {
 
-            if(formulationPresence == true){
+            if(formulationPresence.equals(true)){
                 formulationPresenceStr = "Sí";
             }
             else if(formulationPresence == null){
@@ -257,7 +257,7 @@ public class ExcelCaseInfoDto {
             }
 
             this.isFromFormulationStr = "Sí";
-            if(formulationInformationDelivered == true){
+            if(formulationInformationDelivered.equals(true)){
                 formulationInformationDeliveredStr = "Sí";
             }
             else if(formulationInformationDelivered == null){
@@ -274,7 +274,7 @@ public class ExcelCaseInfoDto {
         }
 
 
-        if(hasNegation == true)
+        if(hasNegation.equals(true))
             this.hasNegationStr = "Sí";
         else
             this.hasNegationStr = "No";
@@ -667,9 +667,9 @@ public class ExcelCaseInfoDto {
 
     public String getImputedGenderStr() {
 
-        if (this.imputedGender == true)
+        if (this.imputedGender.equals(true))
             return "Femenino";
-        else if (this.imputedGender == false)
+        else if (this.imputedGender.equals(false))
             return "Masculino";
 
         return "";
@@ -867,7 +867,7 @@ public class ExcelCaseInfoDto {
 
             for (ExcelSocialNetworkDto act : this.lstSN) {
 
-                if (act.getBlock() == true) {
+                if (act.getBlock().equals(true)) {
 
                     if (this.socialNetworkStr != "")
                         this.socialNetworkStr += "\n";
@@ -928,7 +928,7 @@ public class ExcelCaseInfoDto {
         if (this.lstRef != null && this.lstRef.size() > 0)
             for (ExcelReferenceDto act : this.lstRef) {
 
-                if (act.getBlock() == true) {
+                if (act.getBlock().equals(true)) {
                     if (this.referencesStr != "")
                         this.referencesStr += "\n";
 
@@ -983,7 +983,7 @@ public class ExcelCaseInfoDto {
 
         if (this.lstJob != null && this.lstJob.size() > 0)
             for (ExcelJobDto act : this.lstJob) {
-                if (act.getBlock() == true) {
+                if (act.getBlock().equals(true)) {
                     if (jobsStr != "")
                         jobsStr += "\n";
 
@@ -1044,7 +1044,7 @@ public class ExcelCaseInfoDto {
 
         if (lstDrug != null && lstDrug.size() > 0)
             for (ExcelDrugDto act : lstDrug) {
-                if (act.getBlock() == true) {
+                if (act.getBlock().equals(true)) {
                     if (drugsStr != "")
                         drugsStr += "\n";
 
@@ -1270,7 +1270,7 @@ public class ExcelCaseInfoDto {
     public String schoolToStr() {
         String returnStr = "";
 
-        if (this.imputedActualSchool == true) {
+        if (this.imputedActualSchool.equals(true)) {
             returnStr += "Nombre: " + this.imputedSchoolName;
             returnStr += ", Teléfono: " + this.imputedSchoolPhone;
             returnStr += ", Dirección: " + this.imputedSchoolAddress + ", ";
@@ -1342,7 +1342,7 @@ public class ExcelCaseInfoDto {
 
             for (ExcelSocialNetworkDto act : this.lstSN) {
 
-                if (act.getBlock() == true) {
+                if (act.getBlock().equals(true)) {
 
                     if (returnStr != "")
                         returnStr += "\n";
@@ -1367,7 +1367,7 @@ public class ExcelCaseInfoDto {
         String returnStr = "";
         if (this.lstRef != null && this.lstRef.size() > 0) {
             for (ExcelReferenceDto act : this.lstRef) {
-                if (act.getBlock() == true) {
+                if (act.getBlock().equals(true)) {
                     if (returnStr != "")
                         returnStr += "\n";
 
@@ -1388,7 +1388,7 @@ public class ExcelCaseInfoDto {
 
         if (this.lstJob != null && this.lstJob.size() > 0) {
             for (ExcelJobDto act : this.lstJob) {
-                if (act.getBlock() == true) {
+                if (act.getBlock().equals(true)) {
                     if (act.getRegisterType() != null && act.getRegisterType().toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_ACTUAL)) {
                         hasAct = true;
                         break;
@@ -1399,7 +1399,7 @@ public class ExcelCaseInfoDto {
             }
         }
 
-        if (hasAct == true)
+        if (hasAct.equals(true))
             returnStr = "El imputado tiene trabajo actual";
         else
             returnStr = "El imputado no tiene trabajo actual";
@@ -1410,7 +1410,7 @@ public class ExcelCaseInfoDto {
     public String summaryEvaluationSchool() {
         String returnStr = "";
 
-        if (this.imputedActualSchool == true) {
+        if (this.imputedActualSchool.equals(true)) {
             returnStr += "El imputado estudia actualmente. Grado actual - ";
         } else {
             returnStr += "El imputado no estudia actualmente. Último grado de estudios ";
@@ -1428,7 +1428,7 @@ public class ExcelCaseInfoDto {
 
         if (lstDrug != null && lstDrug.size() > 0)
             for (ExcelDrugDto act : lstDrug) {
-                if (act.getBlock() == true) {
+                if (act.getBlock().equals(true)) {
                     if (returnStr != "")
                         returnStr += "\n";
                     if (act.getDrugType() != null && !act.getDrugType().equals(""))

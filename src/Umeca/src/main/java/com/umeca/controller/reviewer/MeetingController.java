@@ -461,7 +461,7 @@ public class MeetingController {
                 formulationRepository.save(formulation);
             }
             Formulation formulation;
-            if(imputed.getFormulationId() == null && imputed.getIsFromFormulation().equals(true)){
+            if(imputed.getFormulationId() == null && imputed.getIsFromFormulation() != null && imputed.getIsFromFormulation().equals(true)){
                 formulation = new Formulation();
 
                 formulation.setFirstName(imputed.getName());

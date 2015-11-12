@@ -256,7 +256,7 @@ public class ImputedInitial{
 
         if (birthInfo == null) {
             result.add(t.template.replace(e, "El ap&oacute;do"));
-        } else if (birthInfo.getSpecification() == true) {
+        } else if (birthInfo.getSpecification().equals(true)) {
             if (birthCountry == null) {
                 result.add(t.template.replace(e, "El pa&iacute;s de nacimiento"));
             } else {

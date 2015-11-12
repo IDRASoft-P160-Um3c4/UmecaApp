@@ -505,7 +505,7 @@ public class HearingFormatInfo {
         this.isNationalStr = "";
 
         if (this.isNational != null) {
-            if (this.isNational == true)
+            if (this.isNational.equals(true))
                 this.isNationalStr = "Nacional";
             else
                 this.isNationalStr = "Local";
@@ -539,9 +539,9 @@ public class HearingFormatInfo {
     public String getImputedPresenceStr() {
         if (imputedPresence == null)
             return "NA";
-        if (imputedPresence == HearingFormatConstants.IMPUTED_PRESENCE_YES)
+        if (imputedPresence.equals(HearingFormatConstants.IMPUTED_PRESENCE_YES))
             imputedPresenceStr = "Si";
-        else if (imputedPresence == HearingFormatConstants.IMPUTED_PRESENCE_NO)
+        else if (imputedPresence.equals(HearingFormatConstants.IMPUTED_PRESENCE_NO))
             imputedPresenceStr = "No";
         return imputedPresenceStr;
     }

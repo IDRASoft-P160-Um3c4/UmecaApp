@@ -22,7 +22,7 @@ public class ExcelReferenceDto {
         this.idCase = idCase;
         this.age = age;
         this.accompaniment = accompaniment;
-        if(this.accompaniment == true){
+        if(this.accompaniment.equals(true)){
             this.accompanimentStr = "Sí";
         }
         else{
@@ -92,7 +92,7 @@ public class ExcelReferenceDto {
 
     public String getAccompanimentStr() {
 
-        if (this.accompaniment == true)
+        if (this.accompaniment.equals(true))
             accompanimentStr = "Si";
         else
             accompanimentStr = "No";

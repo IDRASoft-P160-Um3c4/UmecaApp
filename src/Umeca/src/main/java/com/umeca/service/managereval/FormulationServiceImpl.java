@@ -72,7 +72,7 @@ public class FormulationServiceImpl implements FormulationService {
             formulation.setIsObsolete(false);
 
 
-            if (formulation.getId() != null && formulation.getId() == 0) {
+            if (formulation.getId() != null && formulation.getId().equals(0L)) {
                 formulation.setId(null);
             }
             formulationRepository.save(formulation);

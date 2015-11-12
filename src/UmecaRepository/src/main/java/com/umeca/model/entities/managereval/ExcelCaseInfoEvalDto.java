@@ -139,17 +139,17 @@ public class ExcelCaseInfoEvalDto {
         else
             this.hasNegation = "No";
 
-        if (isFromFormulation == true)
+        if (isFromFormulation.equals(true))
             this.isFromFormulation = "Sí";
         else
             this.isFromFormulation = "No";
 
 
-        if (isFromFormulation == true) {
+        if (isFromFormulation.equals(true)) {
 
             if (formulationPresence == null) {
                 this.formulationPresence = "Pendiente";
-            } else if (formulationPresence == true) {
+            } else if (formulationPresence.equals(true)) {
                 this.formulationPresence = "Sí";
             } else {
                 this.formulationPresence = "No";
@@ -158,7 +158,7 @@ public class ExcelCaseInfoEvalDto {
             this.isFromFormulation = "Sí";
             if (formulationInformationDelivered == null) {
                 this.formulationInformationDelivered = "Pendiente";
-            } else if (formulationInformationDelivered == true) {
+            } else if (formulationInformationDelivered.equals(true)) {
                 this.formulationInformationDelivered = "Sí";
             } else {
                 this.formulationInformationDelivered = "No";
@@ -181,7 +181,7 @@ public class ExcelCaseInfoEvalDto {
             this.gotFreedom = "No";
 
         if (technicalReviewIsFinished != null) {
-            if (technicalReviewIsFinished == true)
+            if (technicalReviewIsFinished.equals(true))
                 this.opinion = "Sí";
             else
                 this.opinion = "No";
@@ -204,7 +204,7 @@ public class ExcelCaseInfoEvalDto {
         this.imputedBirthdayStr = imputedBirthday == null ? "" : sdf.format(imputedBirthday);
 
 
-        if (gender == Constants.GENDER_MALE)
+        if (gender.equals(Constants.GENDER_MALE))
             this.gender = "Masculino";
         else
             this.gender = "Femenino";
@@ -264,7 +264,7 @@ public class ExcelCaseInfoEvalDto {
             this.relationshipWithPeopleLivingInAnotherCountry = relationshipWithPeopleLivingInAnotherCountry;
         }
 
-        if(isStudying == null || isStudying == false){
+        if(isStudying == null || isStudying.equals(false)){
             this.isStudying = "No";
         }
         else {
@@ -750,7 +750,7 @@ public class ExcelCaseInfoEvalDto {
 
         if (lstDrug != null && lstDrug.size() > 0)
             for (ExcelDrugDto act : lstDrug) {
-                if (act.getBlock() == true) {
+                if (act.getBlock().equals(true)) {
                     if (returnStr != "")
                         returnStr += "\n";
                     if (act.getDrugType() != null && !act.getDrugType().equals(""))
@@ -770,7 +770,7 @@ public class ExcelCaseInfoEvalDto {
 
         if (lstDrug != null && lstDrug.size() > 0)
             for (ExcelDrugDto act : lstDrug) {
-                if (act.getBlock() == true) {
+                if (act.getBlock().equals(true)) {
                     if (returnStr != "")
                         returnStr += "\n";
                     if (act.getDrugType() != null && !act.getDrugType().equals(""))
@@ -790,7 +790,7 @@ public class ExcelCaseInfoEvalDto {
 
         if (lstDrug != null && lstDrug.size() > 0)
             for (ExcelDrugDto act : lstDrug) {
-                if (act.getBlock() == true) {
+                if (act.getBlock().equals(true)) {
                     if (returnStr != "")
                         returnStr += "\n";
                     if (act.getDrugType() != null && !act.getDrugType().equals(""))
@@ -923,7 +923,7 @@ public class ExcelCaseInfoEvalDto {
 
             for (ExcelSocialNetworkDto act : this.lstSN) {
 
-                if (act.getBlock() == true) {
+                if (act.getBlock().equals(true)) {
 
                     if (this.socialNetworkStr != "")
                         this.socialNetworkStr += "\n";
@@ -990,7 +990,7 @@ public class ExcelCaseInfoEvalDto {
         if (this.lstRef != null && this.lstRef.size() > 0)
             for (ExcelReferenceDto act : this.lstRef) {
 
-                if (act.getBlock() == true) {
+                if (act.getBlock().equals(true)) {
                     if (this.referencesStr != "")
                         this.referencesStr += "\n";
 
@@ -1040,7 +1040,7 @@ public class ExcelCaseInfoEvalDto {
 
         if (this.lstJob != null && this.lstJob.size() > 0)
             for (ExcelJobDto act : this.lstJob) {
-                if (act.getBlock() == true) {
+                if (act.getBlock().equals(true)) {
                     if (jobsStr != "")
                         jobsStr += "\n";
 

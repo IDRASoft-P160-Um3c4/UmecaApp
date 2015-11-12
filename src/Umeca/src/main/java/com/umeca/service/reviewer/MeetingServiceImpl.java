@@ -214,7 +214,7 @@ public class MeetingServiceImpl implements MeetingService {
 
 
 
-            if(imputed.getIsFromFormulation() == true){
+            if(imputed.getIsFromFormulation().equals(true)){
                 Date date = imputed.getMeeting().getDateCreate();
                 DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                 String strDate = formatter.format(date);
@@ -564,7 +564,7 @@ public class MeetingServiceImpl implements MeetingService {
         InformationAvailability ia = informationAvailabilityRepository.findOne(imputed.getBirthInfo().getId());
         iCase.setBirthInfo(ia);
 
-        if (iCase.getBirthInfo().getSpecification() == true) {
+        if (iCase.getBirthInfo().getSpecification().equals(true)) {
 
             Country country = countryRepository.findOne(imputed.getBirthCountry().getId());
             iCase.setBirthCountry(country);
@@ -990,7 +990,7 @@ public class MeetingServiceImpl implements MeetingService {
         ResponseMessage result = new ResponseMessage();
         try {
 
-            if (!imputedHome.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_PREVIOUS) && imputedHome.getIsHomeless() == false) {
+            if (!imputedHome.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_PREVIOUS) && imputedHome.getIsHomeless().equals(false)) {
                 ResponseMessage validate = validateSchedules(sch, "el domicilio");
                 if (validate != null) {
                     return validate;
@@ -999,7 +999,7 @@ public class MeetingServiceImpl implements MeetingService {
 
             Case c = caseRepository.findOne(idCase);
 
-            if (imputedHome.getId() != null && imputedHome.getId() == 0) {
+            if (imputedHome.getId() != null && imputedHome.getId().equals(0L)) {
                 imputedHome.setId(null);
             }
 
@@ -1010,7 +1010,7 @@ public class MeetingServiceImpl implements MeetingService {
 
             if (imputedHome.getAddress() != null && imputedHome.getAddress().getLocation() != null && imputedHome.getAddress().getLocation().getId() != null) {
 
-                if (imputedHome.getIsHomeless() == false) {
+                if (imputedHome.getIsHomeless().equals(false)) {
                     Long locationId = imputedHome.getAddress().getLocation().getId();
                     imputedHome.getAddress().setLocation(locationRepository.findOne(locationId));
                 } else {
@@ -1238,8 +1238,8 @@ public class MeetingServiceImpl implements MeetingService {
     public ResponseMessage validateCreateMeeting(Imputed imputed) {
         if (imputed.getBirthDate() != null) {
             Integer age = userService.calculateAge(imputed.getBirthDate());
-            if (age.compareTo(18) == -1) {
-                return new ResponseMessage(true, "El imputado debe tener m&aacute;s de 18 a&ntilde;os para continuar");
+            if (age == null || age.intValue() < 18) {
+                return new ResponseMessage(true, "El imputado debe ser mayor de edad (18 en adelante) para continuar");
             }
         } else {
             return new ResponseMessage(true, "Favor de ingresar la fecha de nacimiento del imputado.");
@@ -1319,7 +1319,7 @@ public class MeetingServiceImpl implements MeetingService {
             coDefendantRepository.delete(listOldCoDefendant);
         }
 
-        if (cpv.getIsFolderAccess() == false) {
+        if (cpv.getIsFolderAccess().equals(false)) {
             ccpc.setBehaviorDetention("Sin acceso a la carpeta");
             ccpc.setAdditionalInfo("Sin acceso a la carpeta");
             ccpc.setPlaceDetention(cpv.getPlaceDetention());
@@ -1569,7 +1569,7 @@ public class MeetingServiceImpl implements MeetingService {
         String e = "entity";
         List<String> messageError = new ArrayList<>();
 
-        if (cpv.getIsFolderAccess() == true) {
+        if (cpv.getIsFolderAccess().equals(true)) {
             if (cpv.getListCrime().trim().equals("[]"))
                 current.add("Debe agregar al menos un delito.");
             if (cpv.getHaveCoDependant() && cpv.getListCoDefendant().trim().equals(""))
@@ -1578,7 +1578,7 @@ public class MeetingServiceImpl implements MeetingService {
                 current.add(Convert.convertToValidString(v.template.replace(e, "Referencias del lugar de detenci&oacute;n")));
             if (cpv.getBehaviorDetention().trim().equals(""))
                 current.add(Convert.convertToValidString(v.template.replace(e, "El comportamiento durante la detenci&oacute;n")));
-            if (victimRepository.sizeVictimLegalByIdCase(cpv.getIdCase()) == 0)
+            if (victimRepository.sizeVictimLegalByIdCase(cpv.getIdCase()).equals(0L))
                 current.add(Convert.convertToValidString("Debe agregar al menos una v&iacute;ctima"));
         }
 

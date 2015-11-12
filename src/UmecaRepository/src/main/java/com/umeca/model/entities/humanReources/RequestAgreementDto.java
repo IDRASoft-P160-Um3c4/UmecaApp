@@ -38,7 +38,7 @@ public class RequestAgreementDto {
         else
             this.status = Constants.AGREEMENT_IS_NOT_DONE;
 
-        if (hasResponse != null && hasResponse == true) {
+        if (hasResponse != null && hasResponse.equals(true)) {
             this.responseUser = requestAgreement.getResponseUser().getFullname();
             this.responseDate = sdf.format(requestAgreement.getResponseDate());
             if (requestAgreement.getResponseType().equals(Constants.RESPONSE_AGREEMENT_TYPE_FINISH_REJECT)) {
@@ -59,7 +59,7 @@ public class RequestAgreementDto {
         }
         this.requestComment = requestAgreement.getRequestComment();
 
-        if (hasResponse != null && hasResponse == true) {
+        if (hasResponse != null && hasResponse.equals(true)) {
             this.responseUser = requestAgreement.getResponseUser().getFullname();
             this.responseDate = sdf.format(requestAgreement.getResponseDate());
             if (requestAgreement.getResponseType().equals(Constants.RESPONSE_MINUTE_TYPE_FINISH_REJECT)) {

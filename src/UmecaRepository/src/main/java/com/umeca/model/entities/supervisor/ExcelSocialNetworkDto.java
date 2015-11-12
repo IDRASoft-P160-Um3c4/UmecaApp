@@ -96,7 +96,7 @@ public class ExcelSocialNetworkDto {
 
         this.accompanimentStr = "";
 
-        if (this.accompaniment == true)
+        if (this.accompaniment.equals(true))
             this.accompanimentStr = "Si";
         else
             this.accompanimentStr = "No";

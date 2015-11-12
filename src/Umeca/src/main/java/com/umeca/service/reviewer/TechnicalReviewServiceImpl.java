@@ -238,7 +238,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         List<String> sourcesTxt = new ArrayList<>();
 
         for (SourceVerification source : ver.getSourceVerifications()) {
-            if (source.getVisible() == true && source.getAuthorized() == true) {
+            if (source.getVisible().equals(true) && source.getAuthorized().equals(true)) {
                 StringBuilder sb = new StringBuilder();
                 sb.append(Convert.convertToValidString(source.getFullName()));
                 sb.append(" relaci&oacute;n con el imputado ");
@@ -377,7 +377,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         result.setLevelRisk(this.calculateLevelRisk(result.getTotalRisk()));
         result.setQuestionsSel(this.generateQuesRevRel(result, result.getTxtListQuest()));
 
-        if (result.getIsFinished() != null && result.getIsFinished() == true)
+        if (result.getIsFinished() != null && result.getIsFinished().equals(true))
             caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_TECHNICAL_REVIEW));
         else
             caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_INCOMPLETE_TECHNICAL_REVIEW));
@@ -385,7 +385,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         result.setCaseDetention(caseDetention);
         technicalReviewRepository.save(result);
 
-        if (result.getIsFinished() != null && result.getIsFinished() == true) {
+        if (result.getIsFinished() != null && result.getIsFinished().equals(true)) {
             caseDetention.setDateOpinion(new Date());
             caseRepository.save(caseDetention);
             eventService.addEvent(Constants.EVENT_CASE_OPINION, caseDetention.getId(), result.getComments());

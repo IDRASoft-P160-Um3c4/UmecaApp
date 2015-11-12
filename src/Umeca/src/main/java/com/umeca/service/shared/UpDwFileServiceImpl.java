@@ -126,7 +126,7 @@ public class UpDwFileServiceImpl implements UpDwFileService{
         extension = extension.toLowerCase();
         final Long fileTypeId = catFileTypeRepository.findByExtension(extension);
 
-        if(fileTypeId == null || fileTypeId <= 0){
+        if(fileTypeId == null || fileTypeId.longValue() <= 0){
             resMsg.setMessage("Tipo de archivo no permitido");
             resMsg.setHasError(true);
             return false;

@@ -236,7 +236,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             address.setLat(viewFormat.getLat());
             address.setLng(viewFormat.getLng());
             if(viewFormat.getIsHomeless() != null ) {
-                if (viewFormat.getIsHomeless() == true)
+                if (viewFormat.getIsHomeless().equals(true))
                     address.setLocation(locationRepository.findByLocName(Constants.COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW));
                 else
                     address.setLocation(locationRepository.findOne(viewFormat.getLocation().getId()));
@@ -314,7 +314,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
                     for (ArrangementView arrV : lstAssignedArrnmtView) {
 
-                        if (arrV.getSelVal() == true) {
+                        if (arrV.getSelVal().equals(true)) {
                             AssignedArrangement assArrmnt = new AssignedArrangement();
                             assArrmnt.setArrangement(arrangementRepository.findOne(arrV.getId()));
                             assArrmnt.setDescription(arrV.getDescription());
@@ -592,7 +592,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             hearingFormatView.setControlDetention(existHF.getHearingFormatSpecs().getControlDetention());
         }
 
-        if (newFormat == true)
+        if (newFormat.equals(true))
             hearingFormatView.setUserName(userRepository.findOne(sharedUserService.GetLoggedUserId()).getFullname());
         else
             hearingFormatView.setUserName(existHF.getSupervisor().getFullname());
@@ -729,7 +729,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             arrV.setId(arrmnt.getId());
             arrV.setName(arrmnt.getDescription());
             arrV.setIsDefault(arrmnt.getIsDefault());
-            if (arrV.getIsDefault() == true)
+            if (arrV.getIsDefault().equals(true))
                 arrV.setSelVal(true);
             else
                 arrV.setSelVal(false);
@@ -842,7 +842,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         String idJudicial = hearingFormat.getCaseDetention().getIdMP();
         Long idCase = hearingFormat.getCaseDetention().getId();
         Case currentCase = hearingFormat.getCaseDetention();
-        Boolean isFinished = ((hearingFormat.getIsFinished() != null) && hearingFormat.getIsFinished() == true) ? true : false;
+        boolean isFinished = ((hearingFormat.getIsFinished() != null) && hearingFormat.getIsFinished().equals(true)) ? true : false;
 
         if (isFinished == true) {
 
@@ -985,7 +985,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                             newFramAddr.setTimeAgo(hearingFormat.getTimeAgo());
                             newFramAddr.setAddressRef(hearingFormat.getLocationPlace());
 
-                            if (hearingFormat.getIsHomeless() == true) {
+                            if (hearingFormat.getIsHomeless().equals(true)) {
                                 newFramAddr.setRegisterType(registerTypeRepository.getRegisterTypeActual());
                                 newFramAddr.setHomeType(homeTypeRepository.getOwnHomeType());
                             }
@@ -1015,7 +1015,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                             framingReference.setName(cData.getNameTxt());
                             framingReference.setPhone(cData.getPhoneTxt());
                             framingReference.setAddress(cData.getAddressTxt());
-                            framingReference.setPersonType(cData.getLiveWith() == true ? FramingMeetingConstants.PERSON_TYPE_HOUSEMATE : FramingMeetingConstants.PERSON_TYPE_REFERENCE);
+                            framingReference.setPersonType(cData.getLiveWith().equals(true) ? FramingMeetingConstants.PERSON_TYPE_HOUSEMATE : FramingMeetingConstants.PERSON_TYPE_REFERENCE);
                             framingReference.setRelationship(relationshipRepository.findOne(19L));//para setear otro
                             framingReference.setHasVictimWitnessInfo(true);
                             framingReference.setIsAccompaniment(false);
@@ -1092,10 +1092,10 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 response.setUrlToGo("");
             }
 
-            if(eventService.caseHasEvent(Constants.EVENT_PROSECUTE,hearingFormat.getCaseDetention().getId()) == false && request != null) {
+            if(eventService.caseHasEvent(Constants.EVENT_PROSECUTE,hearingFormat.getCaseDetention().getId()).equals(false) && request != null) {
                 eventService.addEvent(Constants.EVENT_PROSECUTE, hearingFormat.getCaseDetention().getId(), null);
             }
-            if(eventService.caseHasEvent(Constants.EVENT_PROSECUTE,hearingFormat.getCaseDetention().getId()) == false && request == null) {
+            if(eventService.caseHasEvent(Constants.EVENT_PROSECUTE,hearingFormat.getCaseDetention().getId()).equals(false) && request == null) {
                 eventService.addEventTablet(Constants.EVENT_PROSECUTE, hearingFormat.getCaseDetention().getId(), null, hearingFormat.getSupervisor().getId());
             }
         } else {

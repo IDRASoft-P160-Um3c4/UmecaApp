@@ -136,7 +136,7 @@ public class AuthorizeMonitoringPlanController {
             trackMonPlanService.setListUserFilter(model, idUser);
             if(ret == null || ret == 0){
                 model.addObject("urlReturn","/supervisorManager/authorizeMonitoringPlan/index.html");
-            }else if(ret == 1){
+            }else if(ret.equals(1L)){
                 model.addObject("urlReturn","/supervisorManager/activeMonitoringPlan/index.html");
             }
 
@@ -273,7 +273,7 @@ public class AuthorizeMonitoringPlanController {
             Long idUser = sharedUserService.GetLoggedUserId();
             User userS = userRepository.findOne(idUser);
 
-            if(model.getAuthorized() == 0){
+            if(model.getAuthorized().equals(0)){
                 String cad = "Se rechazo el plan de seguimiento por el coordinador de supervisión " + userS.getFullname() + ".";
                 logCaseService.addLog(ConstantsLogCase.REJECT_MONITORING_PLAN, monPlan.getCaseDetention().getId(), cad);
             }

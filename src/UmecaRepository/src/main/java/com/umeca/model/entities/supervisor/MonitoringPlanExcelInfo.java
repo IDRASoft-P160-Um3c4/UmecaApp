@@ -167,13 +167,13 @@ public class MonitoringPlanExcelInfo {
 
                 ActivityMonitoringPlanArrangementLog mpArr = lstActMonPlanArrangement.get(i);
 
-                if (mpArr.getActMonPlanId() == actMonPlanId) {
+                if (mpArr.getActMonPlanId().equals(actMonPlanId)) {
                     flg = true;
                     SelectList assArr = this.idToObject(mpArr.getAssignedArrangementId(), lstArrangement);
                     SelectList newObj = new SelectList(assArr.getId(), assArr.getName(), this.setStatus(mpArr.getStatus()));
                     lstAssArr.add(newObj);
                 }
-                if (flg == true && mpArr.getActMonPlanId() != actMonPlanId)
+                if (flg == true && (mpArr.getActMonPlanId().equals(actMonPlanId) == false))
                     break;
             }
         }
@@ -199,7 +199,7 @@ public class MonitoringPlanExcelInfo {
 
         if (list != null && list.size() > 0) {
             for (SelectList act : list) {
-                if (act.getId() == id) {
+                if (act.getId().equals(id)) {
                     ret = act;
                     break;
                 }

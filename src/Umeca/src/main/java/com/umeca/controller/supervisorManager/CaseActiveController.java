@@ -423,7 +423,7 @@ public class CaseActiveController {
             }
 
             String caseStatus = caseDet.getStatus().getName();
-            if (caseStatus.equals(Constants.CASE_STATUS_CLOSED) == true) {
+            if (caseStatus.equals(Constants.CASE_STATUS_CLOSED)) {
                 response.setMessage("No es posible cerrar el caso, ya ha sido cerrado.");
                 return response;
             }

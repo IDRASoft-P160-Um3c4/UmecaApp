@@ -870,7 +870,7 @@ public class DigitalRecordServiceImpl implements DigitalRecordService {
         List<ScheduleDay> finalDays = new ArrayList<>();
 
         for (ScheduleDayDto dto : scheduleDtos) {
-            if (dto.getIsSel() == true) {
+            if (dto.getIsSel().equals(true)) {
                 dto.setStartI(dto.convStrToInt(dto.getStart()));
                 dto.setEndI(dto.convStrToInt(dto.getEnd()));
                 ScheduleDay day = new ScheduleDay();

@@ -110,7 +110,7 @@ public class ActivityReportWizardServiceImpl implements ActivityReportWizardServ
     public void doObsolete(User user, Long id, ResponseMessage responseMessage) {
         WizardActivityReport model = wizardActivityReportRepository.findOne(id);
 
-        if(model == null || model.getIsObsolete())
+        if(model == null || model.getIsObsolete().equals(true))
         {
             responseMessage.setHasError(true);
             responseMessage.setMessage("El informe de actividades no existe o ya fue eliminado");

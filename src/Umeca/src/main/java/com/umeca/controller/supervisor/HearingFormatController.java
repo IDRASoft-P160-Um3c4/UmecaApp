@@ -259,7 +259,7 @@ public class HearingFormatController {
 
                 crimeService.fillCatalogModel(model);
                 model.addObject("readonlyBand", false);
-                if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF() == true)
+                if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF().equals(true))
                     model.addObject("lstHearingType", conv.toJson(hearingTypeRepository.getValidaHearingType()));
                 else
                     model.addObject("lstHearingType", "[]");
@@ -308,7 +308,7 @@ public class HearingFormatController {
             List<SelectList> lstDistrict = districtRepository.findNoObsolete();
             model.addObject("lstDistrict", conv.toJson(lstDistrict));
 
-            if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF() == true)
+            if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF().equals(true))
                 model.addObject("lstHearingType", conv.toJson(hearingTypeRepository.getValidaHearingType()));
             else
                 model.addObject("lstHearingType", "[]");
@@ -338,7 +338,7 @@ public class HearingFormatController {
             model.addObject("listCrime", crimeService.getListCrimeHearingformatByIdFormat(idFormat));
             model.addObject("hasPrevHF", hfView.getHasPrevHF());
 
-            if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF() == true)
+            if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF().equals(true))
                 model.addObject("lstHearingType", conv.toJson(hearingTypeRepository.getValidaHearingType()));
             else
                 model.addObject("lstHearingType", "[]");
@@ -374,8 +374,8 @@ public class HearingFormatController {
 
             if (imputed.getBirthDate() != null) {
                 Integer age = sharedUserService.calculateAge(imputed.getBirthDate());
-                if (age.compareTo(18) == -1) {
-                    return new ResponseMessage(true, "El imputado debe tener m&aacute;s de 18 a&ntilde;os para continuar.");
+                if (age == null || age.intValue() < 18) {
+                    return new ResponseMessage(true, "El imputado debe ser mayor de edad (18 en adelante) para continuar.");
                 }
             }
 
