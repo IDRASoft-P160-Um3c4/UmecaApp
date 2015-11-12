@@ -73,8 +73,7 @@ public class ChannelingController {
                 final Join<Case, Meeting> joinMeVe = r.join("meeting");
                 final Join<Meeting, Imputed> joinMee = joinMeVe.join("imputed");
                 final Join<Case, District> joinDi = r.join("district");
-                final Join<Case, FramingMeeting> joinFr = r.join("framingMeeting");
-                final Join<FramingMeeting, User> joinFrUs = joinFr.join("supervisor");
+                final Join<Case, User> joinUsr = r.join("umecaSupervisor");
 
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
@@ -83,7 +82,7 @@ public class ChannelingController {
                     add(joinMee.get("lastNameP"));
                     add(joinMee.get("lastNameM"));
                     add(joinDi.get("name"));
-                    add(joinFrUs.get("fullname"));
+                    add(joinUsr.get("fullname"));
                 }};
             }
 
@@ -98,7 +97,7 @@ public class ChannelingController {
                 if (field.equals("district"))
                     return r.join("district").get("name");
                 if (field.equals("supervisor"))
-                    return r.join("framingMeeting").join("supervisor").get("fullname");
+                    return r.join("supervisor").get("fullname");
                 return null;
             }
         }, Case.class, ChannelingCaseView.class);
