@@ -963,6 +963,7 @@ public class TabletServiceImpl implements TabletService {
             VerificationMethod vm = new VerificationMethod();
             vm.setId(Constants.VERIFICATION_METHOD_VISIT_ID);
             webSource.setVerificationMethod(vm);
+            webSource.setVerification(v);
 
             Relationship r = new Relationship();
             r.setId(tabletSource.getRelationship().getId());
