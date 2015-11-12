@@ -22,6 +22,12 @@ public interface ArrangementRepository extends JpaRepository<Arrangement, Long> 
             "WHERE hf.id =:id")
     List<SelectList> findLstArrangementByHearingFormatId(@Param("id") Long id);
 
+
+    @Query("SELECT new com.umeca.model.shared.SelectList(arr.id, arr.description, aa.description) FROM HearingFormat hf " +
+            "INNER JOIN hf.assignedArrangements aa INNER JOIN aa.arrangement arr  " +
+            "WHERE hf.id =:id")
+    List<SelectList> findLstArrangementIdsByHearingFormatId(@Param("id") Long id);
+
     @Query("SELECT new com.umeca.model.shared.RelationModel(aa.id, arr.id, arr.description) FROM HearingFormat hf " +
             "INNER JOIN hf.assignedArrangements aa INNER JOIN aa.arrangement arr  " +
             "WHERE hf.id =:id")
