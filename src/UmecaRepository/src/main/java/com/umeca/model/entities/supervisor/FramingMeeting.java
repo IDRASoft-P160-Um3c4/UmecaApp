@@ -1,5 +1,6 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
 
@@ -261,7 +262,7 @@ public class FramingMeeting {
     }
 
     public void setEnvironmentComments(String environmentComments) {
-        this.environmentComments = environmentComments;
+        this.environmentComments = StringExt.substringMax(environmentComments, 1000);;
     }
 
     public String getAddressComments() {
@@ -269,7 +270,7 @@ public class FramingMeeting {
     }
 
     public void setAddressComments(String addressComments) {
-        this.addressComments = addressComments;
+        this.addressComments = StringExt.substringMax(addressComments, 1000);;
     }
 
     public String getHousemateComments() {
@@ -277,7 +278,7 @@ public class FramingMeeting {
     }
 
     public void setHousemateComments(String housemateComments) {
-        this.housemateComments = housemateComments;
+        this.housemateComments = StringExt.substringMax(housemateComments, 1000);
     }
 
     public String getReferencesComments() {
@@ -285,7 +286,7 @@ public class FramingMeeting {
     }
 
     public void setReferencesComments(String referencesComments) {
-        this.referencesComments = referencesComments;
+        this.referencesComments = StringExt.substringMax(referencesComments, 1000);
     }
 
     public String getDrugsComments() {
@@ -293,7 +294,7 @@ public class FramingMeeting {
     }
 
     public void setDrugsComments(String drugsComments) {
-        this.drugsComments = drugsComments;
+        this.drugsComments = StringExt.substringMax(drugsComments, 1000);
     }
 
     public String getJobComments() {
@@ -301,7 +302,7 @@ public class FramingMeeting {
     }
 
     public void setJobComments(String jobComments) {
-        this.jobComments = jobComments;
+        this.jobComments = StringExt.substringMax(jobComments, 1000);
     }
 
     public List<FramingActivity> getActivities() {
@@ -333,7 +334,7 @@ public class FramingMeeting {
     }
 
     public void setSchoolComments(String schoolComments) {
-        this.schoolComments = schoolComments;
+        this.schoolComments = StringExt.substringMax(schoolComments, 1000);
     }
 
     public String getVictimComments() {
@@ -341,7 +342,7 @@ public class FramingMeeting {
     }
 
     public void setVictimComments(String victimComments) {
-        this.victimComments = victimComments;
+        this.victimComments = StringExt.substringMax(victimComments, 1000);
     }
 
     public List<FramingMeetingLog> getFramingMeetingLogs() {

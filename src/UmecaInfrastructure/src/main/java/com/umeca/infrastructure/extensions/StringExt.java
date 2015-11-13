@@ -48,4 +48,14 @@ public class StringExt {
 
         return lstIds;
     }
+
+    public static String substringMax(String value, int max){
+        if(value == null  || value.isEmpty())
+            return value;
+
+        int len = value.length();
+        max = len < max ? len : max;
+        return value.substring(0, max);
+    }
+
 }
