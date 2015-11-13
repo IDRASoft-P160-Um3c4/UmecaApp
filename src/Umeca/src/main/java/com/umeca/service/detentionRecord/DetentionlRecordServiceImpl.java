@@ -16,14 +16,14 @@ import java.util.Calendar;
 import java.util.Date;
 
 @Service("detentionlRecordService")
-public class DetentionlRecordServiceImpl implements DetentionRecordService{
+public class DetentionlRecordServiceImpl implements DetentionRecordService {
 
     @Autowired
     private DetainedRepository detainedRepository;
     @Autowired
     private SharedUserService sharedUserService;
 
-    private Detained fillDetained(DetainedDto dto){
+    private Detained fillDetained(DetainedDto dto) {
         Detained detained = new Detained();
         detained.setInitDate(dto.getInitDate());
         detained.setInitTime(dto.getInitTime());
@@ -39,12 +39,14 @@ public class DetentionlRecordServiceImpl implements DetentionRecordService{
         detained.setDistrict(district);
         detained.setRegisterTimestamp(Calendar.getInstance());
         detained.setIsProsecute(false);
+        detained.setIsVisibleDetentionRecord(true);
+        detained.setIsVisibleUmeca(true);
         return detained;
     }
 
     @Transactional
     @Override
-    public ResponseMessage saveDetained(DetainedDto dto){
+    public ResponseMessage saveDetained(DetainedDto dto) {
         ResponseMessage resp;
         detainedRepository.save(fillDetained(dto));
         resp = new ResponseMessage();
@@ -55,7 +57,7 @@ public class DetentionlRecordServiceImpl implements DetentionRecordService{
 
     @Transactional
     @Override
-    public ResponseMessage doProsecute(Long id){
+    public ResponseMessage doProsecute(Long id) {
         ResponseMessage resp;
         Detained d = detainedRepository.findOne(id);
 
@@ -70,6 +72,33 @@ public class DetentionlRecordServiceImpl implements DetentionRecordService{
         resp = new ResponseMessage();
         resp.setHasError(false);
         resp.setMessage("La información ha sido guardada con éxito.");
+        return resp;
+    }
+
+
+    @Transactional
+    @Override
+    public ResponseMessage doNotVisibleDetentionRecord(Long id) {
+        ResponseMessage resp;
+        Detained d = detainedRepository.findOne(id);
+        d.setIsVisibleDetentionRecord(false);
+        detainedRepository.save(d);
+        resp = new ResponseMessage();
+        resp.setHasError(false);
+        resp.setMessage("Se ha ocultado el caso de manera correcta.");
+        return resp;
+    }
+
+    @Transactional
+    @Override
+    public ResponseMessage doNotVisibleUmeca(Long id) {
+        ResponseMessage resp;
+        Detained d = detainedRepository.findOne(id);
+        d.setIsVisibleUmeca(false);
+        detainedRepository.save(d);
+        resp = new ResponseMessage();
+        resp.setHasError(false);
+        resp.setMessage("Se ha ocultado el caso de manera correcta.");
         return resp;
     }
 }

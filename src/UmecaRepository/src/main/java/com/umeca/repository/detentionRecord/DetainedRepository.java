@@ -1,5 +1,6 @@
 package com.umeca.repository.detentionRecord;
 
+import com.umeca.model.dto.detentionRecord.DetainedDto;
 import com.umeca.model.dto.shared.AgreementDto;
 import com.umeca.model.entities.detentionRecord.Detained;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,5 +19,43 @@ public interface DetainedRepository extends JpaRepository<Detained, Long> {
             "inner join AG.area AR " +
             "where M.id=:minuteId order by AR.name")
     public List<AgreementDto> getAgreementsInfoByMinuteId(@Param("minuteId") Long minuteId);
+
+
+
+//    @Query("select new com.umeca.model.dto.detentionRecord.DetainedDto(" +
+//            "DET.id, " +
+//            "DET.name, " +
+//            "DET.lastNameP, " +
+//            "DET.lastNameM, " +
+//            "DET.age, " +
+//            "DET.idFolder," +
+//            "DET.initDate," +
+//            "DET.initTime, " +
+//            "DET.investigationUnit " +
+//           // "US.fullname, " +
+//           // "DIST.name " +
+//            ") " +
+//            "from Detained DET ")
+//            //"inner join DET.userProsecute US " +
+//    public List<DetainedDto> getDetainedInfoForDetentionRecord();
+
+
+    @Query("select new com.umeca.model.dto.detentionRecord.DetainedDto(" +
+            "DET.id, " +
+            "DET.name, "+
+            "DET.lastNameP, " +
+            "DET.lastNameM, " +
+            "DET.age, " +
+            "DET.idFolder, " +
+            "DET.initDate, " +
+            "DET.initTime, " +
+            "DET.investigationUnit," +
+            "DIST.name, " +
+            "DET.isProsecute, " +
+            "DET.crime " +
+            ") " +
+            "FROM Detained DET " +
+            "inner join DET.district DIST ")
+    public List<DetainedDto> getDetainedInfo();
 
 }
