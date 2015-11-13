@@ -146,19 +146,17 @@ public class FramingMeetingController {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
 
-                final javax.persistence.criteria.Join<Case, StatusCase> joinSt = r.join("status");
-                final javax.persistence.criteria.Join<Case, StatusCase> joinM = r.join("meeting").join("imputed");
-                final javax.persistence.criteria.Join<Case, StatusCase> joinUS = r.join("umecaSupervisor");
 
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
-                    add(joinSt.get("name"));
-                    add(joinSt.get("description"));
+                    add(r.get("status"));
+                    add(r.get("description"));
                     add(r.get("idMP"));
-                    add(joinM.get("name"));
-                    add(joinM.get("lastNameP"));
-                    add(joinM.get("lastNameM"));
-                    add(joinM.get("birthDate"));
+                    add(r.get("name"));
+                    add(r.get("lastNameP"));
+                    add(r.get("lastNameM"));
+                    add(r.get("birthDate"));
+                    add(r.get("arrangementType"));
                 }};
             }
 
@@ -168,11 +166,11 @@ public class FramingMeetingController {
                     return r.get("idMP");
 
                 if (field.equals("statusName"))
-                    return r.join("status").get("name");
+                    return r.get("status");
 
                 return null;
             }
-        }, Case.class, ForFramingMeetingGrid.class);
+        }, ForFramingMeetingGridView.class, ForFramingMeetingGrid.class);
 
         return result;
     }
