@@ -78,5 +78,7 @@ public interface MeetingService {
 
     MeetingView getMeetingSheetById(Long id);
 
+    void makeNotShownCriminalProceeding(Long id);
+
 
 }

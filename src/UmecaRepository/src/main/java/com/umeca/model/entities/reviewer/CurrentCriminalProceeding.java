@@ -56,6 +56,9 @@ public class CurrentCriminalProceeding {
     @Column(name = "handing_over_date")
     private Date handingOverDate;
 
+    @Column(name = "is_Shown")
+    private Boolean isShown;
+
     public Long getId() {
         return id;
     }
@@ -143,5 +146,13 @@ public class CurrentCriminalProceeding {
 
     public void setHandingOverDate(Date handingOverDate) {
         this.handingOverDate = handingOverDate;
+    }
+
+    public Boolean getIsShown() {
+        return isShown;
+    }
+
+    public void setIsShown(Boolean isShown) {
+        this.isShown = isShown;
     }
 }

@@ -17,6 +17,11 @@
 
         $(document).ready(function () {
 
+
+            window.showRequestDemiseRegister = function (id) {
+                window.showUpsert(id, "#angJsjqGridId", "<c:url value='/reviewer/handingOver/requestDetainedDemise.html'/>", "#GridId");
+            };
+
             var _1Mil = 1000;
             var _1minMil = 60 * (_1Mil);
             var _1hourMil = 60 * (_1minMil);
@@ -60,7 +65,7 @@
                 autoencode: true,
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'detentionDateMil', 'Imputado', 'Edad', 'Carpeta de Investigaci&oacute;n', 'Fecha de inicio', 'Hora de inicio','Delito', 'Tiempo que resta'],
+                colNames: ['ID', 'detentionDateMil', 'Imputado', 'Edad', 'Carpeta de Investigaci&oacute;n', 'Fecha de inicio', 'Hora de inicio','Delito', 'Tiempo que resta','Acci&oacute;n'],
                 colModel: [
                     {name: 'id', hidden: true},
                     {name: 'detentionDateMil', hidden: true},
@@ -70,7 +75,8 @@
                     {name: 'initDateStr', width: 150, align: "center", sortable: false, search: false},
                     {name: 'initTimeStr', width: 150, align: "center", sortable: false, search: false},
                     {name: 'crime', width: 150, align: "center", sortable: false, search: false},
-                    {name: 'leftTime', width: 150, align: "center", sortable: false, search: false}
+                    {name: 'leftTime', width: 150, align: "center", sortable: false, search: false},
+                    {name: 'Action', width: 75, align: "center", sortable: false, search: false, formatter: window.actionFormatter}
                 ],
                 rowNum: 10,
                 rowList: [10, 20, 30],
@@ -90,6 +96,14 @@
                         var mil = row.detentionDateMil;
                         var result = window.calcLeftTime(mil,cl);
                         $(this).jqGrid('setRowData', ids[i], {leftTime: result});
+                    }
+                    for (var i = 0; i < ids.length; i++) {
+                        var cl = ids[i];
+                        var be = "";
+                            if(result == "El plazo ha vencido."){
+                                be += "<a href=\"javascript:;\" style=\"display:inline-block; color: #FFFFFF;\" title=\"Dejar de mostrar registro\" onclick=\"window.showRequestDemiseRegister('" + cl + "');\"><span class=\"glyphicon glyphicon-remove\"></span></a>";
+                            }
+                        $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
                 },
                 loadComplete: function () {
