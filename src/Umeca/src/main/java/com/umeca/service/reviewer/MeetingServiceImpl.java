@@ -1611,4 +1611,12 @@ public class MeetingServiceImpl implements MeetingService {
         return null;
     }
 
+
+    public void makeNotShownCriminalProceeding(Long id){
+        CurrentCriminalProceeding ccp = currentCriminalProceedingRepository.findOne(id);
+        ccp.setIsShown(false);
+        currentCriminalProceedingRepository.save(ccp);
+        currentCriminalProceedingRepository.flush();
+    }
+
 }
