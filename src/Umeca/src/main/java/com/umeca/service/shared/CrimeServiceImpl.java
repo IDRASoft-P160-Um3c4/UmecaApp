@@ -116,6 +116,7 @@ public class CrimeServiceImpl implements CrimeService {
                 c.setCrime(crimeCatalogRepository.findOne(c.getCrime().getId()));
                 c.setFederal(electionRepository.findOne(c.getFederal().getId()));
                 c.setHearingFormat(hearingFormat);
+                c.setComment(c.getComment());       //For parse string length
             }
         }
         return crimes;

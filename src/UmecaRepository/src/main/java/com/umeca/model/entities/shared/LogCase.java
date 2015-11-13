@@ -1,7 +1,9 @@
 package com.umeca.model.entities.shared;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.shared.Constants;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
@@ -18,20 +20,6 @@ import java.util.Calendar;
 @Table(name = "log_case")
 public class LogCase {
 
-    public LogCase() {
-    }
-
-    public LogCase(Calendar date, Calendar dateCompletion, String activity, String userName, String title, String resume) {
-        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy hh:mm");
-        this.date = date;
-        this.dateString = format1.format(date.getTime());
-        this.dateCompletionString = dateCompletion == null ? null : format1.format(dateCompletion.getTime());
-        this.activity = activity;
-        this.userName = userName;
-        this.title = title;
-        this.resume = resume;
-    }
-
     @Id
     @GeneratedValue
     @Column(name = "id_log_case", nullable = false)
@@ -43,10 +31,11 @@ public class LogCase {
     @Column(name = "completion_date")
     private Calendar completionDate;
 
-    @JoinColumn(name = "activity", nullable = false)
+    @Column(name = "activity", nullable = false)
     private String activity;
 
-    @Column(name = "resume", length = 1500)
+    @Lob @Basic(fetch=FetchType.LAZY)
+    @Column(name = "resume")
     private String resume;
 
     @Column(name = "title", length = 500)
@@ -75,6 +64,20 @@ public class LogCase {
     @Transient
     private String timeString;
 
+    public LogCase() {
+    }
+
+    public LogCase(Calendar date, Calendar dateCompletion, String activity, String userName, String title, String resume) {
+        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+        this.date = date;
+        this.dateString = format1.format(date.getTime());
+        this.dateCompletionString = dateCompletion == null ? null : format1.format(dateCompletion.getTime());
+        this.activity = activity;
+        this.userName = userName;
+        this.title = title;
+        this.resume = resume;
+    }
+
     public Long getId() {
         return id;
     }
@@ -96,7 +99,7 @@ public class LogCase {
     }
 
     public void setActivity(String activity) {
-        this.activity = activity;
+        this.activity = StringExt.substringMax(activity, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getResume() {
@@ -112,7 +115,7 @@ public class LogCase {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = StringExt.substringMax(title, 500);
     }
 
     public User getUser() {

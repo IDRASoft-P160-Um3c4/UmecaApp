@@ -1,5 +1,8 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.infrastructure.extensions.StringExt;
+import com.umeca.model.shared.Constants;
+
 import javax.persistence.*;
 
 @Entity
@@ -18,6 +21,7 @@ public class ContactData {
     @Column(name = "phone", nullable = false)
     private String phoneTxt;
 
+    @Lob @Basic(fetch=FetchType.LAZY)
     @Column(name = "address", nullable = false)
     private String addressTxt;
 
@@ -41,7 +45,7 @@ public class ContactData {
     }
 
     public void setNameTxt(String nameTxt) {
-        this.nameTxt = nameTxt;
+        this.nameTxt = StringExt.substringMax(nameTxt, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getPhoneTxt() {
@@ -49,7 +53,7 @@ public class ContactData {
     }
 
     public void setPhoneTxt(String phoneTxt) {
-        this.phoneTxt = phoneTxt;
+        this.phoneTxt = StringExt.substringMax(phoneTxt, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getAddressTxt() {
