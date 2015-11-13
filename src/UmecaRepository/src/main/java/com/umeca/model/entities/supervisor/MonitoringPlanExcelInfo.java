@@ -84,7 +84,7 @@ public class MonitoringPlanExcelInfo {
 
         if (lstArrangement != null && lstArrangement.size() > 0) {
             for (SelectList actArr : lstArrangement) {
-                if (returnStr != "")
+                if (returnStr.isEmpty() == false)
                     returnStr += "\n";
                 if (actArr.getName() != null && actArr.getDescription() != null) {
                     returnStr += "-" + actArr.getName();
@@ -100,7 +100,7 @@ public class MonitoringPlanExcelInfo {
 
         if (lstActivities != null && lstActivities.size() > 0) {
             for (SelectList actAct : lstActivities) {
-                if (returnStr != "")
+                if (returnStr.isEmpty() == false)
                     returnStr += "\n";
                 if (actAct.getName() != null) {
                     returnStr += "-" + actAct.getName();
@@ -115,7 +115,7 @@ public class MonitoringPlanExcelInfo {
 
         if (lstGoals != null && lstGoals.size() > 0) {
             for (SelectList actGoal : lstGoals) {
-                if (returnStr != "")
+                if (returnStr.isEmpty() == false)
                     returnStr += "\n";
                 if (actGoal.getName() != null) {
                     returnStr += "-" + actGoal.getName();
@@ -238,7 +238,7 @@ public class MonitoringPlanExcelInfo {
         String returnStr = "";
 
         for (ReconstructedActivityInfo activityInfo : this.lstReconstructed) {
-            if (returnStr != "")
+            if (returnStr.isEmpty() == false)
                 returnStr += ",";
             returnStr += activityInfo.getSupActivity();
         }

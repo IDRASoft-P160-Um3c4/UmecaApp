@@ -188,7 +188,7 @@ public class ChannelingServiceImpl implements ChannelingService {
             return;
 
         ///TODO Validar si no existe una actividad en el plan de monitoreo que tenga una canalización asignada
-        Long count = activityMonitoringPlanRepository.countInChanneling(channelingId);
+        long count = activityMonitoringPlanRepository.countInChanneling(channelingId).longValue();
 
         if (count > 0) {
             response.setHasError(true);
@@ -308,7 +308,7 @@ public class ChannelingServiceImpl implements ChannelingService {
     }
 
     private boolean isValidCase(Long caseId, ResponseMessage response) {
-        Long count = caseRepository.isReadyForChanneling(caseId);
+        long count = caseRepository.isReadyForChanneling(caseId).longValue();
         if (count > 0)
             return true;
 

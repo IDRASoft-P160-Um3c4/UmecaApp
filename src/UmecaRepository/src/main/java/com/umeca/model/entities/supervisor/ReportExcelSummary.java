@@ -246,7 +246,7 @@ public class ReportExcelSummary {
         String retStr = "";
         if (lstStr != null && lstStr.size() > 0)
             for (String act : lstStr) {
-                if (retStr != "")
+                if (retStr.isEmpty() == false)
                     retStr += "\n";
 
                 if (act != null && !act.equals(""))
@@ -338,7 +338,7 @@ public class ReportExcelSummary {
         String str = "";
         if (this.lstGenderStr != null && this.lstGenderStr.size() > 0) {
             for (String act : this.lstGenderStr) {
-                if (str != "")
+                if (str.isEmpty() == false)
                     str += "\n";
 
                 if (act != null && !act.equals(""))
@@ -355,7 +355,7 @@ public class ReportExcelSummary {
         String str = "";
         if (this.lstStCaseStr != null && this.lstStCaseStr.size() > 0) {
             for (String act : this.lstStCaseStr) {
-                if (str != "")
+                if (str.isEmpty() == false)
                     str += "\n";
 
                 if (act != null && !act.equals(""))
@@ -373,7 +373,7 @@ public class ReportExcelSummary {
         String str = "";
         if (this.lstMarStStr != null && this.lstMarStStr.size() > 0) {
             for (String act : this.lstMarStStr) {
-                if (str != "")
+                if (str.isEmpty() == false)
                     str += "\n";
 
                 if (act != null && !act.equals(""))
@@ -390,7 +390,7 @@ public class ReportExcelSummary {
         String str = "";
         if (this.lstDrugsStr != null && this.lstDrugsStr.size() > 0) {
             for (String act : this.lstDrugsStr) {
-                if (str != "")
+                if (str.isEmpty() == false)
                     str += "\n";
 
                 if (act != null && !act.equals(""))
@@ -407,7 +407,7 @@ public class ReportExcelSummary {
         String str = "";
         if (this.lstAcLvlStr != null && this.lstAcLvlStr.size() > 0) {
             for (String act : this.lstAcLvlStr) {
-                if (str != "")
+                if (str.isEmpty() == false)
                     str += "\n";
 
                 if (act != null && !act.equals(""))
@@ -424,7 +424,7 @@ public class ReportExcelSummary {
         String str = "";
         if (this.lstLvlRkStr != null && this.lstLvlRkStr.size() > 0) {
             for (String act : this.lstLvlRkStr) {
-                if (str != "")
+                if (str.isEmpty() == false)
                     str += "\n";
 
                 if (act != null && !act.equals(""))
@@ -441,7 +441,7 @@ public class ReportExcelSummary {
         String str = "";
         if (this.lstLvlRkStr != null && this.lstLvlRkStr.size() > 0) {
             for (String act : this.lstLvlRkStr) {
-                if (str != "")
+                if (str.isEmpty() == false)
                     str += "\n";
 
                 if (act != null && !act.equals(""))
@@ -954,7 +954,7 @@ public class ReportExcelSummary {
 
         if (lstGender != null)
             for (SelectList act : lstGender) {
-                if (act.getLock() == gender)
+                if (act.getLock().equals(gender))
                     tot++;
             }
 
@@ -966,7 +966,7 @@ public class ReportExcelSummary {
 
         if (lstGender != null)
             for (SelectList act : lstGender) {
-                if (act.getIdAux() == gender)
+                if (act.getIdAux().equals(gender))
                     tot++;
             }
 
@@ -1084,7 +1084,7 @@ public class ReportExcelSummary {
         String str = "";
         if (this.lstCrimeStr != null && this.lstCrimeStr.size() > 0) {
             for (String act : this.lstCrimeStr) {
-                if (str != "")
+                if (str.isEmpty() == false)
                     str += "\n";
 
                 if (act != null && !act.equals(""))
@@ -1101,7 +1101,7 @@ public class ReportExcelSummary {
         String str = "";
         if (this.lstArrangementStr != null && this.lstArrangementStr.size() > 0) {
             for (String act : this.lstArrangementStr) {
-                if (str != "")
+                if (str.isEmpty() == false)
                     str += "\n";
 
                 if (act != null && !act.equals(""))
@@ -1118,7 +1118,7 @@ public class ReportExcelSummary {
         String str = "";
         if (this.lstActivitiesStr != null && this.lstActivitiesStr.size() > 0) {
             for (String act : this.lstActivitiesStr) {
-                if (str != "")
+                if (str.isEmpty() == false)
                     str += "\n";
 
                 if (act != null && !act.equals(""))

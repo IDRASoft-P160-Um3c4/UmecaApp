@@ -59,7 +59,7 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
         }
 
         //Validar archivos con el mismo nombre
-        if (uploadFileGenericRepository.alreadyExistFileByUser(userId, file.getFileName().toLowerCase()) > 0) {
+        if (uploadFileGenericRepository.alreadyExistFileByUser(userId, file.getFileName().toLowerCase()).longValue() > 0L) {
             resMsg.setHasError(true);
             resMsg.setMessage("Ya existe un archivo con ese nombre");
             return false;
@@ -80,7 +80,7 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
         }
 
         //Validar archivos con el mismo nombre
-        if (uploadFileGenericRepository.alreadyExistFileByUser(userId, file.getFileName().toLowerCase()) > 0) {
+        if (uploadFileGenericRepository.alreadyExistFileByUser(userId, file.getFileName().toLowerCase()).longValue() > 0L) {
             resMsg.setHasError(true);
             resMsg.setMessage("Ya existe un archivo con ese nombre");
             return false;

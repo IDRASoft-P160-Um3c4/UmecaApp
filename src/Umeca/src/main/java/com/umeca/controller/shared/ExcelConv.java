@@ -41,7 +41,7 @@ public class ExcelConv {
 
         if (listRelActivities != null && listRelActivities.size() > 0)
             for (RelSocialEnvironmentActivity act : listRelActivities) {
-                if (activities != "")
+                if (activities.isEmpty() == false)
                     activities += "\n ";
 
                 activities += "-" + act.getActivity().getName();
@@ -60,7 +60,7 @@ public class ExcelConv {
 
         if (homes != null && homes.size() > 0) //se omite la disponibilidad
             for (ImputedHome act : homes) {
-                if (addresses != "")
+                if (addresses.isEmpty() == false)
                     addresses += "\n";
 
                 addresses += "-" + act.getAddress().getAddressString();
@@ -86,7 +86,7 @@ public class ExcelConv {
 
             if (persons != null && persons.size() > 0)
                 for (PersonSocialNetwork act : persons) {
-                    if (socialString != "")
+                    if (socialString.isEmpty() == false)
                         socialString += "\n";
 
                     socialString += "-" + act.getName();
@@ -124,7 +124,7 @@ public class ExcelConv {
 
         if (references != null && references.size() > 0)
             for (Reference act : references) {
-                if (referencesString != "")
+                if (referencesString.isEmpty() == false)
                     referencesString += "\n";
 
                 referencesString += "-" + act.getFullName();
@@ -156,7 +156,7 @@ public class ExcelConv {
 
         if (jobs != null && jobs.size() > 0)
             for (Job act : jobs) {
-                if (jobsString != "")
+                if (jobsString.isEmpty() == false)
                     jobsString += "\n";
 
                 jobsString += "-" + act.getCompany();
@@ -194,7 +194,7 @@ public class ExcelConv {
 
         if (drugs != null && drugs.size() > 0)
             for (Drug act : drugs) {
-                if (drugsString != "")
+                if (drugsString.isEmpty() == false)
                     drugsString += "\n";
 
                 drugsString += "-" + act.getDrugType().getName();
@@ -220,7 +220,7 @@ public class ExcelConv {
 
         if (crimes != null && crimes.size() > 0)
             for (Crime act : crimes) {
-                if (crimesString != "")
+                if (crimesString.isEmpty() == false)
                     crimesString += "\n";
 
                 crimesString += "-" + act.getCrime().getName();
@@ -239,7 +239,7 @@ public class ExcelConv {
 
         if (coDefendants != null && coDefendants.size() > 0)
             for (CoDefendant act : coDefendants) {
-                if (coDefString != "")
+                if (coDefString.isEmpty() == false)
                     coDefString += "\n";
 
                 coDefString += "-" + act.getFullName();
@@ -328,7 +328,7 @@ public class ExcelConv {
 
                 case 6:
 
-                    Integer totalRisk = technicalReview.getTotalRisk();
+                    int totalRisk = technicalReview.getTotalRisk().intValue();
 
                     questionsString += "-Total: " + totalRisk + "\n";
 
@@ -348,7 +348,7 @@ public class ExcelConv {
 
             if (currSection != null) {
                 for (QuestionarySection subsec : currSection.getChilds()) {
-                    if (questionsString != "")
+                    if (questionsString.isEmpty() == false)
                         questionsString += "\n";
 
                     questionsString += "-" + subsec.getName();
@@ -356,7 +356,7 @@ public class ExcelConv {
                     for (QuestionReviewRel selQues : questSelected) {
 
                         if (selQues.getQuestion().getSection().getCode().equals(subsec.getCode())) {
-                            if (questionsString != "")
+                            if (questionsString.isEmpty() == false)
                                 questionsString += "\n";
 
                             questionsString += "   ." + selQues.getQuestion().getQuestion();
@@ -380,7 +380,7 @@ public class ExcelConv {
         for (FieldMeetingSource act : fields) {
             if (act.getFieldVerification().getSectionCode().equals(section)) {
 
-                if (answersSourceString != "")
+                if (answersSourceString.isEmpty() == false)
                     answersSourceString += "\n";
 
                 answersSourceString += "-" + act.getFieldVerification().getFieldName() + " : " + act.getValue();

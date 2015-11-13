@@ -119,7 +119,7 @@
 
             setInterval(function () {
                 $("#GridId").trigger("reloadGrid");
-            }, 1000);
+            }, 300000);
 
         });
     </script>

@@ -91,7 +91,7 @@ public class RolActivityServiceImpl implements RolActivityService{
                 String endHour = getStrHour(dto.getEndCalendar());
 
 
-                if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER) && dto.getRolActivityId() < 0){
+                if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER) && dto.getRolActivityId().longValue() < 0L){
                     List<SelectList> lstActivities = dto.getActivities();
                     for(SelectList act: lstActivities){
                         if(act.getIsSelected().equals(true))
@@ -99,7 +99,7 @@ public class RolActivityServiceImpl implements RolActivityService{
                     }
                 }
 
-                if(dto.getRolActivityId() > 0) {
+                if(dto.getRolActivityId().longValue() > 0L) {
 
                     update(dto, rolActivityRepository, user, fullModel);
                     if(sharedUserService.isUserInRole(sharedUserService.GetLoggedUserId(), Constants.ROLE_EVALUATION_MANAGER)){

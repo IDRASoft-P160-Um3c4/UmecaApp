@@ -81,7 +81,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         milDate = milDate - millisecondsToAuthorize;
         referenceDate.setTimeInMillis(milDate);
         Integer findActive = 0, findBlock = 0;
-        Long findCase = req.getCaseFilterId() < 0 ? 0L : req.getCaseFilterId();
+        Long findCase = req.getCaseFilterId().longValue() < 0L ? 0L : req.getCaseFilterId();
         if (req.getCaseFilterId().equals(MonitoringConstants.FILTER_ACTIVE_CASE)) {
             findActive = 1;
         } else if (req.getCaseFilterId().equals(MonitoringConstants.FILTER_SUSPENDED_CASE)) {
@@ -104,7 +104,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
             if (monitoringPlanDto == null || monitoringPlanDto.getMonPlanId().equals(act.getMonitoringPlanId()) == false) {
                 monitoringPlanDto = null;
                 for (MonitoringPlanDto monPlan : lstMonPlanSus) {
-                    if (act.getMonitoringPlanId() != monPlan.getMonPlanId())
+                    if (act.getMonitoringPlanId().equals(monPlan.getMonPlanId()) == false)
                         continue;
                     monitoringPlanDto = monPlan;
                     break;
@@ -186,7 +186,7 @@ public class TrackMonPlanServiceImpl implements TrackMonPlanService {
         model.addObject("actEndFullDate", CalendarExt.calendarToFormatString(actMonPlanInfo.getEndDone(), Constants.FORMAT_CALENDAR_I));
 
         genericId = actMonPlanInfo.getChannelingId();
-        model.addObject("hasChanneling", genericId != null && genericId > 0);
+        model.addObject("hasChanneling", genericId != null && genericId.longValue() > 0L);
         model.addObject("channelingId", genericId);
         model.addObject("channelingName", actMonPlanInfo.getChannelingName());
         model.addObject("channelingType", actMonPlanInfo.getChannelingType());

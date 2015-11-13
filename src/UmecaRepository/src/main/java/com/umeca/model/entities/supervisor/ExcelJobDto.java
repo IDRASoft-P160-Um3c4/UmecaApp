@@ -90,7 +90,7 @@ public class ExcelJobDto {
 
         if (this.schedule != null && this.schedule.size() > 0) {
             for (ScheduleDto act : this.schedule) {
-                if (schStr != "")
+                if (schStr.isEmpty() == false)
                     schStr += "; ";
                 schStr += act.getDay() + ", de " + act.getStart() + " a " + act.getEnd();
             }
