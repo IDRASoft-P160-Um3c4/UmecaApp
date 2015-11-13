@@ -68,6 +68,56 @@ public class DetainedDto implements EntityGrid {
         this.nowL = new Date().getTime();
     }
 
+   public DetainedDto(Long id,
+                      String name,
+                      String lastNameP,
+                      String lastNameM,
+                      String age,
+                      String idFolder,
+                      Date initDate,
+                      Date initTime,
+                      String investigationUnit,
+                      String district,
+                      Boolean isProsecute,
+                      String crime
+   ){
+       SimpleDateFormat fDate = new SimpleDateFormat("yyyy/MM/dd");
+       SimpleDateFormat fTime = new SimpleDateFormat("HH:mm:ss");
+
+       this.id = id;
+       this.name = name;
+       this.lastNameP = lastNameP;
+       this.lastNameM = lastNameM;
+       this.fullName = name + " " + lastNameP + " " + lastNameM;
+
+       this.age = age;
+       this.idFolder = idFolder;
+       this.initDate = initDate;
+       if (initDate != null) {
+           this.initDateStr = fDate.format(initDate);
+           this.initDateL = initDate.getTime();
+           this.initDate = initDate;
+       }
+       if (initTime != null) {
+           this.initTime = new Time(initTime.getTime());
+           this.initTimeStr = fTime.format(initTime);
+           this.initTimeL = initTime.getTime();
+       }
+
+
+       this.investigationUnit = investigationUnit;
+       this.district = district;
+
+       this.isProsecute = isProsecute;
+
+       if (this.isProsecute != null && this.isProsecute.equals(true))
+           this.prosecute = "Si";
+       else
+           this.prosecute = "No";
+
+       this.crime = crime;
+   }
+
     public Long getId() {
         return id;
     }
@@ -235,4 +285,8 @@ public class DetainedDto implements EntityGrid {
     public void setNowL(Long nowL) {
         this.nowL = nowL;
     }
+
+
+
+
 }
