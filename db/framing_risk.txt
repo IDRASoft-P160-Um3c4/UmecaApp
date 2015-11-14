@@ -18,3 +18,5 @@
 17|Amistades con adicciones|17|0
 18|Amistades|18|0
 19|Familia en el Extranjero|19|0
+19|Familia en el Extranjero|19|0
+20|NO SE DETECTAN|20|0

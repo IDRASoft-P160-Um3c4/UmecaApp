@@ -46,6 +46,8 @@ import java.util.Date;
         "\t\t\tcaseD.id_case\n" +
         "\t\torder by\n" +
         "\t\t\theaF.id_hearing_format desc) heaF on caseD.id_case = heaF.idCase\n" +
+        "    where \n" +
+        "        statusC.status in('ST_CASE_HEARING_FORMAT_END', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_FRAMING_MEETING_INCOMPLETE')\n" +
         "    order by\n" +
         "        caseD.id_mp desc")
 public class ForFramingMeetingGridView {
