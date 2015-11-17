@@ -82,4 +82,5 @@ public interface FramingMeetingService {
 
     ResponseMessage savePersonalData(Long idCase, FramingPersonalDataView view);
 
+    void registerAttendance(Long id, Boolean attendance);
 }

@@ -3523,4 +3523,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         return new ResponseMessage(false, "savePersonalData");
     }
 
+    public void registerAttendance(Long id, Boolean attendance){
+        HearingFormat hf = hearingFormatRepository.findOne(id);
+        hf.setUmecaAttendance(attendance);
+        hearingFormatRepository.save(hf);
+        hearingFormatRepository.flush();
+    }
+
 }

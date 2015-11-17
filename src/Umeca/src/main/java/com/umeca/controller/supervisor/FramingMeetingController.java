@@ -13,13 +13,13 @@ import com.umeca.model.catalog.*;
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.catalog.dto.CountryDto;
 import com.umeca.model.catalog.dto.StateDto;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.dto.JobDto;
 import com.umeca.model.entities.reviewer.dto.RelActivityObjectDto;
 import com.umeca.model.entities.shared.UploadFile;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
-import com.umeca.model.shared.HearingFormatConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
@@ -39,7 +39,6 @@ import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -1147,6 +1146,8 @@ public class FramingMeetingController {
                     add(joinHF.get("umecaDate"));
                     add(joinHF.get("umecaTime"));
                     add(joinUS.get("fullname"));
+                    add(joinHF.get("umecaAttendance"));
+                    add(joinHF.get("id").alias("hearingFormatId"));
                 }};
             }
             @Override
@@ -1162,5 +1163,42 @@ public class FramingMeetingController {
         }, Case.class, ForFramingMeetingGrid.class);
 
         return result;
+    }
+
+
+
+    @RequestMapping(value = {"/supervisor/framingMeeting/datesAttendanceRequest"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ModelAndView requestDetainedDemise(@RequestParam Long id) {
+        ModelAndView model = new ModelAndView("supervisor/framingMeeting/datesAttendanceRequest");
+        model.addObject("idCP", id);
+        return  model;
+    }
+
+
+    @RequestMapping(value = "/supervisor/framingMeeting/attendanceFramingMeeting", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage demiseRegister(@RequestParam Long id, Boolean attendance) {
+        ResponseMessage response = new ResponseMessage();
+
+        try {
+            response.setTitle("Asistencia registrada");
+
+            User user = new User();
+            if (sharedUserService.isValidUser(user, response) == false)
+                return response;
+
+            framingMeetingService.registerAttendance(id, attendance);
+
+            response.setHasError(false);
+            return response;
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "attendanceFramingMeeting", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
+            return response;
+        }
     }
 }

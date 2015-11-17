@@ -29,6 +29,9 @@ public class ForFramingMeetingGrid implements EntityGrid {
     //    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
+    private Boolean umecaAttendance;
+    private Long hearingFormatId;
+
 
     private Integer arrangementType;
     private String arrangementTypeStr;
@@ -218,6 +221,49 @@ public class ForFramingMeetingGrid implements EntityGrid {
         this.fullName = strBld.toString();
         this.umecaDateExpired = calendarUmeca.getTime().before(Calendar.getInstance().getTime());
     }
+
+
+
+    public ForFramingMeetingGrid(Long id, String codeStatus,String descStatus, String idMP,String name, String lastNameP, String lastNameM, Date birthDate, Date umecaDate, Date umecaTime,String fullname, Boolean umecaAttendance, Long hearingFormatId){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+
+        Date currentDate = new Date();
+
+        Calendar calendarUmeca = new GregorianCalendar();
+        calendarUmeca.setTime(umecaDate);
+        Calendar calendarTime = new GregorianCalendar();
+        calendarTime.setTime(umecaTime);
+
+        long hour = calendarTime.get(Calendar.HOUR_OF_DAY);
+        calendarUmeca.add(Calendar.HOUR, calendarTime.get(Calendar.HOUR_OF_DAY));
+        calendarUmeca.add(Calendar.MINUTE, calendarTime.get(Calendar.MINUTE));
+        calendarUmeca.add(Calendar.SECOND, calendarTime.get(Calendar.SECOND));
+
+        Date umecaT = calendarUmeca.getTime();
+
+
+        this.id = id;
+        this.codeStatus = codeStatus;
+        this.descStatus = descStatus;
+        this.idMP = idMP;
+        this.name = name;
+        this.lastNameP = lastNameP;
+        this.lastNameM = lastNameM;
+        this.umecaDateStr = umecaDate == null ? "" : sdf.format(umecaDate);
+        this.brthDateTxt = sdf.format(birthDate);
+        this.umecaTime = umecaTime;
+        this.fullNameSupervisor = fullname;
+        StringBuilder strBld = new StringBuilder();
+        strBld.append(this.name);
+        strBld.append(" ");
+        strBld.append(this.lastNameP);
+        strBld.append(" ");
+        strBld.append(this.lastNameM);
+        this.fullName = strBld.toString();
+        this.umecaDateExpired = calendarUmeca.getTime().before(Calendar.getInstance().getTime());
+        this.umecaAttendance = umecaAttendance;
+        this.hearingFormatId = hearingFormatId;
+    }
     public Long getId() {
         return id;
     }
@@ -368,5 +414,21 @@ public class ForFramingMeetingGrid implements EntityGrid {
 
     public void setArrangementTypeStr(String arrangementTypeStr) {
         this.arrangementTypeStr = arrangementTypeStr;
+    }
+
+    public Boolean getUmecaAttendance() {
+        return umecaAttendance;
+    }
+
+    public void setUmecaAttendance(Boolean umecaAttendance) {
+        this.umecaAttendance = umecaAttendance;
+    }
+
+    public Long getHearingFormatId() {
+        return hearingFormatId;
+    }
+
+    public void setHearingFormatId(Long hearingFormatId) {
+        this.hearingFormatId = hearingFormatId;
     }
 }

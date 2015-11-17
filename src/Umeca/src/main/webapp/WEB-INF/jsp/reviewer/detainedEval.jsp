@@ -101,7 +101,7 @@
                         var cl = ids[i];
                         var be = "";
                             if(result == "El plazo ha vencido."){
-                                be += "<a href=\"javascript:;\" style=\"display:inline-block; color: #FFFFFF;\" title=\"Dejar de mostrar registro\" onclick=\"window.showRequestDemiseRegister('" + cl + "');\"><span class=\"glyphicon glyphicon-remove\"></span></a>";
+                                be = "<a href=\"javascript:;\" style=\"display:inline-block; color: #FFFFFF;\" title=\"Dejar de mostrar registro\" onclick=\"window.showRequestDemiseRegister('" + cl + "');\"><span class=\"glyphicon glyphicon-remove\"></span></a>";
                             }
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }

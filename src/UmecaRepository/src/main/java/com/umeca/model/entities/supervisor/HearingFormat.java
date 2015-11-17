@@ -71,6 +71,9 @@ public class HearingFormat {
     @Column(name = "umeca_time")
     private Time umecaTime;
 
+    @Column(name="umeca_attendance")
+    private Boolean umecaAttendance;
+
 //    @OneToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "id_user_umeca")
 //    private User umecaSupervisor;
@@ -442,4 +445,11 @@ public class HearingFormat {
         this.locationPlace = StringExt.substringMax(locationPlace, Constants.DEFAULT_LEN_STRING);
     }
 
+    public Boolean getUmecaAttendance() {
+        return umecaAttendance;
+    }
+
+    public void setUmecaAttendance(Boolean umecaAttendance) {
+        this.umecaAttendance = umecaAttendance;
+    }
 }
