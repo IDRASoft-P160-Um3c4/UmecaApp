@@ -202,9 +202,9 @@
 <script type="text/javascript">
 
     jQuery(function ($) {
-        $('#initDate').datepicker({autoclose: true}).next().on(ace.click_event, function () {
-         $(this).prev().focus();
-         });
+      //  $('#initDate').datepicker({autoclose: true}).next().on(ace.click_event, function () {
+      //   $(this).prev().focus();
+      //   });
 
         $('#initDate').datepicker({autoclose: true, endDate: new Date()}).next().on(ace.click_event, function () {
             $(this).prev().focus();
