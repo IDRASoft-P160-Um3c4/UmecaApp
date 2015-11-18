@@ -926,7 +926,7 @@ public class MeetingController {
         ResponseMessage response = new ResponseMessage();
 
         try {
-            response.setTitle("Reporte de incumplimiento");
+            response.setTitle("Registro ocultado");
 
             User user = new User();
             if (userService.isValidUser(user, response) == false)

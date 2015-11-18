@@ -44,6 +44,19 @@
                     <sec:authorize access="hasRole('ROLE_REVIEWER')">
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon icon-android"></i>
+                                &nbsp;&nbsp;Aplicaci&oacute;n para tableta
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a
+                                        href="<c:url value='/assets/UmecaApp.apk'/>"><i
+                                        class="glyphicon glyphicon-cloud-download"></i>&nbsp;&nbsp;Descargar instalador de aplicaci&oacute;n</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
                                     class="glyphicon glyphicon-list"></i>
                                 &nbsp;&nbsp;Tablero
                                 <i class="icon-caret-down"></i>
@@ -122,6 +135,19 @@
                                 class="icon icon-envelope"></i>&nbsp;&nbsp;S&aacute;bana de detenidos</a></li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_SUPERVISOR')">
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon icon-android"></i>
+                                &nbsp;&nbsp;Aplicaci&oacute;n para tableta
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a
+                                        href="<c:url value='/assets/UmecaApp.apk'/>"><i
+                                        class="glyphicon glyphicon-cloud-download"></i>&nbsp;&nbsp;Descargar instalador de aplicaci&oacute;n</a>
+                                </li>
+                            </ul>
+                        </li>
 
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i

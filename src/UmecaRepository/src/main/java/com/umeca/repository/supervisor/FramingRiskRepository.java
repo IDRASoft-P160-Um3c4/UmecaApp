@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository("qFramingRiskRepository")
 public interface FramingRiskRepository extends JpaRepository<FramingRisk, Long> {
-    @Query("select fr from FramingRisk fr where fr.isObsolete=false order by fr.description")
+    @Query("select fr from FramingRisk fr where fr.isObsolete=false")
     List<FramingRisk> findNoObsolete();
 
     @Query("SELECT distinct (fr.id) FROM FramingMeeting fm " +
