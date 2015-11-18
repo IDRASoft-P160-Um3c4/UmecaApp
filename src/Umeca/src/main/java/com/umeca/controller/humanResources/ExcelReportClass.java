@@ -1,8 +1,8 @@
 package com.umeca.controller.humanResources;
 
-import com.umeca.model.dto.humanResources.AttendanceExcelDto;
-import com.umeca.model.dto.humanResources.EmployeeExcelDto;
-import com.umeca.model.dto.humanResources.ScheduleDayDto;
+
+import com.umeca.model.dto.humanResources.*;
+import com.umeca.repository.catalog.StatisticHumanResourcesReportTypeRepository;
 import com.umeca.repository.humanResources.EmployeeRepository;
 import com.umeca.repository.humanResources.ScheduleDayRepository;
 import com.umeca.service.account.SharedUserService;
@@ -12,7 +12,6 @@ import com.umeca.service.shared.SystemSettingService;
 import net.sf.jxls.transformer.XLSTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -46,16 +44,20 @@ public class ExcelReportClass {
     private EmployeeRepository employeeRepository;
 
     @Autowired
-    StatisticHumanResourcesReportService statisticHumanResourcesReportService;
+    private StatisticHumanResourcesReportService statisticHumanResourcesReportService;
 
     @Autowired
-    ScheduleDayRepository scheduleDayRepository;
+    private ScheduleDayRepository scheduleDayRepository;
 
     @Autowired
-    SystemSettingService systemSettingService;
+    private SystemSettingService systemSettingService;
+
+    @Autowired
+    private StatisticHumanResourcesReportTypeRepository statisticHumanResourcesReportTypeRepository;
+
 
     @RequestMapping(value = "/humanResources/excelReport/index", method = RequestMethod.GET)
-    public ModelAndView index(){
+    public ModelAndView index() {
         ModelAndView model = new ModelAndView("/humanResources/excelReport/index");
         return model;
     }
@@ -66,89 +68,106 @@ public class ExcelReportClass {
     @ResponseBody
     void jxlsMethod(HttpServletRequest request, HttpServletResponse response, String initDate, String endDate) {
 
-        Map beans = new HashMap();
-
-        XLSTransformer transformer = new XLSTransformer();
-        List<EmployeeExcelDto> employees;
-        List<AttendanceExcelDto> attendanceExcelDto = null;
-        List<ScheduleDayDto> lstScheduleDay;
-        Calendar initCal = Calendar.getInstance();
-        Calendar endCal = Calendar.getInstance();
-        Date initDateF = null;
-        Date endDateF = null;
-        String initTime = " 00:00:00";
-        String endTime = " 23:59:59";
-        initDate = initDate + "/01";
-        endDate = endDate + "/01";
-        int monthI = 0;
-        int monthF = 0;
-
-
         try {
-            employees = employeeRepository.getAllNoObsoleteEmployeeExcel();
-            attendanceExcelDto = statisticHumanResourcesReportService.getAttendanceLog(initDate, endDate);
-            lstScheduleDay = scheduleDayRepository.findAllScheduleDays();
 
-            initDateF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(initDate + initTime);
-            endDateF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(endDate + endTime);
+            Calendar initCal = Calendar.getInstance();
+            Calendar endCal = Calendar.getInstance();
+            Date initDateF = null;
+            Date endDateF = null;
+          //  initDate = initDate + "/01";
+         //   endDate = endDate + "/01";
+
+            int monthI = 0;
+            int monthF = 0;
+
+            initDateF = new SimpleDateFormat("yyyy/MM/dd").parse(initDate);
+            endDateF = new SimpleDateFormat("yyyy/MM/dd").parse(endDate);
+
             initCal.setTime(initDateF);
             endCal.setTime(endDateF);
 
-            monthI = initCal.get(Calendar.MONTH) + 1;
-            monthF = endCal.get(Calendar.MONTH) + 1;
+            ExcelAssistanceReportDto excelAssistanceReport = new ExcelAssistanceReportDto(initDateF, endDateF);
+            List<EmployeeExcelDto> employees = employeeRepository.getAllNoObsoleteEmployeeExcel();
+            List<ScheduleDayDto> lstScheduleDay = scheduleDayRepository.findAllScheduleDays();
+            List<AttendanceExcelDto> attendanceExcelDto = statisticHumanResourcesReportService.getAttendanceLog(initDate, endDate);
+            List<AttendanceExcelDto> absences = statisticHumanResourcesReportTypeRepository.getAllAbsence(initDateF,endDateF);
 
+            attendanceExcelDto.addAll(absences);
 
-            int startPeriod = Integer.parseInt(systemSettingService.findOneValue("ATTENDANCE", "PeriodStart"));
-            int endPeriod = Integer.parseInt(systemSettingService.findOneValue("ATTENDANCE", "PeriodEnd"));
-
-            initCal.set(Calendar.DAY_OF_MONTH, startPeriod);
-
-            if (startPeriod > 1) {
-                endCal.set(Calendar.MONTH, monthF);
-                endCal.set(Calendar.DAY_OF_MONTH, startPeriod - 1);
-            }
 
 
             int numberDays;
-
-            numberDays = (int)( (endCal.getTime().getTime() - initCal.getTime().getTime()) / (1000 * 60 * 60 * 24));
-
-            List<Calendar> lstDays = new ArrayList<>();
-            for(int i = 0; i < numberDays; i++ ){
+            numberDays = (int) ((endCal.getTime().getTime() - initCal.getTime().getTime()) / (1000 * 60 * 60 * 24));
+            numberDays += 1;
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            List<String> lstDaysStr = new ArrayList<>();
+            for (int i = 0; i < numberDays; i++) {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(initCal.getTime());
                 calendar.add(Calendar.DAY_OF_MONTH, i);
-                lstDays.add(calendar);
+                lstDaysStr.add(sdf.format(calendar.getTime()));
             }
 
+            excelAssistanceReport.setDates(lstDaysStr);
 
-            for(EmployeeExcelDto employee : employees){
+            for (EmployeeExcelDto employee : employees) {
+
+                List<DayAttendanceDto> lstDayAttendance = new ArrayList<>();
+                for (int i = 0; i < numberDays; i++) {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(initCal.getTime());
+                    calendar.add(Calendar.DAY_OF_MONTH, i);
+                    DayAttendanceDto dayAttendanceDto = new DayAttendanceDto(calendar);
+                    List<AttendanceExcelDto> lstDayLstAttendance = new ArrayList<>();
+                    dayAttendanceDto.setLstAttendance(lstDayLstAttendance);
+                    lstDayAttendance.add(dayAttendanceDto);
+                }
+
+
+                employee.setLstDayAttendance(lstDayAttendance);
 
 
                 List<AttendanceExcelDto> attendances = new ArrayList<>();
-                for(AttendanceExcelDto attendance : attendanceExcelDto){
-                    if(attendance.getEmployeeId().equals(employee.getIdEmployee()) ){
+                for (AttendanceExcelDto attendance : attendanceExcelDto) {
+                    if (attendance.getEmployeeId().equals(employee.getIdEmployee())) {
+                        for (int i = 0; i < employee.getLstDayAttendance().size(); i++) {
+
+
+                            Calendar startDay = Calendar.getInstance();
+                            startDay.setTime(employee.getLstDayAttendance().get(i).getDay().getTime());
+
+                            Calendar endDay = Calendar.getInstance();
+                            endDay.setTime(employee.getLstDayAttendance().get(i).getDay().getTime());
+                            endDay.add(Calendar.HOUR_OF_DAY, 23);
+                            endDay.add(Calendar.MINUTE, 59);
+                            endDay.add(Calendar.SECOND, 59);
+
+                            if (attendance.getEventTime().after(startDay) &&
+                                    attendance.getEventTime().before(endDay)) {
+                                employee.getLstDayAttendance().get(i).getLstAttendance().add(attendance);
+
+                            }
+                        }
                         attendances.add(attendance);
                     }
                 }
-                employee.setLstAttendance   (attendances);
-
-
+                employee.setLstAttendance(attendances);
                 List<ScheduleDayDto> scheduleDays = new ArrayList<>();
-                for(ScheduleDayDto scheduleDay : lstScheduleDay){
-                    if(scheduleDay.getIdEmployee().equals(employee.getIdEmployee())){
+                for (ScheduleDayDto scheduleDay : lstScheduleDay) {
+                    if (scheduleDay.getIdEmployee().equals(employee.getIdEmployee())) {
                         scheduleDays.add(scheduleDay);
                     }
-
                 }
                 employee.setLstScheduleDay(scheduleDays);
-
             }
 
+            excelAssistanceReport.setEmployees(employees);
 
-            beans.put("lstEmployees",  employees);
 
+            Map beans = new HashMap();
+            XLSTransformer transformer = new XLSTransformer();
 
+            beans.put("excelAssistanceReport", excelAssistanceReport);
 
             UUID uid = UUID.randomUUID();
             File temp = File.createTempFile(uid.toString(), ".xls");
@@ -156,7 +175,8 @@ public class ExcelReportClass {
 
             ServletContext servletContext = request.getSession().getServletContext();
             String realContextPath = servletContext.getRealPath("/");
-            realContextPath += "/WEB-INF/jxlsTemplate/humanResourcesReport.xls";
+            realContextPath += "/WEB-INF/jxlsTemplate/humanResourcesExcelReport.xls";
+
 
             transformer.transformXLS(realContextPath, beans, tempPath);
 
@@ -178,6 +198,7 @@ public class ExcelReportClass {
 
         } catch (Exception ex) {
             ex.printStackTrace();
+            System.out.println(ex);
             logException.Write(ex, this.getClass(), "jxlsMethod", sharedUserService);
         }
     }

@@ -2,21 +2,21 @@ package com.umeca.model.dto.humanResources;
 
 import java.util.List;
 
-/**
- * Created by DeveloperII on 10/11/2015.
- */
+
 public class EmployeeExcelDto {
-    Long idEmployee;
-    String name;
-    String lastNameP;
-    String lastNameM;
-    String fullName;
+    private Long idEmployee;
+    private String name;
+    private String lastNameP;
+    private String lastNameM;
+    private String fullName;
 
 
 
     List<AttendanceExcelDto> lstAttendance;
 
     List<ScheduleDayDto> lstScheduleDay;
+
+    List<DayAttendanceDto> lstDayAttendance;
 
     public EmployeeExcelDto(Long idEmployee,
                             String name,
@@ -86,5 +86,74 @@ public class EmployeeExcelDto {
 
     public void setLstScheduleDay(List<ScheduleDayDto> lstScheduleDay) {
         this.lstScheduleDay = lstScheduleDay;
+    }
+
+
+    public List<DayAttendanceDto> getLstDayAttendance() {
+        return lstDayAttendance;
+    }
+
+    public void setLstDayAttendance(List<DayAttendanceDto> lstDayAttendance) {
+        this.lstDayAttendance = lstDayAttendance;
+    }
+
+
+    public String initSchedule(){
+        String initSchedule = "";
+        for(ScheduleDayDto scheduleDay : this.lstScheduleDay){
+            if(scheduleDay.getDayId() == 1){
+                initSchedule += "L:" + scheduleDay.getStart() + " ";
+            }
+            if(scheduleDay.getDayId() == 2){
+                initSchedule += "M:" + scheduleDay.getStart() + " ";
+            }
+            if(scheduleDay.getDayId() == 3){
+                initSchedule += "Mi:" + scheduleDay.getStart() + " ";
+            }
+            if(scheduleDay.getDayId() == 4){
+                initSchedule += "J:" + scheduleDay.getStart() + " ";
+
+            }if(scheduleDay.getDayId() == 5){
+                initSchedule += "V:" + scheduleDay.getStart() + " ";
+
+            }if(scheduleDay.getDayId() == 6){
+                initSchedule += "S:" + scheduleDay.getStart() + " ";
+
+            }if(scheduleDay.getDayId() == 7){
+                initSchedule += "D:" + scheduleDay.getStart() + " ";
+            }
+        }
+        return initSchedule;
+    }
+
+
+    public String endSchedule(){
+        String endSchedule = "";
+
+        for(ScheduleDayDto scheduleDay : this.lstScheduleDay){
+            if(scheduleDay.getDayId() == 1){
+                endSchedule += "L:" + scheduleDay.getEnd();
+            }
+            if(scheduleDay.getDayId() == 2){
+                endSchedule += "M:" + scheduleDay.getEnd() + " ";
+            }
+            if(scheduleDay.getDayId() == 3){
+                endSchedule += "Mi:" + scheduleDay.getEnd() + " ";
+            }
+            if(scheduleDay.getDayId() == 4){
+                endSchedule += "J:" + scheduleDay.getEnd() + " ";
+
+            }if(scheduleDay.getDayId() == 5){
+                endSchedule += "V:" + scheduleDay.getEnd() + " ";
+
+            }if(scheduleDay.getDayId() == 6){
+                endSchedule += "S:" + scheduleDay.getEnd() + " ";
+
+            }if(scheduleDay.getDayId() == 7){
+                endSchedule += "D:" + scheduleDay.getEnd() + " ";
+            }
+        }
+
+        return endSchedule;
     }
 }

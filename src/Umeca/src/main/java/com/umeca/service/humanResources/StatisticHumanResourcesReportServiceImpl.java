@@ -216,8 +216,8 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
 
         String initTime = " 00:00:00";
         String endTime = " 23:59:59";
-        initDate = initDate + "/01";
-        endDate = endDate + "/01";
+   //     initDate = initDate + "/01";
+   //     endDate = endDate + "/01";
 
 
         try {
@@ -227,19 +227,19 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
             endCal.setTime(endDateF);
 
 
-            monthI = initCal.get(Calendar.MONTH) + 1;
-            monthF = endCal.get(Calendar.MONTH) + 1;
-
-
-            int startPeriod = Integer.parseInt(systemSettingService.findOneValue("ATTENDANCE", "PeriodStart"));
-            int endPeriod = Integer.parseInt(systemSettingService.findOneValue("ATTENDANCE", "PeriodEnd"));
-
-            initCal.set(Calendar.DAY_OF_MONTH, startPeriod);
-
-            if (startPeriod > 1) {
-                endCal.set(Calendar.MONTH, monthF);
-                endCal.set(Calendar.DAY_OF_MONTH, startPeriod - 1);
-            }
+//            monthI = initCal.get(Calendar.MONTH) + 1;
+//            monthF = endCal.get(Calendar.MONTH) + 1;
+//
+//
+//            int startPeriod = Integer.parseInt(systemSettingService.findOneValue("ATTENDANCE", "PeriodStart"));
+//            int endPeriod = Integer.parseInt(systemSettingService.findOneValue("ATTENDANCE", "PeriodEnd"));
+//
+//            initCal.set(Calendar.DAY_OF_MONTH, startPeriod);
+//
+//            if (startPeriod > 1) {
+//                endCal.set(Calendar.MONTH, monthF);
+//                endCal.set(Calendar.DAY_OF_MONTH, startPeriod - 1);
+//            }
 
 
         } catch (Exception e) {

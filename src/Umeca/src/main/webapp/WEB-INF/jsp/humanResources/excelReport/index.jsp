@@ -95,7 +95,7 @@
                                          ng-model="initDate"
                                          class="form-control date-picker"
                                          type="text"
-                                         data-date-format="yyyy/mm" data-val="true"
+                                         data-date-format="yyyy/mm/dd" data-val="true"
 
                                          data-val-required="Fecha de inicio es un campo requerido"/>
                                                             <span class="input-group-addon">
@@ -116,7 +116,7 @@
                                 <div class="input-group">
                                   <input id="endDate" name="endDate"
                                          class="form-control date-picker" type="text"
-                                         data-date-format="yyyy/mm" data-val="true"
+                                         data-date-format="yyyy/mm/dd" data-val="true"
 
                                          ng-model="endDate"
                                          data-val-required="Fecha de fin es un campo requerido"/>
@@ -164,36 +164,55 @@
 </body>
 </html>
 
+<%--<script type="text/javascript">--%>
+
+  <%--var startDate = new Date('01/01/2012');--%>
+  <%--var FromEndDate = new Date();--%>
+  <%--var ToEndDate = new Date();--%>
+
+  <%--jQuery(function ($) {--%>
+
+    <%--$('#initDate').datepicker({--%>
+      <%--minViewMode: 1,--%>
+      <%--autoclose: true,--%>
+      <%--endDate: new Date()}).next().on(ace.click_event, function () {--%>
+      <%--$(this).prev().focus();--%>
+    <%--})--%>
+
+
+    <%--$('#initDate').datepicker()--%>
+            <%--.on('changeDate', function(e) {--%>
+              <%--startDate = new Date(e.date.getFullYear(), (e.date.getMonth()+1));--%>
+              <%--$('#endDate').datepicker('setStartDate', startDate);--%>
+              <%--$('#endDate').datepicker('setEndDate', new Date(startDate.getFullYear(),11,31));--%>
+
+            <%--});--%>
+
+    <%--$('#endDate').datepicker({--%>
+      <%--minViewMode: 1,--%>
+      <%--autoclose: true--%>
+    <%--}).next().on(ace.click_event, function () {--%>
+      <%--$(this).prev().focus();--%>
+    <%--});--%>
+
+  <%--});--%>
+<%--</script>--%>
+
+
 <script type="text/javascript">
 
-  var startDate = new Date('01/01/2012');
-  var FromEndDate = new Date();
-  var ToEndDate = new Date();
+    jQuery(function ($) {
+        $('#initDate').datepicker({autoclose: true}).next().on(ace.click_event, function () {
+         $(this).prev().focus();
+         });
 
-  jQuery(function ($) {
+        $('#initDate').datepicker({autoclose: true, endDate: new Date()}).next().on(ace.click_event, function () {
+            $(this).prev().focus();
+        });
 
-    $('#initDate').datepicker({
-      minViewMode: 1,
-      autoclose: true,
-      endDate: new Date()}).next().on(ace.click_event, function () {
-      $(this).prev().focus();
-    })
+        $('#endDate').datepicker({autoclose: true, endDate: new Date()}).next().on(ace.click_event, function () {
+            $(this).prev().focus();
+        });
 
-
-    $('#initDate').datepicker()
-            .on('changeDate', function(e) {
-              startDate = new Date(e.date.getFullYear(), (e.date.getMonth()+1));
-              $('#endDate').datepicker('setStartDate', startDate);
-              $('#endDate').datepicker('setEndDate', new Date(startDate.getFullYear(),11,31));
-
-            });
-
-    $('#endDate').datepicker({
-      minViewMode: 1,
-      autoclose: true
-    }).next().on(ace.click_event, function () {
-      $(this).prev().focus();
     });
-
-  });
 </script>

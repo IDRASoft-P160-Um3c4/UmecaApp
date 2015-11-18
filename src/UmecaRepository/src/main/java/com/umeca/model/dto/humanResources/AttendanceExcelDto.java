@@ -1,6 +1,8 @@
 package com.umeca.model.dto.humanResources;
 
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -8,7 +10,9 @@ public class AttendanceExcelDto {
 
     private Long attendanceId;
     private Calendar eventTime;
+    private String eventTimeStr;
     private Short workCode;
+    private String workCodeStr;
     private String employeeName;
     private Long employeeId;
     private Long absenceId;
@@ -23,6 +27,7 @@ public class AttendanceExcelDto {
 
 
     public AttendanceExcelDto(Long attendanceId, Calendar eventTime, Short workCode, String employeeName, Long employeeId, Long absenceId, Boolean approved, Date absenceDate, Integer absenceType) {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         this.attendanceId = attendanceId;
         this.eventTime = eventTime;
         this.workCode = workCode;
@@ -32,14 +37,30 @@ public class AttendanceExcelDto {
         this.approved = approved;
         this.absenceDate = absenceDate;
         this.absenceType = absenceType;
+        this.eventTimeStr = sdf.format(eventTime.getTime());
     }
 
     public AttendanceExcelDto(Long attendanceId, Calendar eventTime, Short workCode, String employeeName, Long employeeId) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         this.attendanceId = attendanceId;
         this.eventTime = eventTime;
         this.workCode = workCode;
         this.employeeName = employeeName;
         this.employeeId = employeeId;
+        this.eventTimeStr = sdf.format(eventTime.getTime());
+
+    }
+
+    public AttendanceExcelDto(Date eventTime, Boolean approved, Integer  absenceType, Long employeeId){
+
+        this.eventTime = Calendar.getInstance();
+        this.eventTime.setTime(eventTime);
+        this.eventTime.add(Calendar.MINUTE,1);
+        this.approved = approved;
+        this.absenceType = absenceType;
+        this.employeeId = employeeId;
+
     }
 
     public Long getAttendanceId() {
@@ -112,5 +133,23 @@ public class AttendanceExcelDto {
 
     public void setAbsenceType(Integer absenceType) {
         this.absenceType = absenceType;
+    }
+
+    public String getWorkCodeStr() {
+        return workCodeStr;
+    }
+
+    public void setWorkCodeStr(String workCodeStr) {
+        this.workCodeStr = workCodeStr;
+    }
+
+    public String getEventTimeStr() {
+        return eventTimeStr;
+    }
+
+    public void setEventTimeStr(String eventTimeStr) {
+        this.eventTimeStr = eventTimeStr;
+
+
     }
 }
