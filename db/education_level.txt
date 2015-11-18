@@ -4,3 +4,4 @@
 3|Preparatoria|Preparatoria|0
 4|Licenciatura|Licenciatura|0
 5|Posgrado|Posgrado|0
+6|Curso de capacitación|Curso de capacitación|0

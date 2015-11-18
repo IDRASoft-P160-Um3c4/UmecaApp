@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -940,6 +941,13 @@ public interface StatisticHumanResourcesReportTypeRepository extends JpaReposito
         List<Object> countEmployeeAttendanceLog(@Param("initDate") Calendar initDate, @Param("endDate") Calendar endDate);
 
 
+
+
+        @Query("select new com.umeca.model.dto.humanResources.AttendanceExcelDto(AB.eventDate, AB.approved, AB.type, EMP.id) " +
+                "from Absence AB " +
+                "inner join AB.employee EMP " +
+                "where (AB.eventDate between :initDate and :endDate) ")
+        List<AttendanceExcelDto> getAllAbsence(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
 
 
 
