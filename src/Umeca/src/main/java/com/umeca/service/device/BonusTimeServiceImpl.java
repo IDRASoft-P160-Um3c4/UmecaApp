@@ -26,10 +26,10 @@ public class BonusTimeServiceImpl implements BonusTimeService {
     public ResponseMessage upsertBonusTime(BonusTimeDto bonusTimeDto) {
         BonusTime bonusTime = new BonusTime();
 
-        if (bonusTimeDto.getId() == null || bonusTimeDto.getId() == 0)
+        if (bonusTimeDto.getId() == null || bonusTimeDto.getId().equals(0L))
             bonusTime = bonusTimeRepository.findOne(bonusTimeDto.getId());
 
-        if (bonusTimeDto.getId() != null || bonusTimeDto.getId() > 0)
+        if (bonusTimeDto.getId() != null || bonusTimeDto.getId().longValue() > 0L)
             bonusTime.setIdAttendanceLog(bonusTimeDto.getId());
 
         User user = userRepository.findOne(bonusTimeDto.getIdUser());

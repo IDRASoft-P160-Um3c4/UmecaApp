@@ -59,7 +59,7 @@ public class SharedUserService {
         String sUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         User userToValidate = userRepository.getInfoToValidate(sUsername);
 
-        if (userToValidate.getEnabled() == false) {
+        if (userToValidate.getEnabled().equals(false)) {
             response.setMessage("Usted no tiene permisos para realizar esta acci&oacute;n. Por favor solicite los permisos suficientes para realizar esta acci&oacute;n e intente de nuevo.");
             response.setHasError(true);
             return false;
@@ -101,12 +101,12 @@ public class SharedUserService {
     }
 
     public boolean isUserInRole(Long supervisorId, String sRole) {
-        return (userRepository.isUserInRole(supervisorId, sRole) > 0);
+        return (userRepository.isUserInRole(supervisorId, sRole).longValue() > 0L);
 
     }
 
     public boolean isUserInRoles(Long supervisorId, List<String> lstRole) {
-        return (userRepository.isUserInRoles(supervisorId, lstRole) > 0);
+        return (userRepository.isUserInRoles(supervisorId, lstRole).longValue() > 0L);
 
     }
 

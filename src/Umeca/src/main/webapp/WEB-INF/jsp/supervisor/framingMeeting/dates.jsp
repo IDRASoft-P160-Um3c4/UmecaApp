@@ -24,15 +24,22 @@
     addFramingMeeting = function (id) {
       var goTo = "<c:url value='/supervisor/framingMeeting/framingMeeting.html'/>" + "?id=" + id;
       window.goToUrlMvcUrl(goTo);
+
     };
 
+
     $(document).ready(function () {
+
+      window.showDatesAttendanceRequest = function (id) {
+        window.showUpsert(id, "#angJsjqGridId", "<c:url value='/supervisor/framingMeeting/datesAttendanceRequest.html'/>", "#GridId");
+      };
+
       jQuery("#GridId").jqGrid({
         url: '<c:url value='/supervisor/framingMeeting/datesList.json' />',
         autoencode: true,
         datatype: "json",
         mtype: 'POST',
-        colNames: ['ID', 'idStatus', 'Carpeta Judicial', 'Nombre completo','Fecha de nacimiento', 'Fecha de cita UMECA', 'Hora cita UMECA', 'Supervisor','ExpiredDate'],
+        colNames: ['ID', 'idStatus', 'Carpeta Judicial', 'Nombre completo','Fecha de nacimiento', 'Fecha de cita UMECA', 'Hora cita UMECA', 'Supervisor','ExpiredDate','Asistencia','IDHF','Acci&oacute;n'],
         colModel: [
           {name: 'id', index: 'id', hidden: true},
           {name: 'codeStatus', index: 'codeStatus', hidden: true},
@@ -43,6 +50,9 @@
           {name: 'umecaTime',index: 'umecaTime',width: 250,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
           {name: 'fullNameSupervisor',index: 'fullNameSupervisor',width: 250,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
           {name: 'umecaDateExpired', index: 'umecaDateExpired', hidden: true, width: 250,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}},
+          {name: 'umecaAttendance', index: 'umecaAttendance', hidden: false, width: 150,align: "center",sorttype: 'string',searchoptions: {sopt: ['bw']}, formatter: window.actionFormatter},
+          {name: 'hearingFormatId', index: 'hearingFormatId', hidden: true},
+          {name: 'Action', width: 75, align: "center", sortable: false, search: false, formatter: window.actionFormatter}
         ],
         rowNum: 10,
         rowList: [10, 20, 30],
@@ -60,21 +70,36 @@
             var cl = ids[i];
             var row = $(this).getRowData(cl);
             var be = "";
-            switch (status[i]) {
-
-              case 'ST_CASE_HEARING_FORMAT_END':
-                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar entrevista de encuadre\" onclick=\"addFramingMeeting('" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
-                break;
-              case 'ST_CASE_FRAMING_MEETING_INCOMPLETE':
-                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Continuar entrevista de encuadre\" onclick=\"addFramingMeeting('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
-                break;
-              case 'ST_CASE_FRAMING_MEETING_COMPLETE':
-                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar entrevista de encuadre\" onclick=\"addFramingMeeting('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
-                break;
-              default://ban-circle
-                be = "<a style=\"display:inline-block;\" title=\"No cuenta con el formato de audiencia\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
+            var attendance= "";
+            switch(row.umecaAttendance){
+              case "false":
+                      attendance = "No asisti&oacute;";
+                    break;
+              case "true":
+                      attendance = "Asisti&oacute;";
+                    break
+              default :
+                be += "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Asistencia\" onclick=\"window.showDatesAttendanceRequest('" + row.hearingFormatId + "');\"><span class=\"glyphicon glyphicon-ok-circle\"></span></a>";
+                attendance = "Sin registrar";
                 break;
             }
+
+
+//            switch (status[i]) {
+//
+//              case 'ST_CASE_HEARING_FORMAT_END':
+//                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar entrevista de encuadre\" onclick=\"addFramingMeeting('" + cl + "');\"><span class=\"glyphicon glyphicon-plus\"></span></a>";
+//                break;
+//              case 'ST_CASE_FRAMING_MEETING_INCOMPLETE':
+//                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Continuar entrevista de encuadre\" onclick=\"addFramingMeeting('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+//                break;
+//              case 'ST_CASE_FRAMING_MEETING_COMPLETE':
+//                be = "<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Visualizar entrevista de encuadre\" onclick=\"addFramingMeeting('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+//                break;
+//              default://ban-circle
+//                be = "<a style=\"display:inline-block;\" title=\"No cuenta con el formato de audiencia\" href=\"#\"\"><span class=\"glyphicon glyphicon-ban-circle\"></span></a>";
+//                break;
+//            }
 
 
             if(row.umecaDateExpired === "true"){
@@ -82,7 +107,7 @@
             }
 
 
-            $(this).jqGrid('setRowData', ids[i], {Action: be});
+            $(this).jqGrid('setRowData', ids[i], {umecaAttendance: attendance, Action: be});
           }
         },
         loadComplete: function () {

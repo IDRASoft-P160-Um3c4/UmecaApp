@@ -239,7 +239,7 @@ public class HearingFormatController {
         try {
             ModelAndView model = new ModelAndView();
 
-            if (hearingFormatRepository.findHearingFormatIncomplete(idCase) != null && hearingFormatRepository.findHearingFormatIncomplete(idCase) > 0) {
+            if (hearingFormatRepository.findHearingFormatIncomplete(idCase) != null && hearingFormatRepository.findHearingFormatIncomplete(idCase).longValue() > 0L) {
                 model.setViewName("/supervisor/hearingFormat/indexFormats");
                 model.addObject("idCase", idCase);
                 model.addObject("showErr", true);
@@ -259,7 +259,7 @@ public class HearingFormatController {
 
                 crimeService.fillCatalogModel(model);
                 model.addObject("readonlyBand", false);
-                if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF() == true)
+                if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF().equals(true))
                     model.addObject("lstHearingType", conv.toJson(hearingTypeRepository.getValidaHearingType()));
                 else
                     model.addObject("lstHearingType", "[]");
@@ -308,7 +308,7 @@ public class HearingFormatController {
             List<SelectList> lstDistrict = districtRepository.findNoObsolete();
             model.addObject("lstDistrict", conv.toJson(lstDistrict));
 
-            if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF() == true)
+            if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF().equals(true))
                 model.addObject("lstHearingType", conv.toJson(hearingTypeRepository.getValidaHearingType()));
             else
                 model.addObject("lstHearingType", "[]");
@@ -338,7 +338,7 @@ public class HearingFormatController {
             model.addObject("listCrime", crimeService.getListCrimeHearingformatByIdFormat(idFormat));
             model.addObject("hasPrevHF", hfView.getHasPrevHF());
 
-            if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF() == true)
+            if (hfView.getHasPrevHF() != null && hfView.getHasPrevHF().equals(true))
                 model.addObject("lstHearingType", conv.toJson(hearingTypeRepository.getValidaHearingType()));
             else
                 model.addObject("lstHearingType", "[]");
@@ -374,8 +374,8 @@ public class HearingFormatController {
 
             if (imputed.getBirthDate() != null) {
                 Integer age = sharedUserService.calculateAge(imputed.getBirthDate());
-                if (age.compareTo(18) == -1) {
-                    return new ResponseMessage(true, "El imputado debe tener m&aacute;s de 18 a&ntilde;os para continuar.");
+                if (age == null || age.intValue() < 18) {
+                    return new ResponseMessage(true, "El imputado debe ser mayor de edad (18 en adelante) para continuar.");
                 }
             }
 
@@ -461,7 +461,7 @@ public class HearingFormatController {
 
             Long incompleteHFId = hearingFormatRepository.findHearingFormatIncomplete(result.getIdCase());
 
-            if (incompleteHFId != null && incompleteHFId > 0 && incompleteHFId != result.getIdFormat())
+            if (incompleteHFId != null && incompleteHFId.longValue() > 0 && incompleteHFId.equals(result.getIdFormat()) == false)
                 return new ResponseMessage(true, "Tiene un formato de audiencia anterior incompleto, debe terminarlo para poder agregar un nuevo formato de audiencia.");
 
             if (result.getIsFinished() != null && result.getIsFinished()) {

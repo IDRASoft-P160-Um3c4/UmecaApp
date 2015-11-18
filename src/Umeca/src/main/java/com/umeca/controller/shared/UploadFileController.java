@@ -68,9 +68,9 @@ public class UploadFileController {
 
         Long userId = userService.GetLoggedUserId();
         if (userService.isUserInRoles(userId, new ArrayList<String>() {{
-            add(Constants.ROLE_SUPERVISOR);
-            add(Constants.ROLE_REVIEWER);
-        }}) == false) {
+                add(Constants.ROLE_SUPERVISOR);
+                add(Constants.ROLE_REVIEWER);
+            }}) == false) {
             model.addObject("readOnly", 1);
         } else {
             model.addObject("readOnly", 0);
@@ -195,9 +195,9 @@ public class UploadFileController {
 
             Long userId = sharedUserService.GetLoggedUserId();
             if (userService.isUserInRoles(userId, new ArrayList<String>() {{
-                add(Constants.ROLE_SUPERVISOR);
-                add(Constants.ROLE_REVIEWER);
-            }}) == false) {
+                    add(Constants.ROLE_SUPERVISOR);
+                    add(Constants.ROLE_REVIEWER);
+                }}) == false) {
                 resMsg.setHasError(true);
                 resMsg.setMessage("Usted no tiene permisos para realizar esta acción.");
                 return resMsg;
@@ -255,7 +255,7 @@ public class UploadFileController {
 
             upDwFileService.save(uploadFile);
 
-            if(uploadRequest.getTypeId() == Constants.CHANNELING_ID_TYPE_FILE_CHANNELING_END_RECORD){
+            if(uploadRequest.getTypeId().equals(Constants.CHANNELING_ID_TYPE_FILE_CHANNELING_END_RECORD)){
 
                 Case caseDetention = caseRepository.findOne(uploadRequest.getCaseId());
                 Imputed imputed = caseDetention.getMeeting().getImputed();
@@ -300,9 +300,9 @@ public class UploadFileController {
             Long userId = sharedUserService.GetLoggedUserId();
 
             if (userService.isUserInRoles(userId, new ArrayList<String>() {{
-                add(Constants.ROLE_SUPERVISOR);
-                add(Constants.ROLE_REVIEWER);
-            }}) == false) {
+                    add(Constants.ROLE_SUPERVISOR);
+                    add(Constants.ROLE_REVIEWER);
+                }}) == false) {
                 resMsg.setHasError(true);
                 resMsg.setMessage("Usted no tiene permisos para realizar esta acción.");
                 return resMsg;

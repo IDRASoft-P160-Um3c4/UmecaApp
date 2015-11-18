@@ -1,5 +1,6 @@
 package com.umeca.repository.humanResources;
 
+import com.umeca.model.dto.humanResources.EmployeeExcelDto;
 import com.umeca.model.entities.humanReources.Employee;
 import com.umeca.model.shared.SelectList;
 import org.hibernate.sql.Select;
@@ -36,4 +37,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "inner join E.district D " +
             "where E.isObsolete=false order by concat(E.name,' ',E.lastNameP,' ',E.lastNameM) asc")
     List<SelectList> getAllNoObsoleteEmployees();
+
+
+    @Query("select new com.umeca.model.dto.humanResources.EmployeeExcelDto(E.id,e.name,E.lastNameP,E.lastNameM) " +
+            "from Employee E " +
+            "where E.isObsolete=false order by concat(E.name,' ',E.lastNameP,' ',E.lastNameM) asc")
+    List<EmployeeExcelDto> getAllNoObsoleteEmployeeExcel();
 }

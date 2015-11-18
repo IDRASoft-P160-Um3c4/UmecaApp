@@ -53,8 +53,8 @@ public class UpDwFileServiceImpl implements UpDwFileService{
         for(SystemSetting systemSetting : lstSystemSettings){
             switch (systemSetting.getKey()){
                 case Constants.SYSTEM_SETTINGS_ARCHIVE_MAX_NUMBER_FILES:
-                    Long maxNumFiles = Long.parseLong(systemSetting.getValue());
-                    Long numFiles = uploadFileRepository.getNumberOfFilesByCase(caseId);
+                    long maxNumFiles = Long.parseLong(systemSetting.getValue());
+                    long numFiles = uploadFileRepository.getNumberOfFilesByCase(caseId).longValue();
                     if(numFiles + 1 > maxNumFiles){
                         resMsg.setHasError(true);
                         resMsg.setMessage("Ha excedido el número de archivos permitidos por caso");
@@ -81,7 +81,7 @@ public class UpDwFileServiceImpl implements UpDwFileService{
         }
 
         //Validar archivos con el mismo nombre
-        if(uploadFileRepository.alreadyExistFileByCase(caseId, file.getFileName().toLowerCase()) > 0){
+        if(uploadFileRepository.alreadyExistFileByCase(caseId, file.getFileName().toLowerCase()).longValue() > 0L){
             resMsg.setHasError(true);
             resMsg.setMessage("Ya existe un archivo con ese nombre para el caso seleccionado");
             return false;
@@ -126,7 +126,7 @@ public class UpDwFileServiceImpl implements UpDwFileService{
         extension = extension.toLowerCase();
         final Long fileTypeId = catFileTypeRepository.findByExtension(extension);
 
-        if(fileTypeId == null || fileTypeId <= 0){
+        if(fileTypeId == null || fileTypeId.longValue() <= 0){
             resMsg.setMessage("Tipo de archivo no permitido");
             resMsg.setHasError(true);
             return false;

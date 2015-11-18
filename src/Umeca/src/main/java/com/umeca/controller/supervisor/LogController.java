@@ -224,7 +224,7 @@ public class LogController {
         try {
             Gson gson = new Gson();
             List<ActivityMonitoringPlanLog> lstActMonPlan = new ArrayList<>();
-            if (activityId == 0) {
+            if (activityId.equals(0L)) {
                 lstActMonPlan = activityMonitoringPlanRepository.getListByMonPlanId(id);
             } else {
                 lstActMonPlan = activityMonitoringPlanRepository.getListByMonPlanIdWhitArrangementId(id, assignedArrangementId, activityId);
@@ -324,7 +324,7 @@ public class LogController {
         model.addObject("lstFulfillmentReport", sLstGeneric);
 
         List<Long> ids = hearingFormatRepository.getLastHearingFormatByMonPlan(id, new PageRequest(0, 1));
-        lstGeneric = arrangementRepository.findLstArrangementByHearingFormatId(ids.get(0));
+        lstGeneric = arrangementRepository.findLstArrangementIdsByHearingFormatId(ids.get(0));
         sLstGeneric = gson.toJson(lstGeneric);
         model.addObject("lstArrangements", sLstGeneric);
 

@@ -199,7 +199,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 }
             }
 
-            if (existAddress == false) {
+            if (existAddress.equals(false)) {
                 FramingAddress newFA = new FramingAddress();
                 Address newAddr = new Address();
                 newAddr.setStreet(formatAddress.getStreet());
@@ -224,7 +224,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                     framingReference.setName(cData.getNameTxt());
                     framingReference.setPhone(cData.getPhoneTxt());
                     framingReference.setAddress(cData.getAddressTxt());
-                    framingReference.setPersonType(cData.getLiveWith() == true ? FramingMeetingConstants.PERSON_TYPE_HOUSEMATE : FramingMeetingConstants.PERSON_TYPE_REFERENCE);
+                    framingReference.setPersonType(cData.getLiveWith().equals(true) ? FramingMeetingConstants.PERSON_TYPE_HOUSEMATE : FramingMeetingConstants.PERSON_TYPE_REFERENCE);
                     framingReference.setIsAccompaniment(false);
                     framingReference.setHasVictimWitnessInfo(true);
                     Relationship r = new Relationship();
@@ -297,7 +297,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             view.setLastNameM(im.getLastNameM());
             view.setBirthDate(im.getBirthDate());
 
-            if (existVerifMeet.getImputed().getGender() == true)
+            if (existVerifMeet.getImputed().getGender().equals(true))
                 view.setGender(1);
             else
                 view.setGender(2);
@@ -359,7 +359,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         InformationAvailability ia = informationAvailabilityRepository.findOne(view.getBirthInfoId());
         personalData.setBirthInfo(ia);
 
-        if (ia.getSpecification() == true) {
+        if (ia.getSpecification().equals(true)) {
             personalData.setBirthCountry(countryRepository.findOne(view.getBirthCountryId()));
             personalData.setBirthState(view.getBirthState());
         } else {
@@ -376,7 +376,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         personalData.setComments(view.getComments());
 
 
-        if (view.getBirthStateId() != null && view.getBirthStateId() > 0 && view.getIsMexico() != null && view.getIsMexico() == true)
+        if (view.getBirthStateId() != null && view.getBirthStateId().longValue() > 0L && view.getIsMexico() != null && view.getIsMexico().equals(true))
             personalData.setBirthStateCmb(stateRepository.findOne(view.getBirthStateId()));
 
         return personalData;
@@ -400,7 +400,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         framingMeetingView.setJobComments(existCase.getFramingMeeting().getJobComments());
         framingMeetingView.setVictimComments(existCase.getFramingMeeting().getVictimComments());
 
-        if (existCase.getFramingMeeting().getIsTerminated() == true)
+        if (existCase.getFramingMeeting().getIsTerminated().equals(true))
             framingMeetingView.setCanTerminate(false);
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
@@ -437,7 +437,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         List<FramingReference> existSources = framingReferenceRepository.getAccompanimentReferencesByIdCase(idCase);
 
         for (FramingReference fr : existSources) {
-            if (fr.getIsAccompaniment() == true) {
+            if (fr.getIsAccompaniment().equals(true)) {
                 FramingReferenceForView objView = new FramingReferenceForView();
                 objView.setId(fr.getId());
                 String relationship = fr.getRelationship().getName();
@@ -635,7 +635,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             if (lstAccomInf != null && lstAccomInf.size() > 0)
                 accompanimentInfo = lstAccomInf.get(0);
 
-            if (newReference.getIsAccompaniment() != null && newReference.getIsAccompaniment() == true) {
+            if (newReference.getIsAccompaniment() != null && newReference.getIsAccompaniment().equals(true)) {
 
                 if (accompanimentInfo == null)
                     accompanimentInfo = new AccompanimentInfo();
@@ -645,14 +645,14 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                     accompanimentInfo.setGender(newReference.getGender());
                     accompanimentInfo.setOccupationPlace(newReference.getOccupationPlace());
 
-                    if (newReference.getAcademicLvlId() != null && newReference.getAcademicLvlId() > 0)
+                    if (newReference.getAcademicLvlId() != null && newReference.getAcademicLvlId().longValue() > 0L)
                         accompanimentInfo.setAcademicLevel(academicLevelRepository.findOne(newReference.getAcademicLvlId()));
 
                 } else if (newReference.getPersonType() != null && newReference.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE)) {
                     accompanimentInfo.setGender(newReference.getGender());
                     accompanimentInfo.setOccupationPlace(newReference.getOccupationPlace());
 
-                    if (newReference.getAcademicLvlId() != null && newReference.getAcademicLvlId() > 0)
+                    if (newReference.getAcademicLvlId() != null && newReference.getAcademicLvlId().longValue() > 0L)
                         accompanimentInfo.setAcademicLevel(academicLevelRepository.findOne(newReference.getAcademicLvlId()));
 
                     Address address = accompanimentInfo.getAddress();
@@ -693,7 +693,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             if (isTerm != null && isTerm.equals(true)) {
                 String logType = "";
-                if (newReference.getId() != null && newReference.getId() > 0)
+                if (newReference.getId() != null && newReference.getId().longValue() > 0L)
                     logType = FramingMeetingConstants.LOG_TYPE_MODIFIED;
                 else
                     logType = FramingMeetingConstants.LOG_TYPE_ADDED;
@@ -726,13 +726,13 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             AccompanimentInfo accompanimentInfo = null;
 
-            if (newReference.getId() != null && newReference.getId() > 0)
+            if (newReference.getId() != null && newReference.getId().longValue() > 0L)
                 isNew = false;
 
             if (lstAccomInf != null && lstAccomInf.size() > 0)
                 accompanimentInfo = lstAccomInf.get(0);
 
-            if (newReference.getHasVictimWitnessInfo() != null && newReference.getHasVictimWitnessInfo() == false) {
+            if (newReference.getHasVictimWitnessInfo() != null && newReference.getHasVictimWitnessInfo().equals(false)) {
 
                 if (accompanimentInfo != null) {
                     newReference.setAccompanimentInfo(null);
@@ -740,7 +740,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                 }
                 newReference.setRelationship(relationshipRepository.findNoneRelationship());
 
-            } else if (newReference.getHasVictimWitnessInfo() != null && newReference.getHasVictimWitnessInfo() == true) {
+            } else if (newReference.getHasVictimWitnessInfo() != null && newReference.getHasVictimWitnessInfo().equals(true)) {
 
                 if (accompanimentInfo == null)
                     accompanimentInfo = new AccompanimentInfo();
@@ -774,7 +774,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             if (existFraming.getIsTerminated() != null && existFraming.getIsTerminated().equals(true)) {
                 String logType;
 
-                if (isNew == true)
+                if (isNew.equals(true))
                     logType = FramingMeetingConstants.LOG_TYPE_ADDED;
                 else
                     logType = FramingMeetingConstants.LOG_TYPE_MODIFIED;
@@ -862,7 +862,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         address.setOutNum(view.getOutNum());
         address.setInnNum(view.getInnNum());
 
-        if (view.getIsHomeless() == true)
+        if (view.getIsHomeless().equals(true))
             address.setLocation(locationRepository.findByLocName(Constants.COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW));
         else
             address.setLocation(locationRepository.findOne(view.getLocation().getId()));
@@ -973,11 +973,11 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             framingAddressRepository.save(existFramingAddress);
 
-            if (existFraming.getIsTerminated() == true) {
+            if (existFraming.getIsTerminated().equals(true)) {
                 String logType = "";
                 view.setAddressStr(existFramingAddress.getAddress().getAddressString());
 
-                if (isNew == true)
+                if (isNew.equals(true))
                     logType = FramingMeetingConstants.LOG_TYPE_ADDED;
                 else
                     logType = FramingMeetingConstants.LOG_TYPE_MODIFIED;
@@ -1002,7 +1002,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             FramingAddress existAddress = framingAddressRepository.findOne(id);
 
             Boolean isTerminated = existAddress.getFramingMeeting().getIsTerminated();
-            if (isTerminated != null && isTerminated == true) {
+            if (isTerminated != null && isTerminated.equals(true)) {
                 FramingMeetingLog log = new FramingMeetingLog();
                 log.setFramingMeeting(existAddress.getFramingMeeting());
                 log.setLogType(FramingMeetingConstants.LOG_TYPE_DELETED);
@@ -1036,7 +1036,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             FramingReference existReference = framingReferenceRepository.findOne(id);
 
-            if (existReference.getFramingMeeting().getIsTerminated() != null && existReference.getFramingMeeting().getIsTerminated() == true)
+            if (existReference.getFramingMeeting().getIsTerminated() != null && existReference.getFramingMeeting().getIsTerminated().equals(true))
                 framingMeetingLogRepository.save(getFramingReferenceLog(existReference.getFramingMeeting(), existReference, FramingMeetingConstants.LOG_TYPE_DELETED));
 
             framingReferenceRepository.delete(existReference);
@@ -1058,14 +1058,14 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             drug.setPeriodicity(periodicityRepository.findOne(drug.getPeriodicity().getId()));
             FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
             drug.setFramingMeeting(existFraming);
-            if (drug.getId() != null && drug.getId() == 0) {
+            if (drug.getId() != null && drug.getId().equals(0L)) {
                 drug.setId(null);
                 isNew = true;
             }
 
-            if (existFraming.getIsTerminated() == true) {
+            if (existFraming.getIsTerminated().equals(true)) {
                 String logType;
-                if (isNew == true)
+                if (isNew.equals(true))
                     logType = FramingMeetingConstants.LOG_TYPE_ADDED;
                 else
                     logType = FramingMeetingConstants.LOG_TYPE_MODIFIED;
@@ -1092,7 +1092,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         FramingMeeting existFraming = existDrug.getFramingMeeting();
         try {
 
-            if (existFraming.getIsTerminated() == true) {
+            if (existFraming.getIsTerminated().equals(true)) {
                 framingMeetingLogRepository.save(getDrugLog(existFraming, existDrug, FramingMeetingConstants.LOG_TYPE_DELETED));
             }
 
@@ -1246,7 +1246,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         List<RelativeAbroadView> viewLst = new Gson().fromJson(lstStr, listType);
 
         for (RelativeAbroadView act : viewLst) {
-            if (act.getSelVal() == true) {
+            if (act.getSelVal().equals(true)) {
                 AddictedAcquaintanceRel rel = new AddictedAcquaintanceRel();
                 rel.setAdditionalFramingQuestions(existAQ);
                 rel.setRelationship(relationshipRepository.findOne(act.getRelationshipId()));
@@ -1267,7 +1267,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         List<RelativeAbroadView> viewLst = new Gson().fromJson(lstStr, listType);
 
         for (RelativeAbroadView act : viewLst) {
-            if (act.getSelVal() == true) {
+            if (act.getSelVal().equals(true)) {
                 ObligationIssues rel = new ObligationIssues();
                 rel.setAdditionalFramingQuestions(existAQ);
                 rel.setArrangement(arrangementRepository.findOne(act.getRelationshipId()));
@@ -1289,7 +1289,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         List<RelativeAbroadView> viewLst = new Gson().fromJson(lstStr, listType);
 
         for (RelativeAbroadView act : viewLst) {
-            if (act.getSelVal() == true) {
+            if (act.getSelVal().equals(true)) {
                 RelativesAbroadRel rel = new RelativesAbroadRel();
                 rel.setAdditionalFramingQuestions(existAQ);
                 rel.setAddress(act.getDescription());
@@ -1354,7 +1354,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         existFraming.setAdditionalFramingQuestions(addQuest);
 
-        if (existFraming.getIsTerminated() == true) {
+        if (existFraming.getIsTerminated().equals(true)) {
             framingMeetingLogRepository.save(getAdditionalQuestionLog(existFraming, view, FramingMeetingConstants.LOG_TYPE_MODIFIED));
         }
 
@@ -1394,12 +1394,12 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             } else {
                 Boolean isComplete = true;
                 for (FramingAddress act : existFraming.getFramingAddresses()) {
-                    if (act.isComplete() == false) {
+                    if (act.isComplete().equals(false)) {
                         isComplete = false;
                         break;
                     }
                 }
-                if (isComplete == false) {
+                if (isComplete.equals(false)) {
                     lsDom.add("Debe proporcionar toda la informaci&oacute;n para cada domicilio.");
                 }
             }
@@ -1446,7 +1446,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             if (existFraming.getReferences() != null && existFraming.getReferences().size() > 0) {
                 for (FramingReference act : existFraming.getReferences()) {
-                    if (act.getIsAccompaniment() != null && act.getIsAccompaniment() == true && act.getAccompanimentInfo() == null) {
+                    if (act.getIsAccompaniment() != null && act.getIsAccompaniment().equals(true) && act.getAccompanimentInfo() == null) {
                         if (act.getPersonType() != null && act.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE)) {
                             bandHM++;
 //                            if (act.getOccupation() == null || act.getOccupation().trim().equals(""))
@@ -1524,7 +1524,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             if (cad != null && !cad.trim().equals(""))
                 validateFingerprint = Boolean.valueOf(cad);
 
-            if (validateFingerprint != null && validateFingerprint == true) {
+            if (validateFingerprint != null && validateFingerprint.equals(true)) {
                 if (!(framingMeetingRepository.getFingerIdsByImputed(existFraming.getCaseDetention().getMeeting().getImputed().getId()).size() > 0)) {
                     List<String> ls = new ArrayList<>();
                     ls.add("Debe capturar al menos una huella dactilar en la secci&oacute;n \"Enrolamiento\".");
@@ -1534,7 +1534,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             if (existFraming.getSchool() == null) {
                 lsSchool.add(Convert.convertToValidString("Debe proporcionar la informaci&oacute;n faltante en la secci&oacute;n \"Historia escolar\"."));
-            } else if (existFraming.getSchool().getBlock() == true && (existFraming.getSchool().getSchedule() == null || !(existFraming.getSchool().getSchedule().size() > 0))) {
+            } else if (existFraming.getSchool().getBlock().equals(true) && (existFraming.getSchool().getSchedule() == null || !(existFraming.getSchool().getSchedule().size() > 0))) {
                 lsSchool.add(Convert.convertToValidString("Debe proporcionar la informaci&oacute;n faltante en la secci&oacute;n \"Historia escolar\"."));
             }
             if (existFraming.getSchoolComments() == null) {
@@ -1569,7 +1569,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
                     }
                 }
 
-                if (bandAct == false) {
+                if (bandAct.equals(false)) {
                     arrMsgAct.add("Debe capturar la informaci&oacute;n faltante para cada actividad.");
                 }
             }
@@ -1741,7 +1741,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             for (PersonSocialNetwork person : verifMeeting.getSocialNetwork().getPeopleSocialNetwork()) {
 
-                if (person.getLivingWith().getId() == Constants.ELECTION_YES) {
+                if (person.getLivingWith().getId().equals(Constants.ELECTION_YES) ) {
 
                     FramingReference fRef = new FramingReference();
 
@@ -1980,7 +1980,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         try {
             FramingActivity exisAct = new FramingActivity();
 
-            if (view.getId() != null && view.getId() > 0) {
+            if (view.getId() != null && view.getId().longValue() > 0L) {
                 for (Schedule actSch : scheduleRepository.getSchedulesActivty(view.getId())) {
                     actSch.setFramingActivity(null);
                     scheduleRepository.delete(actSch);
@@ -2012,9 +2012,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             exisAct.setListSchedule(lstSchedule);
             exisAct.setFramingMeeting(existFraming);
 
-            if (existFraming.getIsTerminated() == true) {
+            if (existFraming.getIsTerminated().equals(true)) {
                 String logType;
-                if (isNew == true)
+                if (isNew.equals(true))
                     logType = FramingMeetingConstants.LOG_TYPE_ADDED;
                 else
                     logType = FramingMeetingConstants.LOG_TYPE_MODIFIED;
@@ -2045,7 +2045,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             FramingMeeting existFraming = exisAct.getFramingMeeting();
 
-            if (existFraming.getIsTerminated() == true) {
+            if (existFraming.getIsTerminated().equals(true)) {
                 framingMeetingLogRepository.save(getActivityLog(existFraming, fillActivityForView(exisAct.getId(), existFraming.getCaseDetention().getId()), FramingMeetingConstants.LOG_TYPE_DELETED));
             }
 
@@ -2077,7 +2077,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         JobDto view = new JobDto();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
-        if (idJob != null && idJob > 0) {
+        if (idJob != null && idJob.longValue() > 0L) {
 
             Job existJob = jobRepository.findOne(idJob);
             view.setId(existJob.getId());
@@ -2090,7 +2090,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             view.setRegisterTypeId(existJob.getRegisterType().getId());
             view.setBlock(existJob.getBlock());
 
-            if (existJob.getBlock() != null && existJob.getBlock() == true) {
+            if (existJob.getBlock() != null && existJob.getBlock().equals(true)) {
                 if (existJob.getStart() != null)
                     view.setStart(sdf.format(existJob.getStart()));
                 if (existJob.getStartPrev() != null)
@@ -2134,7 +2134,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         try {
             Job existJob = new Job();
 
-            if (view.getId() != null && view.getId() > 0) {
+            if (view.getId() != null && view.getId().longValue() > 0L) {
                 for (Schedule actSch : jobRepository.getJobSchedule(view.getId())) {
                     actSch.setJob(null);
                     scheduleRepository.delete(actSch);
@@ -2153,8 +2153,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             existJob.setBlock(view.getBlock());
             existJob.setRegisterType(registerTypeRepository.findOne(view.getRegisterTypeId()));
 
-            if (view.getBlock() == true) {
-                if (view.getRegisterTypeId() != 3) {
+            if (view.getBlock().equals(true)) {
+                if (view.getRegisterTypeId().equals(3) == false) {
                     existJob.setStart(sdf.parse(view.getStart()));
                     existJob.setSalaryWeek(view.getSalaryWeek());
 
@@ -2193,7 +2193,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             if (isTerm != null && isTerm.equals(true)) {
                 String logType;
-                if (isNew == true)
+                if (isNew.equals(true))
                     logType = FramingMeetingConstants.LOG_TYPE_ADDED;
                 else
                     logType = FramingMeetingConstants.LOG_TYPE_MODIFIED;
@@ -2224,7 +2224,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             FramingMeeting existFraming = existJob.getFramingMeeting();
 
-            if (existFraming.getIsTerminated() == true) {
+            if (existFraming.getIsTerminated().equals(true)) {
                 framingMeetingLogRepository.save(getJobLog(existFraming, fillJobForView(existJob.getId(), existFraming.getCaseDetention().getId()), FramingMeetingConstants.LOG_TYPE_DELETED));
             }
 
@@ -2332,7 +2332,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             existSchool.setSchedule(lstSchedule);
             existSchool.setFramingMeeting(existFraming);
 
-            if (existFraming.getIsTerminated() != null && existFraming.getIsTerminated() == true)
+            if (existFraming.getIsTerminated() != null && existFraming.getIsTerminated().equals(true))
                 framingMeetingLogRepository.save(getSchoolLog(existFraming, view, FramingMeetingConstants.LOG_TYPE_MODIFIED));
 
             schoolRepository.save(existSchool);
@@ -2370,9 +2370,9 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         element = new FramingLogElement();
         element.setFieldName("G&eacute;nero");
-        if (personalData.getGender() == 1)
+        if (personalData.getGender().equals(1L))
             element.setValue("Femenino");
-        else if (personalData.getGender() == 2)
+        else if (personalData.getGender().equals(2L))
             element.setValue("Masculino");
         lstElements.add(element);
 
@@ -2409,7 +2409,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
         element = new FramingLogElement();
         element.setFieldName("Estado de nacimiento");
-        if (personalData.getIsMexico() == true) {
+        if (personalData.getIsMexico().equals(true)) {
             element.setValue(stateRepository.findOne(personalData.getBirthStateId()).getName());
         } else {
             element.setValue(personalData.getBirthState());
@@ -2598,7 +2598,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             lstElements.add(element);
 
 
-            if (reference.getIsAccompaniment() != null && reference.getIsAccompaniment() == true) {
+            if (reference.getIsAccompaniment() != null && reference.getIsAccompaniment().equals(true)) {
 
                 element = new FramingLogElement();
                 element.setFieldName("Acompa&ntilde;a durante el proceso");
@@ -2663,7 +2663,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
             element.setValue(reference.getPhone());
             lstElements.add(element);
 
-            if (reference.getIsAccompaniment() != null && reference.getIsAccompaniment() == true) {
+            if (reference.getIsAccompaniment() != null && reference.getIsAccompaniment().equals(true)) {
 
                 if (reference.getAccompanimentInfo().getGender() != null && reference.getAccompanimentInfo().getGender().equals(1))
                     gndr = "Femenino";
@@ -2713,7 +2713,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             framingMeetingLog.setTitle("V&iacute;ctima y testigos");
 
-            if (reference.getHasVictimWitnessInfo() != null && reference.getHasVictimWitnessInfo() == true) {
+            if (reference.getHasVictimWitnessInfo() != null && reference.getHasVictimWitnessInfo().equals(true)) {
 
                 element = new FramingLogElement();
                 element.setFieldName("Tipo");
@@ -2775,7 +2775,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         List<FramingLogElement> lstElements = new ArrayList<>();
         FramingLogElement element = new FramingLogElement();
 
-        if (view.getHasActualSchool() != null && view.getHasActualSchool() == true) {
+        if (view.getHasActualSchool() != null && view.getHasActualSchool().equals(true)) {
             element.setFieldName("Escuela");
             element.setValue(view.getName());
             lstElements.add(element);
@@ -3099,8 +3099,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             String addictedAcquaintancesStr = "";
             for (RelativeAbroadView act : viewLst) {
-                if (act.getSelVal() == true) {
-                    if (addictedAcquaintancesStr != "")
+                if (act.getSelVal().equals(true)) {
+                    if (addictedAcquaintancesStr.isEmpty() == false)
                         addictedAcquaintancesStr += ", ";
                     addictedAcquaintancesStr += act.getName();
                 }
@@ -3131,8 +3131,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             String relativeAbroadStr = "";
             for (RelativeAbroadView act : viewLst) {
-                if (act.getSelVal() == true) {
-                    if (relativeAbroadStr != "")
+                if (act.getSelVal().equals(true)) {
+                    if (relativeAbroadStr.isEmpty() == false)
                         relativeAbroadStr += "- ";
                     relativeAbroadStr += act.getName() + ", vive en " + act.getDescription();
                 }
@@ -3163,8 +3163,8 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
 
             String relativeAbroadStr = "";
             for (RelativeAbroadView act : viewLst) {
-                if (act.getSelVal() == true) {
-                    if (relativeAbroadStr != "")
+                if (act.getSelVal().equals(true)) {
+                    if (relativeAbroadStr.isEmpty() == false)
                         relativeAbroadStr += "- ";
                     relativeAbroadStr += act.getName() + ", " + act.getDescription();
                 }
@@ -3229,7 +3229,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         if (sources != null && sources.size() > 0) {
             for (SelectList act : sources) {
 
-                if (cad != "")
+                if (cad.isEmpty() == false)
                     cad += "; ";
                 cad += act.getName();
                 if (act.getDescription().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE))
@@ -3252,7 +3252,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         element.setFieldName("Riesgos");
         cad = "";
         for (String act : risk) {
-            if (cad != "")
+            if (cad.isEmpty() == false)
                 cad += ", ";
             cad += act;
         }
@@ -3263,7 +3263,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         element.setFieldName("Amenzas");
         cad = "";
         for (String act : threat) {
-            if (cad != "")
+            if (cad.isEmpty() == false)
                 cad += ", ";
             cad += act;
         }
@@ -3274,7 +3274,7 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         element.setFieldName("Obligaciones procesales");
         cad = "";
         for (String act : arrangements) {
-            if (cad != "")
+            if (cad.isEmpty() == false)
                 cad += ", ";
             cad += act;
         }
@@ -3516,11 +3516,18 @@ public class FramingMeetingServiceImpl implements FramingMeetingService {
         FramingMeeting existFraming = caseRepository.findOne(idCase).getFramingMeeting();
         existFraming.setPersonalData(personalData);
 
-        if (existFraming.getIsTerminated() == true)
+        if (existFraming.getIsTerminated().equals(true))
             framingMeetingLogRepository.save(this.getFramingPersonalDataLog(existFraming, view, FramingMeetingConstants.LOG_TYPE_MODIFIED));
 
 
         return new ResponseMessage(false, "savePersonalData");
+    }
+
+    public void registerAttendance(Long id, Boolean attendance){
+        HearingFormat hf = hearingFormatRepository.findOne(id);
+        hf.setUmecaAttendance(attendance);
+        hearingFormatRepository.save(hf);
+        hearingFormatRepository.flush();
     }
 
 }

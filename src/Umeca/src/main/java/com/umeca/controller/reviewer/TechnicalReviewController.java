@@ -166,7 +166,7 @@ public class TechnicalReviewController {
                 model.addObject("hasRevTec", true);
 
                 if ((caseDet.getStatus().getName().equals(Constants.CASE_STATUS_EDIT_TEC_REV) && caseDet.getMeeting().getReviewer().getId().equals(sharedUserService.GetLoggedUserId()))
-                        || (caseDet.getStatus().getName().equals(Constants.CASE_STATUS_INCOMPLETE_TECHNICAL_REVIEW) && tecRev_prev.getIsFinished() != null && tecRev_prev.getIsFinished() == false))
+                        || (caseDet.getStatus().getName().equals(Constants.CASE_STATUS_INCOMPLETE_TECHNICAL_REVIEW) && tecRev_prev.getIsFinished() != null && tecRev_prev.getIsFinished().equals(false)))
                     model.addObject("canEdit", true);
                 else
                     model.addObject("canEdit", false);
@@ -176,7 +176,7 @@ public class TechnicalReviewController {
                 else
                     model.addObject("returnId", returnId);
 
-                if (tecRev_prev.getIsFinished() != null && tecRev_prev.getIsFinished() == true)
+                if (tecRev_prev.getIsFinished() != null && tecRev_prev.getIsFinished().equals(true))
                     model.addObject("showRisk", true);
                 else
                     model.addObject("showRisk", false);

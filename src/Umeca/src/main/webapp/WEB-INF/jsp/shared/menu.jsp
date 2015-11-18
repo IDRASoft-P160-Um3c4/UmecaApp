@@ -612,6 +612,10 @@
                                 <li><a href="<c:url value='/humanResources/statisticReport/index.html' />"><i
                                         class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Reportes estad&iacute;sticos
                                     </a></li>
+
+                                <li><a href="<c:url value='/humanResources/excelReport/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Reporte Excel
+                                </a></li>
                             </ul>
                         </li>
 

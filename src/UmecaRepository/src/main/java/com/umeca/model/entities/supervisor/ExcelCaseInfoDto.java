@@ -244,9 +244,9 @@ public class ExcelCaseInfoDto {
 
 
 
-        if(isFromFormulation == true) {
+        if(isFromFormulation.equals(true)) {
 
-            if(formulationPresence == true){
+            if(formulationPresence.equals(true)){
                 formulationPresenceStr = "Sí";
             }
             else if(formulationPresence == null){
@@ -257,7 +257,7 @@ public class ExcelCaseInfoDto {
             }
 
             this.isFromFormulationStr = "Sí";
-            if(formulationInformationDelivered == true){
+            if(formulationInformationDelivered.equals(true)){
                 formulationInformationDeliveredStr = "Sí";
             }
             else if(formulationInformationDelivered == null){
@@ -274,7 +274,7 @@ public class ExcelCaseInfoDto {
         }
 
 
-        if(hasNegation == true)
+        if(hasNegation.equals(true))
             this.hasNegationStr = "Sí";
         else
             this.hasNegationStr = "No";
@@ -667,9 +667,9 @@ public class ExcelCaseInfoDto {
 
     public String getImputedGenderStr() {
 
-        if (this.imputedGender == true)
+        if (this.imputedGender.equals(true))
             return "Femenino";
-        else if (this.imputedGender == false)
+        else if (this.imputedGender.equals(false))
             return "Masculino";
 
         return "";
@@ -716,13 +716,14 @@ public class ExcelCaseInfoDto {
         if (this.totalRisk != null) {
             totCom += "-Total: " + this.totalRisk + "\n";
 
-            if (this.totalRisk < -15)
+            int totalRiskVal = this.totalRisk.intValue();
+            if (totalRiskVal < -15)
                 totCom += "-" + Constants.TEC_REV_HIGH_RISK + "\n";
-            else if (this.totalRisk > -16 && this.totalRisk < 0)
+            else if (totalRiskVal > -16 && totalRiskVal < 0)
                 totCom += "-" + Constants.TEC_REV_MEDIUM_RISK + "\n";
-            else if (this.totalRisk > -1 && this.totalRisk < 10)
+            else if (totalRiskVal > -1 && totalRiskVal < 10)
                 totCom += "-" + Constants.TEC_REV_LOW_RISK + "\n";
-            else if (this.totalRisk > 9)
+            else if (totalRiskVal > 9)
                 totCom += "-" + Constants.TEC_REV_MINIMUM_RISK + "\n";
 
             totCom += "-Comentarios: " + this.tecRevComments;
@@ -798,7 +799,7 @@ public class ExcelCaseInfoDto {
 
         if (this.lstActivities != null && lstActivities.size() > 0)
             for (ExcelActivitiesDto act : this.lstActivities) {
-                if (activitiesStr != "")
+                if (activitiesStr.isEmpty() == false)
                     activitiesStr += "\n ";
 
                 if (act.getNameAct() != null && !act.getNameAct().trim().equals(""))
@@ -830,7 +831,7 @@ public class ExcelCaseInfoDto {
         if (this.lstHomes != null && this.lstHomes.size() > 0)
             for (ExcelImputedHomeDto act : this.lstHomes) {
 
-                if (this.homesStr != "")
+                if (this.homesStr.isEmpty() == false)
                     this.homesStr += "\n";
 
                 if (act.getAddress() != null && !act.getAddress().trim().equals(""))
@@ -867,9 +868,9 @@ public class ExcelCaseInfoDto {
 
             for (ExcelSocialNetworkDto act : this.lstSN) {
 
-                if (act.getBlock() == true) {
+                if (act.getBlock().equals(true)) {
 
-                    if (this.socialNetworkStr != "")
+                    if (this.socialNetworkStr.isEmpty() == false)
                         this.socialNetworkStr += "\n";
 
                     if (act.getName() != null && !act.getName().equals(""))
@@ -928,8 +929,8 @@ public class ExcelCaseInfoDto {
         if (this.lstRef != null && this.lstRef.size() > 0)
             for (ExcelReferenceDto act : this.lstRef) {
 
-                if (act.getBlock() == true) {
-                    if (this.referencesStr != "")
+                if (act.getBlock().equals(true)) {
+                    if (this.referencesStr.isEmpty() == false)
                         this.referencesStr += "\n";
 
                     if (act.getName() != null && !act.getName().equals(""))
@@ -983,8 +984,8 @@ public class ExcelCaseInfoDto {
 
         if (this.lstJob != null && this.lstJob.size() > 0)
             for (ExcelJobDto act : this.lstJob) {
-                if (act.getBlock() == true) {
-                    if (jobsStr != "")
+                if (act.getBlock().equals(true)) {
+                    if (jobsStr.isEmpty() == false)
                         jobsStr += "\n";
 
                     if (act.getCompany() != null && !act.getCompany().equals(""))
@@ -1044,8 +1045,8 @@ public class ExcelCaseInfoDto {
 
         if (lstDrug != null && lstDrug.size() > 0)
             for (ExcelDrugDto act : lstDrug) {
-                if (act.getBlock() == true) {
-                    if (drugsStr != "")
+                if (act.getBlock().equals(true)) {
+                    if (drugsStr.isEmpty() == false)
                         drugsStr += "\n";
 
                     if (act.getDrugType() != null && !act.getDrugType().equals(""))
@@ -1086,7 +1087,7 @@ public class ExcelCaseInfoDto {
         crimesStr = "";
         if (lstCrimes != null && lstCrimes.size() > 0)
             for (ExcelCrimeDto act : lstCrimes) {
-                if (crimesStr != "")
+                if (crimesStr.isEmpty() == false)
                     crimesStr += "\n";
 
                 if (act.getCrime() != null && !act.getCrime().equals(""))
@@ -1119,7 +1120,7 @@ public class ExcelCaseInfoDto {
         coDefStr = "";
         if (this.lstCoDef != null && this.lstCoDef.size() > 0)
             for (ExcelCoDefDto act : this.lstCoDef) {
-                if (coDefStr != "")
+                if (coDefStr.isEmpty() == false)
                     coDefStr += "\n";
 
                 if (act.getName() != null && !act.getName().equals(""))
@@ -1198,7 +1199,7 @@ public class ExcelCaseInfoDto {
 
             for (ExcelSectDto secAct : lstSubsect) {
 
-                if (selQuestStr != "")
+                if (selQuestStr.isEmpty() == false)
                     selQuestStr += "\n";
 
                 selQuestStr += "- " + secAct.getSectName();
@@ -1270,7 +1271,7 @@ public class ExcelCaseInfoDto {
     public String schoolToStr() {
         String returnStr = "";
 
-        if (this.imputedActualSchool == true) {
+        if (this.imputedActualSchool.equals(true)) {
             returnStr += "Nombre: " + this.imputedSchoolName;
             returnStr += ", Teléfono: " + this.imputedSchoolPhone;
             returnStr += ", Dirección: " + this.imputedSchoolAddress + ", ";
@@ -1296,7 +1297,7 @@ public class ExcelCaseInfoDto {
         victimStr = "";
         if (this.lstVictim != null && this.lstVictim.size() > 0)
             for (VictimDto act : this.lstVictim) {
-                if (victimStr != "")
+                if (victimStr.isEmpty() == false)
                     victimStr += "\n";
                 if (act.getFullname() != null && !act.getFullname().equals(""))
                     victimStr += "-Nombre: " + act.getFullname();
@@ -1325,7 +1326,7 @@ public class ExcelCaseInfoDto {
 
         if (this.lstHomes != null && this.lstHomes.size() > 0)
             for (ExcelImputedHomeDto act : this.lstHomes) {
-                if (returnStr != "")
+                if (returnStr.isEmpty() == false)
                     returnStr += "\n";
 
                 if (act.getSummaryStr() != null)
@@ -1342,9 +1343,9 @@ public class ExcelCaseInfoDto {
 
             for (ExcelSocialNetworkDto act : this.lstSN) {
 
-                if (act.getBlock() == true) {
+                if (act.getBlock().equals(true)) {
 
-                    if (returnStr != "")
+                    if (returnStr.isEmpty() == false)
                         returnStr += "\n";
 
                     if (act.getRelationship() != null && !act.getRelationship().equals(""))
@@ -1367,8 +1368,8 @@ public class ExcelCaseInfoDto {
         String returnStr = "";
         if (this.lstRef != null && this.lstRef.size() > 0) {
             for (ExcelReferenceDto act : this.lstRef) {
-                if (act.getBlock() == true) {
-                    if (returnStr != "")
+                if (act.getBlock().equals(true)) {
+                    if (returnStr.isEmpty() == false)
                         returnStr += "\n";
 
                     if (act.getRelationship() != null && !act.getRelationship().equals(""))
@@ -1388,7 +1389,7 @@ public class ExcelCaseInfoDto {
 
         if (this.lstJob != null && this.lstJob.size() > 0) {
             for (ExcelJobDto act : this.lstJob) {
-                if (act.getBlock() == true) {
+                if (act.getBlock().equals(true)) {
                     if (act.getRegisterType() != null && act.getRegisterType().toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_ACTUAL)) {
                         hasAct = true;
                         break;
@@ -1399,7 +1400,7 @@ public class ExcelCaseInfoDto {
             }
         }
 
-        if (hasAct == true)
+        if (hasAct.equals(true))
             returnStr = "El imputado tiene trabajo actual";
         else
             returnStr = "El imputado no tiene trabajo actual";
@@ -1410,7 +1411,7 @@ public class ExcelCaseInfoDto {
     public String summaryEvaluationSchool() {
         String returnStr = "";
 
-        if (this.imputedActualSchool == true) {
+        if (this.imputedActualSchool.equals(true)) {
             returnStr += "El imputado estudia actualmente. Grado actual - ";
         } else {
             returnStr += "El imputado no estudia actualmente. Último grado de estudios ";
@@ -1428,8 +1429,8 @@ public class ExcelCaseInfoDto {
 
         if (lstDrug != null && lstDrug.size() > 0)
             for (ExcelDrugDto act : lstDrug) {
-                if (act.getBlock() == true) {
-                    if (returnStr != "")
+                if (act.getBlock().equals(true)) {
+                    if (returnStr.isEmpty() == false)
                         returnStr += "\n";
                     if (act.getDrugType() != null && !act.getDrugType().equals(""))
                         returnStr += "-" + act.getDrugType();
@@ -1466,7 +1467,7 @@ public class ExcelCaseInfoDto {
         String returnStr = "";
         if (this.lstVictim != null && this.lstVictim.size() > 0) {
             for (VictimDto act : this.lstVictim) {
-                if (returnStr != "")
+                if (returnStr.isEmpty() == false)
                     returnStr += "\n";
                 if (act.getRelName() != null && !act.getRelName().equals(""))
                     returnStr += "-" + act.getRelName();
@@ -1511,7 +1512,7 @@ public class ExcelCaseInfoDto {
         String returnStr = "";
 
         for (ExcelVerificationDto actSource : summaryVerificationSources) {
-            if (returnStr != "")
+            if (returnStr.isEmpty() == false)
                 returnStr += "\n";
             returnStr += "-" + actSource.getSourceRelationship();
             returnStr += ", " + actSource.getVerificationMethod();

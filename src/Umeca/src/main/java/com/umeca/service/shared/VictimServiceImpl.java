@@ -61,7 +61,7 @@ public class VictimServiceImpl implements VictimService {
             model.addObject("lstInfoAvail", gson.toJson(informationAvailabilityRepository.findNoObsolete()));
         model.addObject("idCase", idCase);
         addressService.fillCatalogAddress(model);
-        if(id!=null && id > 0){
+        if(id!=null && id.longValue() > 0L){
             Victim victim = victimRepository.findOne(id);
             model.addObject("victim",gson.toJson(new VictimDto().dtoVictim(victim)));
             if(victim.getAddress()!=null){
@@ -94,7 +94,7 @@ public class VictimServiceImpl implements VictimService {
             sVictim.setAge(victim.getAge());
             sVictim.setPhone(victim.getPhone());
 
-            if(victim.getHasInfoAddress()==true) {
+            if(victim.getHasInfoAddress().equals(true)) {
                 sVictim.getAddress().setStreet(victim.getAddress().getStreet());
                 sVictim.getAddress().setInnNum(victim.getAddress().getInnNum());
                 sVictim.getAddress().setOutNum(victim.getAddress().getOutNum());

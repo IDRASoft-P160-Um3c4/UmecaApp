@@ -160,7 +160,7 @@ public class ManagerevalReportController {
 
                 List<ExcelActivitiesDto> acts = new ArrayList<>();
                 for (ExcelActivitiesDto aAct : lstActivities) {
-                    if (aAct.getIdCase() == cAct.getIdCase()) {
+                    if (aAct.getIdCase().equals(cAct.getIdCase())) {
                         acts.add(aAct);
                     }
                 }
@@ -170,7 +170,7 @@ public class ManagerevalReportController {
 
                 List<ExcelImputedHomeDto> lstImHome = new ArrayList<>();
                 for (ExcelImputedHomeDto hAct : lstHomes) {
-                    if (hAct.getIdCase() == cAct.getIdCase()) {
+                    if (hAct.getIdCase().equals(cAct.getIdCase())) {
                         lstImHome.add(hAct);
                     }
                 }
@@ -179,7 +179,7 @@ public class ManagerevalReportController {
 
                 List<ExcelSocialNetworkDto> lstCSN = new ArrayList<>();
                 for (ExcelSocialNetworkDto snAct : lstSN) {
-                    if (snAct.getIdCase() == cAct.getIdCase()) {
+                    if (snAct.getIdCase().equals(cAct.getIdCase())) {
                         lstCSN.add(snAct);
                     }
                 }
@@ -189,7 +189,7 @@ public class ManagerevalReportController {
 
                 List<ExcelReferenceDto> lstR = new ArrayList<>();
                 for (ExcelReferenceDto rAct : lstRef) {
-                    if (rAct.getIdCase() == cAct.getIdCase()) {
+                    if (rAct.getIdCase().equals(cAct.getIdCase()) ) {
                         lstR.add(rAct);
                     }
                 }
@@ -198,7 +198,7 @@ public class ManagerevalReportController {
 
                 List<ExcelJobDto> lstJ = new ArrayList<>();
                 for (ExcelJobDto jAct : lstJob) {
-                    if (jAct.getIdCase() == cAct.getIdCase()) {
+                    if (jAct.getIdCase().equals(cAct.getIdCase())) {
                         lstJ.add(jAct);
                     }
                 }
@@ -209,7 +209,7 @@ public class ManagerevalReportController {
 
                 List<ExcelDrugDto> lstD = new ArrayList<>();
                 for (ExcelDrugDto dAct : lstDrug) {
-                    if (dAct.getIdCase() == cAct.getIdCase()) {
+                    if (dAct.getIdCase().equals(cAct.getIdCase())) {
                         lstD.add(dAct);
                     }
                 }
@@ -379,7 +379,7 @@ public class ManagerevalReportController {
 
             for (ExcelStatusCasesInfo actInfo : summ.getAllCasesIds()) {
                 for (SelectList actHF : allCasesWithHearingFormatFinished) {
-                    if (actHF.getId() == actInfo.getIdCase()) {
+                    if (actHF.getId().equals(actInfo.getIdCase())) {
                         actInfo.setIdFirstFormatFinished(actHF.getAux());
                     }
                 }

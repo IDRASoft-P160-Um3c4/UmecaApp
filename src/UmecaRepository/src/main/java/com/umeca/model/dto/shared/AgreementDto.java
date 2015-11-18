@@ -31,13 +31,13 @@ public class AgreementDto implements EntityGrid {
     public AgreementDto(Long id, String title, Boolean isDone, Boolean isFinished, String stCode) {
         this.id = id;
         this.title = title;
-        if (isDone == true) {
+        if (isDone.equals(true)) {
             this.isDoneStr = Constants.AGREEMENT_IS_DONE;
         } else {
             this.isDoneStr = Constants.AGREEMENT_IS_NOT_DONE;
         }
         this.isFinished = isFinished;
-        if (isFinished == true) {
+        if (isFinished.equals(true)) {
             this.isFinishedStr = Constants.AGREEMENT_IS_FINISHED;
         } else {
             this.isFinishedStr = Constants.AGREEMENT_IS_NOT_FINISHED;
@@ -70,15 +70,15 @@ public class AgreementDto implements EntityGrid {
         if (agreementDate != null)
             this.agreementDate = sdf.format(agreementDate);
         this.area = area;
-        if (spec == true) {
+        if (spec.equals(true)) {
             this.area = area + " - " + specArea;
         }
-        if (isDone == true) {
+        if (isDone.equals(true)) {
             this.isDoneStr = Constants.AGREEMENT_IS_DONE;
         } else {
             this.isDoneStr = Constants.AGREEMENT_IS_NOT_DONE;
         }
-        if (isFinished == true) {
+        if (isFinished.equals(true)) {
             this.isFinishedStr = Constants.AGREEMENT_IS_FINISHED;
         } else {
             this.isFinishedStr = Constants.AGREEMENT_IS_NOT_FINISHED;

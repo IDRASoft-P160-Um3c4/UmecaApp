@@ -25,7 +25,7 @@ public class ExcelImputedHomeDto {
         this.regType = regType;
         this.summaryStr = summaryStr;
 
-        if(isHomeless == null || isHomeless == false){
+        if(isHomeless == null || isHomeless.equals(false)){
             this.isHomelessStr = "No";
         }
         else {
@@ -42,7 +42,7 @@ public class ExcelImputedHomeDto {
         this.state = state;
         this.municipality = municipality;
 
-        if(isHomeless == null || isHomeless == false){
+        if(isHomeless == null || isHomeless.equals(false)){
             this.isHomelessStr = "No";
         }
         else {

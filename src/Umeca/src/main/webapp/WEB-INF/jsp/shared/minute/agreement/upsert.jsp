@@ -16,8 +16,11 @@
                     <div class="modal-header">
                         <div class="alert alert-info ">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="element-center"><i class="glyphicon glyphicon-comment "></i>&nbsp;&nbsp;Registrar
-                                acuerdo
+                            <h4 class="element-center" ng-show="!agreement.id">
+                                <i class="glyphicon glyphicon-comment "></i>&nbsp;&nbsp;Registrar acuerdo
+                            </h4>
+                            <h4 class="element-center" ng-show="agreement.id">
+                                <i class="glyphicon glyphicon-comment "></i>&nbsp;&nbsp;Editar acuerdo
                             </h4>
                         </div>
                     </div>

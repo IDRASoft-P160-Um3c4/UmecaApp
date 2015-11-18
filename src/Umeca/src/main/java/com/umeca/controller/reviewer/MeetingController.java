@@ -1,7 +1,6 @@
 package com.umeca.controller.reviewer;
 
 import com.google.gson.Gson;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
@@ -22,7 +21,6 @@ import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.managereval.FormulationRepository;
-import com.umeca.repository.reviewer.MeetingRepository;
 import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.MeetingService;
@@ -461,7 +459,7 @@ public class MeetingController {
                 formulationRepository.save(formulation);
             }
             Formulation formulation;
-            if(imputed.getFormulationId() == null && imputed.getIsFromFormulation() == true){
+            if(imputed.getFormulationId() == null && imputed.getIsFromFormulation() != null && imputed.getIsFromFormulation().equals(true)){
                 formulation = new Formulation();
 
                 formulation.setFirstName(imputed.getName());
@@ -864,16 +862,9 @@ public class MeetingController {
     JqGridResultModel handingOverList(@ModelAttribute JqGridFilterModel opts) {
         opts.extraFilters = new ArrayList<>();
 
-    /*    JqGridRulesModel extraFilter = new JqGridRulesModel("statusMeeting",
-                new ArrayList<String>() {{
-                    add(Constants.S_MEETING_INCOMPLETE_LEGAL);
-                    add(Constants.S_MEETING_COMPLETE);
-                    add(Constants.S_MEETING_INCOMPLETE);
-                }}
-                , JqGridFilterModel.COMPARE_IN
-        );
+        JqGridRulesModel extraFilter = new JqGridRulesModel("isShown","", JqGridFilterModel.IS_NULL);
 
-      opts.extraFilters.add(extraFilter); */
+      opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
@@ -886,7 +877,7 @@ public class MeetingController {
                 final Join<CurrentCriminalProceeding, Crime> joinCC = joinC.join("crime",JoinType.LEFT);
 
                 ArrayList<Selection<?>> result = new ArrayList<Selection<?>>() {{
-                    add(r.get("id"));
+                    add(joinLegal.get("id"));
                     add(r.get("idFolder"));
                   //  add(joinStatusMe.get("status").alias("statusMeeting"));
                     add(joinImp.get("name"));
@@ -904,16 +895,53 @@ public class MeetingController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {;
                 if (field.equals("fullname"))
                     return r.join("meeting").join("imputed").get("name");
-
                 if (field.equals("statusCode"))
                     return r.join("verification").join("status").get("name");
                 if (field.equals("statusCaseCode"))
                     return r.join("status").get("name");
-
+                if (field.equals("isShown"))
+                    return r.join("meeting").join("currentCriminalProceeding").get("isShown");
                 return null;
             }
         }, Case.class, ManagerevalView.class);
         return result;
+    }
+
+
+    @RequestMapping(value = {"/reviewer/handingOver/requestDetainedDemise"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ModelAndView requestDetainedDemise(@RequestParam Long id) {
+        ModelAndView model = new ModelAndView("reviewer/demiseDetainedRequest");
+        model.addObject("idCP", id);
+        return  model;
+    }
+
+
+
+    @RequestMapping(value = "/reviewer/handingOver/demiseRegister", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage demiseRegister(@RequestParam Long id) {
+        ResponseMessage response = new ResponseMessage();
+
+        try {
+            response.setTitle("Registro ocultado");
+
+            User user = new User();
+            if (userService.isValidUser(user, response) == false)
+                return response;
+
+            meetingService.makeNotShownCriminalProceeding(id);
+
+            response.setHasError(false);
+            return response;
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "handingOverDemiseRegister", userService);
+            response.setHasError(true);
+            response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
+            return response;
+        }
     }
 
     @RequestMapping(value = {"/reviewer/meeting/onlyMeeting"},method = RequestMethod.GET)

@@ -259,7 +259,7 @@ public class ActiveMonitoringPlanController {
                 return response;
             }
 
-            if (monPlan.getStatus().equals(MonitoringConstants.STATUS_END) == true) {
+            if (monPlan.getStatus().equals(MonitoringConstants.STATUS_END)) {
                 response.setMessage("El plan de supervisión se encuentra en estado " + monPlan.getStatus() + ", por ello no se puede realizar esta acción");
                 return response;
             }
@@ -280,7 +280,7 @@ public class ActiveMonitoringPlanController {
             trackMonPlanService.saveAuthRejectAccomplishment(model, user, monPlan,
                     MonitoringConstants.TYPE_COMMENT_LOG_ACCOMPLISHMENT, fulfillmentReport);
 
-            if(monPlan.getResolution() == HearingFormatConstants.HEARING_TYPE_MC){
+            if(monPlan.getResolution().equals(HearingFormatConstants.HEARING_TYPE_MC)){
                 if(fulfillmentReport.getFulfillmentReportType().getCode().equals(Constants.CODE_TOTAL_FULFILLMENT)) {
                     eventService.addEvent(Constants.EVENT_MC_NON_FULFILLMENT, monPlan.getCaseDetention().getId(), null);
                 }
@@ -407,7 +407,7 @@ public class ActiveMonitoringPlanController {
                 return response;
             }
 
-            if (monPlan.getStatus().equals(MonitoringConstants.STATUS_END) == true) {
+            if (monPlan.getStatus().equals(MonitoringConstants.STATUS_END)) {
                 response.setMessage("El plan de supervisi&oacuten se encuentra en estado " + monPlan.getStatus() + ", por ello ya no es posible cambiar de supervisor");
                 return response;
             }

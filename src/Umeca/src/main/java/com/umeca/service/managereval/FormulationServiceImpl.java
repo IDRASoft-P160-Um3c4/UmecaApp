@@ -52,7 +52,7 @@ public class FormulationServiceImpl implements FormulationService {
         ModelAndView model = new ModelAndView("/managereval/formulation/upsert");
 
         model.addObject("lstReviewers", gson.toJson(lstReviewers));
-        if (id != null && id > 0) {
+        if (id != null && id.longValue() > 0L) {
             Formulation formulation = formulationRepository.findOne(id);
 
             model.addObject("m", formulation);
@@ -72,7 +72,7 @@ public class FormulationServiceImpl implements FormulationService {
             formulation.setIsObsolete(false);
 
 
-            if (formulation.getId() != null && formulation.getId() == 0) {
+            if (formulation.getId() != null && formulation.getId().equals(0L)) {
                 formulation.setId(null);
             }
             formulationRepository.save(formulation);

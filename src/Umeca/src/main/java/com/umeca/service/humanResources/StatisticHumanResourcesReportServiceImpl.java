@@ -1,9 +1,9 @@
 package com.umeca.service.humanResources;
 
 import com.google.gson.Gson;
+import com.umeca.model.dto.humanResources.AttendanceExcelDto;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.ReportList;
-import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.ArrangementRepository;
 import com.umeca.repository.catalog.ReportTypeRepository;
@@ -14,6 +14,7 @@ import com.umeca.service.shared.SystemSettingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -69,8 +70,8 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
             monthF = endCal.get(Calendar.MONTH)  + 1;
 
 
-            Integer  startPeriod = Integer.parseInt(systemSettingService.findOneValue("ATTENDANCE", "PeriodStart"));
-            Integer  endPeriod = Integer.parseInt(systemSettingService.findOneValue("ATTENDANCE", "PeriodEnd"));
+            int  startPeriod = Integer.parseInt(systemSettingService.findOneValue("ATTENDANCE", "PeriodStart"));
+            int  endPeriod = Integer.parseInt(systemSettingService.findOneValue("ATTENDANCE", "PeriodEnd"));
 
             initCal.set(Calendar.DAY_OF_MONTH, startPeriod);
 
@@ -199,6 +200,91 @@ public class StatisticHumanResourcesReportServiceImpl implements StatisticHumanR
                 break;
         }
         return null;
+    }
+
+    @Override
+    public List<AttendanceExcelDto> getAttendanceLog(String initDate, String endDate) {
+
+        List<AttendanceExcelDto> data = new ArrayList<>();
+        List<Object> lstObjects;
+        Date initDateF = null;
+        Date endDateF = null;
+        Calendar initCal = Calendar.getInstance();
+        Calendar endCal = Calendar.getInstance();
+        int monthI = 0;
+        int monthF = 0;
+
+        String initTime = " 00:00:00";
+        String endTime = " 23:59:59";
+        initDate = initDate + "/01";
+        endDate = endDate + "/01";
+
+
+        try {
+            initDateF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(initDate + initTime);
+            endDateF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(endDate + endTime);
+            initCal.setTime(initDateF);
+            endCal.setTime(endDateF);
+
+
+            monthI = initCal.get(Calendar.MONTH) + 1;
+            monthF = endCal.get(Calendar.MONTH) + 1;
+
+
+            int startPeriod = Integer.parseInt(systemSettingService.findOneValue("ATTENDANCE", "PeriodStart"));
+            int endPeriod = Integer.parseInt(systemSettingService.findOneValue("ATTENDANCE", "PeriodEnd"));
+
+            initCal.set(Calendar.DAY_OF_MONTH, startPeriod);
+
+            if (startPeriod > 1) {
+                endCal.set(Calendar.MONTH, monthF);
+                endCal.set(Calendar.DAY_OF_MONTH, startPeriod - 1);
+            }
+
+
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "getData", sharedUserService);
+        }
+
+
+
+        lstObjects = statisticHumanResourcesReportTypeRepository.countEmployeeAttendanceLog(initCal, endCal);
+        for (int j = 0; j < lstObjects.size(); j++) {
+            Object[] obj = (Object[]) lstObjects.get(j);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Calendar cal = Calendar.getInstance();
+
+            try {
+                cal.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(obj[1].toString().substring(0, obj[1].toString().length()-2)));
+                if(obj[5] != null){
+                    data.add(new AttendanceExcelDto(
+                            Long.parseLong(obj[0].toString()),
+                            cal,
+                            Short.parseShort(obj[2].toString()),
+                            obj[3].toString(),
+                            Long.parseLong(obj[4].toString()),
+                            Long.parseLong(obj[5].toString()),
+                            Boolean.parseBoolean(obj[6].toString()),
+                            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(obj[7].toString().substring(0, obj[7].toString().length()-2)),
+                            Integer.parseInt(obj[8].toString())
+                    ));
+                }else {
+                    data.add(new AttendanceExcelDto(
+                            Long.parseLong(obj[0].toString()),
+                            cal,
+                            Short.parseShort(obj[2].toString()),
+                            obj[3].toString(),
+                            Long.parseLong(obj[4].toString())
+                    ));
+                }
+
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return data;
     }
 
 

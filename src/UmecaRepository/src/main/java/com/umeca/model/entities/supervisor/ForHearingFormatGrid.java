@@ -75,9 +75,9 @@ public class ForHearingFormatGrid implements EntityGrid {
 
         this.isFinished = isFinished;
 
-        if (isFinished == true)
+        if (isFinished.equals(true))
             this.finishedStr = "Si";
-        else if (isFinished == false)
+        else if (isFinished.equals(false))
             this.finishedStr = "No";
 
     }

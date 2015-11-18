@@ -13,13 +13,13 @@ import com.umeca.model.catalog.*;
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.catalog.dto.CountryDto;
 import com.umeca.model.catalog.dto.StateDto;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.dto.JobDto;
 import com.umeca.model.entities.reviewer.dto.RelActivityObjectDto;
 import com.umeca.model.entities.shared.UploadFile;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
-import com.umeca.model.shared.HearingFormatConstants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
@@ -39,7 +39,6 @@ import com.umeca.service.supervisor.HearingFormatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -146,19 +145,17 @@ public class FramingMeetingController {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
 
-                final javax.persistence.criteria.Join<Case, StatusCase> joinSt = r.join("status");
-                final javax.persistence.criteria.Join<Case, StatusCase> joinM = r.join("meeting").join("imputed");
-                final javax.persistence.criteria.Join<Case, StatusCase> joinUS = r.join("umecaSupervisor");
 
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
-                    add(joinSt.get("name"));
-                    add(joinSt.get("description"));
+                    add(r.get("status"));
+                    add(r.get("description"));
                     add(r.get("idMP"));
-                    add(joinM.get("name"));
-                    add(joinM.get("lastNameP"));
-                    add(joinM.get("lastNameM"));
-                    add(joinM.get("birthDate"));
+                    add(r.get("name"));
+                    add(r.get("lastNameP"));
+                    add(r.get("lastNameM"));
+                    add(r.get("birthDate"));
+                    add(r.get("arrangementType"));
                 }};
             }
 
@@ -168,11 +165,11 @@ public class FramingMeetingController {
                     return r.get("idMP");
 
                 if (field.equals("statusName"))
-                    return r.join("status").get("name");
+                    return r.get("status");
 
                 return null;
             }
-        }, Case.class, ForFramingMeetingGrid.class);
+        }, ForFramingMeetingGridView.class, ForFramingMeetingGrid.class);
 
         return result;
     }
@@ -645,7 +642,7 @@ public class FramingMeetingController {
         Gson gson = new Gson();
         model.addObject("lstDrugType", gson.toJson(drugTypeRepository.findNotObsolete()));
         model.addObject("lstPeriodicity", gson.toJson(periodicityRepository.findNotObsolete()));
-        if (id != null && id != 0) {
+        if (id != null && id.longValue() != 0) {
             Drug d = drugRepository.findOne(id);
             model.addObject("d", d);
             model.addObject("typeId", d.getDrugType().getId());
@@ -1149,6 +1146,8 @@ public class FramingMeetingController {
                     add(joinHF.get("umecaDate"));
                     add(joinHF.get("umecaTime"));
                     add(joinUS.get("fullname"));
+                    add(joinHF.get("umecaAttendance"));
+                    add(joinHF.get("id").alias("hearingFormatId"));
                 }};
             }
             @Override
@@ -1164,5 +1163,42 @@ public class FramingMeetingController {
         }, Case.class, ForFramingMeetingGrid.class);
 
         return result;
+    }
+
+
+
+    @RequestMapping(value = {"/supervisor/framingMeeting/datesAttendanceRequest"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ModelAndView requestDetainedDemise(@RequestParam Long id) {
+        ModelAndView model = new ModelAndView("supervisor/framingMeeting/datesAttendanceRequest");
+        model.addObject("idCP", id);
+        return  model;
+    }
+
+
+    @RequestMapping(value = "/supervisor/framingMeeting/attendanceFramingMeeting", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage demiseRegister(@RequestParam Long id, Boolean attendance) {
+        ResponseMessage response = new ResponseMessage();
+
+        try {
+            response.setTitle("Asistencia registrada");
+
+            User user = new User();
+            if (sharedUserService.isValidUser(user, response) == false)
+                return response;
+
+            framingMeetingService.registerAttendance(id, attendance);
+
+            response.setHasError(false);
+            return response;
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "attendanceFramingMeeting", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
+            return response;
+        }
     }
 }

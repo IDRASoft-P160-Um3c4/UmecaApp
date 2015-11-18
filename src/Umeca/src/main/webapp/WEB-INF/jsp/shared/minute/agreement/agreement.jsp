@@ -213,7 +213,7 @@
             }
         });
 
-        if(isRH == 'true'){
+        if(isRH == 'true' && finishedMinute == 'false'){
             jQuery("#GridIdAgreement").jqGrid('navGrid', '#GridPagerAgreement', {
                 edit: false, editicon: 'icon-pencil blue',
                 add: true, addfunc: upsertAgreement, addicon: 'icon-plus-sign purple',

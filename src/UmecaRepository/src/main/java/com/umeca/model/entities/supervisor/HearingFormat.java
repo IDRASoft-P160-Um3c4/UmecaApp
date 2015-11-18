@@ -1,9 +1,11 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.District;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Crime;
+import com.umeca.model.shared.Constants;
 
 import javax.persistence.*;
 import javax.persistence.criteria.Fetch;
@@ -60,7 +62,7 @@ public class HearingFormat {
     @Column(name = "is_finished")
     private Boolean isFinished;
 
-    @Column(name = "comments")
+    @Column(name = "comments", length = 1000)
     private String comments;
 
     @Column(name = "umeca_date")
@@ -68,6 +70,9 @@ public class HearingFormat {
 
     @Column(name = "umeca_time")
     private Time umecaTime;
+
+    @Column(name="umeca_attendance")
+    private Boolean umecaAttendance;
 
 //    @OneToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "id_user_umeca")
@@ -162,7 +167,8 @@ public class HearingFormat {
     }
 
     public void setIdFolder(String idFolder) {
-        this.idFolder = idFolder;
+
+        this.idFolder = StringExt.substringMax(idFolder, Constants.DEFAULT_LEN_STRING);;
     }
 
     public String getIdJudicial() {
@@ -170,7 +176,8 @@ public class HearingFormat {
     }
 
     public void setIdJudicial(String idJudicial) {
-        this.idJudicial = idJudicial;
+
+        this.idJudicial = StringExt.substringMax(idJudicial, Constants.DEFAULT_LEN_STRING);;
     }
 
 //    public String getRoom() {
@@ -210,7 +217,7 @@ public class HearingFormat {
     }
 
     public void setJudgeName(String judgeName) {
-        this.judgeName = judgeName;
+        this.judgeName = StringExt.substringMax(judgeName, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getMpName() {
@@ -218,7 +225,7 @@ public class HearingFormat {
     }
 
     public void setMpName(String mpName) {
-        this.mpName = mpName;
+        this.mpName = StringExt.substringMax(mpName, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getDefenderName() {
@@ -226,7 +233,7 @@ public class HearingFormat {
     }
 
     public void setDefenderName(String defenderName) {
-        this.defenderName = defenderName;
+        this.defenderName = StringExt.substringMax(defenderName, Constants.DEFAULT_LEN_STRING);
     }
 
     public List<Crime> getCrimeList() {
@@ -242,7 +249,7 @@ public class HearingFormat {
     }
 
     public void setTerms(String terms) {
-        this.terms = terms;
+        this.terms = StringExt.substringMax(terms, 1000);
     }
 
     public HearingFormatSpecs getHearingFormatSpecs() {
@@ -298,7 +305,7 @@ public class HearingFormat {
     }
 
     public void setConfirmComment(String confirmComment) {
-        this.confirmComment = confirmComment;
+        this.confirmComment = StringExt.substringMax(confirmComment, 1000);
     }
 
     public Boolean getIsFinished() {
@@ -314,7 +321,7 @@ public class HearingFormat {
     }
 
     public void setComments(String comments) {
-        this.comments = comments;
+        this.comments = StringExt.substringMax(comments, 1000);
     }
 
     public Date getUmecaDate() {
@@ -354,7 +361,7 @@ public class HearingFormat {
     }
 
     public void setHearingTypeSpecification(String hearingTypeSpecification) {
-        this.hearingTypeSpecification = hearingTypeSpecification;
+        this.hearingTypeSpecification = StringExt.substringMax(hearingTypeSpecification, Constants.DEFAULT_LEN_STRING);
     }
 
     public Integer getImputedPresence() {
@@ -370,7 +377,7 @@ public class HearingFormat {
     }
 
     public void setHearingResult(String hearingResult) {
-        this.hearingResult = hearingResult;
+        this.hearingResult = StringExt.substringMax(hearingResult, Constants.DEFAULT_LEN_STRING);
     }
 
     public Integer getPreviousHearing() {
@@ -426,7 +433,8 @@ public class HearingFormat {
     }
 
     public void setTimeAgo(String timeAgo) {
-        this.timeAgo = timeAgo;
+
+        this.timeAgo = StringExt.substringMax(timeAgo, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getLocationPlace() {
@@ -434,7 +442,14 @@ public class HearingFormat {
     }
 
     public void setLocationPlace(String locationPlace) {
-        this.locationPlace = locationPlace;
+        this.locationPlace = StringExt.substringMax(locationPlace, Constants.DEFAULT_LEN_STRING);
     }
 
+    public Boolean getUmecaAttendance() {
+        return umecaAttendance;
+    }
+
+    public void setUmecaAttendance(Boolean umecaAttendance) {
+        this.umecaAttendance = umecaAttendance;
+    }
 }

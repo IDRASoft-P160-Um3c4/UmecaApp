@@ -101,7 +101,7 @@ public class LogCaseServiceImpl implements LogCaseService {
 
         String cad = "";
         for (SelectList act : lstMoral) {
-            if (cad != "")
+            if (cad.isEmpty() == false)
                 cad += " / ";
             cad += StringEscape.escapeText(act.getName()) + " - " + act.getDescription();
         }
@@ -116,14 +116,14 @@ public class LogCaseServiceImpl implements LogCaseService {
         if (lstResol != null && lstResol.size() > 0) {
             for (int i = 0; i < lstResol.size(); i++) {
 
-                if (allResol != "")
+                if (allResol.isEmpty() == false)
                     allResol += " <br/> ";
 
                 allResol += CalendarExt.calendarToFormatString(lstResol.get(i).getCalendar(), Constants.FORMAT_CALENDAR_I);
 
-                if (lstResol.get(i).getIdAux() == HearingFormatConstants.HEARING_TYPE_MC)
+                if (lstResol.get(i).getIdAux().equals(HearingFormatConstants.HEARING_TYPE_MC))
                     allResol += " - MC";
-                else if (lstResol.get(i).getIdAux() == HearingFormatConstants.HEARING_TYPE_SCP)
+                else if (lstResol.get(i).getIdAux().equals(HearingFormatConstants.HEARING_TYPE_SCP))
                     allResol += " - SCPP";
             }
         }
@@ -216,7 +216,7 @@ public class LogCaseServiceImpl implements LogCaseService {
             if (ampal.getActMonPlanId().equals(idActivity)) {
                 ampal.setStatusString();
                 String assArr = findElement(assigmentArringment, ampal.getAssignedArrangementId(), true);
-                if (ampal.getStatus() == (status)) {
+                if (ampal.getStatus().equals(status)) {
                     lstArrangement.add(assArr + " - " + ampal.getStatusSt());
                 }
             }

@@ -15,6 +15,7 @@ public class ScheduleDayDto implements EntityGrid {
     private String end;
     private Integer startI;
     private Integer endI;
+    private Long idEmployee;
 
     public ScheduleDayDto() {
 
@@ -38,6 +39,21 @@ public class ScheduleDayDto implements EntityGrid {
         if (end != null) {
             this.end = convIntToStr(end);
         }
+    }
+
+
+    public ScheduleDayDto(Long id, Integer dayId, Integer start, Integer end, Long idEmployee){
+        this.id = id;
+        this.dayId = dayId;
+        if (start != null) {
+            this.start = convIntToStr(start);
+        }
+
+        if (end != null) {
+            this.end = convIntToStr(end);
+        }
+
+        this.idEmployee  = idEmployee;
     }
 
     @Override
@@ -156,5 +172,13 @@ public class ScheduleDayDto implements EntityGrid {
 
     public void setIsSel(Boolean isSel) {
         this.isSel = isSel;
+    }
+
+    public Long getIdEmployee() {
+        return idEmployee;
+    }
+
+    public void setIdEmployee(Long idEmployee) {
+        this.idEmployee = idEmployee;
     }
 }

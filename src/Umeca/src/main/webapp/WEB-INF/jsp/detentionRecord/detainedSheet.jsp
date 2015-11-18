@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="com.umeca.model.shared.Constants" %>
 <html>
 
 <head>
@@ -30,6 +31,8 @@
             var showAdd =${showAdd};
             var showAction =${showAction};
             var showProsecute =${showProsecute};
+            var rol = "${rol}";
+
             var _48hrsMil = 172800000;
             var _1hourMil = 3600000;
             var _1minMil = 60000;
@@ -95,12 +98,20 @@
                 window.showUpsert(id, "#angJsjqGridIdDetained", "<c:url value='/detentionRecord/upsertProsecute.html'/>", "#GridIdDetained");
             };
 
+            doNotVisibleUmeca = function (id) {
+                window.showAction(id, "#angJsjqGridIdDetained", '<c:url value='/managereval/doNotVisibleUmeca.json'/>', "#GridIdDetained", "Ocultar caso", "&iquest;Desea ocultar el caso?", "danger");
+            };
+
+            doNotVisibleDetentionRecord = function (id) {
+                window.showAction(id, "#angJsjqGridIdDetained", '<c:url value='/detentionRecord/doNotVisibleDetentionRecord.json'/>', "#GridIdDetained", "Ocultar caso", "&iquest;Desea ocultar el caso?", "danger");
+            };
+
             jQuery("#GridIdDetained").jqGrid({
                 url: '<c:url value="/detentionRecord/detainedSheet/list.json"/>',
                 autoencode: true,
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'isProsecute', 'nowL', 'initDateL', 'initTimeL', 'Imputado','Edad','Carpeta de <br/> Investigaci&oacute;n', 'Fecha inicio', 'Hora inicio', 'Unidad de <br/>Investigaci&oacute;n',
+                colNames: ['ID', 'isProsecute', 'nowL', 'initDateL', 'initTimeL', 'Imputado', 'Edad', 'Carpeta de <br/> Investigaci&oacute;n', 'Fecha inicio', 'Hora inicio', 'Unidad de <br/>Investigaci&oacute;n',
                     'Presentado por', 'Distrito', 'T&eacute;rmino', 'Tiempo para <br/> cumplir t&eacute;rmino', 'Judicializado', 'Accion'],
                 colModel: [
                     {name: 'id', index: 'id', hidden: true},
@@ -229,8 +240,16 @@
                         calcTerm(date[i], time[i], now[i], this, ids[i], isPro[i]);
                         var cl = ids[i];
                         var be = "";
-                        if (isPro[i] == 'false')
-                            be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Indicar judicializaci&oacute;n\" onclick=\"doProsecute('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
+
+                        if (rol === '<%= Constants.ROLE_EVALUATION_MANAGER%>') {
+                            if (isPro[i] == 'false')
+                                be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Indicar judicializaci&oacute;n\" onclick=\"doProsecute('" + cl + "');\"><span class=\"glyphicon glyphicon-thumbs-up\"></span></a>";
+                            be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ocultar caso\" onclick=\"doNotVisibleUmeca('" + cl + "');\"><span class=\"glyphicon glyphicon-remove\"></span></a>";
+                        }
+                        if (rol === '<%= Constants.ROLE_DETENTION_RECORD%>') {
+                            be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Ocultar caso\" onclick=\"doNotVisibleDetentionRecord('" + cl + "');\"><span class=\"glyphicon glyphicon-remove\"></span></a>";
+                        }
+
                         $(this).jqGrid('setRowData', ids[i], {Action: be});
                     }
                 }
@@ -252,6 +271,25 @@
                 search: false
             });
 
+            jQuery("#GridIdDetained").jqGrid('navButtonAdd', "#GridPager", {
+                caption: "",
+                title: "Descargar Excel",
+                buttonicon: 'icon-download-alt red',
+
+                onClickButton: function () {
+                    try {
+                        var params = [];
+                        if (rol === '<%= Constants.ROLE_DETENTION_RECORD%>') {
+                            window.goToUrlMvcUrl("<c:url value='/detentionRecord/excelDetentionRecordReport/jxls.html'/>", params);
+                        }
+                        else{
+                            window.goToUrlMvcUrl("<c:url value='/managereval/excelDetentionRecordReport/jxls.html'/>", params);
+                        }
+                    } catch (e) {
+                    }
+                }
+            });
+
             jQuery("#GridIdDetained").jqGrid('filterToolbar', {
                 stringResult: true,
                 searchOperators: true,
@@ -259,6 +297,10 @@
                 multipleSearch: true,
                 ignoreCase: true
             });
+
+
+
+
         });
     </script>
 

@@ -10,4 +10,8 @@ public interface DetentionRecordService {
     ResponseMessage saveDetained(DetainedDto dto);
 
     ResponseMessage doProsecute(Long id);
+
+    ResponseMessage doNotVisibleDetentionRecord(Long id);
+
+    ResponseMessage doNotVisibleUmeca(Long id);
 }

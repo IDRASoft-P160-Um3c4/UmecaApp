@@ -51,7 +51,7 @@ public class ActivityAgendaServiceImpl implements ActivityAgendaService {
                 continue;
 
             try {
-                if (dto.getActivityId() > 0) {
+                if (dto.getActivityId().longValue() > 0L) {
                     update(dto, user, fullModel);
                 } else {
                     create(dto, user, fullModel);
