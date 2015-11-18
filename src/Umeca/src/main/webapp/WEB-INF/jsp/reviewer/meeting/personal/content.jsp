@@ -601,7 +601,9 @@
                 lactancia, etc.)</label>
         </div>
         <div class="col-xs-9">
-        <textarea class="form-control"
+        <textarea class="form-control"  data-val="true"
+                  data-val-length="Debe tener m&aacute;ximo 500 caracteres"
+                  data-val-length-max="500"
                   data-val-required="Si padece alguna enfermedad o condici&oacute;n f&iacute;sica es un campo requerido"
                   name="socialEnvironment.physicalCondition">${m.socialEnvironment.physicalCondition}</textarea>
                 <span class="field-validation-valid" data-valmsg-for="socialEnvironment.physicalCondition"
@@ -633,7 +635,7 @@
                 <input name="activities" ng-model="activities" ng-update-hidden type="hidden">
                 <select multiple="" class="form-control chosen-select" ng-model="activityModel" data-placeholder="..."
                         ng-init='lstActivity = ${lstActivity}; lstActivitySelec = ${(activity == null) ? '[]' : activity}; selectedActivities(lstActivity,lstActivitySelec);'
-                        id="slctActivity" ng-change="matchActivities()"
+                        id="slctActivity" ng-change="matchActivities();refreshValid();"
                         ng-options="ac as ac.name for ac in lstActivity">
                 </select>
             </div>
@@ -642,6 +644,7 @@
 
         <div class="row">
             <div ng-repeat="activity in activityModel">
+
                 <div ng-show="activity.specification==true">
                     <div class="col-xs-3">
                         Especif&iacute;que actividades {{activity.name}}:
@@ -653,12 +656,13 @@
                                data-val-required="La especificaci&oacute;n de actividades {{activity.name}} es un campo requerido"
                                type="text" value="" ng-model="specification[activity.name]"
                                id="specification{{activity.name}}" name="specification{{activity.name}}"
-                               ng-change="matchActivities()"><br/>
+                               ng-change="matchActivities();" onclick="refreshValid();"><br/>
                 <span class="field-validation-valid" data-valmsg-for="specification{{activity.name}}"
                       data-valmsg-replace="true"></span>
                         <br/>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

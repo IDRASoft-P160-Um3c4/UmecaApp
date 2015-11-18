@@ -51,6 +51,13 @@
             window.showUpsertParams(params, "#angJsjqGridIdMeeting", "<c:url value='/reviewer/meeting/showTerminateMeeting.html'/>", undefined, undefined, undefined);
         }
 
+        refreshValid = function() {
+
+            var form = $("#FormPersonalData").closest("form");
+            form.removeData('validator');
+            form.removeData('unobtrusiveValidation');
+            $.validator.unobtrusive.parse(form);
+        }
 
     </script>
     <style>
