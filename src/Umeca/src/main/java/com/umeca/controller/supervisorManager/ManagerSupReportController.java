@@ -827,7 +827,10 @@ public class ManagerSupReportController {
             }
 
 
+            List<SelectList> supervisorActivity = supervisionActivityRepository.findAllSl();
 
+
+            beans.put("supervisorActivity", supervisorActivity);
             beans.put("listCases", listCases);
             beans.put("listCasesHF", listCasesHF);
 

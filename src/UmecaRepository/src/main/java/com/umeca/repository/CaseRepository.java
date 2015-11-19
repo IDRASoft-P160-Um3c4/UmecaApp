@@ -272,6 +272,8 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "where CDET.id in (:casesIds) order by REF.block")
     List<ExcelReferenceDto> getInfoReference(@Param("casesIds") List<Long> lstCasesIds);
 
+
+
     @Query("select new com.umeca.model.entities.supervisor.ExcelJobDto(CDET.id,JOB.post,JOB.nameHead,JOB.company,JOB.phone,JOB.startPrev,JOB.start,JOB.salaryWeek,JOB.end,JOB.reasonChange,JOB.address,RT.name,RT.id, JOB.block) " +
             "from Case CDET " +
             "inner join CDET.meeting MEET " +
@@ -797,6 +799,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
 
     @Query("select new com.umeca.model.entities.supervisorManager.ExcelCaseInfoSupDto( " +
             "CDET.id, " +
+            "CDET.idMP, " +
             "CDET.idFolder, " +
             "FMPERDATA.gender, " +
             "BIRTHCOUNTRY.name, " +
@@ -838,6 +841,20 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
     List<ExcelImputedHomeDto> getInfoImputedHomesSup(@Param("casesIds") List<Long> lstCasesIds);
 
 
+    @Query("select new com.umeca.model.entities.supervisor.ExcelImputedHomeDto(CDET.id, IMPHOME.isHomeless,LOC.zipCode,ST.name,MUN.name,HT.name,RT.name ) " +
+            "from Case CDET " +
+            "inner join CDET.meeting MEET " +
+            "left join MEET.imputedHomes IMPHOME " +
+            "left join IMPHOME.address IMPADDR " +
+            "left join IMPADDR.location LOC " +
+            "left join LOC.municipality MUN " +
+            "left join MUN.state ST " +
+            "left join IMPHOME.registerType RT " +
+            "left join IMPHOME.homeType HT " +
+            "where CDET.id in (:casesIds) " )
+    List<ExcelImputedHomeDto> getInfoImputedHomesEvl(@Param("casesIds") List<Long> lstCasesIds);
+
+
 
     @Query("select new com.umeca.model.entities.supervisor.ExcelReferenceDto(CDET.id,FMREF.age, FMREF.isAccompaniment, FMREFRELS.name ) " +
             "from Case CDET " +
@@ -856,6 +873,18 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "where CDET.id in (:casesIds) and FMREF.personType = com.umeca.model.entities.supervisor.FramingMeetingConstants.PERSON_TYPE_REFERENCE ")
     List<ExcelReferenceDto> getReferencesSup(@Param("casesIds") List<Long> lstCasesIds);
 
+
+    @Query("select new com.umeca.model.entities.supervisor.ExcelSocialNetworkDto(CDET.id,PSN.age, PSN.isAccompaniment,RS.name, DT.name,LVW.name,DEP.name,PSN.name) " +
+            "from Case CDET " +
+            "inner join CDET.meeting MEET " +
+            "left join  MEET.socialNetwork SN " +
+            "left join SN.peopleSocialNetwork PSN " +
+            "left join PSN.relationship RS " +
+            "left join PSN.documentType DT " +
+            "left join  PSN.livingWith LVW " +
+            "left join PSN.dependent DEP " +
+            "where CDET.id in (:casesIds) ")
+    List<ExcelSocialNetworkDto> getSocialNetworkEv(@Param("casesIds") List<Long> lstCasesIds);
 
 
     @Query("select new com.umeca.model.entities.supervisor.ExcelJobDto(CDET.id, JOB.block, JRTY.name) " +
@@ -949,11 +978,13 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
     @Query("select new com.umeca.model.entities.supervisorManager.ExcelCaseInfoHearingFormatDto(" +
             "CDET.id, " +
             "HFIMP.birthDate, " +
+            "CDET.idMP, " +
             "CDET.idFolder, " +
             "DIST.name, " +
             "LOC.zipCode, " +
             "MUNI.name, " +
             "STATE.name, " +
+            "HF.mpName, " +
             "HF.isHomeless, " +
             "HFSPE.controlDetention, " +
             "HFSPE.imputationFormulation, " +

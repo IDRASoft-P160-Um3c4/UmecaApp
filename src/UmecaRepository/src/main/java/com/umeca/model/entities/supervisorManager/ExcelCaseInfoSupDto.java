@@ -10,6 +10,7 @@ import java.util.List;
  */
 public class ExcelCaseInfoSupDto {
     private Long idCase;
+    private String idMP;
     private String idFolder;
     private Integer gender;
     private String genderStr;
@@ -99,6 +100,7 @@ public class ExcelCaseInfoSupDto {
 
     public ExcelCaseInfoSupDto(
             Long idCase,
+            String idMP,
             String idFolder,
             Integer gender,
             String countryBirth,
@@ -113,6 +115,7 @@ public class ExcelCaseInfoSupDto {
             Integer obligationIssue
     ) {
         this.idCase = idCase;
+        this.idMP = idMP;
         this.idFolder = idFolder;
         this.gender = gender;
         this.countryBirth = countryBirth;
@@ -1083,5 +1086,14 @@ public class ExcelCaseInfoSupDto {
 
     public void setInstitutionType(String institutionType) {
         this.institutionType = institutionType;
+    }
+
+
+    public String getIdMP() {
+        return idMP;
+    }
+
+    public void setIdMP(String idMP) {
+        this.idMP = idMP;
     }
 }

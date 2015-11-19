@@ -19,6 +19,7 @@ public class ExcelCaseInfoHearingFormatDto {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
     private Long idCase;
+    private String idMP;
     private String idFolder;
     private Date imputedBirthday;
     private String imputedBirthdayStr;
@@ -28,6 +29,8 @@ public class ExcelCaseInfoHearingFormatDto {
     private String zipCode;
     private String municipality;
     private String state;
+
+    private String mpName;
     private Boolean isHomeless;
     private String isHomelessStr;
 
@@ -65,11 +68,13 @@ public class ExcelCaseInfoHearingFormatDto {
     public ExcelCaseInfoHearingFormatDto(
             Long idCase,
             Date imputedBirthday,
+            String idMP,
             String idFolder,
             String district,
             String zipCode,
             String municipality,
             String state,
+            String mpName,
             Boolean isHomeless,
             Integer controlDetention,
             Integer imputationFormulation,
@@ -81,11 +86,13 @@ public class ExcelCaseInfoHearingFormatDto {
     ) {
         this.idCase = idCase;
         this.imputedBirthdayStr = dateFormat.format(imputedBirthday);
+        this.idMP = idMP;
         this.idFolder = idFolder;
         this.district = district;
         this.zipCode = zipCode;
         this.municipality = municipality;
         this.state = state;
+        this.mpName = mpName;
         this.isHomeless = isHomeless;
 
 
@@ -445,5 +452,22 @@ public class ExcelCaseInfoHearingFormatDto {
     public void setAppointmentDateStr(String appointmentDateStr) {
         this.appointmentDateStr = appointmentDateStr;
     }
+
+    public String getIdMP() {
+        return idMP;
+    }
+
+    public void setIdMP(String idMP) {
+        this.idMP = idMP;
+    }
+
+    public String getMpName() {
+        return mpName;
+    }
+
+    public void setMpName(String mpName) {
+        this.mpName = mpName;
+    }
+
 
 }
