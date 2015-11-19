@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.RegisterType;
 import com.umeca.model.entities.humanReources.Employee;
 import com.umeca.model.entities.supervisor.FramingMeeting;
@@ -127,7 +128,7 @@ public class Job implements EntityGrid {
     }
 
     public void setPost(String post) {
-        this.post = post;
+        this.post = StringExt.substringMax(post,50);
     }
 
     public String getCompany() {
@@ -135,7 +136,7 @@ public class Job implements EntityGrid {
     }
 
     public void setCompany(String company) {
-        this.company = company;
+        this.company = StringExt.substringMax(company,150);
     }
 
     public String getNameHead() {
@@ -143,7 +144,7 @@ public class Job implements EntityGrid {
     }
 
     public void setNameHead(String nameHead) {
-        this.nameHead = nameHead;
+        this.nameHead = StringExt.substringMax(nameHead,150);
     }
 
     public String getPhone() {
@@ -151,7 +152,7 @@ public class Job implements EntityGrid {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phone = StringExt.substringMax(phone,20);
     }
 
     public Date getStart() {
@@ -167,7 +168,7 @@ public class Job implements EntityGrid {
     }
 
     public void setSalaryWeek(String salaryWeek) {
-        this.salaryWeek = salaryWeek;
+        this.salaryWeek = StringExt.substringMax(salaryWeek,100);
     }
 
     public Date getEnd() {
@@ -183,7 +184,7 @@ public class Job implements EntityGrid {
     }
 
     public void setReasonChange(String reasonChange) {
-        this.reasonChange = reasonChange;
+        this.reasonChange = StringExt.substringMax(reasonChange,1000);
     }
 
     public RegisterType getRegisterType() {
@@ -231,7 +232,7 @@ public class Job implements EntityGrid {
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.address = StringExt.substringMax(address,1000);
     }
 
     public Date getStartPrev() {

@@ -115,7 +115,7 @@
                       data-val-length-max="500"
                       data-val-length-min="1"
                       name="commentReference">${m.socialNetwork.comment}</textarea>
-                <span class="field-validation-valid" data-valmsg-for="comment"
+                <span class="field-validation-valid" data-valmsg-for="commentReference"
                       data-valmsg-replace="true"></span>
         </div>
     </form>

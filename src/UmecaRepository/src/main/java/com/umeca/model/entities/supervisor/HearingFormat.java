@@ -168,7 +168,7 @@ public class HearingFormat {
 
     public void setIdFolder(String idFolder) {
 
-        this.idFolder = StringExt.substringMax(idFolder, Constants.DEFAULT_LEN_STRING);;
+        this.idFolder = StringExt.substringMax(idFolder, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getIdJudicial() {
@@ -177,7 +177,7 @@ public class HearingFormat {
 
     public void setIdJudicial(String idJudicial) {
 
-        this.idJudicial = StringExt.substringMax(idJudicial, Constants.DEFAULT_LEN_STRING);;
+        this.idJudicial = StringExt.substringMax(idJudicial, Constants.DEFAULT_LEN_STRING);
     }
 
 //    public String getRoom() {

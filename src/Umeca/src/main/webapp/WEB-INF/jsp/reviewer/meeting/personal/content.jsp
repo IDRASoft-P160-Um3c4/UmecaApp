@@ -46,7 +46,7 @@
                 </div>
                 <div class="col-xs-7">
                     <input class="form-control" type="text" ng-model="i.name" value="{{i.name}}"
-                           name="imputed.name" data-val-required="El nombre es un campo requerido"
+                           name="imputed.name" data-val="true" data-val-required="El nombre es un campo requerido"
                            data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"
                            data-val-length-max="50" data-val-length-min="2"/>
                                                  <span class="field-validation-valid" data-valmsg-for="imputed.name"
@@ -75,7 +75,7 @@
                 </div>
                 <div class="col-xs-7">
                     <input class="form-control" type="text" ng-model="i.lastNameP" value="{{i.lastNameP}}"
-                           name="imputed.lastNameP" data-val-required="El nombre es un campo requerido"
+                           name="imputed.lastNameP" data-val="true"  data-val-required="El nombre es un campo requerido"
                            data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"
                            data-val-length-max="50" data-val-length-min="2"/>
                                                  <span class="field-validation-valid"
@@ -105,7 +105,7 @@
                 </div>
                 <div class="col-xs-7">
                     <input class="form-control" type="text" ng-model="i.lastNameM" value="{{i.lastNameM}}"
-                           name="imputed.lastNameM" data-val-required="El nombre es un campo requerido"
+                           name="imputed.lastNameM" data-val="true"  data-val-required="El nombre es un campo requerido"
                            data-val-length="Debe tener m&iacute;nimo 2 y m&aacute;ximo 50 caracteres"
                            data-val-length-max="50" data-val-length-min="2"/>
                                                  <span class="field-validation-valid"
@@ -140,7 +140,7 @@
                             <div class="radio">
                                 <label>
                                     <input class="ace" type="radio" ng-checked="gen==true" name="imputed.gender"
-                                           data-val-required="El g?nero es un campo requerido" id="genero" value="true"
+                                           data-val="true" data-val-required="El g?nero es un campo requerido" id="genero" value="true"
                                            ng-model="gen">
                                     <span class="lbl">Femenino</span>
                                 </label>
@@ -181,7 +181,7 @@
                 <div class="col-xs-7 col-xs-offset-2">
                     <input class="form-control" data-val-required="El apodo es un campo requerido"
                            data-val-length="Debe tener m&iacute;nimo 1 y m&aacute;ximo 100 caracteres"
-                           data-val-length-max="100" data-val-length-min="1"
+                           data-val-length-max="100" data-val-length-min="1"   data-val="true"
                            type="text" ng-model="nickname" id="nickname"
                            ng-init="nickname= '${(m.imputed.nickname == null) ? '': m.imputed.nickname}'"
                            name="imputed.nickname">
@@ -222,7 +222,7 @@
                     <div class="input-group">
                         <input class="form-control date-picker" id="dateBirthV" type="text" disabled="disabled"
                                data-date-format="yyyy/mm/dd" value="${m.imputed.birthDate}"
-                               name="imputed.birthDate"
+                               name="imputed.birthDate"  data-val="true"
                                data-val-required="La fecha de nacimiento es un campo requerido"/>
 																	<span class="input-group-addon">
 																		<i class="icon-calendar bigger-110"></i>
@@ -254,7 +254,7 @@
                     <input class="form-control" data-val-required="El celular es un campo requerido"
                            data-val-length="Debe tener m&iacute;nimo 8 y m&aacute;ximo 20 caracteres"
                            data-val-length-max="20" data-val-length-min="8"
-                           type="text" ng-model="celPhone" id="celPhone"
+                           type="text" ng-model="celPhone" id="celPhone"  data-val="true"
                            ng-init="celPhone= '${(m.imputed.celPhone == null) ? '': m.imputed.celPhone}'"
                            name="imputed.celPhone">
                     <span class="field-validation-valid" data-valmsg-for="imputed.celPhone"

@@ -262,7 +262,7 @@ public class FramingMeeting {
     }
 
     public void setEnvironmentComments(String environmentComments) {
-        this.environmentComments = StringExt.substringMax(environmentComments, 1000);;
+        this.environmentComments = StringExt.substringMax(environmentComments, 1000);
     }
 
     public String getAddressComments() {
@@ -270,7 +270,7 @@ public class FramingMeeting {
     }
 
     public void setAddressComments(String addressComments) {
-        this.addressComments = StringExt.substringMax(addressComments, 1000);;
+        this.addressComments = StringExt.substringMax(addressComments, 1000);
     }
 
     public String getHousemateComments() {
