@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.Election;
 import com.umeca.model.catalog.HomeType;
 import com.umeca.model.catalog.RegisterType;
@@ -131,7 +132,7 @@ public class ImputedHome implements EntityGrid{
     }
 
     public void setReasonChange(String reasonChange) {
-        this.reasonChange = reasonChange;
+        this.reasonChange = StringExt.substringMax(reasonChange,500);
     }
 
     public String getDescription() {
@@ -139,7 +140,7 @@ public class ImputedHome implements EntityGrid{
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.description = StringExt.substringMax(description,500);
     }
 
     public Meeting getMeeting() {
@@ -213,7 +214,7 @@ public class ImputedHome implements EntityGrid{
     }
 
     public void setSpecification(String specification) {
-        this.specification = specification;
+        this.specification = StringExt.substringMax(specification,50);
     }
 
     public String getPhone() {
@@ -221,7 +222,7 @@ public class ImputedHome implements EntityGrid{
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phone = StringExt.substringMax(phone,200);
     }
 
     public String getReasonSecondary() {
@@ -229,7 +230,7 @@ public class ImputedHome implements EntityGrid{
     }
 
     public void setReasonSecondary(String reasonSecondary) {
-        this.reasonSecondary = reasonSecondary;
+        this.reasonSecondary = StringExt.substringMax(reasonSecondary,500);
     }
 
     public Boolean getIsHomeless() {

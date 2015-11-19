@@ -92,7 +92,7 @@
                                data-val-length-max="50" data-val-length-min="1"
                                data-val-required="La especificaci&oacute;n es un campo requerido"
                                type="text" ng-model="l.specficationImmigranDoc"
-                               id="leaveCountry.specficationImmigranDoc"
+                               id="leaveCountry.specficationImmigranDoc"  data-val="true"
                                name="leaveCountry.specficationImmigranDoc" value="{{l.specficationImmigranDoc}}"
                                ng-init='l.specficationImmigranDoc = "${(m.leaveCountry.specficationImmigranDoc ==  null) ? "" : m.leaveCountry.specficationImmigranDoc}";'>
                         <span class="field-validation-valid" data-valmsg-for="leaveCountry.specficationImmigranDoc"
@@ -156,7 +156,7 @@
                                data-val-length-max="100" data-val-length-min="3"
                                data-val-required="El estado es un campo requerido"
                                type="text" ng-model="l.state" id="leaveCountry.state"
-                               name="leaveCountry.state" value="{{l.state}}"
+                               name="leaveCountry.state" value="{{l.state}}"   data-val="true"
                                ng-init='l.state = "${(m.leaveCountry.state ==  null) ? "" : m.leaveCountry.state}";'>
                         <span class="field-validation-valid" data-valmsg-for="leaveCountry.state"
                               data-valmsg-replace="true"></span>
@@ -174,7 +174,7 @@
                         <input class="form-control"
                                data-val-length="Debe tener al menos 3 y m&aacute;ximo 250 caracteres"
                                data-val-length-max="250" data-val-length-min="3" ng-show="l.ocId ==1"
-                               data-val-required="El tiempo es un campo requerido"
+                               data-val-required="El tiempo es un campo requerido"  data-val="true"
                                type="text" ng-model="l.timeAgo" id="leaveCountry.timeAgo"
                                name="leaveCountry.timeAgo" value="{{l.timeAgo}}"
                                ng-init='l.timeAgo = "${(m.leaveCountry.timeAgo ==  null) ? "" : m.leaveCountry.timeAgo}";'>
@@ -187,7 +187,7 @@
                     <div class="col-xs-4" ng-show="l.ocId ==1">
                         <input class="form-control" ng-show="l.ocId ==1"
                                data-val-length="Debe tener al menos 1 y m&aacute;ximo 50 caracteres"
-                               data-val-length-max="50" data-val-length-min="1"
+                               data-val-length-max="50" data-val-length-min="1"  data-val="true"
                                data-val-required="A&ntilde;os que vivi&oacute; en el extranjero es un campo requerido"
                                type="text" ng-model="l.timeResidence" id="leaveCountry.timeResidence"
                                name="leaveCountry.timeResidence" value="{{l.timeResidence}}"
@@ -207,7 +207,7 @@
                     <div class="col-xs-9" ng-show="l.ocId ==1">
             <textarea id="leaveCountry.reason" class="form-control" ng-show="l.ocId ==1"
                       data-val-length="Debe tener al menos 3 y m&aacute;ximo 500 caracteres"
-                      data-val-length-max="500" data-val-length-min="3"
+                      data-val-length-max="500" data-val-length-min="3"  data-val="true"
                       data-val-required="La raz&oacute;n es un campo requerido" ng-model="l.reason"
                       name="leaveCountry.reason" value="{{l.reason}}"
                       ng-init='l.reason = "${(m.leaveCountry.reason == null) ? "" : m.leaveCountry.reason}"'></textarea>
@@ -227,7 +227,7 @@
             <textarea ng-model="l.address" ng-show="l.ocId ==1"
                       ng-init='l.address = "${(m.leaveCountry.address == null) ? "" : m.leaveCountry.address}"'
                       data-val-required="La direcci&oacute;n es un campo requerido"
-                      class="form-control" value="{{l.address}}"
+                      class="form-control" value="{{l.address}}"  data-val="true"
                       data-val-length="Debe tener al menos 6 y m&aacute;ximo 500 caracteres"
                       name="leaveCountry.address" id="leaveCountry.address"
                       data-val-length-max="500" data-val-length-min="6"></textarea>
@@ -294,7 +294,7 @@
                                data-val-length-max="50" data-val-length-min="2"
                                data-val-required="El medio es un campo requerido"
                                type="text" value="{{l.media}}" id="leaveCountry.media" name="leaveCountry.media"
-                               ng-model="l.media"
+                               ng-model="l.media"  data-val="true"
                                ng-init='l.media = "${(m.leaveCountry.media == null) ? "":m.leaveCountry.media}";'>
                      <span class="field-validation-valid" data-valmsg-for="leaveCountry.media"
                            data-valmsg-replace="true"></span>
@@ -323,7 +323,7 @@
                     <div class="col-xs-4" ng-show="l.facId == 1 && l.rel.specification">
                         <input class="form-control" ng-show="l.facId == 1  && l.rel.specification"
                                data-val-length="Debe tener al menos 1 y m&aacute;ximo 255 caracteres"
-                               data-val-length-max="255" data-val-length-min="1"
+                               data-val-length-max="255" data-val-length-min="1"  data-val="true"
                                data-val-required="La especifici&oacute;n es un campo requerido"
                                type="text" value="{{l.specificationRelationship}}"
                                id="leaveCountry.specificationRelationship"
@@ -344,10 +344,9 @@
                 <div class="col-xs-9">
         <textarea class="width-100" ng-model="commentCountry"
                   ng-init='commentCountry = "${m.commentCountry == null ? '' : m.commentCountry}";'
-
                   data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
                   data-val-length-max="500"
-                  data-val-length-min="1"
+                  data-val-length-min="1" data-val="true"
                   name="leaveCountry.commentCountry"></textarea>
                 <span class="field-validation-valid" data-valmsg-for="leaveCountry.commentCountry"
                       data-valmsg-replace="true"></span>
@@ -363,7 +362,10 @@
                     <label class="info-example">(cooperaci&oacute;n, atenci&oacute;n, ansioso, etc.)</label>
                 </div>
                 <div class="col-xs-9">
-        <textarea class="form-control" name="leaveCountry.commentSocialEnvironment" ng-show="!verification"
+        <textarea class="form-control" name="leaveCountry.commentSocialEnvironment" ng-show="!verification" data-val="true"
+                  data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
+                  data-val-length-max="1000"
+                  data-val-length-min="1"
                   data-val-required="Los comentarios es un campo requerido">${m.socialEnvironment.comment}</textarea>
          <span class="field-validation-valid" data-valmsg-for="leaveCountry.commentSocialEnvironment"
                data-valmsg-replace="true"></span>
@@ -391,7 +393,10 @@
                     <label class="info-example">(cooperaci&oacute;n, atenci&oacute;n, ansioso, etc.)</label>
                 </div>
                 <div class="col-xs-9">
-        <textarea class="form-control" name="socialEnvironment.comment"
+        <textarea class="form-control" name="socialEnvironment.comment" data-val="true"
+                  data-val-length="Debe tener al menos 1 y m&aacute;ximo 500 caracteres"
+                  data-val-length-max="1000"
+                  data-val-length-min="1"
                   data-val-required="Los comentarios es un campo requerido">${m.socialEnvironment.comment}</textarea>
         <span class="field-validation-valid" data-valmsg-for="socialEnvironment.comment"
               data-valmsg-replace="true"></span>

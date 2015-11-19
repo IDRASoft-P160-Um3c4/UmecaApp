@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
 import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
 import com.umeca.model.shared.Constants;
@@ -50,7 +51,7 @@ public class SocialEnvironment {
     }
 
     public void setComment(String comment) {
-        this.comment = comment;
+        this.comment = StringExt.substringMax(comment,1000);
     }
 
     public Meeting getMeeting() {
@@ -66,7 +67,7 @@ public class SocialEnvironment {
     }
 
     public void setPhysicalCondition(String physicalCondition) {
-        this.physicalCondition = physicalCondition;
+        this.physicalCondition = StringExt.substringMax(physicalCondition,500);
     }
 
     public List<RelSocialEnvironmentActivity> getRelSocialEnvironmentActivities() {

@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.Country;
 import com.umeca.model.catalog.Election;
 import com.umeca.model.catalog.ImmigrationDocument;
@@ -122,7 +123,7 @@ public class LeaveCountry {
     }
 
     public void setTimeAgo(String timeAgo) {
-        this.timeAgo = timeAgo;
+        this.timeAgo = StringExt.substringMax(timeAgo,250);
     }
 
     public Country getCountry() {
@@ -138,7 +139,7 @@ public class LeaveCountry {
     }
 
     public void setState(String state) {
-        this.state = state;
+        this.state = StringExt.substringMax(state,100);
     }
 
     public String getAddress() {
@@ -146,7 +147,7 @@ public class LeaveCountry {
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.address = StringExt.substringMax(address,500);
     }
 
     public String getReason() {
@@ -154,7 +155,7 @@ public class LeaveCountry {
     }
 
     public void setReason(String reason) {
-        this.reason = reason;
+        this.reason = StringExt.substringMax(reason,500);
     }
 
     public Election getFamilyAnotherCountry() {
@@ -186,7 +187,7 @@ public class LeaveCountry {
     }
 
     public void setMedia(String media) {
-        this.media = media;
+        this.media = StringExt.substringMax(media,100);
     }
 
 

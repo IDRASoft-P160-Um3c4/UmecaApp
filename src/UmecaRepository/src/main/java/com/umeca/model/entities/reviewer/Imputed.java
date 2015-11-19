@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.Country;
 import com.umeca.model.catalog.InformationAvailability;
 import com.umeca.model.catalog.Location;
@@ -109,7 +110,7 @@ public class Imputed {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = StringExt.substringMax(name,50);
     }
 
     public String getLastNameP() {
@@ -117,7 +118,7 @@ public class Imputed {
     }
 
     public void setLastNameP(String lastNameP) {
-        this.lastNameP = lastNameP;
+        this.lastNameP = StringExt.substringMax(lastNameP,50);
     }
 
     public String getLastNameM() {
@@ -125,7 +126,7 @@ public class Imputed {
     }
 
     public void setLastNameM(String lastNameM) {
-        this.lastNameM = lastNameM;
+        this.lastNameM = StringExt.substringMax(lastNameM,50);
     }
 
     public Boolean getGender() {
@@ -141,7 +142,7 @@ public class Imputed {
     }
 
     public void setCelPhone(String celPhone) {
-        this.celPhone = celPhone;
+        this.celPhone = StringExt.substringMax(celPhone,20);
     }
 
     public Meeting getMeeting() {
@@ -205,7 +206,7 @@ public class Imputed {
     }
 
     public void setBirthMunicipality(String birthMunicipality) {
-        this.birthMunicipality = birthMunicipality;
+        this.birthMunicipality = StringExt.substringMax(birthMunicipality,500);
     }
 
     public String getBirthState() {
@@ -213,7 +214,7 @@ public class Imputed {
     }
 
     public void setBirthState(String birthState) {
-        this.birthState = birthState;
+        this.birthState = StringExt.substringMax(birthState,500);
     }
 
     public String getBirthLocation() {
@@ -221,7 +222,7 @@ public class Imputed {
     }
 
     public void setBirthLocation(String birthLocation) {
-        this.birthLocation = birthLocation;
+        this.birthLocation = StringExt.substringMax(birthLocation,500);
     }
 
     public String getNickname() {
@@ -229,7 +230,7 @@ public class Imputed {
     }
 
     public void setNickname(String nickname) {
-        this.nickname = nickname;
+        this.nickname = StringExt.substringMax(nickname,100);
     }
 
     public Boolean getIsFromFormulation() {
@@ -314,7 +315,7 @@ public class Imputed {
     }
 
     public void setFoneticString(String foneticString) {
-        this.foneticString = foneticString;
+        this.foneticString = StringExt.substringMax(foneticString,150);
     }
 
     public InformationAvailability getBirthInfo() {

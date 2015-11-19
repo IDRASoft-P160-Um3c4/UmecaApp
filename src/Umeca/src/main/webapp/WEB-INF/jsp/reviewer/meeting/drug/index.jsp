@@ -116,7 +116,7 @@
                       data-val-length-max="500"
                       data-val-length-min="1"
                       name="commentDrug"></textarea>
-                <span class="field-validation-valid" data-valmsg-for="comment"
+                <span class="field-validation-valid" data-valmsg-for="commentDrug"
                       data-valmsg-replace="true"></span>
         </div>
     </form>

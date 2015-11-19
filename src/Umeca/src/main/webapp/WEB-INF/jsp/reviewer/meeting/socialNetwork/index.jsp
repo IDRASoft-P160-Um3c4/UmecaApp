@@ -120,7 +120,7 @@
                               data-val-length-max="500"
                               data-val-length-min="1"
                               name="socialNetwork.comment"></textarea>
-                <span class="field-validation-valid" data-valmsg-for="comment"
+                <span class="field-validation-valid" data-valmsg-for="socialNetwork.comment"
                       data-valmsg-replace="true"></span>
                 </div>
     </form>

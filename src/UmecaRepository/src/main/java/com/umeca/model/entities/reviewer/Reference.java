@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.DocumentType;
 import com.umeca.model.catalog.Relationship;
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
@@ -90,7 +91,7 @@ public class Reference implements EntityGrid{
     }
 
     public void setFullName(String fullName) {
-        this.fullName = fullName;
+        this.fullName = StringExt.substringMax(fullName,150);
     }
 
     @JsonIgnore
@@ -107,7 +108,7 @@ public class Reference implements EntityGrid{
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.address = StringExt.substringMax(address,250);
     }
 
     public String getPhone() {
@@ -115,7 +116,7 @@ public class Reference implements EntityGrid{
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phone = StringExt.substringMax(phone,200);
     }
     @JsonIgnore
     public DocumentType getDocumentType() {
@@ -148,7 +149,7 @@ public class Reference implements EntityGrid{
     }
 
     public void setSpecification(String specification) {
-        this.specification = specification;
+        this.specification = StringExt.substringMax(specification,250);
     }
 
     public Long getIdAux() {
@@ -188,7 +189,7 @@ public class Reference implements EntityGrid{
     }
 
     public void setSpecificationRelationship(String specificationRelationship) {
-        this.specificationRelationship = specificationRelationship;
+        this.specificationRelationship = StringExt.substringMax(specificationRelationship,255);
     }
 
     public Boolean getBlock() {
