@@ -841,11 +841,6 @@ public class ManagerSupReportController {
 
             }
 
-
-
-
-
-
             beans.put("listCases", listCases);
             beans.put("listCasesHF", listCasesHF);
 

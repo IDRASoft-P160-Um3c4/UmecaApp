@@ -1214,5 +1214,33 @@ public class ExcelCaseInfoSupDto {
         return channelingActivity;
     }
 
+    public String getUnSubscribeChanneling() {
+        String unSubscribeChanneling = "";
+
+        if (lstActivityMonitoringPlan != null && lstActivityMonitoringPlan.size() > 0) {
+            for (int i = 0; i < lstActivityMonitoringPlan.size(); i++) {
+                if (lstActivityMonitoringPlan.get(i).getSupervisionActivityCode().equals(MonitoringConstants.SUP_ACTIVITY_CODE_CHANNELING_ACTIVITY)
+                        && lstActivityMonitoringPlan.get(i).getActivityGoal().equals("Baja de la canalización")
+                        )
+                    return "Sí";
+            }
+        }
+
+        return unSubscribeChanneling;
+
+    }
+
+    public String getAccomplishedAssigned() {
+        String unSubscribeChanneling = "";
+        if (lstActivityMonitoringPlan != null && lstActivityMonitoringPlan.size() > 0) {
+            for (int i = 0; i < lstActivityMonitoringPlan.size(); i++) {
+                if (lstActivityMonitoringPlan.get(i).getSupervisionActivityCode().equals(MonitoringConstants.SUP_ACTIVITY_CODE_CHANNELING_ACTIVITY)
+                        && lstActivityMonitoringPlan.get(i).getStatus().equals("REALIZADA")
+                        )
+                    return "Sí";
+            }
+        }
+        return unSubscribeChanneling;
+    }
 
 }

@@ -992,7 +992,8 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "HFSPE.linkageProcess," +
             "HF.umecaDate," +
             "HTYPE.description, " +
-            "HF.appointmentDate " +
+            "HF.appointmentDate," +
+            "HF.registerTime " +
             ") " +
             "from Case CDET " +
             "inner join CDET.hearingFormats HF " +

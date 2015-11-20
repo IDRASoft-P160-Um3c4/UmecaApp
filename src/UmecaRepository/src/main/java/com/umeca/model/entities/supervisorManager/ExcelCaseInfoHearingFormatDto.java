@@ -5,6 +5,7 @@ import com.umeca.model.shared.HearingFormatConstants;
 
 import javax.swing.text.StyledEditorKit;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -62,6 +63,9 @@ public class ExcelCaseInfoHearingFormatDto {
     private Date appointmentDate;
     private String appointmentDateStr;
 
+    private Calendar registerTime;
+    private String registerTimeStr;
+
 
 
 
@@ -82,7 +86,8 @@ public class ExcelCaseInfoHearingFormatDto {
             Integer linkageProcess,
             Date umecaDate,
             String hearingType,
-            Date appointmentDate
+            Date appointmentDate,
+            Calendar registerTime
     ) {
         this.idCase = idCase;
         this.imputedBirthdayStr = dateFormat.format(imputedBirthday);
@@ -158,6 +163,13 @@ public class ExcelCaseInfoHearingFormatDto {
         }
 
         this.appointmentDateStr = dateFormat.format(appointmentDate);
+
+        this.registerTime = registerTime;
+
+
+        this.registerTimeStr = dateFormat.format(this.registerTime.getTime());
+
+
     }
 
     public Long getIdCase() {
@@ -469,4 +481,19 @@ public class ExcelCaseInfoHearingFormatDto {
         this.mpName = mpName;
     }
 
+    public Calendar getRegisterTime() {
+        return registerTime;
+    }
+
+    public void setRegisterTime(Calendar registerTime) {
+        this.registerTime = registerTime;
+    }
+
+    public String getRegisterTimeStr() {
+        return registerTimeStr;
+    }
+
+    public void setRegisterTimeStr(String registerTimeStr) {
+        this.registerTimeStr = registerTimeStr;
+    }
 }
