@@ -1037,4 +1037,13 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "where CDET.id in (:casesIds)")
     List<ExcelContactsDto> getContactsHearingFormat(@Param("casesIds") List<Long> lstCasesIds);
 
+
+    @Query("select new com.umeca.model.entities.supervisor.ExcelActivityMonitoringPlan(CDET.id,SACT.id,SACT.name,SACT.code,ACTG.id,ACTG.name,ACMP.channelingAssistance, ACMP.doneTime, ACMP.status) " +
+            "from ActivityMonitoringPlan ACMP " +
+            "inner join ACMP.caseDetention CDET " +
+            "inner join ACMP.activityGoal ACTG " +
+            "inner join ACMP.supervisionActivity SACT " +
+            "where CDET.id in (:casesIds)")
+    List<ExcelActivityMonitoringPlan> getActivityMonitoringPlan(@Param("casesIds") List<Long> lstCasesIds);
+
 }

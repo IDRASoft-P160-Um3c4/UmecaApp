@@ -1,9 +1,6 @@
 package com.umeca.model.entities.supervisorManager;
 
-import com.umeca.model.entities.supervisor.ExcelArrangementDto;
-import com.umeca.model.entities.supervisor.ExcelContactsDto;
-import com.umeca.model.entities.supervisor.ExcelCrimeDto;
-import com.umeca.model.entities.supervisor.HearingFormat;
+import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.HearingFormatConstants;
 
 import javax.swing.text.StyledEditorKit;
@@ -64,6 +61,9 @@ public class ExcelCaseInfoHearingFormatDto {
 
     private Date appointmentDate;
     private String appointmentDateStr;
+
+
+
 
     public ExcelCaseInfoHearingFormatDto(
             Long idCase,
@@ -468,6 +468,5 @@ public class ExcelCaseInfoHearingFormatDto {
     public void setMpName(String mpName) {
         this.mpName = mpName;
     }
-
 
 }

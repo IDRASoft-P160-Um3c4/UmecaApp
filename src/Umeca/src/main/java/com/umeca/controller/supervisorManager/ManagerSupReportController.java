@@ -671,6 +671,8 @@ public class ManagerSupReportController {
             List<ExcelCaseInfoSupDto> listCases = caseRepository.getInfoCasesSup(casesIds);
             List<ExcelCaseInfoHearingFormatDto> listCasesHF = caseRepository.getCaseHearingFormatInfo(casesIds);
 
+
+
             List<ExcelImputedHomeDto> lstHomes = caseRepository.getInfoImputedHomesSup(casesIds);
             List<ExcelReferenceDto> lstHousemates = caseRepository.getHousematesSup(casesIds);
             List<ExcelReferenceDto> lstReferences = caseRepository.getReferencesSup(casesIds);
@@ -688,6 +690,8 @@ public class ManagerSupReportController {
             List<ExcelCrimeDto> lstCrimesHF = caseRepository.getCrimesHearingFormatInfo(casesIds);
             List<ExcelArrangementDto> lstArrangementHF = caseRepository.getArrangementsHearinFormat(casesIds);
             List<ExcelContactsDto> lstContacts = caseRepository.getContactsHearingFormat(casesIds);
+
+            List<ExcelActivityMonitoringPlan> lstActivityMonitoringPlan = caseRepository.getActivityMonitoringPlan(casesIds);
 
 
 
@@ -716,6 +720,7 @@ public class ManagerSupReportController {
                     }
                 }
                 caseHF.setLstContacts(contacts);
+
 
 
             }
@@ -824,13 +829,23 @@ public class ManagerSupReportController {
                 }
                 cAct.setLstChanneling(channelingList);
 
+
+                List<ExcelActivityMonitoringPlan> activitiesMonitoringPlan = new ArrayList<>();
+                for(ExcelActivityMonitoringPlan activityMonitoringPlan : lstActivityMonitoringPlan){
+                    if(activityMonitoringPlan.getIdCase().equals(cAct.getIdCase())){
+                        activitiesMonitoringPlan.add(activityMonitoringPlan);
+                    }
+                }
+                cAct.setLstActivityMonitoringPlan(activitiesMonitoringPlan);
+
+
             }
 
 
-            List<SelectList> supervisorActivity = supervisionActivityRepository.findAllSl();
 
 
-            beans.put("supervisorActivity", supervisorActivity);
+
+
             beans.put("listCases", listCases);
             beans.put("listCasesHF", listCasesHF);
 
