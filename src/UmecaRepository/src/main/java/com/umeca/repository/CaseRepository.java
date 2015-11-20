@@ -811,7 +811,8 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "FMAQ.addictionTreatment, " +
             "FMAQ.addictedAcquaintance, " +
             "FMAQ.relativeAbroad, " +
-            "FMAQ.obligationIssue) " +
+            "FMAQ.obligationIssue, " +
+            "USUP.fullname) " +
             "from Case CDET " +
             "left join CDET.framingMeeting FM " +
             "left join FM.personalData FMPERDATA " +
@@ -822,6 +823,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "left join FMSCHOOL.degree FMGRADE " +
             "left join FMGRADE.academicLevel FMACALVL " +
             "left join FM.additionalFramingQuestions FMAQ " +
+            "left join CDET.umecaSupervisor USUP " +
             "where CDET.id in (:lstIdsCases) " +
             "order by CDET.dateCreate" )
     List<ExcelCaseInfoSupDto> getInfoCasesSup(@Param("lstIdsCases") List<Long> lstIdsCases);
@@ -993,7 +995,9 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "HF.umecaDate," +
             "HTYPE.description, " +
             "HF.appointmentDate," +
-            "HF.registerTime " +
+            "HF.registerTime," +
+            "CLC.name," +
+            "USUP.fullname " +
             ") " +
             "from Case CDET " +
             "inner join CDET.hearingFormats HF " +
@@ -1005,6 +1009,8 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "left join MUNI.state STATE " +
             "left join HF.hearingFormatSpecs HFSPE " +
             "left join HF.hearingType HTYPE " +
+            "left join CDET.closeCause CLC " +
+            "left join CDET.umecaSupervisor USUP " +
             "where CDET.id in (:casesIds) ")
     List<ExcelCaseInfoHearingFormatDto> getCaseHearingFormatInfo(@Param("casesIds") List<Long> lstCasesIds);
 

@@ -872,7 +872,7 @@ public class ManagerSupReportController {
             temp.delete();
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+                ex.printStackTrace();
             logException.Write(ex, this.getClass(), "jxlsMethod", sharedUserService);
         }
     }

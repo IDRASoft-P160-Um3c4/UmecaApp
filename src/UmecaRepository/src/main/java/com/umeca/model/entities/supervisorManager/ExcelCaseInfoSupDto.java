@@ -102,6 +102,9 @@ public class ExcelCaseInfoSupDto {
     private String monitoringCalls;
 
 
+    private String supervisorName;
+
+
     public ExcelCaseInfoSupDto(
             Long idCase,
             String idMP,
@@ -116,7 +119,8 @@ public class ExcelCaseInfoSupDto {
             Integer addictionTreatment,
             Integer addictedAcquaintance,
             Integer relativeAbroad,
-            Integer obligationIssue
+            Integer obligationIssue,
+            String supervisorName
     ) {
         this.idCase = idCase;
         this.idMP = idMP;
@@ -185,6 +189,12 @@ public class ExcelCaseInfoSupDto {
             this.obligationIssueStr = "No";
         }
 
+        if(supervisorName == null){
+            this.supervisorName = "";
+        }
+        else {
+            this.supervisorName = supervisorName;
+        }
 
     }
 
@@ -1241,6 +1251,15 @@ public class ExcelCaseInfoSupDto {
             }
         }
         return unSubscribeChanneling;
+    }
+
+
+    public String getSupervisorName() {
+        return supervisorName;
+    }
+
+    public void setSupervisorName(String supervisorName) {
+        this.supervisorName = supervisorName;
     }
 
 }

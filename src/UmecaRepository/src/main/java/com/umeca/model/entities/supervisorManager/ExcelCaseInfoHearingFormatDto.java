@@ -66,6 +66,10 @@ public class ExcelCaseInfoHearingFormatDto {
     private Calendar registerTime;
     private String registerTimeStr;
 
+        private String isClosed;
+    private String closeCause;
+
+    private String supervisorName;
 
 
 
@@ -87,7 +91,9 @@ public class ExcelCaseInfoHearingFormatDto {
             Date umecaDate,
             String hearingType,
             Date appointmentDate,
-            Calendar registerTime
+            Calendar registerTime,
+            String closeCause,
+            String supervisorName
     ) {
         this.idCase = idCase;
         this.imputedBirthdayStr = dateFormat.format(imputedBirthday);
@@ -168,6 +174,24 @@ public class ExcelCaseInfoHearingFormatDto {
 
 
         this.registerTimeStr = dateFormat.format(this.registerTime.getTime());
+
+
+
+        if(closeCause == null){
+            this.closeCause = "";
+            this.isClosed = "No";
+        }
+        else {
+            this.closeCause = closeCause;
+            this.isClosed = "Sí";
+        }
+
+        if(supervisorName == null){
+            this.supervisorName = "";
+        }
+        else {
+            this.supervisorName = supervisorName;
+        }
 
 
     }
@@ -496,4 +520,30 @@ public class ExcelCaseInfoHearingFormatDto {
     public void setRegisterTimeStr(String registerTimeStr) {
         this.registerTimeStr = registerTimeStr;
     }
+
+    public String getCloseCause() {
+        return closeCause;
+    }
+
+    public void setCloseCause(String closeCause) {
+        this.closeCause = closeCause;
+    }
+
+    public String getIsClosed() {
+        return isClosed;
+    }
+
+    public void setIsClosed(String isClosed) {
+        this.isClosed = isClosed;
+    }
+
+    public String getSupervisorName() {
+        return supervisorName;
+    }
+
+    public void setSupervisorName(String supervisorName) {
+        this.supervisorName = supervisorName;
+    }
+
+
 }
