@@ -33,9 +33,9 @@
 
     <script>
 
+
         var listIds = "[]";
         var selectedFilters = {};
-
 
         function reloadExcelGrid(returnIds, selectedFiltersObj) {
             listIds = returnIds;
@@ -46,8 +46,9 @@
 
         $(document).ready(function () {
 
+
             jQuery("#GridCasesId").jqGrid({
-                url: '<c:url value='/director/excelReport/listCases.json' />',
+                url: '<c:url value='/channelingManager/excelReport/listCases.json' />',
                 autoencode: true,
                 datatype: "json",
                 mtype: 'POST',
@@ -149,29 +150,23 @@
                 ignoreCase: true
             });
 
+
             jQuery("#GridCasesId").jqGrid('navButtonAdd', "#GridPager",
                     {
                         caption: "",
                         title: "Descargar informaci\xF3n de casos en excel",
                         buttonicon: 'icon-download-alt red',
 
+
                         onClickButton: function () {
+
                             try {
                                 var params = [];
                                 params["idParam"] = listIds;
                                 params["filters"] = JSON.stringify(selectedFilters);
-                                var idReportType = $('#caseTypeId').val();
-
                                 if (listIds !== "[]") {
-                                    if (parseInt(idReportType) === 1) {
-                                        window.goToUrlMvcUrl("<c:url value='/director/excelReport/jxlsRev.html?ids=idParam&filt=filters'/>", params);
-                                    }
-                                    else {
-
-                                        window.goToUrlMvcUrl("<c:url value='/director/excelReport/jxlsSup.html?ids=idParam&filt=filters'/>", params);
-                                    }
+                                    window.goToUrlMvcUrl("<c:url value='/channelingManager/excelReport/jxlsSup.html?ids=idParam&filt=filters'/>", params);
                                 }
-
                             } catch (e) {
 
                             }
@@ -184,7 +179,6 @@
 
     <h2 class="element-center"><i class="icon icon-file"></i>&nbsp;&nbsp;Reporte Excel
     </h2>
-
 
     <form id="FormRepExcel" name="FormRepExcel" class="form-horizontal"
           role="form" ng-controller="reportExcelController" method="post" ng-cloak>
@@ -286,21 +280,6 @@
                                 </div>
 
 
-                                <div class="row">
-                                    <div class="col-xs-12 element-center">
-                                        Casos en:
-                                        <input type="hidden" ng-update-hidden ng-model="caseTypeId" name="caseTypeId"
-                                               id="caseTypeId">
-                                        <select id="casesType"
-                                                ng-model="caseType"
-                                                ng-init='lstCasesType = ${casesType}; caseType = lstCasesType[0]; caseTypeId = lstCasesType[0].id;'
-                                                ng-options="e.name for e in lstCasesType"
-                                                ng-change="caseTypeId = caseType.id"
-                                                >
-                                        </select>
-
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <br/>
@@ -308,11 +287,10 @@
                         <div class="row">
                             <div class="col-xs-11 element-right">
 <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-      ng-click="submitFindCases('#FormRepExcel','<c:url value='/director/excelReport/findCases.json'/>');">
+      ng-click="submitFindCases('#FormRepExcel','<c:url value='/channelingManager/report/findCasesSup.json'/>');">
                       Realizar b&uacute;squeda
                 </span>
                             </div>
-
                         </div>
                         <br/>
                     </div>

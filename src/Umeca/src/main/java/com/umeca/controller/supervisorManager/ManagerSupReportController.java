@@ -6,6 +6,7 @@ import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.State;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.catalog.dto.CatalogDto;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.director.view.ReportExcelFiltersDto;
 import com.umeca.model.entities.reviewer.Crime;
 import com.umeca.model.entities.supervisor.*;
@@ -226,7 +227,7 @@ public class ManagerSupReportController {
     }
 
 
-    @RequestMapping(value = "/supervisorManager/report/findCasesSup", method = RequestMethod.POST)
+    @RequestMapping(value = {"/supervisorManager/report/findCasesSup", "/channelingManager/report/findCasesSup"}, method = RequestMethod.POST)
     public ResponseMessage findCasesSup(@ModelAttribute ReportExcelFiltersDto filtersDto) {
 
         Date initDate = null;
@@ -243,22 +244,22 @@ public class ManagerSupReportController {
                     .parse(filtersDto.getEndDate() + endTime);
 
 
-        List<Long> lstStatusCase = new ArrayList<>();
+            List<Long> lstStatusCase = new ArrayList<>();
 
-        StatusCase hearingFormatStatus = statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END);
-        StatusCase framingMeeting = statusCaseRepository.findByCode(Constants.CASE_STATUS_FRAMING_COMPLETE);
-        lstStatusCase.add(hearingFormatStatus.getId());
-        lstStatusCase.add(framingMeeting.getId());
+            StatusCase hearingFormatStatus = statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END);
+            StatusCase framingMeeting = statusCaseRepository.findByCode(Constants.CASE_STATUS_FRAMING_COMPLETE);
+            lstStatusCase.add(hearingFormatStatus.getId());
+            lstStatusCase.add(framingMeeting.getId());
 
-        filtersDto.setLstStatusCaseStr(gson.toJson(lstStatusCase));
+            filtersDto.setLstStatusCaseStr(gson.toJson(lstStatusCase));
 
-        List<Long> idsCases = reportExcelRepository.findIdCasesByDates(initDate, endDate);
+            List<Long> idsCases = reportExcelRepository.findIdCasesByDates(initDate, endDate);
 
-        idsCases = excelReportService.findCasesByFilters(idsCases, filtersDto);
+            idsCases = excelReportService.findCasesByFilters(idsCases, filtersDto);
 
-        Gson conv = new Gson();
+            Gson conv = new Gson();
 
-        return new ResponseMessage(false, conv.toJson(idsCases));
+            return new ResponseMessage(false, conv.toJson(idsCases));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -267,7 +268,6 @@ public class ManagerSupReportController {
         }
 
     }
-
 
 
     @RequestMapping(value = "/supervisorManager/report/findCases", method = RequestMethod.POST)
@@ -654,7 +654,7 @@ public class ManagerSupReportController {
     @Autowired
     CaseRepository caseRepository;
 
-    @RequestMapping(value = {"/supervisorManager/report/jxls","/director/excelReport/jxlsSup"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/supervisorManager/report/jxls", "/director/excelReport/jxlsSup", "/channelingManager/excelReport/jxlsSup"}, method = RequestMethod.GET)
     public
     @ResponseBody
     void jxlsMethod(HttpServletRequest request, HttpServletResponse response, String ids, String filt) {
@@ -665,12 +665,12 @@ public class ManagerSupReportController {
 
         try {
 
+
             Gson conv = new Gson();
             List<Long> casesIds = conv.fromJson(ids, new TypeToken<List<Long>>() {
             }.getType());
             List<ExcelCaseInfoSupDto> listCases = caseRepository.getInfoCasesSup(casesIds);
             List<ExcelCaseInfoHearingFormatDto> listCasesHF = caseRepository.getCaseHearingFormatInfo(casesIds);
-
 
 
             List<ExcelImputedHomeDto> lstHomes = caseRepository.getInfoImputedHomesSup(casesIds);
@@ -694,11 +694,10 @@ public class ManagerSupReportController {
             List<ExcelActivityMonitoringPlan> lstActivityMonitoringPlan = caseRepository.getActivityMonitoringPlan(casesIds);
 
 
-
-            for(ExcelCaseInfoHearingFormatDto caseHF : listCasesHF){
+            for (ExcelCaseInfoHearingFormatDto caseHF : listCasesHF) {
                 List<ExcelCrimeDto> crimes = new ArrayList<>();
-                for(ExcelCrimeDto crime : lstCrimesHF){
-                    if(crime.getIdCase().equals(caseHF.getIdCase())){
+                for (ExcelCrimeDto crime : lstCrimesHF) {
+                    if (crime.getIdCase().equals(caseHF.getIdCase())) {
                         crimes.add(crime);
                     }
                 }
@@ -706,21 +705,20 @@ public class ManagerSupReportController {
 
 
                 List<ExcelArrangementDto> arrangements = new ArrayList<>();
-                for(ExcelArrangementDto arrangement : lstArrangementHF){
-                    if(arrangement.getIdCase().equals(caseHF.getIdCase())){
+                for (ExcelArrangementDto arrangement : lstArrangementHF) {
+                    if (arrangement.getIdCase().equals(caseHF.getIdCase())) {
                         arrangements.add(arrangement);
                     }
                 }
                 caseHF.setLstArrangements(arrangements);
 
                 List<ExcelContactsDto> contacts = new ArrayList<>();
-                for(ExcelContactsDto contact : lstContacts){
-                    if(contact.getIdCase().equals(caseHF.getIdCase())){
+                for (ExcelContactsDto contact : lstContacts) {
+                    if (contact.getIdCase().equals(caseHF.getIdCase())) {
                         contacts.add(contact);
                     }
                 }
                 caseHF.setLstContacts(contacts);
-
 
 
             }
@@ -755,8 +753,8 @@ public class ManagerSupReportController {
                 cAct.setReferences(references);
 
                 List<ExcelJobDto> jobs = new ArrayList<>();
-                for(ExcelJobDto job : lstJobs){
-                    if(job.getIdCase().equals(cAct.getIdCase())){
+                for (ExcelJobDto job : lstJobs) {
+                    if (job.getIdCase().equals(cAct.getIdCase())) {
                         jobs.add(job);
                     }
                 }
@@ -764,40 +762,40 @@ public class ManagerSupReportController {
 
                 //lstAct
                 List<ExcelActivitiesDto> activities = new ArrayList<>();
-                for (ExcelActivitiesDto activity : lstAct){
-                    if (activity.getIdCase().equals(cAct.getIdCase())){
+                for (ExcelActivitiesDto activity : lstAct) {
+                    if (activity.getIdCase().equals(cAct.getIdCase())) {
                         activities.add(activity);
                     }
                 }
                 cAct.setLstAct(activities);
 
                 List<ExcelDrugDto> drugs = new ArrayList<>();
-                for(ExcelDrugDto drug : lstDrug){
-                    if(drug.getIdCase().equals(cAct.getIdCase())){
+                for (ExcelDrugDto drug : lstDrug) {
+                    if (drug.getIdCase().equals(cAct.getIdCase())) {
                         drugs.add(drug);
                     }
                 }
                 cAct.setLstDrug(drugs);
 
                 List<ExcelRiskDto> risks = new ArrayList<>();
-                for(ExcelRiskDto risk : lstRisk){
-                    if(risk.getIdCase().equals(cAct.getIdCase())){
+                for (ExcelRiskDto risk : lstRisk) {
+                    if (risk.getIdCase().equals(cAct.getIdCase())) {
                         risks.add(risk);
                     }
                 }
                 cAct.setLstRisks(risks);
 
                 List<ExcelThreatsDto> threats = new ArrayList<>();
-                for(ExcelThreatsDto threat : lstThreat){
-                    if(threat.getIdCase().equals(cAct.getIdCase())){
+                for (ExcelThreatsDto threat : lstThreat) {
+                    if (threat.getIdCase().equals(cAct.getIdCase())) {
                         threats.add(threat);
                     }
                 }
                 cAct.setLstThreats(threats);
 
                 List<ExcelSafetyFactorsDto> safetyFactors = new ArrayList<>();
-                for(ExcelSafetyFactorsDto safetyFactor : lstSafetyFactor){
-                    if(safetyFactor.getIdCase().equals(cAct.getIdCase())){
+                for (ExcelSafetyFactorsDto safetyFactor : lstSafetyFactor) {
+                    if (safetyFactor.getIdCase().equals(cAct.getIdCase())) {
                         safetyFactors.add(safetyFactor);
                     }
                 }
@@ -805,25 +803,25 @@ public class ManagerSupReportController {
 
 
                 List<ExcelReferenceDto> victims = new ArrayList<>();
-                for(ExcelReferenceDto victim : lstVictims){
-                    if(victim.getIdCase().equals(cAct.getIdCase()) ){
+                for (ExcelReferenceDto victim : lstVictims) {
+                    if (victim.getIdCase().equals(cAct.getIdCase())) {
                         victims.add(victim);
                     }
                 }
                 cAct.setLstVictims(victims);
 
                 List<ExcelReferenceDto> witnesses = new ArrayList<>();
-                for(ExcelReferenceDto witness : lstWitness){
-                    if(witness.getIdCase().equals(cAct.getIdCase())){
+                for (ExcelReferenceDto witness : lstWitness) {
+                    if (witness.getIdCase().equals(cAct.getIdCase())) {
                         witnesses.add(witness);
                     }
                 }
                 cAct.setLstWitness(witnesses);
 
 
-                List<ExcelChannelingDto> channelingList  = new ArrayList<>();
-                for(ExcelChannelingDto channeling : lstChanneling){
-                    if(channeling.getIdCase().equals(cAct.getIdCase())){
+                List<ExcelChannelingDto> channelingList = new ArrayList<>();
+                for (ExcelChannelingDto channeling : lstChanneling) {
+                    if (channeling.getIdCase().equals(cAct.getIdCase())) {
                         channelingList.add(channeling);
                     }
                 }
@@ -831,8 +829,8 @@ public class ManagerSupReportController {
 
 
                 List<ExcelActivityMonitoringPlan> activitiesMonitoringPlan = new ArrayList<>();
-                for(ExcelActivityMonitoringPlan activityMonitoringPlan : lstActivityMonitoringPlan){
-                    if(activityMonitoringPlan.getIdCase().equals(cAct.getIdCase())){
+                for (ExcelActivityMonitoringPlan activityMonitoringPlan : lstActivityMonitoringPlan) {
+                    if (activityMonitoringPlan.getIdCase().equals(cAct.getIdCase())) {
                         activitiesMonitoringPlan.add(activityMonitoringPlan);
                     }
                 }
@@ -849,14 +847,30 @@ public class ManagerSupReportController {
             File temp = File.createTempFile(uid.toString(), ".xls");
             String tempPath = temp.getAbsolutePath();
 
+
+            Long idCurrentUser = sharedUserService.GetLoggedUserId();
+            User currentUser = userRepository.findOne(idCurrentUser);
+
+
             ServletContext servletContext = request.getSession().getServletContext();
             String realContextPath = servletContext.getRealPath("/");
-                    realContextPath += "/WEB-INF/jxlsTemplate/ExcelSupReport.xls";
 
-            transformer.transformXLS(realContextPath, beans, tempPath);
 
-            response.setContentType("application/x-download");
-            response.setHeader("Content-Disposition", "attachment; filename=\"ExcelSupReport.xls\"");
+            if(currentUser.getRoles().get(0).getRole().equals(Constants.ROLE_SUPERVISOR_MANAGER)
+                    || currentUser.getRoles().get(0).getRole().equals(Constants.ROLE_DIRECTOR)){
+                realContextPath += "/WEB-INF/jxlsTemplate/ExcelSupReport.xls";
+                transformer.transformXLS(realContextPath, beans, tempPath);
+                response.setContentType("application/x-download");
+                response.setHeader("Content-Disposition", "attachment; filename=\"ExcelSupReport.xls\"");
+            }
+
+            else if(currentUser.getRoles().get(0).getRole().equals(Constants.ROLE_CHANNELING_MANAGER)){
+                realContextPath += "/WEB-INF/jxlsTemplate/channelingReport.xls";
+                transformer.transformXLS(realContextPath, beans, tempPath);
+                response.setContentType("application/x-download");
+                response.setHeader("Content-Disposition", "attachment; filename=\"ExcelChanneling.xls\"");
+            }
+
 
             FileInputStream istr = new FileInputStream(tempPath);
             OutputStream ostr = response.getOutputStream();
@@ -872,7 +886,7 @@ public class ManagerSupReportController {
             temp.delete();
 
         } catch (Exception ex) {
-                ex.printStackTrace();
+            ex.printStackTrace();
             logException.Write(ex, this.getClass(), "jxlsMethod", sharedUserService);
         }
     }

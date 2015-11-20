@@ -159,9 +159,9 @@
                     var params = [];
                     params["idParam"] = listIds;
                     params["filters"] = JSON.stringify(selectedFilters);
-
-                    window.goToUrlMvcUrl("<c:url value='/managereval/excelReport/jxls.html?ids=idParam&filt=filters'/>", params);
-
+                    if (listIds !== "[]") {
+                      window.goToUrlMvcUrl("<c:url value='/managereval/excelReport/jxls.html?ids=idParam&filt=filters'/>", params);
+                    }
                   } catch (e) {
 
                   }

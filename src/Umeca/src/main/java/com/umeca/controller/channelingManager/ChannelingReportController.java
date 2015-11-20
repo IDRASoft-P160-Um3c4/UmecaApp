@@ -2,7 +2,10 @@ package com.umeca.controller.channelingManager;
 
 import com.google.gson.Gson;
 import com.sun.javafx.sg.PGShape;
+import com.umeca.model.catalog.State;
 import com.umeca.model.catalog.StatisticChannelingReportType;
+import com.umeca.model.catalog.dto.CatalogDto;
+import com.umeca.model.entities.supervisor.ArrangementView;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.model.shared.SelectOptsList;
@@ -15,6 +18,7 @@ import com.umeca.service.channelingManager.StatisticChannelingReportService;
 import com.umeca.service.managereval.StatisticReportService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisiorManager.StatisticSupervisorManagerReportService;
+import org.apache.xpath.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -339,6 +344,13 @@ public class ChannelingReportController {
         }
         return model;
 
+    }
+
+    @RequestMapping(value = "channelingManager/excelReport/index", method = RequestMethod.GET)
+    ModelAndView indexExcelReport(){
+        ModelAndView model = new ModelAndView("/channelingManager/excelReport/index");
+
+        return model;
     }
 
 

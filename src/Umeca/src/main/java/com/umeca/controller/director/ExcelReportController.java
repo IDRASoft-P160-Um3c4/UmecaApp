@@ -71,7 +71,7 @@ public class ExcelReportController {
     private GenericJqGridPageSortFilter gridFilter;
 
 
-    @RequestMapping(value = "/director/excelReport/listCases", method = RequestMethod.POST)
+    @RequestMapping(value = {"/director/excelReport/listCases","/channelingManager/excelReport/listCases"}, method = RequestMethod.POST)
     public
     @ResponseBody
     JqGridResultModel listCases(@ModelAttribute JqGridFilterModel opts, String ids) {
