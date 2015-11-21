@@ -1,13 +1,11 @@
 package com.umeca.model.entities.supervisorManager;
 
-import com.umeca.model.entities.supervisor.ExcelArrangementDto;
-import com.umeca.model.entities.supervisor.ExcelContactsDto;
-import com.umeca.model.entities.supervisor.ExcelCrimeDto;
-import com.umeca.model.entities.supervisor.HearingFormat;
+import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.HearingFormatConstants;
 
 import javax.swing.text.StyledEditorKit;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +17,7 @@ public class ExcelCaseInfoHearingFormatDto {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
     private Long idCase;
+    private String idMP;
     private String idFolder;
     private Date imputedBirthday;
     private String imputedBirthdayStr;
@@ -28,6 +27,8 @@ public class ExcelCaseInfoHearingFormatDto {
     private String zipCode;
     private String municipality;
     private String state;
+
+    private String mpName;
     private Boolean isHomeless;
     private String isHomelessStr;
 
@@ -62,14 +63,26 @@ public class ExcelCaseInfoHearingFormatDto {
     private Date appointmentDate;
     private String appointmentDateStr;
 
+    private Calendar registerTime;
+    private String registerTimeStr;
+
+        private String isClosed;
+    private String closeCause;
+
+    private String supervisorName;
+
+
+
     public ExcelCaseInfoHearingFormatDto(
             Long idCase,
             Date imputedBirthday,
+            String idMP,
             String idFolder,
             String district,
             String zipCode,
             String municipality,
             String state,
+            String mpName,
             Boolean isHomeless,
             Integer controlDetention,
             Integer imputationFormulation,
@@ -77,15 +90,20 @@ public class ExcelCaseInfoHearingFormatDto {
             Integer linkageProcess,
             Date umecaDate,
             String hearingType,
-            Date appointmentDate
+            Date appointmentDate,
+            Calendar registerTime,
+            String closeCause,
+            String supervisorName
     ) {
         this.idCase = idCase;
         this.imputedBirthdayStr = dateFormat.format(imputedBirthday);
+        this.idMP = idMP;
         this.idFolder = idFolder;
         this.district = district;
         this.zipCode = zipCode;
         this.municipality = municipality;
         this.state = state;
+        this.mpName = mpName;
         this.isHomeless = isHomeless;
 
 
@@ -151,6 +169,31 @@ public class ExcelCaseInfoHearingFormatDto {
         }
 
         this.appointmentDateStr = dateFormat.format(appointmentDate);
+
+        this.registerTime = registerTime;
+
+
+        this.registerTimeStr = dateFormat.format(this.registerTime.getTime());
+
+
+
+        if(closeCause == null){
+            this.closeCause = "";
+            this.isClosed = "No";
+        }
+        else {
+            this.closeCause = closeCause;
+            this.isClosed = "Sí";
+        }
+
+        if(supervisorName == null){
+            this.supervisorName = "";
+        }
+        else {
+            this.supervisorName = supervisorName;
+        }
+
+
     }
 
     public Long getIdCase() {
@@ -445,5 +488,62 @@ public class ExcelCaseInfoHearingFormatDto {
     public void setAppointmentDateStr(String appointmentDateStr) {
         this.appointmentDateStr = appointmentDateStr;
     }
+
+    public String getIdMP() {
+        return idMP;
+    }
+
+    public void setIdMP(String idMP) {
+        this.idMP = idMP;
+    }
+
+    public String getMpName() {
+        return mpName;
+    }
+
+    public void setMpName(String mpName) {
+        this.mpName = mpName;
+    }
+
+    public Calendar getRegisterTime() {
+        return registerTime;
+    }
+
+    public void setRegisterTime(Calendar registerTime) {
+        this.registerTime = registerTime;
+    }
+
+    public String getRegisterTimeStr() {
+        return registerTimeStr;
+    }
+
+    public void setRegisterTimeStr(String registerTimeStr) {
+        this.registerTimeStr = registerTimeStr;
+    }
+
+    public String getCloseCause() {
+        return closeCause;
+    }
+
+    public void setCloseCause(String closeCause) {
+        this.closeCause = closeCause;
+    }
+
+    public String getIsClosed() {
+        return isClosed;
+    }
+
+    public void setIsClosed(String isClosed) {
+        this.isClosed = isClosed;
+    }
+
+    public String getSupervisorName() {
+        return supervisorName;
+    }
+
+    public void setSupervisorName(String supervisorName) {
+        this.supervisorName = supervisorName;
+    }
+
 
 }

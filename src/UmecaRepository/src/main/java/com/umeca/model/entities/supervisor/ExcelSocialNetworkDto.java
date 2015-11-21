@@ -36,6 +36,18 @@ public class ExcelSocialNetworkDto {
         this.block = block;
     }
 
+
+    public ExcelSocialNetworkDto(Long idCase, String age, Boolean accompaniment, String relationship, String document, String livingWith, String dependent, String name){
+        this.idCase = idCase;
+        this.age = age;
+        this.accompaniment = accompaniment;
+        this.relationship = relationship;
+        this.document = document;
+        this.livingWith = livingWith;
+        this.dependent = dependent;
+        this.name = name;
+    }
+
     public Long getIdCase() {
         return idCase;
     }

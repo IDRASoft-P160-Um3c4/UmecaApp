@@ -91,4 +91,15 @@ public class MonitoringConstants {
     public static final String FULFILLMENT_TYPE_CODE_PARTIAL = "PARTIAL_NON_FULFILLMENT";
     public static final String FULFILLMENT_TYPE_CODE_TOTAL = "TOTAL_NON_FULFILLMENT";
 
+    public static final String SUP_ACTIVITY_CODE_PHONE_CALL = "LATE";
+    public static final String SUP_ACTIVITY_CODE_JUDICIAL_FOLDER_REVISION  = "RCJ";
+    public static final String SUP_ACTIVITY_CODE_HOME_VISIT = "VIDO";
+    public static final String SUP_ACTIVITY_CODE_HEARING_DATE_REVISION = "RAA";
+    public static final String SUP_ACTIVITY_CODE_PERSONAL_INTERVIEW = "ENPE";
+    public static final String SUP_ACTIVITY_CODE_DOCUMENT_CREATION_OFFICIAL_COMMUNICATION = "EOCO";
+    public static final String SUP_ACTIVITY_CODE_EMAIL = "COEL";
+    public static final String SUP_ACTIVITY_CODE_FINGER_PRINT = "THD";
+    public static final String SUP_ACTIVITY_CODE_OTHER = "OTRO";
+    public static final String SUP_ACTIVITY_CODE_CHANNELING_ACTIVITY = "ACCA";
+
 }

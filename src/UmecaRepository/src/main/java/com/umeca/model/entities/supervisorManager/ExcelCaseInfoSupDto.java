@@ -2,6 +2,7 @@ package com.umeca.model.entities.supervisorManager;
 
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.MonitoringConstants;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import java.util.List;
  */
 public class ExcelCaseInfoSupDto {
     private Long idCase;
+    private String idMP;
     private String idFolder;
     private Integer gender;
     private String genderStr;
@@ -96,9 +98,16 @@ public class ExcelCaseInfoSupDto {
     private String institutionName;
     private String institutionType;
 
+    private List<ExcelActivityMonitoringPlan> lstActivityMonitoringPlan;
+    private String monitoringCalls;
+
+
+    private String supervisorName;
+
 
     public ExcelCaseInfoSupDto(
             Long idCase,
+            String idMP,
             String idFolder,
             Integer gender,
             String countryBirth,
@@ -110,9 +119,11 @@ public class ExcelCaseInfoSupDto {
             Integer addictionTreatment,
             Integer addictedAcquaintance,
             Integer relativeAbroad,
-            Integer obligationIssue
+            Integer obligationIssue,
+            String supervisorName
     ) {
         this.idCase = idCase;
+        this.idMP = idMP;
         this.idFolder = idFolder;
         this.gender = gender;
         this.countryBirth = countryBirth;
@@ -178,6 +189,12 @@ public class ExcelCaseInfoSupDto {
             this.obligationIssueStr = "No";
         }
 
+        if(supervisorName == null){
+            this.supervisorName = "";
+        }
+        else {
+            this.supervisorName = supervisorName;
+        }
 
     }
 
@@ -1013,6 +1030,7 @@ public class ExcelCaseInfoSupDto {
 
         return isVolunteer;
     }
+
     public void setIsVolunteer(Boolean isVolunteer) {
         this.isVolunteer = isVolunteer;
     }
@@ -1020,18 +1038,16 @@ public class ExcelCaseInfoSupDto {
     public String getIsVolunteerStr() {
         this.isVolunteerStr = "";
 
-        if(lstChanneling != null ){
-            for(int i = 0; i < lstChanneling.size(); i++){
-                if(lstChanneling.get(i).getIsVolunteer() == null){
+        if (lstChanneling != null) {
+            for (int i = 0; i < lstChanneling.size(); i++) {
+                if (lstChanneling.get(i).getIsVolunteer() == null) {
                     this.isVolunteerStr += "";
-                }
-                else if(lstChanneling.get(i).getIsVolunteer().equals(true)){
+                } else if (lstChanneling.get(i).getIsVolunteer().equals(true)) {
                     this.isVolunteerStr += "Sí";
-                }
-                else {
+                } else {
                     this.isVolunteerStr += "No";
                 }
-                if(i < lstChanneling.size() -1 ){
+                if (i < lstChanneling.size() - 1) {
                     this.isVolunteerStr += ",";
                 }
 
@@ -1043,7 +1059,6 @@ public class ExcelCaseInfoSupDto {
     public void setIsVolunteerStr(String isVolunteerStr) {
         this.isVolunteerStr = isVolunteerStr;
     }
-
 
 
     public String getInstitutionName() {
@@ -1084,4 +1099,167 @@ public class ExcelCaseInfoSupDto {
     public void setInstitutionType(String institutionType) {
         this.institutionType = institutionType;
     }
+
+
+    public String getIdMP() {
+        return idMP;
+    }
+
+    public void setIdMP(String idMP) {
+        this.idMP = idMP;
+    }
+
+    public List<ExcelActivityMonitoringPlan> getLstActivityMonitoringPlan() {
+        return lstActivityMonitoringPlan;
+    }
+
+    public void setLstActivityMonitoringPlan(List<ExcelActivityMonitoringPlan> lstActivityMonitoringPlan) {
+        this.lstActivityMonitoringPlan = lstActivityMonitoringPlan;
+    }
+
+    public String getMonitoringCalls() {
+        monitoringCalls = "No";
+
+        if (lstActivityMonitoringPlan != null && lstActivityMonitoringPlan.size() > 0) {
+            for (int i = 0; i < lstActivityMonitoringPlan.size(); i++) {
+                if (lstActivityMonitoringPlan.get(i).getSupervisionActivityCode().equals(MonitoringConstants.SUP_ACTIVITY_CODE_PHONE_CALL))
+                    return "Sí";
+            }
+        }
+        return monitoringCalls;
+    }
+
+    public void setMonitoringCalls(String monitoringCalls) {
+        this.monitoringCalls = monitoringCalls;
+    }
+
+
+    public String getJudicialReview() {
+        String judicialReview = "No";
+        if (lstActivityMonitoringPlan != null && lstActivityMonitoringPlan.size() > 0) {
+            for (int i = 0; i < lstActivityMonitoringPlan.size(); i++) {
+                if (lstActivityMonitoringPlan.get(i).getSupervisionActivityCode().equals(MonitoringConstants.SUP_ACTIVITY_CODE_JUDICIAL_FOLDER_REVISION))
+                    return "Sí";
+            }
+        }
+        return judicialReview;
+    }
+
+
+    public String getHomeVisit() {
+        String homeVisit = "No";
+        if (lstActivityMonitoringPlan != null && lstActivityMonitoringPlan.size() > 0) {
+            for (int i = 0; i < lstActivityMonitoringPlan.size(); i++) {
+                if (lstActivityMonitoringPlan.get(i).getSupervisionActivityCode().equals(MonitoringConstants.SUP_ACTIVITY_CODE_HOME_VISIT))
+                    return "Sí";
+            }
+        }
+        return homeVisit;
+    }
+
+    public String getHearingDateRevision() {
+        String HearingDateRevision = "No";
+        if (lstActivityMonitoringPlan != null && lstActivityMonitoringPlan.size() > 0) {
+            for (int i = 0; i < lstActivityMonitoringPlan.size(); i++) {
+                if (lstActivityMonitoringPlan.get(i).getSupervisionActivityCode().equals(MonitoringConstants.SUP_ACTIVITY_CODE_HEARING_DATE_REVISION))
+                    return "Sí";
+            }
+        }
+        return HearingDateRevision;
+    }
+
+    public String getPersonalInterview() {
+        String personalInterview = "No";
+        if (lstActivityMonitoringPlan != null && lstActivityMonitoringPlan.size() > 0) {
+            for (int i = 0; i < lstActivityMonitoringPlan.size(); i++) {
+                if (lstActivityMonitoringPlan.get(i).getSupervisionActivityCode().equals(MonitoringConstants.SUP_ACTIVITY_CODE_PERSONAL_INTERVIEW))
+                    return "Sí";
+            }
+        }
+        return personalInterview;
+    }
+
+    public String getCreationOfficialCommunication() {
+        String creationOfficialCommunication = "No";
+        if (lstActivityMonitoringPlan != null && lstActivityMonitoringPlan.size() > 0) {
+            for (int i = 0; i < lstActivityMonitoringPlan.size(); i++) {
+                if (lstActivityMonitoringPlan.get(i).getSupervisionActivityCode().equals(MonitoringConstants.SUP_ACTIVITY_CODE_DOCUMENT_CREATION_OFFICIAL_COMMUNICATION))
+                    return "Sí";
+            }
+        }
+        return creationOfficialCommunication;
+    }
+
+    public String getSupEmailAct() {
+        String email = "No";
+        if (lstActivityMonitoringPlan != null && lstActivityMonitoringPlan.size() > 0) {
+            for (int i = 0; i < lstActivityMonitoringPlan.size(); i++) {
+                if (lstActivityMonitoringPlan.get(i).getSupervisionActivityCode().equals(MonitoringConstants.SUP_ACTIVITY_CODE_EMAIL))
+                    return "Sí";
+            }
+        }
+        return email;
+    }
+
+    public String getFingerPrint() {
+        String fingerPrint = "No";
+        if (lstActivityMonitoringPlan != null && lstActivityMonitoringPlan.size() > 0) {
+            for (int i = 0; i < lstActivityMonitoringPlan.size(); i++) {
+                if (lstActivityMonitoringPlan.get(i).getSupervisionActivityCode().equals(MonitoringConstants.SUP_ACTIVITY_CODE_FINGER_PRINT))
+                    return "Sí";
+            }
+        }
+        return fingerPrint;
+
+    }
+
+    public String getChannelingActivity() {
+        String channelingActivity = "No";
+        if (lstActivityMonitoringPlan != null && lstActivityMonitoringPlan.size() > 0) {
+            for (int i = 0; i < lstActivityMonitoringPlan.size(); i++) {
+                if (lstActivityMonitoringPlan.get(i).getSupervisionActivityCode().equals(MonitoringConstants.SUP_ACTIVITY_CODE_CHANNELING_ACTIVITY))
+                    return "Sí";
+            }
+        }
+        return channelingActivity;
+    }
+
+    public String getUnSubscribeChanneling() {
+        String unSubscribeChanneling = "";
+
+        if (lstActivityMonitoringPlan != null && lstActivityMonitoringPlan.size() > 0) {
+            for (int i = 0; i < lstActivityMonitoringPlan.size(); i++) {
+                if (lstActivityMonitoringPlan.get(i).getSupervisionActivityCode().equals(MonitoringConstants.SUP_ACTIVITY_CODE_CHANNELING_ACTIVITY)
+                        && lstActivityMonitoringPlan.get(i).getActivityGoal().equals("Baja de la canalización")
+                        )
+                    return "Sí";
+            }
+        }
+
+        return unSubscribeChanneling;
+
+    }
+
+    public String getAccomplishedAssigned() {
+        String unSubscribeChanneling = "";
+        if (lstActivityMonitoringPlan != null && lstActivityMonitoringPlan.size() > 0) {
+            for (int i = 0; i < lstActivityMonitoringPlan.size(); i++) {
+                if (lstActivityMonitoringPlan.get(i).getSupervisionActivityCode().equals(MonitoringConstants.SUP_ACTIVITY_CODE_CHANNELING_ACTIVITY)
+                        && lstActivityMonitoringPlan.get(i).getStatus().equals("REALIZADA")
+                        )
+                    return "Sí";
+            }
+        }
+        return unSubscribeChanneling;
+    }
+
+
+    public String getSupervisorName() {
+        return supervisorName;
+    }
+
+    public void setSupervisorName(String supervisorName) {
+        this.supervisorName = supervisorName;
+    }
+
 }

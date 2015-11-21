@@ -40,31 +40,45 @@ public class ExcelCaseInfoEvalDto {
     private String municipalityBirth;
     private String Activities;
     private String isHomeless;
-    private String zip;
+    private String homeType;
+    private String zipCode;
     private String propertyType;
+    private String regType;
     private String AddressType;
+
+
     private String hasPeopleSocialNetwork;
-    private String peopleSocialNetworkStandBy;
+    private String peopleSocialNetworkAccompaniment;
     private String peopleSocialNetworkRelationship;
     private String peopleSocialNetworkIdentification;
-    private Integer peopleSocialNetworkAge;
+    private String peopleSocialNetworkAge;
     private String peopleSocialNetworkLiveTogether;
     private String peopleSocialNetworkDependent;
+
+
     private String hasPersonalReference;
-    private String personalReferenceStandBy;
+    private String personalReferenceAccompaniment;
     private String personalReferenceRelationship;
     private String personalReferenceIdentification;
     private String personalReferenceAge;
+
+
+    private List<ExcelJobDto> lstJob;
     private String isWorking;
     private String job;
     private String jobStartDay;
+
+
     private String isStudying;
     private String degree;
     private String academicLevel;
+
     private String takeDrugs;
+    private String drugsType;
     private String takeDrugPeriod;
     private String lastTasted;
     private String getTakeDrugsStartAge;
+
     private String easyLeaveCountry;
     private String documentation;
     private String livedInAnotherCountry;
@@ -84,13 +98,12 @@ public class ExcelCaseInfoEvalDto {
     private String socialNetworkStr;
     private List<ExcelReferenceDto> lstRef;
     private String referencesStr;
-    private List<ExcelJobDto> lstJob;
+
     private String jobsStr;
     private Long idMonP;
     private MonitoringPlanExcelInfo monitoringPlanExcelInfo;
 
     private FramingMeetingInfo framingMeetingInfo;
-
 
 
     public ExcelCaseInfoEvalDto(
@@ -229,46 +242,40 @@ public class ExcelCaseInfoEvalDto {
 
         this.easyLeaveCountry = essyLeaveCountry;
 
-        if(easyLeaveCountry == null || easyLeaveCountry.equals("No")){
+        if (easyLeaveCountry == null || easyLeaveCountry.equals("No")) {
             this.documentation = "";
-        }
-        else {
+        } else {
             this.documentation = documentation;
         }
 
 
-
         this.livedInAnotherCountry = livedInAnotherCountry;
 
-        if(livedInAnotherCountry == null || livedInAnotherCountry.equals("No")){
+        if (livedInAnotherCountry == null || livedInAnotherCountry.equals("No")) {
             this.countryHasLived = "";
             this.howLongHasLiveInAnotherCountry = "";
             this.yearsLivedInAnotherCountry = "";
 
 
-        }
-        else {
+        } else {
             this.countryHasLived = countryHasLived;
             this.howLongHasLiveInAnotherCountry = howLongHasLiveInAnotherCountry;
             this.yearsLivedInAnotherCountry = yearsLivedInAnotherCountry;
         }
 
 
-
         this.relativesLivingInAnotherCountry = relativesLivingInAnotherCountry;
-        if(relativesLivingInAnotherCountry == null || relativesLivingInAnotherCountry.equals("No")){
+        if (relativesLivingInAnotherCountry == null || relativesLivingInAnotherCountry.equals("No")) {
             this.hasCommunicationWithThem = "";
             this.relationshipWithPeopleLivingInAnotherCountry = "";
-        }
-        else {
+        } else {
             this.hasCommunicationWithThem = hasCommunicationWithThem;
             this.relationshipWithPeopleLivingInAnotherCountry = relationshipWithPeopleLivingInAnotherCountry;
         }
 
-        if(isStudying == null || isStudying.equals(false)){
+        if (isStudying == null || isStudying.equals(false)) {
             this.isStudying = "No";
-        }
-        else {
+        } else {
             this.isStudying = "Sí";
         }
 
@@ -481,12 +488,25 @@ public class ExcelCaseInfoEvalDto {
         this.isHomeless = isHomeless;
     }
 
-    public String getZip() {
-        return zip;
+    public String getZipCode() {
+        this.zipCode = "";
+
+        if (this.lstHomes != null) {
+            for (int i = 0; i < this.lstHomes.size(); i++) {
+                if (this.lstHomes.get(i).getZip() != null) {
+                    this.zipCode += this.lstHomes.get(i).getZip();
+                    if (i < this.lstHomes.size() - 1) {
+                        this.zipCode += ",";
+                    }
+                }
+            }
+        }
+        return this.zipCode;
     }
 
-    public void setZip(String zip) {
-        this.zip = zip;
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
     public String getPropertyType() {
@@ -506,22 +526,71 @@ public class ExcelCaseInfoEvalDto {
     }
 
     public String getHasPeopleSocialNetwork() {
-        return hasPeopleSocialNetwork;
+        if (lstSN == null) {
+            return "";
+        }
+
+        for (int i = 0; i < lstSN.size(); i++) {
+            if (lstSN.get(i).getName() == null || lstSN.get(i).getName().equals("NO TIENE")) {
+                return "No";
+            }
+        }
+        return "Sí";
     }
 
     public void setHasPeopleSocialNetwork(String hasPeopleSocialNetwork) {
         this.hasPeopleSocialNetwork = hasPeopleSocialNetwork;
     }
 
-    public String getPeopleSocialNetworkStandBy() {
-        return peopleSocialNetworkStandBy;
+    public String getPeopleSocialNetworkAccompaniment() {
+        this.peopleSocialNetworkAccompaniment = "";
+
+
+        if (lstSN != null) {
+            for (int i = 0; i < lstSN.size(); i++) {
+                if (lstSN.get(i).getAccompaniment() != null) {
+
+                    if (lstSN.get(i).getName().equals("NO TIENE")) {
+                        return "";
+                    }
+
+                    if (lstSN.get(i).getAccompaniment() == true) {
+
+                        this.peopleSocialNetworkAccompaniment += "Sí";
+                    } else {
+                        this.peopleSocialNetworkAccompaniment += "No";
+                    }
+                }
+                if (i < lstSN.size() - 1) {
+                    this.peopleSocialNetworkAccompaniment += ",";
+                }
+            }
+        }
+
+
+        return peopleSocialNetworkAccompaniment;
     }
 
-    public void setPeopleSocialNetworkStandBy(String peopleSocialNetworkStandBy) {
-        this.peopleSocialNetworkStandBy = peopleSocialNetworkStandBy;
+    public void setPeopleSocialNetworkAccompaniment(String peopleSocialNetworkAccompaniment) {
+        this.peopleSocialNetworkAccompaniment = peopleSocialNetworkAccompaniment;
     }
 
     public String getPeopleSocialNetworkRelationship() {
+        this.peopleSocialNetworkRelationship = "";
+        if (lstSN != null) {
+            for (int i = 0; i < lstSN.size(); i++) {
+
+                if (lstSN.get(i).getRelationship() != null) {
+                    if (lstSN.get(i).getName().equals("NO TIENE")) {
+                        return "";
+                    }
+                    this.peopleSocialNetworkRelationship = lstSN.get(i).getRelationship();
+                }
+                if (i < lstSN.size() - 1) {
+                    this.peopleSocialNetworkRelationship += ",";
+                }
+            }
+        }
         return peopleSocialNetworkRelationship;
     }
 
@@ -530,6 +599,23 @@ public class ExcelCaseInfoEvalDto {
     }
 
     public String getPeopleSocialNetworkIdentification() {
+
+        this.peopleSocialNetworkIdentification = "";
+        if (lstSN != null) {
+            for (int i = 0; i < lstSN.size(); i++) {
+
+                if (lstSN.get(i).getDocument() != null) {
+                    if (lstSN.get(i).getName().equals("NO TIENE")) {
+                        return "";
+                    }
+                    this.peopleSocialNetworkIdentification = lstSN.get(i).getDocument();
+                }
+                if (i < lstSN.size() - 1) {
+                    this.peopleSocialNetworkRelationship += ",";
+                }
+            }
+        }
+
         return peopleSocialNetworkIdentification;
     }
 
@@ -537,15 +623,46 @@ public class ExcelCaseInfoEvalDto {
         this.peopleSocialNetworkIdentification = peopleSocialNetworkIdentification;
     }
 
-    public Integer getPeopleSocialNetworkAge() {
+    public String getPeopleSocialNetworkAge() {
+        this.peopleSocialNetworkAge = "";
+        if (lstSN != null) {
+            for (int i = 0; i < lstSN.size(); i++) {
+                if (lstSN.get(i).getName().equals("NO TIENE")) {
+                    return "";
+                }
+                if (lstSN.get(i).getAge() != null) {
+                    this.peopleSocialNetworkAge += lstSN.get(i).getAge();
+                }
+                if (i < lstSN.size() - 1) {
+                    this.peopleSocialNetworkAge += ",";
+                }
+            }
+        }
+
         return peopleSocialNetworkAge;
     }
 
-    public void setPeopleSocialNetworkAge(Integer peopleSocialNetworkAge) {
+    public void setPeopleSocialNetworkAge(String peopleSocialNetworkAge) {
         this.peopleSocialNetworkAge = peopleSocialNetworkAge;
     }
 
     public String getPeopleSocialNetworkLiveTogether() {
+        this.peopleSocialNetworkLiveTogether = "";
+
+        if (lstSN != null) {
+            for (int i = 0; i < lstSN.size(); i++) {
+                if (lstSN.get(i).getLivingWith() != null) {
+                    if (lstSN.get(i).getName().equals("NO TIENE")) {
+                        return "";
+                    }
+                    this.peopleSocialNetworkLiveTogether += lstSN.get(i).getLivingWith();
+                }
+                if (i < lstSN.size() - 1) {
+                    this.peopleSocialNetworkLiveTogether += ",";
+                }
+            }
+        }
+
         return peopleSocialNetworkLiveTogether;
     }
 
@@ -554,6 +671,23 @@ public class ExcelCaseInfoEvalDto {
     }
 
     public String getPeopleSocialNetworkDependent() {
+        this.peopleSocialNetworkDependent = "";
+        if (lstSN != null) {
+            if (lstSN != null) {
+                for (int i = 0; i < lstSN.size(); i++) {
+                    if (lstSN.get(i).getDependent() != null) {
+                        if (lstSN.get(i).getName().equals("NO TIENE")) {
+                            return "";
+                        }
+                        this.peopleSocialNetworkDependent += lstSN.get(i).getDependent();
+                    }
+                    if (i < lstSN.size() - 1) {
+                        this.peopleSocialNetworkDependent += ",";
+                    }
+                }
+            }
+        }
+
         return peopleSocialNetworkDependent;
     }
 
@@ -562,6 +696,15 @@ public class ExcelCaseInfoEvalDto {
     }
 
     public String getHasPersonalReference() {
+        if (lstRef == null) {
+            return "";
+        }
+        for (int i = 0; i < lstRef.size(); i++) {
+            if (lstRef.get(i).getName().equals("NO TIENE")) {
+                return "No";
+            }
+        }
+        hasPersonalReference = "Sí";
         return hasPersonalReference;
     }
 
@@ -569,15 +712,45 @@ public class ExcelCaseInfoEvalDto {
         this.hasPersonalReference = hasPersonalReference;
     }
 
-    public String getPersonalReferenceStandBy() {
-        return personalReferenceStandBy;
+    public String getPersonalReferenceAccompaniment() {
+        personalReferenceAccompaniment = "";
+        if (lstRef != null) {
+            for (int i = 0; i < lstRef.size(); i++) {
+                if (lstRef.get(i).getName().equals("NO TIENE")) {
+                    return "";
+                }
+                if (lstRef.get(i).getAccompaniment() == Boolean.TRUE) {
+                    personalReferenceAccompaniment += "Sí";
+                } else {
+                    personalReferenceAccompaniment += "No";
+                }
+                if (i < lstSN.size() - 1) {
+                    this.personalReferenceAccompaniment += ",";
+                }
+            }
+        }
+
+        return personalReferenceAccompaniment;
     }
 
-    public void setPersonalReferenceStandBy(String personalReferenceStandBy) {
-        this.personalReferenceStandBy = personalReferenceStandBy;
+    public void setPersonalReferenceAccompaniment(String personalReferenceAccompaniment) {
+        this.personalReferenceAccompaniment = personalReferenceAccompaniment;
     }
 
     public String getPersonalReferenceRelationship() {
+        personalReferenceRelationship = "";
+        if (lstRef != null) {
+            for (int i = 0; i < lstRef.size(); i++) {
+                if (lstRef.get(i).getName().equals("NO TIENE")) {
+                    return "";
+                }
+                personalReferenceRelationship += lstRef.get(i).getRelationship();
+
+                if (i < lstRef.size() - 1) {
+                    this.personalReferenceRelationship += ",";
+                }
+            }
+        }
         return personalReferenceRelationship;
     }
 
@@ -586,6 +759,21 @@ public class ExcelCaseInfoEvalDto {
     }
 
     public String getPersonalReferenceIdentification() {
+        personalReferenceIdentification = "";
+
+        if (lstRef != null) {
+            for (int i = 0; i < lstRef.size(); i++) {
+                if (lstRef.get(i).getName().equals("NO TIENE")) {
+                    return "";
+                }
+                personalReferenceIdentification += lstRef.get(i).getDocument();
+
+                if (i < lstRef.size() - 1) {
+                    this.personalReferenceIdentification += ",";
+                }
+            }
+        }
+
         return personalReferenceIdentification;
     }
 
@@ -594,6 +782,19 @@ public class ExcelCaseInfoEvalDto {
     }
 
     public String getPersonalReferenceAge() {
+        this.personalReferenceAge = "";
+        if (lstRef != null) {
+            for (int i = 0; i < lstRef.size(); i++) {
+                if (lstRef.get(i).getName().equals("NO TIENE")) {
+                    return "";
+                }
+                personalReferenceAge += lstRef.get(i).getAge();
+
+                if (i < lstRef.size() - 1) {
+                    this.personalReferenceAge += ",";
+                }
+            }
+        }
         return personalReferenceAge;
     }
 
@@ -602,6 +803,18 @@ public class ExcelCaseInfoEvalDto {
     }
 
     public String getIsWorking() {
+
+        isWorking = "";
+        if (lstJob != null) {
+            for (int i = 0; i < lstJob.size(); i++) {
+                if (lstJob.get(i).getBlock().equals(Boolean.FALSE)) {
+                    isWorking = "No";
+                } else {
+                    isWorking = "Sí";
+                }
+            }
+        }
+
         return isWorking;
     }
 
@@ -610,6 +823,19 @@ public class ExcelCaseInfoEvalDto {
     }
 
     public String getJob() {
+        job = "";
+        if (lstJob != null) {
+            for (int i = 0; i < lstJob.size(); i++) {
+                if (lstJob.get(i).getBlock().equals(Boolean.FALSE)) {
+                    return "";
+                }
+                this.job += lstJob.get(i).getRegisterType();
+                if (i < lstJob.size() - 1) {
+                    this.job += ",";
+                }
+            }
+        }
+
         return job;
     }
 
@@ -618,6 +844,20 @@ public class ExcelCaseInfoEvalDto {
     }
 
     public String getJobStartDay() {
+        jobStartDay = "";
+
+        if (lstJob != null) {
+            for (int i = 0; i < lstJob.size(); i++) {
+                if (lstJob.get(i).getBlock().equals(Boolean.FALSE)) {
+                    return "";
+                }
+                this.jobStartDay += lstJob.get(i).getStartStr();
+                if (i < lstJob.size() - 1) {
+                    this.job += ",";
+                }
+            }
+        }
+
         return jobStartDay;
     }
 
@@ -642,6 +882,18 @@ public class ExcelCaseInfoEvalDto {
     }
 
     public String getTakeDrugs() {
+
+        takeDrugs = "";
+
+        if (lstDrug != null) {
+            for (int i = 0; i < lstDrug.size(); i++) {
+                if (lstDrug.get(i).getDrugType().equals("No consume")) {
+                    return "No";
+                } else {
+                    return "Sí";
+                }
+            }
+        }
         return takeDrugs;
     }
 
@@ -649,7 +901,42 @@ public class ExcelCaseInfoEvalDto {
         this.takeDrugs = takeDrugs;
     }
 
+    public String getDrugsType() {
+        drugsType = "";
+
+        if (lstDrug != null) {
+            for (int i = 0; i < lstDrug.size(); i++) {
+                if (lstDrug.get(i).getDrugType().equals("No consume")) {
+                    return "";
+                }
+                drugsType += lstDrug.get(i).getDrugType();
+                if (i < lstJob.size() - 1) {
+                    this.drugsType += ",";
+                }
+            }
+        }
+
+        return drugsType;
+    }
+
+    public void setDrugsType(String drugsType) {
+        this.drugsType = drugsType;
+    }
+
     public String getTakeDrugPeriod() {
+        takeDrugPeriod = "";
+        if (lstDrug != null) {
+            for (int i = 0; i < lstDrug.size(); i++) {
+                if (lstDrug.get(i).getDrugType().equals("No consume")) {
+                    return "";
+                }
+                takeDrugPeriod += lstDrug.get(i).getPeriodicity();
+                if (i < lstJob.size() - 1) {
+                    this.takeDrugPeriod += ",";
+                }
+            }
+        }
+
         return takeDrugPeriod;
     }
 
@@ -658,6 +945,18 @@ public class ExcelCaseInfoEvalDto {
     }
 
     public String getLastTasted() {
+        lastTasted = "";
+        if (lstDrug != null) {
+            for (int i = 0; i < lstDrug.size(); i++) {
+                if (lstDrug.get(i).getDrugType().equals("No consume")) {
+                    return "";
+                }
+                lastTasted += lstDrug.get(i).getLastUseStr();
+                if (i < lstJob.size() - 1) {
+                    this.lastTasted += ",";
+                }
+            }
+        }
         return lastTasted;
     }
 
@@ -766,45 +1065,6 @@ public class ExcelCaseInfoEvalDto {
         return returnStr;
     }
 
-    public String periodicityEvaluationDrugs() {
-        String returnStr = "";
-
-        if (lstDrug != null && lstDrug.size() > 0)
-            for (ExcelDrugDto act : lstDrug) {
-                if (act.getBlock().equals(true)) {
-                    if (returnStr.isEmpty() == false)
-                        returnStr += "\n";
-                    if (act.getDrugType() != null && !act.getDrugType().equals(""))
-                        returnStr += "," + act.getPeriodicity();
-                    this.takeDrugs = "Sí";
-                } else {
-                    returnStr = "El imputado no consume sustancias.";
-                    this.takeDrugs = "No";
-                    break;
-                }
-            }
-        return returnStr;
-    }
-
-    public String lastUseEvaluationDrugs() {
-        String returnStr = "";
-
-        if (lstDrug != null && lstDrug.size() > 0)
-            for (ExcelDrugDto act : lstDrug) {
-                if (act.getBlock().equals(true)) {
-                    if (returnStr.isEmpty() == false)
-                        returnStr += "\n";
-                    if (act.getDrugType() != null && !act.getDrugType().equals(""))
-                        returnStr += "," + (act.getLastUse()  == null ? "" : dateFormat.format(act.getLastUse()));
-                    this.takeDrugs = "Sí";
-                } else {
-                    returnStr = "El imputado no consume sustancias.";
-                    this.takeDrugs = "No";
-                    break;
-                }
-            }
-        return returnStr;
-    }
 
 //    public String getOnsetAgeEvaluationDrugs() {
 //        String returnStr = "";
@@ -837,18 +1097,22 @@ public class ExcelCaseInfoEvalDto {
     public String getActivitiesStr() {
         this.activitiesStr = "";
 
+
         if (this.lstActivities != null && lstActivities.size() > 0)
 
-            for (ExcelActivitiesDto act : this.lstActivities) {
-                if (activitiesStr.isEmpty() == false)
-                    activitiesStr += "\n ";
+            for (int i = 0; i < lstActivities.size(); i++) {
+                if (activitiesStr.isEmpty() == false) {
+                    activitiesStr += " ";
+                }
+                if (lstActivities.get(i).getDescription() != null && !lstActivities.get(i).getDescription().trim().equals("")) {
+                    activitiesStr += lstActivities.get(i).getNameAct() +  ": " + lstActivities.get(i).getDescription();
+                }
+                if (i < lstActivities.size() - 1) {
+                    this.activitiesStr += ",";
+                }
 
-                if (act.getNameAct() != null && !act.getNameAct().trim().equals(""))
-                    activitiesStr += "," + act.getNameAct();
-
-                if (act.getDescription() != null && !act.getDescription().trim().equals(""))
-                    activitiesStr += ": " + act.getDescription();
             }
+
 
         return activitiesStr;
     }
@@ -867,13 +1131,10 @@ public class ExcelCaseInfoEvalDto {
     }
 
 
-
-
     public String getHomesStr() {
         this.homesStr = "";
 
         if (this.lstHomes != null && this.lstHomes.size() > 0)
-
 
 
             for (ExcelImputedHomeDto act : this.lstHomes) {
@@ -978,7 +1239,6 @@ public class ExcelCaseInfoEvalDto {
     public void setLstRef(List<ExcelReferenceDto> lstRef) {
         this.lstRef = lstRef;
     }
-
 
 
     public void setReferencesStr(String referencesStr) {
@@ -1124,4 +1384,49 @@ public class ExcelCaseInfoEvalDto {
     public void setMonitoringPlanExcelInfo(MonitoringPlanExcelInfo monitoringPlanExcelInfo) {
         this.monitoringPlanExcelInfo = monitoringPlanExcelInfo;
     }
+
+    public String getHomeType() {
+        this.homeType = "";
+
+        if (lstHomes != null) {
+            for (int i = 0; i < lstHomes.size(); i++) {
+                if (lstHomes.get(i).getHomeType() != null) {
+                    this.homeType += lstHomes.get(i).getHomeType();
+                    if (i < lstHomes.size() - 1) {
+                        this.homeType += ",";
+                    }
+                }
+            }
+        }
+        return this.homeType;
+    }
+
+    public void setHomeType(String homeType) {
+        this.homeType = homeType;
+    }
+
+
+    public String getRegType() {
+
+        this.regType = "";
+
+        if (lstHomes != null) {
+            for (int i = 0; i < lstHomes.size(); i++) {
+                if (lstHomes.get(i).getRegType() != null) {
+                    this.regType += lstHomes.get(i).getRegType();
+                    if (i < lstHomes.size() - 1) {
+                        this.regType += ",";
+                    }
+                }
+
+            }
+        }
+        return this.regType;
+    }
+
+    public void setRegType(String regType) {
+        this.regType = regType;
+    }
+
+
 }

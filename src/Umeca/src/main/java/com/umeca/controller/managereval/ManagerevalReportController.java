@@ -149,9 +149,10 @@ public class ManagerevalReportController {
 
             List<ExcelCaseInfoEvalDto> listCases = caseRepository.getInfoCasesEval(casesIds);
             List<ExcelActivitiesDto> lstActivities = caseRepository.getInfoImputedActivities(casesIds);
-            List<ExcelImputedHomeDto> lstHomes = caseRepository.getInfoImputedHomes(casesIds);
-            List<ExcelSocialNetworkDto> lstSN = caseRepository.getInfoSocialNetwork(casesIds);
+            List<ExcelImputedHomeDto> lstHomes = caseRepository.getInfoImputedHomesEvl(casesIds);
+            List<ExcelSocialNetworkDto> lstSN = caseRepository.getSocialNetworkEv(casesIds);
             List<ExcelReferenceDto> lstRef = caseRepository.getInfoReference(casesIds);
+
             List<ExcelJobDto> lstJob = caseRepository.getInfoJobs(casesIds);
             List<ExcelDrugDto> lstDrug = caseRepository.getInfoDrugs(casesIds);
 

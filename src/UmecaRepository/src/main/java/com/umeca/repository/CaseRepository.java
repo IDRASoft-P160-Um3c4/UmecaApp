@@ -272,6 +272,8 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "where CDET.id in (:casesIds) order by REF.block")
     List<ExcelReferenceDto> getInfoReference(@Param("casesIds") List<Long> lstCasesIds);
 
+
+
     @Query("select new com.umeca.model.entities.supervisor.ExcelJobDto(CDET.id,JOB.post,JOB.nameHead,JOB.company,JOB.phone,JOB.startPrev,JOB.start,JOB.salaryWeek,JOB.end,JOB.reasonChange,JOB.address,RT.name,RT.id, JOB.block) " +
             "from Case CDET " +
             "inner join CDET.meeting MEET " +
@@ -797,6 +799,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
 
     @Query("select new com.umeca.model.entities.supervisorManager.ExcelCaseInfoSupDto( " +
             "CDET.id, " +
+            "CDET.idMP, " +
             "CDET.idFolder, " +
             "FMPERDATA.gender, " +
             "BIRTHCOUNTRY.name, " +
@@ -808,7 +811,8 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "FMAQ.addictionTreatment, " +
             "FMAQ.addictedAcquaintance, " +
             "FMAQ.relativeAbroad, " +
-            "FMAQ.obligationIssue) " +
+            "FMAQ.obligationIssue, " +
+            "USUP.fullname) " +
             "from Case CDET " +
             "left join CDET.framingMeeting FM " +
             "left join FM.personalData FMPERDATA " +
@@ -819,6 +823,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "left join FMSCHOOL.degree FMGRADE " +
             "left join FMGRADE.academicLevel FMACALVL " +
             "left join FM.additionalFramingQuestions FMAQ " +
+            "left join CDET.umecaSupervisor USUP " +
             "where CDET.id in (:lstIdsCases) " +
             "order by CDET.dateCreate" )
     List<ExcelCaseInfoSupDto> getInfoCasesSup(@Param("lstIdsCases") List<Long> lstIdsCases);
@@ -836,6 +841,20 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "left join FMADD.registerType RT " +
             "where CDET.id in (:casesIds)")
     List<ExcelImputedHomeDto> getInfoImputedHomesSup(@Param("casesIds") List<Long> lstCasesIds);
+
+
+    @Query("select new com.umeca.model.entities.supervisor.ExcelImputedHomeDto(CDET.id, IMPHOME.isHomeless,LOC.zipCode,ST.name,MUN.name,HT.name,RT.name ) " +
+            "from Case CDET " +
+            "inner join CDET.meeting MEET " +
+            "left join MEET.imputedHomes IMPHOME " +
+            "left join IMPHOME.address IMPADDR " +
+            "left join IMPADDR.location LOC " +
+            "left join LOC.municipality MUN " +
+            "left join MUN.state ST " +
+            "left join IMPHOME.registerType RT " +
+            "left join IMPHOME.homeType HT " +
+            "where CDET.id in (:casesIds) " )
+    List<ExcelImputedHomeDto> getInfoImputedHomesEvl(@Param("casesIds") List<Long> lstCasesIds);
 
 
 
@@ -856,6 +875,18 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "where CDET.id in (:casesIds) and FMREF.personType = com.umeca.model.entities.supervisor.FramingMeetingConstants.PERSON_TYPE_REFERENCE ")
     List<ExcelReferenceDto> getReferencesSup(@Param("casesIds") List<Long> lstCasesIds);
 
+
+    @Query("select new com.umeca.model.entities.supervisor.ExcelSocialNetworkDto(CDET.id,PSN.age, PSN.isAccompaniment,RS.name, DT.name,LVW.name,DEP.name,PSN.name) " +
+            "from Case CDET " +
+            "inner join CDET.meeting MEET " +
+            "left join  MEET.socialNetwork SN " +
+            "left join SN.peopleSocialNetwork PSN " +
+            "left join PSN.relationship RS " +
+            "left join PSN.documentType DT " +
+            "left join  PSN.livingWith LVW " +
+            "left join PSN.dependent DEP " +
+            "where CDET.id in (:casesIds) ")
+    List<ExcelSocialNetworkDto> getSocialNetworkEv(@Param("casesIds") List<Long> lstCasesIds);
 
 
     @Query("select new com.umeca.model.entities.supervisor.ExcelJobDto(CDET.id, JOB.block, JRTY.name) " +
@@ -949,11 +980,13 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
     @Query("select new com.umeca.model.entities.supervisorManager.ExcelCaseInfoHearingFormatDto(" +
             "CDET.id, " +
             "HFIMP.birthDate, " +
+            "CDET.idMP, " +
             "CDET.idFolder, " +
             "DIST.name, " +
             "LOC.zipCode, " +
             "MUNI.name, " +
             "STATE.name, " +
+            "HF.mpName, " +
             "HF.isHomeless, " +
             "HFSPE.controlDetention, " +
             "HFSPE.imputationFormulation, " +
@@ -961,7 +994,10 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "HFSPE.linkageProcess," +
             "HF.umecaDate," +
             "HTYPE.description, " +
-            "HF.appointmentDate " +
+            "HF.appointmentDate," +
+            "HF.registerTime," +
+            "CLC.name," +
+            "USUP.fullname " +
             ") " +
             "from Case CDET " +
             "inner join CDET.hearingFormats HF " +
@@ -973,6 +1009,8 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "left join MUNI.state STATE " +
             "left join HF.hearingFormatSpecs HFSPE " +
             "left join HF.hearingType HTYPE " +
+            "left join CDET.closeCause CLC " +
+            "left join CDET.umecaSupervisor USUP " +
             "where CDET.id in (:casesIds) ")
     List<ExcelCaseInfoHearingFormatDto> getCaseHearingFormatInfo(@Param("casesIds") List<Long> lstCasesIds);
 
@@ -1005,5 +1043,14 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "left join HF.contacts CONTACT " +
             "where CDET.id in (:casesIds)")
     List<ExcelContactsDto> getContactsHearingFormat(@Param("casesIds") List<Long> lstCasesIds);
+
+
+    @Query("select new com.umeca.model.entities.supervisor.ExcelActivityMonitoringPlan(CDET.id,SACT.id,SACT.name,SACT.code,ACTG.id,ACTG.name,ACMP.channelingAssistance, ACMP.doneTime, ACMP.status) " +
+            "from ActivityMonitoringPlan ACMP " +
+            "inner join ACMP.caseDetention CDET " +
+            "inner join ACMP.activityGoal ACTG " +
+            "inner join ACMP.supervisionActivity SACT " +
+            "where CDET.id in (:casesIds)")
+    List<ExcelActivityMonitoringPlan> getActivityMonitoringPlan(@Param("casesIds") List<Long> lstCasesIds);
 
 }

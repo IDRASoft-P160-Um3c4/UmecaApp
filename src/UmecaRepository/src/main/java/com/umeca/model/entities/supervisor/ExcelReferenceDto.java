@@ -17,6 +17,9 @@ public class ExcelReferenceDto {
     private String specificationRelationship;
     private Boolean block;
 
+    private String liveWith;
+    private String dependent;
+
 
     public ExcelReferenceDto(Long idCase, String age, Boolean accompaniment, String relationship){
         this.idCase = idCase;
@@ -29,6 +32,24 @@ public class ExcelReferenceDto {
             this.accompanimentStr = "No";
         }
         this.relationship = relationship;
+    }
+
+
+    public ExcelReferenceDto(Long idCase, String age, Boolean accompaniment, String relationship,String document, String liveWith, String dependent){
+        this.idCase = idCase;
+        this.age = age;
+        this.accompaniment = accompaniment;
+        if(this.accompaniment.equals(true)){
+            this.accompanimentStr = "Sí";
+        }
+        else{
+            this.accompanimentStr = "No";
+        }
+        this.relationship = relationship;
+        this.document = document;
+
+        this.liveWith = liveWith;
+        this.dependent = dependent;
     }
 
     public ExcelReferenceDto(Long idCase, String name, String age, String document, String relationship, String address, String phone, Boolean accompaniment, String specificationRelationship, Boolean block) {
@@ -142,5 +163,21 @@ public class ExcelReferenceDto {
 
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public String getLiveWith() {
+        return liveWith;
+    }
+
+    public void setLiveWith(String liveWith) {
+        this.liveWith = liveWith;
+    }
+
+    public String getDependent() {
+        return dependent;
+    }
+
+    public void setDependent(String dependent) {
+        this.dependent = dependent;
     }
 }

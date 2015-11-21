@@ -480,6 +480,8 @@
                                 <li><a href="<c:url value='/channelingManager/statisticReport/index.html' />"><i
                                         class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Estad&iacute;sticos - Reporte
                                     estad&iacute;stico</a></li>
+                                <li><a href="<c:url value='/channelingManager/excelReport/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Reporte Excel</a></li>
                             </ul>
                         </li>
                     </sec:authorize>
