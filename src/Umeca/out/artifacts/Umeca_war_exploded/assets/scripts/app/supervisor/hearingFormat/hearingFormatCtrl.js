@@ -40,6 +40,7 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
                 //$scope.m.extDate = "";
                 $scope.m.extDate = $scope.m.appointmentDate;
             }
+            refreshValidationHearingFormat();
 
         };
 
@@ -856,3 +857,11 @@ app.controller('hearingFormatController', function ($scope, $timeout, $http, $q,
     }
 )
 ;
+
+
+function refreshValidationHearingFormat(){
+    var form = $("#FormFormatId").closest("form");
+    form.removeData('validator');
+    form.removeData('unobtrusiveValidation');
+    $.validator.unobtrusive.parse(form);
+}
