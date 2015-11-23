@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.FieldVerification;
 import com.umeca.model.catalog.StatusFieldVerification;
 
@@ -104,7 +105,7 @@ public class FieldMeetingSource {
     }
 
     public void setValue(String value) {
-        this.value = value;
+        this.value = StringExt.substringMax(value,1000);
     }
 
     public StatusFieldVerification getStatusFieldVerification() {
@@ -136,7 +137,7 @@ public class FieldMeetingSource {
     }
 
     public void setJsonValue(String jsonValue) {
-        this.jsonValue = jsonValue;
+        this.jsonValue = StringExt.substringMax(jsonValue,1000);
     }
 
     public String getReason() {
@@ -144,6 +145,6 @@ public class FieldMeetingSource {
     }
 
     public void setReason(String reason) {
-        this.reason = reason;
+        this.reason = StringExt.substringMax(reason,500);
     }
 }
