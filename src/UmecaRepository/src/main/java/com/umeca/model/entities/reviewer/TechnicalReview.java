@@ -1,5 +1,7 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.infrastructure.extensions.StringExt;
+
 import javax.persistence.*;
 import java.util.HashMap;
 import java.util.List;
@@ -62,7 +64,7 @@ public class TechnicalReview {
     }
 
     public void setComments(String comments) {
-        this.comments = comments;
+        this.comments = StringExt.substringMax(comments,1000);
     }
 
     public List<QuestionReviewRel> getQuestionsSel() {
@@ -102,7 +104,7 @@ public class TechnicalReview {
     }
 
     public void setSubtotalsTxt(String subtotalsTxt) {
-        this.subtotalsTxt = subtotalsTxt;
+        this.subtotalsTxt = StringExt.substringMax(subtotalsTxt,3000);
     }
 
     public Integer getLevelRisk() {

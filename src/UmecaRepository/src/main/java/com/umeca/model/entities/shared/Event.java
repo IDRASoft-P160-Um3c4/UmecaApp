@@ -1,5 +1,6 @@
     package com.umeca.model.entities.shared;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.EventType;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
@@ -101,7 +102,7 @@ public class Event {
     }
 
     public void setComments(String comments) {
-        this.comments = comments;
+        this.comments = StringExt.substringMax(comments,765);
     }
 
     public EventType getEventType() {
