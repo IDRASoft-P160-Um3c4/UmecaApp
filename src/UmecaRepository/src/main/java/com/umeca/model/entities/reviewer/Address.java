@@ -148,7 +148,8 @@ public class Address implements EntityGrid {
         if (this.getStreet().equals(otherAddress.getStreet()) &&
                 this.getOutNum().equals(otherAddress.getOutNum()) &&
                 this.getInnNum().equals(otherAddress.getInnNum()) &&
-                this.getLocation().getId().equals(otherAddress.getLocation().getId()))
+                (this.getLocation() == null && otherAddress.getLocation() == null ||
+                (this.getLocation() != null && otherAddress.getLocation()!= null && this.getLocation().getId().equals(otherAddress.getLocation().getId()))))
             return true;
 
         return false;
