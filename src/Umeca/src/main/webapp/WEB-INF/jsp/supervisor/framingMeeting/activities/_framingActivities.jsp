@@ -128,7 +128,7 @@
                                   data-val-length-max="1000">
                         </textarea>
                         <br/>
-            <span class="field-validation-valid" data-valmsg-for="housemateComments"
+            <span class="field-validation-valid" data-valmsg-for="activitiesComments"
                   data-valmsg-replace="true"></span>
                     </div>
                 </div>

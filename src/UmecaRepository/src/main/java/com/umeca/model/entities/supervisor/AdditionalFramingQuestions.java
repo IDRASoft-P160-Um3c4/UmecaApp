@@ -1,5 +1,8 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.infrastructure.extensions.StringExt;
+import com.umeca.model.shared.Constants;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -56,7 +59,7 @@ public class AdditionalFramingQuestions {
     }
 
     public void setObservations(String observations) {
-        this.observations = observations;
+        this.observations = StringExt.substringMax(observations, 500);
     }
 
     public Integer getAddictionTreatment() {
@@ -72,7 +75,7 @@ public class AdditionalFramingQuestions {
     }
 
     public void setAddictionTreatmentInstitute(String addictionTreatmentInstitute) {
-        this.addictionTreatmentInstitute = addictionTreatmentInstitute;
+        this.addictionTreatmentInstitute = StringExt.substringMax(addictionTreatmentInstitute, Constants.DEFAULT_LEN_STRING);
     }
 
     public Date getAddictionTreatmentDate() {

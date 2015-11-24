@@ -1,10 +1,12 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.AcademicLevel;
 import com.umeca.model.catalog.Relationship;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.ImputedHome;
+import com.umeca.model.shared.Constants;
 
 import javax.persistence.*;
 import java.util.List;
@@ -67,7 +69,7 @@ public class ProcessAccompaniment {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = StringExt.substringMax(name, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getLastNameP() {
@@ -75,7 +77,7 @@ public class ProcessAccompaniment {
     }
 
     public void setLastNameP(String lastNameP) {
-        this.lastNameP = lastNameP;
+        this.lastNameP = StringExt.substringMax(lastNameP, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getLastNameM() {
@@ -83,7 +85,7 @@ public class ProcessAccompaniment {
     }
 
     public void setLastNameM(String lastNameM) {
-        this.lastNameM = lastNameM;
+        this.lastNameM = StringExt.substringMax(lastNameM, Constants.DEFAULT_LEN_STRING);
     }
 
     public Integer getGender() {
@@ -99,7 +101,7 @@ public class ProcessAccompaniment {
     }
 
     public void setAge(String age) {
-        this.age = age;
+        this.age = StringExt.substringMax(age, Constants.DEFAULT_LEN_STRING);
     }
 
     public Occupation getOccupation() {
@@ -115,7 +117,7 @@ public class ProcessAccompaniment {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phone = StringExt.substringMax(phone, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getCelphone() {
@@ -123,7 +125,7 @@ public class ProcessAccompaniment {
     }
 
     public void setCelphone(String celphone) {
-        this.celphone = celphone;
+        this.celphone = StringExt.substringMax(celphone, Constants.DEFAULT_LEN_STRING);
     }
 
     public Address getAddress() {
@@ -139,7 +141,7 @@ public class ProcessAccompaniment {
     }
 
     public void setDegree(String degree) {
-        this.degree = degree;
+        this.degree = StringExt.substringMax(degree, Constants.DEFAULT_LEN_STRING);
     }
 
     public Relationship getRelationship() {

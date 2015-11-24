@@ -1,9 +1,11 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.Country;
 import com.umeca.model.catalog.InformationAvailability;
 import com.umeca.model.catalog.MaritalStatus;
 import com.umeca.model.catalog.State;
+import com.umeca.model.shared.Constants;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -85,7 +87,7 @@ public class FramingImputedPersonalData {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = StringExt.substringMax(name, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getLastNameP() {
@@ -93,7 +95,7 @@ public class FramingImputedPersonalData {
     }
 
     public void setLastNameP(String lastNameP) {
-        this.lastNameP = lastNameP;
+        this.lastNameP = StringExt.substringMax(lastNameP, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getLastNameM() {
@@ -101,7 +103,7 @@ public class FramingImputedPersonalData {
     }
 
     public void setLastNameM(String lastNameM) {
-        this.lastNameM = lastNameM;
+        this.lastNameM = StringExt.substringMax(lastNameM, Constants.DEFAULT_LEN_STRING);
     }
 
     public Integer getGender() {
@@ -125,7 +127,7 @@ public class FramingImputedPersonalData {
     }
 
     public void setMaritalStatusYears(String maritalStatusYears) {
-        this.maritalStatusYears = maritalStatusYears;
+        this.maritalStatusYears = StringExt.substringMax(maritalStatusYears, Constants.DEFAULT_LEN_STRING);
     }
 
     public Country getBirthCountry() {
@@ -141,7 +143,7 @@ public class FramingImputedPersonalData {
     }
 
     public void setBirthState(String birthState) {
-        this.birthState = birthState;
+        this.birthState = StringExt.substringMax(birthState, Constants.DEFAULT_LEN_STRING);
     }
 
     public Date getBirthDate() {
@@ -157,7 +159,7 @@ public class FramingImputedPersonalData {
     }
 
     public void setPhysicalCondition(String physicalCondition) {
-        this.physicalCondition = physicalCondition;
+        this.physicalCondition = StringExt.substringMax(physicalCondition, Constants.DEFAULT_LEN_STRING);
     }
 
     public State getBirthStateCmb() {
@@ -173,7 +175,7 @@ public class FramingImputedPersonalData {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phone = StringExt.substringMax(phone, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getCelPhone() {
@@ -181,7 +183,7 @@ public class FramingImputedPersonalData {
     }
 
     public void setCelPhone(String celPhone) {
-        this.celPhone = celPhone;
+        this.celPhone = StringExt.substringMax(celPhone, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getEmail() {
@@ -189,7 +191,7 @@ public class FramingImputedPersonalData {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = StringExt.substringMax(email, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getSocialNetworking() {
@@ -197,7 +199,7 @@ public class FramingImputedPersonalData {
     }
 
     public void setSocialNetworking(String socialNetworking) {
-        this.socialNetworking = socialNetworking;
+        this.socialNetworking = StringExt.substringMax(socialNetworking, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getComments() {
@@ -205,7 +207,7 @@ public class FramingImputedPersonalData {
     }
 
     public void setComments(String comments) {
-        this.comments = comments;
+        this.comments = StringExt.substringMax(comments, Constants.DEFAULT_LEN_STRING);
     }
 
     public InformationAvailability getBirthInfo() {

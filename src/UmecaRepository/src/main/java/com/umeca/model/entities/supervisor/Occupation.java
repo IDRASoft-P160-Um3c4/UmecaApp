@@ -1,5 +1,8 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.infrastructure.extensions.StringExt;
+import com.umeca.model.shared.Constants;
+
 import javax.persistence.*;
 
 /**
@@ -36,7 +39,7 @@ public class Occupation {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = StringExt.substringMax(name, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getPlace() {
@@ -44,7 +47,7 @@ public class Occupation {
     }
 
     public void setPlace(String place) {
-        this.place = place;
+        this.place = StringExt.substringMax(place, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getPhone() {
@@ -52,6 +55,6 @@ public class Occupation {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phone = StringExt.substringMax(phone, Constants.DEFAULT_LEN_STRING);
     }
 }
