@@ -1,6 +1,42 @@
 <br/>
 
+<style>
+    .maps {
+        height:350px;
+        width:600px;
+    }
+    .infoWindowContent {
+        font-size:  10px !important;
+        border-top: 1px solid #ccc;
+        padding-top: 10px;
+    }
+    h2 {
+        margin-bottom:0;
+        margin-top: 0;
+    }
+
+
+
+</style>
+
 <div class="row" ng-init='siv=listImputedHome[$index];'>
+
+
+    <div ng-controller="addressMapOnlyController" ng-show="{{siv.lng}}!='' && {{siv.lat}}!=''">
+        <div class="row element-center">
+            <div class="col-xs-10 col-xs-offset-1 element-left">
+                <span class="label label-lg label-info arrowed-right">Da click en el mapa para guardar el punto de la direcci&oacute;n</span>
+            </div>
+            <div class="col-xs-10 col-xs-offset-1">
+                <div id="map-{{$index}}" class="maps" lat="{{siv.lat}}" lng="{{siv.lng}}"></div>
+            </div>
+            <div class="col-xs-10 col-xs-offset-1 element-left" ng-show="msgMapRequest">
+                <span class="label label-lg label-pink arrowed-right"  ng-bind-html="msgMapRequest"></span>
+            </div>
+        </div>
+        <br/>
+    </div>
+
     <div class="col-xs-2 col-xs-offset-1 element-right">
         <span ng-class="lstSourceInfoHomes['imputedHomes.address'+'.' + siv.id]==true?'verified':'';">
         <i class="icon-ok-circle green  icon-only bigger-120" ng-show="verification"

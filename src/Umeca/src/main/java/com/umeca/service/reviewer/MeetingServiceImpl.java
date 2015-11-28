@@ -920,6 +920,7 @@ public class MeetingServiceImpl implements MeetingService {
                 }.getType());
                 for (Schedule schedule : listSchedules) {
                     schedule.setJob(job);
+                    schedule.setDay(schedule.getDay());
                 }
                 scheduleRepository.save(listSchedules);
             }

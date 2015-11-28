@@ -40,6 +40,9 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/locationSearchDrct.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressComponentCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/upsertMeetingCtrl.js"></script>
+
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressMapOnlyCtrl.js"></script>
+
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
     </script>
 
