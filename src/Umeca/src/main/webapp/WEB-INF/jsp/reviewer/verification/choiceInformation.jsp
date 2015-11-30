@@ -31,6 +31,8 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/app/shared/showMessageErrorDrct.js"></script>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"></script>
 
+    <script src="${pageContext.request.contextPath}/assets/scripts/app/address/addressMapOnlyCtrl.js"></script>
+
 
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/choiceInformationCtrl.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/reviewer/verification/ShowInforVerifiedImputeHomesCtrl.js"></script>
