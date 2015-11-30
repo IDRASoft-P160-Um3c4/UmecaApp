@@ -1,5 +1,6 @@
 package com.umeca.model.entities.shared;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.InformationAvailability;
 import com.umeca.model.catalog.Relationship;
 import com.umeca.model.entities.reviewer.Address;
@@ -70,7 +71,7 @@ public class Victim {
     }
 
     public void setFullname(String fullname) {
-        this.fullname = fullname;
+        this.fullname = StringExt.substringMax(fullname, 254);
     }
 
     public Relationship getRelationship() {
@@ -110,7 +111,7 @@ public class Victim {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phone = StringExt.substringMax(phone, 254);
     }
 
     public String getSpecification() {
@@ -118,7 +119,7 @@ public class Victim {
     }
 
     public void setSpecification(String specification) {
-        this.specification = specification;
+        this.specification = StringExt.substringMax(specification, 254);
     }
 
     public InformationAvailability getInfoAddress() {

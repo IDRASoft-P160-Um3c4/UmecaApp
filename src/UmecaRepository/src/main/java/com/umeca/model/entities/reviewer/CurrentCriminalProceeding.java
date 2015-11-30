@@ -1,6 +1,7 @@
 package com.umeca.model.entities.reviewer;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.Location;
 import com.umeca.model.entities.shared.Victim;
 
@@ -72,7 +73,7 @@ public class CurrentCriminalProceeding {
     }
 
     public void setAdditionalInfo(String additionalInfo) {
-        this.additionalInfo = additionalInfo;
+        this.additionalInfo = StringExt.substringMax(additionalInfo, 1000);
     }
 
     public String getPlaceDetention() {
@@ -80,7 +81,7 @@ public class CurrentCriminalProceeding {
     }
 
     public void setPlaceDetention(String placeDetention) {
-        this.placeDetention = placeDetention;
+        this.placeDetention = StringExt.substringMax(placeDetention, 500);
     }
 
 
@@ -89,7 +90,7 @@ public class CurrentCriminalProceeding {
     }
 
     public void setBehaviorDetention(String behaviorDetention) {
-        this.behaviorDetention = behaviorDetention;
+        this.behaviorDetention = StringExt.substringMax(behaviorDetention, 254);
     }
 
     public Meeting getMeeting() {

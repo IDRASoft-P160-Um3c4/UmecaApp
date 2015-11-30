@@ -79,7 +79,7 @@ public class Crime {
     }
 
     public void setArticle(String article) {
-        this.article = article;
+        this.article = StringExt.substringMax(article, 100);
     }
 
     public Election getFederal() {
