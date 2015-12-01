@@ -22,7 +22,7 @@
 <div class="row" ng-init='siv=listImputedHome[$index];'>
 
 
-    <div ng-controller="addressMapOnlyController" ng-show="{{siv.lng}}!='' && {{siv.lat}}!=''">
+    <div ng-controller="addressMapOnlyController">
         <div class="row element-center">
             <div class="col-xs-10 col-xs-offset-1 element-left">
                 <span class="label label-lg label-info arrowed-right">Da click en el mapa para guardar el punto de la direcci&oacute;n</span>
