@@ -247,6 +247,10 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                     relationship += source.getSpecification();
                 }
                 sb.append(Convert.convertToValidString(relationship));
+                if(source.getVerificationMethod()!=null){
+                    sb.append(". Tipo de verificaci&oacute;n: ");
+                    sb.append(Convert.convertToValidString(source.getVerificationMethod().getName()));
+                }
                 sourcesTxt.add(Convert.convertToValidString(sb.toString()));
             }
         }
