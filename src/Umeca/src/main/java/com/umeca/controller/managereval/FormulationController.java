@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import javax.servlet.http.HttpServletResponse;
@@ -47,6 +48,12 @@ public class FormulationController {
         JqGridRulesModel extraFilter = new JqGridRulesModel("isObsolete", false, JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
 
+        extraFilter = new JqGridRulesModel("statusCase",
+                ""
+                , JqGridFilterModel.IS_NULL
+        );
+        opts.extraFilters.add(extraFilter);
+
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
@@ -72,6 +79,8 @@ public class FormulationController {
 
                 if (field.equals("imputedFullname"))
                     return r.get("firstName");
+                else if (field.equals("statusCase"))
+                    return r.join("caseDetention", JoinType.LEFT).get("dateObsolete");
                 else if (field.equals("isObsolete"))
 
                     return r.get("isObsolete");
@@ -94,6 +103,12 @@ public class FormulationController {
         extraFilter = new JqGridRulesModel("reviewer", userService.GetLoggedUserId().toString(), JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
 
+        extraFilter = new JqGridRulesModel("statusCase",
+                ""
+                , JqGridFilterModel.IS_NULL
+        );
+        opts.extraFilters.add(extraFilter);
+
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
@@ -122,6 +137,8 @@ public class FormulationController {
                 else if (field.equals("isObsolete"))
 
                     return r.get("isObsolete");
+                else if (field.equals("statusCase"))
+                    return r.join("caseDetention", JoinType.LEFT).get("dateObsolete");
                 else
                     return null;
             }
