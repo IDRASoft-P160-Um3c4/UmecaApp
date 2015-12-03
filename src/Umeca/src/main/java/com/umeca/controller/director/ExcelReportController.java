@@ -9,10 +9,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
-import com.umeca.model.catalog.Location;
-import com.umeca.model.catalog.Municipality;
-import com.umeca.model.catalog.State;
-import com.umeca.model.catalog.StatusCase;
+import com.umeca.model.catalog.*;
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.dto.victim.VictimDto;
 import com.umeca.model.entities.account.Role;
@@ -46,9 +43,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Selection;
+import javax.persistence.criteria.*;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -95,7 +90,9 @@ public class ExcelReportController {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
 
-                final javax.persistence.criteria.Join<Meeting, Imputed> joinIm = r.join("meeting").join("imputed");
+                final Join<Case, Meeting> joinMeCa = r.join("meeting", JoinType.LEFT);
+                final javax.persistence.criteria.Join<Meeting, StatusMeeting> joinStat = joinMeCa.join("status", JoinType.LEFT);
+                final javax.persistence.criteria.Join<Meeting, Imputed> joinIm = joinMeCa.join("imputed", JoinType.LEFT);
 
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
@@ -106,6 +103,7 @@ public class ExcelReportController {
                     add(joinIm.get("name"));
                     add(joinIm.get("lastNameP"));
                     add(joinIm.get("lastNameM"));
+                    add(joinStat.get("name").alias("statusMeeting"));
                 }};
             }
 

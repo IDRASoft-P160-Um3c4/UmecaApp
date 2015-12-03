@@ -31,6 +31,7 @@ public class ForCasesHFGrid implements EntityGrid {
     private Boolean opinionDateExpired;
     private Long opinionDateExpiredMil;
     private String description;
+    private String statusMeeting;
 
 
 
@@ -96,6 +97,11 @@ public class ForCasesHFGrid implements EntityGrid {
         this.statusDesc = statusDesc;
         this.idFolder = idFolder;
         this.idMP = idMP;
+    }
+
+    public ForCasesHFGrid(Long id, String status, String description, String idFolder,String idMP,String name, String lastNameP, String lastNameM, String statusMeeting ){
+        this(id, status, description, idFolder,idMP,name, lastNameP, lastNameM );
+        this.statusMeeting = statusMeeting;
     }
 
     public Long getId() {
@@ -240,5 +246,13 @@ public class ForCasesHFGrid implements EntityGrid {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getStatusMeeting() {
+        return statusMeeting;
+    }
+
+    public void setStatusMeeting(String statusMeeting) {
+        this.statusMeeting = statusMeeting;
     }
 }

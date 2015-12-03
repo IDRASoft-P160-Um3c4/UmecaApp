@@ -53,7 +53,7 @@
         postData: {
           ids: listIds
         },
-        colNames: ['ID', 'idStatus', 'Carpeta <br/>de Investigaci&oacute;n', 'Carpeta Judicial', 'Nombre completo', 'Estatus'],
+        colNames: ['ID', 'idStatus', 'Carpeta <br/>de Investigaci&oacute;n', 'Carpeta Judicial', 'Nombre completo', 'Estatus','StatusMeeting'],
         colModel: [
           {name: 'id', index: 'id', hidden: true},
           {name: 'status', index: 'status', hidden: true},
@@ -81,7 +81,8 @@
             sorttype: 'string',
             searchoptions: {sopt: ['bw']}
           },
-          {name: 'statusDesc', index: 'statusDesc', width: 400, align: "center", search: false}
+          {name:'statusDesc', index: 'statusDesc', width: 400, align: "center", search: false},
+          {name: 'statusMeeting', index: 'statusMeeting', hidden: true}
         ],
         rowNum: 10,
         rowList: [10, 20, 30],
@@ -119,6 +120,12 @@
             }
 
             $(this).jqGrid('setRowData', ids[i], {Action: be});
+            var row = $(this).getRowData(cl);
+            if(row.statusMeeting == "OBSOLETE"){
+              row.statusDesc = "Caso eliminado";
+              $(this).jqGrid('setRowData', cl, row);
+            }
+
           }
         },
         loadComplete: function () {
