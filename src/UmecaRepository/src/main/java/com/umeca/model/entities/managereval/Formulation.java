@@ -1,8 +1,11 @@
 package com.umeca.model.entities.managereval;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.reviewer.Case;
+import com.umeca.model.entities.reviewer.Verification;
 import org.apache.taglibs.standard.lang.jstl.Evaluator;
 
 import javax.persistence.*;
@@ -89,6 +92,9 @@ public class Formulation implements EntityGrid {
     @Column(name = "information_delivered",nullable = true)
     private Boolean informationDelivered;
 
+    @OneToOne(mappedBy = "formulation", cascade = {CascadeType.ALL})
+    private Case caseDetention;
+
     @Transient
     private String registrationFormulationDateStr;
     @Transient
@@ -133,7 +139,7 @@ public class Formulation implements EntityGrid {
     }
 
     public void setDocument(String document) {
-        this.document = document;
+        this.document = StringExt.substringMax(document, 254);
     }
 
     public String getCertificateNotification() {
@@ -141,7 +147,7 @@ public class Formulation implements EntityGrid {
     }
 
     public void setCertificateNotification(String certificateNotification) {
-        this.certificateNotification = certificateNotification;
+        this.certificateNotification = StringExt.substringMax(certificateNotification, 254);
     }
 
     public String getFirstName() {
@@ -149,7 +155,7 @@ public class Formulation implements EntityGrid {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.firstName = StringExt.substringMax(firstName, 50);
     }
 
     public String getLastNameP() {
@@ -157,7 +163,7 @@ public class Formulation implements EntityGrid {
     }
 
     public void setLastNameP(String lastNameP) {
-        this.lastNameP = lastNameP;
+        this.lastNameP = StringExt.substringMax(lastNameP, 50);
     }
 
     public String getLastNameM() {
@@ -165,7 +171,7 @@ public class Formulation implements EntityGrid {
     }
 
     public void setLastNameM(String lastNameM) {
-        this.lastNameM = lastNameM;
+        this.lastNameM = StringExt.substringMax(lastNameM, 50);
     }
 
     public Date getUmecaInterviewDate() {
@@ -189,7 +195,7 @@ public class Formulation implements EntityGrid {
     }
 
     public void setComments(String comments) {
-        this.comments = comments;
+        this.comments = StringExt.substringMax(comments, 300);
     }
 
     public Boolean getIsObsolete() {
@@ -303,6 +309,14 @@ public class Formulation implements EntityGrid {
 
     public void setInformationDeliveredStr(String informationDeliveredStr) {
         this.informationDeliveredStr = informationDeliveredStr;
+    }
+
+    public Case getCaseDetention() {
+        return caseDetention;
+    }
+
+    public void setCaseDetention(Case caseDetention) {
+        this.caseDetention = caseDetention;
     }
 }
 

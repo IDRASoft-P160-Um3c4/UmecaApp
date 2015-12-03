@@ -98,11 +98,12 @@
 </div>
 <div class="row">
     <div class="col-xs-offset-4 element-center">
-        <span class="field-validation-valid" data-valmsg-for="firstname" data-valmsg-replace="true"></span>
+        <span class="field-validation-valid" data-valmsg-for="firstName" data-valmsg-replace="true"></span>
     </div>
 </div>
 
 
+<br/>
 <br/>
 
 <div class="row">
@@ -246,9 +247,17 @@
             <div class="input-group">
                 <textarea rows="4" cols="50"
                           name = "comments"
-                          ng-model="m.comments"
+                          data-val="true"
+                          data-val-length="Debe tener m&aacute;ximo 300 caracteres"
+                          data-val-length-max="300"
+                          ng-model="m.comments" data-val-length-max="300"
                           ng-init='m.comments = "${(m.comments == null) ? '' : m.comments}"' ></textarea>
             </div>
         </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-offset-4 element-center">
+        <span class="field-validation-valid" data-valmsg-for="comments" data-valmsg-replace="true"></span>
     </div>
 </div>
