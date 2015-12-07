@@ -31,7 +31,7 @@ public class ChannelingModelSheet {
         this.idMP = Convert.convertToValidString(idMP);
         this.imputed = Convert.convertToValidString(first + " " + lastNameP + " " + lastNameM);
         this.birthdayTx = DateExt.dateToString(birthday) ;
-        this.gender = (gender !=  null && gender == true) ? "Femenino" : "Masculino";
+        this.gender = (gender !=  null && gender.equals(true)) ? "Femenino" : "Masculino";
         this.phone = (phone != null && phone.isEmpty() == false ? phone : "NA");
         this.channelingType = Convert.convertToValidString(channelingType);
         this.name = Convert.convertToValidString(name);

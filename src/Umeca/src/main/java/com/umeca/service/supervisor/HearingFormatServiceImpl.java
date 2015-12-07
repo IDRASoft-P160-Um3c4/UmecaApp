@@ -236,7 +236,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             address.setLat(viewFormat.getLat());
             address.setLng(viewFormat.getLng());
             if(viewFormat.getIsHomeless() != null ) {
-                if (viewFormat.getIsHomeless() == true)
+                if (viewFormat.getIsHomeless().equals(true))
                     address.setLocation(locationRepository.findByLocName(Constants.COUNTRY_STATE_MUNICIPALITY_LOCATION_NOT_KNWOW));
                 else
                     address.setLocation(locationRepository.findOne(viewFormat.getLocation().getId()));
@@ -314,7 +314,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
                     for (ArrangementView arrV : lstAssignedArrnmtView) {
 
-                        if (arrV.getSelVal() == true) {
+                        if (arrV.getSelVal().equals(true)) {
                             AssignedArrangement assArrmnt = new AssignedArrangement();
                             assArrmnt.setArrangement(arrangementRepository.findOne(arrV.getId()));
                             assArrmnt.setDescription(arrV.getDescription());
@@ -449,8 +449,11 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                     hearingFormatView.setImputedSLastName(existCase.getMeeting().getImputed().getLastNameM());
                     hearingFormatView.setImputedBirthDate(existCase.getMeeting().getImputed().getBirthDate());
 
-                    User us = userRepository.findOne(sharedUserService.GetLoggedUserId());
-                    hearingFormatView.setUserName(us.getFullname());
+                    Long usrId =sharedUserService.GetLoggedUserId();
+                    if(usrId!=null) {
+                        User us = userRepository.findOne(usrId);
+                        hearingFormatView.setUserName(us.getFullname());
+                    }
 
                     hearingFormatView.setCanSave(true);
                     hearingFormatView.setCanEdit(true);
@@ -490,8 +493,11 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                         hearingFormatView.setIsHomeless(false);
                     }
 
-                    User us = userRepository.findOne(sharedUserService.GetLoggedUserId());
-                    hearingFormatView.setUserName(us.getFullname());
+                    Long usrId =sharedUserService.GetLoggedUserId();
+                    if(usrId!=null) {
+                        User us = userRepository.findOne(usrId);
+                        hearingFormatView.setUserName(us.getFullname());
+                    }
 
                     if(existCase.getMeeting().getCurrentCriminalProceeding() != null) {
                         List<Crime> lstCrime = existCase.getMeeting().getCurrentCriminalProceeding().getCrimeList();
@@ -567,7 +573,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         if (existHF.getCaseDetention().getHearingFormats().size() > 0) {
             hearingFormatView.setHasPrevHF(true);
-            if (idsFormats != null && idsFormats.get(0) == idFormat)
+            if (idsFormats != null && idsFormats.get(0).equals(idFormat))
                 hearingFormatView.setHasPrevHF(false);
         }
 
@@ -586,7 +592,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             hearingFormatView.setControlDetention(existHF.getHearingFormatSpecs().getControlDetention());
         }
 
-        if (newFormat == true)
+        if (newFormat.equals(true))
             hearingFormatView.setUserName(userRepository.findOne(sharedUserService.GetLoggedUserId()).getFullname());
         else
             hearingFormatView.setUserName(existHF.getSupervisor().getFullname());
@@ -663,6 +669,8 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         hearingFormatView.setImputedPresence(existHF.getImputedPresence());
         hearingFormatView.setHearingResult(existHF.getHearingResult());
         hearingFormatView.setIsHomeless(existHF.getIsHomeless());
+        hearingFormatView.setTimeAgo(existHF.getTimeAgo());
+        hearingFormatView.setLocationPlace(existHF.getLocationPlace());
 
         if (existHF.getHearingImputed().getAddress() != null) {
             hearingFormatView.setIdAddres(existHF.getHearingImputed().getAddress().getId());
@@ -721,7 +729,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             arrV.setId(arrmnt.getId());
             arrV.setName(arrmnt.getDescription());
             arrV.setIsDefault(arrmnt.getIsDefault());
-            if (arrV.getIsDefault() == true)
+            if (arrV.getIsDefault().equals(true))
                 arrV.setSelVal(true);
             else
                 arrV.setSelVal(false);
@@ -742,7 +750,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
         for (ArrangementView existArr : existArrangements) {
             for (AssignedArrangement assArr : assignedArrangements) {
-                if (assArr.getArrangement().getId() == existArr.getId()) {
+                if (assArr.getArrangement().getId().equals(existArr.getId())) {
                     existArr.setSelVal(true);
                     existArr.setDescription(assArr.getDescription());
                 }
@@ -823,59 +831,70 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
     @Transactional
     public ResponseMessage save(HearingFormat hearingFormat, HttpServletRequest request) {
+        //Si request es nulo, es una petición recibida por el web service, de lo contrario es una petición web
 
        // HearingFormat hearingFormat = this.fillHearingFormat(hearingFormatView);
        // hearingFormat.setCaseDetention(caseRepository.findOne(hearingFormatView.getIdCase()));
 
         ResponseMessage response = new ResponseMessage();
         StringBuilder sb = new StringBuilder();
-        String idFolder = hearingFormat.getCaseDetention().getIdFolder();
-        String idJudicial = hearingFormat.getCaseDetention().getIdMP();
-        Long idCase = hearingFormat.getCaseDetention().getId();
         Case currentCase = hearingFormat.getCaseDetention();
+        String idFolder = currentCase.getIdFolder();
+        String idJudicial = currentCase.getIdMP();
+        Long idCase = currentCase.getId();
+        boolean isFinished = ((hearingFormat.getIsFinished() != null) && hearingFormat.getIsFinished().equals(true)) ? true : false;
 
-        if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true) {
+        if (isFinished == true) {
 
             if (currentCase.isHasHearingFormat() == false) {
                 currentCase.setHasHearingFormat(true);
                 caseRepository.save(currentCase);
             }
 
-            hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END));
+            currentCase.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END));
             hearingFormat.setEndTime(new Time(new Date().getTime()));
             if (idJudicial == null || idJudicial.trim().equals("")) {
-                hearingFormat.getCaseDetention().setIdMP(hearingFormat.getIdJudicial());
+                currentCase.setIdMP(hearingFormat.getIdJudicial());
             }
 
             //actualizacion de cambio del ultimo arrangementType
-            List<Integer> listHearingTypes = hearingFormatRepository.getLastArrangementType(hearingFormat.getCaseDetention().getId());
+            List<Integer> listHearingTypes = hearingFormatRepository.getLastArrangementType(currentCase.getId());
             Integer lastHearingType = -1;
 
             if (listHearingTypes != null && listHearingTypes.size() > 0) {
                 lastHearingType = listHearingTypes.get(0);
             }
 
-            if (lastHearingType != null && lastHearingType > 0 && !lastHearingType.equals(hearingFormat.getHearingFormatSpecs().getArrangementType())) {
-                hearingFormat.getCaseDetention().setDateChangeArrangementType(new Date());
-                if(lastHearingType.equals(1))
-                    eventService.addEvent(Constants.EVENT_CHANGE_MC_TO_SCPP,hearingFormat.getCaseDetention().getId(),null);
-                else if(lastHearingType.equals(2))
-                    eventService.addEvent(Constants.EVENT_CHANGE_SCPP_TO_MC,hearingFormat.getCaseDetention().getId(),null);
+            if (lastHearingType != null && lastHearingType.intValue() > 0 && !lastHearingType.equals(hearingFormat.getHearingFormatSpecs().getArrangementType())) {
+                currentCase.setDateChangeArrangementType(new Date());
+                if(lastHearingType.equals(1)) {
+                    if(request != null) {
+                        eventService.addEvent(Constants.EVENT_CHANGE_MC_TO_SCPP, currentCase.getId(), null);
+                    }else{
+                        eventService.addEventTablet(Constants.EVENT_CHANGE_MC_TO_SCPP, currentCase.getId(), null, hearingFormat.getSupervisor().getId());
+                    }
+                }else if(lastHearingType.equals(2)) {
+                    if(request != null) {
+                        eventService.addEvent(Constants.EVENT_CHANGE_SCPP_TO_MC, currentCase.getId(), null);
+                    }else{
+                        eventService.addEventTablet(Constants.EVENT_CHANGE_SCPP_TO_MC, currentCase.getId(), null, hearingFormat.getSupervisor().getId());
+                    }
+                }
             }
 
             //si se indica que el imputado ha sido sustraido
             if (hearingFormat.getIsSubstracted() != null) {
 
-                hearingFormat.getCaseDetention().setIsSubstracted(hearingFormat.getIsSubstracted());
+                currentCase.setIsSubstracted(hearingFormat.getIsSubstracted());
 
                 if (hearingFormat.getIsSubstracted().equals(true))
-                    hearingFormat.getCaseDetention().setDateSubstracted(new Date());
+                    currentCase.setDateSubstracted(new Date());
                 else
-                    hearingFormat.getCaseDetention().setDateSubstracted(null);
+                    currentCase.setDateSubstracted(null);
 
                 if (hearingFormat.getIsSubstracted().equals(true)) {//se debe realizar el cambio del estatus del plan si es que existe
 
-                    MonitoringPlan existMonP = hearingFormat.getCaseDetention().getMonitoringPlan();
+                    MonitoringPlan existMonP = currentCase.getMonitoringPlan();
 
                     if (existMonP != null) {
                         existMonP.setStatus(MonitoringConstants.STATUS_SUSPENDED_SUBSTRACTED);
@@ -884,17 +903,17 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             }
 
             //se asigna el distrito al caso
-            if (hearingFormat.getCaseDetention().getDistrict() == null) {
-                hearingFormat.getCaseDetention().setDistrict(hearingFormat.getDistrict());
+            if (currentCase.getDistrict() == null) {
+                currentCase.setDistrict(hearingFormat.getDistrict());
             }
 
             //se actualiza el ultimo supervisor asignado, se actualiza el ultimo supervisor que registra el formato y las fechas
-            hearingFormat.getCaseDetention().setLastSupervisorHF(hearingFormat.getSupervisor());
-            //hearingFormat.getCaseDetention().setLastPreassignedSupervisor(hearingFormat.getUmecaSupervisor());
+            currentCase.setLastSupervisorHF(hearingFormat.getSupervisor());
+            //currentCase.setLastPreassignedSupervisor(hearingFormat.getUmecaSupervisor());
 
             //se sustituye el nombre del imputado por el que acaba de dar en el formato de audiencia
             HearingFormatImputed hIm = hearingFormat.getHearingImputed();
-            Imputed imp = hearingFormat.getCaseDetention().getMeeting().getImputed();
+            Imputed imp = currentCase.getMeeting().getImputed();
 
             imp.setName(hIm.getName());
             imp.setLastNameP(hIm.getLastNameP());
@@ -906,13 +925,13 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             //se sustituye el nombre del imputado por el que acaba de dar en el formato de audiencia
 
         } else {
-            hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_INCOMPLETE));
+            currentCase.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_INCOMPLETE));
         }
 
-        if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true && hearingFormat.getHearingFormatSpecs() != null && hearingFormat.getHearingFormatSpecs().getLinkageProcess() != null &&
+        if (isFinished == true && hearingFormat.getHearingFormatSpecs() != null && hearingFormat.getHearingFormatSpecs().getLinkageProcess() != null &&
                 hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO)) {
-            hearingFormat.getCaseDetention().setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSE_REQUEST));
-            hearingFormat.getCaseDetention().setCloseCause(closeCauseRepository.findByCode(Constants.CLOSE_CAUSE_NO_ENTAILMENT));
+            currentCase.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSE_REQUEST));
+            currentCase.setCloseCause(closeCauseRepository.findByCode(Constants.CLOSE_CAUSE_NO_ENTAILMENT));
 
             sb.append("Solicitud de cierre de caso: ");
             sb.append(idFolder);
@@ -921,28 +940,28 @@ public class HearingFormatServiceImpl implements HearingFormatService {
             sb.append(".");
 
             SharedLogCommentService.generateLogComment(sb.toString(), userRepository.findOne(sharedUserService.GetLoggedUserId()),
-                    hearingFormat.getCaseDetention(), MonitoringConstants.STATUS_PENDING_AUTHORIZATION, null, MonitoringConstants.TYPE_COMMENT_CASE_END, logCommentRepository);
+                    currentCase, MonitoringConstants.STATUS_PENDING_AUTHORIZATION, null, MonitoringConstants.TYPE_COMMENT_CASE_END, logCommentRepository);
         }
 
-        if (hearingFormat.getIsFinished() != null && hearingFormat.getIsFinished() == true && hearingFormat.getHearingFormatSpecs() != null &&
+        if (isFinished == true && hearingFormat.getHearingFormatSpecs() != null &&
                 hearingFormat.getHearingFormatSpecs().getLinkageProcess() != null &&
                 (hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_YES)
                         || hearingFormat.getHearingFormatSpecs().getLinkageProcess().equals(HearingFormatConstants.PROCESS_VINC_NO_REGISTER))) {
-            MonitoringPlan monP = hearingFormat.getCaseDetention().getMonitoringPlan();
+            MonitoringPlan monP = currentCase.getMonitoringPlan();
             hearingFormat.setShowNotification(true);
             if (monP != null) {
                 monP.setResolution(hearingFormat.getHearingFormatSpecs().getArrangementType());
                 monitoringPlanRepository.save(monP);
             }
 
-            FramingMeeting existFramning = hearingFormat.getCaseDetention().getFramingMeeting();
+            FramingMeeting existFramning = currentCase.getFramingMeeting();
             if (existFramning != null) { //si tiene una entrevista de encuadre se verifica si se ha cambiado la direccion en el formato de audiencia
 
                 Address lastFormatAddress = addressRepository.findOne(hearingFormatRepository.getLastFormatAddressByIdCase(idCase));
                 Address newFormatAddress = hearingFormat.getHearingImputed().getAddress();
 
                 if (lastFormatAddress == null || !lastFormatAddress.equals(newFormatAddress)) {
-                    FramingMeeting existFraming = hearingFormat.getCaseDetention().getFramingMeeting();
+                    FramingMeeting existFraming = currentCase.getFramingMeeting();
 
                     if (existFraming != null) {
                         Long lastId = framingAddressRepository.getLastIdAddressByIdCase(idCase);
@@ -966,7 +985,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                             newFramAddr.setTimeAgo(hearingFormat.getTimeAgo());
                             newFramAddr.setAddressRef(hearingFormat.getLocationPlace());
 
-                            if (hearingFormat.getIsHomeless() == true) {
+                            if (hearingFormat.getIsHomeless().equals(true)) {
                                 newFramAddr.setRegisterType(registerTypeRepository.getRegisterTypeActual());
                                 newFramAddr.setHomeType(homeTypeRepository.getOwnHomeType());
                             }
@@ -978,20 +997,31 @@ public class HearingFormatServiceImpl implements HearingFormatService {
 
                 List<FramingReference> newList = new ArrayList<>();
                 //agregar los contactos a entrevista de encuadre como personas que viven con el imputado y referencias personales
-                for (ContactData cData : hearingFormat.getContacts()) {
-                    List<FramingReference> lstExistRefs = framingReferenceRepository.findReferenceByName(currentCase.getId(), cData.getNameTxt());
+                List<ContactData> lstContacts = hearingFormat.getContacts();
 
-                    if (lstExistRefs == null || lstExistRefs.size() == 0) {
-                        FramingReference framingReference = new FramingReference();
-                        framingReference.setName(cData.getNameTxt());
-                        framingReference.setPhone(cData.getPhoneTxt());
-                        framingReference.setAddress(cData.getAddressTxt());
-                        framingReference.setPersonType(cData.getLiveWith() == true ? FramingMeetingConstants.PERSON_TYPE_HOUSEMATE : FramingMeetingConstants.PERSON_TYPE_REFERENCE);
-                        framingReference.setRelationship(relationshipRepository.findOne(19L));//para setear otro
-                        framingReference.setHasVictimWitnessInfo(true);
-                        framingReference.setIsAccompaniment(false);
-                        framingReference.setFramingMeeting(existFramning);
-                        newList.add(framingReference);
+                if(lstContacts == null || lstContacts.size() <= 0){
+                    if(isFinished == true){
+                        response.setHasError(true);
+                        response.setMessage("Al menos debe tener un contacto por defecto");
+                        return response;
+                    }
+                }
+                else{
+                    for (ContactData cData : hearingFormat.getContacts()) {
+                        List<FramingReference> lstExistRefs = framingReferenceRepository.findReferenceByName(currentCase.getId(), cData.getNameTxt());
+
+                        if (lstExistRefs == null || lstExistRefs.size() == 0) {
+                            FramingReference framingReference = new FramingReference();
+                            framingReference.setName(cData.getNameTxt());
+                            framingReference.setPhone(cData.getPhoneTxt());
+                            framingReference.setAddress(cData.getAddressTxt());
+                            framingReference.setPersonType(cData.getLiveWith().equals(true) ? FramingMeetingConstants.PERSON_TYPE_HOUSEMATE : FramingMeetingConstants.PERSON_TYPE_REFERENCE);
+                            framingReference.setRelationship(relationshipRepository.findOne(19L));//para setear otro
+                            framingReference.setHasVictimWitnessInfo(true);
+                            framingReference.setIsAccompaniment(false);
+                            framingReference.setFramingMeeting(existFramning);
+                            newList.add(framingReference);
+                        }
                     }
                 }
 
@@ -1004,9 +1034,18 @@ public class HearingFormatServiceImpl implements HearingFormatService {
         response.setHasError(false);
 
         hearingFormatRepository.save(hearingFormat);
+        hearingFormatRepository.flush();
 
-        if (hearingFormat.getIsFinished() == true) {
-            List<LogCase> logs = logCaseService.addLog(ConstantsLogCase.NEW_HEARING_FORMAT, hearingFormat.getCaseDetention().getId(), hearingFormat.getId());
+        if (isFinished == true) {
+            List<LogCase> logs;
+            User supervisor = hearingFormat.getSupervisor();
+
+            if(request == null){
+                logs = logCaseService.addLog(ConstantsLogCase.NEW_HEARING_FORMAT, currentCase.getId(), hearingFormat.getId(), supervisor.getId());
+            }  else{
+                logs = logCaseService.addLog(ConstantsLogCase.NEW_HEARING_FORMAT, currentCase.getId(), hearingFormat.getId());
+            }
+
             if (logs.size() > 0) {
                 LogCase l = logs.get(logs.size() - 1);
                 LogComment logComment = new LogComment();
@@ -1014,7 +1053,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 logComment.setAction(l.getTitle());
                 Case c = l.getCaseDetention();
                 logComment.setCaseDetention(c);
-                logComment.setSenderUser(hearingFormat.getSupervisor());
+                logComment.setSenderUser(supervisor);
                 Long mp = monitoringPlanRepository.getMonPlanIdByCaseId(c.getId());
                 logComment.setAction(ConstantsLogCase.TT_ADD_HEARING_FORMAT);
                 if (mp != null) {
@@ -1023,7 +1062,7 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                     u.setId(uid);
                     logComment.setReceiveUser(u);
                 } else {
-                    logComment.setReceiveUser(hearingFormat.getSupervisor());
+                    logComment.setReceiveUser(supervisor);
                 }
                 logComment.setTimestamp(Calendar.getInstance());
                 logComment.setType(ConstantsLogCase.NEW_HEARING_FORMAT);
@@ -1035,21 +1074,31 @@ public class HearingFormatServiceImpl implements HearingFormatService {
                 lSupMan.setComments(l.getResume());
                 lSupMan.setAction(l.getTitle());
                 lSupMan.setCaseDetention(c);
-                lSupMan.setSenderUser(hearingFormat.getSupervisor());
+                lSupMan.setSenderUser(supervisor);
                 lSupMan.setTimestamp(Calendar.getInstance());
                 lSupMan.setType(ConstantsLogCase.NEW_HEARING_FORMAT);
                 lSupMan.setObsolete(false);
                 logCommentRepository.save(lSupMan);
 
             }
-            sb = new StringBuilder();
-            sb.append(request.getContextPath());
-            sb.append("/supervisor/hearingFormat/indexFormats.html?id=");
-            sb.append(hearingFormat.getCaseDetention().getId());
-            response.setUrlToGo(sb.toString());
 
-            if(eventService.caseHasEvent(Constants.EVENT_PROSECUTE,hearingFormat.getCaseDetention().getId()) == false)
-                eventService.addEvent(Constants.EVENT_PROSECUTE,hearingFormat.getCaseDetention().getId(),null);
+            if(request != null){
+                sb = new StringBuilder();
+                sb.append(request.getContextPath());
+                sb.append("/supervisor/hearingFormat/indexFormats.html?id=");
+                sb.append(hearingFormat.getCaseDetention().getId());
+                response.setUrlToGo(sb.toString());
+            }
+            else{
+                response.setUrlToGo("");
+            }
+
+            if(eventService.caseHasEvent(Constants.EVENT_PROSECUTE,hearingFormat.getCaseDetention().getId()).equals(false) && request != null) {
+                eventService.addEvent(Constants.EVENT_PROSECUTE, hearingFormat.getCaseDetention().getId(), null);
+            }
+            if(eventService.caseHasEvent(Constants.EVENT_PROSECUTE,hearingFormat.getCaseDetention().getId()).equals(false) && request == null) {
+                eventService.addEventTablet(Constants.EVENT_PROSECUTE, hearingFormat.getCaseDetention().getId(), null, hearingFormat.getSupervisor().getId());
+            }
         } else {
             response.setMessage(hearingFormat.getId() + "|Se ha registrado el formato de audiencia.");
         }

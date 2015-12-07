@@ -207,7 +207,7 @@ public class ManageMonitoringPlanController {
                 return response;
             }
 
-            if(monPlan.getStatus().equals(MonitoringConstants.STATUS_END) == true){
+            if(monPlan.getStatus().equals(MonitoringConstants.STATUS_END)){
                 response.setMessage("El plan de supervisión se encuentra en estado " + monPlan.getStatus() + ", por ello no puede ser terminado");
                 return response;
             }

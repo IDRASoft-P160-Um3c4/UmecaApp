@@ -49,6 +49,10 @@
         <!--<property name="username" value="root"/>-->
         <!--<property name="password" value="d3v3l0p3r"/>-->
 
+        <!--<property name="url" value="jdbc:mysql://localhost:3306/umeca?autoReconnect=true"/>-->
+        <!--<property name="username" value="root"/>-->
+        <!--<property name="password" value="root"/>-->
+
         <!--<property name="url" value="jdbc:mysql://localhost:3306/sgumeca?autoReconnect=true"/>-->
         <!--<property name="username" value="root"/>-->
         <!--<property name="password" value="s@lp@ssw04rD$$"/>-->
@@ -56,13 +60,19 @@
         <!--<property name="url" value="jdbc:mysql://localhost:3306/sgumeca?autoReconnect=true"/>-->
         <!--<property name="username" value="root"/>-->
         <!--<property name="password" value="s@lp@ssw04rD$$"/>-->
+
+        <!-- <property name="url" value="jdbc:mysql://localhost:3306/sgumeca?autoReconnect=true"/> -->
+        <!-- <property name="username" value="root"/> -->
+        <!-- <property name="password" value="MyNewPass"/> -->
+
 
         <property name="url" value="jdbc:mysql://localhost:3306/sgumeca?autoReconnect=true"/>
         <property name="username" value="root"/>
         <property name="password" value="Admin123.."/>
 
-        <!--<property name="url" value="jdbc:mysql://104.45.216.39:3306/sgumeca?autoReconnect=true"/>-->
-        <!--<property name="username" value="root"/>-->
-        <!--<property name="password" value="1dr4s0ft123.."/>-->
+       <!--<property name="url" value="jdbc:mysql://104.45.216.39:3306/umecamorelos?autoReconnect=true"/>
+        <property name="username" value="root"/>
+        <property name="password" value="1dr4s0ft123.."/>-->
+
     </bean>
 </beans>

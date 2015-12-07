@@ -32,7 +32,7 @@
       var assignedId = $("#" + prefixId + id).val();
       if (assignedId > 0) {
         var params = {idCase: id, idUser: assignedId, type:"HEARING_FORMAT"};
-        window.showActionParams(params, "#angJsjqGridId", "<c:url value='/shared/upload_info/saveAssignedCase.json'/>", "#GridId", "Asignar caso a tableta", "Se asignara el caso al evaluador seleccionado &iquest;Desea continuar?", "info");
+        window.showActionParams(params, "#angJsjqGridId", "<c:url value='/shared/upload_info/saveAssignedCase.json'/>", "#GridId", "Asignar caso a tableta", "Se asignara el caso al supervisor seleccionado &iquest;Desea continuar?", "info");
       } else {
         alert("Debe seleccionar un supervisor.")
       }

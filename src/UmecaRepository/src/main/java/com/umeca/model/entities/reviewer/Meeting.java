@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.District;
 import com.umeca.model.catalog.StatusMeeting;
 import com.umeca.model.entities.account.User;
@@ -255,7 +256,7 @@ public class Meeting {
     }
 
     public void setCommentReference(String commentReference) {
-        this.commentReference = commentReference;
+        this.commentReference = StringExt.substringMax(commentReference,500);
     }
 
 
@@ -264,7 +265,7 @@ public class Meeting {
     }
 
     public void setCommentJob(String commentJob) {
-        this.commentJob = commentJob;
+        this.commentJob = StringExt.substringMax(commentJob,500);
     }
 
     public String getCommentSchool() {
@@ -272,7 +273,7 @@ public class Meeting {
     }
 
     public void setCommentSchool(String commentSchool) {
-        this.commentSchool = commentSchool;
+        this.commentSchool = StringExt.substringMax(commentSchool,500);
     }
 
     public String getCommentCountry() {
@@ -280,7 +281,7 @@ public class Meeting {
     }
 
     public void setCommentCountry(String commentCountry) {
-        this.commentCountry = commentCountry;
+        this.commentCountry = StringExt.substringMax(commentCountry,500);
     }
 
     public String getCommentHome() {
@@ -288,7 +289,7 @@ public class Meeting {
     }
 
     public void setCommentHome(String commentHome) {
-        this.commentHome = commentHome;
+        this.commentHome = StringExt.substringMax(commentHome,500);
     }
 
     public String getCommentDrug() {
@@ -296,7 +297,7 @@ public class Meeting {
     }
 
     public void setCommentDrug(String commentDrug) {
-        this.commentDrug = commentDrug;
+        this.commentDrug = StringExt.substringMax(commentDrug,500);
     }
 
     public Date getDateTerminate() {
@@ -369,7 +370,7 @@ public class Meeting {
     }
 
     public void setDeclineReason(String declineReason) {
-        this.declineReason = declineReason;
+        this.declineReason = StringExt.substringMax(declineReason,500);
     }
 
     public District getDistrict() {

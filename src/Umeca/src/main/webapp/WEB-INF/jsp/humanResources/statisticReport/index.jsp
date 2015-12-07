@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="com.umeca.model.shared.Constants" %>
 <html>
 <head>
     <%@ include file="/WEB-INF/jsp/shared/headUmGrid.jsp" %>
@@ -67,15 +66,15 @@
                                                         <div class="col-xs-3 col-xs-offset-2">
                                                             <label for="initDate">Fecha inicio</label>
                                                             <br/>
-                                                            <small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/01)</small>
+                                                            <small>(A&ntilde;o/Mes) Ej. (2015/01)</small>
                                                             <div class="row">
                                                                 <div class="input-group">
                                                                     <input id="initDate" name="initDate"
                                                                            ng-model="initDate"
                                                                            class="form-control date-picker"
                                                                            type="text"
-                                                                           data-date-format="yyyy/mm/dd" data-val="true"
-
+                                                                           data-date-format="yyyy/mm" data-val="true"
+                                                                           ng-change="resetDate();"
                                                                            data-val-required="Fecha de inicio es un campo requerido"/>
                                                                     <span class="input-group-addon">
                                                                         <i class="icon-calendar bigger-110"></i>
@@ -91,12 +90,12 @@
                                                         <div class="col-xs-3 col-xs-offset-1">
                                                             <label for="endDate">Fecha fin</label>
                                                             <br/>
-                                                            <small>(A&ntilde;o/Mes/D&iacute;a) Ej. (2015/01/30)</small>
+                                                            <small>(A&ntilde;o/Mes) Ej. (2015/01)</small>
                                                             <div class="row">
                                                                 <div class="input-group">
                                                                     <input id="endDate" name="endDate"
                                                                            class="form-control date-picker" type="text"
-                                                                           data-date-format="yyyy/mm/dd" data-val="true"
+                                                                           data-date-format="yyyy/mm" data-val="true"
                                                                            ng-model="endDate"
                                                                            data-val-required="Fecha de fin es un campo requerido"/>
                                                                     <span class="input-group-addon">
@@ -156,7 +155,7 @@
                                                 ng-init='lstEmployee = ${lstEmployee}; employee = lstEmployee[0]; idEmployee = employee.id; '
                                                 ng-options="e.name for e in lstEmployee"
                                                 ng-change="idEmployee = employee.id"
-                                                ng-disabled="idReportType == 1 || idReportType == 2">
+                                                ng-disabled="idReportType == 1">
                                         </select>
                                     </div>
                                 </div>
@@ -168,7 +167,7 @@
                                             <label>
                                                 <input class="ace" type="radio" ng-model="m.filterSelected"
                                                        ng-value="filter.name" ng-required="!m.filterSelected">
-                                                <span class="lbl col-xs-10">&nbsp;&nbsp;{{filter.name}}</span>
+                                                <span class="lbl col-xs-10">&nbsp;&nbsp;{{filter.description}}</span>
                                             </label>
                                         </div>
                                         <br/>
@@ -191,7 +190,7 @@
                         <div class="row">
                             <div class="col-xs-11 element-right">
                                 <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                                      ng-click="findSupervisorReport('#FormStatisRep','<c:url value='/supervisorManager/statisticReport/showReport.html'/>');">
+                                      ng-click="findHumanResourceReport('#FormStatisRep','<c:url value='/humanResources/statisticReport/showReport.html'/>');">
                                     Realizar b&uacute;squeda
                                 </span>
                             </div>
@@ -199,16 +198,7 @@
                         </div>
 
                         <br/>
-                        <%--<div class="row">--%>
-                        <%--<div class="col-xs-11 element-right">--%>
-                        <%--<a href="<c:url value='/managereval/statisticReport/testd3.html' />">--%>
-                        <%--<span class="btn btn-default btn-primary btn-sm">--%>
-                        <%--D3--%>
-                        <%--</span>--%>
-                        <%--</a>--%>
-                        <%--</div>--%>
 
-                        <%--</div>--%>
                         <br/>
                         <br/>
                     </div>
@@ -226,16 +216,32 @@
 </html>
 <script type="text/javascript">
 
+    var startDate = new Date('01/01/2012');
+    var FromEndDate = new Date();
+    var ToEndDate = new Date();
+
     jQuery(function ($) {
-        /*$('#initDate').datepicker({autoclose: true}).next().on(ace.click_event, function () {
-         $(this).prev().focus();
-         });*/
 
-        $('#initDate').datepicker({autoclose: true, endDate: new Date()}).next().on(ace.click_event, function () {
+        $('#initDate').datepicker({
+            minViewMode: 1,
+            autoclose: true,
+            endDate: new Date()}).next().on(ace.click_event, function () {
             $(this).prev().focus();
-        });
+        })
 
-        $('#endDate').datepicker({autoclose: true, endDate: new Date()}).next().on(ace.click_event, function () {
+
+        $('#initDate').datepicker()
+                .on('changeDate', function(e) {
+                    startDate = new Date(e.date.getFullYear(), (e.date.getMonth()+1));
+                    $('#endDate').datepicker('setStartDate', startDate);
+                    $('#endDate').datepicker('setEndDate', new Date(startDate.getFullYear(),11,31));
+
+                });
+
+        $('#endDate').datepicker({
+            minViewMode: 1,
+            autoclose: true
+            }).next().on(ace.click_event, function () {
             $(this).prev().focus();
         });
 

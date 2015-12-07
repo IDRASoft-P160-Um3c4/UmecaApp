@@ -134,7 +134,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         resMsg.setMessage("El archivo " + file.getFileName() + " fue subido de forma correcta. Por favor presione el botón guardar para finalizar el proceso.");
         resMsg.setHasError(false);
-        if (uploadRequest.getCloseUploadFile() != null && uploadRequest.getCloseUploadFile()) {
+        if (uploadRequest.getCloseUploadFile() != null && uploadRequest.getCloseUploadFile().equals(true)) {
 
             resMsg.setUrlToGo("close");
             resMsg.setReturnData(file.getPath() + "/" + file.getRealFileName());

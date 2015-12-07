@@ -105,7 +105,7 @@ public class ScheduleNewHearingReq {
 
     public Calendar getHearingDateReminder() {
 
-        if(hasReminder == false)
+        if(hasReminder.equals(false))
             return null;
 
         if(hearingDateReminder != null){

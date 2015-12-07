@@ -1,7 +1,6 @@
 package com.umeca.controller.reviewer;
 
 import com.google.gson.Gson;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
@@ -20,8 +19,8 @@ import com.umeca.model.shared.ConsMessage;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
+import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.managereval.FormulationRepository;
-import com.umeca.repository.reviewer.MeetingRepository;
 import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.MeetingService;
@@ -70,6 +69,9 @@ public class MeetingController {
 
     @Autowired
     CaseRepository caseRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @RequestMapping(value = "/reviewer/meeting/list", method = RequestMethod.POST)
     public
@@ -190,7 +192,7 @@ public class MeetingController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("statusCode"))
                     return r.join("meeting").join("status").get("name");
-                else if (field.equals("reviewerId"))
+                else if  (field.equals("reviewerId"))
                     return r.join("meeting").join("reviewer").get("id");
                 if (field.equals("idFolder"))
                     return r.get("idFolder");
@@ -445,48 +447,90 @@ public class MeetingController {
     public
     @ResponseBody
     ResponseMessage doNewMeeting(@ModelAttribute Imputed imputed) {
-        imputed.setFoneticString(sharedUserService.getFoneticByName(imputed.getName(),imputed.getLastNameP(),imputed.getLastNameM()));
-        ResponseMessage validateCreate = meetingService.validateCreateMeeting(imputed);
 
-        if(imputed.getFormulationId() != null){
+        try{
+            imputed.setFoneticString(sharedUserService.getFoneticByName(imputed.getName(),imputed.getLastNameP(),imputed.getLastNameM()));
+            ResponseMessage validateCreate = meetingService.validateCreateMeeting(imputed);
 
-            Formulation formulation = formulationRepository.findOne(imputed.getFormulationId());
-            formulation.setPresence(true);
-            formulationRepository.save(formulation);
+            if(imputed.getFormulationId() != null){
+
+                Formulation formulation = formulationRepository.findOne(imputed.getFormulationId());
+                formulation.setPresence(true);
+                formulationRepository.save(formulation);
+            }
+            Formulation formulation;
+            if(imputed.getFormulationId() == null && imputed.getIsFromFormulation() != null && imputed.getIsFromFormulation().equals(true)){
+                formulation = new Formulation();
+
+                formulation.setFirstName(imputed.getName());
+                formulation.setLastNameP(imputed.getLastNameP());
+                formulation.setLastNameM(imputed.getLastNameM());
+                formulation.setRegistrationFormulationDate(new Date());
+                formulation.setUmecaInterviewDate(new Date());
+                formulation.setDocument("Sin oficio");
+                formulation.setCertificateNotification("Sin cédula de notificación");
+                formulation.setIsObsolete(false);
+                formulation.setPresence(true);
+                formulation.setReviewer(userRepository.findOne(userService.GetLoggedUserId()));
+                formulation.setId(null);
+
+                formulationRepository.save(formulation);
+                imputed.setFormulationId(formulation.getId());
+
+            }
+
+            if (validateCreate != null)
+                return validateCreate;
+            Long idCase = meetingService.createMeeting(imputed);
+            ResponseMessage result = new ResponseMessage(false, "Se ha guardado exitosamente");
+            if(imputed.getMeeting().getDeclineReason() != null){
+                Case c = caseRepository.findOne(idCase);
+                c.setDateNotProsecute(new Date());
+                caseRepository.save(c);
+                result.setUrlToGo("declined.html");
+            }else {
+                result.setUrlToGo("meeting.html?id=" + idCase);
+            }
+            return result;
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doNewMeeting", sharedUserService);
+            return new ResponseMessage(true, "Ha ocurrido un error al crear la entrevista");
         }
 
-        if (validateCreate != null)
-            return validateCreate;
-        Long idCase = meetingService.createMeeting(imputed);
-        ResponseMessage result = new ResponseMessage(false, "Se ha guardado exitosamente");
-        if(imputed.getMeeting().getDeclineReason() != null){
-            Case c = caseRepository.findOne(idCase);
-            c.setDateNotProsecute(new Date());
-            caseRepository.save(c);
-            result.setUrlToGo("declined.html");
-        }else {
-            result.setUrlToGo("meeting.html?id=" + idCase);
-        }
-        return result;
     }
 
     @RequestMapping(value = {"/reviewer/meeting/meeting","/reviewer/formulation/meeting"}, method = RequestMethod.GET)
     public
     @ResponseBody
     ModelAndView meeting(@RequestParam(required = true) Long id) {
-        return meetingService.showMeeting(id);
+        try{
+            return meetingService.showMeeting(id);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "meeting", sharedUserService);
+            throw ex;
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/legal/index", method = RequestMethod.GET)
     public
     @ResponseBody
     ModelAndView legal(@RequestParam(required = true) Long id, @RequestParam(required = false) Integer showCase) {
-        return meetingService.showLegalProcess(id, showCase);
+        try {
+            return meetingService.showLegalProcess(id, showCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "legal", sharedUserService);
+            throw ex;
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/address/upsert", method = RequestMethod.POST)
     public ModelAndView upsert(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
-        return meetingService.upsertAddress(id, idCase);
+        try{
+            return meetingService.upsertAddress(id, idCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "upsert", sharedUserService);
+            throw ex;
+        }
     }
 
 
@@ -494,7 +538,13 @@ public class MeetingController {
     public
     @ResponseBody
     ResponseMessage doUpsertAddress(@ModelAttribute ImputedHome imputedHome, @RequestParam Long idCase, @RequestParam(required = false) String sch) {
-        return meetingService.doUpsertAddress(imputedHome, idCase, sch);
+        try{
+            return meetingService.doUpsertAddress(imputedHome, idCase, sch);
+
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doUpsertAddress", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
 
@@ -502,98 +552,174 @@ public class MeetingController {
     public
     @ResponseBody
     ResponseMessage doDeleteAddress(@RequestParam Long id) {
-        return meetingService.deleteAddress(id);
+        try{
+            return meetingService.deleteAddress(id);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doDeleteAddress", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/socialNetwork/upsert", method = RequestMethod.POST)
     public ModelAndView upsertSocialNetwork(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
-        return meetingService.upsertSocialNetwork(id, idCase);
+        try{
+            return meetingService.upsertSocialNetwork(id, idCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "upsertSocialNetwork", sharedUserService);
+            throw ex;
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/socialNetwork/doUpsert", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doUpsertSocialNewtork(@ModelAttribute PersonSocialNetwork person, @RequestParam Long idCase) {
-        return meetingService.doUpsertSocialNetwork(person, idCase);
+        try{
+            return meetingService.doUpsertSocialNetwork(person, idCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doUpsertSocialNewtork", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/socialNetwork/delete", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doDeleteSocialNewtork(@RequestParam Long id) {
-        return meetingService.deleteSocialNetwork(id);
+
+        try{
+            return meetingService.deleteSocialNetwork(id);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doDeleteSocialNewtork", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/drug/upsert", method = RequestMethod.POST)
     public ModelAndView upsertDrug(@RequestParam(required = false) Long id, @RequestParam(required = true) Long idCase) {
-
-        return meetingService.upsertDrug(id, idCase);
+        try{
+            return meetingService.upsertDrug(id, idCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "upsertDrug", sharedUserService);
+            throw ex;
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/drug/doUpsert", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doDrugNewtork(@ModelAttribute Drug drug, @RequestParam Long idCase) {
-        return meetingService.doUpsertDrug(drug, idCase);
+        try{
+            return meetingService.doUpsertDrug(drug, idCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doDrugNewtork", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/drug/delete", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doDeleteDrug(@RequestParam Long id) {
-        return meetingService.deleteDrug(id);
+        try{
+            return meetingService.deleteDrug(id);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doDeleteDrug", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/job/upsert", method = RequestMethod.POST)
     public ModelAndView upsertJob(@RequestParam(required = false) Long id, @RequestParam Long idCase) {
-        return meetingService.upsertJob(id, idCase);
+        try{
+            return meetingService.upsertJob(id, idCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "upsertJob", sharedUserService);
+            throw ex;
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/job/doUpsert", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doUpsertJob(@ModelAttribute Job job, @RequestParam Long idCase, @RequestParam(required = false) String sch) {
-        return meetingService.doUpsertJob(job, idCase, sch);
+        try{
+            return meetingService.doUpsertJob(job, idCase, sch);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doUpsertJob", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/job/delete", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doDeleteJob(@RequestParam Long id) {
-        return meetingService.deleteJob(id);
+        try{
+            return meetingService.deleteJob(id);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "deleteJob", sharedUserService);
+            throw ex;
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/reference/upsert", method = RequestMethod.POST)
     public ModelAndView upsertReference(@RequestParam(required = false) Long id, @RequestParam Long idCase) {
-        return meetingService.upsertReference(id, idCase);
+        try{
+            return meetingService.upsertReference(id, idCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "upsertReference", sharedUserService);
+            throw ex;
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/reference/doUpsert", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doUpsertReference(@ModelAttribute Reference reference, @RequestParam Long idCase) {
-        return meetingService.doUpsertReference(reference, idCase);
+        try{
+            return meetingService.doUpsertReference(reference, idCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doUpsertReference", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/reference/delete", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage doDeleteReference(@RequestParam Long id) {
-        return meetingService.deleteReference(id);
+
+        try{
+            return meetingService.deleteReference(id);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "doDeleteReference", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/upsertPersonalData", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage upsertPersonalData(@ModelAttribute Meeting meeting, String activities) {
-        return meetingService.upsertPersonalData(meeting.getCaseDetention().getId(), meeting.getImputed(), meeting.getSocialEnvironment(), activities);
+        try{
+            return meetingService.upsertPersonalData(meeting.getCaseDetention().getId(), meeting.getImputed(), meeting.getSocialEnvironment(), activities);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "upsertPersonalData", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/upsertLeaveCountry", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage upsertLeaveCountry(@ModelAttribute Meeting meeting) {
-        return meetingService.upsertLeaveCountry(meeting.getCaseDetention().getId(), meeting.getLeaveCountry());
+        try{
+            return meetingService.upsertLeaveCountry(meeting.getCaseDetention().getId(), meeting.getLeaveCountry());
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "upsertLeaveCountry", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @Autowired
@@ -617,14 +743,24 @@ public class MeetingController {
     public
     @ResponseBody
     ResponseMessage terminateMeeting(@ModelAttribute Meeting meeting, @RequestParam String sch, String activities, @RequestParam(required = false,defaultValue="false") Boolean cancelMeeting) {
-        return meetingService.doTerminateMeeting(meeting, sch, activities, cancelMeeting);
+        try{
+            return meetingService.doTerminateMeeting(meeting, sch, activities, cancelMeeting);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "terminateMeeting", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/saveProceedingLegal", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage saveProceedingLegal(@ModelAttribute CriminalProceedingView cpv) {
-        return meetingService.saveProceedingLegal(cpv);
+        try{
+            return meetingService.saveProceedingLegal(cpv);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "saveProceedingLegal", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
 
@@ -632,28 +768,48 @@ public class MeetingController {
     public
     @ResponseBody
     ResponseMessage upsertSocialNetworkComment(@RequestParam String comment, @RequestParam Long idCase) {
-        return meetingService.upsertSocialNetworkComment(comment, idCase);
+        try{
+            return meetingService.upsertSocialNetworkComment(comment, idCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "upsertSocialNetworkComment", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/findPreviousCase", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage findPreviousCase(@RequestParam String sName, @RequestParam String sLastNameP,@RequestParam String sLastNameM, @RequestParam Long idCase) {
-        return meetingService.findPreviousCase(sName, sLastNameP, sLastNameM, idCase);
+        try{
+            return meetingService.findPreviousCase(sName, sLastNameP, sLastNameM, idCase);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "findPreviousCase", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/savePartialPrevious", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage savePartialPrevious(@ModelAttribute CriminalProceedingView cpv) {
-        return meetingService.savePartialPrevious(cpv);
+        try{
+            return meetingService.savePartialPrevious(cpv);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "savePartialPrevious", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/savePartialCurrent", method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseMessage savePartialCurrent(@ModelAttribute CriminalProceedingView cpv) {
-        return meetingService.savePartialCurrent(cpv);
+        try{
+            return meetingService.savePartialCurrent(cpv);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "savePartialCurrent", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/saveTimeDetention", method = RequestMethod.POST)
@@ -674,7 +830,12 @@ public class MeetingController {
     public
     @ResponseBody
     ResponseMessage upsertComment(@RequestParam String comment,@RequestParam Long idCase, @RequestParam Integer typeComment) {
-        return meetingService.upsertComment(idCase, comment, typeComment);
+        try{
+            return meetingService.upsertComment(idCase, comment, typeComment);
+        }catch (Exception ex){
+            logException.Write(ex, this.getClass(), "upsertComment", sharedUserService);
+            return new ResponseMessage(true, ex.getMessage());
+        }
     }
 
     @RequestMapping(value = "/reviewer/meeting/showTerminateMeeting", method = RequestMethod.POST)
@@ -701,29 +862,24 @@ public class MeetingController {
     JqGridResultModel handingOverList(@ModelAttribute JqGridFilterModel opts) {
         opts.extraFilters = new ArrayList<>();
 
-        JqGridRulesModel extraFilter = new JqGridRulesModel("statusMeeting",
-                new ArrayList<String>() {{
-                    add(Constants.S_MEETING_INCOMPLETE_LEGAL);
-                    add(Constants.S_MEETING_COMPLETE);
-                    add(Constants.S_MEETING_INCOMPLETE);
-                }}
-                , JqGridFilterModel.COMPARE_IN
-        );
+        JqGridRulesModel extraFilter = new JqGridRulesModel("isShown","", JqGridFilterModel.IS_NULL);
 
-        opts.extraFilters.add(extraFilter);
+      opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
                 final Join<Case, Meeting> joinMe = r.join("meeting");
                 final Join<Meeting, Imputed> joinImp = joinMe.join("imputed");
+                final Join<Meeting, StatusMeeting> joinStatusMe = joinMe.join("status");
                 final Join<Meeting, CurrentCriminalProceeding> joinLegal = joinMe.join("currentCriminalProceeding");
                 final Join<CurrentCriminalProceeding, Crime> joinC = joinLegal.join("crimeList", JoinType.LEFT);
                 final Join<CurrentCriminalProceeding, Crime> joinCC = joinC.join("crime",JoinType.LEFT);
 
                 ArrayList<Selection<?>> result = new ArrayList<Selection<?>>() {{
-                    add(r.get("id"));
+                    add(joinLegal.get("id"));
                     add(r.get("idFolder"));
+                  //  add(joinStatusMe.get("status").alias("statusMeeting"));
                     add(joinImp.get("name"));
                     add(joinImp.get("lastNameP"));
                     add(joinImp.get("lastNameM"));
@@ -736,16 +892,56 @@ public class MeetingController {
             }
 
             @Override
-            public <T> Expression<String> setFilterField(Root<T> r, String field) {
+            public <T> Expression<String> setFilterField(Root<T> r, String field) {;
+                if (field.equals("fullname"))
+                    return r.join("meeting").join("imputed").get("name");
                 if (field.equals("statusCode"))
                     return r.join("verification").join("status").get("name");
                 if (field.equals("statusCaseCode"))
                     return r.join("status").get("name");
-
+                if (field.equals("isShown"))
+                    return r.join("meeting").join("currentCriminalProceeding").get("isShown");
                 return null;
             }
         }, Case.class, ManagerevalView.class);
         return result;
+    }
+
+
+    @RequestMapping(value = {"/reviewer/handingOver/requestDetainedDemise"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ModelAndView requestDetainedDemise(@RequestParam Long id) {
+        ModelAndView model = new ModelAndView("reviewer/demiseDetainedRequest");
+        model.addObject("idCP", id);
+        return  model;
+    }
+
+
+
+    @RequestMapping(value = "/reviewer/handingOver/demiseRegister", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage demiseRegister(@RequestParam Long id) {
+        ResponseMessage response = new ResponseMessage();
+
+        try {
+            response.setTitle("Registro ocultado");
+
+            User user = new User();
+            if (userService.isValidUser(user, response) == false)
+                return response;
+
+            meetingService.makeNotShownCriminalProceeding(id);
+
+            response.setHasError(false);
+            return response;
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "handingOverDemiseRegister", userService);
+            response.setHasError(true);
+            response.setMessage("Se presentó un error inesperado. Por favor revise la información e intente de nuevo");
+            return response;
+        }
     }
 
     @RequestMapping(value = {"/reviewer/meeting/onlyMeeting"},method = RequestMethod.GET)

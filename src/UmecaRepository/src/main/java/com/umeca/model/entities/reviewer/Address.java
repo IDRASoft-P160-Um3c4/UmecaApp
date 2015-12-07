@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.Location;
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 
@@ -69,7 +70,7 @@ public class Address implements EntityGrid {
     }
 
     public void setStreet(String street) {
-        this.street = street;
+        this.street = StringExt.substringMax(street, 100);
     }
 
     public String getOutNum() {
@@ -77,7 +78,7 @@ public class Address implements EntityGrid {
     }
 
     public void setOutNum(String outNum) {
-        this.outNum = outNum;
+        this.outNum = StringExt.substringMax(outNum, 10);
     }
 
     public String getInnNum() {
@@ -85,7 +86,7 @@ public class Address implements EntityGrid {
     }
 
     public void setInnNum(String innNum) {
-        this.innNum = innNum;
+        this.innNum = StringExt.substringMax(innNum, 10);
     }
 
     public Location getLocation() {
@@ -101,7 +102,7 @@ public class Address implements EntityGrid {
     }
 
     public void setAddressString(String addressString) {
-        this.addressString = addressString;
+        this.addressString = StringExt.substringMax(addressString, 500);
     }
 
     public String getLat() {
@@ -148,7 +149,8 @@ public class Address implements EntityGrid {
         if (this.getStreet().equals(otherAddress.getStreet()) &&
                 this.getOutNum().equals(otherAddress.getOutNum()) &&
                 this.getInnNum().equals(otherAddress.getInnNum()) &&
-                this.getLocation().getId().equals(otherAddress.getLocation().getId()))
+                (this.getLocation() == null && otherAddress.getLocation() == null ||
+                (this.getLocation() != null && otherAddress.getLocation()!= null && this.getLocation().getId().equals(otherAddress.getLocation().getId()))))
             return true;
 
         return false;

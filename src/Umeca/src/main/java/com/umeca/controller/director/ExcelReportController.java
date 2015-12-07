@@ -9,18 +9,21 @@ import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
-import com.umeca.model.catalog.Location;
-import com.umeca.model.catalog.Municipality;
-import com.umeca.model.catalog.State;
+import com.umeca.model.catalog.*;
 import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.dto.victim.VictimDto;
+import com.umeca.model.entities.account.Role;
+import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.director.view.ReportExcelFiltersDto;
+import com.umeca.model.entities.managereval.ExcelCaseInfoEvalDto;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.dto.CrimeDto;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.CaseRepository;
+import com.umeca.repository.StatusCaseRepository;
+import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.reviewer.CrimeRepository;
 import com.umeca.repository.reviewer.FieldMeetingSourceRepository;
@@ -28,6 +31,7 @@ import com.umeca.repository.reviewer.ScheduleRepository;
 import com.umeca.repository.shared.ReportExcelRepository;
 import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.ExcelReportService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import net.sf.jxls.transformer.XLSTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +43,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Selection;
+import javax.persistence.criteria.*;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -55,10 +57,16 @@ import java.util.*;
 public class ExcelReportController {
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private SharedUserService userService;
+
+    @Autowired
     private GenericJqGridPageSortFilter gridFilter;
 
 
-    @RequestMapping(value = "/director/excelReport/listCases", method = RequestMethod.POST)
+    @RequestMapping(value = {"/director/excelReport/listCases","/channelingManager/excelReport/listCases"}, method = RequestMethod.POST)
     public
     @ResponseBody
     JqGridResultModel listCases(@ModelAttribute JqGridFilterModel opts, String ids) {
@@ -82,7 +90,9 @@ public class ExcelReportController {
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
 
-                final javax.persistence.criteria.Join<Meeting, Imputed> joinIm = r.join("meeting").join("imputed");
+                final Join<Case, Meeting> joinMeCa = r.join("meeting", JoinType.LEFT);
+                final javax.persistence.criteria.Join<Meeting, StatusMeeting> joinStat = joinMeCa.join("status", JoinType.LEFT);
+                final javax.persistence.criteria.Join<Meeting, Imputed> joinIm = joinMeCa.join("imputed", JoinType.LEFT);
 
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
@@ -93,6 +103,7 @@ public class ExcelReportController {
                     add(joinIm.get("name"));
                     add(joinIm.get("lastNameP"));
                     add(joinIm.get("lastNameM"));
+                    add(joinStat.get("name").alias("statusMeeting"));
                 }};
             }
 
@@ -125,6 +136,21 @@ public class ExcelReportController {
         List<State> states = stateRepository.findStatesByCountryAlpha2("MX");
         List<CatalogDto> lstStates = new ArrayList<>();
 
+        List<SelectList> casesType = new ArrayList<>();
+        SelectList sup = new SelectList();
+        SelectList eval = new SelectList();
+
+        eval.setId(1L);
+        eval.setName("Evaluación");
+
+        sup.setId(2L);
+        sup.setName("Supervisión");
+
+        casesType.add(eval);
+        casesType.add(sup);
+
+
+
         for (State act : states) {
             CatalogDto dto = new CatalogDto();
             dto.setId(act.getId());
@@ -147,6 +173,7 @@ public class ExcelReportController {
         model.addObject("lstCrimes", conv.toJson(lstCrimes));
         model.addObject("lstArrangement", conv.toJson(lstArrangement));
         model.addObject("lstActivities", conv.toJson(lstActivities));
+        model.addObject("casesType", conv.toJson(casesType));
 
         return model;
     }
@@ -203,8 +230,14 @@ public class ExcelReportController {
     @Autowired
     SharedUserService sharedUserService;
 
+    @Autowired
+    ExcelReportService excelReportService;
+
+    @Autowired
+    StatusCaseRepository statusCaseRepository;
+
     @RequestMapping(value = "/director/excelReport/findCases", method = RequestMethod.POST)
-    public ResponseMessage findCases(@ModelAttribute ReportExcelFiltersDto filtersDto) {
+    public ResponseMessage findCases(@ModelAttribute ReportExcelFiltersDto filtersDto,Long caseTypeId) {
 
         Date initDate = null;
         Date endDate = null;
@@ -221,231 +254,51 @@ public class ExcelReportController {
             logException.Write(e, this.getClass(), "save", sharedUserService);
             return new ResponseMessage(true, "Error de red, intente mas tarde.");
         }
+        Gson gson = new Gson();
+
+        List<Long> lstStatusCase = new ArrayList<>();
+        if(caseTypeId.equals(Constants.EVALUATION_CASE_TYPE)){
+            StatusCase verificationCompleted = statusCaseRepository.findByCode(Constants.CASE_STATUS_VERIFICATION_COMPLETE);
+            StatusCase technicalReviewerCompleted = statusCaseRepository.findByCode(Constants.CASE_STATUS_TECHNICAL_REVIEW);
+            StatusCase meeting = statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING);
+            StatusCase sourceValidation = statusCaseRepository.findByCode(Constants.CASE_STATUS_SOURCE_VALIDATION);
+            StatusCase verification  = statusCaseRepository.findByCode(Constants.CASE_STATUS_VERIFICATION);
+            StatusCase closed  = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED);
+            StatusCase technicalEdit = statusCaseRepository.findByCode(Constants.CASE_STATUS_EDIT_TEC_REV);
+            StatusCase technicalInc = statusCaseRepository.findByCode(Constants.CASE_STATUS_INCOMPLETE_TECHNICAL_REVIEW);
+            StatusCase notProsecute = statusCaseRepository.findByCode(Constants.CASE_STATUS_NOT_PROSECUTE);
+            StatusCase gotFreedom = statusCaseRepository.findByCode(Constants.CASE_STATUS_GOT_FREEDOM);
+
+            lstStatusCase.add(verificationCompleted.getId());
+            lstStatusCase.add(technicalReviewerCompleted.getId());
+            lstStatusCase.add(meeting.getId());
+            lstStatusCase.add(sourceValidation.getId());
+            lstStatusCase.add(verification.getId());
+            lstStatusCase.add(closed.getId());
+            lstStatusCase.add(technicalEdit.getId());
+            lstStatusCase.add(technicalInc.getId());
+            lstStatusCase.add(notProsecute.getId());
+            lstStatusCase.add(gotFreedom.getId());
+
+        }
+        else if(caseTypeId.equals(Constants.SUPERVISOR_CASE_TYPE)){
+            StatusCase hearingFormatStatus = statusCaseRepository.findByCode(Constants.CASE_STATUS_HEARING_FORMAT_END);
+            StatusCase framingMeeting = statusCaseRepository.findByCode(Constants.CASE_STATUS_FRAMING_COMPLETE);
+            lstStatusCase.add(hearingFormatStatus.getId());
+            lstStatusCase.add(framingMeeting.getId());
+        }
+
+        filtersDto.setLstStatusCaseStr(gson.toJson(lstStatusCase));
+
 
         List<Long> idsCases = reportExcelRepository.findIdCasesByDates(initDate, endDate);
 
-        idsCases = findCasesByFilters(idsCases, filtersDto);
+        idsCases = excelReportService.findCasesByFilters(idsCases, filtersDto);
 
         Gson conv = new Gson();
 
         return new ResponseMessage(false, conv.toJson(idsCases));
     }
-
-
-    private List<Long> findCasesByFilters(List<Long> idsCasesInDateRange, ReportExcelFiltersDto filtersDto) {
-
-        List<Long> idsStatusCase = null;
-        List<Long> idsStatusMeeting = null;
-        List<Long> idsStatusVerfi = null;
-
-        List<Long> idsGender = null;
-        List<Long> idsMartialSt = null;
-
-        List<Long> idsAcademicLvl = null;
-        List<Long> idsActualJob = null;
-        List<Long> idsDrugs = null;
-        List<Long> idsRiskLvl = null;
-        List<Long> idsHearingType = null;
-        List<Long> idsWithMonP = null;
-        List<Long> idsHomePlace = null;
-
-        List<Long> idsCrimesInLegal = null;
-        List<Long> idsCrimesInFormat = null;
-        List<Long> idsFinalCrimes = null;
-
-        List<Long> idsArrangements = null;
-        List<Long> idsActivities = null;
-
-        List<Long> finalIds = null;
-
-        if (idsCasesInDateRange.size() > 0) {
-
-            if (filtersDto.getLstGenderBool().size() > 0) {
-                List<Integer> lstGenderInt = new ArrayList<>();
-
-                for (Boolean act : filtersDto.getLstGenderBool()) {
-                    if (act == true)
-                        lstGenderInt.add(1);
-                    else if (act == false)
-                        lstGenderInt.add(2);
-                }
-
-                idsGender = reportExcelRepository.findIdCasesByGender(filtersDto.getLstGenderBool(), lstGenderInt, idsCasesInDateRange);
-
-            }
-
-            if (filtersDto.getLstStatusCase().size() > 0) {
-                idsStatusCase = reportExcelRepository.findIdCasesByStatusCase(filtersDto.getLstStatusCase(), idsCasesInDateRange);
-            }
-
-            if (filtersDto.getLstStatusMeeting().size() > 0) {
-                idsStatusMeeting = reportExcelRepository.findIdCasesByStatusMeeting(filtersDto.getLstStatusMeeting(), idsCasesInDateRange);
-            }
-
-            if (filtersDto.getLstStatusVerification().size() > 0) {
-                idsStatusVerfi = reportExcelRepository.findIdCasesByStatusVerification(filtersDto.getLstStatusVerification(), idsCasesInDateRange);
-            }
-
-            if (filtersDto.getLstMaritalSt().size() > 0) {
-                idsMartialSt = reportExcelRepository.findIdCasesByMaritalSt(filtersDto.getLstMaritalSt(), idsCasesInDateRange);
-            }
-
-            if (filtersDto.getHasJob() != null && filtersDto.getHasJob() == true) {
-                idsActualJob = reportExcelRepository.findIdCasesWithActualJob(idsCasesInDateRange);
-            }
-
-            if (filtersDto.getLstAcademicLvl().size() > 0) {
-                idsAcademicLvl = reportExcelRepository.findIdCasesByAcademicLvl(filtersDto.getLstAcademicLvl(), idsCasesInDateRange);
-            }
-
-            if (filtersDto.getLstDrugs().size() > 0) {
-                idsDrugs = reportExcelRepository.findIdCasesByDrugs(filtersDto.getLstDrugs(), idsCasesInDateRange);
-            }
-
-            if (filtersDto.getLstLvlRisk().size() > 0) {
-                idsRiskLvl = reportExcelRepository.findIdCasesByRiskLvl(filtersDto.getLstLvlRisk(), idsCasesInDateRange);
-            }
-
-            if (filtersDto.getLstHearingType().size() > 0) {
-                idsHearingType = reportExcelRepository.findIdCasesByHearingType(filtersDto.getLstHearingType(), idsCasesInDateRange);
-            }
-
-            if (filtersDto.getHasMonP() != null && filtersDto.getHasMonP() == true) {
-                idsWithMonP = reportExcelRepository.findIdCasesWithMonP(idsCasesInDateRange);
-            }
-
-            if (filtersDto.getHomePlace() != null && filtersDto.getHomePlace() == true) {
-                idsHomePlace = reportExcelRepository.findIdCasesByLocation(idsCasesInDateRange, filtersDto.getIdLoc());
-            }
-
-            if (filtersDto.getLstCrime().size() > 0) {
-                idsCrimesInLegal = reportExcelRepository.findIdCasesByCrimesInLegal(idsCasesInDateRange, filtersDto.getLstCrime());
-            }
-
-            if (filtersDto.getLstCrime().size() > 0) {
-                idsCrimesInFormat = reportExcelRepository.findIdCasesByCrimesInFormat(idsCasesInDateRange, filtersDto.getLstCrime());
-            }
-
-            if (filtersDto.getLstActivities().size() > 0) {
-                idsActivities = reportExcelRepository.findIdCasesByMonitoringActivities(idsCasesInDateRange, filtersDto.getLstActivities());
-            }
-
-            if (filtersDto.getLstArrangement().size() > 0) {
-                idsArrangements = reportExcelRepository.findIdCasesByArrangements(idsCasesInDateRange, filtersDto.getLstArrangement());
-            }
-
-            //intersecciones de las listas
-            finalIds = idsCasesInDateRange;
-
-            if (idsGender != null) {
-                finalIds = this.intersectIds(idsCasesInDateRange, idsGender);
-            }
-
-            if (idsStatusCase != null) {
-                finalIds = this.intersectIds(finalIds, idsStatusCase);
-            }
-
-            if (idsStatusMeeting != null) {
-                finalIds = this.intersectIds(finalIds, idsStatusMeeting);
-            }
-
-            if (idsStatusVerfi != null) {
-                finalIds = this.intersectIds(finalIds, idsStatusVerfi);
-            }
-
-            if (idsMartialSt != null) {
-                finalIds = this.intersectIds(finalIds, idsMartialSt);
-            }
-
-            if (idsActualJob != null) {
-                finalIds = this.intersectIds(finalIds, idsActualJob);
-            }
-
-            if (idsDrugs != null) {
-                finalIds = this.intersectIds(finalIds, idsDrugs);
-            }
-
-            if (idsAcademicLvl != null) {
-                finalIds = this.intersectIds(finalIds, idsAcademicLvl);
-            }
-
-            if (idsRiskLvl != null) {
-                finalIds = this.intersectIds(finalIds, idsRiskLvl);
-            }
-
-            if (idsRiskLvl != null) {
-                finalIds = this.intersectIds(finalIds, idsRiskLvl);
-            }
-
-            if (idsHearingType != null) {
-                finalIds = this.intersectIds(finalIds, idsHearingType);
-            }
-
-            if (idsWithMonP != null) {
-                finalIds = this.intersectIds(finalIds, idsWithMonP);
-            }
-
-            if (idsHomePlace != null) {
-                finalIds = this.intersectIds(finalIds, idsHomePlace);
-            }
-
-            if (idsCrimesInLegal != null && idsCrimesInFormat != null) {
-                idsFinalCrimes = this.conjunctionIds(idsCrimesInLegal, idsCrimesInFormat);
-            }
-
-            if (idsFinalCrimes != null) {
-                finalIds = this.intersectIds(finalIds, idsFinalCrimes);
-            }
-
-            if (idsActivities != null) {
-                finalIds = this.intersectIds(finalIds, idsActivities);
-            }
-
-            if (idsArrangements != null) {
-                finalIds = this.intersectIds(finalIds, idsArrangements);
-            }
-        }
-
-        return finalIds;
-    }
-
-
-    private List<Long> intersectIds(List<Long> listA, List<Long> listB) {
-
-        List<Long> intersectList = new ArrayList<>();
-
-        for (Long act : listB) {
-            if (listA.contains(act))
-                intersectList.add(act);
-        }
-
-        return intersectList;
-    }
-
-    private List<Long> conjunctionIds(List<Long> listA, List<Long> listB) {
-
-        List<Long> conjunctionList = new ArrayList<>();
-
-        for (Long act : listA) {
-            conjunctionList.add(act);
-        }
-
-        for (Long act : listB) {
-            if (!listA.contains(act))
-                conjunctionList.add(act);
-        }
-
-        return conjunctionList;
-    }
-
-    private ReportExcelSummary fillSummary(String filters) {
-
-        ReportExcelSummary summary = new ReportExcelSummary();
-
-
-        return summary;
-    }
-
 
     @Autowired
     CaseRepository caseRepository;
@@ -479,7 +332,7 @@ public class ExcelReportController {
 
         try {
 
-            Gson conv = new Gson();
+             Gson conv = new Gson();
 
             List<Long> casesIds = conv.fromJson(ids, new TypeToken<List<Long>>() {
             }.getType());
@@ -488,7 +341,11 @@ public class ExcelReportController {
             if (!(casesIds.size() > 0))
                 casesIds.add(-1L);
 
-            List<ExcelCaseInfoDto> listCases = caseRepository.getInfoCases(casesIds);
+          //  List<ExcelCaseInfoDto> listCases = caseRepository.getInfoCases(casesIds);
+            List<ExcelCaseInfoEvalDto> listCases = caseRepository.getInfoCasesEval(casesIds);
+
+
+
             List<ExcelActivitiesDto> lstActivities = caseRepository.getInfoImputedActivities(casesIds);
             List<ExcelImputedHomeDto> lstHomes = caseRepository.getInfoImputedHomes(casesIds);
             List<ExcelSocialNetworkDto> lstSN = caseRepository.getInfoSocialNetwork(casesIds);
@@ -543,56 +400,65 @@ public class ExcelReportController {
                 }
             }
 
-            for (ExcelCaseInfoDto cAct : listCases) {
+            for (ExcelCaseInfoEvalDto cAct : listCases) {
 
                 List<ExcelActivitiesDto> acts = new ArrayList<>();
                 for (ExcelActivitiesDto aAct : lstActivities) {
-                    if (aAct.getIdCase() == cAct.getIdCase()) {
+                    if (aAct.getIdCase().equals(cAct.getIdCase())) {
                         acts.add(aAct);
                     }
                 }
                 cAct.setLstActivities(acts);
 
+
+
                 List<ExcelImputedHomeDto> lstImHome = new ArrayList<>();
                 for (ExcelImputedHomeDto hAct : lstHomes) {
-                    if (hAct.getIdCase() == cAct.getIdCase()) {
+                    if (hAct.getIdCase().equals(cAct.getIdCase())) {
                         lstImHome.add(hAct);
                     }
                 }
                 cAct.setLstHomes(lstImHome);
 
+
                 List<ExcelSocialNetworkDto> lstCSN = new ArrayList<>();
                 for (ExcelSocialNetworkDto snAct : lstSN) {
-                    if (snAct.getIdCase() == cAct.getIdCase()) {
+                    if (snAct.getIdCase().equals(cAct.getIdCase())) {
                         lstCSN.add(snAct);
                     }
                 }
                 cAct.setLstSN(lstCSN);
 
+
+
                 List<ExcelReferenceDto> lstR = new ArrayList<>();
                 for (ExcelReferenceDto rAct : lstRef) {
-                    if (rAct.getIdCase() == cAct.getIdCase()) {
+                    if (rAct.getIdCase().equals(cAct.getIdCase())) {
                         lstR.add(rAct);
                     }
                 }
                 cAct.setLstRef(lstR);
 
+
                 List<ExcelJobDto> lstJ = new ArrayList<>();
                 for (ExcelJobDto jAct : lstJob) {
-                    if (jAct.getIdCase() == cAct.getIdCase()) {
+                    if (jAct.getIdCase().equals(cAct.getIdCase())) {
                         lstJ.add(jAct);
                     }
                 }
+
+
                 cAct.setLstJob(lstJ);
+
 
                 List<ExcelDrugDto> lstD = new ArrayList<>();
                 for (ExcelDrugDto dAct : lstDrug) {
-                    if (dAct.getIdCase() == cAct.getIdCase()) {
+                    if (dAct.getIdCase().equals(cAct.getIdCase())) {
                         lstD.add(dAct);
                     }
                 }
                 cAct.setLstDrug(lstD);
-
+/*
                 List<ExcelCrimeDto> lstCr = new ArrayList<>();
                 for (ExcelCrimeDto crAct : lstCrimes) {
                     if (crAct.getIdCase() == cAct.getIdCase()) {
@@ -631,14 +497,14 @@ public class ExcelReportController {
                         lstSources.add(actSource);
                     }
                 }
-                cAct.setSummaryVerificationSources(lstSources);
+                cAct.setSummaryVerificationSources(lstSources); */
             }
 
             /*supervision*/
 
             List<HearingFormatInfo> allHearingFormat = reportExcelRepository.getHearingFormatInfo(casesIds);
 
-            for (ExcelCaseInfoDto actCase : listCases) {
+            /*for (ExcelCaseInfoDto actCase : listCases) {
                 List<HearingFormatInfo> lstFormats = new ArrayList<>();
 
                 for (HearingFormatInfo actHF : allHearingFormat) {
@@ -673,7 +539,7 @@ public class ExcelReportController {
                     actCase.setLastFormatInfo(lstFormats.get(lstFormats.size() - 1));
                     actCase.getLastFormatInfo().setTotalFormats(Integer.toString(lstFormats.size()));
                 }
-            }
+            }*/
 
             List<FramingMeetingInfo> allFramingMeeting = reportExcelRepository.getFramingMeetingInfo(casesIds);
             List<FramingReferenceInfo> allReferences = reportExcelRepository.getFramingReferenceInfo(casesIds);
@@ -697,7 +563,7 @@ public class ExcelReportController {
             for (FramingMeetingInfo actFM : allFramingMeeting) {
 
                 for (SchoolDto actSch : allFramingSchool) {
-                    if (actSch.getIdCase() == actFM.getIdCase()) {
+                    if (actSch.getIdCase().equals(actFM.getIdCase())) {
                         actSch.setLstSchedule(scheduleRepository.getScheduleDtoBySchoolId(actSch.getId()));
                         actFM.setSchool(actSch);
                         break;
@@ -706,28 +572,28 @@ public class ExcelReportController {
 
                 List<FramingReferenceInfo> refs = new ArrayList<>();
                 for (FramingReferenceInfo actRef : allReferences) {
-                    if (actRef.getId() == actFM.getIdCase())
+                    if (actRef.getId().equals(actFM.getIdCase()))
                         refs.add(actRef);
                 }
                 actFM.setReferences(refs);
 
                 List<CatalogDto> homes = new ArrayList<>();
                 for (CatalogDto actHome : allFramingHomes) {
-                    if (actHome.getId() == actFM.getIdCase())
+                    if (actHome.getId().equals(actFM.getIdCase()))
                         homes.add(actHome);
                 }
                 actFM.setHomes(homes);
 
                 List<CatalogDto> summaryFramingHomes = new ArrayList<>();
                 for (CatalogDto actHome : allSummaryFramingHomes) {
-                    if (actHome.getId() == actFM.getIdCase())
+                    if (actHome.getId().equals(actFM.getIdCase()))
                         summaryFramingHomes.add(actHome);
                 }
                 actFM.setSummaryHomes(summaryFramingHomes);
 
                 List<ExcelActivitiesDto> activities = new ArrayList<>();
                 for (ExcelActivitiesDto actAct : allFramingActivities) {
-                    if (actAct.getIdCase() == actFM.getIdCase()) {
+                    if (actAct.getIdCase().equals(actFM.getIdCase())) {
                         actAct.setSchedule(scheduleRepository.getScheduleByFramingActivityId(actAct.getId()));
                         activities.add(actAct);
                     }
@@ -736,7 +602,7 @@ public class ExcelReportController {
 
                 List<ExcelJobDto> jobs = new ArrayList<>();
                 for (ExcelJobDto actJob : allFramingJobs) {
-                    if (actJob.getIdCase() == actFM.getIdCase()) {
+                    if (actJob.getIdCase().equals(actFM.getIdCase())) {
                         actJob.setSchedule(scheduleRepository.getScheduleByFramingActivityId(actJob.getId()));
                         jobs.add(actJob);
                     }
@@ -745,49 +611,49 @@ public class ExcelReportController {
 
                 List<ExcelDrugDto> drugs = new ArrayList<>();
                 for (ExcelDrugDto actDrug : allDrugs) {
-                    if (actDrug.getIdCase() == actFM.getIdCase())
+                    if (actDrug.getIdCase().equals(actFM.getIdCase()))
                         drugs.add(actDrug);
                 }
                 actFM.setDrugs(drugs);
 
                 List<CatalogDto> addictedAcquaintances = new ArrayList<>();
                 for (CatalogDto actAA : allAddictedAcquaintances) {
-                    if (actAA.getId() == actFM.getIdCase())
+                    if (actAA.getId().equals(actFM.getIdCase()))
                         addictedAcquaintances.add(actAA);
                 }
                 actFM.setAddictedAcquaintances(addictedAcquaintances);
 
                 List<ObligationIssuesInfo> obligationIssues = new ArrayList<>();
                 for (ObligationIssuesInfo actOI : allObligationIssues) {
-                    if (actOI.getIdCase() == actFM.getIdCase())
+                    if (actOI.getIdCase().equals(actFM.getIdCase()))
                         obligationIssues.add(actOI);
                 }
                 actFM.setObligationIssues(obligationIssues);
 
                 List<ObligationIssuesInfo> relativesAbroad = new ArrayList<>();
                 for (ObligationIssuesInfo actRA : allRelativesAbroad) {
-                    if (actRA.getIdCase() == actFM.getIdCase())
+                    if (actRA.getIdCase().equals(actFM.getIdCase()))
                         relativesAbroad.add(actRA);
                 }
                 actFM.setRelativesAbroad(relativesAbroad);
 
                 List<CatalogDto> sourcesSel = new ArrayList<>();
                 for (CatalogDto actSS : allSelectedSourcesRel) {
-                    if (actSS.getId() == actFM.getIdCase())
+                    if (actSS.getId().equals(actFM.getIdCase()))
                         sourcesSel.add(actSS);
                 }
                 actFM.setLinks(sourcesSel);
 
                 List<CatalogDto> threatsSel = new ArrayList<>();
                 for (CatalogDto actTS : allSelectedThreatsRel) {
-                    if (actTS.getId() == actFM.getIdCase())
+                    if (actTS.getId().equals(actFM.getIdCase()))
                         threatsSel.add(actTS);
                 }
                 actFM.setThreats(threatsSel);
 
                 List<CatalogDto> riskSel = new ArrayList<>();
                 for (CatalogDto actRS : allSelectedRiskRel) {
-                    if (actRS.getId() == actFM.getIdCase())
+                    if (actRS.getId().equals(actFM.getIdCase()))
                         riskSel.add(actRS);
                 }
                 actFM.setRisks(riskSel);
@@ -802,15 +668,15 @@ public class ExcelReportController {
                 actFM.setArrangements(arran);
             }
 
-            for (ExcelCaseInfoDto actCase : listCases) {
+           /* for (ExcelCaseInfoDto actCase : listCases) {
                 FramingMeetingInfo aa = new FramingMeetingInfo();
                 for (FramingMeetingInfo actFM : allFramingMeeting) {
                     if (actCase.getIdCase() == actFM.getIdCase())
                         actCase.setFramingMeetingInfo(actFM);
                 }
-            }
+            }*/
 
-            for (ExcelCaseInfoDto actCase : listCases) {
+           /* for (ExcelCaseInfoDto actCase : listCases) {
                 if (actCase.getFramingMeetingInfo() == null)
                     actCase.setFramingMeetingInfo(new FramingMeetingInfo());
             }
@@ -869,7 +735,7 @@ public class ExcelReportController {
                 monInfo.setLstFulfillment(lstFulfimentRep);
                 actCase.setMonitoringPlanExcelInfo(monInfo);
 
-            }
+            }*/
             /*supervision*/
 
 
@@ -1037,7 +903,7 @@ public class ExcelReportController {
 
             for (ExcelStatusCasesInfo actInfo : summ.getAllCasesIds()) {
                 for (SelectList actHF : allCasesWithHearingFormatFinished) {
-                    if (actHF.getId() == actInfo.getIdCase()) {
+                    if (actHF.getId().equals(actInfo.getIdCase())) {
                         actInfo.setIdFirstFormatFinished(actHF.getAux());
                     }
                 }
@@ -1091,7 +957,25 @@ public class ExcelReportController {
 
             ServletContext servletContext = request.getSession().getServletContext();
             String realContextPath = servletContext.getRealPath("/");
-            realContextPath += "/WEB-INF/jxlsTemplate/reportCase.xls";
+
+            Long idCurrentUser  = sharedUserService.GetLoggedUserId();
+
+            User currentUser = userRepository.findOne(idCurrentUser);
+
+            Role currentRole = currentUser.getRoles().get(0);
+
+
+
+            if(currentRole.getRole().equals(Constants.ROLE_DIRECTOR)) {
+                // realContextPath += "/WEB-INF/jxlsTemplate/ExcelReportCasesDirector.xls";
+                realContextPath += "/WEB-INF/jxlsTemplate/ExcelEvReport.xls";
+            }
+            else if(currentRole.getRole().equals(Constants.ROLE_EVALUATION_MANAGER)) {
+                realContextPath += "/WEB-INF/jxlsTemplate/ExcelEvReport.xls";
+            }
+            if(currentRole.getRole().equals(Constants.ROLE_SUPERVISOR_MANAGER)) {
+                realContextPath += "/WEB-INF/jxlsTemplate/ExcelReportCasesDirector.xls";
+            }
 
             transformer.transformXLS(realContextPath, beans, tempPath);
 
@@ -1113,6 +997,7 @@ public class ExcelReportController {
 
         } catch (Exception ex) {
             ex.printStackTrace();
+            logException.Write(ex, this.getClass(), "jxlsMethod", sharedUserService);
         }
     }
 

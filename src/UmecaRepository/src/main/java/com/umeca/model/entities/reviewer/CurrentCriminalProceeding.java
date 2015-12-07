@@ -1,6 +1,7 @@
 package com.umeca.model.entities.reviewer;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.Location;
 import com.umeca.model.entities.shared.Victim;
 
@@ -44,7 +45,7 @@ public class CurrentCriminalProceeding {
     private String additionalInfo;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_meeting", nullable = true)
+    @JoinColumn(name = "id_meeting", nullable = false, unique = true)
     private Meeting meeting;
 
     @OneToMany(mappedBy = "criminalProceeding", cascade = {CascadeType.ALL})
@@ -55,6 +56,9 @@ public class CurrentCriminalProceeding {
 
     @Column(name = "handing_over_date")
     private Date handingOverDate;
+
+    @Column(name = "is_Shown")
+    private Boolean isShown;
 
     public Long getId() {
         return id;
@@ -69,7 +73,7 @@ public class CurrentCriminalProceeding {
     }
 
     public void setAdditionalInfo(String additionalInfo) {
-        this.additionalInfo = additionalInfo;
+        this.additionalInfo = StringExt.substringMax(additionalInfo, 1000);
     }
 
     public String getPlaceDetention() {
@@ -77,7 +81,7 @@ public class CurrentCriminalProceeding {
     }
 
     public void setPlaceDetention(String placeDetention) {
-        this.placeDetention = placeDetention;
+        this.placeDetention = StringExt.substringMax(placeDetention, 500);
     }
 
 
@@ -86,7 +90,7 @@ public class CurrentCriminalProceeding {
     }
 
     public void setBehaviorDetention(String behaviorDetention) {
-        this.behaviorDetention = behaviorDetention;
+        this.behaviorDetention = StringExt.substringMax(behaviorDetention, 254);
     }
 
     public Meeting getMeeting() {
@@ -143,5 +147,13 @@ public class CurrentCriminalProceeding {
 
     public void setHandingOverDate(Date handingOverDate) {
         this.handingOverDate = handingOverDate;
+    }
+
+    public Boolean getIsShown() {
+        return isShown;
+    }
+
+    public void setIsShown(Boolean isShown) {
+        this.isShown = isShown;
     }
 }

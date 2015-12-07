@@ -1,8 +1,10 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.CrimeCatalog;
 import com.umeca.model.catalog.Election;
 import com.umeca.model.entities.supervisor.HearingFormat;
+import com.umeca.model.shared.Constants;
 
 import javax.persistence.*;
 
@@ -22,7 +24,7 @@ public class Crime {
     @Column(name="id_crime")
     private Long id;
 
-    @Column(name="comment", nullable = true, length = 200)
+    @Column(name="comment", nullable = true)
     private String comment;
 
     @Column(name="article", nullable = false, length = 100)
@@ -61,7 +63,7 @@ public class Crime {
     }
 
     public void setComment(String comment) {
-        this.comment = comment;
+        this.comment = StringExt.substringMax(comment, Constants.DEFAULT_LEN_STRING);
     }
 
     public CrimeCatalog getCrime() {
@@ -77,7 +79,7 @@ public class Crime {
     }
 
     public void setArticle(String article) {
-        this.article = article;
+        this.article = StringExt.substringMax(article, 100);
     }
 
     public Election getFederal() {

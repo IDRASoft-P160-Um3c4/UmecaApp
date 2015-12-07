@@ -169,7 +169,7 @@ public class SchoolDto {
 
         if (this.lstSchedule != null && this.lstSchedule.size() > 0) {
             for (ScheduleDto act : this.lstSchedule) {
-                if (schStr != "")
+                if (schStr.isEmpty() == false)
                     schStr += "; ";
                 schStr += act.getDay() + ", de " + act.getStart() + " a " + act.getEnd();
             }

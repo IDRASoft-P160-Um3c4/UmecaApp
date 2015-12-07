@@ -5,6 +5,7 @@ import com.umeca.model.dto.humanResources.EmployeeDto;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Job;
 import com.umeca.model.entities.shared.UploadFileGeneric;
+import com.umeca.model.entities.timeAttendance.AttendanceLog;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -79,6 +80,9 @@ public class Employee {
     @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
     private List<Attachment> attachments;
 
+    @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
+    private List<AttendanceLog> attendanceLogs;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_generic_file")
     private UploadFileGeneric photo;
@@ -92,6 +96,9 @@ public class Employee {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_employee_schedule")
     private EmployeeSchedule employeeSchedule;
+
+    @OneToMany(mappedBy = "employee", cascade = {CascadeType.ALL})
+    private List<EmployeeFingerPrint> fingerPrints;
 
     public Employee() {
 
@@ -292,5 +299,21 @@ public class Employee {
 
     public void setEmployeeSchedule(EmployeeSchedule employeeSchedule) {
         this.employeeSchedule = employeeSchedule;
+    }
+
+    public List<EmployeeFingerPrint> getFingerPrints() {
+        return fingerPrints;
+    }
+
+    public void setFingerPrints(List<EmployeeFingerPrint> fingerPrints) {
+        this.fingerPrints = fingerPrints;
+    }
+
+    public List<AttendanceLog> getAttendanceLogs() {
+        return attendanceLogs;
+    }
+
+    public void setAttendanceLogs(List<AttendanceLog> attendanceLogs) {
+        this.attendanceLogs = attendanceLogs;
     }
 }

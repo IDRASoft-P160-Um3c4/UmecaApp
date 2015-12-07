@@ -28,6 +28,8 @@ public class ImputedHomeDto {
     private String phone;
     private String reasonSecondary;
     private Boolean isHomeless;
+    private String lat;
+    private String lng;
 
     public ImputedHomeDto dtoImputedHome(ImputedHome ih, String schedule) {
         this.id = ih.getId();
@@ -40,6 +42,8 @@ public class ImputedHomeDto {
             if (a.getLocation() != null) {
                 this.locationId = a.getLocation().getId();
             }
+            this.lat = a.getLat();
+            this.lng = a.getLng();
             this.addressString = a.getAddressString();
         }
         this.timeLive = ih.getTimeLive();
@@ -185,5 +189,21 @@ public class ImputedHomeDto {
 
     public void setIsHomeless(Boolean isHomeless) {
         this.isHomeless = isHomeless;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
     }
 }

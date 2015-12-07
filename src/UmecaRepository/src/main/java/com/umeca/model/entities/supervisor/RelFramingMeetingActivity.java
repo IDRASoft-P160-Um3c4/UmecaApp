@@ -1,7 +1,9 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.Activity;
 import com.umeca.model.entities.reviewer.SocialEnvironment;
+import com.umeca.model.shared.Constants;
 
 import javax.persistence.*;
 
@@ -53,7 +55,7 @@ public class RelFramingMeetingActivity {
     }
 
     public void setSpecification(String specification) {
-        this.specification = specification;
+        this.specification = StringExt.substringMax(specification, Constants.DEFAULT_LEN_STRING);
     }
 
     public Long getRelId() {

@@ -172,7 +172,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
         List<RelFulfillmentReportArrangement> relFulfillmentReportArrangements = new ArrayList<>();
 
         for (SelectList curr : lstSelect) {
-            if (curr.getLock() == true) {
+            if (curr.getLock().equals(true)) {
                 Arrangement a = new Arrangement();
                 a.setId(curr.getId());
                 RelFulfillmentReportArrangement rel = new RelFulfillmentReportArrangement();
@@ -244,7 +244,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
         //Si ya no hay actividades se debe quitar el tiempo, para que no se suspenda en caso de pasar las n horas
         MonitoringPlan monitoringPlan = monPlanRepository.findOne(monPlanId);
         String message;
-        if (activitiesInPre == null || activitiesInPre == 0) {
+        if (activitiesInPre == null || activitiesInPre.equals(0L)) {
             monitoringPlan.setPosAuthorizationChangeTime(null);
             message = ".<br/>Todas las actividades fueron autorizada(s) o rechazada(s).";
             //CaseRequest... Response
@@ -358,7 +358,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
     private boolean validatePreAccomplishmentLog(Long monPlanId, Long userId, ResponseMessage message) {
         Long monPlanUserId = monPlanRepository.getIdByUserAndNotStatus(monPlanId, MonitoringConstants.STATUS_END, userId);
 
-        if (monPlanUserId == null || monPlanUserId != monPlanId) {
+        if (monPlanUserId == null || monPlanUserId.equals(monPlanId) == false ) {
             message.setMessage("El plan de seguimiento está en estado \"TERMINADO\" o usted ya no es propietario del plan de seguimiento, por favor contacte a su coordinador");
             return false;
         }
@@ -371,7 +371,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
             add(MonitoringConstants.STATUS_ACTIVITY_DELETED);
         }});
 
-        if (countValidActivities == 0) {
+        if (countValidActivities.equals(0L)) {
             message.setMessage("Al menos debe existir una actividad válida en el plan de seguimiento");
             return false;
         }
@@ -383,7 +383,7 @@ public class ManageMonitoringPlanServiceImpl implements ManageMonitoringPlanServ
 
         Long monPlanUserId = monPlanRepository.getIdByUser(monPlanId, MonitoringConstants.STATUS_PENDING_CREATION, userId);
 
-        if (monPlanUserId == null || monPlanUserId != monPlanId) {
+        if (monPlanUserId == null || monPlanUserId.equals(monPlanId) == false) {
             message.setMessage("El plan de seguimiento no está en estado \"EN PROCESO DE GENERAR\" o usted ya no es propietario del plan de seguimiento, por favor contacte a su coordinador");
             return false;
         }

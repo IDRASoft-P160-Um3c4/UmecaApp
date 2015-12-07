@@ -44,6 +44,19 @@
                     <sec:authorize access="hasRole('ROLE_REVIEWER')">
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon icon-android"></i>
+                                &nbsp;&nbsp;Aplicaci&oacute;n para tableta
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a
+                                        href="<c:url value='/assets/UmecaApp.apk'/>"><i
+                                        class="glyphicon glyphicon-cloud-download"></i>&nbsp;&nbsp;Descargar instalador de aplicaci&oacute;n</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
                                     class="glyphicon glyphicon-list"></i>
                                 &nbsp;&nbsp;Tablero
                                 <i class="icon-caret-down"></i>
@@ -122,6 +135,19 @@
                                 class="icon icon-envelope"></i>&nbsp;&nbsp;S&aacute;bana de detenidos</a></li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_SUPERVISOR')">
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon icon-android"></i>
+                                &nbsp;&nbsp;Aplicaci&oacute;n para tableta
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a
+                                        href="<c:url value='/assets/UmecaApp.apk'/>"><i
+                                        class="glyphicon glyphicon-cloud-download"></i>&nbsp;&nbsp;Descargar instalador de aplicaci&oacute;n</a>
+                                </li>
+                            </ul>
+                        </li>
 
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
@@ -272,7 +298,7 @@
                                     class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;Reportes
                                 <i class="icon-caret-down"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a href="<c:url value='/director/excelReport/index.html'/>"><i
+                                <li><a href="<c:url value='/managereval/excelReport/index.html'/>"><i
                                         class="glyphicon glyphicon-folder-close"></i>&nbsp;&nbsp;Reporte excel</a></li>
                                 <li><a href="<c:url value='/shared/activityReport/index.html' />"><i
                                         class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Informe de actividades para
@@ -454,6 +480,8 @@
                                 <li><a href="<c:url value='/channelingManager/statisticReport/index.html' />"><i
                                         class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Estad&iacute;sticos - Reporte
                                     estad&iacute;stico</a></li>
+                                <li><a href="<c:url value='/channelingManager/excelReport/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Reporte Excel</a></li>
                             </ul>
                         </li>
                     </sec:authorize>
@@ -533,12 +561,24 @@
                     <sec:authorize access="hasRole('ROLE_HUMAN_RESOURCES')">
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                    class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Dispositivos
+                                    class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Control de asistencia
                                 <i class="icon-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="<c:url value='/timeAttendance/device/index.html' />"><i
-                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Configuraci&oacute;n de Biom&eacute;tricos</a>
+                                <li><a href="<c:url value='/humanResources/device/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Configuraci&oacute;n de dispositivos biom&eacute;tricos</a>
+                                </li>
+                                <li><a href="<c:url value='/humanResources/assistence/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Control de retardos</a>
+                                </li>
+                                <li><a href="<c:url value='/humanResources/bonustime/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Gesti&oacute;n de horas extra</a>
+                                </li>
+                                <li><a href="<c:url value='/humanResources/absence/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Gesti&oacute;n de faltas del personal</a>
+                                </li>
+                                <li><a href="<c:url value='/humanResources/incidence/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Gesti&oacute;n de incidencias</a>
                                 </li>
                             </ul>
                         </li>
@@ -574,6 +614,10 @@
                                 <li><a href="<c:url value='/humanResources/statisticReport/index.html' />"><i
                                         class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Reportes estad&iacute;sticos
                                     </a></li>
+
+                                <li><a href="<c:url value='/humanResources/excelReport/index.html' />"><i
+                                        class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Reporte Excel
+                                </a></li>
                             </ul>
                         </li>
 

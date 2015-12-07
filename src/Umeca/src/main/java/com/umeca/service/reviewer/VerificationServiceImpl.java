@@ -663,7 +663,7 @@ public class VerificationServiceImpl implements VerificationService {
     public ResponseMessage doUpsertSources(Long idCase, SourceVerification sv) {
         try {
             Case c = caseRepository.findOne(idCase);
-            if (sv.getId() == 0) {
+            if (sv.getId().equals(0L)) {
                 sv.setId(null);
             }
             SourceVerification sourceVerification = new SourceVerification();

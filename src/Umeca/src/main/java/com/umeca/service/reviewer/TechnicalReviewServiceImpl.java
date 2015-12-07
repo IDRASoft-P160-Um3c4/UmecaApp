@@ -238,7 +238,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         List<String> sourcesTxt = new ArrayList<>();
 
         for (SourceVerification source : ver.getSourceVerifications()) {
-            if (source.getVisible() == true && source.getAuthorized() == true) {
+            if (source.getVisible().equals(true) && source.getAuthorized().equals(true)) {
                 StringBuilder sb = new StringBuilder();
                 sb.append(Convert.convertToValidString(source.getFullName()));
                 sb.append(" relaci&oacute;n con el imputado ");
@@ -247,6 +247,10 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
                     relationship += source.getSpecification();
                 }
                 sb.append(Convert.convertToValidString(relationship));
+                if(source.getVerificationMethod()!=null){
+                    sb.append(". Tipo de verificaci&oacute;n: ");
+                    sb.append(Convert.convertToValidString(source.getVerificationMethod().getName()));
+                }
                 sourcesTxt.add(Convert.convertToValidString(sb.toString()));
             }
         }
@@ -265,9 +269,9 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
 
                 String cad = Convert.convertToValidString(act.getDescription());
 
-                if (act.getIdAux() > 0)
+                if (act.getIdAux().intValue() > 0)
                     questLinks.add(cad);
-                else if (act.getIdAux() < 0)
+                else if (act.getIdAux().intValue() < 0)
                     questRisks.add(cad);
             }
         }
@@ -280,7 +284,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         file.setComment(StringEscape.escapeText(technicalReview.getComments()));
 
         String risk = "";
-        Integer total = technicalReview.getTotalRisk();
+        int total = technicalReview.getTotalRisk().intValue();
         if (total < -15) {
             risk = "Riesgo alto! Libertad muy dif&iacute;cil de cumplir.";
         } else if (total > -16 && total < 0) {
@@ -343,8 +347,9 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         return file;
     }
 
-    public Integer calculateLevelRisk(Integer total) {
+    public Integer calculateLevelRisk(Integer totalObj) {
 
+        int total = totalObj.intValue();
         if (total < -15)
             return 1; //alto
         else if (total > -16 && total < 0)
@@ -377,7 +382,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         result.setLevelRisk(this.calculateLevelRisk(result.getTotalRisk()));
         result.setQuestionsSel(this.generateQuesRevRel(result, result.getTxtListQuest()));
 
-        if (result.getIsFinished() != null && result.getIsFinished() == true)
+        if (result.getIsFinished() != null && result.getIsFinished().equals(true))
             caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_TECHNICAL_REVIEW));
         else
             caseDetention.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_INCOMPLETE_TECHNICAL_REVIEW));
@@ -385,7 +390,7 @@ public class TechnicalReviewServiceImpl implements TechnicalReviewService {
         result.setCaseDetention(caseDetention);
         technicalReviewRepository.save(result);
 
-        if (result.getIsFinished() != null && result.getIsFinished() == true) {
+        if (result.getIsFinished() != null && result.getIsFinished().equals(true)) {
             caseDetention.setDateOpinion(new Date());
             caseRepository.save(caseDetention);
             eventService.addEvent(Constants.EVENT_CASE_OPINION, caseDetention.getId(), result.getComments());

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import javax.servlet.http.HttpServletResponse;
@@ -38,13 +39,19 @@ public class FormulationController {
     SharedUserService userService;
 
 
-    @RequestMapping(value = {"/managereval/formulation/list"} )
+    @RequestMapping(value = {"/managereval/formulation/list"})
     public
     @ResponseBody
-    JqGridResultModel list(@ModelAttribute JqGridFilterModel opts){
+    JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
 
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("isObsolete", false, JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+
+        extraFilter = new JqGridRulesModel("statusCase",
+                ""
+                , JqGridFilterModel.IS_NULL
+        );
         opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
@@ -66,15 +73,21 @@ public class FormulationController {
                     add(r.get("informationDelivered"));
                 }};
             }
+
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
 
-                if (field.equals("isObsolete"))
+                if (field.equals("imputedFullname"))
+                    return r.get("firstName");
+                else if (field.equals("statusCase"))
+                    return r.join("caseDetention", JoinType.LEFT).get("dateObsolete");
+                else if (field.equals("isObsolete"))
+
                     return r.get("isObsolete");
                 else
-                return null;
+                    return null;
             }
-        }, Formulation.class,Formulation.class);
+        }, Formulation.class, Formulation.class);
 
         return result;
     }
@@ -82,12 +95,18 @@ public class FormulationController {
     @RequestMapping(value = {"/reviewer/formulation/list"}, method = RequestMethod.POST)
     public
     @ResponseBody
-    JqGridResultModel listFormulationReviewer(@ModelAttribute JqGridFilterModel opts){
+    JqGridResultModel listFormulationReviewer(@ModelAttribute JqGridFilterModel opts) {
 
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("isObsolete", false, JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
         extraFilter = new JqGridRulesModel("reviewer", userService.GetLoggedUserId().toString(), JqGridFilterModel.COMPARE_EQUAL);
+        opts.extraFilters.add(extraFilter);
+
+        extraFilter = new JqGridRulesModel("statusCase",
+                ""
+                , JqGridFilterModel.IS_NULL
+        );
         opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
@@ -109,15 +128,21 @@ public class FormulationController {
                     add(r.get("informationDelivered"));
                 }};
             }
+
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
 
-                if (field.equals("isObsolete"))
+                if (field.equals("imputedFullname"))
+                    return r.get("firstName");
+                else if (field.equals("isObsolete"))
+
                     return r.get("isObsolete");
+                else if (field.equals("statusCase"))
+                    return r.join("caseDetention", JoinType.LEFT).get("dateObsolete");
                 else
                     return null;
             }
-        }, Formulation.class,Formulation.class);
+        }, Formulation.class, Formulation.class);
 
         return result;
     }
@@ -129,25 +154,25 @@ public class FormulationController {
     }
 
     @RequestMapping(value = {"/managereval/formulation/upsert"}, method = RequestMethod.POST)
-    public ModelAndView upsert(Long id){
+    public ModelAndView upsert(Long id) {
         return formulationService.upsert(id);
     }
 
-    @RequestMapping(value = {"/managereval/formulation/absenceReport","/reviewer/reviewer/absenceReport"}, method = RequestMethod.POST)
-    public ModelAndView absenceReport(Long id){
+    @RequestMapping(value = {"/managereval/formulation/absenceReport", "/reviewer/reviewer/absenceReport"}, method = RequestMethod.POST)
+    public ModelAndView absenceReport(Long id) {
         return formulationService.absenceReport(id);
     }
 
     @RequestMapping(value = {"/managereval/formulation/doupsert"}, method = RequestMethod.POST)
     @ResponseBody
-    public ResponseMessage doupsert(Formulation formulation){
+    public ResponseMessage doupsert(Formulation formulation) {
         return formulationService.doUpsert(formulation);
     }
 
     @RequestMapping(value = {"/reviewer/formulation/confirmInformation"}, method = RequestMethod.POST)
     public
     @ResponseBody
-    ResponseMessage confirmInformation(Long id){
+    ResponseMessage confirmInformation(Long id) {
         return formulationService.confirmInformation(id);
     }
 
@@ -160,15 +185,15 @@ public class FormulationController {
     @RequestMapping(value = "/reviewer/formulation/showAttendaneRecord", method = RequestMethod.POST)
     public
     @ResponseBody
-    ModelAndView showAttendanceRecord(Long id){
+    ModelAndView showAttendanceRecord(Long id) {
         return formulationService.showAttendanceRecord(id);
     }
 
     @RequestMapping(value = "/reviewer/formulation/doAttendanceRecord")
     public
     @ResponseBody
-    ResponseMessage doAttendanceRecord(Long id, boolean attendance){
-        return formulationService.doAttendanceRecord(id,attendance);
+    ResponseMessage doAttendanceRecord(Long id, boolean attendance) {
+        return formulationService.doAttendanceRecord(id, attendance);
 
     }
 

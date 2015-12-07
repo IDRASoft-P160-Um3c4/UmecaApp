@@ -53,7 +53,7 @@ $(document).ready(function () {
         colModel: [
             { name: 'id', hidden: true },
             { name: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-            { name: 'fullname', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+            { name: 'fullname', width: 300, align: "center", sortable: false, search: false },
             { name: 'crime', width: 300, align: "center", sortable: false, search: false },
             { name: 'Action', width: 70, align: "center", sortable: false, search: false, formatter: window.actionFormatter}
         ],

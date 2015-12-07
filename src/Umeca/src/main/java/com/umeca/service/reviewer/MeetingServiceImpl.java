@@ -11,6 +11,7 @@ import com.umeca.model.catalog.dto.CatalogDto;
 import com.umeca.model.catalog.dto.CountryDto;
 import com.umeca.model.catalog.dto.ElectionDto;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.managereval.Formulation;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.CriminalProceedingView;
 import com.umeca.model.entities.reviewer.View.MeetingView;
@@ -28,6 +29,7 @@ import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
+import com.umeca.repository.managereval.FormulationRepository;
 import com.umeca.repository.reviewer.*;
 import com.umeca.repository.shared.MessageRepository;
 import com.umeca.repository.shared.VictimRepository;
@@ -35,6 +37,7 @@ import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.catalog.CatalogService;
+import com.umeca.service.managereval.FormulationService;
 import com.umeca.service.shared.CrimeService;
 import com.umeca.service.shared.EventService;
 import com.umeca.service.shared.MessageServiceImpl;
@@ -153,6 +156,9 @@ public class MeetingServiceImpl implements MeetingService {
     @Autowired
     DistrictRepository districtRepository;
 
+    @Autowired
+    FormulationRepository formulationRepository;
+
 
     @Transactional
     @Override
@@ -179,6 +185,7 @@ public class MeetingServiceImpl implements MeetingService {
             caseDetention.setIdFolder(imputed.getMeeting().getCaseDetention().getIdFolder());
             caseDetention.setDateCreate(new Date());
             caseDetention = caseRepository.save(caseDetention);
+
             Meeting meeting = new Meeting();
             meeting.setMeetingType(HearingFormatConstants.MEETING_PROCEDURAL_RISK);
             meeting.setCaseDetention(caseDetention);
@@ -205,10 +212,18 @@ public class MeetingServiceImpl implements MeetingService {
             imputedInitialRepository.save(imputedInitial);
             result = caseDetention.getId();
 
-            if(imputed.getIsFromFormulation() == true){
+
+
+            if(imputed.getIsFromFormulation().equals(true)){
                 Date date = imputed.getMeeting().getDateCreate();
                 DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                 String strDate = formatter.format(date);
+
+
+                Formulation formulation = formulationRepository.findOne(imputed.getFormulationId());
+                caseDetention.setFormulation(formulation);
+                caseDetention = caseRepository.save(caseDetention);
+
 
                 String title = "REGISTRO DE UNA FORMULACIÓN";
                 String body = "<strong>Registrador por evaluador: " + meeting.getReviewer().getFullname() + "</strong><br/>" +
@@ -218,6 +233,9 @@ public class MeetingServiceImpl implements MeetingService {
                 messageService.sendNotificationToRole(caseDetention.getId(), body, Constants.ROLE_EVALUATION_MANAGER, title);
                 eventService.addEvent(Constants.EVENT_FROM_FORMULATION, caseDetention.getId(),null);
             }
+
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -546,7 +564,7 @@ public class MeetingServiceImpl implements MeetingService {
         InformationAvailability ia = informationAvailabilityRepository.findOne(imputed.getBirthInfo().getId());
         iCase.setBirthInfo(ia);
 
-        if (iCase.getBirthInfo().getSpecification() == true) {
+        if (iCase.getBirthInfo().getSpecification().equals(true)) {
 
             Country country = countryRepository.findOne(imputed.getBirthCountry().getId());
             iCase.setBirthCountry(country);
@@ -652,7 +670,7 @@ public class MeetingServiceImpl implements MeetingService {
                 socialNetworkRepository.save(sn);
             }
             person.setSocialNetwork(sn);
-            if (person.getId() != null && person.getId() == 0) {
+            if (person.getId() != null && person.getId().equals(0L)) {
                 person.setId(null);
             }
             personSocialNetworkRepository.save(person);
@@ -708,7 +726,7 @@ public class MeetingServiceImpl implements MeetingService {
             reference.setMeeting(caseDetention.getMeeting());
             reference.setRelationship(relationshipRepository.findOne(reference.getRelationship().getId()));
             reference.setDocumentType(documentTypeRepository.findOne(reference.getDocumentType().getId()));
-            if (reference.getId() != null && reference.getId() == 0) {
+            if (reference.getId() != null && reference.getId().equals(0L)) {
                 reference.setId(null);
             }
             referenceRepository.saveAndFlush(reference);
@@ -744,7 +762,7 @@ public class MeetingServiceImpl implements MeetingService {
         Gson gson = new Gson();
         model.addObject("lstDrugType", gson.toJson(drugTypeRepository.findNotObsolete()));
         model.addObject("lstPeriodicity", gson.toJson(periodicityRepository.findNotObsolete()));
-        if (id != null && id != 0) {
+        if (id != null && id.longValue() != 0L) {
             Drug d = drugRepository.findOne(id);
             model.addObject("d", d);
             model.addObject("typeId", d.getDrugType().getId());
@@ -762,7 +780,7 @@ public class MeetingServiceImpl implements MeetingService {
             drug.setDrugType(drugTypeRepository.findOne(drug.getDrugType().getId()));
             drug.setPeriodicity(periodicityRepository.findOne(drug.getPeriodicity().getId()));
             drug.setMeeting(caseRepository.findOne(idCase).getMeeting());
-            if (drug.getId() != null && drug.getId() == 0) {
+            if (drug.getId() != null && drug.getId().equals(0L)) {
                 drug.setId(null);
             }
             drugRepository.save(drug);
@@ -860,7 +878,7 @@ public class MeetingServiceImpl implements MeetingService {
         Gson gson = new Gson();
         model.addObject("lstRegisterType", gson.toJson(registerTypeRepository.findAllOrderByName()));
         model.addObject("lstDayWeek", gson.toJson(dayWeekRepository.findAll()));
-        if (id != null && id != 0) {
+        if (id != null && id.longValue() != 0L) {
             Job j = jobRepository.findOne(id);
             model.addObject("j", j);
             model.addObject("listSchedule", scheduleService.getSchedules(j.getId(), Job.class));
@@ -882,7 +900,7 @@ public class MeetingServiceImpl implements MeetingService {
                 }
             }
             Case c = caseRepository.findOne(idCase);
-            if (job.getId() != null && job.getId() == 0) {
+            if (job.getId() != null && job.getId().equals(0L)) {
                 job.setId(null);
             }
             job.setMeeting(c.getMeeting());
@@ -902,6 +920,7 @@ public class MeetingServiceImpl implements MeetingService {
                 }.getType());
                 for (Schedule schedule : listSchedules) {
                     schedule.setJob(job);
+                    schedule.setDay(schedule.getDay());
                 }
                 scheduleRepository.save(listSchedules);
             }
@@ -949,7 +968,7 @@ public class MeetingServiceImpl implements MeetingService {
             model.addObject("lstHomeType", gson.toJson(homeTypeRepository.findNotObsolete()));
             model.addObject("idCase", idCase);
             addressService.fillCatalogAddress(model);
-            if (id != null && id != 0) {
+            if (id != null && id.longValue() != 0L) {
 
                 ImputedHome imputedHome = imputedHomeRepository.findOne(id);
                 model.addObject("d", imputedHome);
@@ -972,7 +991,7 @@ public class MeetingServiceImpl implements MeetingService {
         ResponseMessage result = new ResponseMessage();
         try {
 
-            if (!imputedHome.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_PREVIOUS) && imputedHome.getIsHomeless() == false) {
+            if (!imputedHome.getRegisterType().getId().equals(Constants.REGYSTER_TYPE_PREVIOUS) && imputedHome.getIsHomeless().equals(false)) {
                 ResponseMessage validate = validateSchedules(sch, "el domicilio");
                 if (validate != null) {
                     return validate;
@@ -981,7 +1000,7 @@ public class MeetingServiceImpl implements MeetingService {
 
             Case c = caseRepository.findOne(idCase);
 
-            if (imputedHome.getId() != null && imputedHome.getId() == 0) {
+            if (imputedHome.getId() != null && imputedHome.getId().equals(0L)) {
                 imputedHome.setId(null);
             }
 
@@ -992,7 +1011,7 @@ public class MeetingServiceImpl implements MeetingService {
 
             if (imputedHome.getAddress() != null && imputedHome.getAddress().getLocation() != null && imputedHome.getAddress().getLocation().getId() != null) {
 
-                if (imputedHome.getIsHomeless() == false) {
+                if (imputedHome.getIsHomeless().equals(false)) {
                     Long locationId = imputedHome.getAddress().getLocation().getId();
                     imputedHome.getAddress().setLocation(locationRepository.findOne(locationId));
                 } else {
@@ -1013,6 +1032,11 @@ public class MeetingServiceImpl implements MeetingService {
                         scheduleRepository.delete(schedule.getId());
                     }
                 }
+                if(newImputedHome.getIsHomeless()) {
+                    Schedule homeless = new Schedule("no tiene","00:00","00:00");
+                    homeless.setImputedHome(newImputedHome);
+                    scheduleRepository.save(homeless);
+                }
                 Gson gson = new Gson();
                 List<Schedule> listSchedules = gson.fromJson(sch, new TypeToken<List<Schedule>>() {
                 }.getType());
@@ -1021,6 +1045,7 @@ public class MeetingServiceImpl implements MeetingService {
                 }
                 scheduleRepository.save(listSchedules);
             }
+
             result.setHasError(false);
             result.setMessage(ConsMessage.MSG_SUCCESS_UPSERT);
         } catch (Exception e) {
@@ -1155,7 +1180,7 @@ public class MeetingServiceImpl implements MeetingService {
 
             TerminateMeetingMessageDto validate = new TerminateMeetingMessageDto();
 
-            if (cancelMeeting != true) {
+            if (cancelMeeting.equals(false)) {
                 m.getImputed().validateMeeting(validate);
                 if (m.getSocialEnvironment() == null) {
                     m.setSocialEnvironment(new SocialEnvironment());
@@ -1184,7 +1209,7 @@ public class MeetingServiceImpl implements MeetingService {
                 return new ResponseMessage(true, gson.toJson(validate));
             }
 
-            if (cancelMeeting != true) {
+            if (cancelMeeting.equals(false)) {
                 c.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_MEETING));
                 m.setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_INCOMPLETE_LEGAL));
             } else {
@@ -1214,8 +1239,8 @@ public class MeetingServiceImpl implements MeetingService {
     public ResponseMessage validateCreateMeeting(Imputed imputed) {
         if (imputed.getBirthDate() != null) {
             Integer age = userService.calculateAge(imputed.getBirthDate());
-            if (age.compareTo(18) == -1) {
-                return new ResponseMessage(true, "El imputado debe tener m&aacute;s de 18 a&ntilde;os para continuar");
+            if (age == null || age.intValue() < 18) {
+                return new ResponseMessage(true, "El imputado debe ser mayor de edad (18 en adelante) para continuar");
             }
         } else {
             return new ResponseMessage(true, "Favor de ingresar la fecha de nacimiento del imputado.");
@@ -1295,7 +1320,7 @@ public class MeetingServiceImpl implements MeetingService {
             coDefendantRepository.delete(listOldCoDefendant);
         }
 
-        if (cpv.getIsFolderAccess() == false) {
+        if (cpv.getIsFolderAccess().equals(false)) {
             ccpc.setBehaviorDetention("Sin acceso a la carpeta");
             ccpc.setAdditionalInfo("Sin acceso a la carpeta");
             ccpc.setPlaceDetention(cpv.getPlaceDetention());
@@ -1545,7 +1570,7 @@ public class MeetingServiceImpl implements MeetingService {
         String e = "entity";
         List<String> messageError = new ArrayList<>();
 
-        if (cpv.getIsFolderAccess() == true) {
+        if (cpv.getIsFolderAccess().equals(true)) {
             if (cpv.getListCrime().trim().equals("[]"))
                 current.add("Debe agregar al menos un delito.");
             if (cpv.getHaveCoDependant() && cpv.getListCoDefendant().trim().equals(""))
@@ -1554,7 +1579,7 @@ public class MeetingServiceImpl implements MeetingService {
                 current.add(Convert.convertToValidString(v.template.replace(e, "Referencias del lugar de detenci&oacute;n")));
             if (cpv.getBehaviorDetention().trim().equals(""))
                 current.add(Convert.convertToValidString(v.template.replace(e, "El comportamiento durante la detenci&oacute;n")));
-            if (victimRepository.sizeVictimLegalByIdCase(cpv.getIdCase()) == 0)
+            if (victimRepository.sizeVictimLegalByIdCase(cpv.getIdCase()).equals(0L))
                 current.add(Convert.convertToValidString("Debe agregar al menos una v&iacute;ctima"));
         }
 
@@ -1585,6 +1610,14 @@ public class MeetingServiceImpl implements MeetingService {
             return new ResponseMessage(true, Convert.convertToValidString("Este usuario no tiene permiso para ver la información solicitada"));
         }
         return null;
+    }
+
+
+    public void makeNotShownCriminalProceeding(Long id){
+        CurrentCriminalProceeding ccp = currentCriminalProceedingRepository.findOne(id);
+        ccp.setIsShown(false);
+        currentCriminalProceedingRepository.save(ccp);
+        currentCriminalProceedingRepository.flush();
     }
 
 }

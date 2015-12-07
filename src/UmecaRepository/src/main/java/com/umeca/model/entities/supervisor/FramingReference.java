@@ -1,8 +1,10 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.Relationship;
 import com.umeca.model.catalog.dto.LocationDto;
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
+import com.umeca.model.shared.Constants;
 
 import javax.persistence.*;
 
@@ -174,7 +176,7 @@ public class FramingReference implements EntityGrid {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = StringExt.substringMax(name, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getPhone() {
@@ -182,7 +184,7 @@ public class FramingReference implements EntityGrid {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phone = StringExt.substringMax(phone, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getAddress() {
@@ -190,7 +192,7 @@ public class FramingReference implements EntityGrid {
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.address = StringExt.substringMax(address, Constants.DEFAULT_LEN_STRING);
     }
 
     public FramingMeeting getFramingMeeting() {
@@ -214,7 +216,7 @@ public class FramingReference implements EntityGrid {
     }
 
     public void setAge(String age) {
-        this.age = age;
+        this.age = StringExt.substringMax(age, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getOccupation() {
@@ -222,7 +224,7 @@ public class FramingReference implements EntityGrid {
     }
 
     public void setOccupation(String occupation) {
-        this.occupation = occupation;
+        this.occupation = StringExt.substringMax(occupation, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getPersonType() {
@@ -230,7 +232,7 @@ public class FramingReference implements EntityGrid {
     }
 
     public void setPersonType(String personType) {
-        this.personType = personType;
+        this.personType = StringExt.substringMax(personType, Constants.DEFAULT_LEN_STRING);
     }
 
     public Relationship getRelationship() {
@@ -358,7 +360,7 @@ public class FramingReference implements EntityGrid {
     }
 
     public void setTimeAgo(String timeAgo) {
-        this.timeAgo = timeAgo;
+        this.timeAgo =  StringExt.substringMax(timeAgo, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getAddressRef() {
@@ -366,7 +368,7 @@ public class FramingReference implements EntityGrid {
     }
 
     public void setAddressRef(String addressRef) {
-        this.addressRef = addressRef;
+        this.addressRef = StringExt.substringMax(addressRef, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getSpecificationRelationship() {
@@ -374,7 +376,7 @@ public class FramingReference implements EntityGrid {
     }
 
     public void setSpecificationRelationship(String specificationRelationship) {
-        this.specificationRelationship = specificationRelationship;
+        this.specificationRelationship = StringExt.substringMax(specificationRelationship, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getIsAccompanimentString() {

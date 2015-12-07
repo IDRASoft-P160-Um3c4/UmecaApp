@@ -15,6 +15,7 @@ import com.umeca.model.entities.reviewer.dto.JobDto;
 import com.umeca.model.entities.shared.UploadFileGeneric;
 import com.umeca.model.entities.shared.UploadFileRequest;
 import com.umeca.model.shared.Constants;
+import com.umeca.model.shared.ReportList;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.RoleRepository;
 import com.umeca.repository.catalog.*;
@@ -24,6 +25,7 @@ import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.catalog.AddressService;
 import com.umeca.service.humanResources.DigitalRecordService;
+import com.umeca.service.humanResources.StatisticHumanResourcesReportService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.shared.UpDwFileGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,6 +105,8 @@ public class DigitalRecordController {
     private RoleRepository roleRepository;
     @Autowired
     private EmployeeScheduleRepository employeeScheduleRepository;
+    @Autowired
+    StatisticHumanResourcesReportService statisticHumanResourcesReportService;
 
     @RequestMapping(value = "/humanResources/employees/list", method = RequestMethod.POST)
     public
@@ -201,7 +205,7 @@ public class DigitalRecordController {
 
         Long idPhoto = employeeRepository.getIdPhotoByIdEmployee(id);
 
-        if (idPhoto != null && idPhoto > 0) {
+        if (idPhoto != null && idPhoto.longValue() > 0L) {
             UploadFileGeneric photo = upDwFileGenericService.getPathAndFilename(idPhoto);
             String path = new File(photo.getPath(), photo.getRealFileName()).toString();
             model.addObject("pathPhoto", path);
@@ -1151,6 +1155,49 @@ public class DigitalRecordController {
         return new Gson().toJson(lst);
 
     }
+
+
+
+
+    @RequestMapping(value = "/humanResources/digitalRecord/getOverTime", method = RequestMethod.GET)
+    public ModelAndView showReport(String initDate, String endDate, Long idEmployee) {
+        ModelAndView model = new ModelAndView("/humanResources/digitalRecord/overtime/showOverTimeReport");
+        Gson gson = new Gson();
+        String measure = "x";
+        String extraData = null;
+        Long total = Long.valueOf(0);
+        try {
+
+            List<ReportList> data;
+            data = statisticHumanResourcesReportService.getData(initDate, endDate, "STHRR_3", Long.valueOf(3), Long.valueOf(1), idEmployee);
+
+            measure = "Horas";
+            extraData = employeeRepository.getEmployeeNameById(idEmployee);
+
+            model.addObject("idEmployee", idEmployee);
+            model.addObject("initDate", initDate.toString());
+            model.addObject("endDate", endDate.toString());
+            model.addObject("total", total);
+            model.addObject("data", gson.toJson(data));
+            model.addObject("extraData", extraData);
+            model.addObject("measure", measure);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logException.Write(e, this.getClass(), "HumanResourcesReport", sharedUserService);
+            model.addObject("initDate", initDate.toString());
+            model.addObject("endDate", endDate.toString());
+            model.addObject("total", total);
+            model.addObject("data", null);
+            model.addObject("measure", measure);
+        }
+        return model;
+    }
+
+
+
+
+
 
 }
 

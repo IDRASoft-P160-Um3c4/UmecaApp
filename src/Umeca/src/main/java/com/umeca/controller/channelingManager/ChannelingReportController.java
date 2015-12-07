@@ -2,7 +2,10 @@ package com.umeca.controller.channelingManager;
 
 import com.google.gson.Gson;
 import com.sun.javafx.sg.PGShape;
+import com.umeca.model.catalog.State;
 import com.umeca.model.catalog.StatisticChannelingReportType;
+import com.umeca.model.catalog.dto.CatalogDto;
+import com.umeca.model.entities.supervisor.ArrangementView;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.model.shared.SelectOptsList;
@@ -15,6 +18,7 @@ import com.umeca.service.channelingManager.StatisticChannelingReportService;
 import com.umeca.service.managereval.StatisticReportService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisiorManager.StatisticSupervisorManagerReportService;
+import org.apache.xpath.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -80,14 +85,14 @@ public class ChannelingReportController {
             String data;
             data = statisticChannelingReportService.getData(initDate, endDate, idReportType, idDistrict, idParameter);
 
-            if (idParameter == 0) {
+            if (idParameter.equals(0l)) {
                 model = new ModelAndView("channelingManager/statisticReport/showReportChannelingTypeGeneral");
             } else {
                 model = new ModelAndView("channelingManager/statisticReport/showReportChannelingType");
             }
 
 
-            if (idDistrict == 0) {
+            if (idDistrict.equals(0l)) {
                 extraData = "Todos los distritos";
             } else {
                 extraData = districtRepository.findDistrictNameById(idDistrict);
@@ -184,19 +189,19 @@ public class ChannelingReportController {
                 model.addObject("filterSelected", filterSelected);
             }
 
-            if (idReportType == 1)
+            if (idReportType.equals(1l))
                 extraData = "General";
-            else if (idReportType == 2) {
-                if (idDistrict == 1)
+            else if (idReportType.equals(2l)) {
+                if (idDistrict.equals(1l))
                     extraData = "Por operador - Cuatla";
-                else if (idDistrict == 2)
+                else if (idDistrict.equals(2l))
                     extraData = "Por operador - Cuernavaca";
                 else
                     extraData = "Por operador - Jojutla";
             } else {
-                if (idDistrict == 1)
+                if (idDistrict.equals(1l))
                     extraData = "Por distrito - Cuatla";
-                else if (idDistrict == 2)
+                else if (idDistrict.equals(2l))
                     extraData = "Por distrito - Cuernavaca";
                 else
                     extraData = "Por distrito - Jojutla";
@@ -286,7 +291,7 @@ public class ChannelingReportController {
         String currentSupervisorFullName;
 
 
-        if (idSupervisor == 0) {
+        if (idSupervisor.equals(0l)) {
             currentSupervisorFullName = "Sin supervisor";
         } else {
             currentSupervisorFullName = userRepository.getFullNameById(idSupervisor);
@@ -310,9 +315,9 @@ public class ChannelingReportController {
             String data;
             data = statisticChannelingReportService.oldGetData(initDate, endDate, filterSelected, 4L, idDistrict, idSupervisor);
 
-            if (idDistrict == 1)
+            if (idDistrict.equals(1l))
                 extraData = "Por operador: " + currentSupervisorFullName + " - Cuatla";
-            else if (idDistrict == 2)
+            else if (idDistrict.equals(2l))
                 extraData = "Por operador: " + currentSupervisorFullName + " - Cuernavaca";
             else
                 extraData = "Por operador: " + currentSupervisorFullName + " - Jojutla";
@@ -339,6 +344,13 @@ public class ChannelingReportController {
         }
         return model;
 
+    }
+
+    @RequestMapping(value = "channelingManager/excelReport/index", method = RequestMethod.GET)
+    ModelAndView indexExcelReport(){
+        ModelAndView model = new ModelAndView("/channelingManager/excelReport/index");
+
+        return model;
     }
 
 

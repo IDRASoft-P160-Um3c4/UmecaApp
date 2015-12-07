@@ -88,4 +88,40 @@ public class EventServiceImpl implements EventService {
         }
         return false;
     }
+
+    @Override
+    public void addEventTablet(String eventCode, Long idCase, Object details, Long userId) {
+
+        try {
+            User user = userRepository.findOne(userId);
+            Case cd = new Case();
+            cd.setId(idCase);
+
+            Event event = new Event();
+
+
+            event.setCaseDetention(cd);
+
+            if (details != null)
+                event.setComments((String) details);
+
+            event.setUser(user);
+
+            Date date = new Date();
+            DateFormat df = new SimpleDateFormat("yyyyMMdd");
+            Integer dateId = Integer.parseInt(df.format(date));
+
+            event.setDate(date);
+            event.setDateId(dateId);
+
+            event.setEventType(eventTypeRepository.findByCode(eventCode));
+            eventRepository.save(event);
+
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "addEvent", sharedUserService);
+            e.printStackTrace();
+
+        }
+    }
+
 }

@@ -61,6 +61,12 @@ public class Detained {
     @JoinColumn(name = "id_district")
     private District district;
 
+    @Column(name = "is_visible_umeca", nullable = false)
+    private Boolean isVisibleUmeca;
+
+    @Column(name = "is_visible_detention_record", nullable = false)
+    private Boolean isVisibleDetentionRecord;
+
     public Detained() {
     }
 
@@ -182,5 +188,21 @@ public class Detained {
 
     public void setUserProsecute(User userProsecute) {
         this.userProsecute = userProsecute;
+    }
+
+    public Boolean getIsVisibleUmeca() {
+        return isVisibleUmeca;
+    }
+
+    public void setIsVisibleUmeca(Boolean isVisibleUmeca) {
+        this.isVisibleUmeca = isVisibleUmeca;
+    }
+
+    public Boolean getIsVisibleDetentionRecord() {
+        return isVisibleDetentionRecord;
+    }
+
+    public void setIsVisibleDetentionRecord(Boolean isVisibleDetentionRecord) {
+        this.isVisibleDetentionRecord = isVisibleDetentionRecord;
     }
 }

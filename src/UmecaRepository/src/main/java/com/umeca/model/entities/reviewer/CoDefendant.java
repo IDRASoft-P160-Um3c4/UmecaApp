@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.Relationship;
 
 import javax.persistence.*;
@@ -44,7 +45,7 @@ public class CoDefendant {
     }
 
     public void setFullName(String fullName) {
-        this.fullName = fullName;
+        this.fullName = StringExt.substringMax(fullName, 300);
     }
 
     public Relationship getRelationship() {

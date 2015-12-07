@@ -190,7 +190,7 @@ public class FramingMeetingInfo {
     }
 
     public String getImputedBirthStateCmb() {
-        if (imputedBirthStateCmb != null && imputedBirthStateCmb.trim() != "")
+        if (imputedBirthStateCmb != null && imputedBirthStateCmb.trim().isEmpty() == false)
             return imputedBirthStateCmb;
         else
             return imputedBirthState;
@@ -335,12 +335,12 @@ public class FramingMeetingInfo {
                 for (FramingReferenceInfo actRef : this.references) {
 
                     if (actRef.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE)) {
-                        if (returnStr != "") {
+                        if (returnStr.isEmpty() == false) {
                             returnStr += "\n";
                         }
 
-                        if (actRef.getHasInfo() == true) {
-                            if (actRef.getIsAccompaniment() == true) {
+                        if (actRef.getHasInfo().equals(true)) {
+                            if (actRef.getIsAccompaniment().equals(true)) {
                                 returnStr += "-" + actRef.getName();
                                 returnStr += "," + actRef.getGenderStr();
                                 returnStr += ", " + actRef.getAge() + " años";
@@ -368,7 +368,7 @@ public class FramingMeetingInfo {
                     }
                 }
             }
-            if (returnStr == "")
+            if (returnStr.isEmpty())
                 returnStr = "El imputado no cuenta con referencias personales.";
 
         } catch (Exception e) {
@@ -387,12 +387,12 @@ public class FramingMeetingInfo {
 
 
                     if (actRef.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE)) {
-                        if (returnStr != "") {
+                        if (returnStr.isEmpty() == false) {
                             returnStr += "\n";
                         }
 
-                        if (actRef.getHasInfo() == true) {
-                            if (actRef.getIsAccompaniment() == true) {
+                        if (actRef.getHasInfo().equals(true)) {
+                            if (actRef.getIsAccompaniment().equals(true)) {
                                 returnStr += "-" + actRef.getName();
                                 returnStr += "," + actRef.getGenderStr();
                                 returnStr += ", " + actRef.getAge() + " años";
@@ -424,7 +424,7 @@ public class FramingMeetingInfo {
                 }
             }
 
-            if (returnStr == "")
+            if (returnStr.isEmpty())
                 returnStr = "El imputado vive solo.";
         } catch (Exception e) {
             e.printStackTrace();
@@ -442,11 +442,11 @@ public class FramingMeetingInfo {
 
                     if (actRef.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_VICTIM) || actRef.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_WITNESS)) {
 
-                        if (returnStr != "") {
+                        if (returnStr.isEmpty() == false) {
                             returnStr += "\n";
                         }
 
-                        if (actRef.getHasInfo() == true) {
+                        if (actRef.getHasInfo().equals(true)) {
                             returnStr += "-" + actRef.getName();
                             returnStr += ", Edad: " + actRef.getAge();
                             if (actRef.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_WITNESS))
@@ -464,7 +464,7 @@ public class FramingMeetingInfo {
                     }
                 }
             }
-            if (returnStr == "")
+            if (returnStr.isEmpty())
                 returnStr = "No existe información de víctimas o testigos";
         } catch (Exception e) {
             e.printStackTrace();
@@ -479,7 +479,7 @@ public class FramingMeetingInfo {
 
         if (this.homes != null && this.homes.size() > 0) {
             for (CatalogDto actHome : this.homes) {
-                if (returnStr != "") {
+                if (returnStr.isEmpty() == false) {
                     returnStr += "\n";
                 }
                 if (actHome.getName() != null)
@@ -496,7 +496,7 @@ public class FramingMeetingInfo {
 
         if (this.drugs != null && this.drugs.size() > 0)
             for (ExcelDrugDto act : this.drugs) {
-                if (drugsStr != "")
+                if (drugsStr.isEmpty() == false)
                     drugsStr += "\n";
 
                 if (act.getDrugType() != null && !act.getDrugType().equals(""))
@@ -523,7 +523,7 @@ public class FramingMeetingInfo {
 
         if (this.links != null && this.links.size() > 0) {
             for (CatalogDto actLink : this.links) {
-                if (returnStr != "") {
+                if (returnStr.isEmpty() == false) {
                     returnStr += "\n";
                 }
                 if (actLink.getName() != null)
@@ -552,7 +552,7 @@ public class FramingMeetingInfo {
 
         if (this.arrangements != null && this.arrangements.size() > 0) {
             for (String actArr : this.arrangements) {
-                if (returnStr != "") {
+                if (returnStr.isEmpty() == false) {
                     returnStr += "\n";
                 }
                 if (actArr != null)
@@ -568,7 +568,7 @@ public class FramingMeetingInfo {
 
         if (this.risks != null && this.risks.size() > 0) {
             for (CatalogDto actRisk : this.risks) {
-                if (returnStr != "") {
+                if (returnStr.isEmpty() == false) {
                     returnStr += "\n";
                 }
                 if (actRisk.getName() != null)
@@ -584,7 +584,7 @@ public class FramingMeetingInfo {
 
         if (this.threats != null && this.threats.size() > 0) {
             for (CatalogDto actThreat : this.threats) {
-                if (returnStr != "") {
+                if (returnStr.isEmpty() == false) {
                     returnStr += "\n";
                 }
                 if (actThreat.getName() != null)
@@ -684,7 +684,7 @@ public class FramingMeetingInfo {
     public String getAddictionTreatmentStr() {
         addictionTreatmentStr = "";
         if (this.addictionTreatment != null) {
-            if (this.addictionTreatment == 1)
+            if (this.addictionTreatment.equals(1))
                 addictionTreatmentStr = "Si";
             else
                 addictionTreatmentStr = "No";
@@ -699,7 +699,7 @@ public class FramingMeetingInfo {
     public String getAddictedAcquaintanceStr() {
         addictedAcquaintanceStr = "";
         if (this.addictedAcquaintance != null) {
-            if (this.addictedAcquaintance == 1)
+            if (this.addictedAcquaintance.equals(1))
                 addictedAcquaintanceStr = "Si";
             else
                 addictedAcquaintanceStr = "No";
@@ -714,7 +714,7 @@ public class FramingMeetingInfo {
     public String getRelativeAbroadStr() {
         relativeAbroadStr = "";
         if (this.relativeAbroad != null) {
-            if (this.relativeAbroad == 1)
+            if (this.relativeAbroad.equals(1))
                 relativeAbroadStr = "Si";
             else
                 relativeAbroadStr = "No";
@@ -729,7 +729,7 @@ public class FramingMeetingInfo {
     public String getObligationIssueStr() {
         obligationIssueStr = "";
         if (this.obligationIssue != null) {
-            if (this.obligationIssue == 1)
+            if (this.obligationIssue.equals(1))
                 obligationIssueStr = "Si";
             else
                 obligationIssueStr = "No";
@@ -746,7 +746,7 @@ public class FramingMeetingInfo {
 
         if (this.addictedAcquaintances != null && this.addictedAcquaintances.size() > 0) {
             for (CatalogDto actAdd : this.addictedAcquaintances) {
-                if (returnStr != "") {
+                if (returnStr.isEmpty() == false) {
                     returnStr += "\n";
                 }
                 if (actAdd.getName() != null)
@@ -762,7 +762,7 @@ public class FramingMeetingInfo {
 
         if (this.relativesAbroad != null && this.relativesAbroad.size() > 0) {
             for (ObligationIssuesInfo actRA : this.relativesAbroad) {
-                if (returnStr != "") {
+                if (returnStr.isEmpty() == false) {
                     returnStr += "\n";
                 }
                 if (actRA.getName() != null && actRA.getCause() != null) {
@@ -780,7 +780,7 @@ public class FramingMeetingInfo {
 
         if (this.obligationIssues != null && this.obligationIssues.size() > 0) {
             for (ObligationIssuesInfo actOI : this.obligationIssues) {
-                if (returnStr != "") {
+                if (returnStr.isEmpty() == false) {
                     returnStr += "\n";
                 }
                 if (actOI.getName() != null && actOI.getCause() != null) {
@@ -795,9 +795,9 @@ public class FramingMeetingInfo {
 
     public String getImputedGenderStr() {
         imputedGenderStr = "";
-        if (imputedGender != null && imputedGender == 1)
+        if (imputedGender != null && imputedGender.equals(1))
             imputedGenderStr = "Femenino";
-        else if (imputedGender != null && imputedGender == 2)
+        else if (imputedGender != null && imputedGender.equals(2))
             imputedGenderStr = "Masculino";
 
         return imputedGenderStr;
@@ -820,7 +820,7 @@ public class FramingMeetingInfo {
 
         if (this.activities != null && this.activities.size() > 0) {
             for (ExcelActivitiesDto act : activities) {
-                if (returnStr != "")
+                if (returnStr.isEmpty() == false)
                     returnStr += "\n";
                 if (act.getNameAct() != null)
                     returnStr += "-" + act.getNameAct();
@@ -853,7 +853,7 @@ public class FramingMeetingInfo {
     public String schoolToStr() {
         String returnStr = "";
 
-        if (this.school.getHasActualSchool() == true) {
+        if (this.school.getHasActualSchool().equals(true)) {
             returnStr += "Nombre: " + this.school.getName();
             returnStr += ", Teléfono: " + this.school.getPhone();
             returnStr += ", Dirección: " + this.school.getAddress() + ", ";
@@ -863,7 +863,7 @@ public class FramingMeetingInfo {
         returnStr += "Nivel: " + this.school.getAcademicLvlStr() + ", ";
         returnStr += " Grado: " + this.school.getDegreeStr();
 
-        if (this.school.getHasActualSchool() == true && this.school.getLstSchedule() != null && this.school.getLstSchedule().size() > 0)
+        if (this.school.getHasActualSchool().equals(true) && this.school.getLstSchedule() != null && this.school.getLstSchedule().size() > 0)
             returnStr += ", Disponibilidad: " + this.school.scheduleToStr();
 
         return returnStr;
@@ -882,8 +882,8 @@ public class FramingMeetingInfo {
 
         if (this.jobs != null && this.jobs.size() > 0) {
             for (ExcelJobDto act : jobs) {
-                if (act.getBlock() == true) {
-                    if (returnStr != "")
+                if (act.getBlock().equals(true)) {
+                    if (returnStr.isEmpty() == false)
                         returnStr += "\n";
 
                     returnStr += "- " + act.getCompany();
@@ -923,7 +923,7 @@ public class FramingMeetingInfo {
     public String summaryFramingHomes() {
         String returnStr = "";
         for (CatalogDto act : summaryHomes) {
-            if (returnStr != "")
+            if (returnStr.isEmpty() == false)
                 returnStr += "\n";
             returnStr += "-" + act.getName();
         }
@@ -933,7 +933,7 @@ public class FramingMeetingInfo {
     public String summaryFramingHousemates() {
         String returnStr = "";
         for (FramingReferenceInfo act : this.references) {
-            if (returnStr != "")
+            if (returnStr.isEmpty() == false)
                 returnStr += "\n";
             if (act.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_HOUSEMATE))
                 returnStr += "-" + act.getRelationship();
@@ -944,7 +944,7 @@ public class FramingMeetingInfo {
     public String summaryFramingReferences() {
         String returnStr = "";
         for (FramingReferenceInfo act : this.references) {
-            if (returnStr != "")
+            if (returnStr.isEmpty() == false)
                 returnStr += "\n";
             if (act.getPersonType().equals(FramingMeetingConstants.PERSON_TYPE_REFERENCE))
                 returnStr += "-" + act.getRelationship();
@@ -956,7 +956,7 @@ public class FramingMeetingInfo {
 
         String returnStr = "";
         for (ExcelActivitiesDto act : this.activities) {
-            if (returnStr != "")
+            if (returnStr.isEmpty() == false)
                 returnStr += "\n";
             returnStr += "-" + act.getNameAct();
         }
@@ -967,7 +967,7 @@ public class FramingMeetingInfo {
 
         Boolean hasACt = false;
         for (ExcelJobDto act : this.jobs) {
-            if (act.getBlock() == true) {
+            if (act.getBlock().equals(true)) {
                 hasACt = true;
                 break;
             } else {
@@ -975,7 +975,7 @@ public class FramingMeetingInfo {
             }
         }
 
-        if (hasACt == true)
+        if (hasACt.equals(true))
             return "Tiene trabajo actual";
         else
             return "No tiene trabajo actual";
@@ -985,9 +985,9 @@ public class FramingMeetingInfo {
         String drugsStr = "";
         if (this.drugs != null && this.drugs.size() > 0)
             for (ExcelDrugDto act : this.drugs) {
-                if (drugsStr != "")
+                if (drugsStr.isEmpty() == false)
                     drugsStr += "\n";
-                if (act.getBlock() == true) {
+                if (act.getBlock().equals(true)) {
                     if (act.getDrugType() != null && !act.getDrugType().equals(""))
                         drugsStr += "-" + act.getDrugType();
                 } else {
@@ -1012,7 +1012,7 @@ public class FramingMeetingInfo {
             }
         }
 
-        if (hasLinks == true)
+        if (hasLinks.equals(true))
             return "El imputado cuenta con vínculos";
         else
             return "El imputado no cuenta con vínculos";
@@ -1022,9 +1022,9 @@ public class FramingMeetingInfo {
         String returnStr = "";
         String riskStr = this.riskToString();
         String threatsStr = this.threatsToString();
-        if (riskStr != "")
+        if (riskStr.isEmpty() == false)
             returnStr = "Riesgos: " + riskStr + "\n";
-        if (threatsStr != "")
+        if (threatsStr.isEmpty() == false)
             returnStr += "Amenzas: " + threatsStr;
 
         return returnStr;
@@ -1032,11 +1032,11 @@ public class FramingMeetingInfo {
 
     public String summaryFramingAdditionalQuestions() {
         String returnStr = "";
-        if (this.getAddictionTreatmentStr() != "")
+        if (this.getAddictionTreatmentStr().isEmpty() == false)
             returnStr += "-¿Se encuentra en algún tipo de tratamiento de adicciones?: " + this.getAddictionTreatmentStr() + "\n";
-        if (this.getRelativeAbroadStr() != "")
+        if (this.getRelativeAbroadStr().isEmpty() == false)
             returnStr += "-¿Cuenta con familiares en el extranjero?: " + this.getRelativeAbroadStr() + "\n";
-        if (this.getObligationIssueStr() != "")
+        if (this.getObligationIssueStr().isEmpty() == false)
             returnStr += "-¿Consideras que alguna de las obligaciones impuestas será difícil de cumplir?: " + this.getObligationIssueStr();
         return returnStr;
     }

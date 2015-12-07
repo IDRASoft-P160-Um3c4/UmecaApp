@@ -221,8 +221,13 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
             position: point,
             map: $scope.map
         });
-        $scope.lat = point.k;
-        $scope.lng = point.B;
+        if(point.k==undefined||point.B==undefined) {
+            $scope.lat = point.lat;
+            $scope.lng = point.lng;
+        }else{
+            $scope.lat = point.k;
+            $scope.lng = point.B;
+        }
         $scope.markers.push(marker);
        if(band==true){
            $scope.$apply();
@@ -247,6 +252,7 @@ app.controller('addressComponentController', function ($scope, $timeout, $http, 
                              var lng = comp.geometry.location.lng;
                              $scope.point = new google.maps.LatLng(lat, lng);
                              $scope.map.setCenter($scope.point);
+                              $scope.addMarker($scope.point,true);
                              $scope.map.setZoom(14);
                              google.maps.event.trigger($scope.map, 'resize');
                          }else{

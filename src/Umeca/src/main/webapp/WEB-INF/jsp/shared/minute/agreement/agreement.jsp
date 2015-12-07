@@ -115,7 +115,7 @@
                     var cl = ids[i];
                     var be = "";
                     if (finished[i] == 'false') {
-                        be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Consultar acuerdo\" onclick=\"window.upsertAgreement('" + cl + "');\"><span class=\"glyphicon glyphicon-eye-open\"></span></a>";
+                        be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Editar acuerdo\" onclick=\"window.upsertAgreement('" + cl + "');\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
                         be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar observaci&oacute;n\" onclick=\"upsertObservation('" + cl + "');\"><span class=\"glyphicon glyphicon-comment\"></span></a>";
                         be += "  <a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Agregar archivo al acuerdo\" onclick=\"upsertAgreementFile('" + cl + "');\"><span class=\"glyphicon glyphicon-upload\"></span></a>";
                         if (isRH == 'true') {
@@ -213,13 +213,26 @@
             }
         });
 
-        jQuery("#GridIdAgreement").jqGrid('navGrid', '#GridPagerAgreement', {
-            edit: false, editicon: 'icon-pencil blue',
-            add: true, addfunc: upsertAgreement, addicon: 'icon-plus-sign purple',
-            refresh: true, refreshicon: 'icon-refresh green',
-            del: false,
-            search: false
-        });
+        if(isRH == 'true' && finishedMinute == 'false'){
+            jQuery("#GridIdAgreement").jqGrid('navGrid', '#GridPagerAgreement', {
+                edit: false, editicon: 'icon-pencil blue',
+                add: true, addfunc: upsertAgreement, addicon: 'icon-plus-sign purple',
+                refresh: true, refreshicon: 'icon-refresh green',
+                del: false,
+                search: false
+            });
+
+        }else{
+            jQuery("#GridIdAgreement").jqGrid('navGrid', '#GridPagerAgreement', {
+                edit: false, editicon: 'icon-pencil blue',
+                add: false, addfunc: upsertAgreement, addicon: 'icon-plus-sign purple',
+                refresh: true, refreshicon: 'icon-refresh green',
+                del: false,
+                search: false
+            });
+
+        }
+
 
         jQuery("#GridIdAgreement").jqGrid('filterToolbar', {
             stringResult: true,

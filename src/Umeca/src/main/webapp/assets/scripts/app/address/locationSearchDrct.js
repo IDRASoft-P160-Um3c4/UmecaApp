@@ -64,7 +64,17 @@ app.directive('map', function () {
             google.maps.event.trigger($scope.map, 'resize');
             $scope.addMarker($scope.point);
             google.maps.event.addListener($scope.map, 'click', function(event) {
-               $scope.addMarker(new google.maps.LatLng(event.latLng.k,event.latLng.B),true);
+                console.log("punto en mapa");
+                var lat;
+                var lng;
+                if(event.latLng.k==undefined||event.latLng.B==undefined){
+                    lat = event.latLng.lat();
+                    lng = event.latLng.lng();
+                }else{
+                    lat = event.latLng.k;
+                    lng = event.latLng.B;
+                }
+               $scope.addMarker(new google.maps.LatLng(lat,lng),true);
             });
             $scope.$watch('selected', function () {
             window.setTimeout(function(){

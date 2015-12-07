@@ -6,6 +6,7 @@ import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.security.CryptoRfc2898;
 import com.umeca.model.dto.tablet.TabletUserDto;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.repository.account.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,7 @@ public class SharedUserService {
         String sUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         User userToValidate = userRepository.getInfoToValidate(sUsername);
 
-        if (userToValidate.getEnabled() == false) {
+        if (userToValidate.getEnabled().equals(false)) {
             response.setMessage("Usted no tiene permisos para realizar esta acci&oacute;n. Por favor solicite los permisos suficientes para realizar esta acci&oacute;n e intente de nuevo.");
             response.setHasError(true);
             return false;
@@ -100,12 +101,12 @@ public class SharedUserService {
     }
 
     public boolean isUserInRole(Long supervisorId, String sRole) {
-        return (userRepository.isUserInRole(supervisorId, sRole) > 0);
+        return (userRepository.isUserInRole(supervisorId, sRole).longValue() > 0L);
 
     }
 
     public boolean isUserInRoles(Long supervisorId, List<String> lstRole) {
-        return (userRepository.isUserInRoles(supervisorId, lstRole) > 0);
+        return (userRepository.isUserInRoles(supervisorId, lstRole).longValue() > 0L);
 
     }
 
@@ -203,6 +204,11 @@ public class SharedUserService {
             TabletUserDto info = new TabletUserDto();
 
             User u = userRepository.findByUsername(user);
+
+            String rol = u.getRoles().get(0).getRole();
+            if(!rol.equalsIgnoreCase(Constants.ROLE_REVIEWER) && !rol.equalsIgnoreCase(Constants.ROLE_SUPERVISOR)){
+                return new ResponseMessage(true, "El usuario y/o password son incorrectos. Favor de verificar los datos e intente nuevamente");
+            }
             String guid = UUID.randomUUID().toString();
             u.setGuidTabletAssignment(guid);
             userRepository.save(u);

@@ -48,6 +48,19 @@ public class ExcelJobDto {
         this.registerType = registerType;
         this.registerTypeId = registerTypeId;
         this.block = block;
+
+        try {
+
+            if (start != null)
+                this.startStr = sdf.format(start);
+            if (start != null)
+                this.startStr = sdf.format(start);
+            if (end != null)
+                this.endStr = sdf.format(end);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("error al parsear las fechas, constructor ExcelJobDto");
+        }
     }
 
     public ExcelJobDto(Long idCase, Long id, String company, String post, String nameHead, String phone, String registerType, Date start, Date startPrev, Date end, String salary, String reasonChange, String address, Boolean block) {
@@ -78,19 +91,26 @@ public class ExcelJobDto {
         this.block = block;
     }
 
+    public ExcelJobDto(Long idCase, Boolean block, String registerType){
+        this.idCase = idCase;
+        this.block = block;
+        this.registerType = registerType;
+    }
+
 
     public String scheduleToStr() {
         String schStr = "";
 
         if (this.schedule != null && this.schedule.size() > 0) {
             for (ScheduleDto act : this.schedule) {
-                if (schStr != "")
+                if (schStr.isEmpty() == false)
                     schStr += "; ";
                 schStr += act.getDay() + ", de " + act.getStart() + " a " + act.getEnd();
             }
         }
         return schStr;
     }
+
 
     public String getRegisterType() {
         return registerType;

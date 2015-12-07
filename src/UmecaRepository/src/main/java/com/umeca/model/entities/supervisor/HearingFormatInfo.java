@@ -349,7 +349,7 @@ public class HearingFormatInfo {
 
         if (this.contacts != null & this.contacts.size() > 0) {
             for (ContactData act : this.contacts) {
-                if (returnStr != "")
+                if (returnStr.isEmpty() == false)
                     returnStr += "\n";
 
                 String tmp = "-" + act.getNameTxt() + ", Tel. " + act.getPhoneTxt() + ", " + act.getAddressTxt();
@@ -365,7 +365,7 @@ public class HearingFormatInfo {
 
         if (this.assignedArran != null & this.assignedArran.size() > 0) {
             for (String act : this.assignedArran) {
-                if (returnStr != "")
+                if (returnStr.isEmpty() == false)
                     returnStr += "\n-";
                 else
                     returnStr += "-";
@@ -505,7 +505,7 @@ public class HearingFormatInfo {
         this.isNationalStr = "";
 
         if (this.isNational != null) {
-            if (this.isNational == true)
+            if (this.isNational.equals(true))
                 this.isNationalStr = "Nacional";
             else
                 this.isNationalStr = "Local";
@@ -539,9 +539,9 @@ public class HearingFormatInfo {
     public String getImputedPresenceStr() {
         if (imputedPresence == null)
             return "NA";
-        if (imputedPresence == HearingFormatConstants.IMPUTED_PRESENCE_YES)
+        if (imputedPresence.equals(HearingFormatConstants.IMPUTED_PRESENCE_YES))
             imputedPresenceStr = "Si";
-        else if (imputedPresence == HearingFormatConstants.IMPUTED_PRESENCE_NO)
+        else if (imputedPresence.equals(HearingFormatConstants.IMPUTED_PRESENCE_NO))
             imputedPresenceStr = "No";
         return imputedPresenceStr;
     }

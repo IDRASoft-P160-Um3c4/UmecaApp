@@ -58,9 +58,9 @@ public class EmployeeGeneralDataDto {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         if (birthDate != null)
             this.birthDate = sdf.format(birthDate);
-        if (gender != null && gender == true)
+        if (gender != null && gender.equals(true))
             this.genderStr = "Femenino";
-        else if (gender != null && gender == false)
+        else if (gender != null && gender.equals(false))
             this.genderStr = "Masculino";
         this.maritalStatus = maritalStatus;
         this.phone = phone;
@@ -75,9 +75,9 @@ public class EmployeeGeneralDataDto {
         if (dateEntryUmeca != null)
             this.dateEntryUmeca = sdf.format(dateEntryUmeca);
 
-        if (commissioner != null && commissioner == true)
+        if (commissioner != null && commissioner.equals(true))
             this.commissionerStr = "Si";
-        else if (commissioner != null && commissioner == false)
+        else if (commissioner != null && commissioner.equals(false))
             this.commissionerStr = "No";
 
         this.noImss = noImss;

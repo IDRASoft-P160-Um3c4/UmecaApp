@@ -123,10 +123,12 @@
                                   name="activitiesComments"
                                   type="text" class="input-xxlarge"
                                   data-val="true"
-                                  data-val-required="Observaciones es un campo requerido">
+                                  data-val-required="Observaciones es un campo requerido"
+                                  data-val-length="Debe tener m&aacute;ximo 1000 caracteres"
+                                  data-val-length-max="1000">
                         </textarea>
                         <br/>
-            <span class="field-validation-valid" data-valmsg-for="housemateComments"
+            <span class="field-validation-valid" data-valmsg-for="activitiesComments"
                   data-valmsg-replace="true"></span>
                     </div>
                 </div>

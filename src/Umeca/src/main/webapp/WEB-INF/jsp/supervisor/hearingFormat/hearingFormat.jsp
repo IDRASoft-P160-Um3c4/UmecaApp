@@ -313,8 +313,8 @@
                                                     <input id="idFolder" ng-model="m.idFolder" name="idFolder"
                                                            type="text" class="input-xxlarge" data-val="true"
                                                            ng-disabled="m.canEdit==false"
-                                                           data-val-length-max="25"
-                                                           data-val-length="Debe tener m&aacute;ximo 25 caracteres"
+                                                           data-val-length-max="30"
+                                                           data-val-length="Debe tener m&aacute;ximo 30 caracteres"
                                                            data-val-required="Carpeta de investigaci&oacute;n es un campo requerido"/>
                                                     <br/>
                         <span class="field-validation-valid" data-valmsg-for="idFolder"
@@ -422,7 +422,8 @@
                                                     <br/>
                                                     <input id="judgeName" ng-model="m.judgeName" name="judgeName"
                                                            type="text" class="input-xxlarge"
-                                                           data-val="true"
+                                                           data-val="true" data-val-length-max="254" data-val-length-min="1"
+                                                           data-val-length="Debe tener al menos 1 y m&aacute;ximo 254 caracteres."
                                                            data-val-required="Juez de control es un campo requerido"/>
                                                     <br/>
             <span class="field-validation-valid" data-valmsg-for="judgeName"
@@ -436,7 +437,8 @@
                                                     <br/>
                                                     <input id="mpName" ng-model="m.mpName" name="mpName" type="text"
                                                            class="input-xxlarge"
-                                                           data-val="true"
+                                                           data-val="true" data-val-length-max="254" data-val-length-min="1"
+                                                           data-val-length="Debe tener al menos 1 y m&aacute;ximo 254 caracteres."
                                                            data-val-required="Ministerio P&uacute;blico es un campo requerido"/>
                                                     <br/>
             <span class="field-validation-valid" data-valmsg-for="mpName"
@@ -451,7 +453,8 @@
                                                            name="defenderName"
                                                            type="text"
                                                            class="input-xxlarge"
-                                                           data-val="true"
+                                                           data-val="true" data-val-length-max="254" data-val-length-min="1"
+                                                           data-val-length="Debe tener al menos 1 y m&aacute;ximo 254 caracteres."
                                                            data-val-required="Defensor es un campo requerido"/>
                                                     <br/>
             <span class="field-validation-valid" data-valmsg-for="defenderName"
@@ -486,6 +489,8 @@
                                                            type="text"
                                                            class="input-xxlarge"
                                                            data-val="true" ng-disabled="m.canEdit==false"
+                                                           data-val-length-max="254" data-val-length-min="1"
+                                                           data-val-length="Debe tener al menos 1 y m&aacute;ximo 254 caracteres."
                                                            data-val-required="Nombre es un campo requerido"/>
                                                     <br/>
             <span class="field-validation-valid" data-valmsg-for="imputedName"
@@ -500,6 +505,8 @@
                                                            name="imputedFLastName" type="text"
                                                            class="input-xxlarge" data-val="true"
                                                            ng-disabled="m.canEdit==false"
+                                                           data-val-length-max="254" data-val-length-min="1"
+                                                           data-val-length="Debe tener al menos 1 y m&aacute;ximo 254 caracteres."
                                                            data-val-required="Apellido paterno es un campo requerido"/>
                                                     <br/>
             <span class="field-validation-valid" data-valmsg-for="imputedFLastName"
@@ -515,6 +522,8 @@
                                                            name="imputedSLastName" type="text"
                                                            class="input-xxlarge" data-val="true"
                                                            ng-disabled="m.canEdit==false"
+                                                           data-val-length-max="254" data-val-length-min="1"
+                                                           data-val-length="Debe tener al menos 1 y m&aacute;ximo 254 caracteres."
                                                            data-val-required="Apellido materno es un campo requerido"/>
                                                     <br/>
             <span class="field-validation-valid" data-valmsg-for="imputedSLastName"
@@ -573,6 +582,8 @@
                                                            type="text"
                                                            class="input-xxlarge"
                                                            data-val="true" ng-disabled="m.canEdit==false"
+                                                           data-val-length-max="254" data-val-length-min="1"
+                                                           data-val-length="Debe tener al menos 1 y m&aacute;ximo 254 caracteres."
                                                            data-val-required="Tel&eacute;fono(s) es un campo requerido"/>
                                                     <br/>
             <span class="field-validation-valid" data-valmsg-for="imputedTel"
@@ -588,7 +599,6 @@
                                                 <div class="col-xs-12 element-center">
                                                     &iquest;El imputado se encuentra en situaci&oacute;n de calle?
                                                     <br/>
-
                                                     <div class="radio">
                                                         <label>
                                                             <input name="isHomeless" class="ace" type="radio"
@@ -620,7 +630,6 @@
                                             </div>
 
                                             <div class="row" ng-if="a.isHomeless==true">
-
                                                     <div class="col-xs-6">
                                                         <br/>
                                                         <label>Tiempo en sitauci&oacute;n de calle</label>
@@ -939,7 +948,8 @@
                                                             <label>Sala</label>
                                                             <input type="text" name="linkageRoom"
                                                                    class="input-small" ng-model="m.linkageRoom"
-                                                                   data-val="true"
+                                                                   data-val="true" data-val-length-max="254" data-val-length-min="1"
+                                                                   data-val-length="Debe tener al menos 1 y m&aacute;ximo 254 caracteres."
                                                                    data-val-required="Sala es un campo requerido">
                                                             <br/>
                                 <span class="field-validation-valid"
@@ -1152,7 +1162,8 @@
                                                 <textarea class="form-control limited" name="terms"
                                                           ng-model="m.terms"
                                                           maxlength="980"
-                                                          data-val="true"
+                                                          data-val="true" data-val-length-max="980" data-val-length-min="1"
+                                                          data-val-length="Debe tener al menos 1 y m&aacute;ximo 980 caracteres."
                                                           data-val-required="Plazo es un campo requerido">
                                                 </textarea>
                                             <span class="field-validation-valid" data-valmsg-for="terms"
@@ -1350,7 +1361,8 @@
                                     <br/>
                             <textarea class="input-xxlarge form-control limited" name="comments"
                                       ng-model="m.comments"
-                                      maxlength="980" data-val="true"
+                                      maxlength="980" data-val="true" data-val-length-max="980" data-val-length-min="1"
+                                      data-val-length="Debe tener al menos 1 y m&aacute;ximo 980 caracteres."
                                       data-val-required="Observaciones un campo requerido">
                             </textarea>
         <span class="field-validation-valid" data-valmsg-for="comments"

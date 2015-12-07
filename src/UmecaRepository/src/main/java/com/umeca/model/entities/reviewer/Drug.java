@@ -1,6 +1,7 @@
 
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.DrugType;
 import com.umeca.model.catalog.Periodicity;
 import com.umeca.model.entities.supervisor.FramingMeeting;
@@ -126,7 +127,7 @@ public class Drug implements EntityGrid {
     }
 
     public void setQuantity(String quantity) {
-        this.quantity = quantity;
+        this.quantity = StringExt.substringMax(quantity,25);
     }
 
     public Date getLastUse() {
@@ -175,7 +176,7 @@ public class Drug implements EntityGrid {
     }
 
     public void setSpecificationType(String specificationType) {
-        this.specificationType = specificationType;
+        this.specificationType = StringExt.substringMax(specificationType,100);
     }
 
     public String getSpecificationPeriodicity() {
@@ -183,7 +184,7 @@ public class Drug implements EntityGrid {
     }
 
     public void setSpecificationPeriodicity(String specificationPeriodicity) {
-        this.specificationPeriodicity = specificationPeriodicity;
+        this.specificationPeriodicity = StringExt.substringMax(specificationPeriodicity,100);
     }
 
     public FramingMeeting getFramingMeeting() {

@@ -44,6 +44,7 @@ public class Constants {
     public static final String FILE_PREFIX_PHOTO_EMPLOYEE = "PHOTO_EMPLOYEE_";
     public static final Long CHANNELING_ID_TYPE_FILE_CHANNELING_END_RECORD = 4l;
     public static final String CHANNELING_FULFILL_TITLE = "RESULTADO DE LA IMPOSICIÓN";
+    public static final int DEFAULT_LEN_STRING = 254;
 
     public static String S_MEETING_INCOMPLETE = "INCOMPLETE";
     public static String S_MEETING_DECLINE = "DECLINE";
@@ -111,6 +112,8 @@ public class Constants {
     public static final String ROLE_CHANNELING_MANAGER = "ROLE_CHANNELING_MANAGER";
     public static final String ROLE_DIRECTOR = "ROLE_DIRECTOR";
     public static final String ROLE_ATTORNEY_REGISTRATION_ = "ROLE_ATTORNEY_REGISTRATION";
+    public static final String ROLE_DETENTION_RECORD = "ROLE_DETENTION_RECORD";
+
 
     public static String FORMAT_CALENDAR_I = "dd/MM/yyyy HH:mm";
     public static String FORMAT_CALENDAR_II = "dd-MM-yyyy";
@@ -405,6 +408,12 @@ public class Constants {
     public static final String REPORT_STATISTIC_CHANNELING_I = "STCHR_9";
 
 
+    public static final String REPORT_HUMAN_RESOURCES_STATISTIC_A = "STHRR_1";
+    public static final String REPORT_HUMAN_RESOURCES_STATISTIC_B = "STHRR_2";
+    public static final String REPORT_HUMAN_RESOURCES_STATISTIC_C = "STHRR_3";
+    public static final String REPORT_HUMAN_RESOURCES_STATISTIC_D = "STHRR_4";
+
+
 
 
     public static final String MEETING_ASSIGNMENT_TYPE = "MEETING";
@@ -412,6 +421,10 @@ public class Constants {
     public static final String HEARING_FORMAT_ASSIGNMENT_TYPE = "HEARING_FORMAT";
     public static final Long VERIFICATION_METHOD_VISIT_ID = 2L;
     public static final String CASE_STATUS_TABLET_ASSIGNMENT = "ST_CASE_TABLET_ASSIGNED";
+
+
+    public static final Long EVALUATION_CASE_TYPE  = 1L;
+    public static final Long SUPERVISOR_CASE_TYPE = 2L;
 
 
 }

@@ -13,3 +13,7 @@
 12|FINGER_VAL|ValidateFingerPrint|false|Validar el enrolamiento en la entrevista de encuadre
 13|ARCHIVE|EmployeePhotoPathToSave|imgs/photo_employee|Ruta para almacenar las fotos de los empleados
 14|ARCHIVE|TemporalImgPathToSave|imgs/photo_tmp|Ruta para almacenar imágenes temporales
+15|ATTENDANCE|ArrivalTolerance|00:15:00|Tiempo de tolerancia a la hora de entrada. Después del horario de entrada, más el tiempo de tolerancia, se considera retardo.
+16|ATTENDANCE|PeriodStart|8|Inicio de la 1er quincena
+17|ATTENDANCE|PeriodEnd|22|Inicio de la 2da quincena
+18|ATTENDANCE|AbsenceTime|00:30:00|Minutos para considerarse falta

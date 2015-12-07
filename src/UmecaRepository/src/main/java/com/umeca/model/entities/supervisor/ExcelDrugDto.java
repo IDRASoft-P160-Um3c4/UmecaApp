@@ -1,5 +1,6 @@
 package com.umeca.model.entities.supervisor;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -15,8 +16,13 @@ public class ExcelDrugDto {
     private String specificationType;
     private String specificationPeriodicity;
     private Boolean block;
+    private String onsetAge;
+    private String lastUseStr;
+
 
     public ExcelDrugDto(Long idCase, String drugType, String periodicity, String quantity, Date lastUse, String specificationType, String specificationPeriodicity, Boolean block) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+
         this.idCase = idCase;
         this.drugType = drugType;
         this.periodicity = periodicity;
@@ -25,6 +31,17 @@ public class ExcelDrugDto {
         this.specificationType = specificationType;
         this.specificationPeriodicity = specificationPeriodicity;
         this.block = block;
+
+        this.lastUseStr = this.lastUse == null ? "" : sdf.format(this.lastUse);
+
+    }
+
+
+    public ExcelDrugDto(Long idCase, String drugType, String periodicity, String onsetAge){
+        this.idCase = idCase;
+        this.drugType = drugType;
+        this.periodicity = periodicity;
+        this.onsetAge = onsetAge;
     }
 
     public Long getIdCase() {
@@ -89,5 +106,22 @@ public class ExcelDrugDto {
 
     public void setBlock(Boolean block) {
         this.block = block;
+    }
+
+    public String getOnsetAge() {
+        return onsetAge;
+    }
+
+    public void setOnsetAge(String onsetAge) {
+        this.onsetAge = onsetAge;
+    }
+
+
+    public String getLastUseStr() {
+        return lastUseStr;
+    }
+
+    public void setLastUseStr(String lastUseStr) {
+        this.lastUseStr = lastUseStr;
     }
 }

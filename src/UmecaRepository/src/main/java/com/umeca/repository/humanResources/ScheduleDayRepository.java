@@ -17,4 +17,10 @@ public interface ScheduleDayRepository extends JpaRepository<ScheduleDay, Long> 
             "where ES.id=:idParent order by SD.dayId")
     List<ScheduleDayDto> findScheduleDaysByParentId(@Param("idParent") Long idEmployeeSchedule);
 
+
+    @Query("select new com.umeca.model.dto.humanResources.ScheduleDayDto(SD.id, SD.dayId, SD.start, SD.end, EMP.id) " +
+            "from Employee EMP  " +
+            "inner join emp.employeeSchedule.days SD ")
+    List<ScheduleDayDto> findAllScheduleDays();
+
 }

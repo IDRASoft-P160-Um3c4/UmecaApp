@@ -13,9 +13,9 @@ public class CrimeDto {
 
 
     public CrimeDto dtoCrime(Crime crime) {
-        this.comment = StringEscape.escapeText(crime.getComment());
+        this.comment = crime.getComment();
         this.crime = new CatalogDto(crime.getCrime().getId(), crime.getCrime().getName());
-        article = StringEscape.escapeText(crime.getArticle());
+        article = crime.getArticle();
         CatalogDto aux = new CatalogDto();
         aux.setName(crime.getFederal().getName());
         aux.setId(crime.getFederal().getId());

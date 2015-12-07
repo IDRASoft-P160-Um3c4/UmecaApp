@@ -53,6 +53,8 @@ public class TabletImputedDto {
     private TabletCountryDto birthCountry;
     private TabletLocationDto location;
 
+    private Integer birthInfoId;
+
     public Long getId() {
         return id;
     }
@@ -203,6 +205,14 @@ public class TabletImputedDto {
 
     public void setWebId(Long webId) {
         this.webId = webId;
+    }
+
+    public Integer getBirthInfoId() {
+        return birthInfoId;
+    }
+
+    public void setBirthInfoId(Integer birthInfoId) {
+        this.birthInfoId = birthInfoId;
     }
 }
 

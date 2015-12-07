@@ -105,7 +105,7 @@ public class ProjectController {
                 return response;
 
             Project model;
-            if (modelNew.getId() > 0) {
+            if (modelNew.getId().longValue() > 0L) {
                 model = repositoryProject.findOne(modelNew.getId());
                 model.setName(modelNew.getName());
                 model.setDescription(modelNew.getDescription());

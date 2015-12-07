@@ -130,7 +130,7 @@ public class ChannelingServiceImpl implements ChannelingService {
 
         Long channelingId = modelNew.getChannelingId();
         final Channeling model;
-        if (channelingId == null || channelingId <= 0) {
+        if (channelingId == null || channelingId.longValue() <= 0) {
             //Insertar
             model = new Channeling();
 
@@ -147,7 +147,7 @@ public class ChannelingServiceImpl implements ChannelingService {
             model.setConsecutive(calculateNextConsecutiveByCaseId(modelNew.getCaseId()));
         } else { //Modificar
             model = channelingRepository.findOne(modelNew.getChannelingId());
-            if (model == null || model.getIsObsolete() == true) {
+            if (model == null || model.getIsObsolete().equals(true)) {
                 response.setHasError(true);
                 response.setMessage("El registro que desea modificar no se encuentra o ya no existe");
                 return;
@@ -188,7 +188,7 @@ public class ChannelingServiceImpl implements ChannelingService {
             return;
 
         ///TODO Validar si no existe una actividad en el plan de monitoreo que tenga una canalización asignada
-        Long count = activityMonitoringPlanRepository.countInChanneling(channelingId);
+        long count = activityMonitoringPlanRepository.countInChanneling(channelingId).longValue();
 
         if (count > 0) {
             response.setHasError(true);
@@ -298,7 +298,7 @@ public class ChannelingServiceImpl implements ChannelingService {
 
     private boolean isCatalogValid(Long catalogId, ResponseMessage response) {
 
-        if (catalogId == null || catalogId <= 0) {
+        if (catalogId == null || catalogId.longValue() <= 0) {
             response.setHasError(true);
             response.setMessage("Faltan campos por seleccionar");
             return false;
@@ -308,7 +308,7 @@ public class ChannelingServiceImpl implements ChannelingService {
     }
 
     private boolean isValidCase(Long caseId, ResponseMessage response) {
-        Long count = caseRepository.isReadyForChanneling(caseId);
+        long count = caseRepository.isReadyForChanneling(caseId).longValue();
         if (count > 0)
             return true;
 
@@ -508,9 +508,9 @@ public class ChannelingServiceImpl implements ChannelingService {
                                 "Registrado por: <strong>%s</strong><br/>" +
                                 "Se cumplió con la imposición: <strong>%s</strong><br/>" +
                                 "Fecha: <b>%s</b>",
-                        (isFulfilled == null || !isFulfilled ? "NO " : ""),
+                        (isFulfilled == null || isFulfilled.equals(false) ? "NO " : ""),
                         channeling.getChannelingType().getName(), imputedFullName, caseDetention.getIdMP(),
-                        userService.getFullNameById(user.getId()), (isFulfilled == null || !isFulfilled ? "NO " : "SI")
+                        userService.getFullNameById(user.getId()), (isFulfilled == null || isFulfilled.equals(false) ? "NO " : "SI")
                         , CalendarExt.calendarToFormatString(Calendar.getInstance(), Constants.FORMAT_CALENDAR_I)), user,
                 new ArrayList<String>() {{
                     add(Constants.ROLE_SUPERVISOR_MANAGER);

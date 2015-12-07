@@ -109,19 +109,19 @@ public class StatisticSupervisorManagerReportController {
                 model.addObject("filterSelected", filterSelected);
             }
 
-            if (idReportType == 1)
+            if (idReportType.equals(1L))
                 extraData = "General";
-            else if (idReportType == 2) {
-                if (idDistrict == 1)
+            else if (idReportType.equals(2L)) {
+                if (idDistrict.equals(1L))
                     extraData = "Por operador - Cuatla";
-                else if (idDistrict == 2)
+                else if (idDistrict.equals(2L))
                     extraData = "Por operador - Cuernavaca";
                 else
                     extraData = "Por operador - Jojutla";
             } else {
-                if (idDistrict == 1)
+                if (idDistrict.equals(1L))
                     extraData = "Por distrito - Cuatla";
-                else if (idDistrict == 2)
+                else if (idDistrict.equals(2L))
                     extraData = "Por distrito - Cuernavaca";
                 else
                     extraData = "Por distrito - Jojutla";
@@ -167,7 +167,7 @@ public class StatisticSupervisorManagerReportController {
         String currentSupervisorFullName;
 
 
-        if (idSupervisor == 0) {
+        if (idSupervisor.equals(0L)) {
             currentSupervisorFullName = "Sin supervisor";
         } else {
             currentSupervisorFullName = userRepository.getFullNameById(idSupervisor);
@@ -192,9 +192,9 @@ public class StatisticSupervisorManagerReportController {
             String data;
             data = statisticSupervisorManagerReportService.getData(initDate, endDate, filterSelected, 4L, idDistrict, idSupervisor);
 
-            if (idDistrict == 1)
+            if (idDistrict.equals(1L))
                 extraData = "Por operador: " + currentSupervisorFullName + " - Cuatla";
-            else if (idDistrict == 2)
+            else if (idDistrict.equals(2L))
                 extraData = "Por operador: " + currentSupervisorFullName + " - Cuernavaca";
             else
                 extraData = "Por operador: " + currentSupervisorFullName + " - Jojutla";

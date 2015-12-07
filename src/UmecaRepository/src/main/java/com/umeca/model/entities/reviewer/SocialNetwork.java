@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.entities.supervisor.FramingMeeting;
 
 import javax.persistence.*;
@@ -28,7 +29,7 @@ public class SocialNetwork {
     private List<PersonSocialNetwork> peopleSocialNetwork;
 
     @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_meeting", nullable = false)
+    @JoinColumn(name="id_meeting", nullable = false, unique = true)
     private Meeting meeting;
 
     @ManyToOne
@@ -49,7 +50,7 @@ public class SocialNetwork {
     }
 
     public void setComment(String comment) {
-        this.comment = comment;
+        this.comment = StringExt.substringMax(comment,255);
     }
 
     public List<PersonSocialNetwork> getPeopleSocialNetwork() {

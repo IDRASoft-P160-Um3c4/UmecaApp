@@ -74,8 +74,7 @@
                         index: 'reviewerFullname',
                         width: 200,
                         align: "center",
-                        sorttype: 'string',
-                        searchoptions: {sopt: ['bw']}
+
                     },
                     {
                         name: 'hearingDateStr',
@@ -167,6 +166,14 @@
                 del: false,
                 search: false
             });
+
+            jQuery("#GridId").jqGrid('filterToolbar', {
+                stringResult: true,
+                searchOperators: true,
+                searchOnEnter: true,
+                multipleSearch: true,
+                ignoreCase: true
+            });
         });
 
     </script>
@@ -238,9 +245,7 @@
                             name: 'imputedFullname',
                             index: 'imputedFullname',
                             width: 200,
-                            align: "center",
-                            sorttype: 'string',
-                            searchoptions: {sopt: ['bw']}
+                            align: "center"
                         },
                         {
                             name: 'reviewerFullname',
@@ -256,7 +261,7 @@
                             width: 140,
                             align: "center",
                             sorttype: 'string',
-                            search: false
+                            searchoptions: { sopt: ['bw'] }
                         },
                         {
                             name: 'umecaInterviewDateStr',
@@ -264,7 +269,8 @@
                             width: 175,
                             align: "center",
                             sorttype: 'string',
-                            search: false
+                            sorttype: 'string',
+                            searchoptions: { sopt: ['bw'] }
                         },
                         {
                             name: 'presenceStr',
@@ -272,7 +278,7 @@
                             width: 75,
                             align: "center",
                             sorttype: 'string',
-                            search: false
+                            searchoptions: { sopt: ['bw'] }
                         },
                         {
                             name: 'attended',
@@ -284,8 +290,10 @@
                             name: 'informationDeliveredStr',
                             index: 'informationDeliveredStr',
                             align: "center",
-                            width: 140
-
+                            width: 140,
+                            align: "center",
+                            sorttype: 'string',
+                            searchoptions: { sopt: ['bw'] }
                         },
                         {
                             name: 'Action',
@@ -354,6 +362,15 @@
                     refresh: true, refreshicon: 'icon-refresh green',
                     del: false,
                     search: false
+                });
+
+
+                jQuery("#GridId").jqGrid('filterToolbar', {
+                    stringResult: true,
+                    searchOperators: true,
+                    searchOnEnter: true,
+                    multipleSearch: true,
+                    ignoreCase: true
                 });
             });
 

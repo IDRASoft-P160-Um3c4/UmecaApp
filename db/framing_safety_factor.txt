@@ -6,6 +6,7 @@
 5|No consume sustancias adictivas|5|0
 6|No sale comúnmente del estado|6|0
 7|Disponibilidad para cumplir|7|0
+8|NO SE DETECTAN|8|0
 
 
 

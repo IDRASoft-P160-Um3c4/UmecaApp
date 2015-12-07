@@ -42,7 +42,7 @@ public class LoginController {
         try{
             Long userId = sharedUserService.GetLoggedUserId();
 
-            if(userId == null || userId < 1)
+            if(userId == null || userId.longValue() < 1)
                 return mainPageService.generatePage(request, Constants.ROLE_ANONYMOUS, model, userId);
 
             List<String> lstRoles = sharedUserService.getLstRolesByUserId(userId);

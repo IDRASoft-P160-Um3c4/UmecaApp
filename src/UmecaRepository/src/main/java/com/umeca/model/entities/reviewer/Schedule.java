@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.DayWeek;
 import com.umeca.model.entities.supervisor.FramingActivity;
 import com.umeca.model.entities.supervisor.FramingAddress;
@@ -76,7 +77,7 @@ public class Schedule {
     }
 
     public void setDay(String day) {
-        this.day = day;
+        this.day = StringExt.substringMax(day, 50);
     }
 
     public ImputedHome getImputedHome() {
@@ -116,7 +117,7 @@ public class Schedule {
     }
 
     public void setStart(String start) {
-        this.start = start;
+        this.start = StringExt.substringMax(start, 5);
     }
 
     public String getEnd() {
@@ -124,7 +125,7 @@ public class Schedule {
     }
 
     public void setEnd(String end) {
-        this.end = end;
+        this.end = StringExt.substringMax(end, 5);
     }
 
     public FramingActivity getFramingActivity() {

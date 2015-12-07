@@ -228,7 +228,7 @@ public class CaseServiceImpl implements CaseService {
         else if (caseDet.getCloserUser() != null)
             supervisor = caseDet.getCloserUser();
 
-        if (model.getAuthorized() == 1) {
+        if (model.getAuthorized().equals(1)) {
             statusAction = MonitoringConstants.STATUS_AUTHORIZED;
             statusCase = statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED);
             caseDet.setCloseDate(new Date());
@@ -245,7 +245,7 @@ public class CaseServiceImpl implements CaseService {
 
         CaseRequestService.CreateCaseResponseToUser(responseTypeRepository, caseRequestRepository, messageRepository,
                 sharedUserService, logException, user, caseDet,
-                "El cierre del caso fue " + (model.getAuthorized() == 1 ? "autorizado" : "rechazado") + ". Comentarios: " + StringEscape.escapeText(model.getComments()),
+                "El cierre del caso fue " + (model.getAuthorized().equals(1) ? "autorizado" : "rechazado") + ". Comentarios: " + StringEscape.escapeText(model.getComments()),
                 Constants.ST_REQUEST_CLOSE_CASE);
 
         CloseCause cause = caseDet.getCloseCause();
@@ -273,7 +273,7 @@ public class CaseServiceImpl implements CaseService {
 
     @Override
     public boolean isValidCase(Long caseId) {
-        return caseRepository.existsCaseNotClosed(caseId, Constants.CASE_STATUS_CLOSED) == 1;
+        return caseRepository.existsCaseNotClosed(caseId, Constants.CASE_STATUS_CLOSED).equals(1L);
     }
 
     @Override
@@ -388,7 +388,7 @@ public class CaseServiceImpl implements CaseService {
         List<CaseRequest> lstCaseRequest = caseRequestRepository.findCaseRequestByCaseAndType(caseDet.getId(), Constants.ST_REQUEST_CASE_OBSOLETE_SUPERVISION, new PageRequest(0, 1));
         String typeRequest, commentNotification;
         CaseRequest request = lstCaseRequest.get(0);
-        if (model.getAuthorized() == 1) {
+        if (model.getAuthorized().equals(1)) {
 
             caseDet.setStatus(statusCaseRepository.findByCode(Constants.CASE_STATUS_CLOSED));
             caseDet.setCloseCause(closeCauseRepository.findByCode(Constants.CLOSE_CAUSE_OBSOLETE_SUPERVISION));

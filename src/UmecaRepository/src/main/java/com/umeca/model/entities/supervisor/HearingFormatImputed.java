@@ -1,7 +1,9 @@
 package com.umeca.model.entities.supervisor;
 
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.entities.reviewer.Address;
+import com.umeca.model.shared.Constants;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -79,7 +81,7 @@ public class HearingFormatImputed {
     }
 
     public void setImputeTel(String imputeTel) {
-        this.imputeTel = imputeTel;
+        this.imputeTel = StringExt.substringMax(imputeTel, Constants.DEFAULT_LEN_STRING);
     }
 
     public Address getAddress() {

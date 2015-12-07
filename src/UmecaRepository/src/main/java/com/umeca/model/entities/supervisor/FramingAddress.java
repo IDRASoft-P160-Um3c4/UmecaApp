@@ -1,9 +1,11 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.HomeType;
 import com.umeca.model.catalog.RegisterType;
 import com.umeca.model.entities.reviewer.Address;
 import com.umeca.model.entities.reviewer.Schedule;
+import com.umeca.model.shared.Constants;
 
 import javax.persistence.*;
 import java.util.List;
@@ -89,7 +91,7 @@ public class FramingAddress {
     }
 
     public void setAddressRef(String addressRef) {
-        this.addressRef = addressRef;
+        this.addressRef = StringExt.substringMax(addressRef, Constants.DEFAULT_LEN_STRING);
     }
 
     public List<Schedule> getSchedule() {
@@ -105,7 +107,7 @@ public class FramingAddress {
     }
 
     public void setTimeAgo(String timeAgo) {
-        this.timeAgo = timeAgo;
+        this.timeAgo = StringExt.substringMax(timeAgo, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getTimeLive() {
@@ -113,7 +115,7 @@ public class FramingAddress {
     }
 
     public void setTimeLive(String timeLive) {
-        this.timeLive = timeLive;
+        this.timeLive = StringExt.substringMax(timeLive, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getReasonAnother() {
@@ -121,7 +123,7 @@ public class FramingAddress {
     }
 
     public void setReasonAnother(String reasonAnother) {
-        this.reasonAnother = reasonAnother;
+        this.reasonAnother = StringExt.substringMax(reasonAnother, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getPhone() {
@@ -129,7 +131,7 @@ public class FramingAddress {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phone = StringExt.substringMax(phone, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getReasonChange() {
@@ -137,7 +139,7 @@ public class FramingAddress {
     }
 
     public void setReasonChange(String reasonChange) {
-        this.reasonChange = reasonChange;
+        this.reasonChange = StringExt.substringMax(reasonChange, Constants.DEFAULT_LEN_STRING);
     }
 
     public String getSpecification() {
@@ -145,7 +147,7 @@ public class FramingAddress {
     }
 
     public void setSpecification(String specification) {
-        this.specification = specification;
+        this.specification = StringExt.substringMax(specification, Constants.DEFAULT_LEN_STRING);
     }
 
     public RegisterType getRegisterType() {
@@ -172,7 +174,7 @@ public class FramingAddress {
         if (this.homeType.getName().toLowerCase().equals(FramingMeetingConstants.LOW_CASE_REGISTER_TYPE_OTHER) && (this.specification == null || this.specification.trim().equals("")))
             return false;
 
-        if (this.isHomeless != null && this.isHomeless != true)
+        if (this.isHomeless != null && this.isHomeless.equals(false))
             if (this.phone == null || this.phone.trim().equals(""))
                 return false;
 
@@ -184,7 +186,7 @@ public class FramingAddress {
             if (this.addressRef == null || this.addressRef.trim().equals(""))
                 return false;
 
-            if (this.isHomeless != null && this.isHomeless != true)
+            if (this.isHomeless != null && this.isHomeless.equals(false))
                 if (this.schedule == null || !(this.schedule.size() > 0))
                     return false;
 

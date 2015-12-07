@@ -256,6 +256,23 @@ app.controller('reportExcelController', function ($scope, $timeout, $http) {
                 });
         };
 
+
+        $scope.findHumanResourceExcel = function (formId, urlToPost) {
+            $scope.msgError = "";
+
+
+            if ($(formId).valid() == false)
+                return;
+
+            $scope.WaitFor = true;
+
+
+            var url = urlToPost + "?initDate=" + $scope.initDate + "&endDate=" + $scope.endDate;
+            window.goToUrlMvcUrl(url);
+
+            return true;
+        };
+
     }
 )
 ;

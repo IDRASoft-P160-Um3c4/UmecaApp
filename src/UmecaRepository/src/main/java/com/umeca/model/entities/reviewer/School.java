@@ -1,5 +1,6 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.Degree;
 import com.umeca.model.entities.reviewer.dto.GroupMessageMeetingDto;
 import com.umeca.model.entities.reviewer.dto.TerminateMeetingMessageDto;
@@ -84,7 +85,7 @@ public class School {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = StringExt.substringMax(name,200);
     }
 
     public String getPhone() {
@@ -92,7 +93,7 @@ public class School {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phone = StringExt.substringMax(phone,30);
     }
 
     public Degree getDegree() {
@@ -124,7 +125,7 @@ public class School {
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.address = StringExt.substringMax(address,255);
     }
 
     public String getSpecification() {
@@ -132,7 +133,7 @@ public class School {
     }
 
     public void setSpecification(String specification) {
-        this.specification = specification;
+        this.specification = StringExt.substringMax(specification,300);
     }
 
     public Boolean getBlock() {

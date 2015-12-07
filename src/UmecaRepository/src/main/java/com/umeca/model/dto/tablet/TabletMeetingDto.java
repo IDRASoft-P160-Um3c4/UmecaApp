@@ -50,6 +50,9 @@ public class TabletMeetingDto {
     private List<TabletJobDto> jobs;
     private List<TabletDrugDto> drugs;
 
+    private Integer District;
+    private String declineReason;
+
     public Long getId() {
         return id;
     }
@@ -224,5 +227,21 @@ public class TabletMeetingDto {
 
     public void setWebId(Long webId) {
         this.webId = webId;
+    }
+
+    public Integer getDistrict() {
+        return District;
+    }
+
+    public void setDistrict(Integer district) {
+        District = district;
+    }
+
+    public String getDeclineReason() {
+        return declineReason;
+    }
+
+    public void setDeclineReason(String declineReason) {
+        this.declineReason = declineReason;
     }
 }
