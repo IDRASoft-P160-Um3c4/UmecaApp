@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Date;
 
 @Service("detentionlRecordService")
 public class DetentionlRecordServiceImpl implements DetentionRecordService {
@@ -25,8 +23,20 @@ public class DetentionlRecordServiceImpl implements DetentionRecordService {
 
     private Detained fillDetained(DetainedDto dto) {
         Detained detained = new Detained();
+
+        Calendar time = Calendar.getInstance();
+        time.setTimeInMillis(dto.getInitTime().getTime());
+
+        Calendar date = Calendar.getInstance();
+        date.setTimeInMillis(dto.getInitDate().getTime());
+
+        Calendar summ = Calendar.getInstance();
+        summ.set(date.get(Calendar.YEAR),date.get(Calendar.MONTH),date.get(Calendar.DAY_OF_MONTH),time.get(Calendar.HOUR),time.get(Calendar.MINUTE),time.get(Calendar.SECOND));
+
         detained.setInitDate(dto.getInitDate());
         detained.setInitTime(dto.getInitTime());
+        detained.setInitTimestamp(summ);
+
         detained.setName(dto.getName());
         detained.setLastNameP(dto.getLastNameP());
         detained.setLastNameM(dto.getLastNameM());

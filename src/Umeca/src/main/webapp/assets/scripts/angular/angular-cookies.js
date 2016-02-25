@@ -146,6 +146,7 @@ angular.module('ngCookies', ['ng']).
    */
    factory('$cookieStore', ['$cookies', function($cookies) {
 
+
       return {
         /**
          * @ngdoc method

@@ -35,6 +35,9 @@ public class Detained {
     @Column(name = "register_timestamp", nullable = false)
     private Calendar registerTimestamp;
 
+    @Column(name = "init_timestamp", nullable = false)
+    private Calendar initTimestamp;
+
     @Column(name = "init_date", nullable = false)
     private Date initDate;
 
@@ -204,5 +207,13 @@ public class Detained {
 
     public void setIsVisibleDetentionRecord(Boolean isVisibleDetentionRecord) {
         this.isVisibleDetentionRecord = isVisibleDetentionRecord;
+    }
+
+    public Calendar getInitTimestamp() {
+        return initTimestamp;
+    }
+
+    public void setInitTimestamp(Calendar initTimestamp) {
+        this.initTimestamp = initTimestamp;
     }
 }

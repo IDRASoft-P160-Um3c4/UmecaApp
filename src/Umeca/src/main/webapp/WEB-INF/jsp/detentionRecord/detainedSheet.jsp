@@ -65,8 +65,10 @@
                         var minLeft = leftMil % _1hourMil;
                         minLeft = Math.floor(minLeft / _1minMil);
 
-                        totDue = hrsDue + " hrs. " + minDue + " min.";
-                        totLeft = hrsLeft + " hrs. " + minLeft + " min.";
+                        if (hrsDue > -1 && minDue > -1)
+                            totDue = hrsDue + " hrs. " + minDue + " min.";
+                        if (hrsLeft > -1 && minLeft > -1)
+                            totLeft = hrsLeft + " hrs. " + minLeft + " min.";
                     } else {
                         totDue = "El plazo ha vencido.";
                         totLeft = "El plazo ha vencido.";
@@ -83,7 +85,6 @@
             };
 
             if (showProsecute) {
-                alert("Para pruebas la lista se refresca cada 10 segundos");
                 setInterval(function () {
                     $("#GridIdDetained").trigger("reloadGrid");
 //                }, 180000);
@@ -145,10 +146,11 @@
                     },
                     {
                         name: 'initDateStr',
-                        index: 'initDateStr',
+                        index: 'initTimestamp',
                         sorttype: 'string',
                         width: 90,
                         align: "center",
+                        sorttype: 'string',
                         search: false
                     },
                     {
@@ -156,7 +158,7 @@
                         index: 'initTimeStr',
                         width: 90,
                         align: "center",
-                        sorttype: 'string',
+                        sortable: false,
                         search: false
                     },
                     {
@@ -193,10 +195,10 @@
                     },
                     {
                         name: 'timeLeft',
-                        index: 'timeLeft',
+                        index: 'initTimestamp',
                         width: 100,
                         align: "center",
-                        sortable: false,
+                        sortable: true,
                         search: false
                     },
 
@@ -222,7 +224,7 @@
                 rowList: [10, 20, 30],
                 pager: '#GridPager',
                 sortname: 'id',
-                height: 350,
+                height: 500,
                 viewrecords: true,
                 shrinkToFit: false,
                 sortorder: "desc",
@@ -282,7 +284,7 @@
                         if (rol === '<%= Constants.ROLE_DETENTION_RECORD%>') {
                             window.goToUrlMvcUrl("<c:url value='/detentionRecord/excelDetentionRecordReport/jxls.html'/>", params);
                         }
-                        else{
+                        else {
                             window.goToUrlMvcUrl("<c:url value='/managereval/excelDetentionRecordReport/jxls.html'/>", params);
                         }
                     } catch (e) {
@@ -297,8 +299,6 @@
                 multipleSearch: true,
                 ignoreCase: true
             });
-
-
 
 
         });

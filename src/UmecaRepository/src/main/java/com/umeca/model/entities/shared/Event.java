@@ -1,4 +1,4 @@
-    package com.umeca.model.entities.shared;
+        package com.umeca.model.entities.shared;
 
 import com.umeca.infrastructure.extensions.StringExt;
 import com.umeca.model.catalog.EventType;
@@ -6,7 +6,6 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 
 import javax.persistence.*;
-import java.util.Calendar;
 import java.util.Date;
 
 @Entity
