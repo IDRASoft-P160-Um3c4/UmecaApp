@@ -31,7 +31,7 @@ public class DetentionlRecordServiceImpl implements DetentionRecordService {
         date.setTimeInMillis(dto.getInitDate().getTime());
 
         Calendar summ = Calendar.getInstance();
-        summ.set(date.get(Calendar.YEAR),date.get(Calendar.MONTH),date.get(Calendar.DAY_OF_MONTH),time.get(Calendar.HOUR),time.get(Calendar.MINUTE),time.get(Calendar.SECOND));
+        summ.set(date.get(Calendar.YEAR),date.get(Calendar.MONTH),date.get(Calendar.DAY_OF_MONTH),time.get(Calendar.HOUR_OF_DAY),time.get(Calendar.MINUTE),time.get(Calendar.SECOND));
 
         detained.setInitDate(dto.getInitDate());
         detained.setInitTime(dto.getInitTime());
