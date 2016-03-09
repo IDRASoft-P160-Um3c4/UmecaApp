@@ -8,12 +8,10 @@ import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.dto.detentionRecord.DetainedDto;
-import com.umeca.model.dto.humanResources.AttendanceExcelDto;
-import com.umeca.model.dto.humanResources.EmployeeExcelDto;
-import com.umeca.model.dto.humanResources.ScheduleDayDto;
 import com.umeca.model.entities.detentionRecord.Detained;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.detentionRecord.DetainedRepository;
+import com.umeca.repository.shared.SystemSettingRepository;
 import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.detentionRecord.DetentionRecordService;
@@ -33,7 +31,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -52,6 +49,9 @@ public class DetentionRecordController {
 
     @Autowired
     private DetainedRepository detainedRepository;
+
+    @Autowired
+    SystemSettingRepository systemSettingRepository;
 
     @RequestMapping(value = "/detentionRecord/detainedSheet", method = RequestMethod.GET)
     public ModelAndView index() {
@@ -79,11 +79,14 @@ public class DetentionRecordController {
             showProsecute = true;
         }
 
+        String period = systemSettingRepository.findOneValue("DETENTION", "OutOfTimePeriod");
+        Long OutOfTimePeriod = Long.parseLong(period);
 
         model.addObject("rol", rol);
         model.addObject("showAdd", showAdd);
         model.addObject("showAction", showAction);
         model.addObject("showProsecute", showProsecute);
+        model.addObject("OutOfTimePeriod", OutOfTimePeriod);
         return model;
     }
 
@@ -92,15 +95,14 @@ public class DetentionRecordController {
     @ResponseBody
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
 
-
         List<String> roles = sharedUserService.getLstRolesByUserId(sharedUserService.GetLoggedUserId());
+
         opts.extraFilters = new ArrayList<>();
         if (roles.contains(Constants.ROLE_DETENTION_RECORD)) {
             JqGridRulesModel extraFilter = new JqGridRulesModel("isVisibleDetentionRecord", "1", JqGridFilterModel.COMPARE_EQUAL);
             opts.extraFilters.add(extraFilter);
 
-        }
-        else if(roles.contains(Constants.ROLE_EVALUATION_MANAGER) || roles.contains(Constants.ROLE_REVIEWER)){
+        } else if (roles.contains(Constants.ROLE_EVALUATION_MANAGER) || roles.contains(Constants.ROLE_REVIEWER)) {
             JqGridRulesModel extraFilter = new JqGridRulesModel("isVisibleUmeca", "1", JqGridFilterModel.COMPARE_EQUAL);
             opts.extraFilters.add(extraFilter);
         }
@@ -175,9 +177,9 @@ public class DetentionRecordController {
 
 
     @RequestMapping(value = "/detentionRecord/doProsecute", method = RequestMethod.POST)
-      public
-      @ResponseBody
-      ResponseMessage doProsecute(@RequestParam Long id) {
+    public
+    @ResponseBody
+    ResponseMessage doProsecute(@RequestParam Long id) {
 
         ResponseMessage response = new ResponseMessage();
         try {
@@ -228,8 +230,7 @@ public class DetentionRecordController {
     }
 
 
-
-    @RequestMapping(value = {"/detentionRecord/excelDetentionRecordReport/jxls","/managereval/excelDetentionRecordReport/jxls"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/detentionRecord/excelDetentionRecordReport/jxls", "/managereval/excelDetentionRecordReport/jxls"}, method = RequestMethod.GET)
     public
     @ResponseBody
     void jxlsMethod(HttpServletRequest request, HttpServletResponse response) {
@@ -238,11 +239,11 @@ public class DetentionRecordController {
 
         XLSTransformer transformer = new XLSTransformer();
 
-        List<DetainedDto> lstDetained =  detainedRepository.getDetainedInfo();
+        List<DetainedDto> lstDetained = detainedRepository.getDetainedInfo();
 
 
         try {
-            beans.put("lstDetained",lstDetained);
+            beans.put("lstDetained", lstDetained);
 
             UUID uid = UUID.randomUUID();
             File temp = File.createTempFile(uid.toString(), ".xls");
@@ -285,5 +286,28 @@ public class DetentionRecordController {
             logException.Write(ex, this.getClass(), "jxlsMethod", sharedUserService);
         }
     }
+
+
+    @RequestMapping(value = "/detentionRecord/detainedCarousel", method = RequestMethod.GET)
+    public ModelAndView detainedCarousel() {
+        ModelAndView model = new ModelAndView("/detentionRecord/detainedCarousel");
+
+        String period = systemSettingRepository.findOneValue("DETENTION", "OutOfTimePeriod");
+        Long OutOfTimePeriod = Long.parseLong(period);
+
+        model.addObject("OutOfTimePeriod", OutOfTimePeriod);
+        return model;
+    }
+
+    @RequestMapping(value = "/detentionRecord/detainedCarousel/getDetainedList", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    String getDetainedList(){
+        List<DetainedDto> list = detainedRepository.getDetainedVisibleInfo();
+        return new Gson().toJson(list);
+    }
+
+
+
 
 }

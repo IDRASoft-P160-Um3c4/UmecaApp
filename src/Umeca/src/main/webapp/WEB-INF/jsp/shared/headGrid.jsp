@@ -15,6 +15,7 @@
 <script src="${pageContext.request.contextPath}/assets/scripts/modernizr-2.6.2.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/jquery-1.10.2.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/angular/angular.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/scripts/angular/angular-animate.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/respond.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/scripts/jquery.validate.min.js"></script>

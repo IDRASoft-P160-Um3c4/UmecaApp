@@ -31,11 +31,16 @@
             var showAdd =${showAdd};
             var showAction =${showAction};
             var showProsecute =${showProsecute};
+            var OutOfTimePeriod = "${OutOfTimePeriod}";
+
             var rol = "${rol}";
 
             var _48hrsMil = 172800000;
             var _1hourMil = 3600000;
             var _1minMil = 60000;
+
+
+            var OutOfTimeMil = OutOfTimePeriod * _1hourMil;
 
             calcTerm = function (dateMil, timeMil, now, obj, id, prosecute) {
 
@@ -53,6 +58,8 @@
                     var lowL = lowDt.getTime();
                     var upL = lowL + _48hrsMil;
 
+                    var stillVisible = upL + OutOfTimeMil;
+
                     if (milNow <= upL) {
 
                         var dueMil = milNow - lowL;
@@ -69,7 +76,11 @@
                             totDue = hrsDue + " hrs. " + minDue + " min.";
                         if (hrsLeft > -1 && minLeft > -1)
                             totLeft = hrsLeft + " hrs. " + minLeft + " min.";
-                    } else {
+                    } else if(milNow > stillVisible){
+                        $(obj).jqGrid('delRowData', id);
+                        return;
+                    }
+                    else {
                         totDue = "El plazo ha vencido.";
                         totLeft = "El plazo ha vencido.";
                     }
@@ -81,6 +92,10 @@
 
                 $(obj).jqGrid('setRowData', id, {dueTime: totDue});
                 $(obj).jqGrid('setRowData', id, {timeLeft: totLeft});
+
+
+
+
 
             };
 
@@ -239,6 +254,7 @@
                     var isPro = $(this).jqGrid('getCol', 'isProsecute', false);
 
                     for (var i = 0; i < ids.length; i++) {
+
                         calcTerm(date[i], time[i], now[i], this, ids[i], isPro[i]);
                         var cl = ids[i];
                         var be = "";

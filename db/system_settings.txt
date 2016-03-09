@@ -17,3 +17,4 @@
 16|ATTENDANCE|PeriodStart|8|Inicio de la 1er quincena
 17|ATTENDANCE|PeriodEnd|22|Inicio de la 2da quincena
 18|ATTENDANCE|AbsenceTime|00:30:00|Minutos para considerarse falta
+19|DETENTION|OutOfTimePeriod|24|Horas que permanecerá el registro después de que el plazo haya vencido.

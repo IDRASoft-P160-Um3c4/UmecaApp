@@ -649,6 +649,9 @@
                         <li class="nav-li-blue"><a href="<c:url value='/detentionRecord/detainedSheet.html'/>"><i
                                 class="glyphicon glyphicon-transfer"></i>&nbsp;&nbsp;S&aacute;bana de detenidos</a>
                         </li>
+                        <li class="nav-li-blue"><a href="<c:url value='/detentionRecord/detainedCarousel.html'/>"><i
+                                class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;Lista de detenidos  </a>
+                        </li>
 
                     </sec:authorize>
                     <li class="light-blue">

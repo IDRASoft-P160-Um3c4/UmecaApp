@@ -354,5 +354,5 @@
     </div>
 </div>
 
-<hr/>
+
 <div id="dlgUpsert"></div>
