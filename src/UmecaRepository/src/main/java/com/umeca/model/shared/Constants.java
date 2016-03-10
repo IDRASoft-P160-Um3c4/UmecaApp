@@ -113,7 +113,7 @@ public class Constants {
     public static final String ROLE_DIRECTOR = "ROLE_DIRECTOR";
     public static final String ROLE_ATTORNEY_REGISTRATION_ = "ROLE_ATTORNEY_REGISTRATION";
     public static final String ROLE_DETENTION_RECORD = "ROLE_DETENTION_RECORD";
-
+    public static final String ROLE_DETENTION_RECORD_MANAGER = "ROLE_DETENTION_RECORD_MANAGER";
 
     public static String FORMAT_CALENDAR_I = "dd/MM/yyyy HH:mm";
     public static String FORMAT_CALENDAR_II = "dd-MM-yyyy";

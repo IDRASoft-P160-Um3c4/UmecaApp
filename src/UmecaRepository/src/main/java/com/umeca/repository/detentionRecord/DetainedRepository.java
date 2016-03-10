@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository("qDetainedRepository")
@@ -19,25 +20,6 @@ public interface DetainedRepository extends JpaRepository<Detained, Long> {
                 "inner join AG.area AR " +
                 "where M.id=:minuteId order by AR.name")
         public List<AgreementDto> getAgreementsInfoByMinuteId(@Param("minuteId") Long minuteId);
-
-
-
-//    @Query("select new com.umeca.model.dto.detentionRecord.DetainedDto(" +
-//            "DET.id, " +
-//            "DET.name, " +
-//            "DET.lastNameP, " +
-//            "DET.lastNameM, " +
-//            "DET.age, " +
-//            "DET.idFolder," +
-//            "DET.initDate," +
-//            "DET.initTime, " +
-//            "DET.investigationUnit " +
-//           // "US.fullname, " +
-//           // "DIST.name " +
-//            ") " +
-//            "from Detained DET ")
-//            //"inner join DET.userProsecute US " +
-//    public List<DetainedDto> getDetainedInfoForDetentionRecord();
 
 
         @Query("select new com.umeca.model.dto.detentionRecord.DetainedDto(" +
@@ -76,7 +58,14 @@ public interface DetainedRepository extends JpaRepository<Detained, Long> {
                 ") " +
                 "FROM Detained DET " +
                 "inner join DET.district DIST " +
-                "where DET.isVisibleDetentionRecord = 1")
+                "where DET.isVisibleDetentionRecord = 1 " +
+                "order by DET.initDate desc, DET.initTime desc")
         public List<DetainedDto> getDetainedVisibleInfo();
+
+
+        @Query("select distinct (d.id) " +
+                "FROM Detained d " +
+                "where (d.initDate between :initDate and :endDate)")
+        public List<Long> getDetainedByPeriod(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
 
 }

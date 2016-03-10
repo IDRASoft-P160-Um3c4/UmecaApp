@@ -8,3 +8,4 @@
 7|ROLE_HUMAN_RESOURCES|Recursos Humanos
 8|ROLE_CHANNELING_MANAGER|Coordinador de Canalizaciones
 9|ROLE_DETENTION_RECORD|Registro Procuraduría
+10|ROLE_DETENTION_RECORD_MANAGER| Coordinador de Procuraduría

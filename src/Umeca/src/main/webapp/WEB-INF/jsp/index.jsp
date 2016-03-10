@@ -36,6 +36,9 @@
     <sec:authorize access="hasRole('ROLE_CHANNELING_MANAGER')">
         <%@ include file="/WEB-INF/jsp/channelingManager/index.jsp" %>
     </sec:authorize>
+    <sec:authorize access="hasRole('ROLE_DETENTION_RECORD_MANAGER')">
+        <%@ include file="/WEB-INF/jsp/detentionRecordManager/index.jsp" %>
+    </sec:authorize>
 
 </div>
 <div class="container">

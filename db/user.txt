@@ -10,5 +10,6 @@ id|username|password|email|fullname|enabled|code role
 9|supervisorC|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|supervisor@idrasoft.com.mx|SuperC|true|ROLE_SUPERVISOR
 10|supervisorD|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|supervisor@idrasoft.com.mx|SuperD|true|ROLE_SUPERVISOR
 11|recursos|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|supervisor@idrasoft.com.mx|RecursosH|true|ROLE_HUMAN_RESOURCES
-12|canalizaciones|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|canalizaciones@idrasoft.com.mx|Mr. Canalización|true|ROLE_CHANNELING_MANAGER
-13|procuraduria|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|procuraduria@idrasoft.com.mx|Registro Procuraduría|true|ROLE_DETENTION_RECORD
+12|canalizaciones|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|canalizaciones@idrasoft.com.mx|Mr. Canalizaciï¿½n|true|ROLE_CHANNELING_MANAGER
+13|procuraduria|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|procuraduria@idrasoft.com.mx|Registro Procuradurï¿½a|true|ROLE_DETENTION_RECORD
+13|managerprocu|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|managerprocu@idrasoft.com.mx|Coordinador procuradurï¿½a|true|ROLE_DETENTION_RECORD_MANAGER
