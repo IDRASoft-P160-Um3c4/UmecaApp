@@ -53,6 +53,7 @@ app.controller('detentionCarouselController', function ($scope, $rootScope, $int
             else {
                 totDue = "El plazo ha vencido.";
                 totLeft = "El plazo ha vencido.";
+                item.class = "outOfDate";
             }
         }
         else {
@@ -76,18 +77,11 @@ app.controller('detentionCarouselController', function ($scope, $rootScope, $int
                 };
                 $scope.items = temp;
 
+                $scope.items[0].class = "first";
+
             });
     };
 
-    $scope.ConfigureList = function(){
-
-        $interval(function(){
-            $('ul.container li:nth-child(2n)').css({
-                "background" : "#90CAF9",
-                "color": "#FFF"
-            });
-        }, 100, 1);
-    };
 
     $scope.beginVerticalScroll = function(){
         var first = undefined;
@@ -98,8 +92,12 @@ app.controller('detentionCarouselController', function ($scope, $rootScope, $int
 
             function(){
 
+                if(first === undefined){
+                    first = $scope.items[0];
+                }
                 if(first === undefined && newElement === undefined || (newElement !== undefined && newElement.id === first.id)){
                     $( "ul li" ).removeClass("repeat-item");
+                    first.class = "";
                     $scope.updateDetainedLid();
                     first = $scope.items[0];
                     newElement = undefined;
@@ -115,7 +113,7 @@ app.controller('detentionCarouselController', function ($scope, $rootScope, $int
                 newElement = $scope.items[0];
 
             },
-            2000
+            $scope.m.CarouselRollTime * 1000
         );
     };
 
@@ -129,7 +127,6 @@ app.controller('detentionCarouselController', function ($scope, $rootScope, $int
     return {
 
         link: function ($scope) {
-            //$scope.ConfigureList();
             $scope.beginVerticalScroll();
         }
     };

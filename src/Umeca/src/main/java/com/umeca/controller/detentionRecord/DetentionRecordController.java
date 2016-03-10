@@ -295,7 +295,11 @@ public class DetentionRecordController {
         String period = systemSettingRepository.findOneValue("DETENTION", "OutOfTimePeriod");
         Long OutOfTimePeriod = Long.parseLong(period);
 
+        String roll = systemSettingRepository.findOneValue("DETENTION", "CarouselRollTime");
+        Long carouselRollTime = Long.parseLong(roll);
+
         model.addObject("OutOfTimePeriod", OutOfTimePeriod);
+        model.addObject("CarouselRollTime", carouselRollTime);
         return model;
     }
 

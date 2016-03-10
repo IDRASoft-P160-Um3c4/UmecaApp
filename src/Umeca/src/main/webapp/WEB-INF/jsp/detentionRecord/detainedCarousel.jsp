@@ -123,25 +123,26 @@
             <i class="glyphicon icon-comments-alt "></i> S&aacute;bana de detenidos
         </h2>
 
-        <div class="row" ng-controller="detentionCarouselController" ng-init="init(); m.OutOfTimePeriod = ${(OutOfTimePeriod == null) ? 0 : OutOfTimePeriod};" ng-cloak drctv>
+        <div class="row" ng-controller="detentionCarouselController" ng-init="init(); m.OutOfTimePeriod = ${(OutOfTimePeriod == null) ? 0 : OutOfTimePeriod};
+        m.CarouselRollTime = ${(CarouselRollTime == null) ? 10 : CarouselRollTime};" ng-cloak drctv>
             <div class="col-xs-12">
                 <section class="card">
                     <div class="row black-54">
                         <div class="col-xs-2"><h5><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Imputado</h5></div>
-                        <div class="col-xs-1 center"><h5><span class="glyphicon glyphicon-align-left" aria-hidden="true"></span> Edad</h5></div>
+                        <div class="col-xs-1"><h5><span class="glyphicon glyphicon-align-left" aria-hidden="true"></span> Edad</h5></div>
                         <div class="col-xs-1"><h5><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span> Carpeta de investigaci&oacute;n</h5></div>
-                        <div class="col-xs-1 center"><h5><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Fecha inicio</h5></div>
-                        <div class="col-xs-1 center"><h5><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Hora inicio</h5></div>
+                        <div class="col-xs-1"><h5><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Fecha inicio</h5></div>
+                        <div class="col-xs-1 "><h5><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Hora inicio</h5></div>
                         <div class="col-xs-2"><h5><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span> Unidad de investigaci&oacute;n</h5></div>
                         <div class="col-xs-1"><h5><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span> Presentado por</h5></div>
-                        <div class="col-xs-1 center"><h5><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Distrito</h5></div>
-                        <div class="col-xs-1 center"><h5><span class="glyphicon glyphicon-time" aria-hidden="true"></span> T&eacute;rmino</h5></div>
-                        <div class="col-xs-1 center"><h5><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Tiempo para cumplir t&eacute;rmino</h5></div>
+                        <div class="col-xs-1"><h5><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Distrito</h5></div>
+                        <div class="col-xs-1"><h5><span class="glyphicon glyphicon-time" aria-hidden="true"></span> T&eacute;rmino</h5></div>
+                        <div class="col-xs-1"><h5><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Tiempo para cumplir t&eacute;rmino</h5></div>
                     </div>
                 </section>
 
                 <ul class="container list-group" >
-                    <li id="itemList" class="list-group-item repeat-item" ng-repeat="item in items">
+                    <li id="itemList" ng-class="item.class" class="list-group-item repeat-item" ng-repeat="item in items">
                         <div class="row black-86">
                             <div class="col-xs-2">{{item.fullName}}</div>
                             <div class="col-xs-1 center">{{item.age}}</div>

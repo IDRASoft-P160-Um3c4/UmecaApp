@@ -18,3 +18,4 @@
 17|ATTENDANCE|PeriodEnd|22|Inicio de la 2da quincena
 18|ATTENDANCE|AbsenceTime|00:30:00|Minutos para considerarse falta
 19|DETENTION|OutOfTimePeriod|24|Horas que permanecerá el registro después de que el plazo haya vencido.
+20|DETENTION|CarouselRollTime|10|Segundos que tarda para pasar al siguiente registro.
