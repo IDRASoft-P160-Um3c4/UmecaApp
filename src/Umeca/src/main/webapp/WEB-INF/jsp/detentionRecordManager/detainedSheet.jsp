@@ -193,7 +193,7 @@
                         search: false
                     },
                 ],
-                rowNum: 10000,
+                rowNum: 100000,
                 rowList: [],
                 pager: '#GridPager',
                 sortname: 'id',

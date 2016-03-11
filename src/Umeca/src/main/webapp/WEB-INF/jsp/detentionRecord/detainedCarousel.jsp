@@ -46,79 +46,13 @@
                     }
                 }
             }
-
-
-            var OutOfTimePeriod = "${OutOfTimePeriod}";
-
-            var _48hrsMil = 172800000;
-            var _1hourMil = 3600000;
-            var _1minMil = 60000;
-
-
-            var OutOfTimeMil = OutOfTimePeriod * _1hourMil;
-
-            calcTerm = function (dateMil, timeMil, now, obj, id, prosecute) {
-
-                var totDue = "";
-                var totLeft = "";
-                if (prosecute == 'false') {
-                    var milNow = parseInt(now, 10);
-                    var milDate = parseInt(dateMil, 10);
-                    var milTime = parseInt(timeMil, 10);
-
-                    var dt = new Date(milTime);
-                    var dtA = new Date(milDate);
-
-                    var lowDt = new Date(dtA.getFullYear(), dtA.getMonth(), dtA.getDate(), dt.getHours(), dt.getMinutes(), dt.getSeconds());
-                    var lowL = lowDt.getTime();
-                    var upL = lowL + _48hrsMil;
-
-                    var stillVisible = upL + OutOfTimeMil;
-
-                    if (milNow <= upL) {
-
-                        var dueMil = milNow - lowL;
-                        var hrsDue = Math.floor(dueMil / _1hourMil);
-                        var minDue = dueMil % _1hourMil;
-                        minDue = Math.floor(minDue / _1minMil);
-
-                        var leftMil = upL - milNow;
-                        var hrsLeft = Math.floor(leftMil / _1hourMil);
-                        var minLeft = leftMil % _1hourMil;
-                        minLeft = Math.floor(minLeft / _1minMil);
-
-                        if (hrsDue > -1 && minDue > -1)
-                            totDue = hrsDue + " hrs. " + minDue + " min.";
-                        if (hrsLeft > -1 && minLeft > -1)
-                            totLeft = hrsLeft + " hrs. " + minLeft + " min.";
-                    } else if (milNow > stillVisible) {
-                        $(obj).jqGrid('delRowData', id);
-                        return;
-                    }
-                    else {
-                        totDue = "El plazo ha vencido.";
-                        totLeft = "El plazo ha vencido.";
-                    }
-                }
-                else {
-                    totDue = "Judicializado.";
-                    totLeft = "Judicializado.";
-                }
-
-                $(obj).jqGrid('setRowData', id, {dueTime: totDue});
-                $(obj).jqGrid('setRowData', id, {timeLeft: totLeft});
-
-
-            };
-
-
         });
     </script>
 
     <div class="containerFixed" ng-controller="modalDlgController">
 
         <h2 class="element-center">
-            <button type="button" class="btn btn-primary btn-xs" onclick="fullScreen()">
+            <button type="button" class="btn btn-primary btn-xs" title="Pantalla completa" onclick="fullScreen()">
                 <span class="glyphicon glyphicon-fullscreen" style="margin: auto" aria-hidden="true"></span></button>
             <i class="glyphicon icon-comments-alt "></i> S&aacute;bana de detenidos
         </h2>
@@ -127,17 +61,17 @@
         m.CarouselRollTime = ${(CarouselRollTime == null) ? 10 : CarouselRollTime};" ng-cloak drctv>
             <div class="col-xs-12">
                 <section class="card">
-                    <div class="row black-54">
+                    <div class="row whiteT">
                         <div class="col-xs-2"><h5><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Imputado</h5></div>
-                        <div class="col-xs-1"><h5><span class="glyphicon glyphicon-align-left" aria-hidden="true"></span> Edad</h5></div>
+                        <div class="col-xs-1 center"><h5><span class="glyphicon glyphicon-align-left" aria-hidden="true"></span> Edad</h5></div>
                         <div class="col-xs-1"><h5><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span> Carpeta de investigaci&oacute;n</h5></div>
-                        <div class="col-xs-1"><h5><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Fecha inicio</h5></div>
-                        <div class="col-xs-1 "><h5><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Hora inicio</h5></div>
-                        <div class="col-xs-2"><h5><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span> Unidad de investigaci&oacute;n</h5></div>
-                        <div class="col-xs-1"><h5><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span> Presentado por</h5></div>
+                        <div class="col-xs-1 center"><h5><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Fecha inicio</h5></div>
+                        <div class="col-xs-1 center"><h5><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Hora inicio</h5></div>
+                        <div class="col-xs-1"><h5><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span> Unidad de investigaci&oacute;n</h5></div>
+                        <div class="col-xs-2"><h5><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span> Presentado por</h5></div>
                         <div class="col-xs-1"><h5><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Distrito</h5></div>
-                        <div class="col-xs-1"><h5><span class="glyphicon glyphicon-time" aria-hidden="true"></span> T&eacute;rmino</h5></div>
-                        <div class="col-xs-1"><h5><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Tiempo para cumplir t&eacute;rmino</h5></div>
+                        <div class="col-xs-1 center"><h5><span class="glyphicon glyphicon-time" aria-hidden="true"></span> T&eacute;rmino</h5></div>
+                        <div class="col-xs-1 center"><h5><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Tiempo para cumplir t&eacute;rmino</h5></div>
                     </div>
                 </section>
 
@@ -149,9 +83,9 @@
                             <div class="col-xs-1 ">{{item.idFolder}}</div>
                             <div class="col-xs-1 center">{{item.initDateStr}}</div>
                             <div class="col-xs-1 center">{{item.initTimeStr}}</div>
-                            <div class="col-xs-2 ">{{item.investigationUnit}}</div>
-                            <div class="col-xs-1">{{item.crime}}</div>
-                            <div class="col-xs-1 center">{{item.district}}</div>
+                            <div class="col-xs-1 ">{{item.investigationUnit}}</div>
+                            <div class="col-xs-2">{{item.crime}}</div>
+                            <div class="col-xs-1">{{item.district}}</div>
                             <div class="col-xs-1 center">{{item.dueTime}}</div>
                             <div class="col-xs-1 center">{{item.timeLeft}}</div>
                         </div>

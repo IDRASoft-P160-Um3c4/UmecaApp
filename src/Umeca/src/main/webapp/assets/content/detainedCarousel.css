@@ -12,6 +12,27 @@ body {
 
 
 
+@media screen and (max-width: 1600px) {
+    p,.btn,input,div,span,h5 {
+        font-size: 97%;
+    }
+    h1 {
+        font-size: 20px;
+    }
+    h2 {
+        font-size: 18px;
+    }
+    h3 {
+        font-size: 16px;
+    }
+    h4 {
+        font-size: 14px;
+    }
+
+    ul.container {
+        height: 730px !important;
+    }
+}
 
 
 @media screen and (max-width: 1440px) {
@@ -29,6 +50,32 @@ body {
     }
     h4 {
         font-size: 14px;
+    }
+
+    ul.container {
+        height: 730px !important;
+    }
+}
+
+@media screen and (max-width: 1368px) {
+    p,.btn,input,div,span,h5 {
+        font-size: 95%;
+    }
+    h1 {
+        font-size: 20px;
+    }
+    h2 {
+        font-size: 18px;
+    }
+    h3 {
+        font-size: 16px;
+    }
+    h4 {
+        font-size: 14px;
+    }
+
+    ul.container {
+        height: 600px !important;
     }
 }
 
@@ -50,10 +97,36 @@ body {
     h4 {
         font-size: 12px;
     }
+
+    ul.container {
+        height: 645px !important;
+    }
+}
+
+@media screen and (max-height: 768px) and (max-width: 1280px) {
+    p,.btn,input,div,span,h5 {
+        font-size: 93%;
+    }
+    h1 {
+        font-size: 18px;
+    }
+    h2 {
+        font-size: 16px;
+    }
+    h3 {
+        font-size: 14px;
+    }
+    h4 {
+        font-size: 12px;
+    }
+
+    ul.container {
+        height: 610px !important;
+    }
 }
 
 
-/* responsive text queries */
+
 @media screen and (max-width: 1024px) {
     p,.btn,input,div,span,h5 {
         font-size: 89%;
@@ -70,10 +143,13 @@ body {
     h4 {
         font-size: 12px;
     }
+
+    ul.container {
+        height: 620px !important;
+    }
 }
 
 
-/* responsive text queries */
 @media screen and (max-width: 960px) {
     p,.btn,input,div,span,h5 {
         font-size: 88%;
@@ -90,11 +166,15 @@ body {
     h4 {
         font-size: 11px;
     }
+
+    ul.container {
+        height: 455px !important;
+    }
 }
 
 @media screen and (max-width: 773px) {
     p,.btn,input,div,span {
-        font-size: 87%;
+        font-size: 86%;
     }
     h1 {
         font-size: 14px;
@@ -110,6 +190,9 @@ body {
     }
     h5 {
         font-size: 6px;
+    }
+    ul.container {
+        height: 285px !important;
     }
 }
 
@@ -132,6 +215,9 @@ body {
     h5 {
         font-size: 4px;
     }
+    ul.container {
+        height: 220px !important;
+    }
 }
 
 .containerFixed{
@@ -144,22 +230,19 @@ body {
 
     width: 100%;
     height: 100%;
-    /*overflow: auto;*/
-    /*overflow-x: hidden;*/
+
 }
 
 
 ul.container{
 
     overflow: hidden;
-    font-smoothing: antialiased;
-    max-width: 100% !important;
-
-    padding:0;
-    box-shadow:0 1px 2px #aaa;
-    background:white;
-    margin:1rem 1rem 1rem 1rem;
     border-radius:3px;
+    margin:1rem 1rem 1rem 1rem;
+    max-width: 100% !important;
+    height: 780px;
+    padding:0;
+    /*background: #FF9E80;*/
     user-select:none;
     animation:fly-in-from-left .5s 1s ease both;
     transform-origin:top left;
@@ -170,6 +253,8 @@ ul.container{
 
 ul.container li
 {
+    box-shadow:0 1px 2px #aaa;
+    background:white;
     list-style: none;
     padding: 12px 20px;
     color: rgba(0, 0, 0, 0.87);
@@ -178,24 +263,21 @@ ul.container li
 
 ul.container li:nth-child(2n){
     background : #ECEFF1;
-    color: #FFF;
 }
 
-.first{
-    background : #80DEEA !important;
-    color: #FFF;
+ul.container li:first-child{
+    background : #B3E5FC;
 }
 
 
 .outOfDate{
     background : #FFCDD2 !important;
-    color: #FFF;
 }
 
 .card {
     padding:1.5rem;
     box-shadow:0 1px 2px #aaa;
-    background:white;
+    background:#009688;
     margin:1rem 1rem 1rem 1rem;
     border-radius:3px;
     user-select:none;
@@ -214,8 +296,8 @@ ul.container li:nth-child(2n){
     max-width: 100% !important;
 }
 
-.black-54 {
-    color: rgba(0, 0, 0, 0.54);
+.whiteT {
+    color: white;
 }
 
 
@@ -255,14 +337,3 @@ ul.container li:nth-child(2n){
     opacity: 1;
 
 }
-
-
-/*-webkit-transition: 1s cubic-bezier(0.250, 0.250, 0.750, 0.750) all;*/
-/*-moz-transition: 1s cubic-bezier(0.250, 0.250, 0.750, 0.750) all;*/
-/*-ms-transition: 1s cubic-bezier(0.250, 0.250, 0.750, 0.750) all;*/
-/*-o-transition: 1s cubic-bezier(0.250, 0.250, 0.750, 0.750) all;*/
-/*transition: 1s cubic-bezier(0.250, 0.250, 0.750, 0.750) all;*/
-/*position: relative;*/
-/*display: block;*/
-/*overflow: hidden;*/
-/*text-overflow: clip;*/

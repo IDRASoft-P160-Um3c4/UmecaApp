@@ -10,9 +10,7 @@ app.controller('detentionCarouselController', function ($scope, $rootScope, $int
         var _1hourMil = 3600000;
         var _1minMil = 60000;
 
-
         var OutOfTimeMil = $scope.m.OutOfTimePeriod * _1hourMil;
-
 
         var totDue = "";
         var totLeft = "";
@@ -69,19 +67,15 @@ app.controller('detentionCarouselController', function ($scope, $rootScope, $int
 
     $scope.updateDetainedLid = function(){
         var url = "detainedCarousel/getDetainedList.json";
-        return $http.get(url)
-            .then(function (response) {
-                var temp = response.data;
-                for (var index = temp.length - 1; index >= 0; --index) {
-                    $scope.calcTerm(temp[index], temp, index)
-                };
-                $scope.items = temp;
-
-                $scope.items[0].class = "first";
-
-            });
+        $http.get(url).then(function (response) {
+            var temp = response.data;
+            for (var index = temp.length - 1; index >= 0; --index) {
+                $scope.calcTerm(temp[index], temp, index)
+            };
+            $scope.items = temp;
+        });
+        $scope.cropList();
     };
-
 
     $scope.beginVerticalScroll = function(){
         var first = undefined;
@@ -119,9 +113,30 @@ app.controller('detentionCarouselController', function ($scope, $rootScope, $int
 
     $scope.addItem = function (item) {
         $interval(function(){
+            $scope.cropList();
             $scope.items.push(item);
-        }, 1000,1);
+        }, 1250,1);
     };
+
+    $scope.cropList = function (item){
+        $timeout(function() {
+
+            var listItems = $('ul li');
+            var listContainer = $('ul');
+            listItems.show();
+
+            var listHeight = 0;
+
+            for(var i = 0; i < listItems.length; i++) {
+                listHeight += listItems[i].offsetHeight;
+
+                //[0] to access the DOM Element
+                if(listContainer[0].offsetHeight < listHeight) {
+                    $(listItems[i]).hide();
+                }
+            }
+        }, 100);
+    }
 
 }).directive('drctv', ["$interval",function($interval){
     return {
