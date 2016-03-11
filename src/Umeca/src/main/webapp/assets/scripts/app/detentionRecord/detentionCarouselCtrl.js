@@ -107,6 +107,7 @@ app.controller('detentionCarouselController', function ($scope, $rootScope, $int
                 newElement = $scope.items[0];
 
             },
+            //2000
             $scope.m.CarouselRollTime * 1000
         );
     };
@@ -128,7 +129,7 @@ app.controller('detentionCarouselController', function ($scope, $rootScope, $int
             var listHeight = 0;
 
             for(var i = 0; i < listItems.length; i++) {
-                listHeight += listItems[i].offsetHeight;
+                listHeight += listItems[i].scrollHeight + 1;
 
                 //[0] to access the DOM Element
                 if(listContainer[0].offsetHeight < listHeight) {
