@@ -29,4 +29,27 @@
         </operation>
 
     </service>
+
+
+    <service name="BiometricWS">
+
+        <description>Comunicación con biométrico</description>
+        <parameter name="ServiceObjectSupplier" locked="false">org.apache.axis2.extensions.spring.receivers.SpringServletContextObjectSupplier</parameter>
+        <parameter name="SpringBeanName" locked="false">BiometricWS</parameter>
+
+        <operation name="getDevices">
+            <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+        </operation>
+        <operation name="getUsersFromDB">
+            <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+        </operation>
+        <operation name="updateUserFingerPrint">
+            <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+        </operation>
+        <operation name="updateAttendanceLogs">
+            <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+        </operation>
+
+    </service>
+
 </serviceGroup>

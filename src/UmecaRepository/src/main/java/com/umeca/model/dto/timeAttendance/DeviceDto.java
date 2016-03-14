@@ -21,6 +21,14 @@ public class DeviceDto implements EntityGrid {
     }
 
 
+    public DeviceDto(Long id, String name, String ip, int port){
+        this.id = id;
+        this.name = name;
+        this.ip = ip;
+        this.port = port;
+    }
+
+
 
 
     public boolean isObsolete() {

@@ -8,6 +8,8 @@ public class ResponseMessage {
     private String title;
     private Object returnData;
 
+    private String data;
+
     public ResponseMessage(){
     }
 
@@ -60,5 +62,13 @@ public class ResponseMessage {
 
     public void setReturnData(Object returnData) {
         this.returnData = returnData;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }

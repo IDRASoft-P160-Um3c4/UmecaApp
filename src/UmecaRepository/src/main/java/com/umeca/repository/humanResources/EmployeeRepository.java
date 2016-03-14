@@ -1,9 +1,9 @@
 package com.umeca.repository.humanResources;
 
 import com.umeca.model.dto.humanResources.EmployeeExcelDto;
+import com.umeca.model.dto.timeAttendance.UserInfoWsDto;
 import com.umeca.model.entities.humanReources.Employee;
 import com.umeca.model.shared.SelectList;
-import org.hibernate.sql.Select;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -43,4 +43,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "from Employee E " +
             "where E.isObsolete=false order by concat(E.name,' ',E.lastNameP,' ',E.lastNameM) asc")
     List<EmployeeExcelDto> getAllNoObsoleteEmployeeExcel();
+
+
+
+    @Query("select new com.umeca.model.dto.timeAttendance.UserInfoWsDto(E.id, concat(E.name,' ',E.lastNameP,' ',E.lastNameM)) " +
+            "from Employee E " +
+            "where E.isObsolete=false")
+    List<UserInfoWsDto> getEmployeesWs();
 }
