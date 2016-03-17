@@ -86,7 +86,7 @@ app.controller('detentionCarouselController', function ($scope, $rootScope, $int
 
             function(){
 
-                if($scope.items !== undefined){
+                if($scope.items.length !== 0){
 
                     if(first === undefined){
                         first = $scope.items[0];
@@ -95,7 +95,7 @@ app.controller('detentionCarouselController', function ($scope, $rootScope, $int
                         $( "ul li" ).removeClass("repeat-item");
                         first.class = "";
                         $scope.updateDetainedLid();
-                        first = $scope.items[0];
+                        first = undefined;
                         newElement = undefined;
                         $timeout(function() {
                             $( "ul li" ).addClass("repeat-item");
