@@ -86,26 +86,30 @@ app.controller('detentionCarouselController', function ($scope, $rootScope, $int
 
             function(){
 
-                if(first === undefined){
-                    first = $scope.items[0];
-                }
-                if(first === undefined && newElement === undefined || (newElement !== undefined && newElement.id === first.id)){
-                    $( "ul li" ).removeClass("repeat-item");
-                    first.class = "";
+                if($scope.items !== undefined){
+
+                    if(first === undefined){
+                        first = $scope.items[0];
+                    }
+                    if(first === undefined && newElement === undefined || (newElement !== undefined && newElement.id === first.id)){
+                        $( "ul li" ).removeClass("repeat-item");
+                        first.class = "";
+                        $scope.updateDetainedLid();
+                        first = $scope.items[0];
+                        newElement = undefined;
+                        $timeout(function() {
+                            $( "ul li" ).addClass("repeat-item");
+                        }, 1000);
+                        return;
+                    }
+
+                    currentItem = $scope.items.shift();
+                    $scope.addItem(currentItem);
+
+                    newElement = $scope.items[0];
+                }else{
                     $scope.updateDetainedLid();
-                    first = $scope.items[0];
-                    newElement = undefined;
-                    $timeout(function() {
-                        $( "ul li" ).addClass("repeat-item");
-                    }, 1000);
-                    return;
                 }
-
-                currentItem = $scope.items.shift();
-                $scope.addItem(currentItem);
-
-                newElement = $scope.items[0];
-
             },
             //2000
             $scope.m.CarouselRollTime * 1000
