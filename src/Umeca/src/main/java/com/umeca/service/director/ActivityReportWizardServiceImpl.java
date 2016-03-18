@@ -14,6 +14,7 @@ import com.umeca.repository.director.ProjectActivityRepository;
 import com.umeca.repository.director.WizardActivityReportRepository;
 import com.umeca.repository.shared.ActivityReportRepository;
 import com.umeca.repository.supervisor.ActivityAgendaRepository;
+import com.umeca.service.shared.UpDwFileGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class ActivityReportWizardServiceImpl implements ActivityReportWizardServ
     @Override
     public boolean valid(WizardReportModel req, ResponseMessage response) {
 
-        if(req == null){
+        if (req == null) {
             response.setMessage("No hay informe definido");
             return false;
         }
@@ -43,28 +44,28 @@ public class ActivityReportWizardServiceImpl implements ActivityReportWizardServ
             return false;
         }
 
-        if(report.getClStartDate() == null){
+        if (report.getClStartDate() == null) {
             response.setMessage("No está definida la fecha para generar el informe");
             return false;
         }
 
-        if(StringExt.isNullOrWhiteSpace(report.getReportName())){
+        if (StringExt.isNullOrWhiteSpace(report.getReportName())) {
             response.setMessage("No está definido el nombre del informe");
             return false;
         }
 
-        if(StringExt.isNullOrWhiteSpace(report.getReportDesc())){
+        if (StringExt.isNullOrWhiteSpace(report.getReportDesc())) {
             response.setMessage("No está definido la descripción del informe");
             return false;
         }
 
-        if(req.activity != null && req.activity.size() > 0) return true;
-        if(req.channeling != null && req.channeling.size() > 0) return true;
-        if(req.evaluation != null && req.evaluation.size() > 0) return true;
-        if(req.management != null && req.management.size() > 0) return true;
-        if(req.minute != null && req.minute.size() > 0) return true;
-        if(req.project != null && req.project.size() > 0) return true;
-        if(req.supervision != null && req.supervision.size() > 0) return true;
+        if (req.activity != null && req.activity.size() > 0) return true;
+        if (req.channeling != null && req.channeling.size() > 0) return true;
+        if (req.evaluation != null && req.evaluation.size() > 0) return true;
+        if (req.management != null && req.management.size() > 0) return true;
+        if (req.minute != null && req.minute.size() > 0) return true;
+        if (req.project != null && req.project.size() > 0) return true;
+        if (req.supervision != null && req.supervision.size() > 0) return true;
 
         response.setMessage("Debe existir al menos una actividad (archivo) anexo al informe");
         return false;
@@ -81,6 +82,9 @@ public class ActivityReportWizardServiceImpl implements ActivityReportWizardServ
 
     @Autowired
     ActivityAgendaRepository activityAgendaRepository;
+
+    @Autowired
+    UpDwFileGenericService upDwFileGenericService;
 
     @Override
     public void saveReport(WizardReportModel req, User user) {
@@ -110,8 +114,7 @@ public class ActivityReportWizardServiceImpl implements ActivityReportWizardServ
     public void doObsolete(User user, Long id, ResponseMessage responseMessage) {
         WizardActivityReport model = wizardActivityReportRepository.findOne(id);
 
-        if(model == null || model.getIsObsolete().equals(true))
-        {
+        if (model == null || model.getIsObsolete().equals(true)) {
             responseMessage.setHasError(true);
             responseMessage.setMessage("El informe de actividades no existe o ya fue eliminado");
             return;
@@ -131,19 +134,19 @@ public class ActivityReportWizardServiceImpl implements ActivityReportWizardServ
     @Override
     public File downloadFilesByReport(WizardActivityReport actRep, Long userId, HttpServletRequest request) throws IOException {
 
-        File fileOut = new File("Informe Global de Actividades - " + actRep.getReportName() + ".zip");
+        File fileOut = upDwFileGenericService.createDownloadableFile("Informe Global de Actividades - " + actRep.getReportName(), ".zip", request);
         FileOutputStream fos = new FileOutputStream(fileOut);
         ZipOutputStream zos = new ZipOutputStream(fos);
         byte[] buffer = new byte[1024];
 
         CreateMainInfoReport(actRep, zos, buffer);
-        if(actRep.getActivity() != null) CreateActivityReport(actRep, zos, buffer, userId);
-        if(actRep.getSupervision() != null) CreateSupervisionReport(actRep, zos, buffer, request);
-        if(actRep.getEvaluation() != null) CreateEvaluationReport(actRep, zos, buffer, request);
-        if(actRep.getManagement() != null) CreateManagementReport(actRep, zos, buffer, request);
-        if(actRep.getProject() != null) CreateProjectReport(actRep, zos, buffer, userId);
-        if(actRep.getChanneling() != null) CreateChannelingReport(actRep, zos, buffer, request);
-        if(actRep.getMinute() != null) CreateMinuteReport(actRep, zos, buffer, request);
+        if (actRep.getActivity() != null) CreateActivityReport(actRep, zos, buffer, userId);
+        if (actRep.getSupervision() != null) CreateSupervisionReport(actRep, zos, buffer, request);
+        if (actRep.getEvaluation() != null) CreateEvaluationReport(actRep, zos, buffer, request);
+        if (actRep.getManagement() != null) CreateManagementReport(actRep, zos, buffer, request);
+        if (actRep.getProject() != null) CreateProjectReport(actRep, zos, buffer, userId);
+        if (actRep.getChanneling() != null) CreateChannelingReport(actRep, zos, buffer, request);
+        if (actRep.getMinute() != null) CreateMinuteReport(actRep, zos, buffer, request);
 
         zos.close();
         fileOut.deleteOnExit();
@@ -179,17 +182,17 @@ public class ActivityReportWizardServiceImpl implements ActivityReportWizardServ
 
     private void CreateActivityReport(WizardActivityReport actRep, ZipOutputStream zos, byte[] buffer, Long userId) throws IOException {
         List<Long> lstIds = StringExt.getListIds(actRep.getActivity());
-        if(lstIds == null || lstIds.size() == 0)
+        if (lstIds == null || lstIds.size() == 0)
             return;
         List<ActivityAgendaNotice> lstAct = activityAgendaRepository.getLstActivitiesByIds(lstIds, userId);
-        if(lstAct == null || lstAct.size() == 0)
+        if (lstAct == null || lstAct.size() == 0)
             return;
 
         StringBuilder sb = new StringBuilder();
 
-        for(ActivityAgendaNotice aa : lstAct){
+        for (ActivityAgendaNotice aa : lstAct) {
             sb.append(String.format("<tr><td><small>%s</small></td><td ><small>%s</small></td><td ><small>%s</small></td><td ><small>%s</small></td><td ><small>%s</small></td><td >" +
-                    "<small>%s</small></td><td ><small>%s</small></td><td ><small>%s</small></td><td ><small>%s</small></td><td ><small>%s</small></td></tr>",
+                            "<small>%s</small></td><td ><small>%s</small></td><td ><small>%s</small></td><td ><small>%s</small></td><td ><small>%s</small></td></tr>",
                     aa.getStart(), aa.getEnd(), aa.getPlace(), aa.getDescription(), aa.getStatus(), aa.getPriority(), aa.getCreationCalTx(), aa.getDoneCalTx(), aa.getIsDoneTx(), aa.getComments()));
         }
 
@@ -222,10 +225,10 @@ public class ActivityReportWizardServiceImpl implements ActivityReportWizardServ
 
     private void CreateProjectReport(WizardActivityReport actRep, ZipOutputStream zos, byte[] buffer, Long userId) {
         List<Long> lstIds = StringExt.getListIds(actRep.getProject());
-        if(lstIds == null || lstIds.size() == 0)
+        if (lstIds == null || lstIds.size() == 0)
             return;
         List<ActivityReportDto> lstAct = projectActivityRepository.getListOfFiles(lstIds);
-        if(lstAct == null || lstAct.size() == 0)
+        if (lstAct == null || lstAct.size() == 0)
             return;
 
     }
@@ -243,10 +246,10 @@ public class ActivityReportWizardServiceImpl implements ActivityReportWizardServ
     private void CreateZipInfoAndFiles(WizardActivityReport actRep, ZipOutputStream zos, byte[] buffer, HttpServletRequest request, String ids,
                                        String role, String title, String filenamept, String zipPath) throws IOException {
         List<Long> lstIds = StringExt.getListIds(ids);
-        if(lstIds == null || lstIds.size() == 0)
+        if (lstIds == null || lstIds.size() == 0)
             return;
         List<ActivityReportDto> lstAct = activityReportRepository.getListOfFiles(lstIds, role);
-        if(lstAct == null || lstAct.size() == 0)
+        if (lstAct == null || lstAct.size() == 0)
             return;
 
         CreateZipInfoAndFilesFromLstAct(zos, buffer, request, title, filenamept, zipPath, lstAct);
@@ -255,7 +258,7 @@ public class ActivityReportWizardServiceImpl implements ActivityReportWizardServ
     private void CreateZipInfoAndFilesFromLstAct(ZipOutputStream zos, byte[] buffer, HttpServletRequest request, String title,
                                                  String filenamept, String zipPath, List<ActivityReportDto> lstAct) throws IOException {
         StringBuilder sb = new StringBuilder();
-        for(ActivityReportDto aa : lstAct){
+        for (ActivityReportDto aa : lstAct) {
             sb.append(String.format("<tr><td><small>%s</small></td><td ><small>%s</small></td><td ><small>%s</small></td><td ><small>%s</small></td><td ><small>%s</small></td>",
                     aa.getCreationDateTx(), aa.getReportName(), aa.getDescription(), aa.getCreatorUser(), aa.getFileName()));
         }
@@ -271,9 +274,9 @@ public class ActivityReportWizardServiceImpl implements ActivityReportWizardServ
         zos.putNextEntry(new ZipEntry(zipPath + filename));
         SendToZipStream(zos, buffer, sAct);
 
-        for(ActivityReportDto aa : lstAct){
+        for (ActivityReportDto aa : lstAct) {
 
-            if(aa.getFileName() == null)
+            if (aa.getFileName() == null)
                 continue;
 
             ZipEntry ze = new ZipEntry(zipPath + aa.getFileName());

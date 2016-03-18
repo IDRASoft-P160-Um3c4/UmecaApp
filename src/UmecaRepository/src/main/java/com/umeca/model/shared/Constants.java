@@ -1,9 +1,9 @@
 package com.umeca.model.shared;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Created with IntelliJ IDEA.
@@ -425,6 +425,8 @@ public class Constants {
 
     public static final Long EVALUATION_CASE_TYPE  = 1L;
     public static final Long SUPERVISOR_CASE_TYPE = 2L;
+
+    public static final String SHARED_PATH_FILES= File.separator + "files" + File.separator + "shared" + File.separator;
 
 
 }

@@ -25,6 +25,7 @@ import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.CaseService;
 import com.umeca.service.shared.MessageService;
 import com.umeca.service.shared.SharedLogExceptionService;
+import com.umeca.service.shared.UpDwFileGenericService;
 import com.umeca.service.shared.UpDwFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -54,6 +55,9 @@ public class UploadFileController {
 
     @Autowired
     private CaseRepository caseRepository;
+
+    @Autowired
+    private UpDwFileGenericService upDwFileGenericService;
 
     @RequestMapping(value = "/shared/uploadFile/index", method = RequestMethod.GET)
     public
@@ -344,6 +348,7 @@ public class UploadFileController {
     @ResponseBody
     public FileSystemResource getFile(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response) {
         UploadFile file = upDwFileService.getPathAndFilename(id);
+
         String path = new File(file.getPath(), file.getRealFileName()).toString();
         File finalFile = new File(request.getSession().getServletContext().getRealPath(""), path);
 
@@ -363,7 +368,7 @@ public class UploadFileController {
         try {
             List<UploadFile> lstUpFiles = upDwFileService.getUploadFilesByCaseId(id);
             if (lstUpFiles == null || lstUpFiles.size() == 0) {
-                File file = new File(UUID.randomUUID().toString());
+                File file = upDwFileGenericService.createDownloadableFile("DescargarExpediente", ".doc", request);
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
                 writer.write("<html><body><h3>No existen archivos para generar el expediente.</h3></body></html>");
                 writer.flush();
@@ -372,7 +377,7 @@ public class UploadFileController {
             }
 
             CaseInfo caseInfo = caseRepository.getInfoById(id);
-            File fileOut = new File("Expediente - " + caseInfo.getPersonName() + ".zip");
+            File fileOut = upDwFileGenericService.createDownloadableFile("Expediente - " + caseInfo.getPersonName() , ".zip", request);
 
             FileOutputStream fos = new FileOutputStream(fileOut);
             ZipOutputStream zos = new ZipOutputStream(fos);
@@ -384,7 +389,9 @@ public class UploadFileController {
                 zos.putNextEntry(ze);
 
                 String path = request.getSession().getServletContext().getRealPath("");
+
                 File fileIn = new File(path, file.getPath());
+
                 FileInputStream in = new FileInputStream(new File(fileIn, file.getRealFileName()));
 
                 int len;
@@ -407,7 +414,7 @@ public class UploadFileController {
         } catch (IOException e) {
             logException.Write(e, this.getClass(), "downloadFileByCase", sharedUserService);
             try {
-                File file = new File(UUID.randomUUID().toString());
+                File file = upDwFileGenericService.createDownloadableFile("DescargarExpediente",".doc", request);
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
                 writer.write("<html><body><h3>Ocurrió un error al momento de generar el expediente. Por favor intente de nuevo o contacte a soporte técnico.</h3></body></html>");
                 writer.flush();

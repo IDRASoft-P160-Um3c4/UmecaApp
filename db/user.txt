@@ -1,4 +1,4 @@
-id|username|password|email|fullname|enabled|code role
+﻿id|username|password|email|fullname|enabled|code role
 1|administrador|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|admin@idrasoft.com.mx|Administrador sistema|true|ROLE_ADMIN
 2|reviewer|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|reviewer@idrasoft.com.mx|Evaluador|true|ROLE_REVIEWER
 3|managereval|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|managereval@idrasoft.com.mx|Coordinador evaluador|true|ROLE_EVALUATION_MANAGER
@@ -10,6 +10,6 @@ id|username|password|email|fullname|enabled|code role
 9|supervisorC|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|supervisor@idrasoft.com.mx|SuperC|true|ROLE_SUPERVISOR
 10|supervisorD|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|supervisor@idrasoft.com.mx|SuperD|true|ROLE_SUPERVISOR
 11|recursos|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|supervisor@idrasoft.com.mx|RecursosH|true|ROLE_HUMAN_RESOURCES
-12|canalizaciones|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|canalizaciones@idrasoft.com.mx|Mr. Canalizaci�n|true|ROLE_CHANNELING_MANAGER
-13|procuraduria|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|procuraduria@idrasoft.com.mx|Registro Procuradur�a|true|ROLE_DETENTION_RECORD
-13|managerprocu|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|managerprocu@idrasoft.com.mx|Coordinador procuradur�a|true|ROLE_DETENTION_RECORD_MANAGER
+12|canalizaciones|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|canalizaciones@idrasoft.com.mx|Mr. Canalización|true|ROLE_CHANNELING_MANAGER
+13|procuraduria|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|procuraduria@idrasoft.com.mx|Registro procuraduría|true|ROLE_DETENTION_RECORD
+14|managerprocu|AC4uQHNAbHBAc3N3MDRyRCSbdrW8Mr7FLN47m/jWXZzW6ZaFefsykhJ0ZB+EEr0yKw==|managerprocu@idrasoft.com.mx|Coordinador procuraduría|true|ROLE_DETENTION_RECORD_MANAGER
