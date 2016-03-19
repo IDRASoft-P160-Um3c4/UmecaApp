@@ -88,9 +88,14 @@ app.controller('detentionCarouselController', function ($scope, $rootScope, $int
 
                 if($scope.items.length !== 0){
 
+                    if(first !== undefined){
+                        newElement = $scope.items[0];
+                    }
+
                     if(first === undefined){
                         first = $scope.items[0];
                     }
+
                     if(first === undefined && newElement === undefined || (newElement !== undefined && newElement.id === first.id)){
                         $( "ul li" ).removeClass("repeat-item");
                         first.class = "";
@@ -105,13 +110,11 @@ app.controller('detentionCarouselController', function ($scope, $rootScope, $int
 
                     currentItem = $scope.items.shift();
                     $scope.addItem(currentItem);
-
-                    newElement = $scope.items[0];
                 }else{
                     $scope.updateDetainedLid();
                 }
             },
-            //2000
+            //3000
             $scope.m.CarouselRollTime * 1000
         );
     };
