@@ -2,13 +2,13 @@ package com.umeca.service.shared;
 
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
-import com.umeca.model.entities.director.agenda.ActivityAgendaNotice;
-import com.umeca.model.entities.shared.UploadFile;
 import com.umeca.model.entities.shared.UploadFileGeneric;
 import com.umeca.model.entities.shared.UploadFileRequest;
 import com.umeca.service.account.SharedUserService;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
@@ -43,4 +43,6 @@ public interface UpDwFileGenericService {
 
     boolean doTemporalPhoto(String temporalPath, String contextPath, UploadFileGeneric originalPhoto,
                             SharedLogExceptionService logException, SharedUserService sharedUserService);
+
+    public File createDownloadableFile(String fileName, String extension, HttpServletRequest request);
 }

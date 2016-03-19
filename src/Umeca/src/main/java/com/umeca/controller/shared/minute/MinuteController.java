@@ -7,10 +7,7 @@ import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
-import com.umeca.model.catalog.StatusCase;
-import com.umeca.model.dto.CaseInfo;
 import com.umeca.model.dto.director.MinuteDto;
-import com.umeca.model.dto.humanResources.DigitalRecordSummaryDto;
 import com.umeca.model.dto.shared.AgreementDto;
 import com.umeca.model.dto.shared.MinuteSummaryDto;
 import com.umeca.model.dto.shared.ObservationDto;
@@ -18,10 +15,7 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.director.minutes.Agreement;
 import com.umeca.model.entities.director.minutes.Minute;
 import com.umeca.model.entities.humanReources.AgreementFileRel;
-import com.umeca.model.entities.humanReources.RequestAgreement;
 import com.umeca.model.entities.humanReources.RequestAgreementDto;
-import com.umeca.model.entities.reviewer.Case;
-import com.umeca.model.entities.shared.UploadFile;
 import com.umeca.model.entities.shared.UploadFileGeneric;
 import com.umeca.model.entities.shared.UploadFileRequest;
 import com.umeca.model.shared.Constants;
@@ -33,6 +27,7 @@ import com.umeca.repository.humanResources.EmployeeRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.director.MinuteService;
 import com.umeca.service.shared.SharedLogExceptionService;
+import com.umeca.service.shared.UpDwFileGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
@@ -48,7 +43,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -71,6 +65,9 @@ public class MinuteController {
     private AreaRepository areaRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UpDwFileGenericService upDwFileGenericService;
+
 
     @RequestMapping(value = "/shared/minute/index", method = RequestMethod.GET)
     public ModelAndView index() {
@@ -628,7 +625,7 @@ public class MinuteController {
             List<UploadFileGeneric> lstUpFiles = minuteService.getAgreementFilesByAgreementId(id);
 
             if (lstUpFiles == null || lstUpFiles.size() == 0) {
-                File file = new File(UUID.randomUUID().toString());
+                File file = upDwFileGenericService.createDownloadableFile("DescargarAcuerdo", ".doc", request);
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
                 writer.write("<html><body><h3>No existen archivos para descargar.</h3></body></html>");
                 writer.flush();
@@ -638,7 +635,7 @@ public class MinuteController {
 
             String agreementTitle = minuteService.getAgreementTitleByAgreementId(id);
 
-            File fileOut = new File("Archivos_acuerdo_" + agreementTitle + ".zip");
+            File fileOut = upDwFileGenericService.createDownloadableFile("Archivos_acuerdo_" + agreementTitle, ".zip", request);
 
             FileOutputStream fos = new FileOutputStream(fileOut);
             ZipOutputStream zos = new ZipOutputStream(fos);
@@ -673,7 +670,7 @@ public class MinuteController {
         } catch (IOException e) {
             logException.Write(e, this.getClass(), "downloadFilesByAgreement", sharedUserService);
             try {
-                File file = new File(UUID.randomUUID().toString());
+                File file = upDwFileGenericService.createDownloadableFile("DescargarAcuerdo", ".doc", request);
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
                 writer.write("<html><body><h3>Ocurrió un error al momento de generar el expediente. Por favor intente de nuevo o contacte a soporte técnico.</h3></body></html>");
                 writer.flush();

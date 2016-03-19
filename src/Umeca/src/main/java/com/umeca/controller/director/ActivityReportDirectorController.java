@@ -23,6 +23,7 @@ import com.umeca.model.shared.Constants;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.director.ActivityReportWizardService;
 import com.umeca.service.shared.SharedLogExceptionService;
+import com.umeca.service.shared.UpDwFileGenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
@@ -35,11 +36,13 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.UUID;
 
 import static com.umeca.model.shared.MonitoringConstants.STATUS_ACTIVITY_DELETED;
 
@@ -59,6 +62,9 @@ public class ActivityReportDirectorController {
 
     @Autowired
     SharedUserService userService;
+
+    @Autowired
+    UpDwFileGenericService upDwFileGenericService;
 
     @RequestMapping(value = {"/director/activityReport/list"}, method = RequestMethod.POST)
     public
@@ -105,7 +111,9 @@ public class ActivityReportDirectorController {
 
 
     @RequestMapping(value = "/director/activityReport/wizardUpsert", method = RequestMethod.GET)
-    public @ResponseBody ModelAndView wizardUpsert() {
+    public
+    @ResponseBody
+    ModelAndView wizardUpsert() {
         ModelAndView model = new ModelAndView("/director/activityReport/wizardUpsert");
 
         Calendar today = CalendarExt.getToday();
@@ -123,7 +131,7 @@ public class ActivityReportDirectorController {
     @ResponseBody
     JqGridResultModel listActivity(@ModelAttribute JqGridFilterModel opts, String startDate, String endDate) {
 
-        if(StringExt.isNullOrWhiteSpace(startDate) || StringExt.isNullOrWhiteSpace(endDate)) {
+        if (StringExt.isNullOrWhiteSpace(startDate) || StringExt.isNullOrWhiteSpace(endDate)) {
             return null;
         }
 
@@ -135,7 +143,7 @@ public class ActivityReportDirectorController {
         extraFilter = new JqGridRulesModel("status", STATUS_ACTIVITY_DELETED, JqGridFilterModel.COMPARE_NOT_EQUAL);
         opts.extraFilters.add(extraFilter);
         extraFilter = new JqGridRulesModel("start", CalendarExt.stringToCalendar(startDate, Constants.FORMAT_CALENDAR_II)
-                , CalendarExt.stringToCalendar(endDate, Constants.FORMAT_CALENDAR_II) , JqGridFilterModel.BETWEEN);
+                , CalendarExt.stringToCalendar(endDate, Constants.FORMAT_CALENDAR_II), JqGridFilterModel.BETWEEN);
         opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
@@ -169,7 +177,7 @@ public class ActivityReportDirectorController {
     @ResponseBody
     JqGridResultModel listSupervision(@ModelAttribute JqGridFilterModel opts, String startDate, String endDate) {
 
-        if(StringExt.isNullOrWhiteSpace(startDate) || StringExt.isNullOrWhiteSpace(endDate)) {
+        if (StringExt.isNullOrWhiteSpace(startDate) || StringExt.isNullOrWhiteSpace(endDate)) {
             return null;
         }
 
@@ -181,7 +189,7 @@ public class ActivityReportDirectorController {
         extraFilter = new JqGridRulesModel("reportRole", Constants.ROLE_SUPERVISOR_MANAGER, JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
         extraFilter = new JqGridRulesModel("creationDate", CalendarExt.stringToCalendar(startDate, Constants.FORMAT_CALENDAR_II)
-                , CalendarExt.stringToCalendar(endDate, Constants.FORMAT_CALENDAR_II) , JqGridFilterModel.BETWEEN);
+                , CalendarExt.stringToCalendar(endDate, Constants.FORMAT_CALENDAR_II), JqGridFilterModel.BETWEEN);
         opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
@@ -212,7 +220,7 @@ public class ActivityReportDirectorController {
     @ResponseBody
     JqGridResultModel listEvaluation(@ModelAttribute JqGridFilterModel opts, String startDate, String endDate) {
 
-        if(StringExt.isNullOrWhiteSpace(startDate) || StringExt.isNullOrWhiteSpace(endDate)) {
+        if (StringExt.isNullOrWhiteSpace(startDate) || StringExt.isNullOrWhiteSpace(endDate)) {
             return null;
         }
 
@@ -224,7 +232,7 @@ public class ActivityReportDirectorController {
         extraFilter = new JqGridRulesModel("reportRole", Constants.ROLE_EVALUATION_MANAGER, JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
         extraFilter = new JqGridRulesModel("creationDate", CalendarExt.stringToCalendar(startDate, Constants.FORMAT_CALENDAR_II)
-                , CalendarExt.stringToCalendar(endDate, Constants.FORMAT_CALENDAR_II) , JqGridFilterModel.BETWEEN);
+                , CalendarExt.stringToCalendar(endDate, Constants.FORMAT_CALENDAR_II), JqGridFilterModel.BETWEEN);
         opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
@@ -256,7 +264,7 @@ public class ActivityReportDirectorController {
     @ResponseBody
     JqGridResultModel listDirector(@ModelAttribute JqGridFilterModel opts, String startDate, String endDate) {
 
-        if(StringExt.isNullOrWhiteSpace(startDate) || StringExt.isNullOrWhiteSpace(endDate)) {
+        if (StringExt.isNullOrWhiteSpace(startDate) || StringExt.isNullOrWhiteSpace(endDate)) {
             return null;
         }
 
@@ -268,7 +276,7 @@ public class ActivityReportDirectorController {
         extraFilter = new JqGridRulesModel("reportRole", Constants.ROLE_DIRECTOR, JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
         extraFilter = new JqGridRulesModel("creationDate", CalendarExt.stringToCalendar(startDate, Constants.FORMAT_CALENDAR_II)
-                , CalendarExt.stringToCalendar(endDate, Constants.FORMAT_CALENDAR_II) , JqGridFilterModel.BETWEEN);
+                , CalendarExt.stringToCalendar(endDate, Constants.FORMAT_CALENDAR_II), JqGridFilterModel.BETWEEN);
         opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
@@ -300,7 +308,7 @@ public class ActivityReportDirectorController {
     @ResponseBody
     JqGridResultModel listChanneling(@ModelAttribute JqGridFilterModel opts, String startDate, String endDate) {
 
-        if(StringExt.isNullOrWhiteSpace(startDate) || StringExt.isNullOrWhiteSpace(endDate)) {
+        if (StringExt.isNullOrWhiteSpace(startDate) || StringExt.isNullOrWhiteSpace(endDate)) {
             return null;
         }
 
@@ -312,7 +320,7 @@ public class ActivityReportDirectorController {
         extraFilter = new JqGridRulesModel("reportRole", Constants.ROLE_CHANNELING_MANAGER, JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
         extraFilter = new JqGridRulesModel("creationDate", CalendarExt.stringToCalendar(startDate, Constants.FORMAT_CALENDAR_II)
-                , CalendarExt.stringToCalendar(endDate, Constants.FORMAT_CALENDAR_II) , JqGridFilterModel.BETWEEN);
+                , CalendarExt.stringToCalendar(endDate, Constants.FORMAT_CALENDAR_II), JqGridFilterModel.BETWEEN);
         opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
@@ -344,7 +352,7 @@ public class ActivityReportDirectorController {
     @ResponseBody
     JqGridResultModel listProject(@ModelAttribute JqGridFilterModel opts, String startDate, String endDate) {
 
-        if(StringExt.isNullOrWhiteSpace(startDate) || StringExt.isNullOrWhiteSpace(endDate)) {
+        if (StringExt.isNullOrWhiteSpace(startDate) || StringExt.isNullOrWhiteSpace(endDate)) {
             return null;
         }
 
@@ -352,7 +360,7 @@ public class ActivityReportDirectorController {
         JqGridRulesModel extraFilter = new JqGridRulesModel("isObsolete", "0", JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
         extraFilter = new JqGridRulesModel("creationDate", CalendarExt.stringToCalendar(startDate, Constants.FORMAT_CALENDAR_II)
-                , CalendarExt.stringToCalendar(endDate, Constants.FORMAT_CALENDAR_II) , JqGridFilterModel.BETWEEN);
+                , CalendarExt.stringToCalendar(endDate, Constants.FORMAT_CALENDAR_II), JqGridFilterModel.BETWEEN);
         opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
@@ -394,7 +402,7 @@ public class ActivityReportDirectorController {
     @ResponseBody
     JqGridResultModel listHumanRes(@ModelAttribute JqGridFilterModel opts, String startDate, String endDate) {
 
-        if(StringExt.isNullOrWhiteSpace(startDate) || StringExt.isNullOrWhiteSpace(endDate)) {
+        if (StringExt.isNullOrWhiteSpace(startDate) || StringExt.isNullOrWhiteSpace(endDate)) {
             return null;
         }
 
@@ -406,7 +414,7 @@ public class ActivityReportDirectorController {
         extraFilter = new JqGridRulesModel("reportRole", Constants.ROLE_HUMAN_RESOURCES, JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
         extraFilter = new JqGridRulesModel("creationDate", CalendarExt.stringToCalendar(startDate, Constants.FORMAT_CALENDAR_II)
-                , CalendarExt.stringToCalendar(endDate, Constants.FORMAT_CALENDAR_II) , JqGridFilterModel.BETWEEN);
+                , CalendarExt.stringToCalendar(endDate, Constants.FORMAT_CALENDAR_II), JqGridFilterModel.BETWEEN);
         opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
@@ -448,7 +456,7 @@ public class ActivityReportDirectorController {
             if (userService.isValidUser(user, response) == false)
                 return response;
 
-            if(activityReportWizardService.valid(req, response) == false){
+            if (activityReportWizardService.valid(req, response) == false) {
                 return response;
             }
 
@@ -501,11 +509,9 @@ public class ActivityReportDirectorController {
             if (userService.isValidUser(user, responseMsg) == false)
                 return null;
 
-
             WizardActivityReport actRep = activityReportWizardService.findOne(id);
             if (actRep == null) {
-                String fileName = "InformeNoEncontrado" + UUID.randomUUID().toString() + ".doc";
-                File file = new File(fileName);
+                File file = upDwFileGenericService.createDownloadableFile("InformeNoEncontrado", ".doc", request);
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
                 writer.write("<html><body><h3>No existe o ha sido eliminado el informe de actividades que ha seleccionado.</h3></body></html>");
                 writer.flush();
@@ -525,7 +531,7 @@ public class ActivityReportDirectorController {
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "downloadFiles", userService);
             try {
-                File file = new File(UUID.randomUUID().toString());
+                File file = upDwFileGenericService.createDownloadableFile("DescargarInforme", ".doc", request);
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
                 writer.write("<html><body><h3>Ocurrió un error al momento de descargar el informe. Por favor intente de nuevo.</h3></body></html>");
                 writer.flush();

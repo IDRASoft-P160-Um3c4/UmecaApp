@@ -3,10 +3,7 @@ package com.umeca.service.shared;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.CatFileType;
 import com.umeca.model.entities.account.User;
-import com.umeca.model.entities.director.agenda.ActivityAgendaNotice;
-import com.umeca.model.entities.humanReources.Employee;
 import com.umeca.model.entities.shared.SystemSetting;
-import com.umeca.model.entities.shared.UploadFile;
 import com.umeca.model.entities.shared.UploadFileGeneric;
 import com.umeca.model.entities.shared.UploadFileRequest;
 import com.umeca.model.shared.Constants;
@@ -20,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -66,6 +64,26 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
         }
 
         return true;
+    }
+
+    @Override
+    public File createDownloadableFile(String fileName, String extension, HttpServletRequest request) {
+
+        String temporalPath = request.getSession().getServletContext().getRealPath("") + Constants.SHARED_PATH_FILES;
+
+        File tempPath = new File(temporalPath);
+
+        //crea la carpeta donde se almacenara la imagen si no existe
+        if (!tempPath.exists()) {
+            if (tempPath.mkdirs() == false) {
+                return null;
+            }
+        }
+
+        String guidId = UUID.randomUUID().toString();
+
+        File file = new File(temporalPath + fileName + "_" + guidId + extension);
+        return file;
     }
 
     @Override
