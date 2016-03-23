@@ -91,7 +91,6 @@ public class imputedMissedAttendanceController {
                     return r.join("imputed").get("lastNameP");
                 else if (field.equals("lastNameM"))
                     return r.join("imputed").get("lastNameM");
-
                 else if (field.equals("dateStr"))
                     return  r.get("date");
                 return null;

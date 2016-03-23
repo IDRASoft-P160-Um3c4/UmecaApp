@@ -15,6 +15,6 @@ public interface ImputedMissedAttendanceLogRepository extends JpaRepository<Impu
 
     @Query("select distinct (imp.id) " +
             "FROM ImputedMissedAttendanceLog imp " +
-            "where (imp.date between :initDate and :endDate)")
+            "where (imp.date between :initDate and :endDate) and imp.isObsolete = false")
     public List<Long> getDetainedByPeriod(@Param("initDate") Date initDate, @Param("endDate") Date endDate);
 }
