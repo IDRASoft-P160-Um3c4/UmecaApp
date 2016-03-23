@@ -16,6 +16,7 @@
     <script src="${pageContext.request.contextPath}/assets/scripts/umeca/date-time/daterangepicker.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/scripts/app/supervisorManager/imputedMissedAttendance/imputedMissedAttendanceCtrl.js"></script>
 
+
     <title>Imputados que se presentaron sin cita</title>
 </head>
 
@@ -35,6 +36,11 @@
         }
 
 
+        window.doObsolete = function(id){
+            window.showObsolete(id, "#angJsjqGridId", '<c:url value='/supervisor/imputedMissedAttendance/doObsoleteImputedMissed.json' />', "#GridId");
+        };
+
+
         $(document).ready(function () {
 
             jQuery("#GridId").jqGrid({
@@ -45,7 +51,7 @@
                 postData: {
                     ids: listIds
                 },
-                colNames: ['Id', 'Nombre', 'Apellido paterno', 'Apellido materno', 'Fecha'],
+                colNames: ['Id', 'Nombre', 'Apellido paterno', 'Apellido materno', 'Fecha', 'Acci&oacute;n'],
                 colModel: [
                     {name: 'id', index: 'id', hidden: true},
                     {
@@ -79,6 +85,14 @@
                         align: "center",
                         sorttype: 'string',
                         search: false
+                    },
+                    {
+                        name: 'Action',
+                        width: 70,
+                        align: "center",
+                        sortable: false,
+                        search: false,
+                        formatter: window.actionFormatter
                     }
                 ],
                 rowNum: 10,
@@ -91,6 +105,15 @@
                 sortorder: "desc",
                 caption: "&nbsp;",
                 altRows: true,
+                gridComplete: function () {
+                    var ids = $(this).jqGrid('getDataIDs');
+                    for (var i = 0; i < ids.length; i++) {
+                        var cl = ids[i];
+                        var be = "";
+                        be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar registro\" onclick=\"window.doObsolete('" + cl + "');\"><span class=\"glyphicon glyphicon-remove color-danger\"></span></a>";
+                        $(this).jqGrid('setRowData', ids[i], {Action: be});
+                    }
+                },
                 loadComplete: function () {
                     var table = this;
                     setTimeout(function () {
@@ -115,7 +138,7 @@
 
                 onClickButton: function () {
                     try {
-                        $("#GridId").jqGrid('toExcelFile',{nombre:"datosXls",formato:"excel"});
+                        $("#GridId").jqGrid('toExcelFile', {nombre: "datosXls", formato: "excel"});
                     } catch (e) {
                     }
                 }
@@ -196,7 +219,8 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12 element-center">
-                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true" ng-click="submitFindRecords('#FormRepExcel','<c:url value='/supervisor/imputedMissedAttendance/findRecords.json'/>');">
+                    <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                          ng-click="submitFindRecords('#FormRepExcel','<c:url value='/supervisor/imputedMissedAttendance/findRecords.json'/>');">
                       Realizar b&uacute;squeda
                     </span>
                     </div>
@@ -208,7 +232,7 @@
     </form>
 
 
-    <div id="angJsjqGridIdDetained" ng-controller="modalDlgController">
+    <div id="angJsjqGridId" ng-controller="modalDlgController">
 
 
         <table id="GridId" class="element-center" style="margin: auto"></table>

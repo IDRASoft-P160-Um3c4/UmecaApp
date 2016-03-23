@@ -13,12 +13,10 @@ import com.umeca.model.entities.supervisorManager.ImputedMissedAttendanceLog;
 import com.umeca.repository.supervisorManager.ImputedMissedAttendanceLogRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.SharedLogExceptionService;
+import com.umeca.service.supervisiorManager.ImputedMissedAttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
@@ -40,6 +38,8 @@ public class imputedMissedAttendanceController {
     SharedUserService sharedUserService;
     @Autowired
     ImputedMissedAttendanceLogRepository imputedMissedAttendanceLogRepository;
+    @Autowired
+    ImputedMissedAttendanceService imputedMissedAttendanceService;
 
     @RequestMapping(value = {"/supervisorManager/imputedMissedAttendance/index", "/supervisor/imputedMissedAttendance/index"}, method = RequestMethod.GET)
     public String index() {
@@ -65,6 +65,9 @@ public class imputedMissedAttendanceController {
         }
 
         JqGridRulesModel extraFilter = new JqGridRulesModel("idsRecords", idsRecords, JqGridFilterModel.COMPARE_IN);
+        opts.extraFilters.add(extraFilter);
+
+        extraFilter = new JqGridRulesModel("isObsolete", "0", JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
 
 
@@ -129,4 +132,24 @@ public class imputedMissedAttendanceController {
         }
 
     }
+
+
+
+    @RequestMapping(value = {"/supervisorManager/imputedMissedAttendance/doObsoleteImputedMissed", "/supervisor/imputedMissedAttendance/doObsoleteImputedMissed"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    ResponseMessage doObsoleteImputedMissed(@RequestParam(required = true) Long id) {
+
+        ResponseMessage response = new ResponseMessage();
+        try {
+            response = imputedMissedAttendanceService.doObsoleteImputedMissed(id);
+        } catch (Exception ex) {
+            logException.Write(ex, this.getClass(), "doUpsertEmployee", sharedUserService);
+            response.setHasError(true);
+            response.setMessage("Ha ocurrido un error, intente nuevamente.");
+        } finally {
+            return response;
+        }
+    }
+
 }
