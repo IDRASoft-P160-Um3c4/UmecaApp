@@ -237,6 +237,8 @@
                                 <li><a href="<c:url value='/supervisor/channelingTrack/index.html'/>">
                                     <i class="glyphicon glyphicon-hand-right"></i>&nbsp;&nbsp;Seguimiento canalizaci&oacute;n</a>
                                 </li>
+                                <li><a href="<c:url value='/supervisor/imputedMissedAttendance/index.html' />"><i
+                                        class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Imputados sin cita </a></li>
                             </ul>
                         </li>
                     </sec:authorize>
@@ -400,6 +402,8 @@
                                     supervisi&oacute;n</a></li>
                                 <li><a href="<c:url value='/shared/messageHistory/index.html' />"><i
                                         class="icon icon-envelope"></i>&nbsp;&nbsp;Hist&oacute;rico de mensajes</a></li>
+                                <li><a href="<c:url value='/supervisorManager/imputedMissedAttendance/index.html' />"><i
+                                        class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;Imputados sin cita </a></li>
                             </ul>
                         </li>
 
