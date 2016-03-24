@@ -39,7 +39,7 @@ public class PersonSocialNetworkView  implements EntityGrid {
         this.id = id;
         this.name = name;
         this.relName = relName;
-        if(!specificationRelationship.equals("")){
+        if(specificationRelationship!=null && !specificationRelationship.equals("")){
             this.relName += ": "+specificationRelationship;
         }
         this.age = age;

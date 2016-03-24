@@ -1,12 +1,11 @@
 package com.umeca.model.entities.reviewer;
 
+import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 import com.umeca.model.catalog.DocumentType;
 import com.umeca.model.catalog.Relationship;
-import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,7 +27,7 @@ public class Reference implements EntityGrid{
         this.age = age;
         this.phone = phone;
         this.relName = relName;
-        if(!specificationRelationship.equals("")){
+        if(specificationRelationship!=null && !specificationRelationship.equals("")){
             this.relName += ": "+specificationRelationship;
         }
         this.isAccompanimentString = isAccompaniment ? "Si": "No";

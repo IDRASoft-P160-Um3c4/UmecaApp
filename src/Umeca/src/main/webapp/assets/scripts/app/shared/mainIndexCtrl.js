@@ -100,7 +100,6 @@ app.controller("mainIndexController", function ($scope, sharedSvc, $sce) {
 
 
     $scope.formatHtml = function(sHtml){
-        debugger;
         return $sce.trustAsHtml(sHtml);
     };
 
