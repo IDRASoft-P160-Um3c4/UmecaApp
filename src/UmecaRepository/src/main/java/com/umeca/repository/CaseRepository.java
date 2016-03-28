@@ -396,7 +396,7 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
     @Query("select new com.umeca.model.entities.shared.TabletAssignmentInfo(tac.id, cd.assignmentType) from TabletAssignmentCase tac " +
             "inner join tac.assignedUser au " +
             "inner join tac.caseDetention cd " +
-            "where tac.isObsolete = false " +
+            "where tac.isObsolete = false and tac.downloadedDate is null " +
             "and au.id=:userId")
     List<TabletAssignmentInfo> getAssignmentIdsTypesByUser(@Param("userId") Long userId);
 

@@ -565,6 +565,20 @@
                     <sec:authorize access="hasRole('ROLE_HUMAN_RESOURCES')">
                         <li class="dropdown nav-li-blue">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                    class="glyphicon glyphicon-lock"></i>
+                                &nbsp;&nbsp;Aplicaci&oacute;n biom&eacute;trico
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a
+                                        href="<c:url value='/assets/applications/TimeAttendanceApp.zip'/>"><i
+                                        class="glyphicon glyphicon-cloud-download"></i>&nbsp;&nbsp;Descargar instalador de aplicaci&oacute;n</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown nav-li-blue">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
                                     class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Control de asistencia
                                 <i class="icon-caret-down"></i>
                             </a>
