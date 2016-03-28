@@ -240,10 +240,7 @@
 
                 onClickButton: function () {
                     try {
-                        var params = [];
-                        if (rol === '<%= Constants.ROLE_DETENTION_RECORD_MANAGER%>') {
-                            window.goToUrlMvcUrl("<c:url value='/detentionRecordManager/excelDetentionRecordReport/jxls.html'/>", params);
-                        }
+                        $("#GridIdDetained").jqGrid('toExcelFile', {nombre: "datosXls", formato: "excel"});
                     } catch (e) {
                     }
                 }
