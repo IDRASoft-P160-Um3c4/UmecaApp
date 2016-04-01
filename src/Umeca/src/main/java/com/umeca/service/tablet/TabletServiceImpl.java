@@ -748,11 +748,11 @@ public class TabletServiceImpl implements TabletService {
             address.setInnNum(tabletHome.getAddress().getInnNum());
             address.setLat(tabletHome.getAddress().getLat());
             address.setLng(tabletHome.getAddress().getLng());
-            address.setAddressString(address.toString());
 
             Location l = new Location();
             l.setId(tabletHome.getAddress().getLocation().getId());
             address.setLocation(l);
+            address.setAddressString(tabletHome.getAddress().getAddressString());
 
             addressRepository.save(address);
             webHome.setAddress(address);
