@@ -12,7 +12,7 @@ import java.util.List;
 @Repository("qEmployeeFingerPrintRepository")
 public interface EmployeeFingerPrintRepository extends JpaRepository<EmployeeFingerPrint, Long> {
 
-    @Query("select  new com.umeca.model.dto.timeAttendance.FingerPrintWSDto(ef.finger, ef.fingerprint) " +
+    @Query("select  new com.umeca.model.dto.timeAttendance.FingerPrintWSDto(ef.finger, ef.data) " +
             "from EmployeeFingerPrint ef " +
             "inner join ef.employee Em " +
             "where Em.id = :idEmployee")

@@ -1,7 +1,8 @@
 package com.umeca.repository.reviewer;
 
+import com.umeca.model.dto.humanResources.ImputedDto;
+import com.umeca.model.dto.humanResources.ImputedFingerPrintDto;
 import com.umeca.model.entities.reviewer.Imputed;
-import com.umeca.model.entities.reviewer.ImputedInitial;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,6 +25,10 @@ public interface ImputedRepository extends JpaRepository<Imputed, Long>{
 
     @Query("select i from Imputed as i where name=:name and lastNameP = :lnP and lastNameM = :lnM and birthDate = :db")
     List<Imputed> findImputedRegister(@Param("name")String name, @Param("lnP")String lastNameP,@Param("lnM")String lastNameM,@Param("db") Date birthDate);
+
+    @Query("select new com.umeca.model.dto.humanResources.ImputedDto(id, name, lastNameP, lastNameM) from Imputed where id = :imputed")
+    List<ImputedDto> getImputed(@Param("imputed")long imputed);
+
+    @Query("select new com.umeca.model.dto.humanResources.ImputedFingerPrintDto(f.id, f.finger, f.data) from ImputedFingerprint as f inner join f.imputed as i where i.id = :imputed")
+    List<ImputedFingerPrintDto> getImputedFingerPrint(@Param("imputed")long imputed);
 }
-
-
