@@ -41,12 +41,12 @@ public interface FramingMeetingRepository extends JpaRepository<FramingMeeting, 
             "where CD.id=:idCase order by ADD.id ASC")
     List<String> firstFramingHouseByCase(@Param("idCase") Long idCase, Pageable pageable);
 
-    @Query("select F.id from Fingerprint F " +
+    @Query("select F.id from ImputedFingerprint F " +
             "inner join F.imputed IMP " +
             "where IMP.id=:imputedId")
     List<Long> getFingerIdsByImputed(@Param("imputedId") Long imputedId);
 
-    @Query("select F.id from Fingerprint F " +
+    @Query("select F.id from ImputedFingerprint F " +
             "inner join F.imputed IMP " +
             "where IMP.id=:imputedId")
     Boolean getValidateFingerConf();
