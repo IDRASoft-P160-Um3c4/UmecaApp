@@ -3,13 +3,19 @@ package com.umeca.service.humanResources;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.model.dto.humanResources.ImputedDto;
+import com.umeca.model.dto.humanResources.ImputedFingerPrintDto;
 import com.umeca.model.dto.timeAttendance.AttendanceLogWSDto;
 import com.umeca.model.dto.timeAttendance.DeviceDto;
 import com.umeca.model.dto.timeAttendance.FingerPrintWSDto;
 import com.umeca.model.dto.timeAttendance.UserInfoWsDto;
+import com.umeca.model.entities.fingerprint.ImputedFingerprint;
 import com.umeca.model.entities.humanReources.Employee;
 import com.umeca.model.entities.humanReources.EmployeeFingerPrint;
+import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.timeAttendance.AttendanceLog;
+import com.umeca.repository.humanResources.*;
+import com.umeca.repository.reviewer.ImputedRepository;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.humanResources.AttendanceLogRepository;
 import com.umeca.repository.humanResources.DeviceRepository;
@@ -35,6 +41,10 @@ public class HumanResourcesWSServiceImpl implements HumanResourcesWSService {
     private EmployeeFingerPrintRepository employeeFingerPrintRepository;
     @Autowired
     private AttendanceLogRepository attendanceLogRepository;
+    @Autowired
+    private ImputedRepository imputedRepository;
+    @Autowired
+    private ImputedFingerPrintRepository imputedFingerPrintRepository;
 
     @Override
     public ResponseMessage getDevices() {
@@ -97,13 +107,45 @@ public class HumanResourcesWSServiceImpl implements HumanResourcesWSService {
                 EmployeeFingerPrint newFinger = new EmployeeFingerPrint();
                 Employee employee = employeeRepository.findOne(Long.valueOf(enrollNumber));
                 newFinger.setEmployee(employee);
-                newFinger.setFinger(finger);
-                newFinger.setFingerprint(fingerPrint);
+                newFinger.setFinger((short)finger);
+                newFinger.setData(fingerPrint);
                 employeeFingerPrintRepository.saveAndFlush(newFinger);
             }
             else if(operation == 1){
                 EmployeeFingerPrint fingerObject = employeeFingerPrintRepository.getFingerPrint(Long.valueOf(enrollNumber), finger);
                 employeeFingerPrintRepository.delete(fingerObject);
+            }
+            response = new ResponseMessage(false, "Datos actualizados");
+
+        } catch (Exception e) {
+            response = new ResponseMessage(true, "Ha ocurrido un error, intente nuevamente");
+        }
+        return response;
+    }
+
+    @Transactional
+    @Override
+    public ResponseMessage updateImputedFingerPrint(String enrollNumber, int finger, String fingerPrint, int operation) {
+        ResponseMessage response;
+
+        try {
+            if(operation == 0){
+                ImputedFingerprint fingerObject = imputedFingerPrintRepository.getFingerPrint(Long.valueOf(enrollNumber), (short)finger);
+                if(fingerObject != null){
+                    imputedFingerPrintRepository.delete(fingerObject);
+                }
+
+                ImputedFingerprint newFinger = new ImputedFingerprint();
+                Imputed imputed = imputedRepository.findOne(Long.valueOf(enrollNumber));
+                newFinger.setImputed(imputed);
+                newFinger.setFinger((short)finger);
+                newFinger.setData(fingerPrint);
+                newFinger.setTimestamp(Calendar.getInstance().getTime());
+                imputedFingerPrintRepository.saveAndFlush(newFinger);
+            }
+            else if(operation == 1){
+                ImputedFingerprint fingerObject = imputedFingerPrintRepository.getFingerPrint(Long.valueOf(enrollNumber), (short)finger);
+                imputedFingerPrintRepository.delete(fingerObject);
             }
             response = new ResponseMessage(false, "Datos actualizados");
 
@@ -142,4 +184,30 @@ public class HumanResourcesWSServiceImpl implements HumanResourcesWSService {
         return response;
     }
 
+    @Override
+    public ResponseMessage getImputed(long imputed){
+
+        ResponseMessage response;
+        Gson gson = new Gson();
+
+        try {
+            List<ImputedDto> imputedResultArr = imputedRepository.getImputed(imputed);
+            ImputedDto imputedResult = imputedResultArr.get(0);
+
+            List<ImputedFingerPrintDto> fingerPrints = imputedRepository.getImputedFingerPrint(imputed);
+            imputedResult.setFingerPrints(fingerPrints);
+
+            if (imputedResult != null) {
+                response = new ResponseMessage(false, "Datos correctos");
+                response.setData(gson.toJson(imputedResult));
+            } else {
+                response = new ResponseMessage(true, "No existen empleados.");
+            }
+
+        } catch (Exception e) {
+            response = new ResponseMessage(true, "Ha ocurrido un error, intente nuevamente");
+        }
+
+        return response;
+    }
 }

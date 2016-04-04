@@ -87,7 +87,7 @@
 		<class>com.umeca.model.entities.director.project.Project</class>
 		<class>com.umeca.model.entities.director.project.ProjectActivity</class>
 
-		<class>com.umeca.model.entities.fingerprint.Fingerprint</class>
+		<class>com.umeca.model.entities.fingerprint.ImputedFingerprint</class>
 
 		<class>com.umeca.model.entities.humanReources.AgreementFileRel</class>
 		<class>com.umeca.model.entities.humanReources.Attachment</class>

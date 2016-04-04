@@ -26,7 +26,7 @@
                 <div class="row">
                     <div class="col-xs-8 col-xs-offset-2 element-center">
                         <button class="btn btn-primary btn-large"
-                                ng-click="openNewPage('<c:url value="/supervisor/shared/enrollment.jnlp?id=idParam"/>', ${imputedId});">
+                                ng-click="openNewPage('http://localhost/Test/FingerprintEnrollment.application?a=${imputedId}&b=${userId}');">
                             <i class="glyphicon glyphicon-off"></i>
                             Ejecutar aplicaci&oacute;n
                         </button>

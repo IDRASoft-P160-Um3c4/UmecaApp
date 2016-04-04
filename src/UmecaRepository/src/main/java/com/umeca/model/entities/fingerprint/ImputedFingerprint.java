@@ -9,8 +9,8 @@ import java.util.Date;
  * Created by dcortesr on 30/09/14.
  */
 @Entity
-@Table(name = "fingerprint")
-public class Fingerprint {
+@Table(name = "imputed_fingerprint")
+public class ImputedFingerprint {
     @Id
     @GeneratedValue
     @Column(name = "id_fingerprint")
@@ -19,8 +19,8 @@ public class Fingerprint {
     @Column(name = "finger", nullable = false)
     private short finger;
 
-    @Column(name = "fingerprint", nullable = false, length = 4096)
-    private byte[] fingerpring;
+    @Column(name = "data", nullable = false, length = 2048)
+    private String data;
 
     @Column(name = "timestamp", nullable = false)
     private Date timestamp;
@@ -73,11 +73,11 @@ public class Fingerprint {
         this.finger = finger;
     }
 
-    public byte[] getFingerpring() {
-        return fingerpring;
+    public String getData() {
+        return data;
     }
 
-    public void setFingerpring(byte[] fingerpring) {
-        this.fingerpring = fingerpring;
+    public void setData(String data) {
+        this.data = data;
     }
 }

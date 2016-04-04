@@ -3,7 +3,7 @@ package com.umeca.model.dto.timeAttendance;
 
 public class FingerPrintWSDto {
 
-    private int Finger;
+    private short Finger;
 
     private String Data;
 
@@ -11,16 +11,16 @@ public class FingerPrintWSDto {
 
     }
 
-    public FingerPrintWSDto(int finger, String data){
+    public FingerPrintWSDto(short finger, String data){
         this.Finger = finger;
         this.Data = data;
     }
 
-    public int getFinger() {
+    public short getFinger() {
         return Finger;
     }
 
-    public void setFinger(int finger) {
+    public void setFinger(short finger) {
         Finger = finger;
     }
 

@@ -11,5 +11,8 @@ public interface BiometricWS {
     public ResponseMessage updateUserFingerPrint(String enrollNumber, int finger, String fingerPrint, int operation);
 
     public ResponseMessage updateAttendanceLogs(String logsList);
-    
+
+    public ResponseMessage getImputed(long imputed);
+
+    public ResponseMessage updateImputedFingerPrint(String enrollNumber, int finger, String fingerPrint, int operation);
 }

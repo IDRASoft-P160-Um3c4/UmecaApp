@@ -14,10 +14,10 @@ public class EmployeeFingerPrint {
     private Long id;
 
     @Column(name = "finger")
-    private int finger;
+    private short finger;
 
-    @Column(name = "fingerprint", length = 2048)
-    private String fingerprint;
+    @Column(name = "data", length = 2048)
+    private String data;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_employee")
@@ -31,20 +31,20 @@ public class EmployeeFingerPrint {
         this.id = id;
     }
 
-    public int getFinger() {
+    public short getFinger() {
         return finger;
     }
 
-    public void setFinger(int finger) {
+    public void setFinger(short finger) {
         this.finger = finger;
     }
 
-    public String getFingerprint() {
-        return fingerprint;
+    public String getData() {
+        return data;
     }
 
-    public void setFingerprint(String fingerprint) {
-        this.fingerprint = fingerprint;
+    public void setData(String fingerprint) {
+        this.data = fingerprint;
     }
 
     public Employee getEmployee() {
