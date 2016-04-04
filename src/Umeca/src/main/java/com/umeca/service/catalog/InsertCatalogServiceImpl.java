@@ -169,6 +169,8 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     StatisticChannelingReportTypeRepository statisticChannelingReportTypeRepository;
     @Autowired
     StatisticHumanResourcesReportTypeRepository statisticHumanResourcesReportTypeRepository;
+    @Autowired
+    DeviceUseRepository deviceUseRepository;
 
     private String PATH = "/home/umecaCatalogs/db/";
 
@@ -1195,6 +1197,21 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
             statisticHumanResourcesReportTypeRepository.save(model);
         }
         statisticHumanResourcesReportTypeRepository.flush();
+    }
+
+
+    @Override
+    public void deviceUse() {
+        List<String[]> lstDta = ReaderFile.readFile(PATH + "deviceUse.txt", "\\|", 4);
+        for (String[] data : lstDta) {
+            DeviceUse model = new DeviceUse();
+            model.setId(Long.parseLong(data[0]));
+            model.setName(data[1]);
+            model.setIsObsolete(data[2].equals("1"));
+            model.setCode(data[3]);
+            deviceUseRepository.save(model);
+        }
+        deviceUseRepository.flush();
     }
 }
 

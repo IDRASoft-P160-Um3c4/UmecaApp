@@ -8,6 +8,7 @@ import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.dto.timeAttendance.DeviceDto;
 import com.umeca.model.entities.timeAttendance.Device;
+import com.umeca.repository.catalog.DeviceUseRepository;
 import com.umeca.repository.humanResources.DeviceRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.device.DeviceService;
@@ -39,6 +40,9 @@ public class DeviceController {
     private SharedUserService sharedUserService;
     @Autowired
     private DeviceService deviceService;
+    @Autowired
+    private DeviceUseRepository deviceUseRepository;
+
 
     @RequestMapping(value = "/humanResources/device/index", method = RequestMethod.GET)
     public String index() {
@@ -56,6 +60,7 @@ public class DeviceController {
                     add(r.get("name"));
                     add(r.get("ip"));
                     add(r.get("port"));
+                    add(r.join("deviceUse").get(("name")).alias("deviceUseStr"));
                     add(r.get("isObsolete"));
                 }};
             }
@@ -68,6 +73,8 @@ public class DeviceController {
                     return r.get("ip");
                 if (field.equals("port"))
                     return r.get("port");
+                if (field.equals("deviceUseStr"))
+                    return r.join("deviceUse").get("name");
                 return null;
             }
         }, Device.class, DeviceDto.class);
@@ -80,11 +87,12 @@ public class DeviceController {
         ModelAndView model = new ModelAndView("/humanResources/timeAttendance/device/upsert");
 
         Gson gson = new Gson();
-        Device device = deviceRepository.findOne(id);
+        DeviceDto device = deviceRepository.findDevice(id);
 
         if (device != null)
             model.addObject("device", gson.toJson(device));
 
+        model.addObject("lstDeviceUse", new Gson().toJson(deviceUseRepository.findNoObsolete()));
         return model;
     }
 

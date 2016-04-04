@@ -3,7 +3,27 @@ app.controller('upsertDeviceController', function ($scope, $timeout, $sce, $root
     $scope.dv = {};
 
     $scope.init = function (value) {
+        if(value === undefined){
+            $scope.dv = {};
+            return;
+        }
         $scope.dv = value;
+    };
+
+
+    $scope.initCatalog = function () {
+        $scope.DeviceUses = window.initCatalog($scope.lstDeviceUse, $scope.dv.deviceUse);
+        $scope.dv.deviceUse = $scope.DeviceUses.Id;
+
+    };
+
+
+    $scope.fillSelect = function (obj, prop, list, model) {
+        if ($scope[list] === undefined || $scope[list].length <= 0)
+            return;
+        if ($scope[model] === undefined)
+            $scope[prop] = $scope[list][0];
+
     };
 
     $scope.submitUpsertDevice = function(formId, urlToPost) {

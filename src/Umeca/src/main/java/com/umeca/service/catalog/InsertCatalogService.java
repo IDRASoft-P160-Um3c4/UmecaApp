@@ -133,4 +133,6 @@ public interface InsertCatalogService {
     void statisticChannelingReportType();
 
     void statisticHumanResourcesReportType();
+
+    void deviceUse();
 }

@@ -1,5 +1,7 @@
 package com.umeca.model.entities.timeAttendance;
 
+import com.umeca.model.catalog.DeviceUse;
+
 import javax.persistence.*;
 
 /**
@@ -21,6 +23,10 @@ public class Device {
 
     @Column(name = "port", nullable = false)
     private int port;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_device_use")
+    private DeviceUse deviceUse;
 
     @Column(name="is_obsolete", nullable = false)
     private Boolean isObsolete;
@@ -63,5 +69,13 @@ public class Device {
 
     public void setIsObsolete(Boolean isObsolete) {
         this.isObsolete = isObsolete;
+    }
+
+    public DeviceUse getDeviceUse() {
+        return deviceUse;
+    }
+
+    public void setDeviceUse(DeviceUse deviceUse) {
+        this.deviceUse = deviceUse;
     }
 }

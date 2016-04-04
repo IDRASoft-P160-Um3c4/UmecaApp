@@ -328,8 +328,8 @@
                                                            name="idJudicial" type="text"
                                                            class="input-xxlarge" data-val="true"
                                                            ng-disabled="m.canEdit==false"
-                                                           data-val-length-max="15"
-                                                           data-val-length="Debe tener m&aacute;ximo 15 caracteres"
+                                                           data-val-length-max="25"
+                                                           data-val-length="Debe tener m&aacute;ximo 25 caracteres"
                                                            data-val-required="Carpeta judicial es un campo requerido"/>
                                                     <br/>
                         <span class="field-validation-valid" data-valmsg-for="idJudicial"

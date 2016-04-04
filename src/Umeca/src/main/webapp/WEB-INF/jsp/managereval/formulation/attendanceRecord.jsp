@@ -181,8 +181,8 @@
                                     Carpeta de investigaci&oacute;n:
                                 </div>
                                 <div class="col-xs-7">
-                                    <input class="form-control" type="text"    data-val-length="Debe tener al menos 1 y m&aacute;ximo 15 caracteres"
-                                           data-val-length-max="15" data-val-length-min="1"
+                                    <input class="form-control" type="text"    data-val-length="Debe tener al menos 1 y m&aacute;ximo 25 caracteres"
+                                           data-val-length-max="25" data-val-length-min="1"
                                            data-val="true" data-val-required="La carpeta de investigaci&oacute;n es un campo requerido" ng-init="m.idFolder=''"
                                            id="meeting.caseDetention.idFolder" name="meeting.caseDetention.idFolder" ng-model="m.idFolder"/>
                                 </div>

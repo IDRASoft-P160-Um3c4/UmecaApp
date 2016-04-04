@@ -1,6 +1,7 @@
 package com.umeca.service.device;
 
 import com.umeca.infrastructure.model.ResponseMessage;
+import com.umeca.model.catalog.DeviceUse;
 import com.umeca.model.dto.timeAttendance.DeviceDto;
 import com.umeca.model.entities.timeAttendance.Device;
 import com.umeca.repository.humanResources.DeviceRepository;
@@ -30,9 +31,14 @@ public class DeviceServiceImpl implements DeviceService {
             device = new Device();
         }
 
+        DeviceUse deviceUse = new DeviceUse();
+        deviceUse.setId(deviceDto.getDeviceUse());
+
         device.setName(deviceDto.getName());
         device.setIp(deviceDto.getIp());
         device.setPort(deviceDto.getPort());
+        device.setDeviceUse(deviceUse);
+
         device.setIsObsolete(false);
 
         deviceRepository.save(device);

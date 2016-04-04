@@ -149,8 +149,8 @@
                             </div>
                             <div class="col-xs-7">
                                 <input class="form-control" type="text"
-                                       data-val-length="Debe tener al menos 1 y m&aacute;ximo 15 caracteres"
-                                       data-val-length-max="15" data-val-length-min="1"
+                                       data-val-length="Debe tener al menos 1 y m&aacute;ximo 25 caracteres"
+                                       data-val-length-max="25" data-val-length-min="1"
                                        data-val="true" data-val-required="Carpeta judicial es un campo requerido"
                                        id="idJudicial" name="idJudicial" ng-model="m.idJudicial"/>
                             </div>

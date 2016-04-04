@@ -429,5 +429,11 @@ public class Constants {
     public static final String SHARED_PATH_FILES= File.separator + "files" + File.separator + "shared" + File.separator;
 
 
+
+    public static final String DEVICE_USE_EMPLOYEES = "EMPLOYEE";
+    public static final String DEVICE_USE_IMPUTEDS = "IMPUTED";
+
+
+
 }
 

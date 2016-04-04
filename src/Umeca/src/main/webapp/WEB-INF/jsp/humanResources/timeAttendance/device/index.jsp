@@ -32,7 +32,7 @@
         autoencode: true,
         datatype: "json",
         mtype: 'POST',
-        colNames: ['ID', 'isObsolete', 'Nombre', 'Direcci&oacute;n', 'Puerto', 'Acci&oacute;n'],
+        colNames: ['ID', 'isObsolete', 'Nombre', 'Direcci&oacute;n', 'Puerto','Uso', 'Acci&oacute;n'],
         colModel: [
           {name: 'id', index: 'id', hidden: true},
           {name: 'obsolete', index: 'obsolete', hidden: true},
@@ -55,6 +55,14 @@
           {
             name: 'port',
             index: 'port',
+            width: 200,
+            align: "center",
+            sorttype: 'string',
+            searchoptions: {sopt: ['bw']}
+          },
+          {
+            name: 'deviceUseStr',
+            index: 'deviceUseStr',
             width: 200,
             align: "center",
             sorttype: 'string',

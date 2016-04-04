@@ -409,6 +409,13 @@ public class InsertCatalogController {
     }
 
 
+    @RequestMapping(value = "/catalogs/deviceUse", method = RequestMethod.GET)
+    public String deviceUse() {
+        service.deviceUse();
+        return "deviceUse";
+    }
+
+
 
 
 
@@ -477,6 +484,7 @@ public class InsertCatalogController {
         service.reportType();
         service.statisticChannelingReportType();
         service.statisticHumanResourcesReportType();
+        service.deviceUse();
         return "insertCatalog OK!!";
     }
 }

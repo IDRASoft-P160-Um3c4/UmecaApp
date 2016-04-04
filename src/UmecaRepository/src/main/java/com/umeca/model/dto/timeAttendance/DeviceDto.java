@@ -8,15 +8,28 @@ public class DeviceDto implements EntityGrid {
     private String name;
     private String ip;
     private int port;
+    private Long deviceUse;
+    private String deviceUseStr;
     private boolean isObsolete;
 
     public DeviceDto(){}
 
-    public DeviceDto(Long id, String name, String ip, int port, boolean isObsolete){
+    public DeviceDto(Long id, String name, String ip, int port, String deviceUseStr, boolean isObsolete){
         this.id = id;
         this.name = name;
         this.ip = ip;
         this.port = port;
+        this.deviceUseStr = deviceUseStr;
+        this.isObsolete = isObsolete;
+    }
+
+
+    public DeviceDto(Long id, String name, String ip, int port, Long deviceUseId, boolean isObsolete){
+        this.id = id;
+        this.name = name;
+        this.ip = ip;
+        this.port = port;
+        this.deviceUse = deviceUseId;
         this.isObsolete = isObsolete;
     }
 
@@ -72,4 +85,19 @@ public class DeviceDto implements EntityGrid {
     }
 
 
+    public Long getDeviceUse() {
+        return deviceUse;
+    }
+
+    public void setDeviceUse(Long deviceUse) {
+        this.deviceUse = deviceUse;
+    }
+
+    public String getDeviceUseStr() {
+        return deviceUseStr;
+    }
+
+    public void setDeviceUseStr(String deviceUseStr) {
+        this.deviceUseStr = deviceUseStr;
+    }
 }

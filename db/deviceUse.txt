@@ -1,0 +1,3 @@
+﻿id|name|isObsolete|code
+1|Empleados|0|EMPLOYEE
+2|Imputados|0|IMPUTED

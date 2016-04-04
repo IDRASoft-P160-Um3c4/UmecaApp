@@ -10,6 +10,7 @@ import com.umeca.model.dto.timeAttendance.UserInfoWsDto;
 import com.umeca.model.entities.humanReources.Employee;
 import com.umeca.model.entities.humanReources.EmployeeFingerPrint;
 import com.umeca.model.entities.timeAttendance.AttendanceLog;
+import com.umeca.model.shared.Constants;
 import com.umeca.repository.humanResources.AttendanceLogRepository;
 import com.umeca.repository.humanResources.DeviceRepository;
 import com.umeca.repository.humanResources.EmployeeFingerPrintRepository;
@@ -41,7 +42,7 @@ public class HumanResourcesWSServiceImpl implements HumanResourcesWSService {
         Gson gson = new Gson();
 
         try {
-            List<DeviceDto> devices = deviceRepository.findAllNotObsoloteDevices();
+            List<DeviceDto> devices = deviceRepository.findAllNotObsoloteDevicesByUse(Constants.DEVICE_USE_EMPLOYEES);
             if (devices != null) {
                 response = new ResponseMessage(false, "Datos correctos");
                 response.setData(gson.toJson(devices));
