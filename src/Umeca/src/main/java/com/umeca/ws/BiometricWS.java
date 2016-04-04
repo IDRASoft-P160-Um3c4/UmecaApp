@@ -4,7 +4,7 @@ import com.umeca.infrastructure.model.ResponseMessage;
 
 public interface BiometricWS {
 
-    public ResponseMessage getDevices();
+    public ResponseMessage getDevices(String deviceUse);
 
     public ResponseMessage getUsersFromDB();
 

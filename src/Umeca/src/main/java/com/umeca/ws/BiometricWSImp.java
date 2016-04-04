@@ -17,10 +17,10 @@ public class BiometricWSImp implements BiometricWS {
     }
 
     @Override
-    public ResponseMessage getDevices() {
+    public ResponseMessage getDevices(String deviceUse) {
         ResponseMessage response;
         try {
-                response = humanResourcesWSService.getDevices();
+                response = humanResourcesWSService.getDevices(deviceUse);
 
         } catch (Exception e) {
             e.printStackTrace();

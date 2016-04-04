@@ -4,7 +4,7 @@ import com.umeca.infrastructure.model.ResponseMessage;
 
 public interface HumanResourcesWSService {
 
-    ResponseMessage getDevices();
+    ResponseMessage getDevices(String deviceUse);
 
     ResponseMessage getEmployees();
 

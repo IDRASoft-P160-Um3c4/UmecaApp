@@ -47,12 +47,12 @@ public class HumanResourcesWSServiceImpl implements HumanResourcesWSService {
     private ImputedFingerPrintRepository imputedFingerPrintRepository;
 
     @Override
-    public ResponseMessage getDevices() {
+    public ResponseMessage getDevices(String deviceUse) {
         ResponseMessage response;
         Gson gson = new Gson();
 
         try {
-            List<DeviceDto> devices = deviceRepository.findAllNotObsoloteDevicesByUse(Constants.DEVICE_USE_EMPLOYEES);
+            List<DeviceDto> devices = deviceRepository.findAllNotObsoloteDevicesByUse(deviceUse);
             if (devices != null) {
                 response = new ResponseMessage(false, "Datos correctos");
                 response.setData(gson.toJson(devices));
