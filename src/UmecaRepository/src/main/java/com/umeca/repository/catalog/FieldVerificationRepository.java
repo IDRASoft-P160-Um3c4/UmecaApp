@@ -44,7 +44,7 @@ public interface FieldVerificationRepository extends JpaRepository<FieldVerifica
             "INNER JOIN c.verification.sourceVerifications as sv " +
             "INNER JOIN sv.fieldMeetingSourceList as fms " +
             "INNER JOIN fms.fieldVerification as fv "+
-            "where fv.sectionCode = :sectionCode and c.id=:idCase")
+            "where fv.sectionCode = :sectionCode and c.id=:idCase and sv.visible = false")
     List<Integer> getSubsectionsBySectionCode(@Param("sectionCode") Integer i,@Param("idCase") Long idCase);
 
     @Query("select fv from FieldVerification as fv " +
@@ -55,6 +55,6 @@ public interface FieldVerificationRepository extends JpaRepository<FieldVerifica
             "INNER JOIN c.verification.sourceVerifications as sv " +
             "INNER JOIN sv.fieldMeetingSourceList as fms " +
             "INNER JOIN fms.fieldVerification as fv "+
-            "where fv.sectionCode = :sectionCode and c.id=:idCase and fms.idFieldList=:idList")
+            "where fv.sectionCode = :sectionCode and c.id=:idCase and fms.idFieldList=:idList and sv.visible = false")
     List<Integer> getSubsectionsBySectionCodeWithIdList(@Param("sectionCode") Integer i,@Param("idCase") Long idCase,@Param("idList") Long idList);
 }
