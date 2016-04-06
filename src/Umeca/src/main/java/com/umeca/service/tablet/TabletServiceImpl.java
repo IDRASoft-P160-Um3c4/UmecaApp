@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.catalog.*;
+import com.umeca.model.dto.FieldValueBySource;
 import com.umeca.model.dto.tablet.*;
 import com.umeca.model.dto.tablet.catalog.TabletStatusCaseDto;
 import com.umeca.model.entities.account.User;
@@ -134,6 +135,10 @@ public class TabletServiceImpl implements TabletService {
 
     @Autowired
     SourceVerificationRepository sourceVerificationRepository;
+
+    @Autowired
+    FieldMeetingSourceRepository fieldMeetingSourceRepository;
+
 
 
     private SimpleDateFormat sdfexact = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -986,8 +991,11 @@ public class TabletServiceImpl implements TabletService {
             }
 
             webSource.setFieldMeetingSourceList(lstFields);
-            sourceVerificationRepository.saveAndFlush(webSource);
-            webLst.add(webSource);
+            List<FieldValueBySource> testList = fieldMeetingSourceRepository.getInfoBySource(webSource.getIdCase(),webSource.getId());
+            if(testList.size() == 0){
+                sourceVerificationRepository.saveAndFlush(webSource);
+                webLst.add(webSource);
+            }
         }
 
         return webLst;
