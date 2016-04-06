@@ -12,6 +12,7 @@ import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
+import com.umeca.model.entities.supervisor.FramingMeeting;
 import com.umeca.model.entities.supervisor.HearingFormat;
 import com.umeca.model.entities.supervisor.MonitoringPlan;
 import com.umeca.model.entities.supervisorManager.AssignCaseView;
@@ -94,8 +95,7 @@ public class AssignCaseController {
     public JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
         opts.extraFilters = new ArrayList<>();
 
-        JqGridRulesModel extraFilter = new JqGridRulesModel("status",
-                Constants.CASE_STATUS_FRAMING_COMPLETE, JqGridFilterModel.COMPARE_EQUAL);
+        JqGridRulesModel extraFilter = new JqGridRulesModel("isTerminated",true, JqGridFilterModel.COMPARE_EQUAL);
         opts.extraFilters.add(extraFilter);
 
         JqGridResultModel result = gridFilter.find(opts, new SelectFilterFields() {
@@ -124,9 +124,12 @@ public class AssignCaseController {
 
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
+                if (field.equals("isTerminated"))
+                    return r.join("framingMeeting").get("isTerminated");
                 if (field.equals("status"))
                     return r.join("status").get("name");
-
+                else if (field.equals("fullname"))
+                    return r.join("meeting").join("imputed").get("name");
                 return null;
             }
         }, Case.class, AssignCaseView.class);

@@ -68,7 +68,8 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
                             }
                             break;
                         }
-                    }catch (Exception ex){}
+                    } catch (Exception ex) {
+                    }
                 }
 
                 if (!cn)
@@ -134,7 +135,7 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
                             }
                             break;
                         }
-                    }catch (Exception ex){
+                    } catch (Exception ex) {
 
                     }
                 }
@@ -195,49 +196,49 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
 
             for (JqGridRulesModel rule : filter.getRules()) {
                 //Por ahora sólo se aplican AND (conjuntion) entre las reglas y el operador LIKE (Búsqueda de comienza con...)
-                Expression<String> exp = selFil.setFilterField(r, rule.field);
+                try {
 
-                if (exp == null)
-                    exp = r.get(rule.field).as(String.class);
+                    Expression<String> exp = selFil.setFilterField(r, rule.field);
 
-                switch (rule.op) {
-                    case JqGridFilterModel.COMPARE_EQUAL:
-                        if (rule.bData != null)//se agrega para comparar valores booleanos
-                            p.getExpressions().add(cb.equal(exp, rule.bData));
-                        else
-                            p.getExpressions().add(cb.equal(exp, rule.data));
-                        break;
-                    case JqGridFilterModel.COMPARE_NOT_EQUAL:
-                        p.getExpressions().add(cb.notEqual(exp, rule.data));
-                        break;
-                    case JqGridFilterModel.COMPARE_IN:
-                        Predicate pIn = exp.in(rule.lstInOp);
-                        p.getExpressions().add(pIn);
-                        break;
-                    case JqGridFilterModel.COMPARE_NOT_IN:
-                        Predicate pNotIn = cb.not(exp.in(rule.lstInOp));
-                        p.getExpressions().add(pNotIn);
-                        break;
-                    case JqGridFilterModel.COMPARE_LEFT_JOIN_EQUAL:
-                        Predicate pOr = cb.or(cb.equal(exp, rule.data), exp.isNull());
-                        p.getExpressions().add(pOr);
-                        break;
-                    case JqGridFilterModel.BETWEEN:
-                        Expression<Calendar> expDt = r.get(rule.field);
-                        p.getExpressions().add(cb.between(expDt, rule.dtIni, rule.dtEnd));
-                        break;
-                    case JqGridFilterModel.IS_NULL:
-                        p.getExpressions().add(cb.isNull(exp));
-                        break;
-                    default:
-                        p.getExpressions().add(cb.like(cb.lower(exp), rule.data.trim().toLowerCase() + "%"));
-                        break;
-                }
+                    if (exp == null) {
+                        exp = r.get(rule.field).as(String.class);
+                    }
 
-                //List<String> lst = new ArrayList<String>();
-                //cb.in(exp.in(lst));
+                    switch (rule.op) {
+                        case JqGridFilterModel.COMPARE_EQUAL:
+                            if (rule.bData != null)//se agrega para comparar valores booleanos
+                                p.getExpressions().add(cb.equal(exp, rule.bData));
+                            else
+                                p.getExpressions().add(cb.equal(exp, rule.data));
+                            break;
+                        case JqGridFilterModel.COMPARE_NOT_EQUAL:
+                            p.getExpressions().add(cb.notEqual(exp, rule.data));
+                            break;
+                        case JqGridFilterModel.COMPARE_IN:
+                            Predicate pIn = exp.in(rule.lstInOp);
+                            p.getExpressions().add(pIn);
+                            break;
+                        case JqGridFilterModel.COMPARE_NOT_IN:
+                            Predicate pNotIn = cb.not(exp.in(rule.lstInOp));
+                            p.getExpressions().add(pNotIn);
+                            break;
+                        case JqGridFilterModel.COMPARE_LEFT_JOIN_EQUAL:
+                            Predicate pOr = cb.or(cb.equal(exp, rule.data), exp.isNull());
+                            p.getExpressions().add(pOr);
+                            break;
+                        case JqGridFilterModel.BETWEEN:
+                            Expression<Calendar> expDt = r.get(rule.field);
+                            p.getExpressions().add(cb.between(expDt, rule.dtIni, rule.dtEnd));
+                            break;
+                        case JqGridFilterModel.IS_NULL:
+                            p.getExpressions().add(cb.isNull(exp));
+                            break;
+                        default:
+                            p.getExpressions().add(cb.like(cb.lower(exp), rule.data.trim().toLowerCase() + "%"));
+                            break;
+                    }
+                } catch (Exception ex) {}
             }
-
             cq.where(p);
         } catch (Exception ex) {
             return;
