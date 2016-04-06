@@ -1,4 +1,3 @@
-
 package com.umeca.controller.supervisor;
 
 import com.google.gson.Gson;
@@ -163,10 +162,14 @@ public class FramingMeetingController {
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("idMP"))
                     return r.get("idMP");
-
-                if (field.equals("statusName"))
-                    return r.get("status");
-
+                if (field.equals("fullName"))
+                    return r.get("name");
+                if (field.equals("brthDateTxt"))
+                    return r.get("birthDate");
+                if (field.equals("arrangementTypeStr"))
+                    return r.get("arrangementType");
+                if (field.equals("descStatus"))
+                    return r.get("description");
                 return null;
             }
         }, ForFramingMeetingGridView.class, ForFramingMeetingGrid.class);

@@ -131,6 +131,8 @@ public class HearingFormatController {
                     return r.get("idMP");
                 else if (field.equals("statusName"))
                     return r.join("status").get("name");
+                else if (field.equals("statusDesc"))
+                    return r.join("status").get("description");
                 else if (field.equals("fullName"))
                     return r.join("meeting").join("imputed").get("name");
                 return null;

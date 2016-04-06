@@ -103,7 +103,6 @@ public class AssignCaseController {
             public <T> List<Selection<?>> getFields(final Root<T> r) {
                 final Join<Case, MonitoringPlan> joinMP = r.join("monitoringPlan", JoinType.LEFT);
                 final Join<MonitoringPlan, User> joinSup = joinMP.join("supervisor", JoinType.LEFT);
-                final Join<Case, FramingMeeting> joinFM = r.join("framingMeeting", JoinType.INNER);
                 final Join<Case, Meeting> joinMeVe = r.join("meeting");
                 final Join<Meeting, Imputed> joinMee = joinMeVe.join("imputed");
                 final Join<Case, StatusCase> joinSt = r.join("status");
