@@ -25,7 +25,7 @@ public class Device {
     private int port;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_device_use")
+    @JoinColumn(name = "id_device_use", nullable = false)
     private DeviceUse deviceUse;
 
     @Column(name="is_obsolete", nullable = false)
