@@ -180,6 +180,9 @@ public class UmecaWSImp implements UmecaWS {
 
         try {
             if (sharedUserService.validateUserGuid(user, guid)) {
+                if(tabletService.validateAssignment(assignmentId)){
+                    return new ResponseMessage(true, "El caso ya ha sido sincronizado anteriormente o fue eliminada su asignación.");
+                }
 
                 TabletCaseDto tabletDto = gson.fromJson(jsonCase, new TypeToken<TabletCaseDto>() {{
                 }}.getType());

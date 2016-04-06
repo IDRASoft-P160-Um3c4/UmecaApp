@@ -23,6 +23,7 @@ import com.umeca.repository.supervisor.DistrictRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.service.catalog.CatalogService;
 import com.umeca.service.supervisor.HearingFormatService;
+import org.apache.xpath.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -81,9 +82,6 @@ public class TabletServiceImpl implements TabletService {
     DrugRepository drugRepository;
 
     @Autowired
-    SourceVerificationRepository sourceVerificationRepository;
-
-    @Autowired
     StatusMeetingRepository statusMeetingRepository;
 
     @Autowired
@@ -134,6 +132,9 @@ public class TabletServiceImpl implements TabletService {
     @Autowired
     DistrictRepository districtRepository;
 
+    @Autowired
+    SourceVerificationRepository sourceVerificationRepository;
+
 
     private SimpleDateFormat sdfexact = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
@@ -148,7 +149,7 @@ public class TabletServiceImpl implements TabletService {
             TabletAssignmentCase tac = tabletAssignmentCaseRepository.findValidAssignmentByAssignmentId(assignmentId);
 
             if (tac != null) {
-                TabletCaseDto caseDto = this.getAllCaseDataByIdCaseAssignmentType(tac.getCaseDetention().getId(), usrId, assignmentId, tac.getCaseDetention().getAssignmentType());
+                TabletCaseDto caseDto = getAllCaseDataByIdCaseAssignmentType(tac.getCaseDetention().getId(), usrId, assignmentId, tac.getCaseDetention().getAssignmentType());
                 response = new ResponseMessage(false, "Datos correctos");
                 response.setReturnData(gson.toJson(caseDto));
             } else {
@@ -272,14 +273,14 @@ public class TabletServiceImpl implements TabletService {
         TabletMeetingDto currentMeeting = caseRepository.getMeetingDataByCaseId(caseId);
         currentMeeting.setStatus(caseRepository.getStatusMeetingDataByCaseId(caseId));
         currentMeeting.setReviewer(caseRepository.getUserMeetingDataByCaseId(caseId));
-        currentMeeting.setImputed(this.getImputedDataByCaseId(caseId));
-        currentMeeting.setSocialNetwork(this.getSocialNetworkByCaseId(caseId));
-        currentMeeting.setSchool(this.getSchoolByCaseId(caseId));
-        currentMeeting.setSocialEnvironment(this.getSocialEnvironmentByCaseId(caseId));
+        currentMeeting.setImputed(getImputedDataByCaseId(caseId));
+        currentMeeting.setSocialNetwork(getSocialNetworkByCaseId(caseId));
+        currentMeeting.setSchool(getSchoolByCaseId(caseId));
+        currentMeeting.setSocialEnvironment(getSocialEnvironmentByCaseId(caseId));
         currentMeeting.setLeaveCountry(caseRepository.getLeaveCountryByCaseId(caseId));
         currentMeeting.setReferences(caseRepository.getReferencesByCaseId(caseId));
-        currentMeeting.setImputedHomes(this.getImputedHomeByCaseId(caseId));
-        currentMeeting.setJobs(this.getJobByCaseId(caseId));
+        currentMeeting.setImputedHomes(getImputedHomeByCaseId(caseId));
+        currentMeeting.setJobs(getJobByCaseId(caseId));
         currentMeeting.setDrugs(caseRepository.getDrugByCaseId(caseId));
 
 
@@ -323,14 +324,14 @@ public class TabletServiceImpl implements TabletService {
     //obtiene toda la informacion del caso en DTOS para enviarlos a la tableta
     private TabletCaseDto getAllCaseDataByIdCaseAssignmentType(Long idCase, Long idUsr, Long assignmentId, String assignmentType) {
 
-        TabletCaseDto currentCase = this.getCaseDataByCaseId(idCase);
-        currentCase.setStatus(this.getStatusCaseByCaseId(idCase));
-        currentCase.setMeeting(this.getMeetingDataByCaseId(idCase));
+        TabletCaseDto currentCase = getCaseDataByCaseId(idCase);
+        currentCase.setStatus(getStatusCaseByCaseId(idCase));
+        currentCase.setMeeting(getMeetingDataByCaseId(idCase));
 
         if (assignmentType.equals(Constants.VERIFICATION_ASSIGNMENT_TYPE)) {
-            currentCase.setVerification(this.getVerificationByCaseIdUsrId(idCase, idUsr, assignmentId));
+            currentCase.setVerification(getVerificationByCaseIdUsrId(idCase, idUsr, assignmentId));
         } else if (assignmentType.equals(Constants.HEARING_FORMAT_ASSIGNMENT_TYPE)) {
-            currentCase.setHearingFormats(this.getHearingFormatByCaseId(idCase));
+            currentCase.setHearingFormats(getHearingFormatByCaseId(idCase));
         }
 
         return currentCase;
@@ -470,7 +471,7 @@ public class TabletServiceImpl implements TabletService {
         List<PersonSocialNetwork> lstPSN = lstPSN = new ArrayList<>();
 
         for (TabletPersonSocialNetworkDto tabletPerson : tabletSN.getPeopleSocialNetwork()) {
-            PersonSocialNetwork psn = this.mergePersonSN(tabletPerson);
+            PersonSocialNetwork psn = mergePersonSN(tabletPerson);
             psn.setSocialNetwork(webSN);
             lstPSN.add(psn);
         }
@@ -910,9 +911,9 @@ public class TabletServiceImpl implements TabletService {
 
     private Case saveCaseMeetingImputedDetention(TabletCaseDto tabletCase) {
 
-        Case c = this.mergeCase(tabletCase);
+        Case c = mergeCase(tabletCase);
 
-        Meeting m = this.mergeMeeting(tabletCase.getMeeting());
+        Meeting m = mergeMeeting(tabletCase.getMeeting());
 
         if(c.isHasNegation()==true){
             m.setStatus(statusMeetingRepository.findByCode(Constants.S_MEETING_DECLINE));
@@ -922,7 +923,7 @@ public class TabletServiceImpl implements TabletService {
         c.setMeeting(m);
         tabletCase.getMeeting().setWebId(m.getId());
 
-        Imputed im = this.mergeImputed(tabletCase.getMeeting().getImputed());
+        Imputed im = mergeImputed(tabletCase.getMeeting().getImputed());
         im.setMeeting(c.getMeeting());
         c.getMeeting().setImputed(im);
         tabletCase.getMeeting().getImputed().setWebId(im.getId());
@@ -969,16 +970,9 @@ public class TabletServiceImpl implements TabletService {
             r.setId(tabletSource.getRelationship().getId());
             webSource.setRelationship(r);
 
-            List<FieldMeetingSource> lstFields = webSource.getFieldMeetingSourceList();
-
-            if (lstFields != null) {
-                lstFields.clear();
-            } else {
-                lstFields = new ArrayList<>();
-            }
+            List<FieldMeetingSource> lstFields = new ArrayList<>();
 
             for (TabletFieldMeetingSourceDto tabletField : tabletSource.getFieldMeetingSourceList()) {
-
                 FieldMeetingSource webField = new FieldMeetingSource();
                 webField.setValue(tabletField.getValue());
                 webField.setJsonValue(tabletField.getJsonValue());
@@ -992,6 +986,7 @@ public class TabletServiceImpl implements TabletService {
             }
 
             webSource.setFieldMeetingSourceList(lstFields);
+            sourceVerificationRepository.saveAndFlush(webSource);
             webLst.add(webSource);
         }
 
@@ -1011,7 +1006,7 @@ public class TabletServiceImpl implements TabletService {
         stv.setId(tabletCase.getVerification().getStatus().getId());
         v.setStatus(stv);
 
-        v.setSourceVerifications(this.mergeVerificationSources(v, tabletCase.getVerification().getSourceVerifications()));
+        v.setSourceVerifications(mergeVerificationSources(v, tabletCase.getVerification().getSourceVerifications()));
 
         return v;
     }
@@ -1023,7 +1018,7 @@ public class TabletServiceImpl implements TabletService {
             c = caseRepository.findOne(tabletCase.getWebId());
         }else {
 
-            c = this.saveCaseMeetingImputedDetention(tabletCase);
+            c = saveCaseMeetingImputedDetention(tabletCase);
         }
         List<TabletHearingFormatDto> tabletList = tabletCase.getHearingFormats();
 
@@ -1233,9 +1228,9 @@ public class TabletServiceImpl implements TabletService {
     @Transactional
     public Case synchronizeHearingFormats(TabletCaseDto tabletCaseDto, Long assignmentId) {
         Case c = new Case();
-        c = this.saveCaseMeetingImputedDetention(tabletCaseDto);
+        c = saveCaseMeetingImputedDetention(tabletCaseDto);
         tabletCaseDto.setWebId(c.getId());
-        List<HearingFormat> hearingFormats = this.mergeFormats(tabletCaseDto);
+        List<HearingFormat> hearingFormats = mergeFormats(tabletCaseDto);
 
         if (hearingFormats != null && hearingFormats.size() > 0) {
             for (HearingFormat hearingFormat : hearingFormats) {
@@ -1248,11 +1243,11 @@ public class TabletServiceImpl implements TabletService {
         List<TabletLogCaseDto> tabletLogs = tabletCaseDto.getLogsCase();
 
         if (tabletLogs != null && tabletLogs.size() > 0) {
-            this.synchronizeLogCaseActivities(tabletLogs, c.getId());
+            synchronizeLogCaseActivities(tabletLogs, c.getId());
         }
 
         if (assignmentId != null) {
-            this.finishAssignment(assignmentId);
+            finishAssignment(assignmentId);
         }
         if(c.getPreviousStateCode()!=null && !c.getPreviousStateCode().equalsIgnoreCase("")) {
             c.setStatus(statusCaseRepository.findByCode(c.getPreviousStateCode()));
@@ -1302,22 +1297,21 @@ public class TabletServiceImpl implements TabletService {
 
     @Transactional
     public Case synchronizeVerification(TabletCaseDto tabletCase, Long assignmentId) {
-        Case c = this.saveCaseMeetingImputedDetention(tabletCase);
-        caseRepository.save(c);
-        Verification v = this.mergeVerification(tabletCase);
+        Case c = saveCaseMeetingImputedDetention(tabletCase);
+        Verification v = mergeVerification(tabletCase);
         verificationRepository.save(v);
 
         List<TabletLogCaseDto> tabletLogs = tabletCase.getLogsCase();
 
         if (tabletLogs != null && tabletLogs.size() > 0) {
-            this.synchronizeLogCaseActivities(tabletLogs, c.getId());
+            synchronizeLogCaseActivities(tabletLogs, c.getId());
         }
 
         if (assignmentId != null) {
-            this.finishAssignment(assignmentId);
+            finishAssignment(assignmentId);
         }
 
-        if (this.hasIncompleteSources(assignmentId) == false) {
+        if (hasIncompleteSources(assignmentId) == false) {
             c.setStatus(statusCaseRepository.findByCode(c.getPreviousStateCode()));
             caseRepository.save(c);
         }
@@ -1336,16 +1330,16 @@ public class TabletServiceImpl implements TabletService {
     @Transactional
     public Case synchronizeMeeting(TabletCaseDto tabletCase, Long assignmentId) {
 
-        Case c = this.saveCaseMeetingImputedDetention(tabletCase);
+        Case c = saveCaseMeetingImputedDetention(tabletCase);
         Meeting m = c.getMeeting();
 
         if(!tabletCase.getHasNegation()) {
-            SocialNetwork sN = this.mergeSocialNetwork(m, tabletCase.getMeeting().getSocialNetwork());
+            SocialNetwork sN = mergeSocialNetwork(m, tabletCase.getMeeting().getSocialNetwork());
             socialNetworkRepository.save(sN);
         }
         if(tabletCase.getHasNegation()&&tabletCase.getMeeting().getSocialNetwork()!=null) {
             try {
-                SocialNetwork sN = this.mergeSocialNetwork(m, tabletCase.getMeeting().getSocialNetwork());
+                SocialNetwork sN = mergeSocialNetwork(m, tabletCase.getMeeting().getSocialNetwork());
                 socialNetworkRepository.save(sN);
             }catch (Exception e) {
                 System.out.println("error al intentar mergeSocialNetwork, negación");
@@ -1353,12 +1347,12 @@ public class TabletServiceImpl implements TabletService {
         }
 
         if(!tabletCase.getHasNegation()) {
-            School school = this.mergeSchool(m, tabletCase.getMeeting().getSchool());
+            School school = mergeSchool(m, tabletCase.getMeeting().getSchool());
             schoolRepository.save(school);
         }
         if(tabletCase.getHasNegation()&&tabletCase.getMeeting().getSchool()!=null) {
             try {
-                School school = this.mergeSchool(m, tabletCase.getMeeting().getSchool());
+                School school = mergeSchool(m, tabletCase.getMeeting().getSchool());
                 schoolRepository.save(school);
             }catch (Exception e) {
                 System.out.println("error al intentar mergeSchool, negación");
@@ -1366,12 +1360,12 @@ public class TabletServiceImpl implements TabletService {
         }
 
         if(!tabletCase.getHasNegation()) {
-            SocialEnvironment se = this.mergeSocialEnvironment(m, tabletCase.getMeeting().getSocialEnvironment());
+            SocialEnvironment se = mergeSocialEnvironment(m, tabletCase.getMeeting().getSocialEnvironment());
             socialEnvironmentRepository.save(se);
         }
         if(tabletCase.getHasNegation()&&tabletCase.getMeeting().getSocialEnvironment()!=null) {
             try {
-                SocialEnvironment se = this.mergeSocialEnvironment(m, tabletCase.getMeeting().getSocialEnvironment());
+                SocialEnvironment se = mergeSocialEnvironment(m, tabletCase.getMeeting().getSocialEnvironment());
                 socialEnvironmentRepository.save(se);
             }catch (Exception e) {
                 System.out.println("error al intentar mergeSocialEnvironment, negación");
@@ -1379,12 +1373,12 @@ public class TabletServiceImpl implements TabletService {
         }
 
         if(!tabletCase.getHasNegation()) {
-            LeaveCountry leaveCountry = this.mergeLeaveCountry(m, tabletCase.getMeeting().getLeaveCountry());
+            LeaveCountry leaveCountry = mergeLeaveCountry(m, tabletCase.getMeeting().getLeaveCountry());
             leaveCountryRepository.save(leaveCountry);
         }
         if(tabletCase.getHasNegation()&&tabletCase.getMeeting().getLeaveCountry()!=null) {
             try {
-                LeaveCountry leaveCountry = this.mergeLeaveCountry(m, tabletCase.getMeeting().getLeaveCountry());
+                LeaveCountry leaveCountry = mergeLeaveCountry(m, tabletCase.getMeeting().getLeaveCountry());
                 leaveCountryRepository.save(leaveCountry);
             }catch (Exception e) {
                 System.out.println("error al intentar mergeLeaveCountry, negación");
@@ -1392,12 +1386,12 @@ public class TabletServiceImpl implements TabletService {
         }
 
         if(!tabletCase.getHasNegation()) {
-            List<Reference> lstRef = this.mergeReferences(m, tabletCase.getMeeting().getReferences());
+            List<Reference> lstRef = mergeReferences(m, tabletCase.getMeeting().getReferences());
             referenceRepository.save(lstRef);
         }
         if(tabletCase.getHasNegation()&&tabletCase.getMeeting().getReferences()!=null) {
             try {
-                List<Reference> lstRef = this.mergeReferences(m, tabletCase.getMeeting().getReferences());
+                List<Reference> lstRef = mergeReferences(m, tabletCase.getMeeting().getReferences());
                 referenceRepository.save(lstRef);
             }catch (Exception e) {
                 System.out.println("error al intentar mergeReferences, negación");
@@ -1405,12 +1399,12 @@ public class TabletServiceImpl implements TabletService {
         }
 
         if(!tabletCase.getHasNegation()) {
-            List<ImputedHome> lstImputedHomes = this.mergeImputedHomes(m, tabletCase.getMeeting().getImputedHomes());
+            List<ImputedHome> lstImputedHomes = mergeImputedHomes(m, tabletCase.getMeeting().getImputedHomes());
             imputedHomeRepository.save(lstImputedHomes);
         }
         if(tabletCase.getHasNegation()&&tabletCase.getMeeting().getImputedHomes()!=null) {
             try {
-                List<ImputedHome> lstImputedHomes = this.mergeImputedHomes(m, tabletCase.getMeeting().getImputedHomes());
+                List<ImputedHome> lstImputedHomes = mergeImputedHomes(m, tabletCase.getMeeting().getImputedHomes());
                 imputedHomeRepository.save(lstImputedHomes);
             }catch (Exception e) {
                 System.out.println("error al intentar mergeImputedHomes, negación");
@@ -1418,12 +1412,12 @@ public class TabletServiceImpl implements TabletService {
         }
 
         if(!tabletCase.getHasNegation()) {
-            List<Job> lstJob = this.mergeJob(m, tabletCase.getMeeting().getJobs());
+            List<Job> lstJob = mergeJob(m, tabletCase.getMeeting().getJobs());
             jobRepository.save(lstJob);
         }
         if(tabletCase.getHasNegation()&&tabletCase.getMeeting().getJobs()!=null) {
             try {
-                List<Job> lstJob = this.mergeJob(m, tabletCase.getMeeting().getJobs());
+                List<Job> lstJob = mergeJob(m, tabletCase.getMeeting().getJobs());
                 jobRepository.save(lstJob);
             }catch (Exception e) {
                 System.out.println("error al intentar mergeJob, negación");
@@ -1431,12 +1425,12 @@ public class TabletServiceImpl implements TabletService {
         }
 
         if(!tabletCase.getHasNegation()) {
-            List<Drug> lstDrug = this.mergeDrugs(m, tabletCase.getMeeting().getDrugs());
+            List<Drug> lstDrug = mergeDrugs(m, tabletCase.getMeeting().getDrugs());
             drugRepository.save(lstDrug);
         }
         if(tabletCase.getHasNegation()&&tabletCase.getMeeting().getDrugs()!=null) {
             try {
-                List<Drug> lstDrug = this.mergeDrugs(m, tabletCase.getMeeting().getDrugs());
+                List<Drug> lstDrug = mergeDrugs(m, tabletCase.getMeeting().getDrugs());
                 drugRepository.save(lstDrug);
             }catch (Exception e) {
                 System.out.println("error al intentar mergeDrugs, negación");
@@ -1446,11 +1440,11 @@ public class TabletServiceImpl implements TabletService {
         List<TabletLogCaseDto> tabletLogs = tabletCase.getLogsCase();
 
         if (tabletLogs != null && tabletLogs.size() > 0) {
-            this.synchronizeLogCaseActivities(tabletLogs, c.getId());
+            synchronizeLogCaseActivities(tabletLogs, c.getId());
         }
 
         if (assignmentId != null) {
-            this.finishAssignment(assignmentId);
+            finishAssignment(assignmentId);
         }
         if(c.getPreviousStateCode()!= null && !c.getPreviousStateCode().equalsIgnoreCase("")) {
             c.setStatus(statusCaseRepository.findByCode(c.getPreviousStateCode()));
@@ -1465,6 +1459,17 @@ public class TabletServiceImpl implements TabletService {
         tac.setIsObsolete(true);
         tabletAssignmentCaseRepository.save(tac);
     }
+
+
+    public boolean validateAssignment(Long assignmentId) {
+        TabletAssignmentCase tac = tabletAssignmentCaseRepository.findOne(assignmentId);
+        if(tac == null){
+            return true;
+        }
+        return tac.getIsObsolete();
+    }
+
+
 
     @Transactional
     public ResponseMessage setDownloadDateToAssignment(Long assignmentId) {

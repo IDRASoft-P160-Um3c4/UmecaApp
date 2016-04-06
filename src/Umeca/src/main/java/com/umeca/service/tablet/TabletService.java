@@ -18,4 +18,6 @@ public interface TabletService {
 
     boolean validateExistCase(String idFolder, String phoneticString, String birthDateStr);
 
+    boolean validateAssignment(Long assignmentId);
+
 }

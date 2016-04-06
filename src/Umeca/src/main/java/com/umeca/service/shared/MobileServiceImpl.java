@@ -162,7 +162,7 @@ public class MobileServiceImpl implements MobileService {
         Gson gson = new Gson();
         Case c = caseRepository.findOne(idCase);
 
-        List<TabletAssignmentCase> lstAssign = tabletAssignmentCaseRepository.getAssignmentsByCaseId(idCase);
+        List<TabletAssignmentCase> lstAssign = tabletAssignmentCaseRepository.getAssignmentsByCaseIdAll(idCase);
 
         for (TabletAssignmentCase assignment : lstAssign) {
             assignment.setIsObsolete(true);
