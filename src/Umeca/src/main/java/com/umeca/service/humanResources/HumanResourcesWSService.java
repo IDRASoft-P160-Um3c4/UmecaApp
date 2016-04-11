@@ -8,6 +8,8 @@ public interface HumanResourcesWSService {
 
     ResponseMessage getEmployees();
 
+    ResponseMessage getImputedUsers();
+
     ResponseMessage updateUserFingerPrint(String enrollNumber, int finger, String fingerPrint, int operation);
 
     ResponseMessage updateImputedFingerPrint(String enrollNumber, int finger, String fingerPrint, int operation);

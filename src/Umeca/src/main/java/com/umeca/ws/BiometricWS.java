@@ -8,6 +8,8 @@ public interface BiometricWS {
 
     public ResponseMessage getUsersFromDB();
 
+    public ResponseMessage getImputedUsersFromDB();
+
     public ResponseMessage updateUserFingerPrint(String enrollNumber, int finger, String fingerPrint, int operation);
 
     public ResponseMessage updateAttendanceLogs(String logsList);

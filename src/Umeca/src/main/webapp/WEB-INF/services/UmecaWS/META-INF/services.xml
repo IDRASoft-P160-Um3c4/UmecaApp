@@ -43,6 +43,9 @@
         <operation name="getUsersFromDB">
             <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
         </operation>
+        <operation name="getImputedUsersFromDB">
+            <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+        </operation>
         <operation name="updateUserFingerPrint">
             <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
         </operation>

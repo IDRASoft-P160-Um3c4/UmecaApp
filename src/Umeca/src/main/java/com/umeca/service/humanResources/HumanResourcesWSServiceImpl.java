@@ -92,6 +92,33 @@ public class HumanResourcesWSServiceImpl implements HumanResourcesWSService {
         return response;
     }
 
+
+    @Override
+    public ResponseMessage getImputedUsers() {
+        ResponseMessage response;
+        Gson gson = new Gson();
+
+        try {
+            List<UserInfoWsDto> imputedUsers = imputedRepository.getImputedUsersWs();
+            for (UserInfoWsDto employee : imputedUsers){
+                List<FingerPrintWSDto> fingerPrints = imputedFingerPrintRepository.getFingerPrints(employee.getId());
+                employee.setFingerPrints(fingerPrints);
+            }
+            if (imputedUsers != null) {
+                response = new ResponseMessage(false, "Datos correctos");
+                response.setData(gson.toJson(imputedUsers));
+            } else {
+                response = new ResponseMessage(true, "No existen empleados.");
+            }
+
+        } catch (Exception e) {
+            response = new ResponseMessage(true, "Ha ocurrido un error, intente nuevamente");
+        }
+
+        return response;
+    }
+
+
     @Transactional
     @Override
     public ResponseMessage updateUserFingerPrint(String enrollNumber, int finger, String fingerPrint, int operation) {
