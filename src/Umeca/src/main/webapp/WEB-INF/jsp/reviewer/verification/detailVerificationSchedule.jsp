@@ -63,10 +63,10 @@
                                         <div class="col-xs-5">
                                             {{sch.day}}
                                         </div>
-                                        <div class="col-xs-2">
+                                        <div ng-class="{strike: sch.isRandomTime}" class="col-xs-2">
                                             {{sch.start}}
                                         </div>
-                                        <div class="col-xs-2">
+                                        <div ng-class="{strike: sch.isRandomTime}" class="col-xs-2">
                                             {{sch.end}}
                                         </div>
                                         <div class="col-xs-2">

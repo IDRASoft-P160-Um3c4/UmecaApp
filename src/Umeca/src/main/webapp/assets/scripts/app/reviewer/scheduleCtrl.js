@@ -1,31 +1,37 @@
-app.controller('scheduleController', function($scope, $timeout) {
+app.controller('scheduleController', function ($scope, $timeout) {
     $scope.s = {};
     $scope.listSchedule = [];
 
 
-    $scope.init = function(){
-        $('#timepickerEnd'+$scope.content).timepicker({
+    $scope.init = function () {
+        $('#timepickerEnd' + $scope.content).timepicker({
             minuteStep: 1,
             showSeconds: false,
             showMeridian: false
-        }).next().on(ace.click_event, function(){
-                $(this).prev().focus();
-            });
-        $('#timepickerStart'+$scope.content).timepicker({
+        }).next().on(ace.click_event, function () {
+            $(this).prev().focus();
+        });
+        $('#timepickerStart' + $scope.content).timepicker({
             minuteStep: 1,
             showSeconds: false,
             showMeridian: false
-        }).next().on(ace.click_event, function(){
-                $(this).prev().focus();
-            });
-        if($scope.listSchedule == undefined){
+        }).next().on(ace.click_event, function () {
+            $(this).prev().focus();
+        });
+        if ($scope.listSchedule == undefined) {
             $scope.listSchedule = [];
-        }else{
-            try{
-            if($scope.listSchedule[0].day== undefined){
-                $scope.listSchedule = JSON.parse($scope.listSchedule);
-            }
-            }catch(e){}finally{
+        } else {
+            try {
+                if ($scope.listSchedule[0].day == undefined) {
+                    $scope.listSchedule = JSON.parse($scope.listSchedule);
+                }
+                for (var schedule in $scope.listSchedule) {
+                    if(($scope.listSchedule[schedule].start === "00:00") && ($scope.listSchedule[schedule].end === "00:00")){
+                        $scope.listSchedule[schedule].isRandomTime = true;
+                    }
+                }
+            } catch (e) {
+            } finally {
                 $scope.matchSchedule();
             }
 
@@ -33,39 +39,52 @@ app.controller('scheduleController', function($scope, $timeout) {
     };
 
 
-    $timeout(function() {
+    $timeout(function () {
         $scope.init();
     }, 0);
 
-   $scope.addSchedule = function(){
-      if($scope.s.day==undefined|| $scope.s.day.trim() == "" ||  $scope.s.start == undefined || $scope.s.end == undefined){
-          $scope.msgError="Favor de ingresar un día, una hora de inicio y una hora de fin";
-      }else{
-          $scope.msgError="";
-          var a ={};
-          a.day = $scope.s.day;
-          a.start = $scope.s.start;
-          a.end = $scope.s.end;
-          $scope.listSchedule.push(a);
-          $scope.s.day = "";
-          $scope.s.start = "12:00";
-          $scope.s.end = "12:00";
-          $scope.matchSchedule();
-      }
-   };
+    $scope.addSchedule = function () {
+        if ($scope.s.day == undefined || $scope.s.day.trim() == "" || $scope.s.start == undefined || $scope.s.end == undefined) {
+            $scope.msgError = "Favor de ingresar un día, una hora de inicio y una hora de fin";
+        } else {
+            $scope.msgError = "";
+            var a = {};
+            a.day = $scope.s.day;
+            a.start = $scope.s.start;
+            a.end = $scope.s.end;
+            a.isRandomTime = $scope.s.isRandomTime;
+            $scope.listSchedule.push(a);
+            $scope.s.isRandomTime = false;
+            $scope.s.day = "";
+            $scope.s.start = "12:00";
+            $scope.s.end = "12:00";
+            $scope.matchSchedule();
+        }
+    };
 
-    $scope.deleteSchedule = function(index){
-      $scope.listSchedule.splice(index,1);
+    $scope.deleteSchedule = function (index) {
+        $scope.listSchedule.splice(index, 1);
         $scope.matchSchedule();
 
     };
 
-    $scope.matchSchedule  = function (){
+    $scope.matchSchedule = function () {
         var abc = $scope.listSchedule;
 
         $scope.schString = JSON.stringify(abc);
         /*for(var item in $scope.listSchedule){
-            delete item[$$hashKey];
-        } */
+         delete item[$$hashKey];
+         } */
+    }
+
+
+    $scope.randomTime = function () {
+        if ($scope.s.isRandomTime === true) {
+            $scope.s.start = "00:00";
+            $scope.s.end = "00:00";
+        } else {
+            $scope.s.start = "12:00";
+            $scope.s.end = "12:00";
+        }
     }
 });

@@ -15,8 +15,14 @@ app.controller('framingJobController', function ($scope, $timeout, $rootScope, $
             $scope.init();
             if ($scope.job.schedule == undefined)
                 $scope.job.schedule = [];
-            else
+            else{
                 $scope.job.schedule = JSON.parse($scope.job.schedule);
+                for (var schedule in $scope.job.schedule) {
+                    if(($scope.job.schedule[schedule].start === "00:00") && ($scope.job.schedule[schedule].end === "00:00")){
+                        $scope.job.schedule[schedule].isRandomTime = true;
+                    }
+                }
+            }
 
             $scope.hasActualJob = $scope.job.block;
             $scope.initDisable($scope.hasActualJob);
@@ -93,16 +99,29 @@ app.controller('framingJobController', function ($scope, $timeout, $rootScope, $
             });
         };
 
+
+        $scope.randomTime = function () {
+            if ($scope.isRandomTime === true) {
+                $scope.timeStart = "00:00";
+                $scope.timeEnd = "00:00";
+            } else {
+                $scope.timeStart = "12:00";
+                $scope.timeEnd = "12:00";
+            }
+        }
+
+
         $scope.addSchedule = function () {
             if ($scope.day && $scope.day != "" && $scope.timeStart && $scope.timeStart != "" && $scope.timeEnd && $scope.timeEnd != "") {
                 $scope.MsgErrorSchedule = "";
 
-                var newObj = {"day": $scope.day, "start": $scope.timeStart, "end": $scope.timeEnd}
+                var newObj = {"day": $scope.day, "start": $scope.timeStart, "end": $scope.timeEnd, "isRandomTime": $scope.isRandomTime}
                 $scope.job.schedule.push(newObj);
 
                 $scope.day = "";
                 $scope.timeStart = "";
                 $scope.timeEnd = "";
+                $scope.isRandomTime = false;
             } else {
                 $scope.MsgErrorSchedule = "Debe proporcionar todos los campos para poder agregar una disponibilidad.";
             }

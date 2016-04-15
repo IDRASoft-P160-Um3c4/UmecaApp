@@ -2,8 +2,8 @@ app.controller('framingSchoolController', function ($scope, $timeout, $rootScope
 
         $scope.school = {};
         $scope.day = "";
-        $scope.timeStart = "";
-        $scope.timeEnd = "";
+        $scope.start = "";
+        $scope.end = "";
         $scope.MsgSuccessSchool = "";
         $scope.MsgErrorSchool = "";
         $scope.MsgErrorSchedule = "";
@@ -57,8 +57,14 @@ app.controller('framingSchoolController', function ($scope, $timeout, $rootScope
                 $scope.hasActualSchool = true;
 
 
-            if (msg.schedule != undefined)
+            if (msg.schedule != undefined){
                 $scope.school.schedule = JSON.parse(msg.schedule);
+                for (var schedule in $scope.school.schedule) {
+                    if(($scope.school.schedule[schedule].start === "00:00") && ($scope.school.schedule[schedule].end === "00:00")){
+                        $scope.school.schedule[schedule].isRandomTime = true;
+                    }
+                }
+            }
             else
                 $scope.school.schedule = [];
 
@@ -119,25 +125,49 @@ app.controller('framingSchoolController', function ($scope, $timeout, $rootScope
             $scope.MsgErrorSchool = $sce.trustAsHtml("Error de red. Por favor intente más tarde.");
         };
 
+        $scope.randomTime = function () {
+            if ($scope.isRandomTime === true) {
+                $scope.start = "00:00";
+                $scope.end = "00:00";
+            } else {
+                $scope.start = "12:00";
+                $scope.end = "12:00";
+            }
+        }
+
         $scope.addSchedule = function () {
-            if ($scope.day == "" || $scope.timeStart == "" || $scope.timeEnd == "") {
+            if ($scope.day == "" || $scope.start == "" || $scope.timeEnd == "") {
                 $scope.MsgErrorSchedule = "Debe proporcionar todos los campos para poder agregar una disponibilidad.";
                 return;
             }
 
             $scope.MsgErrorSchedule = "";
 
-            var newObj = {"day": $scope.day, "start": $scope.timeStart, "end": $scope.timeEnd}
-            $scope.job.schedule.push(newObj);
+            var newObj = {"day": $scope.day, "start": $scope.start, "end": $scope.end, "isRandomTime": $scope.isRandomTime}
+            $scope.school.schedule.push(newObj);
 
             $scope.day = "";
-            $scope.timeStart = "";
-            $scope.timeEnd = "";
+            $scope.start = "";
+            $scope.end = "";
+            $scope.isRandomTime = false;
 
         };
 
         $scope.removeSchedule = function (idx) {
-            $scope.job.schedule.splice(idx, 1);
+            $scope.school.schedule.splice(idx, 1);
+        };
+
+
+        $scope.validateSchedule = function () {
+            if ($scope.hasActualSchool == true) {
+                if ($scope.school.schedule == null || $scope.school.schedule == undefined || !$scope.school.schedule.length > 0) {
+                    $scope.MsgErrorSchedule = "Debe agregar al menos una disponibilidad para la escuela.";
+                    $scope.hasError = true;
+                    return false;
+                }
+            }
+            $scope.MsgErrorSchedule = "";
+            return true;
         };
 
         $scope.fillSelAcademicLvl = function () {
@@ -219,38 +249,7 @@ app.controller('framingSchoolController', function ($scope, $timeout, $rootScope
 
         };
 
-        $scope.addSchedule = function () {
-            if ($scope.day == "" || $scope.timeStart == "" || $scope.timeEnd == "") {
-                $scope.MsgErrorSchedule = "Debe proporcionar todos los campos para poder agregar una disponibilidad.";
-                return;
-            }
 
-            $scope.MsgErrorSchedule = "";
-
-            var newObj = {"day": $scope.day, "start": $scope.timeStart, "end": $scope.timeEnd}
-            $scope.school.schedule.push(newObj);
-
-            $scope.day = "";
-            $scope.timeStart = "";
-            $scope.timeEnd = "";
-
-        };
-
-        $scope.removeSchedule = function (idx) {
-            $scope.school.schedule.splice(idx, 1);
-        };
-
-        $scope.validateSchedule = function () {
-            if ($scope.hasActualSchool == true) {
-                if ($scope.school.schedule == null || $scope.school.schedule == undefined || !$scope.school.schedule.length > 0) {
-                    $scope.MsgErrorSchedule = "Debe agregar al menos una disponibilidad para la escuela.";
-                    $scope.hasError = true;
-                    return false;
-                }
-            }
-            $scope.MsgErrorSchedule = "";
-            return true;
-        };
 
         $scope.initDisable = function (value) {
             if (value == false) {

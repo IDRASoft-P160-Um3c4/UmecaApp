@@ -14,6 +14,7 @@ public class ScheduleDto {
     private String day;
     private String start;
     private String end;
+    private boolean isRandomTime;
 
     private Long idFramingAddress;
 
@@ -25,6 +26,7 @@ public class ScheduleDto {
         this.day = day;
         this.start = start;
         this.end = end;
+        this.isRandomTime = isRandomTimeSchedule();
     }
 
     public ScheduleDto(Long id, Long idFramingAddress, String day, String start, String end) {
@@ -34,6 +36,7 @@ public class ScheduleDto {
         this.day = day;
         this.start = start;
         this.end = end;
+        this.isRandomTime = isRandomTimeSchedule();
     }
 
     public ScheduleDto dtoSchedule(Schedule schedule) {
@@ -41,6 +44,7 @@ public class ScheduleDto {
         this.day = schedule.getDay();
         this.start = schedule.getStart();
         this.end = schedule.getEnd();
+        this.isRandomTime = isRandomTimeSchedule();
         return this;
     }
 
@@ -88,5 +92,20 @@ public class ScheduleDto {
 
     public void setIdFramingAddress(Long idFramingAddress) {
         this.idFramingAddress = idFramingAddress;
+    }
+
+    public boolean isRandomTime() {
+        return isRandomTime;
+    }
+
+    public void setRandomTime(boolean isRandomTime) {
+        this.isRandomTime = isRandomTime;
+    }
+
+    private boolean isRandomTimeSchedule(){
+        if(start.equals("00:00") && end.equals("00:00")){
+            return  true;
+        }
+        return false;
     }
 }

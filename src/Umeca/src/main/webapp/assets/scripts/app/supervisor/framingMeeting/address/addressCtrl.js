@@ -40,8 +40,15 @@ app.controller('addressFMController', function ($scope, $timeout, $http, $rootSc
 
         if ($scope.fa.schedule == undefined || $scope.fa.schedule == null)
             $scope.fa.schedule = [];
-        else
+        else{
             $scope.fa.schedule = JSON.parse($scope.fa.schedule);
+
+            for (var schedule in $scope.fa.schedule) {
+                if(($scope.fa.schedule[schedule].start === "00:00") && ($scope.fa.schedule[schedule].end === "00:00")){
+                    $scope.fa.schedule[schedule].isRandomTime = true;
+                }
+            }
+        }
 
         $scope.clrFields();
 
@@ -88,6 +95,17 @@ app.controller('addressFMController', function ($scope, $timeout, $http, $rootSc
         }
     };
 
+    $scope.randomTime = function () {
+        if ($scope.isRandomTime === true) {
+            $scope.start = "00:00";
+            $scope.end = "00:00";
+        } else {
+            $scope.start = "12:00";
+            $scope.end = "12:00";
+        }
+    }
+
+
     $scope.addSchedule = function () {
         if ($scope.day == "" || $scope.start == "" || $scope.end == "") {
             $scope.MsgErrorSchedule = "Debe proporcionar todos los campos para poder agregar una disponibilidad.";
@@ -95,17 +113,18 @@ app.controller('addressFMController', function ($scope, $timeout, $http, $rootSc
         }
         $scope.MsgErrorSchedule = "";
 
-        var newObj = {"day": $scope.day, "start": $scope.start, "end": $scope.end}
+        var newObj = {"day": $scope.day, "start": $scope.start, "end": $scope.end, "isRandomTime": $scope.isRandomTime}
         $scope.fa.schedule.push(newObj);
 
         $scope.day = "";
         $scope.start = "";
         $scope.end = "";
+        $scope.isRandomTime = false;
 
     };
 
     $scope.removeSchedule = function (idx) {
-        $scope.activity.lstSchedule.splice(idx, 1);
+        $scope.fa.schedule.splice(idx, 1);
     };
 
     $scope.validateSchedule = function () {

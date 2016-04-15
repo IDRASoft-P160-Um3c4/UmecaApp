@@ -247,10 +247,14 @@
                                 {{sch.day}}
                             </td>
                             <td class="element-center">
-                                {{sch.start}}
+                                <div ng-class="{strike: sch.isRandomTime}">
+                                    {{sch.start}}
+                                </div>
                             </td>
                             <td class="element-center">
-                                {{sch.end}}
+                                <div ng-class="{strike: sch.isRandomTime}">
+                                    {{sch.end}}
+                                </div>
                             </td>
                         </tr>
                         </tbody>

@@ -224,6 +224,12 @@
                             <span>{{MsgErrorSchedule}}</span>
                         </div>
                     </div>
+                    <div class="col-xs-12 text-center">
+                        <input type="hidden" ng-update-hidden name="isRandomTime" ng-model="s.isRandomTime">
+                        <input type="checkbox" ng-model="isRandomTime" id="isRandomTime" ng-change="randomTime()" ng-checked="s.isRandomTime">
+
+                        <label for="isRandomTime"> &iquest;Cancelar horario?</label>
+                    </div>
                     <div class="col-xs-4">
                         <label>D&iacute;a(s)</label>
                         <br/>
@@ -281,8 +287,16 @@
                         <div>
                             <tr ng-repeat="act in fa.schedule track by $index">
                                 <td class="element-center">{{act.day}}</td>
-                                <td class="element-center">{{act.start}}</td>
-                                <td class="element-center">{{act.end}}</td>
+                                <td class="element-center">
+                                    <div ng-class="{strike: act.isRandomTime}">
+                                        {{act.start}}
+                                    </div>
+                                </td>
+                                <td class="element-center">
+                                    <div ng-class="{strike: act.isRandomTime}">
+                                        {{act.end}}
+                                    </div>
+                                </td>
                                 <td class="element-center"><a href="javascript:;"
                                                               style="display:inline-block;"
                                                               title="Quitar de la lista"
