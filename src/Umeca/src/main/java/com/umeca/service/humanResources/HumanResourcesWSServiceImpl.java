@@ -13,20 +13,22 @@ import com.umeca.model.entities.fingerprint.ImputedFingerprint;
 import com.umeca.model.entities.humanReources.Employee;
 import com.umeca.model.entities.humanReources.EmployeeFingerPrint;
 import com.umeca.model.entities.reviewer.Imputed;
+import com.umeca.model.entities.supervisor.ActivityMonitoringPlan;
+import com.umeca.model.entities.supervisor.ActivityMonitoringPlanArrangement;
+import com.umeca.model.entities.supervisorManager.ImputedMissedAttendanceLog;
 import com.umeca.model.entities.timeAttendance.AttendanceLog;
+import com.umeca.model.shared.MonitoringConstants;
 import com.umeca.repository.humanResources.*;
 import com.umeca.repository.reviewer.ImputedRepository;
-import com.umeca.model.shared.Constants;
-import com.umeca.repository.humanResources.AttendanceLogRepository;
-import com.umeca.repository.humanResources.DeviceRepository;
-import com.umeca.repository.humanResources.EmployeeFingerPrintRepository;
-import com.umeca.repository.humanResources.EmployeeRepository;
+import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
+import com.umeca.repository.supervisorManager.ImputedMissedAttendanceLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service("HumanResourcesWSServiceImpl")
@@ -45,6 +47,10 @@ public class HumanResourcesWSServiceImpl implements HumanResourcesWSService {
     private ImputedRepository imputedRepository;
     @Autowired
     private ImputedFingerPrintRepository imputedFingerPrintRepository;
+    @Autowired
+    private ActivityMonitoringPlanRepository activityMonitoringPlanRepository;
+    @Autowired
+    private ImputedMissedAttendanceLogRepository imputedMissedAttendanceLogRepository;
 
     @Override
     public ResponseMessage getDevices(String deviceUse) {
@@ -201,6 +207,60 @@ public class HumanResourcesWSServiceImpl implements HumanResourcesWSService {
                 Employee employee = employeeRepository.findOne(Long.valueOf(log.getEnrollNumber()));
                 attendanceLog.setEmployee(employee);
                 attendanceLogRepository.saveAndFlush(attendanceLog);
+            }
+            response = new ResponseMessage(false, "Datos actualizados");
+
+        } catch (Exception e) {
+            response = new ResponseMessage(true, "Ha ocurrido un error, intente nuevamente");
+        }
+
+        return response;
+    }
+
+    @Override
+    @Transactional
+    public ResponseMessage updateImputedLogs(String logsList){
+        Gson gson = new Gson();
+        List<AttendanceLogWSDto> listLogs = gson.fromJson(logsList,new TypeToken<List<AttendanceLogWSDto>>(){}.getType());
+
+        ResponseMessage response;
+        try {
+            for (AttendanceLogWSDto log : listLogs){
+
+                for(AttendanceLogWSDto item : listLogs)
+                {
+                    Long imputed = Long.parseLong(item.getEnrollNumber());
+                    Date event = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(item.getDate());
+                    List<ActivityMonitoringPlan> activities = activityMonitoringPlanRepository.getListAttendanceActivities(imputed, event);
+
+                    if (activities.isEmpty()){
+                        ImputedMissedAttendanceLog registry = new ImputedMissedAttendanceLog();
+                        Imputed imp = imputedRepository.findOne(imputed);
+                        registry.setImputed(imp);
+                        registry.setDate(event);
+                        registry.setIsObsolete(false);
+                        imputedMissedAttendanceLogRepository.saveAndFlush(registry);
+                        continue;
+                    }
+
+                    for (ActivityMonitoringPlan activity : activities){
+                        activity = activityMonitoringPlanRepository.findOne(activity.getId());
+
+                        activity.setStatus(MonitoringConstants.STATUS_ACTIVITY_DONE);
+                        Calendar dateTime = Calendar.getInstance();
+                        dateTime.setTime(event);
+                        activity.setDoneTime(dateTime);
+                        activity.setComments("Realizado a través del sistema biométrico");
+
+
+                        List<ActivityMonitoringPlanArrangement> arrangements = activity.getLstAssignedArrangement();
+                        for(ActivityMonitoringPlanArrangement arrangement : arrangements){
+                            arrangement.setStatus(MonitoringConstants.ACTIVITY_ARRANGEMENT_DONE);
+                        }
+
+                        activityMonitoringPlanRepository.save(activity);
+                    }
+                }
             }
             response = new ResponseMessage(false, "Datos actualizados");
 
