@@ -131,6 +131,7 @@ public class Constants {
 
     public static final String SYSTEM_SETTINGS_MONPLAN = "MONPLAN";
     public static final String SYSTEM_SETTINGS_MONPLAN_HOURS_TO_AUTHORIZE = "HoursToAuthorize";
+    public static final String SYSTEM_SETTINGS_MONPLAN_ARRANGEMENT_FOR_ATTENDANCE = "ArrangementForAttendance";
 
     public static final String SYSTEM_SETTINGS_SCHEDULE_HEARING = "SCHEDULE_HEARING";
     public static final String SYSTEM_SETTINGS_SCHEDULE_LST_IDS_ARRANGEMENT = "LstIdsArrangement";
@@ -140,7 +141,6 @@ public class Constants {
     public static final String SYSTEM_SETTINGS_SCHEDULE_HEARING_GOAL_ACTIVITY_ID = "GoalActivityId";
     public static final String SYSTEM_SETTINGS_SCHEDULE_HEARING_GOAL_ACTIVITY_ID_REMINDER = "GoalActivityIdReminder";
     public static final String SYSTEM_SETTINGS_SCHEDULE_HEARING_DAYS_BEFORE_FOR_REMINDER = "DaysBeforeForReminder";
-
 
     public static String VERIFICATION_STATUS_COMPLETE = "VERIFICATION_COMPLETE";
 

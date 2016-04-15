@@ -4,17 +4,19 @@ import com.umeca.infrastructure.model.ResponseMessage;
 
 public interface BiometricWS {
 
-    public ResponseMessage getDevices(String deviceUse);
+    ResponseMessage getDevices(String deviceUse);
 
-    public ResponseMessage getUsersFromDB();
+    ResponseMessage getUsersFromDB();
 
-    public ResponseMessage getImputedUsersFromDB();
+    ResponseMessage getImputedUsersFromDB();
 
-    public ResponseMessage updateUserFingerPrint(String enrollNumber, int finger, String fingerPrint, int operation);
+    ResponseMessage updateUserFingerPrint(String enrollNumber, int finger, String fingerPrint, int operation);
 
-    public ResponseMessage updateAttendanceLogs(String logsList);
+    ResponseMessage updateAttendanceLogs(String logsList);
 
-    public ResponseMessage getImputed(long imputed);
+    ResponseMessage updateImputedLogs(String logList);
 
-    public ResponseMessage updateImputedFingerPrint(String enrollNumber, int finger, String fingerPrint, int operation);
+    ResponseMessage getImputed(long imputed);
+
+    ResponseMessage updateImputedFingerPrint(String enrollNumber, int finger, String fingerPrint, int operation);
 }

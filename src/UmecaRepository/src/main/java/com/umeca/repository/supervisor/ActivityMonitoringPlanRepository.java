@@ -1,6 +1,7 @@
 package com.umeca.repository.supervisor;
 
 import com.umeca.model.entities.supervisor.*;
+import org.hibernate.annotations.Parameter;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Repository("qActivityMonitoringPlanRepository")
@@ -184,6 +186,72 @@ public interface ActivityMonitoringPlanRepository extends JpaRepository<Activity
     @Query("SELECT COUNT(amp.id) FROM ActivityMonitoringPlan amp " +
             "WHERE amp.channeling.id = :channelingId")
     Long countInChanneling(@Param("channelingId")Long channelingId);
+
+
+    @Query(value = "SELECT \n" +
+            "\tamp.*\n" +
+            "FROM \n" +
+            "\timputed imp \n" +
+            "\tinner join meeting mee \n" +
+            "\ton imp.id_meeting = mee.id_meeting \n" +
+            "\tinner join case_detention csd \n" +
+            "\ton mee.id_case = csd.id_case \n" +
+            "\tinner join monitoring_plan mp\n" +
+            "\ton csd.id_case = mp.id_case\n" +
+            "\tINNER JOIN activity_monitoring_plan amp \n" +
+            "\tON mp.id_monitoring_plan = amp.id_monitoring_plan\n" +
+            "\tinner join supervision_activity sup\n" +
+            "\ton amp.id_supervision_activity = sup.id_supervision_activity,\n" +
+            "\tassigned_arrangement aar\n" +
+            "\tinner join cat_arrangement arr\n" +
+            "\ton aar.id_arrangement = arr.id_arrangement\n" +
+            "WHERE\n" +
+            "\tmp.status = 'AUTORIZADO' AND FIND_IN_SET(aar.id_assigned_arrangement, REPLACE(amp.assigned_arrangements_ids, ' ', '')) \n" +
+            "\tAND amp.status = 'NUEVA' \n" +
+            "\tAND amp.start <= :date \n" +
+            "\tAND amp.end >= :date \n" +
+            "\tand imp.id_imputed = :idImputed\n" +
+            "\tand sup.code = 'THD'\n" +
+            "\tAND arr.id_arrangement IN (\n" +
+            "\t\tSELECT \n" +
+            "\t\t\tSUBSTRING_INDEX(SUBSTRING_INDEX(t.value_setting, ',', n.n), ',', -1) value\n" +
+            "\t\tFROM \n" +
+            "\t\t\tsystem_setting t CROSS\n" +
+            "\t\t\tJOIN \n" +
+            "\t\t\t(\n" +
+            "\t\t\tSELECT a.N + b.N * 10 + 1 n\n" +
+            "\t\t\tFROM \n" +
+            "\t\t\t (\n" +
+            "\t\t\t\tSELECT 0 AS N UNION ALL\n" +
+            "\t\t\t\tSELECT 1 UNION ALL\n" +
+            "\t\t\t\tSELECT 2 UNION ALL\n" +
+            "\t\t\t\tSELECT 3 UNION ALL\n" +
+            "\t\t\t\tSELECT 4 UNION ALL\n" +
+            "\t\t\t\tSELECT 5 UNION ALL\n" +
+            "\t\t\t\tSELECT 6 UNION ALL\n" +
+            "\t\t\t\tSELECT 7 UNION ALL\n" +
+            "\t\t\t\tSELECT 8 UNION ALL\n" +
+            "\t\t\t\tSELECT 9) a\n" +
+            "\t\t\t,(\n" +
+            "\t\t\t\tSELECT 0 AS N UNION ALL\n" +
+            "\t\t\t\tSELECT 1 UNION ALL\n" +
+            "\t\t\t\tSELECT 2 UNION ALL\n" +
+            "\t\t\t\tSELECT 3 UNION ALL\n" +
+            "\t\t\t\tSELECT 4 UNION ALL\n" +
+            "\t\t\t\tSELECT 5 UNION ALL\n" +
+            "\t\t\t\tSELECT 6 UNION ALL\n" +
+            "\t\t\t\tSELECT 7 UNION ALL\n" +
+            "\t\t\t\tSELECT 8 UNION ALL\n" +
+            "\t\t\t\tSELECT 9) b\n" +
+            "\t\t\tORDER BY n\n" +
+            "\t\t\t) n\n" +
+            "\t\tWHERE \n" +
+            "\t\t\tn.n <= 1 + (LENGTH(t.value_setting) - LENGTH(REPLACE(t.value_setting, ',', ''))) \n" +
+            "\t\t\tAND t.group_setting = 'MONPLAN' \n" +
+            "\t\t\tAND t.key_setting = 'ArrangementForAttendance'\n" +
+            ")", nativeQuery = true)
+    List<ActivityMonitoringPlan> getListAttendanceActivities(@Param("idImputed") long idImputed, @Param("date") Date date);
+
 }
 
 

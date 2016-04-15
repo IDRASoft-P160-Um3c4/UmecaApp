@@ -16,5 +16,7 @@ public interface HumanResourcesWSService {
 
     ResponseMessage updateAttendanceLogs(String logsList);
 
+    ResponseMessage updateImputedLogs(String logList);
+
     ResponseMessage getImputed(long imputed);
 }

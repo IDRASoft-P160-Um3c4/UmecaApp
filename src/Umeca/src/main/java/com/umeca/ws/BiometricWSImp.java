@@ -71,10 +71,23 @@ public class BiometricWSImp implements BiometricWS {
     }
 
     @Override
-    public ResponseMessage updateAttendanceLogs(String logsList) {
+     public ResponseMessage updateAttendanceLogs(String logsList) {
         ResponseMessage response;
         try {
             response = humanResourcesWSService.updateAttendanceLogs(logsList);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = new ResponseMessage(true, "Ha ocurrido un error. Intente nuevamente.");
+        }
+        return response;
+    }
+
+    @Override
+    public ResponseMessage updateImputedLogs(String logsList) {
+        ResponseMessage response;
+        try {
+            response = humanResourcesWSService.updateImputedLogs(logsList);
 
         } catch (Exception e) {
             e.printStackTrace();

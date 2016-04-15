@@ -19,3 +19,4 @@
 18|ATTENDANCE|AbsenceTime|00:30:00|Minutos para considerarse falta
 19|DETENTION|OutOfTimePeriod|24|Horas que permanecerá el registro después de que el plazo haya vencido.
 20|DETENTION|CarouselRollTime|10|Segundos que tarda para pasar al siguiente registro.
+21|MONPLAN|ArrangementForAttendance|5,40|Identificadores de las medidas cautelares, que son requeridas en los planes de monitoreo y que se cumplen con el pase de lista en los biométricos por el imputado
