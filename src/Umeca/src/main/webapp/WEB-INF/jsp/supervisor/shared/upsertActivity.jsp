@@ -35,7 +35,7 @@
                                     <div class="col-xs-5" ng-repeat="sch in ls.sch">
                                             <i class="icon-asterisk green">
                                             </i>
-                                            {{sch.day}} / {{sch.start}} - {{sch.end}}
+                                            {{sch.day}} / <span ng-class="{strike: sch.isRandomTime}">{{sch.start}}</span> - <span ng-class="{strike: sch.isRandomTime}">{{sch.end}}</span>
 
                                     </div>
                                 </div>
