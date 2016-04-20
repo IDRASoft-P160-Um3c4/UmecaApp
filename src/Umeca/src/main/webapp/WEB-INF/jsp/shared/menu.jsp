@@ -571,8 +571,8 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a
-                                        href="<c:url value='/assets/applications/TimeAttendanceApp/setup.exe'/>"><i
-                                        class="glyphicon glyphicon-cloud-download"></i>&nbsp;&nbsp;Descargar instalador de aplicaci&oacute;n</a>
+                                        href="<c:url value='/assets/applications/TimeAttendanceApp/TimeAttendanceApp.application'/>"><i
+                                        class="glyphicon glyphicon-cloud-download"></i>&nbsp;&nbsp;Ejecutar...</a>
                                 </li>
                             </ul>
                         </li>
