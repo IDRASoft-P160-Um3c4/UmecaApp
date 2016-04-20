@@ -281,6 +281,7 @@ public class FramingMeetingController {
             model.addObject("idCase", id);
             model.addObject("age", sharedUserService.calculateAge(i.getBirthDate()));
             model.addObject("imputedId", i.getId());
+            model.addObject("userId", sharedUserService.GetLoggedUserId());
             model.addObject("hasMeeting", caseDet.getMeeting().getSchool() != null);
 
             Boolean isSubstracted = caseDet.getIsSubstracted();
