@@ -143,8 +143,6 @@ public class FramingMeetingController {
 
             @Override
             public <T> List<Selection<?>> getFields(final Root<T> r) {
-
-
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));
                     add(r.get("status"));
