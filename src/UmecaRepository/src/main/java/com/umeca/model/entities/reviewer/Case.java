@@ -5,10 +5,7 @@ import com.umeca.model.catalog.District;
 import com.umeca.model.catalog.StatusCase;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.managereval.Formulation;
-import com.umeca.model.entities.supervisor.FolderConditionalReprieve;
-import com.umeca.model.entities.supervisor.FramingMeeting;
-import com.umeca.model.entities.supervisor.HearingFormat;
-import com.umeca.model.entities.supervisor.MonitoringPlan;
+import com.umeca.model.entities.supervisor.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -129,6 +126,9 @@ public class Case {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_formulation",nullable = true)
     private Formulation formulation;
+
+    @OneToMany(mappedBy = "caseDetention", cascade = {CascadeType.ALL})
+    private List<Channeling> lstChanneling;
 
     @Transient
     private String idString;
@@ -404,5 +404,13 @@ public class Case {
 
     public void setFormulation(Formulation formulation) {
         this.formulation = formulation;
+    }
+
+    public List<Channeling> getLstChanneling() {
+        return lstChanneling;
+    }
+
+    public void setLstChanneling(List<Channeling> lstChanneling) {
+        this.lstChanneling = lstChanneling;
     }
 }

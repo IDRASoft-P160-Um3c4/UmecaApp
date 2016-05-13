@@ -485,7 +485,7 @@
                 <label for="ChannelingType">Tipo de canalizaci&oacute;n</label>
                 <select id="ChannelingType"
                         ng-model="ChannelingType"
-                        ng-init='lstChannelingType = ${lstChannelingType}; ChannelingType = lstChannelingType[0]; idParameter = ChannelingType.id;'
+                        ng-init='lstChannelingType = ${lstChannelingType==null?"[]":lstChannelingType};'
                         ng-options="e.name for e in lstChannelingType"
                         ng-change="idParameter = ChannelingType.id">
                 </select>
@@ -502,7 +502,7 @@
                 <label for="InstitutionName">Tipo de canalizaci&oacute;n</label>
                 <select id="InstitutionName"
                         ng-model="InstitutionName"
-                        ng-init='lstChannelingInstitutionName = ${lstChannelingInstitutionName}; InstitutionName = lstChannelingInstitutionName[0]; idParameter = InstitutionName.id;'
+                        ng-init='lstChannelingInstitutionName = ${lstChannelingInstitutionName==null?"[]":lstChannelingInstitutionName};'
                         ng-options="e.name for e in lstChannelingInstitutionName"
                         ng-change="idParameter = InstitutionName.id">
                 </select>

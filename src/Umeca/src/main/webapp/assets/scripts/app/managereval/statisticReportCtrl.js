@@ -1,18 +1,44 @@
 app.controller('statisticReportController', function ($scope, $timeout, $http) {
 
         $scope.m = {};
-        $scope.entities = []
+        $scope.entities = [];
+        $scope.ChannelingType = null;
+        $scope.InstitutionName = null;
 
         $scope.init = function () {
 
+            if($scope.lstChannelingType&&$scope.lstChannelingType.length > 0) {
+                if ($scope.idParameter > 0) {
+                    for (var i = 0; $scope.lstChannelingType.length; i++) {
+                        if ($scope.lstChannelingType[i].id == $scope.idParameter) {
+                            $scope.ChannelingType = $scope.lstChannelingType[i];
+                            break;
+                        }
+                    }
+                } else {
+                    $scope.ChannelingType = $scope.lstChannelingType[0];
+                }
+            }
+
+            if($scope.lstChannelingInstitutionName&&$scope.lstChannelingInstitutionName.length > 0 ){
+                if($scope.idParameter>0) {
+                    for (var i = 0; $scope.lstChannelingInstitutionName.length; i++) {
+                        if ($scope.lstChannelingInstitutionName[i].id == $scope.idParameter) {
+                            $scope.InstitutionName = $scope.lstChannelingInstitutionName[i];
+                            break;
+                        }
+                    }
+                }
+                else{
+                    $scope.InstitutionName = $scope.lstChannelingInstitutionName[0];
+                }
+            }
 
         };
 
         $timeout(function () {
             $scope.init();
-        }, 0);
-
-        ;
+        }, 500);
 
         $scope.findReport = function (formId, urlToPost) {
             $scope.msgError = "";
@@ -70,26 +96,15 @@ app.controller('statisticReportController', function ($scope, $timeout, $http) {
 
         $scope.findChannelingTypeReport = function(formId, urlToPost){
             $scope.msgError = "";
-           debugger;
+
             if ($(formId).valid() == false)
-                return;
+                return
+
             $scope.WaitFor = true;
+
             var url = urlToPost + "?initDate=" + $scope.initDate + "&endDate=" + $scope.endDate + "&idDistrict=" + $scope.idDistrict + "&idReportType=" + $scope.idReportType + "&idParameter=" + $scope.idParameter;
+
           //  var url = urlToPost + "&idChannelingType=" + $scope.idChannelingType;
-            window.goToUrlMvcUrl(url);
-            return true;
-        };
-
-
-
-        $scope.findChannelingTypeReport = function(formId, urlToPost){
-            $scope.msgError = "";
-            debugger;
-            if ($(formId).valid() == false)
-                return;
-            $scope.WaitFor = true;
-            var url = urlToPost + "?initDate=" + $scope.initDate + "&endDate=" + $scope.endDate + "&idDistrict=" + $scope.idDistrict + "&idReportType=" + $scope.idReportType + "&idParameter=" + $scope.idParameter;
-            //  var url = urlToPost + "&idChannelingType=" + $scope.idChannelingType;
             window.goToUrlMvcUrl(url);
             return true;
         };

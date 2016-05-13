@@ -73,6 +73,7 @@ public class QueryChannelingController {
                 final Join<Case, District> joinDi = r.join("district");
                 final Join<Case, FramingMeeting> joinFr = r.join("framingMeeting");
                 final Join<FramingMeeting, User> joinFrUs = joinFr.join("supervisor");
+                final Join<Case, Channeling> joinChann = r.join("lstChanneling");
 
                 return new ArrayList<Selection<?>>() {{
                     add(r.get("id"));

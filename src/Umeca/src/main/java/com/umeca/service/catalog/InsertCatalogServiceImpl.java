@@ -172,8 +172,8 @@ public class InsertCatalogServiceImpl implements InsertCatalogService {
     @Autowired
     DeviceUseRepository deviceUseRepository;
 
-    //private String PATH = "/home/umecaCatalogs/db/";
-    private String PATH = "C:\\Users\\Administrator\\Documents\\GitHub\\UmecaApp-Morelos\\UmecaApp\\db\\";
+    private String PATH = "/home/umecaCatalogs/db/";
+//    private String PATH = "C:\\Users\\Administrator\\Documents\\GitHub\\UmecaApp-Morelos\\UmecaApp\\db\\";
 
     @Override
     public void role() {

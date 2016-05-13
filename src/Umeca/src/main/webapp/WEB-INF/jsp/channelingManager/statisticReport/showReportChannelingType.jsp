@@ -183,7 +183,7 @@
                     .attr("y", 0 - 35)
                     .attr("text-anchor", "middle")
                     .style("font", "16px sans-serif")
-                    .text(title + " - " + extraData);
+                    .text(title + "  -  " + extraData);
 
 
             svg.append("text")
@@ -191,7 +191,7 @@
                     .attr("y", 0 - 15)
                     .attr("text-anchor", "middle")
                     .style("font", "12px sans-serif")
-                    .text(initDate + " - " + endDate);
+                    .text("Periodo: "+initDate + " - " + endDate);
 
 
             //legend
@@ -422,8 +422,6 @@
                    ng-init="reportType = '${reportType}'"
                    name="reportType" id="reportType">
 
-            <input type="hidden" ng-update-hidden ng-model="idParameter" name="idParameter"
-                   id="idParameter">
 
             <div class="row" ng-disabled = "reportType != '<%=Constants.REPORT_STATISTIC_CHANNELING_H%>'" ng-show="reportType == '<%=Constants.REPORT_STATISTIC_CHANNELING_H%>'" >
                 <div class="col-xs-12 element-center">
@@ -431,7 +429,7 @@
                     <label for="ChannelingType">Tipo de canalizaci&oacute;n</label>
                     <select id="ChannelingType"
                             ng-model="ChannelingType"
-                            ng-init='lstChannelingType = ${lstChannelingType}; ChannelingType = lstChannelingType[0]; idParameter = ChannelingType.id;'
+                            ng-init='lstChannelingType = ${lstChannelingType==null?"[]":lstChannelingType};'
                             ng-options="e.name for e in lstChannelingType"
                             ng-change="idParameter = ChannelingType.id">
                     </select>
@@ -448,7 +446,7 @@
                     <label for="InstitutionName">Tipo de canalizaci&oacute;n</label>
                     <select id="InstitutionName"
                             ng-model="InstitutionName"
-                            ng-init='lstChannelingInstitutionName = ${lstChannelingInstitutionName}; InstitutionName = lstChannelingInstitutionName[0]; idParameter = InstitutionName.id;'
+                            ng-init='lstChannelingInstitutionName = ${lstChannelingInstitutionName==null?"[]":lstChannelingInstitutionName};'
                             ng-options="e.name for e in lstChannelingInstitutionName"
                             ng-change="idParameter = InstitutionName.id">
                     </select>
@@ -460,8 +458,8 @@
             </div>            </span>
             </div>
 
-
-        </div>
+        <input type="hidden" ng-update-hidden ng-model="idParameter" name="idParameter"
+               id="idParameter" ng-init="idParameter='${idParameter}'">
         <br/>
     </form>
 

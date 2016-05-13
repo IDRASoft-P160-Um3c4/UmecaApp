@@ -1,32 +1,24 @@
 package com.umeca.controller.channelingManager;
 
 import com.google.gson.Gson;
-import com.sun.javafx.sg.PGShape;
-import com.umeca.model.catalog.State;
-import com.umeca.model.catalog.StatisticChannelingReportType;
-import com.umeca.model.catalog.dto.CatalogDto;
-import com.umeca.model.entities.supervisor.ArrangementView;
+import com.umeca.model.catalog.CatChannelingInstitutionName;
+import com.umeca.model.catalog.CatChannelingType;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.SelectList;
 import com.umeca.model.shared.SelectOptsList;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.repository.catalog.*;
 import com.umeca.repository.supervisor.DistrictRepository;
-import com.umeca.repository.supervisorManager.StatisticSupervisorManagerReportRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.channelingManager.StatisticChannelingReportService;
 import com.umeca.service.managereval.StatisticReportService;
 import com.umeca.service.shared.SharedLogExceptionService;
-import com.umeca.service.supervisiorManager.StatisticSupervisorManagerReportService;
-import org.apache.xpath.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -77,11 +69,33 @@ public class ChannelingReportController {
         Gson gson = new Gson();
         String extraData = null;
         String title = null;
+        String typeTitle = "";
         Long total = Long.valueOf(0);
         try {
 
 
             title = statisticChannelingReportTypeRepository.findById(idReportType).getDescription();
+
+            if (idReportType.equals(8L)) {// 8 tipo de canalizacon
+                if (idParameter != null && idParameter > 0) {
+                    CatChannelingType type = channelingTypeRepository.findOne(idParameter);
+                    if (type != null)
+                        typeTitle = type.getName();
+                }else {
+                    typeTitle = "Todas las canalizaciones";
+                }
+            } else if (idReportType.equals(9L)) {//9 por institucion
+                if (idParameter != null && idParameter > 0) {
+                    CatChannelingInstitutionName institutionName = channelingInstitutionNameRepository.findOne(idParameter);
+                    if (institutionName != null)
+                        typeTitle = institutionName.getName();
+                }else {
+                    typeTitle = "Todas las instituciones";
+                }
+            }
+
+            title += ": " + typeTitle;
+
             String data;
             data = statisticChannelingReportService.getData(initDate, endDate, idReportType, idDistrict, idParameter);
 
@@ -95,7 +109,7 @@ public class ChannelingReportController {
             if (idDistrict.equals(0l)) {
                 extraData = "Todos los distritos";
             } else {
-                extraData = districtRepository.findDistrictNameById(idDistrict);
+                extraData = "Distrito: " + districtRepository.findDistrictNameById(idDistrict);
             }
 
 
@@ -115,7 +129,7 @@ public class ChannelingReportController {
             }
 
 
-            model.addObject("reportType",statisticChannelingReportTypeRepository.findById(idReportType).getName());
+            model.addObject("reportType", statisticChannelingReportTypeRepository.findById(idReportType).getName());
             model.addObject("idDistrict", idDistrict);
             model.addObject("idReportType", idReportType);
             model.addObject("initDate", initDate.toString());
@@ -124,6 +138,7 @@ public class ChannelingReportController {
             model.addObject("data", data);
             model.addObject("extraData", extraData);
             model.addObject("title", title);
+            model.addObject("idParameter", idParameter);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -134,6 +149,7 @@ public class ChannelingReportController {
             model.addObject("data", null);
             model.addObject("extraData", extraData);
             model.addObject("title", title);
+            model.addObject("idParameter", idParameter);
         }
         return model;
     }
@@ -347,7 +363,7 @@ public class ChannelingReportController {
     }
 
     @RequestMapping(value = "channelingManager/excelReport/index", method = RequestMethod.GET)
-    ModelAndView indexExcelReport(){
+    ModelAndView indexExcelReport() {
         ModelAndView model = new ModelAndView("/channelingManager/excelReport/index");
 
         return model;

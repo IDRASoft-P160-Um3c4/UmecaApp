@@ -593,7 +593,6 @@
                                         params["idDistrictParam"] = ${idDistrict};
                                         params["idEmployeeParam"] = ${idEmployee};
 
-                                        debugger;
                                      //   params["idParam"] = listIds;
                                      //   params["filters"] = JSON.stringify(selectedFilters);
 

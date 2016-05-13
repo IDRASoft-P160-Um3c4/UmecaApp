@@ -98,7 +98,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "       case_detention.id_district 'sub_id_district' " +
                 "       from case_detention " +
                 "       inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
-                "       and cat_status_case.status in ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
                 "       inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true " +
                 ") ResA on activity_monitoring_plan.id_case = ResA.sub_id_case " +
                 "where activity_monitoring_plan.channeling_assistance is not null " +
@@ -114,7 +114,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "       case_detention.id_district 'sub_id_district' " +
                 "       from case_detention " +
                 "       inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
-                "       and cat_status_case.status in ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
                 "       inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true " +
                 ") ResA on activity_monitoring_plan.id_case = ResA.sub_id_case and ResA.sub_id_district = :idDistrict " +
                 "where activity_monitoring_plan.channeling_assistance is not null " +
@@ -131,7 +131,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "       case_detention.id_district 'sub_id_district' " +
                 "       from case_detention " +
                 "       inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
-                "       and cat_status_case.status in ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
                 "       inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true " +
                 ") ResA on activity_monitoring_plan.id_case = ResA.sub_id_case and ResA.sub_id_district = :idDistrict and ResA.sub_id_umeca_supervisor = :idSupervisor " +
                 "where activity_monitoring_plan.channeling_assistance is not null " +
@@ -150,7 +150,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "                       case_detention.id_district 'sub_id_district' " +
                 "                       from case_detention " +
                 "                       inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
-                "                       and cat_status_case.status in ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "                       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
                 "                       inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true " +
                 "                ) ResA on activity_monitoring_plan.id_case = ResA.sub_id_case", nativeQuery = true)
         List<Object> countChannelingFinishedGeneral(@Param("initDate") String initDate, @Param("endDate") String endDate);
@@ -167,7 +167,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "                       case_detention.id_district 'sub_id_district' " +
                 "                       from case_detention " +
                 "                       inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
-                "                       and cat_status_case.status in ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "                       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
                 "                       inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true " +
                 "                ) ResA on activity_monitoring_plan.id_case = ResA.sub_id_case  and ResA.sub_id_district = :idDistrict " , nativeQuery = true)
         List<Object> countChannelingFinishedByDistrict(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict);
@@ -183,7 +183,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "                       case_detention.id_district 'sub_id_district' " +
                 "                       from case_detention " +
                 "                       inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
-                "                       and cat_status_case.status in ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "                       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
                 "                       inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true " +
                 "                ) ResA on activity_monitoring_plan.id_case = ResA.sub_id_case and ResA.sub_id_district = :idDistrict and ResA.sub_id_umeca_supervisor = :idSupervisor ", nativeQuery = true)
         List<Object> countChannelingFinishedBySupervisor(@Param("initDate") String initDate, @Param("endDate") String endDate, @Param("idDistrict") Long idDistrict, @Param("idSupervisor") Long idSupervisor);
@@ -201,7 +201,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "                       case_detention.id_district 'sub_id_district' " +
                 "                       from case_detention " +
                 "                       inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
-                "                       and cat_status_case.status in ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "                       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
                 "                       inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true " +
                 "                ) ResA on activity_monitoring_plan.id_case = ResA.sub_id_case " +
                 "                where activity_monitoring_plan.channeling_assistance is not null " +
@@ -224,7 +224,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "                       case_detention.id_district 'sub_id_district' " +
                 "                       from case_detention " +
                 "                       inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
-                "                       and cat_status_case.status in ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "                       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
                 "                       inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true " +
                 "                ) ResA on activity_monitoring_plan.id_case = ResA.sub_id_case and ResA.sub_id_district = :idDistrict and ResA.sub_id_umeca_supervisor = :idSupervisor  " +
                 "                where activity_monitoring_plan.channeling_assistance is not null " +
@@ -244,7 +244,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "                       case_detention.id_district 'sub_id_district' " +
                 "                       from case_detention " +
                 "                       inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
-                "                       and cat_status_case.status in ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "                       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
                 "                       inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true " +
                 "                ) ResA on activity_monitoring_plan.id_case = ResA.sub_id_case " +
                 "right join cat_channeling_type " +
@@ -263,7 +263,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "                       case_detention.id_district 'sub_id_district' " +
                 "                       from case_detention " +
                 "                       inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
-                "                       and cat_status_case.status in ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "                       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
                 "                       inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true " +
                 "                ) ResA on activity_monitoring_plan.id_case = ResA.sub_id_case and ResA.sub_id_district = :idDistrict " +
                 "right join cat_channeling_type " +
@@ -283,7 +283,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "                       case_detention.id_district 'sub_id_district' " +
                 "                       from case_detention " +
                 "                       inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
-                "                       and cat_status_case.status in ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "                       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
                 "                       inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true " +
                 "                ) ResA on activity_monitoring_plan.id_case = ResA.sub_id_case and ResA.sub_id_district = :idDistrict and ResA.sub_id_umeca_supervisor = :idSupervisor " +
                 "right join cat_channeling_type " +
@@ -327,7 +327,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "                       case_detention.id_district 'sub_id_district' " +
                 "                       from case_detention " +
                 "                       inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
-                "                       and cat_status_case.status in ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "                       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
                 "                       inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true \n" +
                 "                 )ResA on activity_monitoring_plan.id_case = ResA.sub_id_case and ResA.sub_id_district = :idDistrict " +
                 "                where activity_monitoring_plan.channeling_assistance is not null " +
@@ -347,7 +347,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "                       case_detention.id_district 'sub_id_district' " +
                 "                       from case_detention " +
                 "                       inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
-                "                       and cat_status_case.status in ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "                       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
                 "                       inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true " +
                 "                ) ResA on activity_monitoring_plan.id_case = ResA.sub_id_case and ResA.sub_id_district = :idDistrict " +
                 "                where activity_monitoring_plan.channeling_assistance is not null " +
@@ -367,7 +367,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "                                       case_detention.id_district 'sub_id_district' " +
                 "                                       from case_detention " +
                 "                                       inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
-                "                                       and cat_status_case.status in ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "                                       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
                 "                                       inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true " +
                 "                                ) ResA on activity_monitoring_plan.id_case = ResA.sub_id_case and ResA.sub_id_district = :idDistrict " +
                 "                right join cat_channeling_type " +
@@ -389,7 +389,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "                                       case_detention.id_district 'sub_id_district' " +
                 "                                       from case_detention " +
                 "                                       inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
-                "                                       and cat_status_case.status in ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "                                       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
                 "                                       inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true " +
                 "                                ) ResA on activity_monitoring_plan.id_case = ResA.sub_id_case and ResA.sub_id_district = :idDistrict" +
                 "                right join cat_channeling_type " +
@@ -434,7 +434,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "                       case_detention.id_district 'sub_id_district' " +
                 "                       from case_detention " +
                 "                       inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
-                "                       and cat_status_case.status in ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "                       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
                 "                       inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true \n" +
                 "                 )ResA on activity_monitoring_plan.id_case = ResA.sub_id_case " +
                 "                where activity_monitoring_plan.channeling_assistance is not null " +
@@ -454,7 +454,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "                       case_detention.id_district 'sub_id_district' " +
                 "                       from case_detention " +
                 "                       inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
-                "                       and cat_status_case.status in ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "                       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
                 "                       inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true " +
                 "                ) ResA on activity_monitoring_plan.id_case = ResA.sub_id_case " +
                 "                where activity_monitoring_plan.channeling_assistance is not null " +
@@ -474,7 +474,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "                                       case_detention.id_district 'sub_id_district' " +
                 "                                       from case_detention " +
                 "                                       inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
-                "                                       and cat_status_case.status in ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "                                       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
                 "                                       inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true " +
                 "                                ) ResA on activity_monitoring_plan.id_case = ResA.sub_id_case " +
                 "                right join cat_channeling_type " +
@@ -496,7 +496,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "                                       case_detention.id_district 'sub_id_district' " +
                 "                                       from case_detention " +
                 "                                       inner join cat_status_case on cat_status_case.id_status = case_detention.id_status " +
-                "                                       and cat_status_case.status in ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
+                "                                       and cat_status_case.status in ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION','ST_CASE_CLOSE_REQUEST') " +
                 "                                       inner join framing_meeting on framing_meeting.id_case = case_detention.id_case and framing_meeting.is_terminated = true " +
                 "                                ) ResA on activity_monitoring_plan.id_case = ResA.sub_id_case " +
                 "                right join cat_channeling_type " +
@@ -554,7 +554,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "    FROM " +
                 "        case_detention " +
                 "    INNER JOIN cat_status_case ON cat_status_case.id_status = case_detention.id_status " +
-                "        AND cat_status_case.status IN ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
+                "        AND cat_status_case.status IN ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
                 "    INNER JOIN framing_meeting ON framing_meeting.id_case = case_detention.id_case " +
                 "        AND framing_meeting.is_terminated = TRUE) ResA ON activity_monitoring_plan.id_case = ResA.sub_id_case " +
                 "        AND ResA.sub_id_district = :idDistrict " +
@@ -588,7 +588,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "    FROM " +
                 "        case_detention " +
                 "    INNER JOIN cat_status_case ON cat_status_case.id_status = case_detention.id_status " +
-                "        AND cat_status_case.status IN ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
+                "        AND cat_status_case.status IN ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
                 "    INNER JOIN framing_meeting ON framing_meeting.id_case = case_detention.id_case " +
                 "        AND framing_meeting.is_terminated = TRUE) ResA ON activity_monitoring_plan.id_case = ResA.sub_id_case " +
                 "        AND ResA.sub_id_district = :idDistrict " +
@@ -618,7 +618,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "    FROM " +
                 "        case_detention " +
                 "    INNER JOIN cat_status_case ON cat_status_case.id_status = case_detention.id_status " +
-                "        AND cat_status_case.status IN ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
+                "        AND cat_status_case.status IN ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
                 "    INNER JOIN framing_meeting ON framing_meeting.id_case = case_detention.id_case " +
                 "        AND framing_meeting.is_terminated = TRUE) ResA ON activity_monitoring_plan.id_case = ResA.sub_id_case " +
                 "        AND ResA.sub_id_district = :idDistrict " +
@@ -650,7 +650,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "    FROM " +
                 "        case_detention " +
                 "    INNER JOIN cat_status_case ON cat_status_case.id_status = case_detention.id_status " +
-                "        AND cat_status_case.status IN ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
+                "        AND cat_status_case.status IN ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
                 "    INNER JOIN framing_meeting ON framing_meeting.id_case = case_detention.id_case " +
                 "        AND framing_meeting.is_terminated = TRUE) ResA ON activity_monitoring_plan.id_case = ResA.sub_id_case " +
                 "        AND ResA.sub_id_district = :idDistrict " +
@@ -710,7 +710,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "    FROM " +
                 "        case_detention " +
                 "    INNER JOIN cat_status_case ON cat_status_case.id_status = case_detention.id_status " +
-                "        AND cat_status_case.status IN ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
+                "        AND cat_status_case.status IN ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
                 "    INNER JOIN framing_meeting ON framing_meeting.id_case = case_detention.id_case " +
                 "        AND framing_meeting.is_terminated = TRUE) ResA ON activity_monitoring_plan.id_case = ResA.sub_id_case " +
                 "WHERE " +
@@ -743,7 +743,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "    FROM " +
                 "        case_detention " +
                 "    INNER JOIN cat_status_case ON cat_status_case.id_status = case_detention.id_status " +
-                "        AND cat_status_case.status IN ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
+                "        AND cat_status_case.status IN ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
                 "    INNER JOIN framing_meeting ON framing_meeting.id_case = case_detention.id_case " +
                 "        AND framing_meeting.is_terminated = TRUE) ResA ON activity_monitoring_plan.id_case = ResA.sub_id_case " +
                 "WHERE " +
@@ -772,7 +772,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "    FROM " +
                 "        case_detention " +
                 "    INNER JOIN cat_status_case ON cat_status_case.id_status = case_detention.id_status " +
-                "        AND cat_status_case.status IN ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
+                "        AND cat_status_case.status IN ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
                 "    INNER JOIN framing_meeting ON framing_meeting.id_case = case_detention.id_case " +
                 "        AND framing_meeting.is_terminated = TRUE) ResA ON activity_monitoring_plan.id_case = ResA.sub_id_case " +
                 "        RIGHT JOIN " +
@@ -803,7 +803,7 @@ public interface StatisticChannelingReportRepository extends JpaRepository<Stati
                 "    FROM " +
                 "        case_detention " +
                 "    INNER JOIN cat_status_case ON cat_status_case.id_status = case_detention.id_status " +
-                "        AND cat_status_case.status IN ('actorST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
+                "        AND cat_status_case.status IN ('ST_CASE_HEARING_FORMAT_END' , 'ST_CASE_FRAMING_MEETING_INCOMPLETE', 'ST_CASE_FRAMING_MEETING_COMPLETE', 'ST_CASE_REQUEST', 'ST_CASE_REQUEST_SUPERVISION', 'ST_CASE_CLOSE_REQUEST') " +
                 "    INNER JOIN framing_meeting ON framing_meeting.id_case = case_detention.id_case " +
                 "        AND framing_meeting.is_terminated = TRUE) ResA ON activity_monitoring_plan.id_case = ResA.sub_id_case " +
                 "        RIGHT JOIN " +
