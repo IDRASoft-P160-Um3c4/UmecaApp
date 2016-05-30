@@ -237,7 +237,9 @@ public class GenericJqGridPageSortFilter<T, V extends EntityGrid> {
                             p.getExpressions().add(cb.like(cb.lower(exp), rule.data.trim().toLowerCase() + "%"));
                             break;
                     }
-                } catch (Exception ex) {}
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
             }
             cq.where(p);
         } catch (Exception ex) {

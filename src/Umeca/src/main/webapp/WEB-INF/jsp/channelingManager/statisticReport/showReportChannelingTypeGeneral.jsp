@@ -32,6 +32,93 @@
 
 <div class="container body-content col-xs-12 col-xs-offset-1">
 
+    <form>
+        <label><input type="hidden" name="mode" value="grouped"></label>
+        <label><input type="hidden" name="mode" value="stacked" checked></label>
+    </form>
+
+
+    <h2 class="element-center">
+        <i class="icon icon-file"></i>&nbsp;&nbsp;Reporte estad&iacute;stico por operador
+    </h2>
+
+    <form id="FormStatisRep" name="FormStatisRep" class="form-horizontal"
+          role="form" ng-controller="statisticReportController" method="post" ng-cloak>
+
+        <input type="hidden" ng-model="initDate" ng-init="initDate = '${initDate}'"
+               name="initDate" id="initDate" ng-value="initDate">
+        <input type="hidden" ng-update-hidden ng-model="endDate" ng-init="endDate = '${endDate}'"
+               name="endDate" id="endDate">
+        <input type="hidden" ng-update-hidden ng-model="idReportType"
+               ng-init="idReportType = '${idReportType}'"
+               name="idReportType" id="idReportType">
+        <input type="hidden" ng-update-hidden ng-model="idDistrict"
+               ng-init="idDistrict = '${idDistrict}'"
+               name="idDistrict" id="idDistrict">
+        <input type="hidden" ng-update-hidden ng-model="reportType"
+               ng-init="reportType = '${reportType}'"
+               name="reportType" id="reportType">
+        <input type="hidden" ng-update-hidden ng-model="idParameter" name="idParameter"
+               id="idParameter">
+
+
+        <div class="row" ng-disabled = "reportType != '<%=Constants.REPORT_STATISTIC_CHANNELING_H%>'" ng-show="reportType == '<%=Constants.REPORT_STATISTIC_CHANNELING_H%>'" >
+            <div class="col-xs-12 element-center">
+
+                <label for="ChannelingType">Tipo de canalizaci&oacute;n</label>
+                <select id="ChannelingType"
+                        ng-model="ChannelingType"
+                        ng-init='lstChannelingType = ${lstChannelingType==null?"[]":lstChannelingType};'
+                        ng-options="e.name for e in lstChannelingType"
+                        ng-change="idParameter = ChannelingType.id">
+                </select>
+                <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                      ng-click="findChannelingTypeReport('#FormStatisRep','<c:url value='/channelingManager/statisticReport/showReport.html'/>');">
+                    Realizar b&uacute;squeda
+                </span>
+            </div>
+
+        </div>
+        <div class="row" ng-disabled = "reportType != '<%=Constants.REPORT_STATISTIC_CHANNELING_I%>'" ng-show="reportType == '<%=Constants.REPORT_STATISTIC_CHANNELING_I%>'" >
+            <div class="col-xs-12 element-center">
+
+                <label for="InstitutionName">Tipo de canalizaci&oacute;n</label>
+                <select id="InstitutionName"
+                        ng-model="InstitutionName"
+                        ng-init='lstChannelingInstitutionName = ${lstChannelingInstitutionName==null?"[]":lstChannelingInstitutionName};'
+                        ng-options="e.name for e in lstChannelingInstitutionName"
+                        ng-change="idParameter = InstitutionName.id">
+                </select>
+                <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
+                      ng-click="findChannelingTypeReport('#FormStatisRep','<c:url value='/channelingManager/statisticReport/showReport.html'/>');">
+                    Realizar b&uacute;squeda
+                </span>
+            </div>
+        </div>
+
+
+        <br/>
+    </form>
+
+    <div class="row-fluid center">
+        <div class="chartBar"></div>
+        <%--<div id="svgdataurl"></div>--%>
+        <%--<div id="pngdataurl"></div>--%>
+        <canvas width="1920" height="1080" style="display:none"></canvas>
+    </div>
+
+    <div class="row element-center">
+        <a href="<c:url value='/channelingManager/statisticReport/index.html' />">
+            <button class="btn">
+                <i class="glyphicon glyphicon-stats"></i>&nbsp;Obtener otro reporte
+
+            </button>
+        </a>
+        <button class="btn btn-info" id="save">
+            <i class="glyphicon glyphicon-picture"></i>&nbsp;Descargar reporte
+        </button>
+    </div>
+
     <script>
         window.onload = function () {
             var initDate = "${initDate}";
@@ -447,94 +534,6 @@
 
         };
     </script>
-
-
-    <form>
-        <label><input type="hidden" name="mode" value="grouped"></label>
-        <label><input type="hidden" name="mode" value="stacked" checked></label>
-    </form>
-
-
-    <h2 class="element-center">
-        <i class="icon icon-file"></i>&nbsp;&nbsp;Reporte estad&iacute;stico por operador
-    </h2>
-
-    <form id="FormStatisRep" name="FormStatisRep" class="form-horizontal"
-          role="form" ng-controller="statisticReportController" method="post" ng-cloak>
-
-        <input type="hidden" ng-model="initDate" ng-init="initDate = '${initDate}'"
-               name="initDate" id="initDate" ng-value="initDate">
-        <input type="hidden" ng-update-hidden ng-model="endDate" ng-init="endDate = '${endDate}'"
-               name="endDate" id="endDate">
-        <input type="hidden" ng-update-hidden ng-model="idReportType"
-               ng-init="idReportType = '${idReportType}'"
-               name="idReportType" id="idReportType">
-        <input type="hidden" ng-update-hidden ng-model="idDistrict"
-               ng-init="idDistrict = '${idDistrict}'"
-               name="idDistrict" id="idDistrict">
-        <input type="hidden" ng-update-hidden ng-model="reportType"
-               ng-init="reportType = '${reportType}'"
-               name="reportType" id="reportType">
-        <input type="hidden" ng-update-hidden ng-model="idParameter" name="idParameter"
-               id="idParameter">
-
-
-        <div class="row" ng-disabled = "reportType != '<%=Constants.REPORT_STATISTIC_CHANNELING_H%>'" ng-show="reportType == '<%=Constants.REPORT_STATISTIC_CHANNELING_H%>'" >
-            <div class="col-xs-12 element-center">
-
-                <label for="ChannelingType">Tipo de canalizaci&oacute;n</label>
-                <select id="ChannelingType"
-                        ng-model="ChannelingType"
-                        ng-init='lstChannelingType = ${lstChannelingType==null?"[]":lstChannelingType};'
-                        ng-options="e.name for e in lstChannelingType"
-                        ng-change="idParameter = ChannelingType.id">
-                </select>
-                <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                      ng-click="findChannelingTypeReport('#FormStatisRep','<c:url value='/channelingManager/statisticReport/showReport.html'/>');">
-                    Realizar b&uacute;squeda
-                </span>
-            </div>
-
-        </div>
-        <div class="row" ng-disabled = "reportType != '<%=Constants.REPORT_STATISTIC_CHANNELING_I%>'" ng-show="reportType == '<%=Constants.REPORT_STATISTIC_CHANNELING_I%>'" >
-            <div class="col-xs-12 element-center">
-
-                <label for="InstitutionName">Tipo de canalizaci&oacute;n</label>
-                <select id="InstitutionName"
-                        ng-model="InstitutionName"
-                        ng-init='lstChannelingInstitutionName = ${lstChannelingInstitutionName==null?"[]":lstChannelingInstitutionName};'
-                        ng-options="e.name for e in lstChannelingInstitutionName"
-                        ng-change="idParameter = InstitutionName.id">
-                </select>
-                <span class="btn btn-default btn-primary btn-sm" ng-disabled="WaitFor==true"
-                      ng-click="findChannelingTypeReport('#FormStatisRep','<c:url value='/channelingManager/statisticReport/showReport.html'/>');">
-                    Realizar b&uacute;squeda
-                </span>
-            </div>
-        </div>
-
-
-        <br/>
-    </form>
-
-    <div class="row-fluid center">
-        <div class="chartBar"></div>
-        <%--<div id="svgdataurl"></div>--%>
-        <%--<div id="pngdataurl"></div>--%>
-        <canvas width="1920" height="1080" style="display:none"></canvas>
-    </div>
-
-    <div class="row element-center">
-        <a href="<c:url value='/channelingManager/statisticReport/index.html' />">
-            <button class="btn">
-                <i class="glyphicon glyphicon-stats"></i>&nbsp;Obtener otro reporte
-
-            </button>
-        </a>
-        <button class="btn btn-info" id="save">
-            <i class="glyphicon glyphicon-picture"></i>&nbsp;Descargar reporte
-        </button>
-    </div>
 
     <%@ include file="/WEB-INF/jsp/shared/sharedSvc.jsp" %>
     <%@ include file="/WEB-INF/jsp/shared/footer.jsp" %>

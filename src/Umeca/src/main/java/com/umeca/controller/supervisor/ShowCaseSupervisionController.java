@@ -115,7 +115,7 @@ public class ShowCaseSupervisionController {
             @Override
             public <T> Expression<String> setFilterField(Root<T> r, String field) {
                 if (field.equals("idFolder"))
-                    return r.join("caseDetention").get("idMP");
+                    return r.get("idMP");
                 if (field.equals("supervisorId")) {
                     if (isCountSupId == false) {//para evitar el doble join sobre una misma tabla
                         isCountSupId = true;
