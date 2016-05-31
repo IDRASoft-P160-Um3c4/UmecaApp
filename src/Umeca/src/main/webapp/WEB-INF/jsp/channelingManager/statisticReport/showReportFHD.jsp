@@ -493,6 +493,8 @@
                     binaryBlob();
 
                     var a = document.createElement("a");
+                    document.body.appendChild(a);
+                    a.setAttribute("type", "hidden");
                     a.download = "reporte.png";
                     a.href = canvas.toDataURL("image/png");
 
@@ -501,6 +503,7 @@
 
 
                     a.click();
+                    context.clearRect(0, 0, canvas.width, canvas.height);
                 };
 
             });
