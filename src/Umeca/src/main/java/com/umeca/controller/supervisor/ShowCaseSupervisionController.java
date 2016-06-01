@@ -15,9 +15,11 @@ import com.umeca.model.entities.reviewer.Verification;
 import com.umeca.model.entities.supervisor.FramingMeeting;
 import com.umeca.model.entities.supervisor.HearingFormat;
 import com.umeca.model.entities.supervisor.MonitoringPlan;
+import com.umeca.model.entities.supervisor.SupervisionCaseInProcessView;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.GridService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -51,6 +53,9 @@ public class ShowCaseSupervisionController {
     SharedUserService userService;
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    GridService gridService;
 
     @RequestMapping(value = {"/supervisor/showCaseEvaluation/list"}, method = RequestMethod.POST)
     public
@@ -144,5 +149,12 @@ public class ShowCaseSupervisionController {
         }, Case.class, CaseEvaluationView.class);
         return result;
     }
+
+
+    @RequestMapping(value = "/supervisor/showCaseEvaluation/listB", method = RequestMethod.GET)
+    public Object listB() {
+        return gridService.toGrid(SupervisionCaseInProcessView.class);
+    }
+
 
 }
