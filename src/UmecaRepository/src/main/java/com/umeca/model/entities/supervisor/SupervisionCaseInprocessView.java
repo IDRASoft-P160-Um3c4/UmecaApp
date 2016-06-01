@@ -43,7 +43,7 @@ import javax.persistence.Id;
 
 
 
-public class SupervisionCaseInProcessView {
+public class SupervisionCaseInprocessView {
     @Id
     @Column(name = "id_case")
     private Long idCase;
