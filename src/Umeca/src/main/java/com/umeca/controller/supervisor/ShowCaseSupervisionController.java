@@ -15,7 +15,7 @@ import com.umeca.model.entities.reviewer.Verification;
 import com.umeca.model.entities.supervisor.FramingMeeting;
 import com.umeca.model.entities.supervisor.HearingFormat;
 import com.umeca.model.entities.supervisor.MonitoringPlan;
-import com.umeca.model.entities.supervisor.SupervisionCaseInProcessView;
+import com.umeca.model.entities.supervisor.SupervisionCaseInprocessView;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.service.account.SharedUserService;
@@ -153,7 +153,7 @@ public class ShowCaseSupervisionController {
 
     @RequestMapping(value = "/supervisor/showCaseEvaluation/listB", method = RequestMethod.GET)
     public Object listB() {
-        return gridService.toGrid(SupervisionCaseInProcessView.class);
+        return gridService.toGrid(SupervisionCaseInprocessView.class);
     }
 
 
