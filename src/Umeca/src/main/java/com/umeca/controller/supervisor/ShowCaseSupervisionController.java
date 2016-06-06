@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -152,8 +153,13 @@ public class ShowCaseSupervisionController {
 
 
     @RequestMapping(value = "/supervisor/showCaseEvaluation/listB", method = RequestMethod.GET)
-    public Object listB() {
-        return gridService.toGrid(SupervisionCaseInprocessView.class);
+    public
+    @ResponseBody
+    JqGridResultModel listB(@ModelAttribute JqGridFilterModel opts) {
+
+        HashMap<String, Object> filters = new HashMap<>();
+        filters.put("supervisorId", userService.GetLoggedUserId());
+        return gridService.toGrid(SupervisionCaseInprocessView.class, filters, opts);
     }
 
 

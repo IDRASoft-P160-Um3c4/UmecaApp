@@ -18,8 +18,9 @@ import org.springframework.stereotype.Repository;
 public interface MeetingRepository extends JpaRepository<Meeting, Long>{
 
     @Query("SELECT new com.umeca.model.entities.reviewer.View.MeetingView(me.id, im.name, im.lastNameP, im.lastNameM, me.dateCreate, me.declineReason) " +
-            "FROM Meeting me " +
+            "FROM Case c " +
+            "inner join c.meeting me " +
             "INNER JOIN me.imputed im " +
-            "WHERE me.id = :id")
+            "WHERE c.id = :id")
     MeetingView getMeetingSheetById(@Param("id")Long id);
 }

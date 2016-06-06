@@ -1,5 +1,6 @@
 package com.umeca.model.entities.supervisor;
 
+import com.umeca.infrastructure.jqgrid.model.EntityGrid;
 import org.hibernate.annotations.Subselect;
 
 import javax.persistence.Column;
@@ -8,19 +9,20 @@ import javax.persistence.Id;
 
 @Entity
 @Subselect("select \n" +
-        "cd.id_case as idCase,\n" +
-        "cd.id_mp as idMP,\n" +
+        "cd.id_case ,\n" +
+        "cd.id_folder ,\n" +
         "CONCAT ( imp.name, \" \", imp.lastname_p, \" \", imp.lastname_m ) as fullname,\n" +
-        "fm.id_framing_meeting as idFM,\n" +
-        "hf.id_hearing_format as idFH,\n" +
-        "mp.id_monitoring_plan as idMonP,\n" +
-        "ver.id_verification as idTec,\n" +
-        "fm.is_terminated as fmTerminated,\n" +
+        "fm.id_framing_meeting ,\n" +
+        "hf.id_hearing_format, \n" +
+        "mp.id_monitoring_plan ,\n" +
+        "ver.id_verification ,\n" +
+        "coalesce(fm.is_terminated,false) as is_terminated ,\n" +
         "usr.fullname as userName,\n" +
         "case mp.resolution\n" +
         "\twhen 1 then \"MC\"\n" +
         "    when 2 then \"SCPP\"\n" +
-        "end as resolution\n" +
+        "end as resolution, \n" +
+        "mp.id_user_supervisor\n" +
         "from case_detention cd\n" +
         "inner join meeting me on cd.id_case = me.id_case\n" +
         "inner join imputed imp on me.id_meeting = imp.id_meeting\n" +
@@ -39,59 +41,59 @@ import javax.persistence.Id;
         "\"ST_CASE_FRAMING_MEETING_COMPLETE\")\n" +
         "group by cd.id_case\n" +
         "\n")
+public class SupervisionCaseInprocessView implements EntityGrid {
 
 
-
-
-public class SupervisionCaseInprocessView {
     @Id
     @Column(name = "id_case")
-    private Long idCase;
+    private Long id;
 
-    @Column(name = "id_mp")
-    private String idMP;
+    @Column(name = "id_folder")
+    private String idFolder;
 
     @Column(name = "fullname")
     private String fullname;
 
-    @Column(name = "number")
-    private String number;
-
-    @Column(name = "id_fm")
+    @Column(name = "id_framing_meeting")
     private Long idFM;
 
-    @Column(name = "id_hf")
+    @Column(name = "id_hearing_format")
     private Long idHF;
 
-    @Column(name = "id_mon_p")
+    @Column(name = "id_monitoring_plan")
     private Long idMonP;
 
-    @Column(name = "id_tec")
+    @Column(name = "id_verification")
     private Long idTec;
 
-    @Column(name = "fm_terminated")
-    private boolean fmTerminated;
-
-    @Column(name = "username")
+    @Column(name = "userName")
     private String userName;
 
     @Column(name = "resolution")
-    private Integer resolution;
+    private String resolutionStr;
 
-    public Long getIdCase() {
-        return idCase;
+    @Column(name = "is_terminated")
+    private Boolean fmTerminated;
+
+    @Column(name = "id_user_supervisor")
+    private Long supervisorId;
+
+
+
+    public Long getId() {
+        return id;
     }
 
-    public void setIdCase(Long idCase) {
-        this.idCase = idCase;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getIdMP() {
-        return idMP;
+    public String getIdFolder() {
+        return idFolder;
     }
 
-    public void setIdMP(String idMP) {
-        this.idMP = idMP;
+    public void setIdFolder(String idFolder) {
+        this.idFolder = idFolder;
     }
 
     public String getFullname() {
@@ -100,14 +102,6 @@ public class SupervisionCaseInprocessView {
 
     public void setFullname(String fullname) {
         this.fullname = fullname;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
     }
 
     public Long getIdFM() {
@@ -142,14 +136,6 @@ public class SupervisionCaseInprocessView {
         this.idTec = idTec;
     }
 
-    public boolean isFmTerminated() {
-        return fmTerminated;
-    }
-
-    public void setFmTerminated(boolean fmTerminated) {
-        this.fmTerminated = fmTerminated;
-    }
-
     public String getUserName() {
         return userName;
     }
@@ -158,11 +144,19 @@ public class SupervisionCaseInprocessView {
         this.userName = userName;
     }
 
-    public Integer getResolution() {
-        return resolution;
+    public String getResolutionStr() {
+        return resolutionStr;
     }
 
-    public void setResolution(Integer resolution) {
-        this.resolution = resolution;
+    public void setResolutionStr(String resolutionStr) {
+        this.resolutionStr = resolutionStr;
+    }
+
+    public boolean isFmTerminated() {
+        return fmTerminated;
+    }
+
+    public void setFmTerminated(boolean fmTerminated) {
+        this.fmTerminated = fmTerminated;
     }
 }

@@ -1,5 +1,7 @@
 package com.umeca.model.shared;
 
+import com.umeca.infrastructure.jqgrid.model.JqGridRowsModel;
+
 import java.util.List;
 
 /**
@@ -7,13 +9,15 @@ import java.util.List;
  */
 public class GridResult<T> {
     private Long total;
-    private List<T> rows;
+    public int page;
+    public long records;
+    private List<JqGridRowsModel> rows;
 
-    public List<T> getRows() {
+    public List<JqGridRowsModel> getRows() {
         return rows;
     }
 
-    public void setRows(List<T> rows) {
+    public void setRows(List<JqGridRowsModel> rows) {
         this.rows = rows;
     }
 
@@ -23,5 +27,21 @@ public class GridResult<T> {
 
     public void setTotal(Long total) {
         this.total = total;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public long getRecords() {
+        return records;
+    }
+
+    public void setRecords(long records) {
+        this.records = records;
     }
 }

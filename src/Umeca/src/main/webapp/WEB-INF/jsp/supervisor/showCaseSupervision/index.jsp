@@ -76,10 +76,10 @@
 
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
-                url: '<c:url value='/supervisor/showCaseEvaluation/list.json' />',
+                url: '<c:url value='/supervisor/showCaseEvaluation/listB.json' />',
                 autoencode:true,
                 datatype: "json",
-                mtype: 'POST',
+                mtype: 'GET',
                 colNames: ['ID', 'IDFM', 'IDHF', 'IDMONP', 'IDVER', 'FMTERM', 'Carpeta Judicial', 'Nombre', 'Supervisor', 'Resoluci&oacute;n', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
@@ -88,8 +88,8 @@
                     { name: 'idMonP', index: 'idMonP', hidden: true },
                     { name: 'idTec', index: 'idTec', hidden: true },
                     { name: 'fmTerminated', index: 'fmTerminated', hidden: true },
-                    { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'fullname', index: 'fullname', search: false, width: 400, align: "center"},
+                    { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['lk'] } },
+                    { name: 'fullname', index: 'fullname', sorttype: 'string', searchoptions: { sopt: ['lk'] }, width: 400, align: "center"},
                     { name: 'userName', index: 'userName', search: false, width: 400, align: "center", hidden: hideCol},
                     { name: 'resolutionStr', index: 'resolutionStr', width: 100, align: "center", sorttype: 'string', search: false},
                     { name: 'Action', width: 130, align: "center", sortable: false, search: false,formatter:window.actionFormatter}

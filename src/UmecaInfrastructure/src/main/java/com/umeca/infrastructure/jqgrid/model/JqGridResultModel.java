@@ -8,7 +8,7 @@ import java.util.List;
  * Date: 4/30/14
  * Time: 1:45 PM
  */
-public class JqGridResultModel
+public class JqGridResultModel<T>
 {
     public int total;
     public int page;
