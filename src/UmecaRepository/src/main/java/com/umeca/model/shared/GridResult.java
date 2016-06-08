@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Administrator on 12/18/2015.
  */
-public class GridResult<T> {
+public class GridResult {
     private Long total;
     public int page;
     public long records;

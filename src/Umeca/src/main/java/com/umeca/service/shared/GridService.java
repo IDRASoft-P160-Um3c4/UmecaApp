@@ -26,18 +26,18 @@ public class GridService<T extends EntityGrid> {
 
     private Map<String, Object> filters;
 
-    public JqGridResultModel<T> toGrid(Class<T> type, String fieldName, Object value, JqGridFilterModel opts) {
+    public JqGridResultModel toGrid(Class<T> type, String fieldName, Object value, JqGridFilterModel opts) {
         filters = new HashMap<>();
         filters.put(fieldName, value);
         return toGrid(type, opts);
     }
 
-    public JqGridResultModel<T> toGrid(Class<T> type, Map<String, Object> filters, JqGridFilterModel opts) {
+    public JqGridResultModel toGrid(Class<T> type, Map<String, Object> filters, JqGridFilterModel opts) {
         this.filters = filters;
         return toGrid(type, opts);
     }
 
-    public JqGridResultModel<T> toGrid(Class<T> type, JqGridFilterModel opts) {
+    public JqGridResultModel toGrid(Class<T> type, JqGridFilterModel opts) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> q = cb.createQuery(type);
         CriteriaQuery<Long> count = cb.createQuery(Long.class);
@@ -61,8 +61,6 @@ public class GridService<T extends EntityGrid> {
             }
         }
 
-        List<Predicate> predicates = new ArrayList<>();
-        List<Predicate> predicatesCount = new ArrayList<>();
         List<Predicate> predicatesFilter = new ArrayList<>();
         List<Predicate> predicatesFilterCount = new ArrayList<>();
         List<Predicate> predicatesSearch = new ArrayList<>();
@@ -146,10 +144,10 @@ public class GridService<T extends EntityGrid> {
         tq.setFirstResult(limit * (page - 1));
         tq.setMaxResults(limit);
 
-        JqGridResultModel<T> result = new JqGridResultModel<>();
-        int totalpages = ((int) Math.ceil(counter.intValue()/limit))+1;
+        JqGridResultModel result = new JqGridResultModel();
+        int totalpages = ((int) Math.ceil(counter.intValue()/limit))+1; // se calcula el
 
-        result.setTotal(totalpages); // se calcula el numero de paginas
+        result.setTotal(totalpages); //numero de paginas
         result.setPage(page);//pagina actual
         result.setRecords(counter);//numero de registros
 
