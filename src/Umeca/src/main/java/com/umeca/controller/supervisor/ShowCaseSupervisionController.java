@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -64,7 +63,7 @@ public class ShowCaseSupervisionController {
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
         Long userId = userService.GetLoggedUserId();
         opts.extraFilters = new ArrayList<>();
-        if(userService.isUserInRole(userId,Constants.ROLE_SUPERVISOR)) {
+        if (userService.isUserInRole(userId, Constants.ROLE_SUPERVISOR)) {
             JqGridRulesModel extraFilter = new JqGridRulesModel("supervisorId", userId.toString(), JqGridFilterModel.COMPARE_LEFT_JOIN_EQUAL);
             opts.extraFilters.add(extraFilter);
         }
@@ -157,9 +156,14 @@ public class ShowCaseSupervisionController {
     @ResponseBody
     JqGridResultModel listB(@ModelAttribute JqGridFilterModel opts) {
 
-        HashMap<String, Object> filters = new HashMap<>();
-        filters.put("supervisorId", userService.GetLoggedUserId());
-        return gridService.toGrid(SupervisionCaseInprocessView.class, filters, opts);
+//        HashMap<String, Object> filters = new HashMap<>();
+//        filters.put("supervisorId", userService.GetLoggedUserId());
+        try {
+            return gridService.toGrid(SupervisionCaseInprocessView.class, null, opts);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

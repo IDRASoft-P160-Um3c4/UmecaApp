@@ -22,7 +22,9 @@ import javax.persistence.Id;
         "\twhen 1 then \"MC\"\n" +
         "    when 2 then \"SCPP\"\n" +
         "end as resolution, \n" +
-        "mp.id_user_supervisor\n" +
+        "mp.id_user_supervisor,\n" +
+        "date_format(cd.date_create, '%Y/%m/%d') as registerDate,\n" +
+        "coalesce(dist.name, '') as districtName \n" +
         "from case_detention cd\n" +
         "inner join meeting me on cd.id_case = me.id_case\n" +
         "inner join imputed imp on me.id_meeting = imp.id_meeting\n" +
@@ -31,6 +33,7 @@ import javax.persistence.Id;
         "left join hearing_format hf on cd.id_case = hf.id_case\n" +
         "left join monitoring_plan mp on cd.id_case = mp.id_case\n" +
         "left join user usr on mp.id_user_supervisor = usr.id_user\n" +
+        "left join cat_district dist on cd.id_district = dist.id_district\n"+
         "inner join cat_status_case sc on cd.id_status = sc.id_status\n" +
         "where sc.status in \n" +
         "(\"ST_CASE_TECHNICAL_REVIEW_COMPLETE\",\n" +
@@ -41,6 +44,7 @@ import javax.persistence.Id;
         "\"ST_CASE_FRAMING_MEETING_COMPLETE\")\n" +
         "group by cd.id_case\n" +
         "\n")
+
 public class SupervisionCaseInprocessView implements EntityGrid {
 
 
@@ -78,8 +82,13 @@ public class SupervisionCaseInprocessView implements EntityGrid {
     @Column(name = "id_user_supervisor")
     private Long supervisorId;
 
+    @Column(name = "registerDate")
+    private String registerDate;
 
+    @Column(name = "districtName")
+    private String districtName;
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -152,11 +161,35 @@ public class SupervisionCaseInprocessView implements EntityGrid {
         this.resolutionStr = resolutionStr;
     }
 
-    public boolean isFmTerminated() {
+    public Boolean getFmTerminated() {
         return fmTerminated;
     }
 
-    public void setFmTerminated(boolean fmTerminated) {
+    public void setFmTerminated(Boolean fmTerminated) {
         this.fmTerminated = fmTerminated;
+    }
+
+    public Long getSupervisorId() {
+        return supervisorId;
+    }
+
+    public void setSupervisorId(Long supervisorId) {
+        this.supervisorId = supervisorId;
+    }
+
+    public String getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(String registerDate) {
+        this.registerDate = registerDate;
+    }
+
+    public String getDistrictName() {
+        return districtName;
+    }
+
+    public void setDistrictName(String districtName) {
+        this.districtName = districtName;
     }
 }

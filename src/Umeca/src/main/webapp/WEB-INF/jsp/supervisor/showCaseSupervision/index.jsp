@@ -80,7 +80,7 @@
                 autoencode:true,
                 datatype: "json",
                 mtype: 'GET',
-                colNames: ['ID', 'IDFM', 'IDHF', 'IDMONP', 'IDVER', 'FMTERM', 'Carpeta Judicial', 'Nombre', 'Supervisor', 'Resoluci&oacute;n', 'Acci&oacute;n'],
+                colNames: ['ID', 'IDFM', 'IDHF', 'IDMONP', 'IDVER', 'FMTERM', 'Carpeta Judicial','Fecha de Registro', 'Nombre', 'Supervisor', 'Distrito', 'Resoluci&oacute;n', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idFM', index: 'idFM', hidden: true },
@@ -89,9 +89,11 @@
                     { name: 'idTec', index: 'idTec', hidden: true },
                     { name: 'fmTerminated', index: 'fmTerminated', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['lk'] } },
-                    { name: 'fullname', index: 'fullname', sorttype: 'string', searchoptions: { sopt: ['lk'] }, width: 400, align: "center"},
-                    { name: 'userName', index: 'userName', search: false, width: 400, align: "center", hidden: hideCol},
-                    { name: 'resolutionStr', index: 'resolutionStr', width: 100, align: "center", sorttype: 'string', search: false},
+                    { name: 'registerDate', index: 'registerDate', width: 150, align: "center", sorttype: 'string', searchoptions: { sopt: ['lk'] } },
+                    { name: 'fullname', index: 'fullname', sorttype: 'string', searchoptions: { sopt: ['lk'] }, width: 300, align: "center"},
+                    { name: 'userName', index: 'userName', sorttype: 'string', searchoptions: { sopt: ['lk'] }, width: 300, align: "center"},
+                    { name: 'districtName', index: 'districtName', sorttype: 'string', searchoptions: { sopt: ['lk'] }, width: 150, align: "center"},
+                    { name: 'resolutionStr', index: 'resolutionStr', width: 75, align: "center", sorttype: 'string', search: false},
                     { name: 'Action', width: 130, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                 ],
                 rowNum: 10,
