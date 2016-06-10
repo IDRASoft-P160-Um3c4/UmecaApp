@@ -287,6 +287,7 @@ app.controller('managerEvalController', function ($scope, $sce) {
                         <div class="widget-body">
                             <div class="widget-main padding-12">
                                 <textarea id="comment" name="comment" ng-model="comment"
+                                          maxlength="400"
                                           class="form-control" rows="5"></textarea>
                             </div>
                         </div>
