@@ -111,7 +111,7 @@ public class ExcelCaseInfoEvalDto {
             String reviewer,
             String idFolder,
             boolean hasNegation,
-            Boolean isFromFormulation,
+            boolean isFromFormulation,
             String statusName,
             Boolean technicalReviewIsFinished,
             Integer totalRisk,
@@ -152,13 +152,13 @@ public class ExcelCaseInfoEvalDto {
         else
             this.hasNegation = "No";
 
-        if (isFromFormulation.equals(true))
+        if (isFromFormulation == true)
             this.isFromFormulation = "Sí";
         else
             this.isFromFormulation = "No";
 
 
-        if (isFromFormulation.equals(true)) {
+        if (isFromFormulation == true) {
 
             if (formulationPresence == null) {
                 this.formulationPresence = "Pendiente";

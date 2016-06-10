@@ -43,7 +43,8 @@ app.controller('reportExcelController', function ($scope, $timeout, $http) {
 
         $scope.init = function () {
             $scope.fillSelState();
-            $scope.changeState($scope.stateSel);
+            if($scope.stateSel)
+                $scope.changeState($scope.stateSel);
         };
 
         $timeout(function () {
