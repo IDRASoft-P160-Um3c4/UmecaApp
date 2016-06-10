@@ -20,6 +20,7 @@ import com.umeca.model.shared.Constants;
 import com.umeca.repository.account.UserRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.GridService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -43,6 +44,9 @@ public class ShowCaseSupervisionController {
 
     @Autowired
     private GenericJqGridPageSortFilter gridFilter;
+
+    @Autowired
+    SharedLogExceptionService logException;
 
     @RequestMapping(value = "/supervisor/showCaseSupervision/index", method = RequestMethod.GET)
     public String index() {
@@ -155,16 +159,11 @@ public class ShowCaseSupervisionController {
     public
     @ResponseBody
     JqGridResultModel listB(@ModelAttribute JqGridFilterModel opts) {
-
-//        HashMap<String, Object> filters = new HashMap<>();
-//        filters.put("supervisorId", userService.GetLoggedUserId());
         try {
             return gridService.toGrid(SupervisionCaseInprocessView.class, null, opts);
         } catch (Exception e) {
-            e.printStackTrace();
+            logException.Write(e, this.getClass(), "listB", userService);
             return null;
         }
     }
-
-
 }
