@@ -102,23 +102,6 @@ public class GridService<T extends EntityGrid> {
             }
         }
 
-//        if (params.containsKey("search")) {
-//            String pattern = params.get("search")[0];
-//            Field[] fields = type.getDeclaredFields();
-//
-//            for (int i = 0; i < fields.length; i++){
-//                Field field = fields[i];
-//                if (field.getType().equals(String.class)){
-//                    Path<String> param = r.get(field.getName());
-//                    predicatesSearch.add(cb.like(cb.lower(param), "%" + pattern.toLowerCase() + "%"));
-//                    param = rCount.get(field.getName());
-//                    predicatesSearchCount.add(cb.like(cb.lower(param), "%" + pattern.toLowerCase() + "%"));
-//                }
-//            }
-//        }
-
-
-
         if (!predicatesFilter.isEmpty() && !predicatesSearch.isEmpty()) {
             q.where(cb.and(cb.and(predicatesFilter.toArray(new Predicate[]{})), cb.or(predicatesSearch.toArray(new Predicate[]{}))));
             count.where(cb.and(cb.and(predicatesFilterCount.toArray(new Predicate[]{})), cb.or(predicatesSearchCount.toArray(new Predicate[]{}))));
