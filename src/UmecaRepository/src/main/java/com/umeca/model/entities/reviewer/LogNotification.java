@@ -14,7 +14,7 @@ public class LogNotification {
     @Column(name = "id_log_notification", nullable = false)
     private Long id;
 
-    @Column(name = "subject", length = 100)
+    @Column(name = "subject", length = 500)
     private String subject;
 
     @Lob
