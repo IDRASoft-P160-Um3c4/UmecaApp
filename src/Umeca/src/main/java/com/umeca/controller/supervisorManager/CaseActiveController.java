@@ -25,6 +25,7 @@ import com.umeca.repository.CaseRepository;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.repository.supervisor.CloseCauseRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
+import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.CaseService;
 import com.umeca.service.shared.GridService;
@@ -239,6 +240,8 @@ public class CaseActiveController {
     CaseRepository caseRepository;
     @Autowired
     HearingFormatRepository hearingFormatRepository;
+    @Autowired
+    LogCommentRepository logCommentRepository;
 
     @RequestMapping(value = "/supervisorManager/caseActive/authClose", method = RequestMethod.POST)
     public ModelAndView authorize(@RequestParam Long id, @RequestParam(required = false) Integer authObs) { //Case Id
@@ -246,6 +249,14 @@ public class CaseActiveController {
 
         try {
             GetCaseInfo(id, model, caseRepository, hearingFormatRepository, authObs);
+
+            /*se agrega para mostrar el comentario del supervisor cuando solicita cerrar el caso*/
+            String strValue = logCommentRepository.getCommentByIdCaseAndTypeAndAction(id, MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_CASE_END);
+            model.addObject("supervisorComment", strValue);
+            strValue = logCommentRepository.getSupervisorNameByIdCaseAndTypeAndAction(id, MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_CASE_END);
+            model.addObject("supervisorName", strValue);
+            /*se agrega para mostrar el comentario del supervisor cuando solicita cerrar el caso*/
+
             model.addObject("isAuthorized", 1);
             model.addObject("isAuthObs", authObs);
             return model;
@@ -262,6 +273,14 @@ public class CaseActiveController {
 
         try {
             GetCaseInfo(id, model, caseRepository, hearingFormatRepository, authObs);
+
+             /*se agrega para mostrar el comentario del supervisor cuando solicita cerrar el caso*/
+            String strValue = logCommentRepository.getCommentByIdCaseAndTypeAndAction(id, MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_CASE_END);
+            model.addObject("supervisorComment", strValue);
+            strValue = logCommentRepository.getSupervisorNameByIdCaseAndTypeAndAction(id, MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_CASE_END);
+            model.addObject("supervisorName", strValue);
+            /*se agrega para mostrar el comentario del supervisor cuando solicita cerrar el caso*/
+
             model.addObject("isAuthorized", 0);
             model.addObject("isAuthObs", authObs);
             return model;
