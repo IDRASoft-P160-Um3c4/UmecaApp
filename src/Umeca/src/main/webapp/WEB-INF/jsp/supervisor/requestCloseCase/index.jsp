@@ -29,7 +29,7 @@
 
         $(document).ready(function () {
             jQuery("#GridCasesId").jqGrid({
-                url: '<c:url value='/supervisor/caseActive/list.json' />',
+                url: '<c:url value='/supervisor/caseActive/listB.json' />',
                 autoencode: true,
                 datatype: "json",
                 mtype: 'POST',
@@ -43,13 +43,15 @@
                         width: 150,
                         align: "center",
                         sorttype: 'string',
-                        searchoptions: {sopt: ['bw']}
+                        searchoptions: {sopt: ['lk']}
                     },
                     {
                         name: 'fullName',
                         index: 'fullName',
                         width: 250,
-                        align: "center"
+                        align: "center",
+                        sorttype: 'string',
+                        searchoptions: {sopt: ['lk']}
                     },
                     {name: 'descStatus', index: 'descStatus', width: 350, align: "center", search: false},
                     {

@@ -16,10 +16,7 @@ import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
 import com.umeca.model.entities.reviewer.TechnicalReview;
-import com.umeca.model.entities.supervisor.ForFramingMeetingGrid;
-import com.umeca.model.entities.supervisor.FramingMeeting;
-import com.umeca.model.entities.supervisor.HearingFormat;
-import com.umeca.model.entities.supervisor.MonitoringPlanInfo;
+import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
 import com.umeca.model.shared.Constants;
 import com.umeca.model.shared.HearingFormatConstants;
@@ -30,9 +27,11 @@ import com.umeca.repository.supervisor.CloseCauseRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.CaseService;
+import com.umeca.service.shared.GridService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -563,6 +562,23 @@ public class CaseActiveController {
         }, Case.class, ForFramingMeetingGrid.class);
 
         return result;
+    }
+
+    @Autowired
+    GridService gridService;
+    @Autowired
+    SharedUserService userService;
+
+    @RequestMapping(value = "/supervisor/caseActive/listB", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listSupervisorCasesB(@ModelAttribute JqGridFilterModel opts) {
+        try {
+            return gridService.toGrid(CasesForRequestCloseView.class, null, opts);
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "listB", userService);
+            return null;
+        }
     }
 
 }

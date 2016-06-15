@@ -18,6 +18,7 @@ import com.umeca.model.entities.shared.UploadFileView;
 import com.umeca.model.entities.supervisor.*;
 import com.umeca.model.shared.Constants;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.GridService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.ChannelingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,6 +104,21 @@ public class QueryChannelingController {
         }, Case.class, ChannelingCaseView.class);
 
         return result;
+    }
+
+    @Autowired
+    GridService gridService;
+
+    @RequestMapping(value = {"/channelingManager/queryChanneling/listB"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listB(@ModelAttribute JqGridFilterModel opts) {
+        try {
+            return gridService.toGrid(QueryChannelingView.class, null, opts);
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "listB", userService);
+            return null;
+        }
     }
 
     @RequestMapping(value = {"/channelingManager/queryChanneling/listChannelings"}, method = RequestMethod.POST)

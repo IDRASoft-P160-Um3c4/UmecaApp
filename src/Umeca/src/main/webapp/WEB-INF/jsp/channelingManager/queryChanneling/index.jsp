@@ -26,21 +26,21 @@
 
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
-                url: '<c:url value='/channelingManager/queryChanneling/list.json' />',
+                url: '<c:url value='/channelingManager/queryChanneling/listB.json' />',
                 autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
                 colNames: ['ID', 'Causa penal / Carpeta Judicial', 'Imputado', 'Distrito', 'Supervisor', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
-                    { name: 'idMP', index: 'idMP', width: 240, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'imputed', index: 'imputed', width: 330, align: "center", sorttype: 'string', search: false },
-                    { name: 'district', index: 'district', width: 240, align: "center", sorttype: 'string', search: false },
-                    { name: 'supervisor', index: 'supervisor', width: 220, align: "center", sorttype: 'string', search: false },
+                    { name: 'idMP', index: 'idMP', width: 240, align: "center", sorttype: 'string', searchoptions: { sopt: ['lk'] } },
+                    { name: 'imputed', index: 'imputed', width: 330, align: "center",sorttype: 'string', searchoptions: { sopt: ['lk'] } },
+                    { name: 'district', index: 'district', width: 240, align: "center", sorttype: 'string', searchoptions: { sopt: ['lk'] } },
+                    { name: 'supervisor', index: 'supervisor', width: 220, align: "center", sorttype: 'string', searchoptions: { sopt: ['lk'] } },
                     { name: 'Action', width: 100, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                 ],
-                rowNum: 10,
-                rowList: [10, 20, 30],
+                rowNum: 5,
+                rowList: [5, 10, 15],
                 pager: '#GridPager',
                 sortname: 'id',
                 height: 450,
