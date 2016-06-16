@@ -34,7 +34,7 @@
 
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
-                url: '<c:url value='/supervisorManager/caseActive/list.json' />',
+                url: '<c:url value='/supervisorManager/caseActive/listB.json' />',
                 autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
@@ -42,9 +42,9 @@
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'codeStatus', index: 'codeStatus', hidden: true },
-                    { name: 'idMP', index: 'idMP', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'fullName', index: 'fullName', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'brthDateTxt', index: 'brthDateTxt', width: 160, align: "center", sortable: false, search: false },
+                    { name: 'idMP', index: 'idMP', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['lk'] } },
+                    { name: 'fullName', index: 'fullName', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['lk'] } },
+                    { name: 'brthDateTxt', index: 'brthDateTxt', width: 160, align: "center", sorttype: 'string', searchoptions: { sopt: ['lk'] } },
                     { name: 'descStatus', index: 'descStatus', width: 250, align: "center", sortable: false, search: false },
                     { name: 'Action', width: 70, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                 ],

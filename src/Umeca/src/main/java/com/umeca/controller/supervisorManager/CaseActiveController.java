@@ -75,7 +75,7 @@ public class CaseActiveController {
     @RequestMapping(value = "/supervisorManager/caseActive/list", method = RequestMethod.POST)
     public
     @ResponseBody
-    JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
+        JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
 
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
@@ -126,6 +126,17 @@ public class CaseActiveController {
         return result;
     }
 
+    @RequestMapping(value = "/supervisorManager/caseActive/listB", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listSupervisorManagerCaseActive(@ModelAttribute JqGridFilterModel opts) {
+        try {
+            return gridService.toGrid(ActiveCasesSupervisorManagerView.class, null, opts);
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "listB", userService);
+            return null;
+        }
+    }
 
     @RequestMapping(value = "/supervisorManager/caseActive/listPrison", method = RequestMethod.POST)
     public
