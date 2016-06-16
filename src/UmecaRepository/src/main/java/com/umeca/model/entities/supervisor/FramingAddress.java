@@ -36,6 +36,8 @@ public class FramingAddress {
     @Column(name = "time_live")
     private String timeLive;
 
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
     @Column(name = "address_ref")
     private String addressRef;
 
@@ -91,7 +93,7 @@ public class FramingAddress {
     }
 
     public void setAddressRef(String addressRef) {
-        this.addressRef = StringExt.substringMax(addressRef, Constants.DEFAULT_LEN_STRING);
+        this.addressRef = StringExt.substringMax(addressRef, 2500);
     }
 
     public List<Schedule> getSchedule() {

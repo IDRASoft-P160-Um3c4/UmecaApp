@@ -1157,8 +1157,8 @@ public class FramingMeetingController {
                 if (field.equals("idMP"))
                     return r.get("idMP");
 
-                if (field.equals("statusName"))
-                    return r.join("status").get("name");
+//                if (field.equals("statusName"))
+//                    return r.join("status").get("name");
 
                 return null;
             }

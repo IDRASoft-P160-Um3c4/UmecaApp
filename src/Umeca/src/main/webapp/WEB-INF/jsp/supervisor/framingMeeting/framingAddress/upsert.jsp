@@ -77,7 +77,7 @@
         <br/>
         <textarea class="input-xxlarge form-control limited" name="phone"
                   ng-model="fa.phone"
-                  maxlength="980" data-val="true"
+                  maxlength="250" data-val="true"
                   data-val-required="Tel&eacute;fono(s) es un campo requerido">
         </textarea>
         <span class="field-validation-valid" data-valmsg-for="phone"
@@ -118,7 +118,7 @@
         <br/>
         <textarea class="input-xxlarge form-control limited" name="specification"
                   ng-model="fa.specification"
-                  maxlength="980" data-val="true"
+                  maxlength="250" data-val="true"
                   data-val-required="Especifique es un campo requerido">
         </textarea>
         <span class="field-validation-valid" data-valmsg-for="specification"
@@ -155,7 +155,7 @@
                         <br/>
                         <textarea class="input-xxlarge form-control limited" name="reasonChange"
                                   ng-model="fa.reasonChange"
-                                  maxlength="980" data-val="true"
+                                  maxlength="250" data-val="true"
                                   data-val-required="Motivo de la mudanza es un campo requerido">
                         </textarea>
         <span class="field-validation-valid" data-valmsg-for="reasonChange"
@@ -190,7 +190,7 @@
                         <br/>
                         <textarea class="input-xxlarge form-control limited" name="addressRef"
                                   ng-model="fa.addressRef"
-                                  maxlength="980" data-val="true"
+                                  maxlength="2500" data-val="true"
                                   data-val-required="Referencias del domicilio es un campo requerido">
                         </textarea>
         <span class="field-validation-valid" data-valmsg-for="addressRef"
@@ -204,7 +204,7 @@
                         <textarea class="input-xxlarge form-control limited"
                                   name="reasonAnother"
                                   ng-model="fa.reasonAnother"
-                                  maxlength="980" data-val="true"
+                                  maxlength="250" data-val="true"
                                   data-val-required="Referencias del domicilio es un campo requerido">
                         </textarea>
         <span class="field-validation-valid" data-valmsg-for="reasonAnother"
