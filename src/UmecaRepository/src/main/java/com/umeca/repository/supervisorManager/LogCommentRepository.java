@@ -48,14 +48,14 @@ public interface LogCommentRepository extends JpaRepository<LogComment, Long> {
 
     @Query("SELECT lcmp.comments FROM LogComment lcmp " +
             "INNER JOIN lcmp.caseDetention cd " +
-            "WHERE cd.id =:idCase AND lcmp.action =:strAction AND lcmp.type =:strType")
-    String getCommentByIdCaseAndTypeAndAction(@Param("idCase") Long id, @Param("strAction") String strAction, @Param("strType") String strType);
+            "WHERE cd.id =:idCase AND lcmp.action =:strAction AND lcmp.type =:strType and lcmp.isObsolete=false order by lcmp.id desc")
+    String getCommentByIdCaseAndTypeAndAction(@Param("idCase") Long id, @Param("strAction") String strAction, @Param("strType") String strType, Pageable pageable);
 
     @Query("SELECT usr.fullname FROM LogComment lcmp " +
             "INNER JOIN lcmp.caseDetention cd " +
             "INNER JOIN lcmp.senderUser usr " +
-            "WHERE cd.id =:idCase AND lcmp.action =:strAction AND lcmp.type =:strType")
-    String getSupervisorNameByIdCaseAndTypeAndAction(@Param("idCase") Long id, @Param("strAction") String strAction, @Param("strType") String strType);
+            "WHERE cd.id =:idCase AND lcmp.action =:strAction AND lcmp.type =:strType and lcmp.isObsolete=false order by lcmp.id desc")
+    String getSupervisorNameByIdCaseAndTypeAndAction(@Param("idCase") Long id, @Param("strAction") String strAction, @Param("strType") String strType, Pageable pageable);
 
 }
 

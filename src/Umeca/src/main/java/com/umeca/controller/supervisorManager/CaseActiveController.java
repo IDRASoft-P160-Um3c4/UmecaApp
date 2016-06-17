@@ -262,9 +262,9 @@ public class CaseActiveController {
             GetCaseInfo(id, model, caseRepository, hearingFormatRepository, authObs);
 
             /*se agrega para mostrar el comentario del supervisor cuando solicita cerrar el caso*/
-            String strValue = logCommentRepository.getCommentByIdCaseAndTypeAndAction(id, MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_CASE_END);
+            String strValue = logCommentRepository.getCommentByIdCaseAndTypeAndAction(id, MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_CASE_END, new PageRequest(0,1));
             model.addObject("supervisorComment", strValue);
-            strValue = logCommentRepository.getSupervisorNameByIdCaseAndTypeAndAction(id, MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_CASE_END);
+            strValue = logCommentRepository.getSupervisorNameByIdCaseAndTypeAndAction(id, MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_CASE_END,  new PageRequest(0,1));
             model.addObject("supervisorName", strValue);
             /*se agrega para mostrar el comentario del supervisor cuando solicita cerrar el caso*/
 
@@ -286,9 +286,9 @@ public class CaseActiveController {
             GetCaseInfo(id, model, caseRepository, hearingFormatRepository, authObs);
 
              /*se agrega para mostrar el comentario del supervisor cuando solicita cerrar el caso*/
-            String strValue = logCommentRepository.getCommentByIdCaseAndTypeAndAction(id, MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_CASE_END);
+            String strValue = logCommentRepository.getCommentByIdCaseAndTypeAndAction(id, MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_CASE_END,new PageRequest(0,1));
             model.addObject("supervisorComment", strValue);
-            strValue = logCommentRepository.getSupervisorNameByIdCaseAndTypeAndAction(id, MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_CASE_END);
+            strValue = logCommentRepository.getSupervisorNameByIdCaseAndTypeAndAction(id, MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_CASE_END,new PageRequest(0,1));
             model.addObject("supervisorName", strValue);
             /*se agrega para mostrar el comentario del supervisor cuando solicita cerrar el caso*/
 
