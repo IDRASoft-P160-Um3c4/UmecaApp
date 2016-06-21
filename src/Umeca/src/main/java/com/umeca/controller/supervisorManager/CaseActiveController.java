@@ -262,10 +262,10 @@ public class CaseActiveController {
             GetCaseInfo(id, model, caseRepository, hearingFormatRepository, authObs);
 
             /*se agrega para mostrar el comentario del supervisor cuando solicita cerrar el caso*/
-            String strValue = logCommentRepository.getCommentByIdCaseAndTypeAndAction(id, MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_CASE_END, new PageRequest(0,1));
-            model.addObject("supervisorComment", strValue);
-            strValue = logCommentRepository.getSupervisorNameByIdCaseAndTypeAndAction(id, MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_CASE_END,  new PageRequest(0,1));
-            model.addObject("supervisorName", strValue);
+            List<String> lstComments = logCommentRepository.getCommentByIdCaseAndTypeAndAction(id, MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_CASE_END, new PageRequest(0,1));
+            model.addObject("supervisorComment", (lstComments == null || lstComments.size() <= 0) ? "Sin comentarios" : lstComments.get(0));
+            lstComments = logCommentRepository.getSupervisorNameByIdCaseAndTypeAndAction(id, MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_CASE_END,  new PageRequest(0,1));
+            model.addObject("supervisorName", (lstComments == null || lstComments.size() <= 0) ? "Sin comentarios" : lstComments.get(0));
             /*se agrega para mostrar el comentario del supervisor cuando solicita cerrar el caso*/
 
             model.addObject("isAuthorized", 1);
@@ -286,10 +286,10 @@ public class CaseActiveController {
             GetCaseInfo(id, model, caseRepository, hearingFormatRepository, authObs);
 
              /*se agrega para mostrar el comentario del supervisor cuando solicita cerrar el caso*/
-            String strValue = logCommentRepository.getCommentByIdCaseAndTypeAndAction(id, MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_CASE_END,new PageRequest(0,1));
-            model.addObject("supervisorComment", strValue);
-            strValue = logCommentRepository.getSupervisorNameByIdCaseAndTypeAndAction(id, MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_CASE_END,new PageRequest(0,1));
-            model.addObject("supervisorName", strValue);
+            List<String> lstComments = logCommentRepository.getCommentByIdCaseAndTypeAndAction(id, MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_CASE_END,new PageRequest(0,1));
+            model.addObject("supervisorComment", (lstComments == null || lstComments.size() <= 0) ? "Sin comentarios" : lstComments.get(0));
+            lstComments = logCommentRepository.getSupervisorNameByIdCaseAndTypeAndAction(id, MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_CASE_END,new PageRequest(0,1));
+            model.addObject("supervisorName", (lstComments == null || lstComments.size() <= 0) ? "Sin comentarios" : lstComments.get(0));
             /*se agrega para mostrar el comentario del supervisor cuando solicita cerrar el caso*/
 
             model.addObject("isAuthorized", 0);

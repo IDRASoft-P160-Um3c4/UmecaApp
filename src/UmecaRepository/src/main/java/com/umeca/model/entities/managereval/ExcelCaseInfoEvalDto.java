@@ -183,12 +183,12 @@ public class ExcelCaseInfoEvalDto {
         }
 
 
-        if (statusName.equals(Constants.CASE_STATUS_NOT_PROSECUTE))
+        if (statusName != null && statusName.equals(Constants.CASE_STATUS_NOT_PROSECUTE))
             this.report = "Sí";
         else
             this.report = "No";
 
-        if (statusName.equals(Constants.CASE_STATUS_GOT_FREEDOM))
+        if (statusName != null && statusName.equals(Constants.CASE_STATUS_GOT_FREEDOM))
             this.gotFreedom = "Sí";
         else
             this.gotFreedom = "No";
@@ -218,7 +218,7 @@ public class ExcelCaseInfoEvalDto {
         this.imputedBirthdayStr = imputedBirthday == null ? "" : sdf.format(imputedBirthday);
 
 
-        if (gender.equals(Constants.GENDER_MALE))
+        if (gender == null || gender.equals(Constants.GENDER_MALE))
             this.gender = "Masculino";
         else
             this.gender = "Femenino";
@@ -232,7 +232,7 @@ public class ExcelCaseInfoEvalDto {
         this.stateBirth = stateBirth;
         this.municipalityBirth = municipalityBirth;
 
-        if (meetingStatus.equals(Constants.S_MEETING_DECLINE))
+        if (meetingStatus == null || meetingStatus.equals(Constants.S_MEETING_DECLINE))
             this.interviewAccepted = "No";
         else
             this.interviewAccepted = "Sí";

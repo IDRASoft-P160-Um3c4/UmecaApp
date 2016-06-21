@@ -421,7 +421,6 @@ public class ManagerevalReportController {
             temp.delete();
 
         } catch (Exception ex) {
-            ex.printStackTrace();
             logException.Write(ex, this.getClass(), "jxlsMethod", sharedUserService);
         }
     }
