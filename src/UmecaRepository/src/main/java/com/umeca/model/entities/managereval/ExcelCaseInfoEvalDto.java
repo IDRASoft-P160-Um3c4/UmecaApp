@@ -142,146 +142,141 @@ public class ExcelCaseInfoEvalDto {
 
     ) {
 
-try {
-    this.idCase = idCase;
-    this.reviewer = reviewer;
-    this.idFolder = idFolder;
+        this.idCase = idCase;
+        this.reviewer = reviewer;
+        this.idFolder = idFolder;
 
-    if (hasNegation!=null && hasNegation.equals(true))
-        this.hasNegation = "Sí";
-    else
-        this.hasNegation = "No";
+        if (hasNegation != null && hasNegation.equals(true))
+            this.hasNegation = "Sí";
+        else
+            this.hasNegation = "No";
 
-    if (isFromFormulation!=null&&isFromFormulation.equals(true))
-        this.isFromFormulation = "Sí";
-    else
-        this.isFromFormulation = "No";
+        if (isFromFormulation != null && isFromFormulation.equals(true))
+            this.isFromFormulation = "Sí";
+        else
+            this.isFromFormulation = "No";
 
 
-    if (isFromFormulation!=null&&isFromFormulation.equals(true)) {
+        if (isFromFormulation != null && isFromFormulation.equals(true)) {
 
-        if (formulationPresence == null) {
-            this.formulationPresence = "Pendiente";
-        } else if (formulationPresence != null && formulationPresence.equals(true)) {
-            this.formulationPresence = "Sí";
+            if (formulationPresence == null) {
+                this.formulationPresence = "Pendiente";
+            } else if (formulationPresence != null && formulationPresence.equals(true)) {
+                this.formulationPresence = "Sí";
+            } else {
+                this.formulationPresence = "No";
+            }
+
+            this.isFromFormulation = "Sí";
+
+            if (formulationInformationDelivered == null) {
+                this.formulationInformationDelivered = "Pendiente";
+            } else if (formulationInformationDelivered != null && formulationInformationDelivered.equals(true)) {
+                this.formulationInformationDelivered = "Sí";
+            } else {
+                this.formulationInformationDelivered = "No";
+            }
         } else {
-            this.formulationPresence = "No";
+            this.isFromFormulation = "No";
+            this.formulationInformationDelivered = "No aplica";
+            this.formulationPresence = "No aplica";
         }
 
-        this.isFromFormulation = "Sí";
 
-        if (formulationInformationDelivered == null) {
-            this.formulationInformationDelivered = "Pendiente";
-        } else if (formulationInformationDelivered!=null&&formulationInformationDelivered.equals(true)) {
-            this.formulationInformationDelivered = "Sí";
-        } else {
-            this.formulationInformationDelivered = "No";
-        }
-    } else {
-        this.isFromFormulation = "No";
-        this.formulationInformationDelivered = "No aplica";
-        this.formulationPresence = "No aplica";
-    }
+        if (statusName != null && statusName.equals(Constants.CASE_STATUS_NOT_PROSECUTE))
+            this.report = "Sí";
+        else
+            this.report = "No";
 
+        if (statusName != null && statusName.equals(Constants.CASE_STATUS_GOT_FREEDOM))
+            this.gotFreedom = "Sí";
+        else
+            this.gotFreedom = "No";
 
-    if (statusName!=null&&statusName.equals(Constants.CASE_STATUS_NOT_PROSECUTE))
-        this.report = "Sí";
-    else
-        this.report = "No";
-
-    if (statusName!=null&&statusName.equals(Constants.CASE_STATUS_GOT_FREEDOM))
-        this.gotFreedom = "Sí";
-    else
-        this.gotFreedom = "No";
-
-    if (technicalReviewIsFinished!=null&&technicalReviewIsFinished.equals(true))
+        if (technicalReviewIsFinished != null && technicalReviewIsFinished.equals(true))
             this.opinion = "Sí";
         else
             this.opinion = "No";
 
-    if (totalRisk != null) {
-        int totalRiskVal = totalRisk.intValue();
-        if (totalRiskVal < -15)
-            this.riskEvaluation = "Alto";
-        else if (totalRiskVal > -16 && totalRiskVal < 0)
-            this.riskEvaluation = "Medio";
-        else if (totalRiskVal > -1 && totalRiskVal < 10)
-            this.riskEvaluation = "Bajo";
-        else if (totalRiskVal > 9)
-            this.riskEvaluation = "Mínimo";
-    }
+        if (totalRisk != null) {
+            int totalRiskVal = totalRisk.intValue();
+            if (totalRiskVal < -15)
+                this.riskEvaluation = "Alto";
+            else if (totalRiskVal > -16 && totalRiskVal < 0)
+                this.riskEvaluation = "Medio";
+            else if (totalRiskVal > -1 && totalRiskVal < 10)
+                this.riskEvaluation = "Bajo";
+            else if (totalRiskVal > 9)
+                this.riskEvaluation = "Mínimo";
+        }
 
-    this.imputedBirthday = imputedBirthday;
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-    this.imputedBirthdayStr = imputedBirthday == null ? "" : sdf.format(imputedBirthday);
+        this.imputedBirthday = imputedBirthday;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        this.imputedBirthdayStr = imputedBirthday == null ? "" : sdf.format(imputedBirthday);
 
-    if (gender!=null&& gender.equals(Constants.GENDER_MALE))
-        this.gender = "Masculino";
-    else if (gender!=null&& gender.equals(Constants.GENDER_FEMALE))
-        this.gender = "Femenino";
+        if (gender != null && gender.equals(Constants.GENDER_MALE))
+            this.gender = "Masculino";
+        else if (gender != null && gender.equals(Constants.GENDER_FEMALE))
+            this.gender = "Femenino";
 
-    this.district = district;
-    this.maritalStatus = maritalStatus;
-    this.children = children;
-    this.dependedChildren = dependedChildren;
+        this.district = district;
+        this.maritalStatus = maritalStatus;
+        this.children = children;
+        this.dependedChildren = dependedChildren;
 
-    this.countryBirth = countryBirth;
-    this.stateBirth = stateBirth;
-    this.municipalityBirth = municipalityBirth;
+        this.countryBirth = countryBirth;
+        this.stateBirth = stateBirth;
+        this.municipalityBirth = municipalityBirth;
 
-    if (meetingStatus!=null && meetingStatus.equals(Constants.S_MEETING_DECLINE))
-        this.interviewAccepted = "No";
-    else
-        this.interviewAccepted = "Sí";
-
-
-    //FACILIDADES DE ABANDONAR EL PAÍS
-
-    this.easyLeaveCountry = essyLeaveCountry;
-
-    if (easyLeaveCountry == null || easyLeaveCountry.equals("No")) {
-        this.documentation = "";
-    } else {
-        this.documentation = documentation;
-    }
+        if (meetingStatus != null && meetingStatus.equals(Constants.S_MEETING_DECLINE))
+            this.interviewAccepted = "No";
+        else
+            this.interviewAccepted = "Sí";
 
 
-    this.livedInAnotherCountry = livedInAnotherCountry;
+        //FACILIDADES DE ABANDONAR EL PAÍS
 
-    if (livedInAnotherCountry == null || livedInAnotherCountry.equals("No")) {
-        this.countryHasLived = "";
-        this.howLongHasLiveInAnotherCountry = "";
-        this.yearsLivedInAnotherCountry = "";
+        this.easyLeaveCountry = essyLeaveCountry;
 
-
-    } else {
-        this.countryHasLived = countryHasLived;
-        this.howLongHasLiveInAnotherCountry = howLongHasLiveInAnotherCountry;
-        this.yearsLivedInAnotherCountry = yearsLivedInAnotherCountry;
-    }
+        if (easyLeaveCountry == null || easyLeaveCountry.equals("No")) {
+            this.documentation = "";
+        } else {
+            this.documentation = documentation;
+        }
 
 
-    this.relativesLivingInAnotherCountry = relativesLivingInAnotherCountry;
-    if (relativesLivingInAnotherCountry == null || relativesLivingInAnotherCountry.equals("No")) {
-        this.hasCommunicationWithThem = "";
-        this.relationshipWithPeopleLivingInAnotherCountry = "";
-    } else {
-        this.hasCommunicationWithThem = hasCommunicationWithThem;
-        this.relationshipWithPeopleLivingInAnotherCountry = relationshipWithPeopleLivingInAnotherCountry;
-    }
+        this.livedInAnotherCountry = livedInAnotherCountry;
 
-    if (isStudying != null && isStudying.equals(false)) {
-        this.isStudying = "No";
-    } else if (isStudying != null && isStudying.equals(true)) {
-        this.isStudying = "Sí";
-    }
+        if (livedInAnotherCountry == null || livedInAnotherCountry.equals("No")) {
+            this.countryHasLived = "";
+            this.howLongHasLiveInAnotherCountry = "";
+            this.yearsLivedInAnotherCountry = "";
 
-    this.academicLevel = academicLevel;
-    this.degree = degree;
-}catch (Exception e){
-    e.printStackTrace();
-}
 
+        } else {
+            this.countryHasLived = countryHasLived;
+            this.howLongHasLiveInAnotherCountry = howLongHasLiveInAnotherCountry;
+            this.yearsLivedInAnotherCountry = yearsLivedInAnotherCountry;
+        }
+
+
+        this.relativesLivingInAnotherCountry = relativesLivingInAnotherCountry;
+        if (relativesLivingInAnotherCountry == null || relativesLivingInAnotherCountry.equals("No")) {
+            this.hasCommunicationWithThem = "";
+            this.relationshipWithPeopleLivingInAnotherCountry = "";
+        } else {
+            this.hasCommunicationWithThem = hasCommunicationWithThem;
+            this.relationshipWithPeopleLivingInAnotherCountry = relationshipWithPeopleLivingInAnotherCountry;
+        }
+
+        if (isStudying != null && isStudying.equals(false)) {
+            this.isStudying = "No";
+        } else if (isStudying != null && isStudying.equals(true)) {
+            this.isStudying = "Sí";
+        }
+
+        this.academicLevel = academicLevel;
+        this.degree = degree;
     }
 
 
@@ -1105,7 +1100,7 @@ try {
                     activitiesStr += " ";
                 }
                 if (lstActivities.get(i).getDescription() != null && !lstActivities.get(i).getDescription().trim().equals("")) {
-                    activitiesStr += lstActivities.get(i).getNameAct() +  ": " + lstActivities.get(i).getDescription();
+                    activitiesStr += lstActivities.get(i).getNameAct() + ": " + lstActivities.get(i).getDescription();
                 }
                 if (i < lstActivities.size() - 1) {
                     this.activitiesStr += ",";
