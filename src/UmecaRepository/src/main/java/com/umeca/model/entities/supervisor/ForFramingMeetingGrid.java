@@ -26,6 +26,7 @@ public class ForFramingMeetingGrid implements EntityGrid {
     private Date umecaTime;
     private String fullNameSupervisor;
     private Boolean umecaDateExpired;
+    private String substractedStr;
     //    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
@@ -85,6 +86,7 @@ public class ForFramingMeetingGrid implements EntityGrid {
         }
     }
 
+
     public ForFramingMeetingGrid(Long id, String codeStatus, String descStatus, String idMP, String name, String lastNameP, String lastNameM, Date brthDate) {
         this.id = id;
         this.codeStatus = codeStatus;
@@ -126,6 +128,57 @@ public class ForFramingMeetingGrid implements EntityGrid {
             strBld.append(arrDt[1]);
             strBld.append("/");
             strBld.append(arrDt[2]);
+
+        } catch (Exception e) {
+        }
+    }
+
+    public ForFramingMeetingGrid(Long id, String codeStatus, String descStatus, String idMP, String name, String lastNameP, String lastNameM, Date brthDate, Boolean isSubstracted) {
+        this.id = id;
+        this.codeStatus = codeStatus;
+        this.descStatus = descStatus;
+        this.idMP = idMP;
+        this.name = name;
+        this.lastNameP = lastNameP;
+        this.lastNameM = lastNameM;
+        this.brthDate = brthDate;
+
+        StringBuilder strBld = new StringBuilder();
+
+        strBld.append(this.name);
+        strBld.append(" ");
+        strBld.append(this.lastNameP);
+        strBld.append(" ");
+        strBld.append(this.lastNameM);
+        this.fullName = strBld.toString();
+
+        strBld = new StringBuilder();
+
+        try {
+            this.brthDateTxt = sdf.format(this.brthDate);
+
+            String[] arrDt = brthDateTxt.split("/");
+
+            int mnth = Integer.parseInt(arrDt[1]) + 1;
+
+            if (mnth < 10) {
+                strBld.append(0);
+                strBld.append(mnth);
+                arrDt[1] = strBld.toString();
+            } else
+                arrDt[1] = Integer.toString(mnth);
+
+            strBld = new StringBuilder();
+            strBld.append(arrDt[0]);
+            strBld.append("/");
+            strBld.append(arrDt[1]);
+            strBld.append("/");
+            strBld.append(arrDt[2]);
+
+            if(isSubstracted==null||isSubstracted.equals(false))
+                this.substractedStr = "No";
+            else
+                this.substractedStr = "Sí";
 
         } catch (Exception e) {
         }
@@ -211,7 +264,7 @@ public class ForFramingMeetingGrid implements EntityGrid {
         this.umecaDateStr = umecaDate == null ? "" : sdf.format(umecaDate);
         this.brthDateTxt = sdf.format(birthDate);
         this.umecaTime = umecaTime;
-        this.fullNameSupervisor = fullname;
+            this.fullNameSupervisor = fullname;
         StringBuilder strBld = new StringBuilder();
         strBld.append(this.name);
         strBld.append(" ");
@@ -430,5 +483,13 @@ public class ForFramingMeetingGrid implements EntityGrid {
 
     public void setHearingFormatId(Long hearingFormatId) {
         this.hearingFormatId = hearingFormatId;
+    }
+
+    public String getSubstractedStr() {
+        return substractedStr;
+    }
+
+    public void setSubstractedStr(String substractedStr) {
+        this.substractedStr = substractedStr;
     }
 }

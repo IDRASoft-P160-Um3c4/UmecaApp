@@ -27,13 +27,14 @@
                 autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
-                colNames: ['ID', 'idStatus', 'Carpeta Judicial', 'Nombre completo', 'Fecha de nacimiento', 'Estatus', 'Acci&oacute;n'],
+                colNames: ['ID', 'idStatus', 'Carpeta Judicial', 'Nombre completo', 'Fecha de nacimiento', 'Sustra&iacute;do','Estatus', 'Acci&oacute;n'],
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'codeStatus', index: 'codeStatus', hidden: true },
                     { name: 'idMP', index: 'idMP', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'fullName', index: 'fullName', width: 300, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
                     { name: 'brthDateTxt', index: 'brthDateTxt', width: 160, align: "center", sortable: false, search: false },
+                    { name: 'substractedStr', index: 'substractedStr', width: 160, align: "center", sorttype: 'string', search: false },
                     { name: 'descStatus', index: 'descStatus', width: 250, align: "center", sortable: false, search: false },
                     { name: 'Action', width: 70, align: "center", sortable: false, search: false,formatter:window.actionFormatter}
                 ],

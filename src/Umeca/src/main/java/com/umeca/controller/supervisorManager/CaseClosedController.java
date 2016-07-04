@@ -90,6 +90,7 @@ public class CaseClosedController {
                     add(joinM.get("lastNameP"));
                     add(joinM.get("lastNameM"));
                     add(joinM.get("birthDate"));
+                    add(r.get("isSubstracted"));
                 }};
             }
 
@@ -103,6 +104,8 @@ public class CaseClosedController {
                     return r.join("status").get("name");
                 else if (field.equals("closeCause"))
                     return r.join("closeCause").get("code");
+                else if (field.equals("substractedStr"))
+                    return r.get("isSubstracted");
                 else
                     return null;
             }
