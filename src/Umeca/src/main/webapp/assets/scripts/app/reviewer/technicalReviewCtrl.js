@@ -37,9 +37,13 @@ app.controller('tecRevController', function ($scope, $timeout, $sce) {
         }
 
         $scope.WaitFor = true;
-        $.post(urlToPost, $(formId).serialize())
-            .success($scope.handleSuccessTR)
-            .error($scope.handleErrorTR);
+
+        $timeout(function(){
+            $.post(urlToPost, $(formId).serialize())
+                .success($scope.handleSuccessTR)
+                .error($scope.handleErrorTR);
+        }, 10);
+
         return true;
     };
 
