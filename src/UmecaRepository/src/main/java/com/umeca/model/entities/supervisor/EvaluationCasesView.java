@@ -20,7 +20,7 @@ import javax.persistence.Id;
         "usr.id_user,\n" +
         "stc.status as status_case_code, " +
         "0 as status, " +
-        "'' as status_string\n" +
+        "stm.status as status_string\n" +
         "from meeting m\n" +
         "join case_detention c on m.id_case = c.id_case\n" +
         "join cat_status_case stc on c.id_status = stc.id_status\n" +

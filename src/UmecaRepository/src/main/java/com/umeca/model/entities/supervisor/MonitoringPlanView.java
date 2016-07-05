@@ -50,7 +50,6 @@ public class MonitoringPlanView implements EntityGrid{
         this.isMonPlanSuspended = calculateIsMonPlanSuspended(generationTime, authorizationTime, posAuthorizationChangeTime);
     }
 
-
     public MonitoringPlanView(Long id, Long caseId, String idMP, String name, String lastNameP, String lastNameM, Calendar creationTime,
                               Calendar generationTime, Calendar authorizationTime, String status, String supervisor, Calendar posAuthorizationChangeTime) {
         this.id = id;

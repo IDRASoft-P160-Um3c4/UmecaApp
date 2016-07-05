@@ -29,6 +29,7 @@ import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.EventService;
+import com.umeca.service.shared.GridService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.ManageMonitoringPlanService;
 import com.umeca.service.supervisor.TrackMonPlanService;
@@ -123,6 +124,21 @@ public class ActiveMonitoringPlanController {
 
         return result;
 
+    }
+
+    @Autowired
+    GridService gridService;
+
+    @RequestMapping(value = {"/supervisorManager/activeMonitoringPlan/listB"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listB(@ModelAttribute JqGridFilterModel opts) {
+        try {
+            return gridService.toGrid(MonitoringPlanActiveCasesView.class, null, opts);
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "listB", sharedUserService);
+            return null;
+        }
     }
 
     @Autowired

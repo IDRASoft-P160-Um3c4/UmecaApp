@@ -82,7 +82,7 @@
                     { name: 'idVerif', index: 'idVerif', hidden: true },
                     { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['lk'] } },
                     { name: 'fullname', index: 'fullname', width: 350, align: "center", sorttype: 'string', searchoptions: { sopt: ['lk'] } },
-                    { name: 'statusString', index: 'statusString', width: 300, align: "center", sortable: true, search: false, formatter:window.actionFormatter},
+                    { name: 'statusString', index: 'statusString', width: 300, align: "center", sorttype: 'string', search: false, formatter:window.actionFormatter},
                     { name: 'userName', index: 'userName', width: 150, align: "center", sortable: true, search: false},
                     { name: 'status', index: 'status', hidden: true},
                     { name: 'Action', width: 180, align: "center", sortable: false, search: false,formatter:window.actionFormatter}

@@ -60,7 +60,7 @@
 
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
-                url: '<c:url value='/supervisorManager/activeMonitoringPlan/list.json' />',
+                url: '<c:url value='/supervisorManager/activeMonitoringPlan/listB.json' />',
                 autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
@@ -68,13 +68,13 @@
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'caseId', hidden: true },
-                    { name: 'idMP', width: 140, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] }},
-                    { name: 'fullName', width: 220, align: "center", sortable: false, search: false },
+                    { name: 'idMP', width: 140, align: "center", sorttype: 'string', searchoptions: { sopt: ['lk'] }},
+                    { name: 'fullName', width: 220, align: "center", sorttype: 'string', searchoptions: { sopt: ['lk'] }},
                     { name: 'stCreationTime', width: 130, align: "center", sortable: true, search: false },
                     { name: 'stGenerationTime', width: 130, align: "center", sortable: true, search: false },
                     { name: 'stAuthorizationTime', width: 140, align: "center", sortable: true, search: false },
-                    { name: 'status', width: 180, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'supervisor', width: 130, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] }},
+                    { name: 'status', width: 180, align: "center", sorttype: 'string', searchoptions: { sopt: ['lk'] } },
+                    { name: 'supervisor', width: 130, align: "center", sorttype: 'string', searchoptions: { sopt: ['lk'] }},
                     { name: 'statusLog', hidden: true },
                     { name: 'hasActPreAuth', hidden: true },
                     { name: 'isMonPlanSuspended', index: 'isMonPlanSuspended', hidden: true},
