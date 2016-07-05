@@ -11,9 +11,12 @@ import com.umeca.model.catalog.StatusVerification;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.managereval.CaseEvaluationView;
 import com.umeca.model.entities.reviewer.*;
+import com.umeca.model.entities.supervisor.EvaluationCasesView;
 import com.umeca.model.shared.Constants;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.GridService;
+import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -46,13 +50,13 @@ public class CaseEvaluationController {
 
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusMeeting",
                 new ArrayList<String>() {{
-                    add(Constants.S_MEETING_INCOMPLETE_LEGAL);
-                    add(Constants.S_MEETING_COMPLETE);
-                    add(Constants.S_MEETING_INCOMPLETE);
-                    //Status allowed
-                    //add(Constants.S_MEETING_COMPLETE_VERIFICATION);
-                    add(Constants.S_MEETING_DECLINE);
-                    add(Constants.S_MEETING_OBSOLETE);
+                        add(Constants.S_MEETING_INCOMPLETE_LEGAL);
+                        add(Constants.S_MEETING_COMPLETE);
+                        add(Constants.S_MEETING_INCOMPLETE);
+                        //Status allowed
+                        //add(Constants.S_MEETING_COMPLETE_VERIFICATION);
+                        add(Constants.S_MEETING_DECLINE);
+                        add(Constants.S_MEETING_OBSOLETE);
                 }}
                 , JqGridFilterModel.COMPARE_IN
         );
@@ -112,6 +116,33 @@ public class CaseEvaluationController {
             }
         }, Meeting.class, CaseEvaluationView.class);
         return result;
+    }
+
+    @Autowired
+    GridService gridService;
+    @Autowired
+    SharedLogExceptionService logException;
+
+    @RequestMapping(value = {"/managereval/showCaseEvaluation/listB"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listB(@ModelAttribute JqGridFilterModel opts) {
+        try {
+
+            HashMap<String, Object> map = null;
+            List<String> usrRoles = userService.getLstRolesByUserId(userService.GetLoggedUserId());
+            if (usrRoles != null && usrRoles.size() > 0) {
+                if (usrRoles.contains(Constants.ROLE_REVIEWER)) {
+                    map = new HashMap<>();
+                    map.put("idUser",userService.GetLoggedUserId());
+                }
+            }
+
+            return gridService.toGrid(EvaluationCasesView.class, map, opts);
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "listB", userService);
+            return null;
+        }
     }
 
     @RequestMapping(value = "/managereval/showCaseEvaluation/obsoleteCase", method = RequestMethod.GET)

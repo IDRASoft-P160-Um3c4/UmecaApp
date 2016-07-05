@@ -26,6 +26,7 @@ import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.FulfillmentReportRepository;
 import com.umeca.repository.supervisor.HearingFormatRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
+import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.EventService;
 import com.umeca.service.shared.SharedLogExceptionService;
@@ -126,6 +127,8 @@ public class ActiveMonitoringPlanController {
 
     @Autowired
     MonitoringPlanRepository monitoringPlanRepository;
+    @Autowired
+    LogCommentRepository logCommentRepository;
 
     @RequestMapping(value = "/supervisorManager/activeMonitoringPlan/authorizeEnd", method = RequestMethod.POST)
     public ModelAndView authorizeEnd(@RequestParam Long id) {
@@ -134,7 +137,12 @@ public class ActiveMonitoringPlanController {
         try {
             GetMonPlanInfo(id, model, monitoringPlanRepository);
             model.addObject("isAuthorized", 1);
-            //model.addObject("isEnd", 1);
+            /*se agrega para mostrar el comentario del supervisor cuando solicita cerrar el caso*/
+            List<String> lstComments = logCommentRepository.getCommentByIdCaseAndTypeAndAction(monitoringPlanRepository.getCaseIdByMonPlan(id), MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END, new PageRequest(0,1));
+            model.addObject("supervisorComment", (lstComments == null || lstComments.size() <= 0) ? "Sin comentarios" : lstComments.get(0));
+            lstComments = logCommentRepository.getSupervisorNameByIdCaseAndTypeAndAction(monitoringPlanRepository.getCaseIdByMonPlan(id), MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END,  new PageRequest(0,1));
+            model.addObject("supervisorName", (lstComments == null || lstComments.size() <= 0) ? "Sin comentarios" : lstComments.get(0));
+            /*se agrega para mostrar el comentario del supervisor cuando solicita cerrar el caso*/
             model.addObject("msgPlan", "finalización del plan de seguimiento");
             model.addObject("urlToGo", "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectEndMonPlan.json");
             return model;
@@ -151,7 +159,12 @@ public class ActiveMonitoringPlanController {
 
         try {
             GetMonPlanInfo(id, model, monitoringPlanRepository);
-            //model.addObject("isEnd", 1);
+             /*se agrega para mostrar el comentario del supervisor cuando solicita cerrar el caso*/
+            List<String> lstComments = logCommentRepository.getCommentByIdCaseAndTypeAndAction(monitoringPlanRepository.getCaseIdByMonPlan(id), MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END, new PageRequest(0,1));
+            model.addObject("supervisorComment", (lstComments == null || lstComments.size() <= 0) ? "Sin comentarios" : lstComments.get(0));
+            lstComments = logCommentRepository.getSupervisorNameByIdCaseAndTypeAndAction(monitoringPlanRepository.getCaseIdByMonPlan(id), MonitoringConstants.STATUS_PENDING_END, MonitoringConstants.TYPE_COMMENT_MONITORING_PLAN_END,  new PageRequest(0,1));
+            model.addObject("supervisorName", (lstComments == null || lstComments.size() <= 0) ? "Sin comentarios" : lstComments.get(0));
+            /*se agrega para mostrar el comentario del supervisor cuando solicita cerrar el caso*/
             model.addObject("isAuthorized", 0);
             model.addObject("msgPlan", "finalización del plan de seguimiento");
             model.addObject("urlToGo", "/supervisorManager/activeMonitoringPlan/doAuthorizeRejectEndMonPlan.json");

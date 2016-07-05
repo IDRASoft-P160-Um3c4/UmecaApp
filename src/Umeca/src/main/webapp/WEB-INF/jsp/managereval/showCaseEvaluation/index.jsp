@@ -72,7 +72,7 @@
 
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
-                url: '<c:url value='/managereval/showCaseEvaluation/list.json' />',
+                url: '<c:url value='/managereval/showCaseEvaluation/listB.json' />',
                 datatype: "json",
                 autoencode:true,
                 mtype: 'POST',
@@ -80,8 +80,8 @@
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'idVerif', index: 'idVerif', hidden: true },
-                    { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['bw'] } },
-                    { name: 'fullname', index: 'fullname', search: false, width: 350, align: "center"},
+                    { name: 'idFolder', index: 'idFolder', width: 200, align: "center", sorttype: 'string', searchoptions: { sopt: ['lk'] } },
+                    { name: 'fullname', index: 'fullname', width: 350, align: "center", sorttype: 'string', searchoptions: { sopt: ['lk'] } },
                     { name: 'statusString', index: 'statusString', width: 300, align: "center", sortable: true, search: false, formatter:window.actionFormatter},
                     { name: 'userName', index: 'userName', width: 150, align: "center", sortable: true, search: false},
                     { name: 'status', index: 'status', hidden: true},

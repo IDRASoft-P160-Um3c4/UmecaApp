@@ -10,9 +10,13 @@
     <div id="dlgUpModalId" class="modal fade" ng-controller="upsertController" ng-cloak>
         <div class="modal-dialog" style="width:900px" ng-controller="authRejectController"
              ng-init="isAuthorized=${isAuthorized};
+
         fulfillmentReportType='${fulfillmentReportType == null ? "" : fulfillmentReportType}';
-        fulfillmentReportTimestamp='${fulfillmentReportTimestamp == null ? "" : fulfillmentReportTimestamp}';">
-            <div class="modal-content" ng-init='lstArrangements=${lstArrangements ==  null ? "[]" : lstArrangements};'>
+        fulfillmentReportTimestamp='${fulfillmentReportTimestamp == null ? "" : fulfillmentReportTimestamp}';
+        ">
+            <div class="modal-content" ng-init='lstArrangements=${lstArrangements ==  null ? "[]" : lstArrangements};
+                                                supervisorName="${supervisorName==null?'':supervisorName}";
+                                                supervisorComment="${supervisorComment==null?'':supervisorComment}";'>
                 <div class="modal-header">
                     <div ng-class="(isAuthorized ? 'alert alert-info' : 'alert alert-warning')">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -160,7 +164,25 @@
                             </div>
                         </div>
                         <br/>
-
+                        <div class="row" ng-if="supervisorComment!=''&&supervisorName!=''">
+                            <div class="col-xs-12">
+                                <div ng-class="(isAuthorized ? 'panel panel-primary' : 'panel panel-warning')">
+                                    <div class="panel-heading">
+                                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Comentarios del supervisor {{supervisorName}}
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-xs-12 widget-container-span">
+                                                <div>
+                                                    {{supervisorComment}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
                         <div class="row">
                             <div class="col-xs-12">
                                 <div ng-class="(isAuthorized ? 'panel panel-primary' : 'panel panel-warning')">
