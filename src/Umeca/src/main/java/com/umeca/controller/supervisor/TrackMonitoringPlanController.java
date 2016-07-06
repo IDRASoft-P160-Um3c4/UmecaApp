@@ -22,6 +22,7 @@ import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.repository.supervisor.SupervisionActivityRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.GridService;
 import com.umeca.service.shared.LogCaseService;
 import com.umeca.service.shared.MessageService;
 import com.umeca.service.shared.SharedLogExceptionService;
@@ -37,6 +38,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -118,6 +120,23 @@ public class TrackMonitoringPlanController {
             }
         }, MonitoringPlan.class, MonitoringPlanView.class);
         return result;
+    }
+
+    @Autowired
+    GridService gridService;
+
+    @RequestMapping(value = {"/supervisor/generateMonitoringPlan/listB"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listB(@ModelAttribute JqGridFilterModel opts) {
+        try {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("idUser",userService.GetLoggedUserId());
+            return gridService.toGrid(GenerateMonitoringPlanCasesView.class, map, opts);
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "listB", sharedUserService);
+            return null;
+        }
     }
 
 

@@ -23,6 +23,7 @@ import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.repository.supervisor.*;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.ScheduleService;
+import com.umeca.service.shared.GridService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.MonitoringPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -113,6 +115,24 @@ public class GenerateMonitoringPlanController {
 
         return result;
 
+    }
+
+
+    @Autowired
+    GridService gridService;
+
+    @RequestMapping(value = {"/supervisor/generateMonitoringPlan/listB"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listB(@ModelAttribute JqGridFilterModel opts) {
+        try {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("idUser",userService.GetLoggedUserId());
+            return gridService.toGrid(GenerateMonitoringPlanCasesView.class, map, opts);
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "listB", sharedUserService);
+            return null;
+        }
     }
 
 
