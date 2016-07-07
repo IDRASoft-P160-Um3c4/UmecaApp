@@ -24,7 +24,9 @@ public class TechnicalReview {
     @Column(name = "comments", length = 1000, nullable = false)
     private String comments;
 
-    @Column(name = "subtotals", length = 3000, nullable = false)
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "subtotals", nullable = false)
     private String subtotalsTxt;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "technicalReview", fetch = FetchType.LAZY)
@@ -104,7 +106,7 @@ public class TechnicalReview {
     }
 
     public void setSubtotalsTxt(String subtotalsTxt) {
-        this.subtotalsTxt = StringExt.substringMax(subtotalsTxt,3000);
+        this.subtotalsTxt = subtotalsTxt;
     }
 
     public Integer getLevelRisk() {
