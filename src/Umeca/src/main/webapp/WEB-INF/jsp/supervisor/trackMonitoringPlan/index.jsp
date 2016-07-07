@@ -29,7 +29,7 @@
 
         $(document).ready(function () {
             jQuery("#GridId").jqGrid({
-                url: '<c:url value='/supervisor/trackMonitoringPlan/list.json' />',
+                url: '<c:url value='/supervisor/trackMonitoringPlan/listB.json' />',
                 autoencode:true,
                 datatype: "json",
                 mtype: 'POST',
@@ -37,12 +37,12 @@
                 colModel: [
                     { name: 'id', index: 'id', hidden: true },
                     { name: 'caseId', index: 'caseId', hidden: true},
-                    { name: 'idMP', index: 'idMP', width: 140, align: "center", sortable: false, search: false },
-                    { name: 'fullName', index: 'fullName', width: 220, align: "center", sortable: false, search: false },
-                    { name: 'stCreationTime', index: 'stCreationTime', width: 130, align: "center", sortable: true, search: false },
-                    { name: 'stGenerationTime', index: 'stGenerationTime', width: 130, align: "center", sortable: true, search: false },
-                    { name: 'stAuthorizationTime', index: 'stAuthorizationTime', width: 140, align: "center", sortable: true, search: false },
-                    { name: 'status', index: 'status', width: 180, align: "center", sortable: false, sorttype: 'string', searchoptions: { sopt: ['bw'] } },
+                    { name: 'idMP', index: 'idMP', width: 140, align: "center", sorttype: 'string', searchoptions: { sopt: ['lk'] } },
+                    { name: 'fullName', index: 'fullName', width: 220, align: "center", sorttype: 'string', searchoptions: { sopt: ['lk'] } },
+                    { name: 'stCreationTime', index: 'stCreationTime', width: 130, align: "center", sortable: false, searchoptions: { sopt: ['lk'] } },
+                    { name: 'stGenerationTime', index: 'stGenerationTime', width: 130, align: "center", sortable: false, searchoptions: { sopt: ['lk'] } },
+                    { name: 'stAuthorizationTime', index: 'stAuthorizationTime', width: 140, align: "center", sortable: false, searchoptions: { sopt: ['lk'] } },
+                    { name: 'status', index: 'status', width: 180, align: "center", sorttype: 'string', searchoptions: { sopt: ['lk'] } },
                     { name: 'supervisor', index: 'supervisor', width: 130, align: "center", sortable: false, search: false },
                     { name: 'idTec', index: 'idTec', hidden: true},
                     { name: 'isMonPlanSuspended', index: 'isMonPlanSuspended', hidden: true},

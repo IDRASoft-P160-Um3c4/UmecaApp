@@ -1,8 +1,8 @@
 package com.umeca.model.entities.supervisor;
 
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
+import com.umeca.model.entities.shared.MonitoringPlanCommons;
 import com.umeca.model.shared.MonitoringConstants;
-import com.umeca.model.shared.SharedSystemSetting;
 import org.hibernate.annotations.Subselect;
 
 import javax.persistence.Column;
@@ -24,6 +24,7 @@ import java.util.Calendar;
         "usr.id_user,\n" +
         "usr.fullname,\n" +
         "mp.pos_authorization_change_time,\n" +
+        "tr.id_technical_review,\n"+
         "false as has_act_preauth,\n" +
         "false as is_mon_plan_suspended\n" +
         "from monitoring_plan mp \n" +
@@ -31,7 +32,13 @@ import java.util.Calendar;
         "join meeting m on m.id_case = cd.id_case\n" +
         "join imputed i on i.id_meeting = m.id_meeting\n" +
         "join user usr on usr.id_user = mp.id_user_supervisor\n" +
-        "where mp.status not in ('TERMINADO','EN PROCESO DE TERMINAR','EN PROCESO DE AUTORIZAR')")
+        "left join technical_review tr on cd.id_case = tr.id_case_detention \n"+
+        "where mp.status in ('"+
+        MonitoringConstants.STATUS_PENDING_AUTHORIZATION+"','"+
+        MonitoringConstants.STATUS_AUTHORIZED+"','"+
+        MonitoringConstants.STATUS_MONITORING+"','"+
+        MonitoringConstants.STATUS_SUSPENDED_SUBSTRACTED+"','"+
+        MonitoringConstants.STATUS_REJECTED_END+"')")
 
 public class TrackingMonitoringPlanCasesView implements EntityGrid {
 
@@ -80,6 +87,9 @@ public class TrackingMonitoringPlanCasesView implements EntityGrid {
 
     @Column(name = "is_mon_plan_suspended")
     private boolean isMonPlanSuspended;
+
+    @Column(name = "id_technical_review")
+    private Long idTec;
 
     @Override
     public Long getId() {
@@ -183,43 +193,16 @@ public class TrackingMonitoringPlanCasesView implements EntityGrid {
     }
 
     public void setHasActPreAuth(boolean hasActPreAuth) {
-        this.hasActPreAuth = calculateHasActPreAuth(authorizationTime, posAuthorizationChangeTime);;
+        this.hasActPreAuth = MonitoringPlanCommons.calculateHasActPreAuth(authorizationTime, posAuthorizationChangeTime);;
     }
 
     public boolean isMonPlanSuspended() {
-        this.isMonPlanSuspended = calculateIsMonPlanSuspended(generationTime, authorizationTime, posAuthorizationChangeTime);
+        this.isMonPlanSuspended = MonitoringPlanCommons.calculateIsMonPlanSuspended(generationTime, authorizationTime, posAuthorizationChangeTime);
         return isMonPlanSuspended;
     }
 
     public void setMonPlanSuspended(boolean isMonPlanSuspended) {
         this.isMonPlanSuspended = isMonPlanSuspended;
-    }
-
-    public static boolean calculateHasActPreAuth(Calendar authorizationTime, Calendar posAuthorizationChangeTime) {
-        return authorizationTime != null && posAuthorizationChangeTime != null;
-    }
-
-    public static boolean calculateIsMonPlanSuspended(Calendar generationTime, Calendar authorizationTime, Calendar posAuthorizationChangeTime) {
-        if(typeIsMonPlanSuspended(generationTime, authorizationTime, posAuthorizationChangeTime) == MonitoringConstants.AUTHORIZATION_OK)
-            return false;
-        return true;
-    }
-
-    public static int typeIsMonPlanSuspended(Calendar generationTime, Calendar authorizationTime, Calendar posAuthorizationChangeTime) {
-        //Primero revisar si es por autorización del plan o por autorización de las nuevas actividades
-        if(generationTime != null && authorizationTime == null){
-            long timeDifDays = (Calendar.getInstance().getTimeInMillis() - generationTime.getTimeInMillis()) / (SharedSystemSetting.MILISECONDS_PER_HOUR);
-            if(timeDifDays >= SharedSystemSetting.MonPlanHoursToAuthorize){
-                return MonitoringConstants.AUTHORIZATION_MONPLAN;
-            }
-
-        }else if(calculateHasActPreAuth(authorizationTime, posAuthorizationChangeTime)){
-            long timeDifDays = (Calendar.getInstance().getTimeInMillis() - posAuthorizationChangeTime.getTimeInMillis()) / (SharedSystemSetting.MILISECONDS_PER_HOUR);
-            if(timeDifDays >= SharedSystemSetting.MonPlanHoursToAuthorize){
-                return MonitoringConstants.AUTHORIZATION_ACTMONPLAN;
-            }
-        }
-        return MonitoringConstants.AUTHORIZATION_OK;
     }
 
     public Long getIdUser() {
@@ -228,5 +211,13 @@ public class TrackingMonitoringPlanCasesView implements EntityGrid {
 
     public void setIdUser(Long idUser) {
         this.idUser = idUser;
+    }
+
+    public Long getIdTec() {
+        return idTec;
+    }
+
+    public void setIdTec(Long idTec) {
+        this.idTec = idTec;
     }
 }

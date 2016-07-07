@@ -21,8 +21,8 @@ import java.util.Calendar;
         "mp.authorization_time authorization_time, \n" +
         "mp.generation_time, \n"+
         "mp.status, \n" +
+        "usr.id_user,\n" +
         "usr.fullname,\n" +
-        "mp.status_log,\n" +
         "mp.pos_authorization_change_time,\n" +
         "false as has_act_preauth,\n" +
         "false as is_mon_plan_suspended\n" +
@@ -31,9 +31,14 @@ import java.util.Calendar;
         "join meeting m on m.id_case = cd.id_case\n" +
         "join imputed i on i.id_meeting = m.id_meeting\n" +
         "join user usr on usr.id_user = mp.id_user_supervisor\n" +
-        "where mp.status not in ('"+ MonitoringConstants.STATUS_END+"')")
+        "where mp.status not in ('"+
+        MonitoringConstants.STATUS_NEW+"','"+
+        MonitoringConstants.STATUS_PENDING_CREATION+"','"+
+        MonitoringConstants.STATUS_PENDING_END+"','"+
+        MonitoringConstants.STATUS_END+"')")
 
-public class MonitoringPlanActiveCasesView implements EntityGrid {
+
+public class ManageMonitoringPlanCasesView implements EntityGrid {
 
     @Id
     @Column(name = "id_monitoring_plan")
@@ -41,6 +46,9 @@ public class MonitoringPlanActiveCasesView implements EntityGrid {
 
     @Column(name = "id_case")
     private Long caseId;
+
+    @Column(name = "id_user")
+    private Long idUser;
 
     @Column(name = "id_mp")
     private String idMP;
@@ -68,9 +76,6 @@ public class MonitoringPlanActiveCasesView implements EntityGrid {
 
     @Column(name = "fullname")
     private String supervisor;
-
-    @Column(name = "status_log")
-    private String statusLog;
 
     @Column(name = "pos_authorization_change_time")
     private Calendar posAuthorizationChangeTime;
@@ -154,14 +159,6 @@ public class MonitoringPlanActiveCasesView implements EntityGrid {
         this.supervisor = supervisor;
     }
 
-    public String getStatusLog() {
-        return statusLog;
-    }
-
-    public void setStatusLog(String statusLog) {
-        this.statusLog = statusLog;
-    }
-
     public Calendar getGenerationTime() {
         return generationTime;
     }
@@ -201,6 +198,14 @@ public class MonitoringPlanActiveCasesView implements EntityGrid {
 
     public void setMonPlanSuspended(boolean isMonPlanSuspended) {
         this.isMonPlanSuspended = isMonPlanSuspended;
+    }
+
+    public Long getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
     }
 
 }

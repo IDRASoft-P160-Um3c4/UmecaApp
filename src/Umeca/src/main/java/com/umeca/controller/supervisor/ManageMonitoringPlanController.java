@@ -1,29 +1,28 @@
 package com.umeca.controller.supervisor;
 
-import com.google.gson.Gson;
 import com.umeca.infrastructure.jqgrid.model.JqGridFilterModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridResultModel;
 import com.umeca.infrastructure.jqgrid.model.JqGridRulesModel;
+import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.infrastructure.jqgrid.operation.GenericJqGridPageSortFilter;
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.infrastructure.security.StringEscape;
-import com.umeca.model.catalog.CloseCause;
 import com.umeca.model.entities.account.User;
 import com.umeca.model.entities.reviewer.Case;
 import com.umeca.model.entities.reviewer.Imputed;
 import com.umeca.model.entities.reviewer.Meeting;
+import com.umeca.model.entities.supervisor.ManageMonitoringPlanCasesView;
 import com.umeca.model.entities.supervisor.MonitoringPlan;
 import com.umeca.model.entities.supervisor.MonitoringPlanInfo;
 import com.umeca.model.entities.supervisor.MonitoringPlanView;
 import com.umeca.model.entities.supervisorManager.AuthorizeRejectMonPlan;
 import com.umeca.model.shared.MonitoringConstants;
-import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
-import com.umeca.model.shared.SelectList;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.CloseCauseRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
 import com.umeca.repository.supervisorManager.LogCommentRepository;
 import com.umeca.service.account.SharedUserService;
+import com.umeca.service.shared.GridService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import com.umeca.service.supervisor.ManageMonitoringPlanService;
 import com.umeca.service.supervisor.TrackMonPlanService;
@@ -37,6 +36,7 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -114,6 +114,24 @@ public class ManageMonitoringPlanController {
         }, MonitoringPlan.class, MonitoringPlanView.class);
         return result;
     }
+
+    @Autowired
+    GridService gridService;
+
+    @RequestMapping(value = {"/supervisor/manageMonitoringPlan/listB"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listB(@ModelAttribute JqGridFilterModel opts) {
+        try {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("idUser",userService.GetLoggedUserId());
+            return gridService.toGrid(ManageMonitoringPlanCasesView.class, map, opts);
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "listB", sharedUserService);
+            return null;
+        }
+    }
+
 
     @Autowired
     ManageMonitoringPlanService manageMonitoringPlanService;

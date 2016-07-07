@@ -20,7 +20,6 @@ import com.umeca.repository.CaseRepository;
 import com.umeca.repository.reviewer.TechnicalReviewRepository;
 import com.umeca.repository.supervisor.ActivityMonitoringPlanRepository;
 import com.umeca.repository.supervisor.MonitoringPlanRepository;
-import com.umeca.repository.supervisor.SupervisionActivityRepository;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.shared.GridService;
 import com.umeca.service.shared.LogCaseService;
@@ -125,14 +124,14 @@ public class TrackMonitoringPlanController {
     @Autowired
     GridService gridService;
 
-    @RequestMapping(value = {"/supervisor/generateMonitoringPlan/listB"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/supervisor/trackMonitoringPlan/listB"}, method = RequestMethod.POST)
     public
     @ResponseBody
     JqGridResultModel listB(@ModelAttribute JqGridFilterModel opts) {
         try {
             HashMap<String, Object> map = new HashMap<>();
             map.put("idUser",userService.GetLoggedUserId());
-            return gridService.toGrid(GenerateMonitoringPlanCasesView.class, map, opts);
+            return gridService.toGrid(TrackingMonitoringPlanCasesView.class, map, opts);
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "listB", sharedUserService);
             return null;

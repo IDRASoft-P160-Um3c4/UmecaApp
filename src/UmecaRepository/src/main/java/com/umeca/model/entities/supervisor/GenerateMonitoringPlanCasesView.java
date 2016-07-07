@@ -1,8 +1,8 @@
 package com.umeca.model.entities.supervisor;
 
 import com.umeca.infrastructure.jqgrid.model.EntityGrid;
+import com.umeca.model.entities.shared.MonitoringPlanCommons;
 import com.umeca.model.shared.MonitoringConstants;
-import com.umeca.model.shared.SharedSystemSetting;
 import org.hibernate.annotations.Subselect;
 
 import javax.persistence.Column;
@@ -31,9 +31,12 @@ import java.util.Calendar;
         "join meeting m on m.id_case = cd.id_case\n" +
         "join imputed i on i.id_meeting = m.id_meeting\n" +
         "join user usr on usr.id_user = mp.id_user_supervisor\n" +
-        "where mp.status not in ('TERMINADO','EN PROCESO DE TERMINAR','EN PROCESO DE AUTORIZAR')")
+        "where mp.status not in ('" +
+        MonitoringConstants.STATUS_END+"','"+
+        MonitoringConstants.STATUS_PENDING_END+"','"+
+        MonitoringConstants.STATUS_PENDING_AUTHORIZATION+"')")
 
-public class GenerateMonitoringPlanCasesView implements EntityGrid {
+        public class GenerateMonitoringPlanCasesView implements EntityGrid {
 
     @Id
     @Column(name = "id_monitoring_plan")
@@ -183,11 +186,11 @@ public class GenerateMonitoringPlanCasesView implements EntityGrid {
     }
 
     public void setHasActPreAuth(boolean hasActPreAuth) {
-        this.hasActPreAuth = calculateHasActPreAuth(authorizationTime, posAuthorizationChangeTime);;
+        this.hasActPreAuth = MonitoringPlanCommons.calculateHasActPreAuth(authorizationTime, posAuthorizationChangeTime);;
     }
 
     public boolean isMonPlanSuspended() {
-        this.isMonPlanSuspended = calculateIsMonPlanSuspended(generationTime, authorizationTime, posAuthorizationChangeTime);
+        this.isMonPlanSuspended = MonitoringPlanCommons.calculateIsMonPlanSuspended(generationTime, authorizationTime, posAuthorizationChangeTime);
         return isMonPlanSuspended;
     }
 
@@ -195,32 +198,7 @@ public class GenerateMonitoringPlanCasesView implements EntityGrid {
         this.isMonPlanSuspended = isMonPlanSuspended;
     }
 
-    public static boolean calculateHasActPreAuth(Calendar authorizationTime, Calendar posAuthorizationChangeTime) {
-        return authorizationTime != null && posAuthorizationChangeTime != null;
-    }
 
-    public static boolean calculateIsMonPlanSuspended(Calendar generationTime, Calendar authorizationTime, Calendar posAuthorizationChangeTime) {
-        if(typeIsMonPlanSuspended(generationTime, authorizationTime, posAuthorizationChangeTime) == MonitoringConstants.AUTHORIZATION_OK)
-            return false;
-        return true;
-    }
-
-    public static int typeIsMonPlanSuspended(Calendar generationTime, Calendar authorizationTime, Calendar posAuthorizationChangeTime) {
-        //Primero revisar si es por autorización del plan o por autorización de las nuevas actividades
-        if(generationTime != null && authorizationTime == null){
-            long timeDifDays = (Calendar.getInstance().getTimeInMillis() - generationTime.getTimeInMillis()) / (SharedSystemSetting.MILISECONDS_PER_HOUR);
-            if(timeDifDays >= SharedSystemSetting.MonPlanHoursToAuthorize){
-                return MonitoringConstants.AUTHORIZATION_MONPLAN;
-            }
-
-        }else if(calculateHasActPreAuth(authorizationTime, posAuthorizationChangeTime)){
-            long timeDifDays = (Calendar.getInstance().getTimeInMillis() - posAuthorizationChangeTime.getTimeInMillis()) / (SharedSystemSetting.MILISECONDS_PER_HOUR);
-            if(timeDifDays >= SharedSystemSetting.MonPlanHoursToAuthorize){
-                return MonitoringConstants.AUTHORIZATION_ACTMONPLAN;
-            }
-        }
-        return MonitoringConstants.AUTHORIZATION_OK;
-    }
 
     public Long getIdUser() {
         return idUser;
