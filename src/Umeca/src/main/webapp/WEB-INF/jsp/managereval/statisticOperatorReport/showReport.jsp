@@ -42,29 +42,11 @@
             var title = "${title}";
             var yAxisStr = "${yAxis}";
 
-
             var color = d3.scale.ordinal().range(["#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3", "#00BCD4", "#009688", "#4CAF50", "#8BC34A", "#FFEB3B", "#FFC107", "#FF9800", "#795548", "#9E9E9E"]);
-
-
-            var len = dataSet.length;
-
-
-            if (len > 8) {
-                dataSet.map(function (d) {
-                    d.name = d.subName;
-                })
-            }
 
             var margin = {top: 50, right: 110, bottom: 50, left: 110},
                     width = 1280 - margin.left - margin.right,
                     height = 720 - margin.top - margin.bottom;
-
-            var dataSetDefault = [
-                {name: "Opinion", value: 0},
-                {name: "Informe", value: 0},
-                {name: "Negacion", value: 0},
-                {name: "Solo entrevista", value: 0}];
-
 
             var m1 = [.8, .3, .4, .3, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1];
             var m2 = [.3, .9, .4, .4, .4, .4, .4, .6, .6, .6, .6, .6, .6, .6, .6];
@@ -96,8 +78,8 @@
 
             //Create SVG element
             var svg = d3.select(".chartBar").append("svg")
-                    .attr("width", width + margin.left + margin.right)
-                    .attr("height", height + margin.top + margin.bottom)
+                    .attr("width", 1450)
+                    .attr("height", 900)
                     .append("g")
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -159,7 +141,10 @@
             svg.append("g")
                     .attr("class", "x axis")
                     .attr("transform", "translate(0," + height + ")")
-                    .call(xAxis);
+                    .call(xAxis)
+                    .selectAll("text")
+                    .style("text-anchor", "end")
+                    .attr("transform", "rotate(-60)");
 
             //y axis
             svg.append("g")
@@ -264,6 +249,14 @@
                     .style("stroke", "#000")
                     .style("shape-rendering", "crispEdges")
             ;
+
+            svg.append("rect")
+                    .attr("x", 0)
+                    .attr("y", 0)
+                    .attr("width", 1450)
+                    .attr("height", 900)
+                    .style('opacity', 0.5)
+                    .style('fill', '#ffffff');
 
             d3.select("input").on("change", change);
 
@@ -380,7 +373,7 @@
 
 
                     a.click();
-                    context.clearRect(0, 0, canvas.width, canvas.height);
+                    context.clearRect(0, 0, 1450, 900);
                 };
 
             });
@@ -408,7 +401,7 @@
 <body>
 <%@ include file="/WEB-INF/jsp/shared/menu.jsp" %>
 
-<div class="container body-content col-xs-12 col-xs-offset-1">
+<div class="container body-content col-xs-12" style="overflow: scroll !important;">
 
 
     <h2 class="element-center">
@@ -424,7 +417,7 @@
 
     <div class="row-fluid center">
         <div class="chartBar"></div>
-        <canvas width="1280" height="720" style="display:none"></canvas>
+        <canvas width="1450" height="900" style="display:none"></canvas>
     </div>
 
     <div class="row element-center">
@@ -446,4 +439,3 @@
 
 </body>
 </html>
-
