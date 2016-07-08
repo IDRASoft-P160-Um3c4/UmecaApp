@@ -101,7 +101,7 @@
                     .scale(x)
                     .orient("bottom")
                     .tickFormat(function (d) {
-                        return names[d].name;
+                        return names[d].name+"  ";
                     });
 
             var yAxis = d3.svg.axis()
@@ -239,14 +239,23 @@
                     .selectAll(".y.axis")
                     .call(yAxis);
 
-
+            // x axis
             svg.append("g")
                     .attr("class", "x axis")
                     .attr("transform", "translate(0," + height + ")")
                     .call(xAxis)
                     .selectAll("text")
-                    .style("text-anchor", "middle")
-                    .attr("dy", "35");
+                    .style("text-anchor", "end")
+                    .attr("transform", "rotate(-60)");
+
+
+//            svg.append("g")
+//                    .attr("class", "x axis")
+//                    .attr("transform", "translate(0," + height + ")")
+//                    .call(xAxis)
+//                    .selectAll("text")
+//                    .style("text-anchor", "middle")
+//                    .attr("dy", "35");
 
 
             d3.selectAll("input").on("change", change);
@@ -502,7 +511,7 @@
         <br/>
     </form>
 
-    <div class="row-fluid center">
+    <div class="row-fluid center" style="overflow: scroll !important;">
         <div class="chartBar"></div>
         <%--<div id="svgdataurl"></div>--%>
         <%--<div id="pngdataurl"></div>--%>

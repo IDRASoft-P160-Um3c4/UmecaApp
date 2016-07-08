@@ -182,11 +182,12 @@ import java.util.Calendar;
     }
 
     public boolean isHasActPreAuth() {
+        this.hasActPreAuth = MonitoringPlanCommons.calculateHasActPreAuth(authorizationTime, posAuthorizationChangeTime);
         return hasActPreAuth;
     }
 
     public void setHasActPreAuth(boolean hasActPreAuth) {
-        this.hasActPreAuth = MonitoringPlanCommons.calculateHasActPreAuth(authorizationTime, posAuthorizationChangeTime);;
+        this.hasActPreAuth = hasActPreAuth;
     }
 
     public boolean isMonPlanSuspended() {
@@ -197,7 +198,6 @@ import java.util.Calendar;
     public void setMonPlanSuspended(boolean isMonPlanSuspended) {
         this.isMonPlanSuspended = isMonPlanSuspended;
     }
-
 
 
     public Long getIdUser() {

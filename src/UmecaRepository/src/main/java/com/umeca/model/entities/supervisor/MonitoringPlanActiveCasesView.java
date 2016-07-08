@@ -187,11 +187,12 @@ public class MonitoringPlanActiveCasesView implements EntityGrid {
     }
 
     public boolean isHasActPreAuth() {
+        hasActPreAuth = MonitoringPlanCommons.calculateHasActPreAuth(authorizationTime, posAuthorizationChangeTime);
         return hasActPreAuth;
     }
 
     public void setHasActPreAuth(boolean hasActPreAuth) {
-        this.hasActPreAuth = MonitoringPlanCommons.calculateHasActPreAuth(authorizationTime, posAuthorizationChangeTime);;
+        this.hasActPreAuth =hasActPreAuth;
     }
 
     public boolean isMonPlanSuspended() {
