@@ -56,15 +56,12 @@ public class TrackMonitoringPlanController {
     @Autowired
     private GenericJqGridPageSortFilter gridFilter;
 
-    @Autowired
-    private SharedUserService userService;
-
     @RequestMapping(value = "/supervisor/trackMonitoringPlan/list", method = RequestMethod.POST)
     public
     @ResponseBody
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
 
-        Long userId = userService.GetLoggedUserId();
+        Long userId = sharedUserService.GetLoggedUserId();
 
         opts.extraFilters = new ArrayList<>();
         JqGridRulesModel extraFilter = new JqGridRulesModel("supervisorId", userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
@@ -130,7 +127,7 @@ public class TrackMonitoringPlanController {
     JqGridResultModel listB(@ModelAttribute JqGridFilterModel opts) {
         try {
             HashMap<String, Object> map = new HashMap<>();
-            map.put("idUser",userService.GetLoggedUserId());
+            map.put("idUser",sharedUserService.GetLoggedUserId());
             return gridService.toGrid(TrackingMonitoringPlanCasesView.class, map, opts);
         } catch (Exception e) {
             logException.Write(e, this.getClass(), "listB", sharedUserService);

@@ -11,8 +11,10 @@ import com.umeca.model.catalog.Questionary;
 import com.umeca.model.catalog.QuestionarySection;
 import com.umeca.model.entities.reviewer.*;
 import com.umeca.model.entities.reviewer.View.ForTechnicalReviewGrid;
+import com.umeca.model.entities.reviewer.View.TechnicalReviewCasesView;
 import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileAllSourcesView;
 import com.umeca.model.entities.reviewer.View.TechnicalReviewInfoFileView;
+import com.umeca.model.entities.supervisor.TrackingMonitoringPlanCasesView;
 import com.umeca.model.shared.Constants;
 import com.umeca.repository.CaseRepository;
 import com.umeca.repository.StatusCaseRepository;
@@ -22,6 +24,7 @@ import com.umeca.repository.shared.QuestionaryRepository;
 import com.umeca.infrastructure.jqgrid.model.SelectFilterFields;
 import com.umeca.service.account.SharedUserService;
 import com.umeca.service.reviewer.TechnicalReviewService;
+import com.umeca.service.shared.GridService;
 import com.umeca.service.shared.SharedLogExceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,6 +38,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -75,11 +79,13 @@ public class TechnicalReviewController {
     JqGridResultModel list(@ModelAttribute JqGridFilterModel opts) {
         opts.extraFilters = new ArrayList<>();
         Long userId = sharedUserService.GetLoggedUserId();
+
         if (sharedUserService.isUserInRole(userId, Constants.ROLE_REVIEWER)) {
             JqGridRulesModel extraFilter = new JqGridRulesModel("user",
                     userId.toString(), JqGridFilterModel.COMPARE_EQUAL);
             opts.extraFilters.add(extraFilter);
         }
+
         JqGridRulesModel extraFilter = new JqGridRulesModel("statusName",
                 new ArrayList<String>() {{
                     add(Constants.CASE_STATUS_VERIFICATION_COMPLETE);
@@ -125,6 +131,23 @@ public class TechnicalReviewController {
 
 
         return result;
+    }
+
+    @Autowired
+    GridService gridService;
+
+    @RequestMapping(value = {"/reviewer/technicalReview/listB"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    JqGridResultModel listB(@ModelAttribute JqGridFilterModel opts) {
+        try {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("idUser",sharedUserService.GetLoggedUserId());
+            return gridService.toGrid(TechnicalReviewCasesView.class, map, opts);
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "listB", sharedUserService);
+            return null;
+        }
     }
 
     @RequestMapping(value = "/reviewer/technicalReview/technicalReview", method = RequestMethod.GET)
