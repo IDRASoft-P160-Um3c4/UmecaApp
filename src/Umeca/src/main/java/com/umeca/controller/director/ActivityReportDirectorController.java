@@ -515,6 +515,7 @@ public class ActivityReportDirectorController {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
                 writer.write("<html><body><h3>No existe o ha sido eliminado el informe de actividades que ha seleccionado.</h3></body></html>");
                 writer.flush();
+                writer.close();
                 file.deleteOnExit();
                 return new FileSystemResource(file);
             }
@@ -535,6 +536,7 @@ public class ActivityReportDirectorController {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
                 writer.write("<html><body><h3>Ocurrió un error al momento de descargar el informe. Por favor intente de nuevo.</h3></body></html>");
                 writer.flush();
+                writer.close();
                 file.deleteOnExit();
                 return new FileSystemResource(file);
             } catch (IOException ex) {

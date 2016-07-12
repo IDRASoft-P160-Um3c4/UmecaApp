@@ -2,6 +2,7 @@ package com.umeca.controller.shared;
 
 import com.umeca.infrastructure.model.ResponseMessage;
 import com.umeca.model.entities.account.User;
+import com.umeca.model.entities.shared.UploadFile;
 import com.umeca.model.entities.shared.UploadFileGeneric;
 import com.umeca.model.entities.shared.UploadFileRequest;
 import com.umeca.model.shared.Constants;
@@ -17,7 +18,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -107,17 +108,47 @@ public class UploadFileGenericController {
     @RequestMapping(value = "/shared/uploadFileGeneric/downloadFile", method = RequestMethod.GET)
     @ResponseBody
     public FileSystemResource getFile(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response) {
-        UploadFileGeneric file = upDwFileGenericService.getPathAndFilename(id);
-        String path = new File(file.getPath(), file.getRealFileName()).toString();
-        File finalFile = new File(request.getSession().getServletContext().getRealPath(""), path);
 
-        response.setContentType("application/force-download");
-        response.setContentLength((int) finalFile.length());
-        //response.setContentLength(-1);
-        response.setHeader("Content-Transfer-Encoding", "binary");
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getFileName() + "\"");//fileName);
+        try {
+            UploadFileGeneric realFile = upDwFileGenericService.getPathAndFilename(id);
 
-        finalFile.deleteOnExit();
-        return new FileSystemResource(finalFile);
+            File finalFile = upDwFileGenericService.createDownloadableFileFromUploadedFile(realFile.getFileName(), request);
+            FileOutputStream fos = new FileOutputStream(finalFile);
+
+            byte[] buffer = new byte[1024];
+
+            String path = request.getSession().getServletContext().getRealPath("");
+            File fileIn = new File(path, realFile.getPath());
+            FileInputStream in = new FileInputStream(new File(fileIn, realFile.getRealFileName()));
+
+            int len;
+            while ((len = in.read(buffer)) > 0) {
+                fos.write(buffer, 0, len);
+            }
+            in.close();
+            fos.close();
+
+            response.setContentType("application/force-download");
+            response.setContentLength((int) finalFile.length());
+            response.setHeader("Content-Transfer-Encoding", "binary");
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + realFile.getFileName() + "\"");//fileName);
+
+            finalFile.deleteOnExit();
+            return new FileSystemResource(finalFile);
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "downloadFileByCase", sharedUserService);
+            try {
+                File file = upDwFileGenericService.createDownloadableFile("errorDescarga", ".doc", request);
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                writer.write("<html><body><h3>Ocurrió un error al momento de descargar el documento. Por favor intente de nuevo o contacte a soporte técnico.</h3></body></html>");
+                writer.flush();
+                writer.close();
+                file.deleteOnExit();
+                return new FileSystemResource(file);
+            } catch (IOException ex) {
+                logException.Write(ex, this.getClass(), "getFile", sharedUserService);
+                return null;
+            }
+        }
     }
 }

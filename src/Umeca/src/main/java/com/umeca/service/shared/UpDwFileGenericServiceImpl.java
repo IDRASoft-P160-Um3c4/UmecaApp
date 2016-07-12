@@ -87,6 +87,39 @@ public class UpDwFileGenericServiceImpl implements UpDwFileGenericService {
     }
 
     @Override
+    public File createDownloadableFileFromUploadedFile(String completeFileName, HttpServletRequest request) {
+
+        String extension = "", fileName = "";
+        String[] completeFileNameArr = null;
+
+        completeFileNameArr = completeFileName.split("\\.");
+        extension = completeFileNameArr[completeFileNameArr.length - 1];
+
+        for (int i = 0; i < completeFileNameArr.length - 1; i++) {
+            if (!fileName.equals(""))
+                fileName += ".";
+            fileName += completeFileNameArr[i];
+        }
+
+
+        String temporalPath = request.getSession().getServletContext().getRealPath("") + Constants.SHARED_PATH_FILES;
+
+        File tempPath = new File(temporalPath);
+
+        //crea la carpeta donde se almacenara la imagen si no existe
+        if (!tempPath.exists()) {
+            if (tempPath.mkdirs() == false) {
+                return null;
+            }
+        }
+
+        String guidId = UUID.randomUUID().toString();
+
+        File file = new File(temporalPath + fileName + "_" + guidId + "."+ extension);
+        return file;
+    }
+
+    @Override
     public boolean hasPhotoAvailability(UploadFileGeneric file, ResponseMessage resMsg, Long userId, Long employeeId) {
         List<SystemSetting> lstSystemSettings = systemSettingsService.findAllOfGroup(Constants.SYSTEM_SETTINGS_ARCHIVE);
         for (SystemSetting systemSetting : lstSystemSettings) {

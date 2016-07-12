@@ -72,9 +72,9 @@ public class UploadFileController {
 
         Long userId = userService.GetLoggedUserId();
         if (userService.isUserInRoles(userId, new ArrayList<String>() {{
-                add(Constants.ROLE_SUPERVISOR);
-                add(Constants.ROLE_REVIEWER);
-            }}) == false) {
+            add(Constants.ROLE_SUPERVISOR);
+            add(Constants.ROLE_REVIEWER);
+        }}) == false) {
             model.addObject("readOnly", 1);
         } else {
             model.addObject("readOnly", 0);
@@ -199,9 +199,9 @@ public class UploadFileController {
 
             Long userId = sharedUserService.GetLoggedUserId();
             if (userService.isUserInRoles(userId, new ArrayList<String>() {{
-                    add(Constants.ROLE_SUPERVISOR);
-                    add(Constants.ROLE_REVIEWER);
-                }}) == false) {
+                add(Constants.ROLE_SUPERVISOR);
+                add(Constants.ROLE_REVIEWER);
+            }}) == false) {
                 resMsg.setHasError(true);
                 resMsg.setMessage("Usted no tiene permisos para realizar esta acción.");
                 return resMsg;
@@ -259,7 +259,7 @@ public class UploadFileController {
 
             upDwFileService.save(uploadFile);
 
-            if(uploadRequest.getTypeId().equals(Constants.CHANNELING_ID_TYPE_FILE_CHANNELING_END_RECORD)){
+            if (uploadRequest.getTypeId().equals(Constants.CHANNELING_ID_TYPE_FILE_CHANNELING_END_RECORD)) {
 
                 Case caseDetention = caseRepository.findOne(uploadRequest.getCaseId());
                 Imputed imputed = caseDetention.getMeeting().getImputed();
@@ -269,11 +269,14 @@ public class UploadFileController {
                         String.format("<strong>Se ha adjuntado el documento \"Constancia finalización de canalización\" que acredita la conclusión del mismo</strong><br/>" +
                                         "<strong>Descripción:</strong> %s <br/>" +
                                         "Para el imputado: <strong>%s</strong>. Causa penal <strong>%s</strong><br/>" +
-                                        "Registrador por: <b>%s</b><br/>"+
+                                        "Registrador por: <b>%s</b><br/>" +
                                         "Fecha de solicitud: <b>%s</b>",
                                 uploadRequest.getDescription(), imputedFullName, caseDetention.getIdMP(),
                                 userService.getFullNameById(userService.GetLoggedUserId()), CalendarExt.calendarToFormatString(Calendar.getInstance(), Constants.FORMAT_CALENDAR_I)),
-                        new ArrayList<String>(){{add(Constants.ROLE_CHANNELING_MANAGER);add(Constants.ROLE_SUPERVISOR_MANAGER);}},
+                        new ArrayList<String>() {{
+                            add(Constants.ROLE_CHANNELING_MANAGER);
+                            add(Constants.ROLE_SUPERVISOR_MANAGER);
+                        }},
                         Constants.CHANNELING_END_RECORD_TITLE);
             }
 
@@ -304,9 +307,9 @@ public class UploadFileController {
             Long userId = sharedUserService.GetLoggedUserId();
 
             if (userService.isUserInRoles(userId, new ArrayList<String>() {{
-                    add(Constants.ROLE_SUPERVISOR);
-                    add(Constants.ROLE_REVIEWER);
-                }}) == false) {
+                add(Constants.ROLE_SUPERVISOR);
+                add(Constants.ROLE_REVIEWER);
+            }}) == false) {
                 resMsg.setHasError(true);
                 resMsg.setMessage("Usted no tiene permisos para realizar esta acción.");
                 return resMsg;
@@ -347,19 +350,48 @@ public class UploadFileController {
     @RequestMapping(value = "/shared/uploadFile/downloadFile", method = RequestMethod.GET)
     @ResponseBody
     public FileSystemResource getFile(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response) {
-        UploadFile file = upDwFileService.getPathAndFilename(id);
 
-        String path = new File(file.getPath(), file.getRealFileName()).toString();
-        File finalFile = new File(request.getSession().getServletContext().getRealPath(""), path);
+        try {
+            UploadFile realFile = upDwFileService.getPathAndFilename(id);
 
-        response.setContentType("application/force-download");
-        response.setContentLength((int) finalFile.length());
-        //response.setContentLength(-1);
-        response.setHeader("Content-Transfer-Encoding", "binary");
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + file.getFileName() + "\"");//fileName);
+            File finalFile = upDwFileGenericService.createDownloadableFileFromUploadedFile(realFile.getFileName(), request);
+            FileOutputStream fos = new FileOutputStream(finalFile);
 
-        finalFile.deleteOnExit();
-        return new FileSystemResource(finalFile);
+            byte[] buffer = new byte[1024];
+
+            String path = request.getSession().getServletContext().getRealPath("");
+            File fileIn = new File(path, realFile.getPath());
+            FileInputStream in = new FileInputStream(new File(fileIn, realFile.getRealFileName()));
+
+            int len;
+            while ((len = in.read(buffer)) > 0) {
+                fos.write(buffer, 0, len);
+            }
+            in.close();
+            fos.close();
+
+            response.setContentType("application/force-download");
+            response.setContentLength((int) finalFile.length());
+            response.setHeader("Content-Transfer-Encoding", "binary");
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + realFile.getFileName() + "\"");//fileName);
+
+            finalFile.deleteOnExit();
+            return new FileSystemResource(finalFile);
+        } catch (Exception e) {
+            logException.Write(e, this.getClass(), "downloadFileByCase", sharedUserService);
+            try {
+                File file = upDwFileGenericService.createDownloadableFile("errorDescarga", ".doc", request);
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                writer.write("<html><body><h3>Ocurrió un error al momento de descargar el documento. Por favor intente de nuevo o contacte a soporte técnico.</h3></body></html>");
+                writer.flush();
+                writer.close();
+                file.deleteOnExit();
+                return new FileSystemResource(file);
+            } catch (IOException ex) {
+                logException.Write(ex, this.getClass(), "getFile", sharedUserService);
+                return null;
+            }
+        }
     }
 
     @RequestMapping(value = "/shared/uploadFile/downloadFileByCase", method = RequestMethod.GET)
@@ -372,12 +404,13 @@ public class UploadFileController {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
                 writer.write("<html><body><h3>No existen archivos para generar el expediente.</h3></body></html>");
                 writer.flush();
+                writer.close();
                 file.deleteOnExit();
                 return new FileSystemResource(file);
             }
 
             CaseInfo caseInfo = caseRepository.getInfoById(id);
-            File fileOut = upDwFileGenericService.createDownloadableFile("Expediente - " + caseInfo.getPersonName() , ".zip", request);
+            File fileOut = upDwFileGenericService.createDownloadableFile("Expediente - " + caseInfo.getPersonName(), ".zip", request);
 
             FileOutputStream fos = new FileOutputStream(fileOut);
             ZipOutputStream zos = new ZipOutputStream(fos);
@@ -414,10 +447,11 @@ public class UploadFileController {
         } catch (IOException e) {
             logException.Write(e, this.getClass(), "downloadFileByCase", sharedUserService);
             try {
-                File file = upDwFileGenericService.createDownloadableFile("DescargarExpediente",".doc", request);
+                File file = upDwFileGenericService.createDownloadableFile("DescargarExpediente", ".doc", request);
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
                 writer.write("<html><body><h3>Ocurrió un error al momento de generar el expediente. Por favor intente de nuevo o contacte a soporte técnico.</h3></body></html>");
                 writer.flush();
+                writer.close();
                 file.deleteOnExit();
                 return new FileSystemResource(file);
             } catch (IOException ex) {

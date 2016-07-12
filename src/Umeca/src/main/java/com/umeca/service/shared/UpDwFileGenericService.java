@@ -45,4 +45,6 @@ public interface UpDwFileGenericService {
                             SharedLogExceptionService logException, SharedUserService sharedUserService);
 
     public File createDownloadableFile(String fileName, String extension, HttpServletRequest request);
+
+    public File createDownloadableFileFromUploadedFile(String completeFileName, HttpServletRequest request);
 }

@@ -629,6 +629,7 @@ public class MinuteController {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
                 writer.write("<html><body><h3>No existen archivos para descargar.</h3></body></html>");
                 writer.flush();
+                writer.close();
                 file.deleteOnExit();
                 return new FileSystemResource(file);
             }
@@ -674,6 +675,7 @@ public class MinuteController {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file));
                 writer.write("<html><body><h3>Ocurrió un error al momento de generar el expediente. Por favor intente de nuevo o contacte a soporte técnico.</h3></body></html>");
                 writer.flush();
+                writer.close();
                 file.deleteOnExit();
                 return new FileSystemResource(file);
             } catch (IOException ex) {
