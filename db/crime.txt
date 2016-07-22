@@ -118,3 +118,4 @@
 117|Violación de la intimidad personal|Violación de la intimidad personal|0|117
 118|Violencia familiar|Violencia familiar|0|118
 119|Incumplimiento de las obligaciones alimentarias|Incumplimiento de las obligaciones alimentarias|0|119
+120|Extorsión|Extorsión|0|120

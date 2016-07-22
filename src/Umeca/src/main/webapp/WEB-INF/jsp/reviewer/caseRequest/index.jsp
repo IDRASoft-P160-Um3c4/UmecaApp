@@ -59,23 +59,26 @@
 
                         if ( status.indexOf(".E.") != -1 ) {
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Eliminar caso\" onclick=\"window.makeRequest('CASE_OBSOLETE','" + cl + "');\"><i class=\"icon-trash\"></i></a>";
-                        }else
+                        }
                         if(status.indexOf(".A.")!= -1){
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"display:inline-block;\" title=\"Modificar entrevista de riesgos procesales\" onclick=\"window.makeRequest('EDIT_MEETING','" + cl + "');\"><span class=\"glyphicon icon-comments-alt\"></span></a>";
-                        }else if(status.indexOf(".B.")!= -1){
+                        }if(status.indexOf(".B.")!= -1){
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"Modificar informaci&oacute;n legal\" onclick=\"window.makeRequest('EDIT_LEGAL_INFORMATION','" + cl + "');\"><span class=\"icon-legal\"></span></a>";
-                        }else if(status.indexOf(".C.")!= -1){
+                        }if(status.indexOf(".C.")!= -1){
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"Cambiar el estado de las fuentes de verificaci&oacute;n\" onclick=\"window.makeRequest('CHANGE_STATUS_SOURCE','" + cl + "');\"><span class=\"icon-group\"></span></a>";
-                            be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"El imputado alcanz&oacute; su libertad\" onclick=\"window.makeRequest('GET_FREEDOM','" + cl + "');\"><span class=\"icon-folder-close\"></span></a>";
-                        }else if(status.indexOf(".D.")!=-1){
+                        }if(status.indexOf(".D.")!=-1){
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"Modificar Instrumento de evaluaci&oacute;n de riesgos\" onclick=\"window.makeRequest('EDIT_TECHNICAL_REVIEW','" + cl + "');\"><span class=\"glyphicon glyphicon-user\"></span></a>";
-                        }else if(status.indexOf(".I.")!=-1){
+                        }
+
+                        if(status.indexOf(".I.")!=-1){
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"El imputado alcanz&oacute; su libertad\" onclick=\"window.makeRequest('GET_FREEDOM','" + cl + "');\"><span class=\"icon-folder-close\"></span></a>";
-                        }else if(status.indexOf(".H.")!=-1){
-                            be += "";
                         }else if(status.indexOf(".G.")!=-1){
                             be += "&nbsp;&nbsp;<a href=\"javascript:;\" style=\"...\" title=\"El imputado alcanz&oacute; su libertad\" onclick=\"window.makeRequest('GET_FREEDOM','" + cl + "');\"><span class=\"icon-folder-close\"></span></a>";
                         }
+//                        else if(status.indexOf(".H.")!=-1){
+//                            be += "";
+//                        }
+
                         $(this).jqGrid('setRowData', ids[i], { Action: be });
                     }
                 },
