@@ -558,7 +558,7 @@ public class ManagerSupReportController {
                     for (ManagerSupChartInfo actSup : listInfo) {
                         for (Object act : totals) {
                             Object[] aux = (Object[]) act;
-                            if (actSup.getUserId().equals(Long.parseLong(aux[1].toString()))) {
+                            if (aux[1]!=null && actSup.getUserId().equals(Long.parseLong(aux[1].toString()))) {
                                 actSup.setMcCases(Long.parseLong(aux[0].toString()));
                                 break;
                             }
@@ -576,7 +576,7 @@ public class ManagerSupReportController {
                     for (ManagerSupChartInfo actSup : listInfo) {
                         for (Object act : totals) {
                             Object[] aux = (Object[]) act;
-                            if (actSup.getUserId().equals(Long.parseLong(aux[1].toString()))) {
+                            if (aux[1]!=null&&actSup.getUserId().equals(Long.parseLong(aux[1].toString()))) {
                                 actSup.setPartialMC(Long.parseLong(aux[0].toString()));
                                 break;
                             }
@@ -593,7 +593,7 @@ public class ManagerSupReportController {
                     for (ManagerSupChartInfo actSup : listInfo) {
                         for (Object act : totals) {
                             Object[] aux = (Object[]) act;
-                            if (actSup.getUserId().equals(Long.parseLong(aux[1].toString()))) {
+                            if (aux[1]!=null&&actSup.getUserId().equals(Long.parseLong(aux[1].toString()))) {
                                 actSup.setTotalMC(Long.parseLong(aux[0].toString()));
                                 break;
                             }

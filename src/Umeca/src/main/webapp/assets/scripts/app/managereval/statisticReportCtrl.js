@@ -12,11 +12,13 @@ app.controller('statisticReportController', function ($scope, $timeout, $http) {
                     for (var i = 0; $scope.lstChannelingType.length; i++) {
                         if ($scope.lstChannelingType[i].id == $scope.idParameter) {
                             $scope.ChannelingType = $scope.lstChannelingType[i];
+                            $scope.idParameter = $scope.ChannelingType.id;
                             break;
                         }
                     }
                 } else {
                     $scope.ChannelingType = $scope.lstChannelingType[0];
+                    $scope.idParameter = $scope.ChannelingType.id;
                 }
             }
 
@@ -25,20 +27,20 @@ app.controller('statisticReportController', function ($scope, $timeout, $http) {
                     for (var i = 0; $scope.lstChannelingInstitutionName.length; i++) {
                         if ($scope.lstChannelingInstitutionName[i].id == $scope.idParameter) {
                             $scope.InstitutionName = $scope.lstChannelingInstitutionName[i];
+                            $scope.idParameter = $scope.InstitutionName.id;
                             break;
                         }
                     }
                 }
                 else{
                     $scope.InstitutionName = $scope.lstChannelingInstitutionName[0];
+                    $scope.idParameter = $scope.InstitutionName.id;
                 }
             }
 
         };
 
-        $timeout(function () {
-            $scope.init();
-        }, 500);
+
 
         $scope.findReport = function (formId, urlToPost) {
             $scope.msgError = "";
@@ -151,6 +153,10 @@ app.controller('statisticReportController', function ($scope, $timeout, $http) {
 
             return true;
         };
+
+        $timeout(function () {
+            $scope.init();
+        }, 500);
 
     }
 )
